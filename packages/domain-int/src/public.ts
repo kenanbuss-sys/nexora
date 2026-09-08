@@ -15,6 +15,8 @@ export {
   type MappingRule,
   noopAdapter,
   webhookAdapter,
+  envSecretsAdapter,
+  type SecretsPort,
   type AccountingExportGate,
   type AvailabilityFeedGate,
   type MarketplaceOrderGate,

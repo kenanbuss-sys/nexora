@@ -94,6 +94,55 @@ export function webhookAdapter(transport: WebhookTransport): ConnectorAdapter {
  * reshape outbound payloads per connector — integration differences
  * stay configuration, never code.
  */
+/**
+ * Secrets management (INT-017). Connector configuration never carries
+ * raw secrets — values reference named secrets ({ secretRef: NAME })
+ * resolved at call time from the runtime secret store; committed
+ * settings stay clean and rotations need no config change.
+ */
+export interface SecretsPort {
+  getSecret(name: string): string | null;
+}
+
+/** Environment-backed store: NEXORA_SECRET_<NAME>. */
+export const envSecretsAdapter: SecretsPort = {
+  getSecret: (name) => process.env[`NEXORA_SECRET_${name}`] ?? null,
+};
+
+const RAW_SECRET_KEYS = /^(secret|password|token|apikey|api_key|clientsecret|client_secret)$/i;
+const SECRET_REF_RE = /^[A-Z][A-Z0-9_]{1,63}$/;
+
+function findRawSecretKey(config: unknown, path = ''): string | null {
+  if (typeof config !== 'object' || config === null || Array.isArray(config)) return null;
+  for (const [key, value] of Object.entries(config as Record<string, unknown>)) {
+    const at = path ? `${path}.${key}` : key;
+    if (RAW_SECRET_KEYS.test(key) && typeof value === 'string') return at;
+    const nested = findRawSecretKey(value, at);
+    if (nested) return nested;
+  }
+  return null;
+}
+
+function resolveSecretRefs(config: unknown, secrets: SecretsPort): unknown {
+  if (typeof config !== 'object' || config === null) return config;
+  if (Array.isArray(config)) return config.map((item) => resolveSecretRefs(item, secrets));
+  const entries = Object.entries(config as Record<string, unknown>);
+  if (entries.length === 1 && entries[0]?.[0] === 'secretRef') {
+    const name = entries[0][1];
+    if (typeof name !== 'string' || !SECRET_REF_RE.test(name)) {
+      throw new DomainError('VALIDATION_FAILED', 'secretRef must be an UPPER_SNAKE name');
+    }
+    const value = secrets.getSecret(name);
+    if (value === null) {
+      throw new DomainError('INVALID_STATE', `Secret '${name}' is not provisioned`);
+    }
+    return value;
+  }
+  const resolved: Record<string, unknown> = {};
+  for (const [key, value] of entries) resolved[key] = resolveSecretRefs(value, secrets);
+  return resolved;
+}
+
 export interface MappingRule {
   from: string;
   to: string;
@@ -212,6 +261,7 @@ export class ConnectorService {
     private readonly availability?: AvailabilityFeedGate,
     private readonly orders?: MarketplaceOrderGate,
     private readonly invoices?: AccountingExportGate,
+    private readonly secrets: SecretsPort = envSecretsAdapter,
   ) {
     this.adapters.set('noop', noopAdapter);
     for (const [name, adapter] of Object.entries(adapters ?? {})) {
@@ -279,9 +329,18 @@ export class ConnectorService {
     if (!adapter) {
       throw new DomainError('INVALID_STATE', `Adapter '${entry.adapter}' is not registered`);
     }
-    const problem = adapter.validate(entry.config);
+    const rawSecretAt = findRawSecretKey(entry.config);
+    if (rawSecretAt) {
+      throw new DomainError(
+        'VALIDATION_FAILED',
+        `Raw secret at '${rawSecretAt}' — use { "secretRef": "NAME" } instead (INT-017)`,
+      );
+    }
+    const config = resolveSecretRefs(entry.config, this.secrets) as Record<string, unknown>;
+    const resolved = { ...entry, config };
+    const problem = adapter.validate(resolved.config);
     if (problem) throw new DomainError('VALIDATION_FAILED', `Connector misconfigured: ${problem}`);
-    return { entry, adapter };
+    return { entry: resolved, adapter };
   }
 
   async testConnection(key: string, ctx: RequestContext): Promise<{ ok: boolean; detail: string }> {
