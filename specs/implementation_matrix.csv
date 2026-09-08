@@ -501,13 +501,13 @@ MKT-009,MKT,Consent-aware communication,P3,DONE,R4+,,,Sprint 206: opt-in consent
 MKT-010,MKT,Campaign attribution,P3,DONE,R4+,,,Sprint 206: order-to-campaign attribution, one campaign per order, audited.
 MKT-011,MKT,Marketing analytics,P3,DONE,R4+,,,Sprint 206: campaign analytics — sends, recipients, attributed orders and revenue.
 MKT-012,MKT,Experiment/A-B hooks,P3,DONE,R4+,,,Sprint 206: deterministic A/B variant assignment (hash of tenant+campaign+subject).
-ESG-001,ESG,Energy consumption tracking,P3,PLANNED,R4+,,,
-ESG-002,ESG,Waste tracking,P3,PLANNED,R4+,,,
-ESG-003,ESG,Material sustainability attributes,P3,PLANNED,R4+,,,
-ESG-004,ESG,Environmental KPI definitions,P3,PLANNED,R4+,,,
-ESG-005,ESG,Carbon/emissions data hooks,P3,PLANNED,R4+,,,
-ESG-006,ESG,Supplier sustainability attributes,P3,PLANNED,R4+,,,
-ESG-007,ESG,Compliance evidence,P3,PLANNED,R4+,,,
-ESG-008,ESG,Sustainability targets,P3,PLANNED,R4+,,,
-ESG-009,ESG,ESG reporting hooks,P3,PLANNED,R4+,,,
-ESG-010,ESG,Operational sustainability analytics,P3,PLANNED,R4+,,,
+ESG-001,ESG,Energy consumption tracking,P3,DONE,R4+,,,Sprint 207: energy readings per facility/period/source, idempotent on the audit ledger.
+ESG-002,ESG,Waste tracking,P3,DONE,R4+,,,Sprint 207: waste entries per facility/period/kind with disposal route, idempotent.
+ESG-003,ESG,Material sustainability attributes,P3,DONE,R4+,,,Sprint 207: material sustainability attributes (recycled %, hazardous) from config joined to SKUs.
+ESG-004,ESG,Environmental KPI definitions,P3,DONE,R4+,,,Sprint 207: environmental KPI definitions in config (key, unit, target).
+ESG-005,ESG,Carbon/emissions data hooks,P3,DONE,R4+,,,Sprint 207: CO2 emissions computed from energy readings x configured factors per source.
+ESG-006,ESG,Supplier sustainability attributes,P3,DONE,R4+,,,Sprint 207: supplier sustainability ratings (1-5 + certification), latest wins, audited.
+ESG-007,ESG,Compliance evidence,P3,DONE,R4+,,,Sprint 207: compliance evidence as governed custom-object register with expiry flags.
+ESG-008,ESG,Sustainability targets,P3,DONE,R4+,,,Sprint 207: sustainability targets — caps and floors evaluated against measured actuals.
+ESG-009,ESG,ESG reporting hooks,P3,DONE,R4+,,,Sprint 207: ESG report export through connectors, exactly once per period.
+ESG-010,ESG,Operational sustainability analytics,P3,DONE,R4+,,,Sprint 207: operational analytics — energy, waste, recycling rate and CO2 per period.

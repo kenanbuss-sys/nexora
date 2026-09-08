@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Inject, Param, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Inject, Param, Post } from '@nestjs/common';
 import type { MarketingService } from '@nexora/domain-mkt';
 import type { RequestContext } from '@nexora/tenancy';
 import { z } from 'zod';
