@@ -25,3 +25,9 @@ export {
   type SkuInfoGate,
 } from './quote.service';
 export { PromotionService, type PromotionView, type RedemptionResult } from './promotion.service';
+export {
+  ConfiguratorService,
+  type ConfigurationResult,
+  type ConfiguratorConfigGate,
+  type ConfiguratorModel,
+} from './configurator.service';

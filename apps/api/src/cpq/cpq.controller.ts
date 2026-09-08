@@ -1,5 +1,6 @@
 import { Body, Controller, Get, Inject, Param, Post, Put, Query } from '@nestjs/common';
 import type {
+  ConfiguratorService,
   DiscountRuleService,
   PricingService,
   PromotionService,
@@ -12,6 +13,7 @@ import { RequirePermission } from '../auth/permissions.guard';
 import { parseBody } from '../common/validate';
 
 export const PRICING_SERVICE = 'PRICING_SERVICE';
+export const CONFIGURATOR_SERVICE = 'CONFIGURATOR_SERVICE';
 export const QUOTE_SERVICE = 'QUOTE_SERVICE';
 export const DISCOUNT_SERVICE = 'DISCOUNT_SERVICE';
 export const PROMOTION_SERVICE = 'PROMOTION_SERVICE';
@@ -270,5 +272,34 @@ export class PromotionsController {
   async setActive(@Param('id') id: string, @Body() body: unknown, @Ctx() ctx: RequestContext) {
     const input = parseBody(setActiveSchema, body);
     return this.promotions.setActive(id, input.active, ctx);
+  }
+}
+
+const configureSchema = z.object({
+  skuCode: z.string().min(1).max(64),
+  selections: z.record(z.string().min(1).max(64)).default({}),
+});
+
+/** Product configurator (CPQ-007). */
+@Controller('api/v1/configurator')
+export class ConfiguratorController {
+  constructor(@Inject(CONFIGURATOR_SERVICE) private readonly configurator: ConfiguratorService) {}
+
+  @Get('models')
+  @RequirePermission('quote.read')
+  async models(@Ctx() ctx: RequestContext) {
+    return { models: await this.configurator.listModels(ctx) };
+  }
+
+  @Get('models/:skuCode')
+  @RequirePermission('quote.read')
+  async model(@Param('skuCode') skuCode: string, @Ctx() ctx: RequestContext) {
+    return this.configurator.getModel(skuCode, ctx);
+  }
+
+  @Post('configure')
+  @RequirePermission('quote.read')
+  async configure(@Body() body: unknown, @Ctx() ctx: RequestContext) {
+    return this.configurator.configure(parseBody(configureSchema, body), ctx);
   }
 }

@@ -17,6 +17,7 @@ import { ContractService, PdfService, DocumentTemplateService } from '@nexora/do
 import { EmployeeService } from '@nexora/domain-hcm';
 import { AssetService } from '@nexora/domain-eam';
 import {
+  ConfiguratorService,
   DiscountRuleService,
   PricingService,
   PromotionService,
@@ -146,6 +147,8 @@ import {
   CrmOpportunitiesController,
 } from './crm/crm.controller';
 import {
+  CONFIGURATOR_SERVICE,
+  ConfiguratorController,
   DISCOUNT_SERVICE,
   DiscountRulesController,
   PROMOTION_SERVICE,
@@ -337,6 +340,7 @@ export const REDIS = 'REDIS';
     TerritoryTeamController,
     PriceListsController,
     QuotesController,
+    ConfiguratorController,
     DiscountRulesController,
     PromotionsController,
     OrdersController,
@@ -756,6 +760,14 @@ export const REDIS = 'REDIS';
             }
             return formulas;
           },
+        }),
+      inject: [PRISMA, TENANT_SERVICE],
+    },
+    {
+      provide: CONFIGURATOR_SERVICE,
+      useFactory: (prisma: PrismaClient, tenants: TenantService) =>
+        new ConfiguratorService(prisma, {
+          getEffectiveConfiguration: (t) => tenants.getEffectiveConfiguration(t),
         }),
       inject: [PRISMA, TENANT_SERVICE],
     },
