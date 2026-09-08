@@ -390,11 +390,11 @@ AI-013,AI,Knowledge assistant,P3,PLANNED,R4+,,,
 AI-014,AI,AI explanation/audit,P3,PLANNED,R4+,,,
 INT-001,INT,Connector framework,P0,Implemented (Sprint 100),R0,,,
 INT-002,INT,Accounting connectors,P0,Implemented (Sprint 153),R0,,,Exactly-once invoice export via adapter port
-INT-003,INT,Commerce connectors,P0,PLANNED,R0,,,
+INT-003,INT,Commerce connectors,P0,Implemented (Sprint 160),R0,,,Catalog export + availability sync + marketplace import
 INT-004,INT,Bank/payment connectors,P0,Implemented (Sprint 154),R0,,,Payment intents + exactly-once confirmations
-INT-005,INT,Courier connectors,P0,PLANNED,R0,,,
-INT-006,INT,Fiscal/eInvoice connectors,P0,PLANNED,R0,,,
-INT-007,INT,EDI,P0,PLANNED,R0,,,
+INT-005,INT,Courier connectors,P0,Implemented (Sprint 161),R0,,,Exactly-once shipment booking + SSCC payload
+INT-006,INT,Fiscal/eInvoice connectors,P0,Implemented (Sprint 162),R0,,,Exactly-once fiscalization via adapter port
+INT-007,INT,EDI,P0,Implemented (Sprint 163),R0,,,EDIFACT ORDERS out + exactly-once interchanges
 INT-008,INT,Webhooks,P0,DONE,R0,,,Outbound webhooks with HMAC signing (Sprint 020)
 INT-009,INT,Public API,P0,Implemented (Sprint 119),R0,,,
 INT-010,INT,Mapping engine,P0,Implemented (Sprint 115),R0,,,
@@ -404,9 +404,9 @@ INT-013,INT,Dead-letter queue,P0,DONE,R0,,,Dead-letter after 5 attempts (Sprint 
 INT-014,INT,Reconciliation,P0,Implemented (Sprint 118),R0,,,
 INT-015,INT,Health monitoring,P0,DONE,R0,,,Per-subscription delivery health (Sprint 020)
 INT-016,INT,Run history,P0,DONE,R0,,,Full delivery run history (Sprint 020)
-INT-017,INT,Secrets management,P0,PLANNED,R0,,,
-INT-018,INT,Rate-limit handling,P0,PLANNED,R0,,,
-INT-019,INT,Versioned mappings,P0,PLANNED,R0,,,
+INT-017,INT,Secrets management,P0,Implemented (Sprint 164),R0,,,secretRef indirection + raw-secret refusal
+INT-018,INT,Rate-limit handling,P0,Implemented (Sprint 165),R0,,,Backoff retries on rate-limited pushes
+INT-019,INT,Versioned mappings,P0,Implemented (Sprint 165),R0,,,Mapping rules tied to config versions
 DEV-001,DEV,Device registry,P1,Implemented (Sprint 005),R1,,,Device registry with tenant-scoped codes
 DEV-002,DEV,Enrollment,P1,Implemented (Sprint 005),R1,,,One-time token enrollment; device-side claim
 DEV-003,DEV,Assignment,P1,Implemented (Sprint 005),R1,,,User/branch assignment
