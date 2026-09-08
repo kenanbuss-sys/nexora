@@ -26,3 +26,11 @@ export {
   type ConnectorKind,
   type ConnectorView,
 } from './connector.service';
+export {
+  ExtensionService,
+  PLATFORM_EXTENSION_API,
+  type ActionConnectorGate,
+  type ExtensionConfigGate,
+  type ExtensionManifest,
+  type PermissionCatalogGate,
+} from './extension.service';

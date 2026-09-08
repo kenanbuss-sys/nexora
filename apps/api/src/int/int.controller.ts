@@ -1,11 +1,12 @@
 import { Body, Controller, Get, Inject, Param, Post, Query } from '@nestjs/common';
-import type { IntegrationService, ConnectorService } from '@nexora/domain-int';
+import type { ExtensionService, IntegrationService, ConnectorService } from '@nexora/domain-int';
 import type { RequestContext } from '@nexora/tenancy';
 import { z } from 'zod';
 import { Ctx } from '../auth/ctx.decorator';
 import { RequirePermission } from '../auth/permissions.guard';
 import { parseBody } from '../common/validate';
 
+export const EXTENSION_SERVICE = 'EXTENSION_SERVICE';
 export const INTEGRATION_SERVICE = 'INTEGRATION_SERVICE';
 export const CONNECTOR_SERVICE = 'CONNECTOR_SERVICE';
 
@@ -214,5 +215,59 @@ export class ConnectorsController {
   async push(@Param('key') key: string, @Body() body: unknown, @Ctx() ctx: RequestContext) {
     const input = parseBody(pushSchema, body);
     return this.connectors.pushObject({ key, ...input }, ctx);
+  }
+}
+
+/** Extension platform (EXT-001..005/009/010). */
+@Controller('api/v1/extensions')
+export class ExtensionsController {
+  constructor(@Inject(EXTENSION_SERVICE) private readonly extensions: ExtensionService) {}
+
+  @Get()
+  @RequirePermission('integration.manage')
+  async list(@Ctx() ctx: RequestContext) {
+    return { extensions: await this.extensions.list(ctx) };
+  }
+
+  @Post('validate')
+  @RequirePermission('integration.manage')
+  validate(@Body() body: unknown) {
+    return this.extensions.validateManifest(body);
+  }
+
+  @Post('install')
+  @RequirePermission('integration.manage')
+  async install(@Body() body: unknown, @Ctx() ctx: RequestContext) {
+    return this.extensions.install(body, ctx);
+  }
+
+  @Get('ui-slots')
+  @RequirePermission('configuration.read')
+  async uiSlots(@Ctx() ctx: RequestContext) {
+    return { slots: await this.extensions.uiSlots(ctx) };
+  }
+
+  @Get('event-subscriptions')
+  @RequirePermission('integration.manage')
+  async subscriptions(@Ctx() ctx: RequestContext) {
+    return { subscriptions: await this.extensions.eventSubscriptions(ctx) };
+  }
+
+  @Post(':key/actions/:actionKey')
+  @RequirePermission('integration.manage')
+  async runAction(
+    @Param('key') key: string,
+    @Param('actionKey') actionKey: string,
+    @Body() body: unknown,
+    @Ctx() ctx: RequestContext,
+  ) {
+    const input = parseBody(
+      z.object({ objectId: z.string().min(1).max(80), payload: z.record(z.unknown()).default({}) }),
+      body,
+    );
+    return this.extensions.runCustomAction(
+      { extensionKey: key, actionKey, objectId: input.objectId, payload: input.payload },
+      ctx,
+    );
   }
 }

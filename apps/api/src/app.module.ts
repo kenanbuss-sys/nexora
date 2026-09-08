@@ -65,6 +65,7 @@ import { AnalyticsService } from '@nexora/domain-bi';
 import { PortalService } from '@nexora/domain-b2b';
 import { DevOcrAdapter, CollaborationService, SearchService } from '@nexora/domain-collab';
 import {
+  ExtensionService,
   rateLimitedAdapter,
   ConnectorService,
   IntegrationService,
@@ -249,6 +250,8 @@ import {
   SearchController,
 } from './collab/collab.controller';
 import {
+  EXTENSION_SERVICE,
+  ExtensionsController,
   CONNECTOR_SERVICE,
   ConnectorsController,
   INTEGRATION_SERVICE,
@@ -323,6 +326,7 @@ import {
   OrganizationController,
 } from './organization/organization.controller';
 import {
+  TENANT_ADMIN_PERMISSIONS,
   TENANT_SERVICE,
   TenantController,
   TenantsAdminController,
@@ -425,6 +429,7 @@ export const REDIS = 'REDIS';
     SearchController,
     IntegrationsController,
     ConnectorsController,
+    ExtensionsController,
     ServiceAccountsController,
     TenantExportController,
     PlatformUsageController,
@@ -1305,6 +1310,21 @@ export const REDIS = 'REDIS';
           { listInvoices: (ctx) => finance.listInvoices({}, ctx) },
         ),
       inject: [PRISMA, TENANT_SERVICE, INVENTORY_SERVICE, ORDER_SERVICE, FINANCE_SERVICE],
+    },
+    {
+      provide: EXTENSION_SERVICE,
+      useFactory: (prisma: PrismaClient, tenants: TenantService, connectors: ConnectorService) =>
+        new ExtensionService(
+          prisma,
+          {
+            getEffectiveConfiguration: (t) => tenants.getEffectiveConfiguration(t),
+            updateConfiguration: (config, ctx) =>
+              tenants.publishConfiguration(config as never, ctx),
+          },
+          { knownPermissionKeys: () => [...TENANT_ADMIN_PERMISSIONS] },
+          { pushObject: (input, ctx) => connectors.pushObject(input, ctx) },
+        ),
+      inject: [PRISMA, TENANT_SERVICE, CONNECTOR_SERVICE],
     },
     {
       provide: SERVICE_ACCOUNT_SERVICE,

@@ -730,6 +730,9 @@ importers:
       '@nexora/tenancy':
         specifier: workspace:*
         version: link:../tenancy
+      zod:
+        specifier: ^3.25.0
+        version: 3.25.76
     devDependencies:
       '@types/node':
         specifier: ^22.10.0
