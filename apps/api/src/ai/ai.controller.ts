@@ -1,10 +1,11 @@
-import { Controller, Get, Inject, Param } from '@nestjs/common';
-import type { InsightsService } from '@nexora/domain-ai';
+import { Body, Controller, Get, Inject, Param, Post } from '@nestjs/common';
+import type { CopilotService, InsightsService } from '@nexora/domain-ai';
 import type { RequestContext } from '@nexora/tenancy';
 import { Ctx } from '../auth/ctx.decorator';
 import { RequirePermission } from '../auth/permissions.guard';
 
 export const INSIGHTS_SERVICE = 'INSIGHTS_SERVICE';
+export const COPILOT_SERVICE = 'COPILOT_SERVICE';
 
 /** Deterministic, explainable AI insights (AI-004/005/008/010/014). */
 @Controller('api/v1/insights')
@@ -57,5 +58,35 @@ export class InsightsController {
   @RequirePermission('analytics.read')
   async replenishment(@Ctx() ctx: RequestContext) {
     return this.insights.replenishmentRecommendations(ctx);
+  }
+}
+
+import { z } from 'zod';
+import { parseBody } from '../common/validate';
+
+/** Copilots & controlled agents (AI-001/002/012/013). */
+@Controller('api/v1/copilot')
+export class CopilotController {
+  constructor(@Inject(COPILOT_SERVICE) private readonly copilot: CopilotService) {}
+
+  @Post('ask')
+  @RequirePermission('analytics.read')
+  async ask(@Body() body: unknown, @Ctx() ctx: RequestContext) {
+    const input = parseBody(
+      z.object({ role: z.string().min(2).max(30), question: z.string().min(3).max(500) }),
+      body,
+    );
+    return this.copilot.ask(input, ctx);
+  }
+
+  @Post('agent/actions')
+  @RequirePermission('automation.manage')
+  async agentAction(@Body() body: unknown, @Ctx() ctx: RequestContext) {
+    const input = parseBody(
+      z.object({ action: z.string().min(3).max(60), title: z.string().min(3).max(200) }),
+      body,
+    );
+    // The safe list is tenant configuration, resolved in the module factory.
+    return this.copilot.runAgentAction({ ...input, safeActions: ['create_task'] }, ctx);
   }
 }

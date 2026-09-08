@@ -52,7 +52,7 @@ import { EngineeringService } from '@nexora/domain-eng';
 import { PlanningService } from '@nexora/domain-plan';
 import { ShopFloorService, MesService } from '@nexora/domain-mes';
 import { LogisticsService } from '@nexora/domain-log';
-import { InsightsService } from '@nexora/domain-ai';
+import { CopilotService, devAiAdapter, InsightsService } from '@nexora/domain-ai';
 import { QualityService } from '@nexora/domain-qc';
 import {
   DevBankFeedAdapter,
@@ -223,7 +223,12 @@ import {
   FinanceController,
 } from './fin/fin.controller';
 import { ANALYTICS_SERVICE, AnalyticsController } from './bi/bi.controller';
-import { INSIGHTS_SERVICE, InsightsController } from './ai/ai.controller';
+import {
+  COPILOT_SERVICE,
+  CopilotController,
+  INSIGHTS_SERVICE,
+  InsightsController,
+} from './ai/ai.controller';
 import {
   DocksController,
   LOGISTICS_SERVICE,
@@ -409,6 +414,7 @@ export const REDIS = 'REDIS';
     AnalyticsController,
     LogisticsController,
     InsightsController,
+    CopilotController,
     ShipmentsController,
     DocksController,
     PortalUsersController,
@@ -647,6 +653,44 @@ export const REDIS = 'REDIS';
       provide: INSIGHTS_SERVICE,
       useFactory: (prisma: PrismaClient) => new InsightsService(prisma),
       inject: [PRISMA],
+    },
+    {
+      provide: COPILOT_SERVICE,
+      useFactory: (
+        prisma: PrismaClient,
+        analytics: AnalyticsService,
+        finance: FinanceService,
+        tasks: TaskService,
+        approvals: ApprovalService,
+      ) =>
+        new CopilotService(
+          prisma,
+          devAiAdapter,
+          {
+            contextFor: async (role, ctx) => {
+              if (role === 'executive') {
+                const summary = await analytics.executiveSummary(ctx);
+                return { executiveSummary: summary };
+              }
+              if (role === 'finance') {
+                const snapshot = await finance.treasurySnapshot(ctx);
+                return { treasury: snapshot };
+              }
+              if (role === 'knowledge') {
+                return { hint: 'Terminologija i konfiguracija tenanta' };
+              }
+              return null;
+            },
+          },
+          { createTask: async (input, ctx) => ({ id: (await tasks.createTask(input, ctx)).id }) },
+          {
+            requestApproval: async (input, ctx) => {
+              const view = await approvals.requestApproval(input, ctx);
+              return { id: view.id };
+            },
+          },
+        ),
+      inject: [PRISMA, ANALYTICS_SERVICE, FINANCE_SERVICE, TASK_SERVICE, APPROVAL_SERVICE],
     },
     {
       provide: LOGISTICS_SERVICE,
