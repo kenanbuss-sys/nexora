@@ -86,7 +86,12 @@ import {
   PackingService,
   LaborService,
 } from '@nexora/domain-wms';
-import { ApprovalService, RuleService as WfRuleService, WorkflowService } from '@nexora/domain-wf';
+import {
+  FormService,
+  ApprovalService,
+  RuleService as WfRuleService,
+  WorkflowService,
+} from '@nexora/domain-wf';
 import {
   BreakGlassService,
   CredentialService,
@@ -290,6 +295,8 @@ import {
   TasksController,
 } from './tasks/tasks.controller';
 import {
+  FORM_SERVICE,
+  FormsController,
   ApprovalsController,
   RulesController as WfRulesController,
   WF_RULE_SERVICE,
@@ -326,6 +333,7 @@ export const REDIS = 'REDIS';
     InboxController,
     NotificationsController,
     WorkflowsController,
+    FormsController,
     WfRulesController,
     ApprovalsController,
     DocumentTemplatesController,
@@ -474,6 +482,14 @@ export const REDIS = 'REDIS';
       provide: TASK_SERVICE,
       useFactory: (prisma: PrismaClient) => new TaskService(prisma),
       inject: [PRISMA],
+    },
+    {
+      provide: FORM_SERVICE,
+      useFactory: (prisma: PrismaClient, tenants: TenantService) =>
+        new FormService(prisma, {
+          getEffectiveConfiguration: (t) => tenants.getEffectiveConfiguration(t),
+        }),
+      inject: [PRISMA, TENANT_SERVICE],
     },
     {
       provide: WORKFLOW_SERVICE,

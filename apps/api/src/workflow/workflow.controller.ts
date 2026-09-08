@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Inject, Param, Post, Query } from '@nestjs/common';
-import type { ApprovalService, RuleService, WorkflowService } from '@nexora/domain-wf';
+import type { FormService, ApprovalService, RuleService, WorkflowService } from '@nexora/domain-wf';
 import type { RoleService } from '@nexora/domain-iam';
 import type { RequestContext } from '@nexora/tenancy';
 import { z } from 'zod';
@@ -9,6 +9,7 @@ import { parseBody } from '../common/validate';
 import { APPROVAL_SERVICE } from '../tasks/tasks.controller';
 
 export const WORKFLOW_SERVICE = 'WORKFLOW_SERVICE';
+export const FORM_SERVICE = 'FORM_SERVICE';
 export const WF_RULE_SERVICE = 'WF_RULE_SERVICE';
 
 const publishWorkflowSchema = z.object({
@@ -122,5 +123,32 @@ export class ApprovalsController {
   @RequirePermission('approval.act')
   async pending(@Ctx() ctx: RequestContext) {
     return { approvals: await this.approvals.pendingForUser(ctx) };
+  }
+}
+
+/** Conditional forms & validation rules (WF-006/007). */
+@Controller('api/v1/forms')
+export class FormsController {
+  constructor(@Inject(FORM_SERVICE) private readonly forms: FormService) {}
+
+  @Get()
+  @RequirePermission('workflow.read')
+  async list(@Ctx() ctx: RequestContext) {
+    return { forms: await this.forms.listForms(ctx) };
+  }
+
+  /** The effective form for the given (partial) data — conditions applied. */
+  @Post(':key/effective')
+  @RequirePermission('workflow.read')
+  async effective(@Param('key') key: string, @Body() body: unknown, @Ctx() ctx: RequestContext) {
+    const input = parseBody(z.object({ data: z.record(z.unknown()).default({}) }), body ?? {});
+    return this.forms.getForm(key, input.data, ctx);
+  }
+
+  @Post(':key/submit')
+  @RequirePermission('workflow.read')
+  async submit(@Param('key') key: string, @Body() body: unknown, @Ctx() ctx: RequestContext) {
+    const input = parseBody(z.object({ data: z.record(z.unknown()) }), body);
+    return this.forms.submitForm(key, input.data, ctx);
   }
 }

@@ -31,3 +31,4 @@ export {
   type RuleEvent,
   type RuleView,
 } from './rule.service';
+export { FormService, type FormFieldSpec, type FormSpec } from './form.service';
