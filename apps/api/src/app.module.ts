@@ -1150,8 +1150,13 @@ export const REDIS = 'REDIS';
     },
     {
       provide: QUALITY_SERVICE,
-      useFactory: (prisma: PrismaClient) => new QualityService(prisma),
-      inject: [PRISMA],
+      useFactory: (prisma: PrismaClient, tenants: TenantService, tasks: TaskService) =>
+        new QualityService(
+          prisma,
+          { getEffectiveConfiguration: (t) => tenants.getEffectiveConfiguration(t) },
+          { createTask: async (input, ctx) => ({ id: (await tasks.createTask(input, ctx)).id }) },
+        ),
+      inject: [PRISMA, TENANT_SERVICE, TASK_SERVICE],
     },
     {
       provide: MES_SERVICE,

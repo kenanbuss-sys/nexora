@@ -32,8 +32,12 @@ const createNcrSchema = z.object({
   description: z.string().min(1).max(1000),
   severity: z.enum(['MINOR', 'MAJOR', 'CRITICAL']).optional(),
   workOrderId: z.string().uuid().optional(),
+  defectCode: z.string().min(2).max(40).optional(),
 });
-const resolveNcrSchema = z.object({ resolution: z.string().min(1).max(1000) });
+const resolveNcrSchema = z.object({
+  resolution: z.string().min(1).max(1000),
+  rootCause: z.string().min(1).max(1000).optional(),
+});
 
 @Controller('api/v1/qc/plans')
 export class QcPlansController {
@@ -113,6 +117,20 @@ export class NcrsController {
   @RequirePermission('qc.record')
   async create(@Body() body: unknown, @Ctx() ctx: RequestContext) {
     return this.quality.createNcr(parseBody(createNcrSchema, body), ctx);
+  }
+
+  /** QMS-015 — quality analytics. */
+  @Get('analytics')
+  @RequirePermission('qc.read')
+  async analytics(@Ctx() ctx: RequestContext) {
+    return this.quality.qualityAnalytics(ctx);
+  }
+
+  /** QMS-013 — calibration linkage from the tool registry. */
+  @Get('calibration')
+  @RequirePermission('qc.read')
+  async calibration(@Ctx() ctx: RequestContext) {
+    return this.quality.calibrationReport(ctx);
   }
 
   @Post(':id/resolve')

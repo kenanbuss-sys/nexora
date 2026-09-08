@@ -61,7 +61,28 @@ export interface NcrView {
 export type QcState = 'NOT_REQUIRED' | 'PENDING' | 'PASSED' | 'FAILED';
 
 export class QualityService {
-  constructor(private readonly prisma: PrismaClient) {}
+  constructor(
+    private readonly prisma: PrismaClient,
+    private readonly configuration?: {
+      getEffectiveConfiguration(tenantId: string): Promise<{ config: unknown }>;
+    },
+    private readonly tasks?: {
+      createTask(input: { title: string }, ctx: RequestContext): Promise<{ id: string }>;
+    },
+  ) {}
+
+  /** QMS-010: the defect taxonomy is tenant configuration. */
+  private async defectCodes(tenantId: string): Promise<Set<string>> {
+    if (!this.configuration) return new Set();
+    try {
+      const { config } = await this.configuration.getEffectiveConfiguration(tenantId);
+      const qms = ((config as Record<string, unknown>).qms ?? {}) as Record<string, unknown>;
+      const codes = Array.isArray(qms.defectCodes) ? qms.defectCodes : [];
+      return new Set(codes.map(String));
+    } catch {
+      return new Set();
+    }
+  }
 
   // ------------------------------------------------------------------ plans
 
@@ -369,6 +390,75 @@ export class QualityService {
    * Production-blocking gate (VER-013): what MES consults before
    * completing a work order for this SKU.
    */
+  /**
+   * Quality analytics (QMS-015): first-pass yield, NCR mix by
+   * severity and the top defect codes from the taxonomy.
+   */
+  async qualityAnalytics(ctx: RequestContext): Promise<{
+    firstPassYieldPct: string | null;
+    inspections: { total: number; passed: number; failed: number };
+    ncrsBySeverity: Record<string, number>;
+    topDefectCodes: Array<{ code: string; count: number }>;
+  }> {
+    const [inspections, ncrs] = await Promise.all([
+      this.prisma.qcInspection.findMany({
+        where: { tenantId: ctx.tenantId, status: { in: ['PASSED', 'FAILED'] } },
+        select: { status: true },
+        take: 5000,
+      }),
+      this.prisma.ncr.findMany({
+        where: { tenantId: ctx.tenantId },
+        select: { severity: true, description: true },
+        take: 5000,
+      }),
+    ]);
+    const passed = inspections.filter((i) => i.status === 'PASSED').length;
+    const failed = inspections.length - passed;
+    const bySeverity: Record<string, number> = {};
+    const defectCounts = new Map<string, number>();
+    for (const ncr of ncrs) {
+      bySeverity[ncr.severity] = (bySeverity[ncr.severity] ?? 0) + 1;
+      const match = /^\[([A-Za-z0-9_-]+)\]/.exec(ncr.description);
+      if (match?.[1]) defectCounts.set(match[1], (defectCounts.get(match[1]) ?? 0) + 1);
+    }
+    return {
+      firstPassYieldPct:
+        inspections.length > 0 ? ((passed / inspections.length) * 100).toFixed(1) : null,
+      inspections: { total: inspections.length, passed, failed },
+      ncrsBySeverity: bySeverity,
+      topDefectCodes: [...defectCounts.entries()]
+        .map(([code, count]) => ({ code, count }))
+        .sort((a, b) => b.count - a.count)
+        .slice(0, 10),
+    };
+  }
+
+  /**
+   * Calibration linkage (QMS-013): the configured tool registry
+   * (ver.tools) with expiry state — quality sees what measures.
+   */
+  async calibrationReport(ctx: RequestContext): Promise<{
+    tools: Array<{ code: string; name: string; calibratedUntil: string | null; expired: boolean }>;
+  }> {
+    if (!this.configuration) return { tools: [] };
+    const { config } = await this.configuration.getEffectiveConfiguration(ctx.tenantId);
+    const ver = ((config as Record<string, unknown>).ver ?? {}) as Record<string, unknown>;
+    const tools = Array.isArray(ver.tools) ? (ver.tools as Array<Record<string, unknown>>) : [];
+    return {
+      tools: tools
+        .filter((tool) => typeof tool.code === 'string')
+        .map((tool) => {
+          const until = typeof tool.calibratedUntil === 'string' ? tool.calibratedUntil : null;
+          return {
+            code: tool.code as string,
+            name: typeof tool.name === 'string' ? tool.name : (tool.code as string),
+            calibratedUntil: until,
+            expired: until !== null && new Date(until).getTime() < Date.now(),
+          };
+        }),
+    };
+  }
+
   async getQcState(tenantId: string, workOrderId: string, skuId: string): Promise<QcState> {
     const plan = await this.prisma.qcPlan.findFirst({
       where: { tenantId, skuId, active: true },
@@ -402,6 +492,7 @@ export class QualityService {
       description: string;
       severity?: NcrSeverity | undefined;
       workOrderId?: string | undefined;
+      defectCode?: string | undefined;
     },
     ctx: RequestContext,
   ): Promise<NcrView> {
@@ -409,6 +500,17 @@ export class QualityService {
       where: { id: input.skuId, tenantId: ctx.tenantId },
     });
     if (!sku) throw notFound('Sku', input.skuId);
+    let description = input.description;
+    if (input.defectCode !== undefined) {
+      const codes = await this.defectCodes(ctx.tenantId);
+      if (!codes.has(input.defectCode)) {
+        throw new DomainError(
+          'VALIDATION_FAILED',
+          `'${input.defectCode}' is not in the defect taxonomy (QMS-010)`,
+        );
+      }
+      description = `[${input.defectCode}] ${input.description}`;
+    }
     const ncr = await this.prisma.$transaction(async (tx) => {
       const count = await tx.ncr.count({ where: { tenantId: ctx.tenantId } });
       const created = await tx.ncr.create({
@@ -417,7 +519,7 @@ export class QualityService {
           ncrNumber: `NCR-${String(count + 1).padStart(5, '0')}`,
           skuId: input.skuId,
           workOrderId: input.workOrderId ?? null,
-          description: input.description,
+          description,
           severity: input.severity ?? 'MAJOR',
           createdBy: ctx.userId ?? null,
         },
@@ -437,17 +539,34 @@ export class QualityService {
   }
 
   async resolveNcr(
-    input: { ncrId: string; resolution: string },
+    input: { ncrId: string; resolution: string; rootCause?: string | undefined },
     ctx: RequestContext,
   ): Promise<NcrView> {
     if (!input.resolution.trim()) {
       throw new DomainError('VALIDATION_FAILED', 'A resolution needs a description');
     }
+    const existing = await this.prisma.ncr.findFirst({
+      where: { id: input.ncrId, tenantId: ctx.tenantId },
+    });
+    if (!existing) throw notFound('Ncr', input.ncrId);
+    // QMS-009: severe nonconformances close only with a root cause.
+    if (
+      (existing.severity === 'MAJOR' || existing.severity === 'CRITICAL') &&
+      !(input.rootCause && input.rootCause.trim().length >= 10)
+    ) {
+      throw new DomainError(
+        'VALIDATION_FAILED',
+        'MAJOR/CRITICAL NCRs need a substantive root cause (QMS-009)',
+      );
+    }
+    const resolutionText = input.rootCause
+      ? `Uzrok: ${input.rootCause.trim()} — Rješenje: ${input.resolution.trim()}`
+      : input.resolution.trim();
     const flipped = await this.prisma.ncr.updateMany({
       where: { id: input.ncrId, tenantId: ctx.tenantId, status: 'OPEN' },
       data: {
         status: 'RESOLVED',
-        resolution: input.resolution.trim(),
+        resolution: resolutionText,
         resolvedBy: ctx.userId ?? null,
       },
     });
@@ -463,9 +582,19 @@ export class QualityService {
         objectType: 'Ncr',
         objectId: input.ncrId,
         source: 'api',
-        newValues: { resolution: input.resolution.trim() },
+        newValues: {
+          resolution: input.resolution.trim(),
+          rootCause: input.rootCause?.trim() ?? null,
+        },
       });
     });
+    // QMS-008: a CRITICAL nonconformance spawns a CAPA follow-up task.
+    if (existing.severity === 'CRITICAL' && this.tasks) {
+      await this.tasks.createTask(
+        { title: `CAPA za ${existing.ncrNumber}: preventivna mjera` },
+        ctx,
+      );
+    }
     const ncr = await this.prisma.ncr.findFirst({
       where: { id: input.ncrId, tenantId: ctx.tenantId },
     });
