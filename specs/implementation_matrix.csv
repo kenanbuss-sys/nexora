@@ -374,20 +374,20 @@ BI-012,BI,Supplier analytics,P1,Implemented (Sprint 176),R3,,,Sourcing scorecard
 BI-013,BI,Process analytics,P1,Implemented (Sprint 176),R3,,,Cycle times across core flows
 BI-014,BI,Control Center,P1,DONE,R3,,,"Sprint 071: Control Center pulse — live aggregate of orders, backorders, approvals, cases, change requests, break-glass, NCRs, overdue invoices."
 BI-015,BI,Governed data export,P1,Implemented (Sprint 175),R3,,,Permissioned audited CSV exports
-AI-001,AI,Executive copilot,P3,PLANNED,R4+,,,
-AI-002,AI,Role copilots,P3,PLANNED,R4+,,,
-AI-003,AI,Document extraction,P3,PLANNED,R4+,,,
-AI-004,AI,Demand forecasting,P3,PLANNED,R4+,,,
-AI-005,AI,Stockout prediction,P3,PLANNED,R4+,,,
-AI-006,AI,Production-delay prediction,P3,PLANNED,R4+,,,
-AI-007,AI,Cash forecasting,P3,PLANNED,R4+,,,
-AI-008,AI,Anomaly detection,P3,PLANNED,R4+,,,
-AI-009,AI,Process mining,P3,PLANNED,R4+,,,
-AI-010,AI,Bottleneck detection,P3,PLANNED,R4+,,,
-AI-011,AI,Recommendations,P3,PLANNED,R4+,,,
-AI-012,AI,Controlled agents,P3,PLANNED,R4+,,,
-AI-013,AI,Knowledge assistant,P3,PLANNED,R4+,,,
-AI-014,AI,AI explanation/audit,P3,PLANNED,R4+,,,
+AI-001,AI,Executive copilot,P3,Implemented (Sprint 196),R4+,,,Role copilot over executive summary context
+AI-002,AI,Role copilots,P3,Implemented (Sprint 196),R4+,,,Context bundles per role via AiPort
+AI-003,AI,Document extraction,P3,Implemented (Sprint 151),R4+,,,Via OcrPort field extraction (DOC-010)
+AI-004,AI,Demand forecasting,P3,Implemented (Sprint 194),R4+,,,28-day moving average from the ledger
+AI-005,AI,Stockout prediction,P3,Implemented (Sprint 194),R4+,,,Days-of-cover risk ranking
+AI-006,AI,Production-delay prediction,P3,Implemented (Sprint 195),R4+,,,Elapsed vs routed estimate
+AI-007,AI,Cash forecasting,P3,Implemented (Sprint 195),R4+,,,Due-date bucketed net projection
+AI-008,AI,Anomaly detection,P3,Implemented (Sprint 194),R4+,,,Audit volume vs weekly baseline
+AI-009,AI,Process mining,P3,Implemented (Sprint 195),R4+,,,Observed order-event path ranking
+AI-010,AI,Bottleneck detection,P3,Implemented (Sprint 194),R4+,,,Open-operation queues per center
+AI-011,AI,Recommendations,P3,Implemented (Sprint 195),R4+,,,30-day replenishment suggestions
+AI-012,AI,Controlled agents,P3,Implemented (Sprint 196),R4+,,,Safe-list execution + approval escalation
+AI-013,AI,Knowledge assistant,P3,Implemented (Sprint 196),R4+,,,Knowledge role over tenant context
+AI-014,AI,AI explanation/audit,P3,Implemented (Sprint 194),R4+,,,Method attached + every run audited
 INT-001,INT,Connector framework,P0,Implemented (Sprint 100),R0,,,
 INT-002,INT,Accounting connectors,P0,Implemented (Sprint 153),R0,,,Exactly-once invoice export via adapter port
 INT-003,INT,Commerce connectors,P0,Implemented (Sprint 160),R0,,,Catalog export + availability sync + marketplace import
