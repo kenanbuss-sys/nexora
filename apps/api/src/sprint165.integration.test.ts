@@ -4,16 +4,17 @@ import { DevIdentityAdapter } from '@nexora/tenancy';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 /**
- * Sprint 164 acceptance tests: secrets management (INT-017) — raw
- * secrets in connector configuration are refused, secretRef values
- * resolve from the runtime store at call time.
+ * Sprint 165 acceptance tests: rate-limit handling & versioned
+ * mappings (INT-018/019) — rate-limited pushes retry with backoff up
+ * to three attempts, and mapping rules report the configuration
+ * version they came from.
  */
 const integration = process.env.INTEGRATION === '1' ? describe : describe.skip;
 
 const DB_URL = process.env.DATABASE_URL ?? 'postgresql://app:app@localhost:5432/enterprise_os';
 const SECRET = process.env.DEV_AUTH_SECRET ?? 'dev-secret-change-me';
 
-integration('Sprint 164 — secrets management', () => {
+integration('Sprint 165 — rate limits & mappings', () => {
   let app: NestFastifyApplication;
   let prisma: PrismaClient;
   const identity = new DevIdentityAdapter(SECRET);
@@ -23,7 +24,7 @@ integration('Sprint 164 — secrets management', () => {
     subject: 'ops|provisioner',
     platformAdmin: true,
   });
-  const tokenA = identity.signToken({ tenantSlug: 'test-s164a', subject: 'idp|s164-admin' });
+  const tokenA = identity.signToken({ tenantSlug: 'test-s165a', subject: 'idp|s165-admin' });
 
   async function api(
     method: 'GET' | 'POST' | 'PUT',
@@ -86,16 +87,16 @@ integration('Sprint 164 — secrets management', () => {
     await app.getHttpAdapter().getInstance().ready();
 
     await api('POST', '/api/v1/tenants', platformToken, {
-      slug: 'test-s164a',
-      name: 'Sprint164 Tenant',
+      slug: 'test-s165a',
+      name: 'Sprint165 Tenant',
       initialAdmin: {
-        email: 'admin@s164a.example',
-        displayName: 'S164 Admin',
-        idpSubject: 'idp|s164-admin',
+        email: 'admin@s165a.example',
+        displayName: 'S165 Admin',
+        idpSubject: 'idp|s165-admin',
       },
     });
-    await makeSku('LAMP164', 'Lamp164');
-    await makeSku('BULB164', 'Bulb164');
+    await makeSku('LAMP165', 'Lamp165');
+    await makeSku('BULB165', 'Bulb165');
   }, 120_000);
 
   afterAll(async () => {
@@ -103,70 +104,67 @@ integration('Sprint 164 — secrets management', () => {
     await prisma?.$disconnect();
   });
 
-  it('INT-017: raw secrets in connector config are refused', async () => {
+  it('INT-018: a rate-limited push retries with backoff and succeeds', async () => {
     await api('POST', '/api/v1/tenant/configuration', tokenA, {
       config: {
         int: {
           connectors: [
             {
-              key: 'leaky',
+              key: 'sporo',
               kind: 'commerce',
-              adapter: 'noop',
-              config: { apiKey: 'sk-plain-text-secret' },
+              adapter: 'ratelimited',
+              config: { failFirst: 2 },
+            },
+            {
+              key: 'presporo',
+              kind: 'commerce',
+              adapter: 'ratelimited',
+              config: { failFirst: 9 },
             },
           ],
         },
       },
     });
-    const refused = await api('POST', '/api/v1/connectors/leaky/export-catalog', tokenA);
-    expect(refused.status).toBe(400);
-    expect((refused.body.message as string) ?? '').toContain('secretRef');
-  });
-
-  it('INT-017: secretRef values resolve from the runtime store', async () => {
-    process.env.NEXORA_SECRET_WEBSHOP_KEY = 'runtime-secret-value';
-    await api('POST', '/api/v1/tenant/configuration', tokenA, {
-      config: {
-        int: {
-          connectors: [
-            {
-              key: 'clean',
-              kind: 'commerce',
-              adapter: 'noop',
-              config: { credentials: { secretRef: 'WEBSHOP_KEY' } },
-            },
-            {
-              key: 'missing',
-              kind: 'commerce',
-              adapter: 'noop',
-              config: { credentials: { secretRef: 'NOT_PROVISIONED_S164' } },
-            },
-            {
-              key: 'badref',
-              kind: 'commerce',
-              adapter: 'noop',
-              config: { credentials: { secretRef: 'not upper case' } },
-            },
-          ],
-        },
-      },
-    });
-    const ok = await api('POST', '/api/v1/connectors/clean/export-catalog', tokenA);
+    const ok = await api('POST', '/api/v1/connectors/sporo/export-catalog', tokenA);
     expect(ok.status).toBe(201);
+    expect(ok.body.reference).toContain('ratelimited:catalog');
 
-    const missing = await api('POST', '/api/v1/connectors/missing/export-catalog', tokenA);
-    expect(missing.status).toBe(409);
-    expect((missing.body.message as string) ?? '').toContain('not provisioned');
-
-    const badref = await api('POST', '/api/v1/connectors/badref/export-catalog', tokenA);
-    expect(badref.status).toBe(400);
+    // Still rate-limited after 3 attempts → refused, no partial audit.
+    const refused = await api('POST', '/api/v1/connectors/presporo/export-catalog', tokenA);
+    expect(refused.status).toBe(409);
   });
 
-  it('INT-017: resolved secrets never land in the audit trail', async () => {
-    const events = await prisma.auditEvent.findMany({
-      where: { action: 'int.commerce.catalog' },
+  it('INT-019: mapping rules report their configuration version', async () => {
+    const before = await api('GET', '/api/v1/connectors/sporo/mappings', tokenA);
+    expect(before.status).toBe(200);
+    const versionBefore = before.body.version as number;
+    expect((before.body.rules as unknown[]).length).toBe(0);
+
+    await api('POST', '/api/v1/tenant/configuration', tokenA, {
+      config: {
+        int: {
+          connectors: [
+            { key: 'sporo', kind: 'commerce', adapter: 'ratelimited', config: { failFirst: 0 } },
+          ],
+          mappings: [
+            {
+              key: 'sporo',
+              rules: [{ from: 'channel', to: 'externalChannel', transform: 'uppercase' }],
+            },
+          ],
+        },
+      },
     });
-    const serialized = JSON.stringify(events);
-    expect(serialized).not.toContain('runtime-secret-value');
+    const after = await api('GET', '/api/v1/connectors/sporo/mappings', tokenA);
+    expect(after.body.version).toBeGreaterThan(versionBefore);
+    const rules = after.body.rules as Array<Record<string, unknown>>;
+    expect(rules).toHaveLength(1);
+    expect(rules[0]?.to).toBe('externalChannel');
+  });
+
+  it('AUTHZ: mapping inspection needs integration.manage', async () => {
+    const stranger = identity.signToken({ tenantSlug: 'test-s165a', subject: 'idp|s165-nobody' });
+    const denied = await api('GET', '/api/v1/connectors/sporo/mappings', stranger);
+    expect([401, 403]).toContain(denied.status);
   });
 });

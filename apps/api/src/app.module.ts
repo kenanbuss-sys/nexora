@@ -63,6 +63,7 @@ import { AnalyticsService } from '@nexora/domain-bi';
 import { PortalService } from '@nexora/domain-b2b';
 import { DevOcrAdapter, CollaborationService, SearchService } from '@nexora/domain-collab';
 import {
+  rateLimitedAdapter,
   ConnectorService,
   IntegrationService,
   fetchTransport,
@@ -1165,7 +1166,7 @@ export const REDIS = 'REDIS';
         new ConnectorService(
           prisma,
           { getEffectiveConfiguration: (t) => tenants.getEffectiveConfiguration(t) },
-          { webhook: webhookAdapter(fetchTransport) },
+          { webhook: webhookAdapter(fetchTransport), ratelimited: rateLimitedAdapter() },
           {
             channelAvailability: async (ctx) => {
               const rows = await inventory.channelAvailability(undefined, ctx);

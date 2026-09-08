@@ -16,6 +16,7 @@ export {
   noopAdapter,
   webhookAdapter,
   envSecretsAdapter,
+  rateLimitedAdapter,
   type SecretsPort,
   type AccountingExportGate,
   type AvailabilityFeedGate,

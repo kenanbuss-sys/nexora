@@ -42,7 +42,7 @@ export interface ConnectorAdapter {
     objectType: string,
     payload: Record<string, unknown>,
     config: Record<string, unknown>,
-  ): Promise<{ ok: boolean; reference: string }>;
+  ): Promise<{ ok: boolean; reference: string; rateLimited?: boolean; retryAfterMs?: number }>;
   /** Optional: pull business objects from the external system. */
   pull?(objectType: string, config: Record<string, unknown>): Promise<unknown[]>;
 }
@@ -58,6 +58,30 @@ export const noopAdapter: ConnectorAdapter = {
     return objectType === 'Orders' && Array.isArray(samples) ? samples : [];
   },
 };
+
+/**
+ * Rate-limit simulation adapter (INT-018 verification): the first
+ * `failFirst` pushes per connector config answer rate-limited, then
+ * pushes succeed — deterministic backoff-path coverage without an
+ * external system.
+ */
+export function rateLimitedAdapter(): ConnectorAdapter {
+  const counters = new Map<string, number>();
+  return {
+    validate: () => null,
+    test: async () => ({ ok: true, detail: 'rate-limited test adapter' }),
+    push: async (objectType, _payload, config) => {
+      const failFirst = Number((config as { failFirst?: unknown }).failFirst ?? 1);
+      const key = `${objectType}:${JSON.stringify(config)}`;
+      const seen = counters.get(key) ?? 0;
+      counters.set(key, seen + 1);
+      if (seen < failFirst) {
+        return { ok: false, reference: '', rateLimited: true, retryAfterMs: 5 };
+      }
+      return { ok: true, reference: `ratelimited:${objectType}:${seen + 1}` };
+    },
+  };
+}
 
 /** Webhook adapter: pushes JSON to a configured URL. */
 export function webhookAdapter(transport: WebhookTransport): ConnectorAdapter {
@@ -504,6 +528,41 @@ export class ConnectorService {
     return { imported, skipped, failed };
   }
 
+  /**
+   * Rate-limit handling (INT-018): pushes retry with backoff when the
+   * provider answers rate-limited, honouring retryAfterMs, up to 3
+   * attempts; the final refusal propagates to the caller.
+   */
+  private async pushWithRetry(
+    adapter: ConnectorAdapter,
+    objectType: string,
+    payload: Record<string, unknown>,
+    config: Record<string, unknown>,
+  ): Promise<{ ok: boolean; reference: string; attempts: number }> {
+    let attempts = 0;
+    for (;;) {
+      attempts += 1;
+      const result = await adapter.push(objectType, payload, config);
+      if (result.ok || !result.rateLimited || attempts >= 3) {
+        return { ok: result.ok, reference: result.reference, attempts };
+      }
+      const delay = Math.min(result.retryAfterMs ?? 50 * 2 ** (attempts - 1), 2000);
+      await new Promise((resolve) => {
+        setTimeout(resolve, delay);
+      });
+    }
+  }
+
+  /** Versioned mappings (INT-019): the rules plus the configuration version they came from. */
+  async mappingRuleSet(
+    key: string,
+    ctx: RequestContext,
+  ): Promise<{ version: number; rules: MappingRule[] }> {
+    const { version } = await this.config.getEffectiveConfiguration(ctx.tenantId);
+    const rules = await this.mappingRules(ctx.tenantId, key);
+    return { version, rules };
+  }
+
   private async mappingRules(tenantId: string, connectorKey: string): Promise<MappingRule[]> {
     try {
       const { config } = await this.config.getEffectiveConfiguration(tenantId);
@@ -656,7 +715,7 @@ export class ConnectorService {
     const rules = await this.mappingRules(ctx.tenantId, entry.key);
     const payload: Record<string, unknown> = { channel, items };
     const mapped = rules.length > 0 ? applyMapping(payload, rules) : payload;
-    const result = await adapter.push('catalog', mapped, entry.config);
+    const result = await this.pushWithRetry(adapter, 'catalog', mapped, entry.config);
     if (!result.ok) {
       throw new DomainError('INVALID_STATE', 'The commerce provider refused the catalog');
     }

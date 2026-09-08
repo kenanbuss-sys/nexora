@@ -191,6 +191,13 @@ export class ConnectorsController {
     return this.connectors.testConnection(key, ctx);
   }
 
+  /** INT-019 — versioned mapping rules. */
+  @Get(':key/mappings')
+  @RequirePermission('integration.manage')
+  async mappings(@Param('key') key: string, @Ctx() ctx: RequestContext) {
+    return this.connectors.mappingRuleSet(key, ctx);
+  }
+
   @Post(':key/preview-mapping')
   @RequirePermission('integration.read')
   async previewMapping(
