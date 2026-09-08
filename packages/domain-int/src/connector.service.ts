@@ -556,6 +556,72 @@ export class ConnectorService {
   }
 
   /**
+   * Commerce catalog export (INT-003): push the sellable catalog —
+   * active SKUs with their per-channel commercial copy — to a
+   * commerce connector. Sync is upsert-natured and repeatable; each
+   * run is audited with its summary.
+   */
+  async exportCatalog(
+    key: string,
+    ctx: RequestContext,
+  ): Promise<{ pushed: number; withContent: number; reference: string }> {
+    const { entry, adapter } = await this.resolve(key, ctx.tenantId);
+    if (entry.kind !== 'commerce') {
+      throw new DomainError('INVALID_STATE', `Connector '${key}' is not a commerce connector`);
+    }
+    const channel =
+      typeof (entry.config as { channel?: unknown }).channel === 'string'
+        ? (entry.config as { channel: string }).channel
+        : entry.key;
+    const skus = await this.prisma.sku.findMany({
+      where: { tenantId: ctx.tenantId, status: 'ACTIVE' },
+      select: { id: true, code: true, name: true, baseUom: true },
+      take: 1000,
+    });
+    const contents = await this.prisma.skuChannelContent.findMany({
+      where: { tenantId: ctx.tenantId, channel },
+    });
+    const contentOf = new Map(contents.map((c) => [c.skuId, c]));
+    const items = skus.map((sku) => {
+      const content = contentOf.get(sku.id);
+      return {
+        code: sku.code,
+        title: content?.title ?? sku.name,
+        description: content?.description ?? null,
+        uom: sku.baseUom,
+        hasChannelContent: content !== undefined,
+      };
+    });
+    const rules = await this.mappingRules(ctx.tenantId, entry.key);
+    const payload: Record<string, unknown> = { channel, items };
+    const mapped = rules.length > 0 ? applyMapping(payload, rules) : payload;
+    const result = await adapter.push('catalog', mapped, entry.config);
+    if (!result.ok) {
+      throw new DomainError('INVALID_STATE', 'The commerce provider refused the catalog');
+    }
+    await writeAudit(this.prisma, {
+      tenantId: ctx.tenantId,
+      actorType: ctx.actorType,
+      actorId: ctx.userId,
+      action: 'int.commerce.catalog',
+      objectType: 'Connector',
+      objectId: entry.key,
+      source: 'api',
+      newValues: {
+        channel,
+        pushed: items.length,
+        withContent: items.filter((i) => i.hasChannelContent).length,
+        reference: result.reference,
+      },
+    });
+    return {
+      pushed: items.length,
+      withContent: items.filter((i) => i.hasChannelContent).length,
+      reference: result.reference,
+    };
+  }
+
+  /**
    * Payment connectors (INT-004): create a payment intent for a sales
    * order through a declared payment connector — one intent per
    * (connector, order), a retry returns the existing reference — and

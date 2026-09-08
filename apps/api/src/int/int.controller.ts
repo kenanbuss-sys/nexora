@@ -138,6 +138,13 @@ export class ConnectorsController {
     return this.connectors.confirmPayment({ key, ...input }, ctx);
   }
 
+  /** INT-003 — commerce catalog export. */
+  @Post(':key/export-catalog')
+  @RequirePermission('product.read')
+  async exportCatalog(@Param('key') key: string, @Ctx() ctx: RequestContext) {
+    return this.connectors.exportCatalog(key, ctx);
+  }
+
   @Post(':key/import-orders')
   @RequirePermission('integration.manage')
   async importOrders(@Param('key') key: string, @Ctx() ctx: RequestContext) {
