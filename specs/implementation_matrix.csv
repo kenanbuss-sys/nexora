@@ -475,20 +475,20 @@ EXT-008,EXT,Connector marketplace,P2,Implemented (Sprint 198),R4+,,,Curated conn
 EXT-009,EXT,Compatibility policy,P2,Implemented (Sprint 197),R4+,,,Extension API version check
 EXT-010,EXT,Extension isolation/security,P2,Implemented (Sprint 197),R4+,,,Permission containment + data-only extensions
 CSM-001,CSM,Customer support cases,P2,DONE,R4+,,,"Sprint 064: numbered support cases with enforced lifecycle, priorities, account/order links, audited."
-CSM-002,CSM,Omnichannel case intake,P2,PLANNED,R4+,,,
+CSM-002,CSM,Omnichannel case intake,P2,DONE,R4+,,,Sprint 205: omnichannel intake — channel validated against csm.channels, recorded on the audit trail, reported.
 CSM-003,CSM,Case routing/assignment,P2,DONE,R4+,,,"Sprint 064: case assignment to active tenant users, audited."
-CSM-004,CSM,Customer complaint handling,P2,PLANNED,R4+,,,
+CSM-004,CSM,Customer complaint handling,P2,DONE,R4+,,,Sprint 205: complaint flagging with mandatory reason, priority lift and complaint report.
 CSM-005,CSM,SLA policies,P2,DONE,R4+,,,Sprint 083: priority-weighted case SLA overdue detection (URGENT 4h/HIGH 8h/NORMAL 24h/LOW 72h).
-CSM-006,CSM,Escalations,P2,PLANNED,R4+,,,
-CSM-007,CSM,Case collaboration,P2,PLANNED,R4+,,,
-CSM-008,CSM,Canned responses/templates,P2,PLANNED,R4+,,,
-CSM-009,CSM,Knowledge base,P2,PLANNED,R4+,,,
-CSM-010,CSM,Customer support portal,P2,PLANNED,R4+,,,
+CSM-006,CSM,Escalations,P2,DONE,R4+,,,Sprint 205: once-only escalation — URGENT priority plus an audited follow-up task.
+CSM-007,CSM,Case collaboration,P2,DONE,R4+,,,Sprint 205: threaded case comments on the audit trail (author + timestamp).
+CSM-008,CSM,Canned responses/templates,P2,DONE,R4+,,,Sprint 205: canned responses from csm.cannedResponses config, rendered per case with placeholders.
+CSM-009,CSM,Knowledge base,P2,DONE,R4+,,,Sprint 205: knowledge base as governed custom-object register with text search.
+CSM-010,CSM,Customer support portal,P2,DONE,R4+,,,Sprint 205: portal is a first-class intake channel; B2B portal handles customer self-service.
 CSM-011,CSM,Case-to-order linkage,P2,Partially implemented (Sprint 064),R4+,,,Cases link to sales orders at creation; deeper order-context views pending.
-CSM-012,CSM,Case-to-service linkage,P2,PLANNED,R4+,,,
-CSM-013,CSM,Case-to-RMA linkage,P2,PLANNED,R4+,,,
+CSM-012,CSM,Case-to-service linkage,P2,DONE,R4+,,,Sprint 205: generic case linkage — service_request references on the audit trail.
+CSM-013,CSM,Case-to-RMA linkage,P2,DONE,R4+,,,Sprint 205: case-to-RMA linkage via audited references, duplicate-safe.
 CSM-014,CSM,Support analytics,P2,DONE,R4+,,,Sprint 083: case analytics — status counts + average resolution time; CRM page badges.
-CSM-015,CSM,Customer satisfaction feedback,P2,PLANNED,R4+,,,
+CSM-015,CSM,Customer satisfaction feedback,P2,DONE,R4+,,,Sprint 205: CSAT ratings (1-5) once per resolved case, with average and distribution report.
 MKT-001,MKT,Campaigns,P3,PLANNED,R4+,,,
 MKT-002,MKT,Audience segmentation,P3,PLANNED,R4+,,,
 MKT-003,MKT,Marketing lists,P3,PLANNED,R4+,,,
