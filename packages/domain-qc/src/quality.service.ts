@@ -549,6 +549,9 @@ export class QualityService {
       where: { id: input.ncrId, tenantId: ctx.tenantId },
     });
     if (!existing) throw notFound('Ncr', input.ncrId);
+    if (existing.status !== 'OPEN') {
+      throw new DomainError('INVALID_STATE', 'The NCR is already resolved');
+    }
     // QMS-009: severe nonconformances close only with a root cause.
     if (
       (existing.severity === 'MAJOR' || existing.severity === 'CRITICAL') &&

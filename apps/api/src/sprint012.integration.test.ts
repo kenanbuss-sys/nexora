@@ -276,6 +276,7 @@ integration('Sprint 012 — Quality', () => {
 
     const resolved = await api('POST', `/api/v1/qc/ncrs/${open?.id}/resolve`, supervisorToken, {
       resolution: 'Rework completed; housing replaced',
+      rootCause: 'Loose fixture on the assembly jig',
     });
     expect(resolved.body.status).toBe('RESOLVED');
 
