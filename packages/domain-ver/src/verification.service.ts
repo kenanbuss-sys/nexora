@@ -468,6 +468,98 @@ export class VerificationService {
     };
   }
 
+  /**
+   * RFID support (VER-003): RFID tags map to SKUs through the
+   * configured registry (`ver.rfidTags`: [{ tag, skuCode }]); a check
+   * resolves the tag to its SKU and confirms the SKU is active.
+   */
+  async rfidCheck(
+    input: { tag: string },
+    ctx: RequestContext,
+  ): Promise<{ ok: boolean; skuCode: string | null; reason: string | null }> {
+    const tag = input.tag.trim().toUpperCase();
+    let tags: Array<Record<string, unknown>> = [];
+    if (this.configuration) {
+      const { config } = await this.configuration.getEffectiveConfiguration(ctx.tenantId);
+      const ver = ((config as Record<string, unknown>).ver ?? {}) as Record<string, unknown>;
+      if (Array.isArray(ver.rfidTags)) tags = ver.rfidTags as Array<Record<string, unknown>>;
+    }
+    const entry = tags.find((t) => String(t.tag ?? '').toUpperCase() === tag);
+    let ok = false;
+    let reason: string | null = null;
+    let skuCode: string | null = null;
+    if (!entry || typeof entry.skuCode !== 'string') {
+      reason = 'UNKNOWN_TAG';
+    } else {
+      skuCode = entry.skuCode;
+      const sku = await this.prisma.sku.findFirst({
+        where: { tenantId: ctx.tenantId, code: entry.skuCode },
+        select: { status: true },
+      });
+      if (!sku) reason = 'SKU_MISSING';
+      else if (sku.status !== 'ACTIVE') reason = 'SKU_INACTIVE';
+      else ok = true;
+    }
+    await writeAudit(this.prisma, {
+      tenantId: ctx.tenantId,
+      actorType: ctx.actorType,
+      actorId: ctx.userId,
+      action: 'ver.rfid_check',
+      objectType: 'RfidTag',
+      objectId: tag,
+      source: 'api',
+      newValues: { ok, skuCode, reason },
+    });
+    return { ok, skuCode, reason };
+  }
+
+  /**
+   * NFC verification (VER-004): NFC badges map to workers through the
+   * configured registry (`ver.nfcBadges`: [{ badge, idpSubject }]);
+   * a check resolves the badge to an active tenant user.
+   */
+  async nfcCheck(
+    input: { badge: string },
+    ctx: RequestContext,
+  ): Promise<{ ok: boolean; displayName: string | null; reason: string | null }> {
+    const badge = input.badge.trim().toUpperCase();
+    let badges: Array<Record<string, unknown>> = [];
+    if (this.configuration) {
+      const { config } = await this.configuration.getEffectiveConfiguration(ctx.tenantId);
+      const ver = ((config as Record<string, unknown>).ver ?? {}) as Record<string, unknown>;
+      if (Array.isArray(ver.nfcBadges)) badges = ver.nfcBadges as Array<Record<string, unknown>>;
+    }
+    const entry = badges.find((b) => String(b.badge ?? '').toUpperCase() === badge);
+    let ok = false;
+    let reason: string | null = null;
+    let displayName: string | null = null;
+    if (!entry || typeof entry.idpSubject !== 'string') {
+      reason = 'UNKNOWN_BADGE';
+    } else {
+      const user = await this.prisma.user.findFirst({
+        where: { tenantId: ctx.tenantId, idpSubject: entry.idpSubject },
+        select: { displayName: true, status: true },
+      });
+      if (!user) reason = 'WORKER_MISSING';
+      else if (user.status !== 'ACTIVE') reason = 'WORKER_INACTIVE';
+      else {
+        ok = true;
+        displayName = user.displayName;
+      }
+    }
+    await writeAudit(this.prisma, {
+      tenantId: ctx.tenantId,
+      actorType: ctx.actorType,
+      actorId: ctx.userId,
+      action: 'ver.nfc_check',
+      objectType: 'NfcBadge',
+      objectId: badge,
+      source: 'api',
+      newValues: { ok, reason },
+    });
+    return { ok, displayName, reason };
+  }
+
   async listEvents(
     filter: { deviceId?: string | undefined },
     ctx: RequestContext,

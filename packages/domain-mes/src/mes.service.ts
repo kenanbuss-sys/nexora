@@ -810,9 +810,7 @@ export class MesService {
    * this drains the queue into confirmOperation — the scan event id
    * is the confirmation key, so replays never double-count.
    */
-  async applyOfflineConfirmations(
-    ctx: RequestContext,
-  ): Promise<{
+  async applyOfflineConfirmations(ctx: RequestContext): Promise<{
     scanned: number;
     applied: number;
     failed: Array<{ value: string; reason: string }>;

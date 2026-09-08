@@ -213,6 +213,22 @@ export class ScanEventsController {
     return this.verification.verifySignature(input, ctx);
   }
 
+  /** RFID check (VER-003). */
+  @Post('rfid-check')
+  @RequirePermission('inventory.read')
+  async rfidCheck(@Body() body: unknown, @Ctx() ctx: RequestContext) {
+    const input = parseBody(z.object({ tag: z.string().min(4).max(64) }), body);
+    return this.verification.rfidCheck(input, ctx);
+  }
+
+  /** NFC check (VER-004). */
+  @Post('nfc-check')
+  @RequirePermission('inventory.read')
+  async nfcCheck(@Body() body: unknown, @Ctx() ctx: RequestContext) {
+    const input = parseBody(z.object({ badge: z.string().min(4).max(64) }), body);
+    return this.verification.nfcCheck(input, ctx);
+  }
+
   /** Sequence check (VER-012). */
   @Post('sequence-check')
   @RequirePermission('production.read')
