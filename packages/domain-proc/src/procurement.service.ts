@@ -497,6 +497,90 @@ export class ProcurementService {
 
   // -------------------------------------------------------- purchase orders
 
+  /**
+   * Supplier portal (PROC-008): the supplier bound to an API key sees
+   * only their own open orders and acknowledges them with a promised
+   * date — recorded once (idempotent retry is a CONFLICT), audited.
+   */
+  async supplierOpenPos(supplierId: string, ctx: RequestContext): Promise<PurchaseOrderView[]> {
+    const supplier = await this.prisma.supplier.findFirst({
+      where: { id: supplierId, tenantId: ctx.tenantId },
+      select: { id: true },
+    });
+    if (!supplier) throw notFound('Supplier', supplierId);
+    const rows = await this.prisma.purchaseOrder.findMany({
+      where: {
+        tenantId: ctx.tenantId,
+        supplierId,
+        status: { in: ['OPEN', 'PARTIALLY_RECEIVED'] },
+      },
+      include: { lines: true },
+      orderBy: [{ createdAt: 'desc' }],
+      take: 100,
+    });
+    return rows.map(poView);
+  }
+
+  async supplierAcknowledgePo(
+    poId: string,
+    supplierId: string,
+    input: { expectedAt?: string | undefined; note?: string | undefined },
+    ctx: RequestContext,
+  ): Promise<PurchaseOrderView> {
+    const po = await this.prisma.purchaseOrder.findFirst({
+      where: { id: poId, tenantId: ctx.tenantId, supplierId },
+      include: { lines: true },
+    });
+    if (!po) throw notFound('PurchaseOrder', poId);
+    if (po.status !== 'OPEN') {
+      throw new DomainError('INVALID_STATE', 'Only open orders can be acknowledged');
+    }
+    const already = await this.prisma.auditEvent.findFirst({
+      where: {
+        tenantId: ctx.tenantId,
+        action: 'proc.po.supplier_ack',
+        objectType: 'PurchaseOrder',
+        objectId: po.id,
+      },
+      select: { id: true },
+    });
+    if (already) {
+      throw new DomainError('CONFLICT', 'This order was already acknowledged');
+    }
+    let expectedAt: Date | undefined;
+    if (input.expectedAt !== undefined) {
+      expectedAt = new Date(input.expectedAt);
+      if (Number.isNaN(expectedAt.getTime()) || expectedAt.getTime() < Date.now() - 86_400_000) {
+        throw new DomainError('VALIDATION_FAILED', 'expectedAt must be a valid future date');
+      }
+    }
+    const updated = await this.prisma.$transaction(async (tx) => {
+      const row = expectedAt
+        ? await tx.purchaseOrder.update({
+            where: { id: po.id },
+            data: { expectedAt },
+            include: { lines: true },
+          })
+        : po;
+      await writeAudit(tx, {
+        tenantId: ctx.tenantId,
+        actorType: ctx.actorType,
+        actorId: ctx.userId,
+        action: 'proc.po.supplier_ack',
+        objectType: 'PurchaseOrder',
+        objectId: po.id,
+        source: 'api',
+        newValues: {
+          supplierId,
+          expectedAt: expectedAt ? expectedAt.toISOString() : null,
+          note: input.note ?? null,
+        },
+      });
+      return row;
+    });
+    return poView(updated);
+  }
+
   async listPurchaseOrders(ctx: RequestContext): Promise<PurchaseOrderView[]> {
     const rows = await this.prisma.purchaseOrder.findMany({
       where: { tenantId: ctx.tenantId },

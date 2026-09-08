@@ -49,6 +49,9 @@ export const CUSTOMER_KEY_PERMISSIONS = new Set([
   'inventory.read',
 ]);
 
+/** The only permissions a supplier-bound key may carry (PROC-008). */
+export const SUPPLIER_KEY_PERMISSIONS = new Set(['purchase.read']);
+
 function hashKey(key: string): string {
   return createHash('sha256').update(key).digest('hex');
 }
@@ -79,11 +82,36 @@ export class ServiceAccountService {
    * customer-safe permission set and acts on that account's behalf.
    */
   async createKey(
-    input: { name: string; permissions: string[]; accountId?: string | undefined },
+    input: {
+      name: string;
+      permissions: string[];
+      accountId?: string | undefined;
+      supplierId?: string | undefined;
+    },
     ctx: RequestContext,
   ): Promise<ApiKeyView & { key: string }> {
     if (input.permissions.length === 0) {
       throw new DomainError('VALIDATION_FAILED', 'Grant at least one permission');
+    }
+    if (input.accountId && input.supplierId) {
+      throw new DomainError(
+        'VALIDATION_FAILED',
+        'Bind a key to an account or a supplier, not both',
+      );
+    }
+    if (input.supplierId) {
+      const supplier = await this.prisma.supplier.findFirst({
+        where: { id: input.supplierId, tenantId: ctx.tenantId },
+        select: { id: true },
+      });
+      if (!supplier) throw notFound('Supplier', input.supplierId);
+      const disallowed = input.permissions.filter((p) => !SUPPLIER_KEY_PERMISSIONS.has(p));
+      if (disallowed.length > 0) {
+        throw new DomainError(
+          'VALIDATION_FAILED',
+          `Supplier keys cannot carry: ${disallowed.join(', ')}`,
+        );
+      }
     }
     if (input.accountId) {
       const account = await this.prisma.crmAccount.findFirst({
@@ -109,7 +137,7 @@ export class ServiceAccountService {
             prefix: key.slice(0, 9),
             keyHash: hashKey(key),
             permissions: [...new Set(input.permissions)],
-            accountId: input.accountId ?? null,
+            accountId: input.accountId ?? input.supplierId ?? null,
             createdBy: ctx.userId ?? null,
           },
         });

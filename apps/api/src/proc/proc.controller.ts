@@ -1,7 +1,18 @@
-import { Body, Controller, Get, Inject, Param, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  ForbiddenException,
+  Get,
+  Inject,
+  Param,
+  Post,
+  Query,
+  Req,
+} from '@nestjs/common';
 import type { ProcurementService, RfqService } from '@nexora/domain-proc';
 import type { RequestContext } from '@nexora/tenancy';
 import { z } from 'zod';
+import type { AuthenticatedRequest } from '../auth/auth.guard';
 import { Ctx } from '../auth/ctx.decorator';
 import { RequirePermission } from '../auth/permissions.guard';
 import { parseBody } from '../common/validate';
@@ -277,5 +288,49 @@ export class RfqsController {
   async award(@Param('id') id: string, @Body() body: unknown, @Ctx() ctx: RequestContext) {
     const input = parseBody(awardRfqSchema, body);
     return this.rfqs.awardRfq({ rfqId: id, quoteId: input.quoteId }, ctx);
+  }
+}
+
+const supplierAckSchema = z.object({
+  expectedAt: z.string().datetime().optional(),
+  note: z.string().max(500).optional(),
+});
+
+/**
+ * Supplier portal (PROC-008): endpoints for supplier-bound API keys.
+ * The acting supplier comes from the key itself, never the request.
+ */
+@Controller('api/v1/proc/portal')
+export class SupplierPortalController {
+  constructor(@Inject(PROCUREMENT_SERVICE) private readonly proc: ProcurementService) {}
+
+  private supplierOf(request: AuthenticatedRequest): string {
+    const supplierId = request.apiKeyAccountId;
+    if (!supplierId) {
+      throw new ForbiddenException({
+        code: 'FORBIDDEN',
+        message: 'This endpoint requires a supplier-bound API key',
+      });
+    }
+    return supplierId;
+  }
+
+  @Get('pos')
+  @RequirePermission('purchase.read')
+  async myPos(@Req() request: AuthenticatedRequest, @Ctx() ctx: RequestContext) {
+    const supplierId = this.supplierOf(request);
+    return { purchaseOrders: await this.proc.supplierOpenPos(supplierId, ctx) };
+  }
+
+  @Post('pos/:id/acknowledge')
+  @RequirePermission('purchase.read')
+  async acknowledge(
+    @Req() request: AuthenticatedRequest,
+    @Param('id') id: string,
+    @Body() body: unknown,
+    @Ctx() ctx: RequestContext,
+  ) {
+    const supplierId = this.supplierOf(request);
+    return this.proc.supplierAcknowledgePo(id, supplierId, parseBody(supplierAckSchema, body), ctx);
   }
 }

@@ -224,6 +224,7 @@ import {
   TenantExportController,
 } from './iam/service-accounts.controller';
 import {
+  SupplierPortalController,
   PROCUREMENT_SERVICE,
   RFQ_SERVICE,
   RfqsController,
@@ -347,6 +348,7 @@ export const REDIS = 'REDIS';
     SuppliersController,
     RequisitionsController,
     PurchaseOrdersController,
+    SupplierPortalController,
     RfqsController,
     FrameworkAgreementsController,
     BomsController,
