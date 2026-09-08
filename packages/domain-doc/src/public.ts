@@ -9,3 +9,4 @@ export {
   type ContractConfigGate,
   type ContractView,
 } from './contract.service';
+export { DevSignatureAdapter, type EnvelopeStatus, type SignaturePort } from './signature';

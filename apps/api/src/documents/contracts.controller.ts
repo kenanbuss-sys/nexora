@@ -41,6 +41,24 @@ export class ContractsController {
     return this.contracts.createContract(parseBody(createContractSchema, body), ctx);
   }
 
+  /** DOC-006 — send for electronic signature. */
+  @Post(':id/signature')
+  @RequirePermission('document.issue')
+  async requestSignature(
+    @Param('id') id: string,
+    @Body() body: unknown,
+    @Ctx() ctx: RequestContext,
+  ) {
+    const input = parseBody(z.object({ signerEmail: z.string().email() }), body);
+    return this.contracts.requestSignature(id, input, ctx);
+  }
+
+  @Get(':id/signature')
+  @RequirePermission('document.read')
+  async signatureStatus(@Param('id') id: string, @Ctx() ctx: RequestContext) {
+    return this.contracts.signatureStatus(id, ctx);
+  }
+
   @Post(':id/transition')
   @RequirePermission('document.issue')
   async transition(@Param('id') id: string, @Body() body: unknown, @Ctx() ctx: RequestContext) {

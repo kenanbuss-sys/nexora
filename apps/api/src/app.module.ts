@@ -13,7 +13,12 @@ import {
   TenantService,
   CustomObjectService,
 } from '@nexora/domain-core';
-import { ContractService, PdfService, DocumentTemplateService } from '@nexora/domain-doc';
+import {
+  DevSignatureAdapter,
+  ContractService,
+  PdfService,
+  DocumentTemplateService,
+} from '@nexora/domain-doc';
 import { EmployeeService } from '@nexora/domain-hcm';
 import { AssetService } from '@nexora/domain-eam';
 import {
@@ -741,6 +746,7 @@ export const REDIS = 'REDIS';
             },
           },
           { getEffectiveConfiguration: (t) => tenants.getEffectiveConfiguration(t) },
+          new DevSignatureAdapter(),
         ),
       inject: [PRISMA, APPROVAL_SERVICE, TENANT_SERVICE],
     },

@@ -2,6 +2,7 @@ import { writeAudit } from '@nexora/audit';
 import type { ContractStatus, PrismaClient } from '@nexora/db';
 import { DomainError, notFound } from '@nexora/kernel';
 import type { RequestContext } from '@nexora/tenancy';
+import type { SignaturePort } from './signature';
 
 /**
  * Contract repository (DOC-007/009). Numbered contracts against a
@@ -48,6 +49,7 @@ export class ContractService {
     private readonly prisma: PrismaClient,
     private readonly approvals?: ContractApprovalGate,
     private readonly config?: ContractConfigGate,
+    private readonly signatures?: SignaturePort,
   ) {}
 
   private async approvalThreshold(tenantId: string): Promise<number | null> {
@@ -243,6 +245,110 @@ export class ContractService {
   }
 
   /** ACTIVE contracts inside their renewal notice window (or overdue). */
+  /**
+   * Electronic signature (DOC-006): send a contract for signature
+   * through the provider-neutral port. One envelope per contract —
+   * a repeat request is a CONFLICT; polling records SIGNED once.
+   */
+  async requestSignature(
+    contractId: string,
+    input: { signerEmail: string },
+    ctx: RequestContext,
+  ): Promise<{ envelopeId: string; status: string }> {
+    if (!this.signatures) {
+      throw new DomainError('INVALID_STATE', 'No signature provider is configured');
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.signerEmail)) {
+      throw new DomainError('VALIDATION_FAILED', 'Invalid signer email');
+    }
+    const row = await this.prisma.contract.findFirst({
+      where: { id: contractId, tenantId: ctx.tenantId },
+    });
+    if (!row) throw notFound('Contract', contractId);
+    if (row.status === 'TERMINATED') {
+      throw new DomainError('INVALID_STATE', 'Terminated contracts cannot be signed');
+    }
+    const existing = await this.prisma.auditEvent.findFirst({
+      where: {
+        tenantId: ctx.tenantId,
+        action: 'doc.contract.sign_request',
+        objectType: 'Contract',
+        objectId: row.id,
+      },
+      select: { id: true },
+    });
+    if (existing) {
+      throw new DomainError('CONFLICT', 'A signature was already requested for this contract');
+    }
+    const envelope = await this.signatures.createEnvelope({
+      documentRef: `contract:${row.id}`,
+      signerEmail: input.signerEmail,
+      title: row.title,
+    });
+    await writeAudit(this.prisma, {
+      tenantId: ctx.tenantId,
+      actorType: ctx.actorType,
+      actorId: ctx.userId,
+      action: 'doc.contract.sign_request',
+      objectType: 'Contract',
+      objectId: row.id,
+      source: 'api',
+      newValues: { envelopeId: envelope.envelopeId, signerEmail: input.signerEmail },
+    });
+    return { envelopeId: envelope.envelopeId, status: envelope.status };
+  }
+
+  /** Poll the provider and record completion exactly once. */
+  async signatureStatus(
+    contractId: string,
+    ctx: RequestContext,
+  ): Promise<{ status: 'NONE' | 'REQUESTED' | 'SIGNED' | 'DECLINED' }> {
+    const row = await this.prisma.contract.findFirst({
+      where: { id: contractId, tenantId: ctx.tenantId },
+      select: { id: true },
+    });
+    if (!row) throw notFound('Contract', contractId);
+    const signed = await this.prisma.auditEvent.findFirst({
+      where: {
+        tenantId: ctx.tenantId,
+        action: 'doc.contract.signed',
+        objectType: 'Contract',
+        objectId: row.id,
+      },
+      select: { id: true },
+    });
+    if (signed) return { status: 'SIGNED' };
+    const request = await this.prisma.auditEvent.findFirst({
+      where: {
+        tenantId: ctx.tenantId,
+        action: 'doc.contract.sign_request',
+        objectType: 'Contract',
+        objectId: row.id,
+      },
+      orderBy: { occurredAt: 'desc' },
+    });
+    if (!request) return { status: 'NONE' };
+    const envelopeId = (request.newValues as { envelopeId?: string } | null)?.envelopeId;
+    if (!envelopeId || !this.signatures) return { status: 'REQUESTED' };
+    const envelope = await this.signatures.getEnvelope(envelopeId);
+    if (!envelope) return { status: 'REQUESTED' };
+    if (envelope.status === 'SIGNED') {
+      await writeAudit(this.prisma, {
+        tenantId: ctx.tenantId,
+        actorType: ctx.actorType,
+        actorId: ctx.userId,
+        action: 'doc.contract.signed',
+        objectType: 'Contract',
+        objectId: row.id,
+        source: 'api',
+        newValues: { envelopeId },
+      });
+      return { status: 'SIGNED' };
+    }
+    if (envelope.status === 'DECLINED') return { status: 'DECLINED' };
+    return { status: 'REQUESTED' };
+  }
+
   async renewalsDue(ctx: RequestContext): Promise<ContractView[]> {
     const rows = await this.prisma.contract.findMany({
       where: { tenantId: ctx.tenantId, status: 'ACTIVE', endsAt: { not: null } },
