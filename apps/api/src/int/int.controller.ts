@@ -112,6 +112,32 @@ export class ConnectorsController {
     return this.connectors.exportInvoices(key, ctx);
   }
 
+  /** INT-004 — payment connectors. */
+  @Post(':key/payment-intents')
+  @RequirePermission('order.confirm')
+  async paymentIntent(
+    @Param('key') key: string,
+    @Body() body: unknown,
+    @Ctx() ctx: RequestContext,
+  ) {
+    const input = parseBody(z.object({ orderId: z.string().uuid() }), body);
+    return this.connectors.createPaymentIntent({ key, orderId: input.orderId }, ctx);
+  }
+
+  @Post(':key/payment-confirmations')
+  @RequirePermission('order.confirm')
+  async paymentConfirm(
+    @Param('key') key: string,
+    @Body() body: unknown,
+    @Ctx() ctx: RequestContext,
+  ) {
+    const input = parseBody(
+      z.object({ orderId: z.string().uuid(), reference: z.string().min(1).max(200) }),
+      body,
+    );
+    return this.connectors.confirmPayment({ key, ...input }, ctx);
+  }
+
   @Post(':key/import-orders')
   @RequirePermission('integration.manage')
   async importOrders(@Param('key') key: string, @Ctx() ctx: RequestContext) {

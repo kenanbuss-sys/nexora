@@ -555,6 +555,113 @@ export class ConnectorService {
     return { exported, skipped, references };
   }
 
+  /**
+   * Payment connectors (INT-004): create a payment intent for a sales
+   * order through a declared payment connector — one intent per
+   * (connector, order), a retry returns the existing reference — and
+   * record the provider's confirmation exactly once.
+   */
+  async createPaymentIntent(
+    input: { key: string; orderId: string },
+    ctx: RequestContext,
+  ): Promise<{ reference: string; amount: string; currency: string; existing: boolean }> {
+    const { entry, adapter } = await this.resolve(input.key, ctx.tenantId);
+    if (entry.kind !== 'payment') {
+      throw new DomainError('INVALID_STATE', `Connector '${input.key}' is not a payment connector`);
+    }
+    const order = await this.prisma.salesOrder.findFirst({
+      where: { id: input.orderId, tenantId: ctx.tenantId },
+    });
+    if (!order) throw notFound('SalesOrder', input.orderId);
+    if (order.status === 'CANCELLED' || order.status === 'DRAFT') {
+      throw new DomainError('INVALID_STATE', 'Only confirmed orders take payment intents');
+    }
+    const marker = `${entry.key}:${order.id}`;
+    const existing = await this.prisma.auditEvent.findFirst({
+      where: {
+        tenantId: ctx.tenantId,
+        action: 'int.payment.intent',
+        objectType: 'SalesOrder',
+        objectId: marker,
+      },
+      orderBy: { occurredAt: 'desc' },
+    });
+    if (existing) {
+      const reference = (existing.newValues as { reference?: string } | null)?.reference ?? '';
+      return {
+        reference,
+        amount: order.total.toString(),
+        currency: order.currency,
+        existing: true,
+      };
+    }
+    const result = await adapter.push(
+      'payment_intent',
+      { orderNumber: order.orderNumber, amount: order.total.toString(), currency: order.currency },
+      entry.config,
+    );
+    if (!result.ok) {
+      throw new DomainError('INVALID_STATE', 'The payment provider refused the intent');
+    }
+    await writeAudit(this.prisma, {
+      tenantId: ctx.tenantId,
+      actorType: ctx.actorType,
+      actorId: ctx.userId,
+      action: 'int.payment.intent',
+      objectType: 'SalesOrder',
+      objectId: marker,
+      source: 'api',
+      newValues: { reference: result.reference, amount: order.total.toString() },
+    });
+    return {
+      reference: result.reference,
+      amount: order.total.toString(),
+      currency: order.currency,
+      existing: false,
+    };
+  }
+
+  /** Provider confirmation, recorded exactly once per reference. */
+  async confirmPayment(
+    input: { key: string; reference: string; orderId: string },
+    ctx: RequestContext,
+  ): Promise<{ confirmed: boolean; duplicate: boolean }> {
+    const { entry } = await this.resolve(input.key, ctx.tenantId);
+    if (entry.kind !== 'payment') {
+      throw new DomainError('INVALID_STATE', `Connector '${input.key}' is not a payment connector`);
+    }
+    const intent = await this.prisma.auditEvent.findFirst({
+      where: {
+        tenantId: ctx.tenantId,
+        action: 'int.payment.intent',
+        objectType: 'SalesOrder',
+        objectId: `${entry.key}:${input.orderId}`,
+      },
+    });
+    if (!intent) throw notFound('PaymentIntent', input.orderId);
+    const already = await this.prisma.auditEvent.findFirst({
+      where: {
+        tenantId: ctx.tenantId,
+        action: 'int.payment.confirmed',
+        objectType: 'SalesOrder',
+        objectId: `${entry.key}:${input.orderId}`,
+      },
+      select: { id: true },
+    });
+    if (already) return { confirmed: true, duplicate: true };
+    await writeAudit(this.prisma, {
+      tenantId: ctx.tenantId,
+      actorType: ctx.actorType,
+      actorId: ctx.userId,
+      action: 'int.payment.confirmed',
+      objectType: 'SalesOrder',
+      objectId: `${entry.key}:${input.orderId}`,
+      source: 'api',
+      newValues: { reference: input.reference },
+    });
+    return { confirmed: true, duplicate: false };
+  }
+
   async pushObject(
     input: {
       key: string;
