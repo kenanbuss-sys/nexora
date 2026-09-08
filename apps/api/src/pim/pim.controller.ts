@@ -333,6 +333,38 @@ export class SkusController {
   async getUom(@Param('id') id: string, @Ctx() ctx: RequestContext) {
     return { conversions: await this.catalog.getUomConversions(id, ctx) };
   }
+
+  /** PIM-009 — channel readiness (static segment beats :id). */
+  @Get('channel-readiness')
+  @RequirePermission('product.read')
+  async channelReadiness(@Ctx() ctx: RequestContext, @Query('channel') channel?: string) {
+    return this.catalog.channelReadiness(channel ?? '', ctx);
+  }
+
+  @Put(':id/channel-content/:channel')
+  @RequirePermission('product.manage')
+  async setChannelContent(
+    @Param('id') id: string,
+    @Param('channel') channel: string,
+    @Body() body: unknown,
+    @Ctx() ctx: RequestContext,
+  ) {
+    const input = parseBody(
+      z.object({
+        title: z.string().min(1).max(200),
+        description: z.string().max(5000).optional(),
+        attributes: z.record(z.unknown()).optional(),
+      }),
+      body,
+    );
+    return this.catalog.setChannelContent(id, { channel, ...input }, ctx);
+  }
+
+  @Get(':id/channel-content')
+  @RequirePermission('product.read')
+  async listChannelContent(@Param('id') id: string, @Ctx() ctx: RequestContext) {
+    return { content: await this.catalog.listChannelContent(id, ctx) };
+  }
 }
 
 @Controller('api/v1/barcodes')

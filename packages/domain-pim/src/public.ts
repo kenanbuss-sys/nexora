@@ -3,6 +3,7 @@
  */
 export {
   CatalogService,
+  type ChannelContentView,
   type ProductView,
   type SkuView,
   type UomMasterGate,

@@ -74,6 +74,13 @@ export default function ProductDetailPage() {
     policy: string;
     serials: Array<{ id: string; serial: string; status: string }>;
   } | null>(null);
+  const [ccSku, setCcSku] = useState('');
+  const [ccChannel, setCcChannel] = useState('webshop');
+  const [ccTitle, setCcTitle] = useState('');
+  const [ccDesc, setCcDesc] = useState('');
+  const [ccList, setCcList] = useState<
+    Array<{ channel: string; title: string; description: string | null }>
+  >([]);
   const [bundleComp, setBundleComp] = useState('');
   const [bundleQty, setBundleQty] = useState('1');
   const [bundle, setBundle] = useState<{
@@ -1181,6 +1188,112 @@ export default function ProductDetailPage() {
                   </button>
                 </div>
               </div>
+            </div>
+          ) : null}
+
+          {can('product.manage') ? (
+            <div className="card" style={{ marginTop: 16 }}>
+              <h2>Channel content</h2>
+              <p className="muted">
+                Per-channel commercial copy over one canonical SKU (PIM-009) — webshop, POS and
+                marketplace listings can differ without forking the product.
+              </p>
+              <div className="row" style={{ flexWrap: 'wrap' }}>
+                <select
+                  className="select"
+                  style={{ maxWidth: 170 }}
+                  value={ccSku}
+                  onChange={(e) => {
+                    const skuId = e.target.value;
+                    setCcSku(skuId);
+                    setCcList([]);
+                    if (skuId) {
+                      api<{
+                        content: Array<{
+                          channel: string;
+                          title: string;
+                          description: string | null;
+                        }>;
+                      }>('GET', `/api/v1/skus/${skuId}/channel-content`)
+                        .then((r) => setCcList(r.content))
+                        .catch(() => setCcList([]));
+                    }
+                  }}
+                >
+                  <option value="">SKU…</option>
+                  {product.skus.map((s) => (
+                    <option key={s.id} value={s.id}>
+                      {s.code}
+                    </option>
+                  ))}
+                </select>
+                <input
+                  className="input mono"
+                  style={{ maxWidth: 130 }}
+                  value={ccChannel}
+                  onChange={(e) => setCcChannel(e.target.value)}
+                  placeholder="channel"
+                />
+                <input
+                  className="input"
+                  style={{ maxWidth: 220 }}
+                  value={ccTitle}
+                  onChange={(e) => setCcTitle(e.target.value)}
+                  placeholder="Channel title"
+                />
+                <input
+                  className="input"
+                  style={{ maxWidth: 260 }}
+                  value={ccDesc}
+                  onChange={(e) => setCcDesc(e.target.value)}
+                  placeholder="Description (optional)"
+                />
+                <button
+                  className="btn btn-sm btn-primary"
+                  disabled={busy || !ccSku || !ccChannel || !ccTitle.trim()}
+                  onClick={() =>
+                    run(async () => {
+                      await api('PUT', `/api/v1/skus/${ccSku}/channel-content/${ccChannel}`, {
+                        title: ccTitle.trim(),
+                        ...(ccDesc.trim() ? { description: ccDesc.trim() } : {}),
+                      });
+                      const r = await api<{
+                        content: Array<{
+                          channel: string;
+                          title: string;
+                          description: string | null;
+                        }>;
+                      }>('GET', `/api/v1/skus/${ccSku}/channel-content`);
+                      setCcList(r.content);
+                      setCcTitle('');
+                      setCcDesc('');
+                    }, 'Channel content saved.')
+                  }
+                  type="button"
+                >
+                  Save content
+                </button>
+              </div>
+              {ccList.length > 0 ? (
+                <table className="table" style={{ marginTop: 10 }}>
+                  <thead>
+                    <tr>
+                      <th>Channel</th>
+                      <th>Title</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {ccList.map((c) => (
+                      <tr key={c.channel}>
+                        <td className="mono">{c.channel}</td>
+                        <td>{c.title}</td>
+                        <td className="muted">{c.description ?? '—'}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              ) : null}
             </div>
           ) : null}
         </>

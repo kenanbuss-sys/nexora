@@ -28,6 +28,36 @@ export interface SkuView {
 
 const CODE_RE = /^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$/;
 const UOM_RE = /^[a-zA-Z][a-zA-Z0-9]{0,15}$/;
+const CHANNEL_RE = /^[a-z][a-z0-9_-]{1,31}$/;
+
+export interface ChannelContentView {
+  skuId: string;
+  channel: string;
+  title: string;
+  description: string | null;
+  attributes: Record<string, unknown> | null;
+  canonicalName: string;
+}
+
+function toChannelContentView(
+  row: {
+    skuId: string;
+    channel: string;
+    title: string;
+    description: string | null;
+    attributes: unknown;
+  },
+  canonicalName: string,
+): ChannelContentView {
+  return {
+    skuId: row.skuId,
+    channel: row.channel,
+    title: row.title,
+    description: row.description,
+    attributes: (row.attributes ?? null) as Record<string, unknown> | null,
+    canonicalName,
+  };
+}
 
 /** Cross-domain contract: the UOM catalog is owned by MDM (MDM-004). */
 export interface UomMasterGate {
@@ -570,6 +600,98 @@ export class CatalogService {
         },
       });
     });
+  }
+
+  /**
+   * PIM-009 — channel-specific content. One canonical SKU, per-channel
+   * commercial copy (title/description/attributes) keyed by channel code;
+   * upsert is idempotent per (sku, channel). Permission: product.manage.
+   */
+  async setChannelContent(
+    skuId: string,
+    input: {
+      channel: string;
+      title: string;
+      description?: string | undefined;
+      attributes?: Record<string, unknown> | undefined;
+    },
+    ctx: RequestContext,
+  ): Promise<ChannelContentView> {
+    if (!CHANNEL_RE.test(input.channel)) {
+      throw new DomainError('VALIDATION_FAILED', 'Invalid channel code');
+    }
+    if (!input.title.trim()) {
+      throw new DomainError('VALIDATION_FAILED', 'Title is required');
+    }
+    return this.prisma.$transaction(async (tx) => {
+      const sku = await tx.sku.findFirst({ where: { id: skuId, tenantId: ctx.tenantId } });
+      if (!sku) throw notFound('Sku', skuId);
+      const row = await tx.skuChannelContent.upsert({
+        where: {
+          tenantId_skuId_channel: { tenantId: ctx.tenantId, skuId: sku.id, channel: input.channel },
+        },
+        create: {
+          tenantId: ctx.tenantId,
+          skuId: sku.id,
+          channel: input.channel,
+          title: input.title.trim(),
+          description: input.description ?? null,
+          ...(input.attributes ? { attributes: input.attributes as Prisma.InputJsonValue } : {}),
+          updatedBy: ctx.userId ?? null,
+        },
+        update: {
+          title: input.title.trim(),
+          description: input.description ?? null,
+          ...(input.attributes ? { attributes: input.attributes as Prisma.InputJsonValue } : {}),
+          updatedBy: ctx.userId ?? null,
+        },
+      });
+      await writeAudit(tx, {
+        tenantId: ctx.tenantId,
+        actorType: ctx.actorType,
+        actorId: ctx.userId,
+        action: 'pim.channel_content.set',
+        objectType: 'Sku',
+        objectId: sku.id,
+        source: 'api',
+        newValues: { channel: input.channel, title: row.title },
+      });
+      return toChannelContentView(row, sku.name);
+    });
+  }
+
+  async listChannelContent(skuId: string, ctx: RequestContext): Promise<ChannelContentView[]> {
+    const sku = await this.prisma.sku.findFirst({ where: { id: skuId, tenantId: ctx.tenantId } });
+    if (!sku) throw notFound('Sku', skuId);
+    const rows = await this.prisma.skuChannelContent.findMany({
+      where: { tenantId: ctx.tenantId, skuId: sku.id },
+      orderBy: { channel: 'asc' },
+    });
+    return rows.map((row) => toChannelContentView(row, sku.name));
+  }
+
+  /** Readiness: active SKUs still missing content for a channel. */
+  async channelReadiness(
+    channel: string,
+    ctx: RequestContext,
+  ): Promise<{ channel: string; total: number; withContent: number; missing: string[] }> {
+    if (!CHANNEL_RE.test(channel)) {
+      throw new DomainError('VALIDATION_FAILED', 'Invalid channel code');
+    }
+    const [skus, rows] = await Promise.all([
+      this.prisma.sku.findMany({
+        where: { tenantId: ctx.tenantId, status: 'ACTIVE' },
+        select: { id: true, code: true },
+        take: 500,
+      }),
+      this.prisma.skuChannelContent.findMany({
+        where: { tenantId: ctx.tenantId, channel },
+        select: { skuId: true },
+      }),
+    ]);
+    const covered = new Set(rows.map((r) => r.skuId));
+    const missing = skus.filter((s) => !covered.has(s.id)).map((s) => s.code);
+    return { channel, total: skus.length, withContent: skus.length - missing.length, missing };
   }
 
   async getUomConversions(
