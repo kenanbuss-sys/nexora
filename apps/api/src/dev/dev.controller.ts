@@ -8,7 +8,7 @@ import {
   Query,
   UnauthorizedException,
 } from '@nestjs/common';
-import type { DeviceService, PrintService } from '@nexora/domain-dev';
+import type { DeviceService, PrintService, ScaleService } from '@nexora/domain-dev';
 import type { VerificationService } from '@nexora/domain-ver';
 import type { RequestContext } from '@nexora/tenancy';
 import { z } from 'zod';
@@ -19,6 +19,7 @@ import { parseBody } from '../common/validate';
 
 export const DEVICE_SERVICE = 'DEVICE_SERVICE';
 export const PRINT_SERVICE = 'PRINT_SERVICE';
+export const SCALE_SERVICE = 'SCALE_SERVICE';
 export const VERIFICATION_SERVICE = 'VERIFICATION_SERVICE';
 
 const registerSchema = z.object({
@@ -289,5 +290,39 @@ export class PrintJobsController {
     );
     const device = await this.deviceOf(input.enrollmentToken);
     return this.printing.ackJob(device.tenantId, device.deviceId, input.jobKey);
+  }
+}
+
+/** Scale weight capture (DEV-008) — device-facing, enrollment-token auth. */
+@Controller('api/v1/devices/weights')
+export class WeightsController {
+  constructor(
+    @Inject(SCALE_SERVICE) private readonly scales: ScaleService,
+    @Inject(DEVICE_SERVICE) private readonly devices: DeviceService,
+  ) {}
+
+  @Post()
+  @Public()
+  async capture(@Body() body: unknown) {
+    const input = parseBody(
+      z.object({
+        enrollmentToken: z.string().min(8),
+        packageNumber: z.string().min(3).max(40),
+        weightKg: z.number().positive(),
+        captureId: z.string().min(1).max(64),
+      }),
+      body,
+    );
+    const device = await this.devices.resolveByToken(input.enrollmentToken);
+    if (!device || !device.active) {
+      throw new UnauthorizedException({ code: 'UNAUTHENTICATED', message: 'Unknown device token' });
+    }
+    return this.scales.captureWeight({
+      tenantId: device.tenantId,
+      deviceId: device.deviceId,
+      packageNumber: input.packageNumber,
+      weightKg: input.weightKg,
+      captureId: input.captureId,
+    });
   }
 }
