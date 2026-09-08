@@ -157,6 +157,14 @@ export class ConnectorsController {
     return this.connectors.createShipment({ key, packageId: input.packageId }, ctx);
   }
 
+  /** INT-006 — fiscal/eInvoice connectors. */
+  @Post(':key/fiscalize')
+  @RequirePermission('finance.invoice')
+  async fiscalize(@Param('key') key: string, @Body() body: unknown, @Ctx() ctx: RequestContext) {
+    const input = parseBody(z.object({ invoiceId: z.string().uuid() }), body);
+    return this.connectors.fiscalizeInvoice({ key, invoiceId: input.invoiceId }, ctx);
+  }
+
   @Post(':key/import-orders')
   @RequirePermission('integration.manage')
   async importOrders(@Param('key') key: string, @Ctx() ctx: RequestContext) {

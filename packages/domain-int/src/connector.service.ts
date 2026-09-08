@@ -687,6 +687,66 @@ export class ConnectorService {
   }
 
   /**
+   * Fiscal / eInvoice connectors (INT-006): fiscalize an issued
+   * invoice exactly once per (connector, invoice); a retry returns
+   * the existing fiscal reference. VOID invoices never fiscalize.
+   */
+  async fiscalizeInvoice(
+    input: { key: string; invoiceId: string },
+    ctx: RequestContext,
+  ): Promise<{ fiscalRef: string; existing: boolean }> {
+    const { entry, adapter } = await this.resolve(input.key, ctx.tenantId);
+    if (entry.kind !== 'fiscal') {
+      throw new DomainError('INVALID_STATE', `Connector '${input.key}' is not a fiscal connector`);
+    }
+    const invoice = await this.prisma.invoice.findFirst({
+      where: { id: input.invoiceId, tenantId: ctx.tenantId },
+    });
+    if (!invoice) throw notFound('Invoice', input.invoiceId);
+    if (invoice.status === 'VOID') {
+      throw new DomainError('INVALID_STATE', 'VOID invoices cannot be fiscalized');
+    }
+    const marker = `${entry.key}:${invoice.id}`;
+    const existing = await this.prisma.auditEvent.findFirst({
+      where: {
+        tenantId: ctx.tenantId,
+        action: 'int.fiscal.invoice',
+        objectType: 'Invoice',
+        objectId: marker,
+      },
+      orderBy: { occurredAt: 'desc' },
+    });
+    if (existing) {
+      const fiscalRef = (existing.newValues as { fiscalRef?: string } | null)?.fiscalRef ?? '';
+      return { fiscalRef, existing: true };
+    }
+    const rules = await this.mappingRules(ctx.tenantId, entry.key);
+    const payload: Record<string, unknown> = {
+      invoiceNumber: invoice.invoiceNumber,
+      invoiceType: invoice.invoiceType,
+      total: invoice.total.toString(),
+      currency: invoice.currency,
+      issuedAt: invoice.issuedAt.toISOString(),
+    };
+    const mapped = rules.length > 0 ? applyMapping(payload, rules) : payload;
+    const result = await adapter.push('fiscal_invoice', mapped, entry.config);
+    if (!result.ok) {
+      throw new DomainError('INVALID_STATE', 'The fiscal provider refused the invoice');
+    }
+    await writeAudit(this.prisma, {
+      tenantId: ctx.tenantId,
+      actorType: ctx.actorType,
+      actorId: ctx.userId,
+      action: 'int.fiscal.invoice',
+      objectType: 'Invoice',
+      objectId: marker,
+      source: 'api',
+      newValues: { fiscalRef: result.reference, invoiceNumber: invoice.invoiceNumber },
+    });
+    return { fiscalRef: result.reference, existing: false };
+  }
+
+  /**
    * Payment connectors (INT-004): create a payment intent for a sales
    * order through a declared payment connector — one intent per
    * (connector, order), a retry returns the existing reference — and
