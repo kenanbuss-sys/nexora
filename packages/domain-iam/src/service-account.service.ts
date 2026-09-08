@@ -17,6 +17,7 @@ export interface ApiKeyView {
   name: string;
   prefix: string;
   permissions: string[];
+  accountId: string | null;
   active: boolean;
   lastUsedAt: string | null;
   createdAt: string;
@@ -35,9 +36,18 @@ export interface ResolvedApiKey {
   apiKeyId: string;
   name: string;
   permissions: string[];
+  accountId: string | null;
 }
 
 const KEY_PATTERN = /^nxk_[a-f0-9]{48}$/;
+
+/** The only permissions a customer-bound key may carry (B2B-014). */
+export const CUSTOMER_KEY_PERMISSIONS = new Set([
+  'order.create',
+  'order.read',
+  'product.read',
+  'inventory.read',
+]);
 
 function hashKey(key: string): string {
   return createHash('sha256').update(key).digest('hex');
@@ -56,19 +66,38 @@ export class ServiceAccountService {
       name: k.name,
       prefix: k.prefix,
       permissions: k.permissions,
+      accountId: k.accountId,
       active: k.active,
       lastUsedAt: k.lastUsedAt ? k.lastUsedAt.toISOString() : null,
       createdAt: k.createdAt.toISOString(),
     }));
   }
 
-  /** Creates a key; the full secret is returned exactly once. */
+  /**
+   * Creates a key; the full secret is returned exactly once. A key
+   * bound to a customer account (B2B-014) may only carry the
+   * customer-safe permission set and acts on that account's behalf.
+   */
   async createKey(
-    input: { name: string; permissions: string[] },
+    input: { name: string; permissions: string[]; accountId?: string | undefined },
     ctx: RequestContext,
   ): Promise<ApiKeyView & { key: string }> {
     if (input.permissions.length === 0) {
       throw new DomainError('VALIDATION_FAILED', 'Grant at least one permission');
+    }
+    if (input.accountId) {
+      const account = await this.prisma.crmAccount.findFirst({
+        where: { id: input.accountId, tenantId: ctx.tenantId },
+        select: { id: true },
+      });
+      if (!account) throw notFound('CrmAccount', input.accountId);
+      const disallowed = input.permissions.filter((p) => !CUSTOMER_KEY_PERMISSIONS.has(p));
+      if (disallowed.length > 0) {
+        throw new DomainError(
+          'VALIDATION_FAILED',
+          `Customer keys cannot carry: ${disallowed.join(', ')}`,
+        );
+      }
     }
     const key = `nxk_${randomBytes(24).toString('hex')}`;
     try {
@@ -80,6 +109,7 @@ export class ServiceAccountService {
             prefix: key.slice(0, 9),
             keyHash: hashKey(key),
             permissions: [...new Set(input.permissions)],
+            accountId: input.accountId ?? null,
             createdBy: ctx.userId ?? null,
           },
         });
@@ -108,6 +138,7 @@ export class ServiceAccountService {
         name: created.name,
         prefix: created.prefix,
         permissions: created.permissions,
+        accountId: created.accountId,
         active: created.active,
         lastUsedAt: null,
         createdAt: created.createdAt.toISOString(),
@@ -146,6 +177,7 @@ export class ServiceAccountService {
       apiKeyId: row.id,
       name: row.name,
       permissions: row.permissions,
+      accountId: row.accountId,
     };
   }
 

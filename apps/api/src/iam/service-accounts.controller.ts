@@ -13,6 +13,7 @@ import { parseBody } from '../common/validate';
 const createKeySchema = z.object({
   name: z.string().min(1).max(100),
   permissions: z.array(z.string().min(3).max(100)).min(1).max(40),
+  accountId: z.string().uuid().optional(),
 });
 
 /** Service accounts & the security log (IAM-009/013). */

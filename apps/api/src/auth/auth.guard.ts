@@ -18,6 +18,8 @@ export interface AuthenticatedRequest extends FastifyRequest {
   requestContext?: RequestContext;
   /** Set when authentication came from an API key (IAM-009). */
   apiKeyPermissions?: string[];
+  /** Customer account a key is bound to (B2B-014). */
+  apiKeyAccountId?: string | null;
 }
 
 /**
@@ -72,6 +74,7 @@ export class AuthGuard implements CanActivate {
         platformAdmin: false,
       };
       request.apiKeyPermissions = resolved.permissions;
+      request.apiKeyAccountId = resolved.accountId;
       return true;
     }
 

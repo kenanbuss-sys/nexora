@@ -762,6 +762,17 @@ export class OrderService {
       .sort((a, b) => b.orders - a.orders);
   }
 
+  /** First warehouse by code — the tenant's default intake location. */
+  async defaultWarehouse(ctx: RequestContext): Promise<string> {
+    const warehouse = await this.prisma.warehouse.findFirst({
+      where: { tenantId: ctx.tenantId },
+      orderBy: [{ code: 'asc' }],
+      select: { id: true },
+    });
+    if (!warehouse) throw new DomainError('INVALID_STATE', 'No warehouse is configured');
+    return warehouse.id;
+  }
+
   async createOrder(
     input: {
       accountId: string;

@@ -195,7 +195,12 @@ import {
   FinanceController,
 } from './fin/fin.controller';
 import { ANALYTICS_SERVICE, AnalyticsController } from './bi/bi.controller';
-import { PORTAL_SERVICE, PortalController, PortalUsersController } from './b2b/b2b.controller';
+import {
+  CustomerApiController,
+  PORTAL_SERVICE,
+  PortalController,
+  PortalUsersController,
+} from './b2b/b2b.controller';
 import {
   AttachmentsController,
   COLLAB_SERVICE,
@@ -354,6 +359,7 @@ export const REDIS = 'REDIS';
     ValuationController,
     AnalyticsController,
     PortalUsersController,
+    CustomerApiController,
     PortalController,
     CommentsController,
     AttachmentsController,

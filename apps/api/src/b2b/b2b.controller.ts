@@ -1,9 +1,21 @@
-import { Body, Controller, Get, Inject, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  ForbiddenException,
+  Get,
+  Inject,
+  Post,
+  Param,
+  Req,
+} from '@nestjs/common';
 import type { PortalService } from '@nexora/domain-b2b';
+import type { OrderService } from '@nexora/domain-oms';
 import type { RequestContext } from '@nexora/tenancy';
 import { z } from 'zod';
+import type { AuthenticatedRequest } from '../auth/auth.guard';
 import { Ctx } from '../auth/ctx.decorator';
 import { RequirePermission } from '../auth/permissions.guard';
+import { ORDER_SERVICE } from '../oms/orders.controller';
 import { parseBody } from '../common/validate';
 
 export const PORTAL_SERVICE = 'PORTAL_SERVICE';
@@ -132,5 +144,65 @@ export class PortalController {
   @RequirePermission('portal.access')
   async invoices(@Ctx() ctx: RequestContext) {
     return { invoices: await this.portal.myInvoices(ctx) };
+  }
+}
+
+const customerOrderSchema = z.object({
+  lines: z
+    .array(z.object({ code: z.string().min(1).max(64), quantity: z.number().positive() }))
+    .min(1)
+    .max(100),
+  currency: z.string().length(3).optional(),
+});
+
+/**
+ * Customer API access (B2B-014): endpoints for account-bound API keys.
+ * The acting account comes from the key itself — never from the
+ * request — so a customer key can only ever see and order for the
+ * account it was issued to.
+ */
+@Controller('api/v1/b2b/my')
+export class CustomerApiController {
+  constructor(@Inject(ORDER_SERVICE) private readonly orders: OrderService) {}
+
+  private accountOf(request: AuthenticatedRequest): string {
+    const accountId = request.apiKeyAccountId;
+    if (!accountId) {
+      throw new ForbiddenException({
+        code: 'FORBIDDEN',
+        message: 'This endpoint requires a customer-bound API key',
+      });
+    }
+    return accountId;
+  }
+
+  @Get('orders')
+  @RequirePermission('order.read')
+  async myOrders(@Req() request: AuthenticatedRequest, @Ctx() ctx: RequestContext) {
+    const accountId = this.accountOf(request);
+    return { orders: await this.orders.listOrders({ accountId }, ctx) };
+  }
+
+  @Post('orders')
+  @RequirePermission('order.create')
+  async placeOrder(
+    @Req() request: AuthenticatedRequest,
+    @Body() body: unknown,
+    @Ctx() ctx: RequestContext,
+  ) {
+    const accountId = this.accountOf(request);
+    const input = parseBody(customerOrderSchema, body);
+    const warehouse = await this.orders.defaultWarehouse(ctx);
+    const result = await this.orders.quickOrder(
+      {
+        accountId,
+        warehouseId: warehouse,
+        currency: input.currency ?? 'EUR',
+        lines: input.lines,
+        channel: 'api',
+      },
+      ctx,
+    );
+    return { order: result.order, unknownCodes: result.unknownCodes };
   }
 }
