@@ -43,4 +43,82 @@ export class OpsController {
       generatedAt: new Date().toISOString(),
     };
   }
+
+  /** Error tracking (OPS-008): recent unhandled API errors. */
+  @Get('errors')
+  @PlatformOnly()
+  async errors() {
+    const rows = await this.prisma.securityEvent.findMany({
+      where: { eventType: 'api.error' },
+      orderBy: { createdAt: 'desc' },
+      take: 100,
+    });
+    return {
+      total: rows.length,
+      errors: rows.map((row) => ({
+        correlationId: row.subject,
+        detail: row.detail,
+        at: row.createdAt.toISOString(),
+      })),
+    };
+  }
+
+  /** Integration monitoring (OPS-009): webhook delivery health per tenant. */
+  @Get('integrations')
+  @PlatformOnly()
+  async integrations() {
+    const grouped = await this.prisma.webhookDelivery.groupBy({
+      by: ['tenantId', 'status'],
+      _count: { _all: true },
+    });
+    const tenants = await this.prisma.tenant.findMany({ select: { id: true, slug: true } });
+    const slugOf = new Map(tenants.map((t) => [t.id, t.slug]));
+    const rows = new Map<string, Record<string, number>>();
+    for (const entry of grouped) {
+      const row = rows.get(entry.tenantId) ?? {};
+      row[entry.status] = entry._count._all;
+      rows.set(entry.tenantId, row);
+    }
+    return {
+      tenants: [...rows.entries()].map(([tenantId, counts]) => ({
+        tenant: slugOf.get(tenantId) ?? tenantId,
+        pending: counts.PENDING ?? 0,
+        delivered: counts.DELIVERED ?? 0,
+        failed: counts.FAILED ?? 0,
+        dead: counts.DEAD ?? 0,
+      })),
+    };
+  }
+
+  /** Device monitoring (OPS-010): fleet health, stale devices flagged. */
+  @Get('devices')
+  @PlatformOnly()
+  async devices() {
+    const devices = await this.prisma.device.findMany({
+      select: { tenantId: true, status: true, lastSeenAt: true },
+      take: 5000,
+    });
+    const tenants = await this.prisma.tenant.findMany({ select: { id: true, slug: true } });
+    const slugOf = new Map(tenants.map((t) => [t.id, t.slug]));
+    const staleBefore = Date.now() - 24 * 3_600_000;
+    const rows = new Map<string, { total: number; active: number; stale: number }>();
+    for (const device of devices) {
+      const row = rows.get(device.tenantId) ?? { total: 0, active: 0, stale: 0 };
+      row.total += 1;
+      if (device.status === 'ACTIVE') row.active += 1;
+      if (
+        device.status === 'ACTIVE' &&
+        (device.lastSeenAt === null || device.lastSeenAt.getTime() < staleBefore)
+      ) {
+        row.stale += 1;
+      }
+      rows.set(device.tenantId, row);
+    }
+    return {
+      tenants: [...rows.entries()].map(([tenantId, counts]) => ({
+        tenant: slugOf.get(tenantId) ?? tenantId,
+        ...counts,
+      })),
+    };
+  }
 }

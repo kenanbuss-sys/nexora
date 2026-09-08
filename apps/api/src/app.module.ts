@@ -1413,7 +1413,23 @@ export const REDIS = 'REDIS';
     { provide: APP_GUARD, useClass: PermissionsGuard },
     { provide: APP_GUARD, useClass: ModulesGuard },
     { provide: APP_GUARD, useClass: StepUpGuard },
-    { provide: APP_FILTER, useClass: CanonicalErrorFilter },
+    {
+      provide: APP_FILTER,
+      useFactory: (prisma: PrismaClient) =>
+        new CanonicalErrorFilter((info) => {
+          void prisma.securityEvent
+            .create({
+              data: {
+                tenantId: null,
+                eventType: 'api.error',
+                subject: info.correlationId,
+                detail: `${info.url ?? ''} — ${info.message}`.slice(0, 500),
+              },
+            })
+            .catch(() => undefined);
+        }),
+      inject: [PRISMA],
+    },
   ],
 })
 export class AppModule implements OnApplicationShutdown {

@@ -17,8 +17,16 @@ interface CanonicalError {
   fieldErrors?: Record<string, string>;
 }
 
+export type ErrorRecorder = (info: {
+  correlationId: string;
+  message: string;
+  url: string | undefined;
+}) => void;
+
 @Catch()
 export class CanonicalErrorFilter implements ExceptionFilter {
+  constructor(private readonly recorder?: ErrorRecorder) {}
+
   catch(exception: unknown, host: ArgumentsHost): void {
     const reply = host.switchToHttp().getResponse<FastifyReply>();
     const correlationId = getOrCreateCorrelationId();
@@ -55,8 +63,18 @@ export class CanonicalErrorFilter implements ExceptionFilter {
       return;
     }
 
-    // Unknown error: log server-side, return an opaque 500.
+    // Unknown error: log server-side, track (OPS-008), return an opaque 500.
     console.error(`[nexora-api] unhandled error correlationId=${correlationId}`, exception);
+    try {
+      const request = host.switchToHttp().getRequest<{ url?: string }>();
+      this.recorder?.({
+        correlationId,
+        message: exception instanceof Error ? exception.message : String(exception),
+        url: request?.url,
+      });
+    } catch {
+      // Tracking must never mask the original failure.
+    }
     void reply.status(500).send({
       code: 'INTERNAL',
       message: 'Internal server error',
