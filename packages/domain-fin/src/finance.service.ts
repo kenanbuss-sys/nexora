@@ -179,6 +179,80 @@ export class FinanceService {
    * for value that was actually received against the purchase order.
    * Tolerance: 1% of received value (rounding, freight noise).
    */
+  /** FIN-022: matching tolerance is tenant configuration, not code. */
+  private async matchTolerancePct(tenantId: string): Promise<number> {
+    if (!this.configuration) return 0.01;
+    try {
+      const { config } = await this.configuration.getEffectiveConfiguration(tenantId);
+      const fin = ((config as Record<string, unknown>).fin ?? {}) as Record<string, unknown>;
+      const pct = Number(fin.matchTolerancePct);
+      if (Number.isFinite(pct) && pct >= 0 && pct <= 25) return pct / 100;
+    } catch {
+      // fall through to the default
+    }
+    return 0.01;
+  }
+
+  /**
+   * Invoice-matching worklist (FIN-022): every unpaid supplier
+   * invoice with its three-way-match outcome, mismatches first — the
+   * AP clerk's queue.
+   */
+  async matchingWorklist(ctx: RequestContext): Promise<{
+    total: number;
+    mismatched: number;
+    rows: Array<{
+      invoiceId: string;
+      invoiceNumber: string;
+      poNumber: string;
+      total: string;
+      matched: boolean;
+      reasons: string[];
+    }>;
+  }> {
+    const invoices = await this.prisma.invoice.findMany({
+      where: {
+        tenantId: ctx.tenantId,
+        invoiceType: 'SUPPLIER',
+        status: { in: ['OPEN', 'PARTIALLY_PAID'] },
+      },
+      orderBy: { issuedAt: 'asc' },
+      take: 200,
+    });
+    const rows: Array<{
+      invoiceId: string;
+      invoiceNumber: string;
+      poNumber: string;
+      total: string;
+      matched: boolean;
+      reasons: string[];
+    }> = [];
+    for (const invoice of invoices) {
+      try {
+        const match = await this.threeWayMatch(invoice.id, ctx);
+        rows.push({
+          invoiceId: invoice.id,
+          invoiceNumber: invoice.invoiceNumber,
+          poNumber: match.poNumber,
+          total: invoice.total.toString(),
+          matched: match.matched,
+          reasons: match.reasons,
+        });
+      } catch {
+        rows.push({
+          invoiceId: invoice.id,
+          invoiceNumber: invoice.invoiceNumber,
+          poNumber: '',
+          total: invoice.total.toString(),
+          matched: false,
+          reasons: ['PO_MISSING'],
+        });
+      }
+    }
+    rows.sort((a, b) => Number(a.matched) - Number(b.matched));
+    return { total: rows.length, mismatched: rows.filter((r) => !r.matched).length, rows };
+  }
+
   async threeWayMatch(invoiceId: string, ctx: RequestContext): Promise<ThreeWayMatchView> {
     const invoice = await this.prisma.invoice.findFirst({
       where: { id: invoiceId, tenantId: ctx.tenantId },
@@ -208,7 +282,8 @@ export class FinanceService {
       };
     });
     const invoicedValue = Number(invoice.total);
-    const tolerance = Math.max(0.01, receivedValue * 0.01);
+    const tolerancePct = await this.matchTolerancePct(ctx.tenantId);
+    const tolerance = Math.max(0.01, receivedValue * tolerancePct);
     const reasons: string[] = [];
     if (invoicedValue > receivedValue + tolerance) {
       reasons.push('INVOICE_EXCEEDS_RECEIVED');

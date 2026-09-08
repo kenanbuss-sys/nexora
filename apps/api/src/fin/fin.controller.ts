@@ -105,6 +105,13 @@ export class FinanceController {
     return { rows: await this.finance.byDimension(key ?? '', ctx) };
   }
 
+  /** FIN-022 — AP matching worklist. */
+  @Get('matching')
+  @RequirePermission('finance.read')
+  async matching(@Ctx() ctx: RequestContext) {
+    return this.finance.matchingWorklist(ctx);
+  }
+
   @Get('margin')
   @RequirePermission('finance.read')
   async margin(@Ctx() ctx: RequestContext) {
