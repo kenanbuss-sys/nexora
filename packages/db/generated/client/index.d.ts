@@ -708,6 +708,12 @@ export type CustomObjectRecord = $Result.DefaultSelection<Prisma.$CustomObjectRe
  * and ceiling quantity per SKU and supplier; call-offs draw it down.
  */
 export type FrameworkAgreement = $Result.DefaultSelection<Prisma.$FrameworkAgreementPayload>
+/**
+ * Model SkuChannelContent
+ * Sprint 124 (PIM-009): per-channel commercial content for a SKU —
+ * titles and copy differ per storefront, the SKU stays one record.
+ */
+export type SkuChannelContent = $Result.DefaultSelection<Prisma.$SkuChannelContentPayload>
 
 /**
  * Enums
@@ -2881,6 +2887,16 @@ export class PrismaClient<
     * ```
     */
   get frameworkAgreement(): Prisma.FrameworkAgreementDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.skuChannelContent`: Exposes CRUD operations for the **SkuChannelContent** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more SkuChannelContents
+    * const skuChannelContents = await prisma.skuChannelContent.findMany()
+    * ```
+    */
+  get skuChannelContent(): Prisma.SkuChannelContentDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -3442,7 +3458,8 @@ export namespace Prisma {
     LandedCost: 'LandedCost',
     CustomObjectDefinition: 'CustomObjectDefinition',
     CustomObjectRecord: 'CustomObjectRecord',
-    FrameworkAgreement: 'FrameworkAgreement'
+    FrameworkAgreement: 'FrameworkAgreement',
+    SkuChannelContent: 'SkuChannelContent'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -3461,7 +3478,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "tenant" | "tenantConfigurationVersion" | "legalEntity" | "businessUnit" | "branch" | "factory" | "user" | "userCredential" | "role" | "rolePermission" | "userRoleAssignment" | "auditEvent" | "outboxEvent" | "terminologyEntry" | "moduleActivation" | "customFieldDefinition" | "task" | "notification" | "workflowDefinition" | "workflowVersion" | "workflowInstance" | "ruleDefinition" | "ruleVersion" | "approval" | "processedEvent" | "documentTemplate" | "documentTemplateVersion" | "party" | "consentRecord" | "partyExternalIdentity" | "product" | "sku" | "barcode" | "uomConversion" | "warehouse" | "warehouseLocation" | "stockMovement" | "stockReservation" | "device" | "scanEvent" | "wmsOrder" | "wmsOrderLine" | "territory" | "salesTeam" | "salesTeamMember" | "crmAccount" | "lead" | "opportunity" | "crmActivity" | "priceList" | "priceListEntry" | "quote" | "packagingLevel" | "skuSubstitution" | "discountRule" | "quoteLine" | "salesOrder" | "salesOrderLine" | "orderEvent" | "supplier" | "purchaseRequisition" | "purchaseRequisitionLine" | "purchaseOrder" | "purchaseOrderLine" | "bom" | "bomLine" | "routing" | "routingOperation" | "engineeringChange" | "planningPolicy" | "mrpRun" | "mrpSuggestion" | "workOrder" | "workOrderOperation" | "qcPlan" | "qcPlanItem" | "qcInspection" | "qcInspectionItem" | "ncr" | "invoice" | "payment" | "portalUser" | "comment" | "attachment" | "attachmentBlob" | "numberSequence" | "exchangeRate" | "costCenter" | "budget" | "webhookSubscription" | "webhookDelivery" | "apiKey" | "securityEvent" | "productCategory" | "returnOrder" | "returnOrderLine" | "stockCount" | "stockCountLine" | "workCenter" | "downtimeEvent" | "promotion" | "promotionRedemption" | "bundleComponent" | "serialNumber" | "breakGlassGrant" | "masterDataRequest" | "loyaltyAccount" | "loyaltyTransaction" | "supportCase" | "contract" | "employee" | "asset" | "quarantineHold" | "rfq" | "rfqQuote" | "package" | "packageLine" | "landedCost" | "customObjectDefinition" | "customObjectRecord" | "frameworkAgreement"
+      modelProps: "tenant" | "tenantConfigurationVersion" | "legalEntity" | "businessUnit" | "branch" | "factory" | "user" | "userCredential" | "role" | "rolePermission" | "userRoleAssignment" | "auditEvent" | "outboxEvent" | "terminologyEntry" | "moduleActivation" | "customFieldDefinition" | "task" | "notification" | "workflowDefinition" | "workflowVersion" | "workflowInstance" | "ruleDefinition" | "ruleVersion" | "approval" | "processedEvent" | "documentTemplate" | "documentTemplateVersion" | "party" | "consentRecord" | "partyExternalIdentity" | "product" | "sku" | "barcode" | "uomConversion" | "warehouse" | "warehouseLocation" | "stockMovement" | "stockReservation" | "device" | "scanEvent" | "wmsOrder" | "wmsOrderLine" | "territory" | "salesTeam" | "salesTeamMember" | "crmAccount" | "lead" | "opportunity" | "crmActivity" | "priceList" | "priceListEntry" | "quote" | "packagingLevel" | "skuSubstitution" | "discountRule" | "quoteLine" | "salesOrder" | "salesOrderLine" | "orderEvent" | "supplier" | "purchaseRequisition" | "purchaseRequisitionLine" | "purchaseOrder" | "purchaseOrderLine" | "bom" | "bomLine" | "routing" | "routingOperation" | "engineeringChange" | "planningPolicy" | "mrpRun" | "mrpSuggestion" | "workOrder" | "workOrderOperation" | "qcPlan" | "qcPlanItem" | "qcInspection" | "qcInspectionItem" | "ncr" | "invoice" | "payment" | "portalUser" | "comment" | "attachment" | "attachmentBlob" | "numberSequence" | "exchangeRate" | "costCenter" | "budget" | "webhookSubscription" | "webhookDelivery" | "apiKey" | "securityEvent" | "productCategory" | "returnOrder" | "returnOrderLine" | "stockCount" | "stockCountLine" | "workCenter" | "downtimeEvent" | "promotion" | "promotionRedemption" | "bundleComponent" | "serialNumber" | "breakGlassGrant" | "masterDataRequest" | "loyaltyAccount" | "loyaltyTransaction" | "supportCase" | "contract" | "employee" | "asset" | "quarantineHold" | "rfq" | "rfqQuote" | "package" | "packageLine" | "landedCost" | "customObjectDefinition" | "customObjectRecord" | "frameworkAgreement" | "skuChannelContent"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -12419,6 +12436,80 @@ export namespace Prisma {
           }
         }
       }
+      SkuChannelContent: {
+        payload: Prisma.$SkuChannelContentPayload<ExtArgs>
+        fields: Prisma.SkuChannelContentFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SkuChannelContentFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SkuChannelContentPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SkuChannelContentFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SkuChannelContentPayload>
+          }
+          findFirst: {
+            args: Prisma.SkuChannelContentFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SkuChannelContentPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SkuChannelContentFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SkuChannelContentPayload>
+          }
+          findMany: {
+            args: Prisma.SkuChannelContentFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SkuChannelContentPayload>[]
+          }
+          create: {
+            args: Prisma.SkuChannelContentCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SkuChannelContentPayload>
+          }
+          createMany: {
+            args: Prisma.SkuChannelContentCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.SkuChannelContentCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SkuChannelContentPayload>[]
+          }
+          delete: {
+            args: Prisma.SkuChannelContentDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SkuChannelContentPayload>
+          }
+          update: {
+            args: Prisma.SkuChannelContentUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SkuChannelContentPayload>
+          }
+          deleteMany: {
+            args: Prisma.SkuChannelContentDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SkuChannelContentUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.SkuChannelContentUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SkuChannelContentPayload>[]
+          }
+          upsert: {
+            args: Prisma.SkuChannelContentUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SkuChannelContentPayload>
+          }
+          aggregate: {
+            args: Prisma.SkuChannelContentAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSkuChannelContent>
+          }
+          groupBy: {
+            args: Prisma.SkuChannelContentGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SkuChannelContentGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SkuChannelContentCountArgs<ExtArgs>
+            result: $Utils.Optional<SkuChannelContentCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -12636,6 +12727,7 @@ export namespace Prisma {
     customObjectDefinition?: CustomObjectDefinitionOmit
     customObjectRecord?: CustomObjectRecordOmit
     frameworkAgreement?: FrameworkAgreementOmit
+    skuChannelContent?: SkuChannelContentOmit
   }
 
   /* Types for Logging */
@@ -12818,6 +12910,7 @@ export namespace Prisma {
     packages: number
     landedCosts: number
     customObjectDefinitions: number
+    skuChannelContents: number
     frameworkAgreements: number
   }
 
@@ -12924,6 +13017,7 @@ export namespace Prisma {
     packages?: boolean | TenantCountOutputTypeCountPackagesArgs
     landedCosts?: boolean | TenantCountOutputTypeCountLandedCostsArgs
     customObjectDefinitions?: boolean | TenantCountOutputTypeCountCustomObjectDefinitionsArgs
+    skuChannelContents?: boolean | TenantCountOutputTypeCountSkuChannelContentsArgs
     frameworkAgreements?: boolean | TenantCountOutputTypeCountFrameworkAgreementsArgs
   }
 
@@ -13655,6 +13749,13 @@ export namespace Prisma {
   /**
    * TenantCountOutputType without action
    */
+  export type TenantCountOutputTypeCountSkuChannelContentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SkuChannelContentWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
   export type TenantCountOutputTypeCountFrameworkAgreementsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: FrameworkAgreementWhereInput
   }
@@ -14053,6 +14154,7 @@ export namespace Prisma {
     bundleComponents: number
     bundleUsedIn: number
     serialNumbers: number
+    channelContents: number
   }
 
   export type SkuCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -14062,6 +14164,7 @@ export namespace Prisma {
     bundleComponents?: boolean | SkuCountOutputTypeCountBundleComponentsArgs
     bundleUsedIn?: boolean | SkuCountOutputTypeCountBundleUsedInArgs
     serialNumbers?: boolean | SkuCountOutputTypeCountSerialNumbersArgs
+    channelContents?: boolean | SkuCountOutputTypeCountChannelContentsArgs
   }
 
   // Custom InputTypes
@@ -14115,6 +14218,13 @@ export namespace Prisma {
    */
   export type SkuCountOutputTypeCountSerialNumbersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: SerialNumberWhereInput
+  }
+
+  /**
+   * SkuCountOutputType without action
+   */
+  export type SkuCountOutputTypeCountChannelContentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SkuChannelContentWhereInput
   }
 
 
@@ -15262,6 +15372,7 @@ export namespace Prisma {
     packages?: boolean | Tenant$packagesArgs<ExtArgs>
     landedCosts?: boolean | Tenant$landedCostsArgs<ExtArgs>
     customObjectDefinitions?: boolean | Tenant$customObjectDefinitionsArgs<ExtArgs>
+    skuChannelContents?: boolean | Tenant$skuChannelContentsArgs<ExtArgs>
     frameworkAgreements?: boolean | Tenant$frameworkAgreementsArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["tenant"]>
@@ -15400,6 +15511,7 @@ export namespace Prisma {
     packages?: boolean | Tenant$packagesArgs<ExtArgs>
     landedCosts?: boolean | Tenant$landedCostsArgs<ExtArgs>
     customObjectDefinitions?: boolean | Tenant$customObjectDefinitionsArgs<ExtArgs>
+    skuChannelContents?: boolean | Tenant$skuChannelContentsArgs<ExtArgs>
     frameworkAgreements?: boolean | Tenant$frameworkAgreementsArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }
@@ -15511,6 +15623,7 @@ export namespace Prisma {
       packages: Prisma.$PackagePayload<ExtArgs>[]
       landedCosts: Prisma.$LandedCostPayload<ExtArgs>[]
       customObjectDefinitions: Prisma.$CustomObjectDefinitionPayload<ExtArgs>[]
+      skuChannelContents: Prisma.$SkuChannelContentPayload<ExtArgs>[]
       frameworkAgreements: Prisma.$FrameworkAgreementPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -16017,6 +16130,7 @@ export namespace Prisma {
     packages<T extends Tenant$packagesArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$packagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PackagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     landedCosts<T extends Tenant$landedCostsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$landedCostsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LandedCostPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     customObjectDefinitions<T extends Tenant$customObjectDefinitionsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$customObjectDefinitionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CustomObjectDefinitionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    skuChannelContents<T extends Tenant$skuChannelContentsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$skuChannelContentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SkuChannelContentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     frameworkAgreements<T extends Tenant$frameworkAgreementsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$frameworkAgreementsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FrameworkAgreementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -18887,6 +19001,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: CustomObjectDefinitionScalarFieldEnum | CustomObjectDefinitionScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.skuChannelContents
+   */
+  export type Tenant$skuChannelContentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SkuChannelContent
+     */
+    select?: SkuChannelContentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SkuChannelContent
+     */
+    omit?: SkuChannelContentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SkuChannelContentInclude<ExtArgs> | null
+    where?: SkuChannelContentWhereInput
+    orderBy?: SkuChannelContentOrderByWithRelationInput | SkuChannelContentOrderByWithRelationInput[]
+    cursor?: SkuChannelContentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SkuChannelContentScalarFieldEnum | SkuChannelContentScalarFieldEnum[]
   }
 
   /**
@@ -52963,6 +53101,7 @@ export namespace Prisma {
     bundleComponents?: boolean | Sku$bundleComponentsArgs<ExtArgs>
     bundleUsedIn?: boolean | Sku$bundleUsedInArgs<ExtArgs>
     serialNumbers?: boolean | Sku$serialNumbersArgs<ExtArgs>
+    channelContents?: boolean | Sku$channelContentsArgs<ExtArgs>
     _count?: boolean | SkuCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["sku"]>
 
@@ -53040,6 +53179,7 @@ export namespace Prisma {
     bundleComponents?: boolean | Sku$bundleComponentsArgs<ExtArgs>
     bundleUsedIn?: boolean | Sku$bundleUsedInArgs<ExtArgs>
     serialNumbers?: boolean | Sku$serialNumbersArgs<ExtArgs>
+    channelContents?: boolean | Sku$channelContentsArgs<ExtArgs>
     _count?: boolean | SkuCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type SkuIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -53059,6 +53199,7 @@ export namespace Prisma {
       bundleComponents: Prisma.$BundleComponentPayload<ExtArgs>[]
       bundleUsedIn: Prisma.$BundleComponentPayload<ExtArgs>[]
       serialNumbers: Prisma.$SerialNumberPayload<ExtArgs>[]
+      channelContents: Prisma.$SkuChannelContentPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -53499,6 +53640,7 @@ export namespace Prisma {
     bundleComponents<T extends Sku$bundleComponentsArgs<ExtArgs> = {}>(args?: Subset<T, Sku$bundleComponentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BundleComponentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     bundleUsedIn<T extends Sku$bundleUsedInArgs<ExtArgs> = {}>(args?: Subset<T, Sku$bundleUsedInArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BundleComponentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     serialNumbers<T extends Sku$serialNumbersArgs<ExtArgs> = {}>(args?: Subset<T, Sku$serialNumbersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SerialNumberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    channelContents<T extends Sku$channelContentsArgs<ExtArgs> = {}>(args?: Subset<T, Sku$channelContentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SkuChannelContentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -54083,6 +54225,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: SerialNumberScalarFieldEnum | SerialNumberScalarFieldEnum[]
+  }
+
+  /**
+   * Sku.channelContents
+   */
+  export type Sku$channelContentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SkuChannelContent
+     */
+    select?: SkuChannelContentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SkuChannelContent
+     */
+    omit?: SkuChannelContentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SkuChannelContentInclude<ExtArgs> | null
+    where?: SkuChannelContentWhereInput
+    orderBy?: SkuChannelContentOrderByWithRelationInput | SkuChannelContentOrderByWithRelationInput[]
+    cursor?: SkuChannelContentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SkuChannelContentScalarFieldEnum | SkuChannelContentScalarFieldEnum[]
   }
 
   /**
@@ -81489,6 +81655,7 @@ export namespace Prisma {
     holdReason: string | null
     fulfillmentType: $Enums.FulfillmentType | null
     projectRef: string | null
+    channel: string | null
     createdBy: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -81507,6 +81674,7 @@ export namespace Prisma {
     holdReason: string | null
     fulfillmentType: $Enums.FulfillmentType | null
     projectRef: string | null
+    channel: string | null
     createdBy: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -81525,6 +81693,7 @@ export namespace Prisma {
     holdReason: number
     fulfillmentType: number
     projectRef: number
+    channel: number
     createdBy: number
     createdAt: number
     updatedAt: number
@@ -81553,6 +81722,7 @@ export namespace Prisma {
     holdReason?: true
     fulfillmentType?: true
     projectRef?: true
+    channel?: true
     createdBy?: true
     createdAt?: true
     updatedAt?: true
@@ -81571,6 +81741,7 @@ export namespace Prisma {
     holdReason?: true
     fulfillmentType?: true
     projectRef?: true
+    channel?: true
     createdBy?: true
     createdAt?: true
     updatedAt?: true
@@ -81589,6 +81760,7 @@ export namespace Prisma {
     holdReason?: true
     fulfillmentType?: true
     projectRef?: true
+    channel?: true
     createdBy?: true
     createdAt?: true
     updatedAt?: true
@@ -81694,6 +81866,7 @@ export namespace Prisma {
     holdReason: string | null
     fulfillmentType: $Enums.FulfillmentType
     projectRef: string | null
+    channel: string
     createdBy: string | null
     createdAt: Date
     updatedAt: Date
@@ -81731,6 +81904,7 @@ export namespace Prisma {
     holdReason?: boolean
     fulfillmentType?: boolean
     projectRef?: boolean
+    channel?: boolean
     createdBy?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -81753,6 +81927,7 @@ export namespace Prisma {
     holdReason?: boolean
     fulfillmentType?: boolean
     projectRef?: boolean
+    channel?: boolean
     createdBy?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -81772,6 +81947,7 @@ export namespace Prisma {
     holdReason?: boolean
     fulfillmentType?: boolean
     projectRef?: boolean
+    channel?: boolean
     createdBy?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -81791,12 +81967,13 @@ export namespace Prisma {
     holdReason?: boolean
     fulfillmentType?: boolean
     projectRef?: boolean
+    channel?: boolean
     createdBy?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type SalesOrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "orderNumber" | "accountId" | "quoteId" | "warehouseId" | "status" | "currency" | "total" | "holdReason" | "fulfillmentType" | "projectRef" | "createdBy" | "createdAt" | "updatedAt", ExtArgs["result"]["salesOrder"]>
+  export type SalesOrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "orderNumber" | "accountId" | "quoteId" | "warehouseId" | "status" | "currency" | "total" | "holdReason" | "fulfillmentType" | "projectRef" | "channel" | "createdBy" | "createdAt" | "updatedAt", ExtArgs["result"]["salesOrder"]>
   export type SalesOrderInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     lines?: boolean | SalesOrder$linesArgs<ExtArgs>
@@ -81836,6 +82013,10 @@ export namespace Prisma {
        * Sprint 102 (B2B-009): customer's project/site reference.
        */
       projectRef: string | null
+      /**
+       * Sprint 124 (COM-006): originating channel — one canonical order model.
+       */
+      channel: string
       createdBy: string | null
       createdAt: Date
       updatedAt: Date
@@ -82277,6 +82458,7 @@ export namespace Prisma {
     readonly holdReason: FieldRef<"SalesOrder", 'String'>
     readonly fulfillmentType: FieldRef<"SalesOrder", 'FulfillmentType'>
     readonly projectRef: FieldRef<"SalesOrder", 'String'>
+    readonly channel: FieldRef<"SalesOrder", 'String'>
     readonly createdBy: FieldRef<"SalesOrder", 'String'>
     readonly createdAt: FieldRef<"SalesOrder", 'DateTime'>
     readonly updatedAt: FieldRef<"SalesOrder", 'DateTime'>
@@ -121957,6 +122139,7 @@ export namespace Prisma {
     name: string | null
     prefix: string | null
     keyHash: string | null
+    accountId: string | null
     active: boolean | null
     lastUsedAt: Date | null
     createdBy: string | null
@@ -121969,6 +122152,7 @@ export namespace Prisma {
     name: string | null
     prefix: string | null
     keyHash: string | null
+    accountId: string | null
     active: boolean | null
     lastUsedAt: Date | null
     createdBy: string | null
@@ -121982,6 +122166,7 @@ export namespace Prisma {
     prefix: number
     keyHash: number
     permissions: number
+    accountId: number
     active: number
     lastUsedAt: number
     createdBy: number
@@ -121996,6 +122181,7 @@ export namespace Prisma {
     name?: true
     prefix?: true
     keyHash?: true
+    accountId?: true
     active?: true
     lastUsedAt?: true
     createdBy?: true
@@ -122008,6 +122194,7 @@ export namespace Prisma {
     name?: true
     prefix?: true
     keyHash?: true
+    accountId?: true
     active?: true
     lastUsedAt?: true
     createdBy?: true
@@ -122021,6 +122208,7 @@ export namespace Prisma {
     prefix?: true
     keyHash?: true
     permissions?: true
+    accountId?: true
     active?: true
     lastUsedAt?: true
     createdBy?: true
@@ -122107,6 +122295,7 @@ export namespace Prisma {
     prefix: string
     keyHash: string
     permissions: string[]
+    accountId: string | null
     active: boolean
     lastUsedAt: Date | null
     createdBy: string | null
@@ -122137,6 +122326,7 @@ export namespace Prisma {
     prefix?: boolean
     keyHash?: boolean
     permissions?: boolean
+    accountId?: boolean
     active?: boolean
     lastUsedAt?: boolean
     createdBy?: boolean
@@ -122151,6 +122341,7 @@ export namespace Prisma {
     prefix?: boolean
     keyHash?: boolean
     permissions?: boolean
+    accountId?: boolean
     active?: boolean
     lastUsedAt?: boolean
     createdBy?: boolean
@@ -122165,6 +122356,7 @@ export namespace Prisma {
     prefix?: boolean
     keyHash?: boolean
     permissions?: boolean
+    accountId?: boolean
     active?: boolean
     lastUsedAt?: boolean
     createdBy?: boolean
@@ -122179,13 +122371,14 @@ export namespace Prisma {
     prefix?: boolean
     keyHash?: boolean
     permissions?: boolean
+    accountId?: boolean
     active?: boolean
     lastUsedAt?: boolean
     createdBy?: boolean
     createdAt?: boolean
   }
 
-  export type ApiKeyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "name" | "prefix" | "keyHash" | "permissions" | "active" | "lastUsedAt" | "createdBy" | "createdAt", ExtArgs["result"]["apiKey"]>
+  export type ApiKeyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "name" | "prefix" | "keyHash" | "permissions" | "accountId" | "active" | "lastUsedAt" | "createdBy" | "createdAt", ExtArgs["result"]["apiKey"]>
   export type ApiKeyInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
   }
@@ -122208,6 +122401,10 @@ export namespace Prisma {
       prefix: string
       keyHash: string
       permissions: string[]
+      /**
+       * Sprint 124 (B2B-014): key acts for this customer account (API/EDI ordering).
+       */
+      accountId: string | null
       active: boolean
       lastUsedAt: Date | null
       createdBy: string | null
@@ -122642,6 +122839,7 @@ export namespace Prisma {
     readonly prefix: FieldRef<"ApiKey", 'String'>
     readonly keyHash: FieldRef<"ApiKey", 'String'>
     readonly permissions: FieldRef<"ApiKey", 'String[]'>
+    readonly accountId: FieldRef<"ApiKey", 'String'>
     readonly active: FieldRef<"ApiKey", 'Boolean'>
     readonly lastUsedAt: FieldRef<"ApiKey", 'DateTime'>
     readonly createdBy: FieldRef<"ApiKey", 'String'>
@@ -149447,6 +149645,7 @@ export namespace Prisma {
     packageNumber: string | null
     status: $Enums.PackageStatus | null
     weightKg: Decimal | null
+    ssccCode: string | null
     createdBy: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -149459,6 +149658,7 @@ export namespace Prisma {
     packageNumber: string | null
     status: $Enums.PackageStatus | null
     weightKg: Decimal | null
+    ssccCode: string | null
     createdBy: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -149471,6 +149671,7 @@ export namespace Prisma {
     packageNumber: number
     status: number
     weightKg: number
+    ssccCode: number
     createdBy: number
     createdAt: number
     updatedAt: number
@@ -149493,6 +149694,7 @@ export namespace Prisma {
     packageNumber?: true
     status?: true
     weightKg?: true
+    ssccCode?: true
     createdBy?: true
     createdAt?: true
     updatedAt?: true
@@ -149505,6 +149707,7 @@ export namespace Prisma {
     packageNumber?: true
     status?: true
     weightKg?: true
+    ssccCode?: true
     createdBy?: true
     createdAt?: true
     updatedAt?: true
@@ -149517,6 +149720,7 @@ export namespace Prisma {
     packageNumber?: true
     status?: true
     weightKg?: true
+    ssccCode?: true
     createdBy?: true
     createdAt?: true
     updatedAt?: true
@@ -149616,6 +149820,7 @@ export namespace Prisma {
     packageNumber: string
     status: $Enums.PackageStatus
     weightKg: Decimal | null
+    ssccCode: string | null
     createdBy: string | null
     createdAt: Date
     updatedAt: Date
@@ -149647,6 +149852,7 @@ export namespace Prisma {
     packageNumber?: boolean
     status?: boolean
     weightKg?: boolean
+    ssccCode?: boolean
     createdBy?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -149663,6 +149869,7 @@ export namespace Prisma {
     packageNumber?: boolean
     status?: boolean
     weightKg?: boolean
+    ssccCode?: boolean
     createdBy?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -149677,6 +149884,7 @@ export namespace Prisma {
     packageNumber?: boolean
     status?: boolean
     weightKg?: boolean
+    ssccCode?: boolean
     createdBy?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -149691,12 +149899,13 @@ export namespace Prisma {
     packageNumber?: boolean
     status?: boolean
     weightKg?: boolean
+    ssccCode?: boolean
     createdBy?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type PackageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "orderId" | "packageNumber" | "status" | "weightKg" | "createdBy" | "createdAt" | "updatedAt", ExtArgs["result"]["package"]>
+  export type PackageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "orderId" | "packageNumber" | "status" | "weightKg" | "ssccCode" | "createdBy" | "createdAt" | "updatedAt", ExtArgs["result"]["package"]>
   export type PackageInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     order?: boolean | SalesOrderDefaultArgs<ExtArgs>
@@ -149726,6 +149935,10 @@ export namespace Prisma {
       packageNumber: string
       status: $Enums.PackageStatus
       weightKg: Prisma.Decimal | null
+      /**
+       * Sprint 124 (WMS-020): GS1 SSCC logistic-unit code.
+       */
+      ssccCode: string | null
       createdBy: string | null
       createdAt: Date
       updatedAt: Date
@@ -150161,6 +150374,7 @@ export namespace Prisma {
     readonly packageNumber: FieldRef<"Package", 'String'>
     readonly status: FieldRef<"Package", 'PackageStatus'>
     readonly weightKg: FieldRef<"Package", 'Decimal'>
+    readonly ssccCode: FieldRef<"Package", 'String'>
     readonly createdBy: FieldRef<"Package", 'String'>
     readonly createdAt: FieldRef<"Package", 'DateTime'>
     readonly updatedAt: FieldRef<"Package", 'DateTime'>
@@ -156270,6 +156484,1133 @@ export namespace Prisma {
 
 
   /**
+   * Model SkuChannelContent
+   */
+
+  export type AggregateSkuChannelContent = {
+    _count: SkuChannelContentCountAggregateOutputType | null
+    _min: SkuChannelContentMinAggregateOutputType | null
+    _max: SkuChannelContentMaxAggregateOutputType | null
+  }
+
+  export type SkuChannelContentMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    skuId: string | null
+    channel: string | null
+    title: string | null
+    description: string | null
+    updatedBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type SkuChannelContentMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    skuId: string | null
+    channel: string | null
+    title: string | null
+    description: string | null
+    updatedBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type SkuChannelContentCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    skuId: number
+    channel: number
+    title: number
+    description: number
+    attributes: number
+    updatedBy: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type SkuChannelContentMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    skuId?: true
+    channel?: true
+    title?: true
+    description?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type SkuChannelContentMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    skuId?: true
+    channel?: true
+    title?: true
+    description?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type SkuChannelContentCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    skuId?: true
+    channel?: true
+    title?: true
+    description?: true
+    attributes?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type SkuChannelContentAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SkuChannelContent to aggregate.
+     */
+    where?: SkuChannelContentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SkuChannelContents to fetch.
+     */
+    orderBy?: SkuChannelContentOrderByWithRelationInput | SkuChannelContentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SkuChannelContentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SkuChannelContents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SkuChannelContents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned SkuChannelContents
+    **/
+    _count?: true | SkuChannelContentCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SkuChannelContentMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SkuChannelContentMaxAggregateInputType
+  }
+
+  export type GetSkuChannelContentAggregateType<T extends SkuChannelContentAggregateArgs> = {
+        [P in keyof T & keyof AggregateSkuChannelContent]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSkuChannelContent[P]>
+      : GetScalarType<T[P], AggregateSkuChannelContent[P]>
+  }
+
+
+
+
+  export type SkuChannelContentGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SkuChannelContentWhereInput
+    orderBy?: SkuChannelContentOrderByWithAggregationInput | SkuChannelContentOrderByWithAggregationInput[]
+    by: SkuChannelContentScalarFieldEnum[] | SkuChannelContentScalarFieldEnum
+    having?: SkuChannelContentScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SkuChannelContentCountAggregateInputType | true
+    _min?: SkuChannelContentMinAggregateInputType
+    _max?: SkuChannelContentMaxAggregateInputType
+  }
+
+  export type SkuChannelContentGroupByOutputType = {
+    id: string
+    tenantId: string
+    skuId: string
+    channel: string
+    title: string
+    description: string | null
+    attributes: JsonValue | null
+    updatedBy: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: SkuChannelContentCountAggregateOutputType | null
+    _min: SkuChannelContentMinAggregateOutputType | null
+    _max: SkuChannelContentMaxAggregateOutputType | null
+  }
+
+  type GetSkuChannelContentGroupByPayload<T extends SkuChannelContentGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SkuChannelContentGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SkuChannelContentGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SkuChannelContentGroupByOutputType[P]>
+            : GetScalarType<T[P], SkuChannelContentGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SkuChannelContentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    skuId?: boolean
+    channel?: boolean
+    title?: boolean
+    description?: boolean
+    attributes?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    sku?: boolean | SkuDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["skuChannelContent"]>
+
+  export type SkuChannelContentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    skuId?: boolean
+    channel?: boolean
+    title?: boolean
+    description?: boolean
+    attributes?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    sku?: boolean | SkuDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["skuChannelContent"]>
+
+  export type SkuChannelContentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    skuId?: boolean
+    channel?: boolean
+    title?: boolean
+    description?: boolean
+    attributes?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    sku?: boolean | SkuDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["skuChannelContent"]>
+
+  export type SkuChannelContentSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    skuId?: boolean
+    channel?: boolean
+    title?: boolean
+    description?: boolean
+    attributes?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type SkuChannelContentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "skuId" | "channel" | "title" | "description" | "attributes" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["skuChannelContent"]>
+  export type SkuChannelContentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    sku?: boolean | SkuDefaultArgs<ExtArgs>
+  }
+  export type SkuChannelContentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    sku?: boolean | SkuDefaultArgs<ExtArgs>
+  }
+  export type SkuChannelContentIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    sku?: boolean | SkuDefaultArgs<ExtArgs>
+  }
+
+  export type $SkuChannelContentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "SkuChannelContent"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+      sku: Prisma.$SkuPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      skuId: string
+      channel: string
+      title: string
+      description: string | null
+      attributes: Prisma.JsonValue | null
+      updatedBy: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["skuChannelContent"]>
+    composites: {}
+  }
+
+  type SkuChannelContentGetPayload<S extends boolean | null | undefined | SkuChannelContentDefaultArgs> = $Result.GetResult<Prisma.$SkuChannelContentPayload, S>
+
+  type SkuChannelContentCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<SkuChannelContentFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: SkuChannelContentCountAggregateInputType | true
+    }
+
+  export interface SkuChannelContentDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['SkuChannelContent'], meta: { name: 'SkuChannelContent' } }
+    /**
+     * Find zero or one SkuChannelContent that matches the filter.
+     * @param {SkuChannelContentFindUniqueArgs} args - Arguments to find a SkuChannelContent
+     * @example
+     * // Get one SkuChannelContent
+     * const skuChannelContent = await prisma.skuChannelContent.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SkuChannelContentFindUniqueArgs>(args: SelectSubset<T, SkuChannelContentFindUniqueArgs<ExtArgs>>): Prisma__SkuChannelContentClient<$Result.GetResult<Prisma.$SkuChannelContentPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one SkuChannelContent that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {SkuChannelContentFindUniqueOrThrowArgs} args - Arguments to find a SkuChannelContent
+     * @example
+     * // Get one SkuChannelContent
+     * const skuChannelContent = await prisma.skuChannelContent.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SkuChannelContentFindUniqueOrThrowArgs>(args: SelectSubset<T, SkuChannelContentFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SkuChannelContentClient<$Result.GetResult<Prisma.$SkuChannelContentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SkuChannelContent that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SkuChannelContentFindFirstArgs} args - Arguments to find a SkuChannelContent
+     * @example
+     * // Get one SkuChannelContent
+     * const skuChannelContent = await prisma.skuChannelContent.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SkuChannelContentFindFirstArgs>(args?: SelectSubset<T, SkuChannelContentFindFirstArgs<ExtArgs>>): Prisma__SkuChannelContentClient<$Result.GetResult<Prisma.$SkuChannelContentPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SkuChannelContent that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SkuChannelContentFindFirstOrThrowArgs} args - Arguments to find a SkuChannelContent
+     * @example
+     * // Get one SkuChannelContent
+     * const skuChannelContent = await prisma.skuChannelContent.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SkuChannelContentFindFirstOrThrowArgs>(args?: SelectSubset<T, SkuChannelContentFindFirstOrThrowArgs<ExtArgs>>): Prisma__SkuChannelContentClient<$Result.GetResult<Prisma.$SkuChannelContentPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more SkuChannelContents that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SkuChannelContentFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all SkuChannelContents
+     * const skuChannelContents = await prisma.skuChannelContent.findMany()
+     * 
+     * // Get first 10 SkuChannelContents
+     * const skuChannelContents = await prisma.skuChannelContent.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const skuChannelContentWithIdOnly = await prisma.skuChannelContent.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends SkuChannelContentFindManyArgs>(args?: SelectSubset<T, SkuChannelContentFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SkuChannelContentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a SkuChannelContent.
+     * @param {SkuChannelContentCreateArgs} args - Arguments to create a SkuChannelContent.
+     * @example
+     * // Create one SkuChannelContent
+     * const SkuChannelContent = await prisma.skuChannelContent.create({
+     *   data: {
+     *     // ... data to create a SkuChannelContent
+     *   }
+     * })
+     * 
+     */
+    create<T extends SkuChannelContentCreateArgs>(args: SelectSubset<T, SkuChannelContentCreateArgs<ExtArgs>>): Prisma__SkuChannelContentClient<$Result.GetResult<Prisma.$SkuChannelContentPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many SkuChannelContents.
+     * @param {SkuChannelContentCreateManyArgs} args - Arguments to create many SkuChannelContents.
+     * @example
+     * // Create many SkuChannelContents
+     * const skuChannelContent = await prisma.skuChannelContent.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SkuChannelContentCreateManyArgs>(args?: SelectSubset<T, SkuChannelContentCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many SkuChannelContents and returns the data saved in the database.
+     * @param {SkuChannelContentCreateManyAndReturnArgs} args - Arguments to create many SkuChannelContents.
+     * @example
+     * // Create many SkuChannelContents
+     * const skuChannelContent = await prisma.skuChannelContent.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many SkuChannelContents and only return the `id`
+     * const skuChannelContentWithIdOnly = await prisma.skuChannelContent.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends SkuChannelContentCreateManyAndReturnArgs>(args?: SelectSubset<T, SkuChannelContentCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SkuChannelContentPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a SkuChannelContent.
+     * @param {SkuChannelContentDeleteArgs} args - Arguments to delete one SkuChannelContent.
+     * @example
+     * // Delete one SkuChannelContent
+     * const SkuChannelContent = await prisma.skuChannelContent.delete({
+     *   where: {
+     *     // ... filter to delete one SkuChannelContent
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SkuChannelContentDeleteArgs>(args: SelectSubset<T, SkuChannelContentDeleteArgs<ExtArgs>>): Prisma__SkuChannelContentClient<$Result.GetResult<Prisma.$SkuChannelContentPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one SkuChannelContent.
+     * @param {SkuChannelContentUpdateArgs} args - Arguments to update one SkuChannelContent.
+     * @example
+     * // Update one SkuChannelContent
+     * const skuChannelContent = await prisma.skuChannelContent.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SkuChannelContentUpdateArgs>(args: SelectSubset<T, SkuChannelContentUpdateArgs<ExtArgs>>): Prisma__SkuChannelContentClient<$Result.GetResult<Prisma.$SkuChannelContentPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more SkuChannelContents.
+     * @param {SkuChannelContentDeleteManyArgs} args - Arguments to filter SkuChannelContents to delete.
+     * @example
+     * // Delete a few SkuChannelContents
+     * const { count } = await prisma.skuChannelContent.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SkuChannelContentDeleteManyArgs>(args?: SelectSubset<T, SkuChannelContentDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SkuChannelContents.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SkuChannelContentUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many SkuChannelContents
+     * const skuChannelContent = await prisma.skuChannelContent.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SkuChannelContentUpdateManyArgs>(args: SelectSubset<T, SkuChannelContentUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SkuChannelContents and returns the data updated in the database.
+     * @param {SkuChannelContentUpdateManyAndReturnArgs} args - Arguments to update many SkuChannelContents.
+     * @example
+     * // Update many SkuChannelContents
+     * const skuChannelContent = await prisma.skuChannelContent.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more SkuChannelContents and only return the `id`
+     * const skuChannelContentWithIdOnly = await prisma.skuChannelContent.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends SkuChannelContentUpdateManyAndReturnArgs>(args: SelectSubset<T, SkuChannelContentUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SkuChannelContentPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one SkuChannelContent.
+     * @param {SkuChannelContentUpsertArgs} args - Arguments to update or create a SkuChannelContent.
+     * @example
+     * // Update or create a SkuChannelContent
+     * const skuChannelContent = await prisma.skuChannelContent.upsert({
+     *   create: {
+     *     // ... data to create a SkuChannelContent
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the SkuChannelContent we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SkuChannelContentUpsertArgs>(args: SelectSubset<T, SkuChannelContentUpsertArgs<ExtArgs>>): Prisma__SkuChannelContentClient<$Result.GetResult<Prisma.$SkuChannelContentPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of SkuChannelContents.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SkuChannelContentCountArgs} args - Arguments to filter SkuChannelContents to count.
+     * @example
+     * // Count the number of SkuChannelContents
+     * const count = await prisma.skuChannelContent.count({
+     *   where: {
+     *     // ... the filter for the SkuChannelContents we want to count
+     *   }
+     * })
+    **/
+    count<T extends SkuChannelContentCountArgs>(
+      args?: Subset<T, SkuChannelContentCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SkuChannelContentCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a SkuChannelContent.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SkuChannelContentAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SkuChannelContentAggregateArgs>(args: Subset<T, SkuChannelContentAggregateArgs>): Prisma.PrismaPromise<GetSkuChannelContentAggregateType<T>>
+
+    /**
+     * Group by SkuChannelContent.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SkuChannelContentGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SkuChannelContentGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SkuChannelContentGroupByArgs['orderBy'] }
+        : { orderBy?: SkuChannelContentGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SkuChannelContentGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSkuChannelContentGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the SkuChannelContent model
+   */
+  readonly fields: SkuChannelContentFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for SkuChannelContent.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SkuChannelContentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    sku<T extends SkuDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SkuDefaultArgs<ExtArgs>>): Prisma__SkuClient<$Result.GetResult<Prisma.$SkuPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the SkuChannelContent model
+   */
+  interface SkuChannelContentFieldRefs {
+    readonly id: FieldRef<"SkuChannelContent", 'String'>
+    readonly tenantId: FieldRef<"SkuChannelContent", 'String'>
+    readonly skuId: FieldRef<"SkuChannelContent", 'String'>
+    readonly channel: FieldRef<"SkuChannelContent", 'String'>
+    readonly title: FieldRef<"SkuChannelContent", 'String'>
+    readonly description: FieldRef<"SkuChannelContent", 'String'>
+    readonly attributes: FieldRef<"SkuChannelContent", 'Json'>
+    readonly updatedBy: FieldRef<"SkuChannelContent", 'String'>
+    readonly createdAt: FieldRef<"SkuChannelContent", 'DateTime'>
+    readonly updatedAt: FieldRef<"SkuChannelContent", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * SkuChannelContent findUnique
+   */
+  export type SkuChannelContentFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SkuChannelContent
+     */
+    select?: SkuChannelContentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SkuChannelContent
+     */
+    omit?: SkuChannelContentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SkuChannelContentInclude<ExtArgs> | null
+    /**
+     * Filter, which SkuChannelContent to fetch.
+     */
+    where: SkuChannelContentWhereUniqueInput
+  }
+
+  /**
+   * SkuChannelContent findUniqueOrThrow
+   */
+  export type SkuChannelContentFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SkuChannelContent
+     */
+    select?: SkuChannelContentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SkuChannelContent
+     */
+    omit?: SkuChannelContentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SkuChannelContentInclude<ExtArgs> | null
+    /**
+     * Filter, which SkuChannelContent to fetch.
+     */
+    where: SkuChannelContentWhereUniqueInput
+  }
+
+  /**
+   * SkuChannelContent findFirst
+   */
+  export type SkuChannelContentFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SkuChannelContent
+     */
+    select?: SkuChannelContentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SkuChannelContent
+     */
+    omit?: SkuChannelContentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SkuChannelContentInclude<ExtArgs> | null
+    /**
+     * Filter, which SkuChannelContent to fetch.
+     */
+    where?: SkuChannelContentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SkuChannelContents to fetch.
+     */
+    orderBy?: SkuChannelContentOrderByWithRelationInput | SkuChannelContentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SkuChannelContents.
+     */
+    cursor?: SkuChannelContentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SkuChannelContents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SkuChannelContents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SkuChannelContents.
+     */
+    distinct?: SkuChannelContentScalarFieldEnum | SkuChannelContentScalarFieldEnum[]
+  }
+
+  /**
+   * SkuChannelContent findFirstOrThrow
+   */
+  export type SkuChannelContentFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SkuChannelContent
+     */
+    select?: SkuChannelContentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SkuChannelContent
+     */
+    omit?: SkuChannelContentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SkuChannelContentInclude<ExtArgs> | null
+    /**
+     * Filter, which SkuChannelContent to fetch.
+     */
+    where?: SkuChannelContentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SkuChannelContents to fetch.
+     */
+    orderBy?: SkuChannelContentOrderByWithRelationInput | SkuChannelContentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SkuChannelContents.
+     */
+    cursor?: SkuChannelContentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SkuChannelContents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SkuChannelContents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SkuChannelContents.
+     */
+    distinct?: SkuChannelContentScalarFieldEnum | SkuChannelContentScalarFieldEnum[]
+  }
+
+  /**
+   * SkuChannelContent findMany
+   */
+  export type SkuChannelContentFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SkuChannelContent
+     */
+    select?: SkuChannelContentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SkuChannelContent
+     */
+    omit?: SkuChannelContentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SkuChannelContentInclude<ExtArgs> | null
+    /**
+     * Filter, which SkuChannelContents to fetch.
+     */
+    where?: SkuChannelContentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SkuChannelContents to fetch.
+     */
+    orderBy?: SkuChannelContentOrderByWithRelationInput | SkuChannelContentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing SkuChannelContents.
+     */
+    cursor?: SkuChannelContentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SkuChannelContents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SkuChannelContents.
+     */
+    skip?: number
+    distinct?: SkuChannelContentScalarFieldEnum | SkuChannelContentScalarFieldEnum[]
+  }
+
+  /**
+   * SkuChannelContent create
+   */
+  export type SkuChannelContentCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SkuChannelContent
+     */
+    select?: SkuChannelContentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SkuChannelContent
+     */
+    omit?: SkuChannelContentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SkuChannelContentInclude<ExtArgs> | null
+    /**
+     * The data needed to create a SkuChannelContent.
+     */
+    data: XOR<SkuChannelContentCreateInput, SkuChannelContentUncheckedCreateInput>
+  }
+
+  /**
+   * SkuChannelContent createMany
+   */
+  export type SkuChannelContentCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many SkuChannelContents.
+     */
+    data: SkuChannelContentCreateManyInput | SkuChannelContentCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * SkuChannelContent createManyAndReturn
+   */
+  export type SkuChannelContentCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SkuChannelContent
+     */
+    select?: SkuChannelContentSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SkuChannelContent
+     */
+    omit?: SkuChannelContentOmit<ExtArgs> | null
+    /**
+     * The data used to create many SkuChannelContents.
+     */
+    data: SkuChannelContentCreateManyInput | SkuChannelContentCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SkuChannelContentIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * SkuChannelContent update
+   */
+  export type SkuChannelContentUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SkuChannelContent
+     */
+    select?: SkuChannelContentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SkuChannelContent
+     */
+    omit?: SkuChannelContentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SkuChannelContentInclude<ExtArgs> | null
+    /**
+     * The data needed to update a SkuChannelContent.
+     */
+    data: XOR<SkuChannelContentUpdateInput, SkuChannelContentUncheckedUpdateInput>
+    /**
+     * Choose, which SkuChannelContent to update.
+     */
+    where: SkuChannelContentWhereUniqueInput
+  }
+
+  /**
+   * SkuChannelContent updateMany
+   */
+  export type SkuChannelContentUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update SkuChannelContents.
+     */
+    data: XOR<SkuChannelContentUpdateManyMutationInput, SkuChannelContentUncheckedUpdateManyInput>
+    /**
+     * Filter which SkuChannelContents to update
+     */
+    where?: SkuChannelContentWhereInput
+    /**
+     * Limit how many SkuChannelContents to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * SkuChannelContent updateManyAndReturn
+   */
+  export type SkuChannelContentUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SkuChannelContent
+     */
+    select?: SkuChannelContentSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SkuChannelContent
+     */
+    omit?: SkuChannelContentOmit<ExtArgs> | null
+    /**
+     * The data used to update SkuChannelContents.
+     */
+    data: XOR<SkuChannelContentUpdateManyMutationInput, SkuChannelContentUncheckedUpdateManyInput>
+    /**
+     * Filter which SkuChannelContents to update
+     */
+    where?: SkuChannelContentWhereInput
+    /**
+     * Limit how many SkuChannelContents to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SkuChannelContentIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * SkuChannelContent upsert
+   */
+  export type SkuChannelContentUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SkuChannelContent
+     */
+    select?: SkuChannelContentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SkuChannelContent
+     */
+    omit?: SkuChannelContentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SkuChannelContentInclude<ExtArgs> | null
+    /**
+     * The filter to search for the SkuChannelContent to update in case it exists.
+     */
+    where: SkuChannelContentWhereUniqueInput
+    /**
+     * In case the SkuChannelContent found by the `where` argument doesn't exist, create a new SkuChannelContent with this data.
+     */
+    create: XOR<SkuChannelContentCreateInput, SkuChannelContentUncheckedCreateInput>
+    /**
+     * In case the SkuChannelContent was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SkuChannelContentUpdateInput, SkuChannelContentUncheckedUpdateInput>
+  }
+
+  /**
+   * SkuChannelContent delete
+   */
+  export type SkuChannelContentDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SkuChannelContent
+     */
+    select?: SkuChannelContentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SkuChannelContent
+     */
+    omit?: SkuChannelContentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SkuChannelContentInclude<ExtArgs> | null
+    /**
+     * Filter which SkuChannelContent to delete.
+     */
+    where: SkuChannelContentWhereUniqueInput
+  }
+
+  /**
+   * SkuChannelContent deleteMany
+   */
+  export type SkuChannelContentDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SkuChannelContents to delete
+     */
+    where?: SkuChannelContentWhereInput
+    /**
+     * Limit how many SkuChannelContents to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * SkuChannelContent without action
+   */
+  export type SkuChannelContentDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SkuChannelContent
+     */
+    select?: SkuChannelContentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SkuChannelContent
+     */
+    omit?: SkuChannelContentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SkuChannelContentInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -157110,6 +158451,7 @@ export namespace Prisma {
     holdReason: 'holdReason',
     fulfillmentType: 'fulfillmentType',
     projectRef: 'projectRef',
+    channel: 'channel',
     createdBy: 'createdBy',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -157641,6 +158983,7 @@ export namespace Prisma {
     prefix: 'prefix',
     keyHash: 'keyHash',
     permissions: 'permissions',
+    accountId: 'accountId',
     active: 'active',
     lastUsedAt: 'lastUsedAt',
     createdBy: 'createdBy',
@@ -158007,6 +159350,7 @@ export namespace Prisma {
     packageNumber: 'packageNumber',
     status: 'status',
     weightKg: 'weightKg',
+    ssccCode: 'ssccCode',
     createdBy: 'createdBy',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -158086,6 +159430,22 @@ export namespace Prisma {
   };
 
   export type FrameworkAgreementScalarFieldEnum = (typeof FrameworkAgreementScalarFieldEnum)[keyof typeof FrameworkAgreementScalarFieldEnum]
+
+
+  export const SkuChannelContentScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    skuId: 'skuId',
+    channel: 'channel',
+    title: 'title',
+    description: 'description',
+    attributes: 'attributes',
+    updatedBy: 'updatedBy',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type SkuChannelContentScalarFieldEnum = (typeof SkuChannelContentScalarFieldEnum)[keyof typeof SkuChannelContentScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -159230,6 +160590,7 @@ export namespace Prisma {
     packages?: PackageListRelationFilter
     landedCosts?: LandedCostListRelationFilter
     customObjectDefinitions?: CustomObjectDefinitionListRelationFilter
+    skuChannelContents?: SkuChannelContentListRelationFilter
     frameworkAgreements?: FrameworkAgreementListRelationFilter
   }
 
@@ -159343,6 +160704,7 @@ export namespace Prisma {
     packages?: PackageOrderByRelationAggregateInput
     landedCosts?: LandedCostOrderByRelationAggregateInput
     customObjectDefinitions?: CustomObjectDefinitionOrderByRelationAggregateInput
+    skuChannelContents?: SkuChannelContentOrderByRelationAggregateInput
     frameworkAgreements?: FrameworkAgreementOrderByRelationAggregateInput
   }
 
@@ -159459,6 +160821,7 @@ export namespace Prisma {
     packages?: PackageListRelationFilter
     landedCosts?: LandedCostListRelationFilter
     customObjectDefinitions?: CustomObjectDefinitionListRelationFilter
+    skuChannelContents?: SkuChannelContentListRelationFilter
     frameworkAgreements?: FrameworkAgreementListRelationFilter
   }, "id" | "slug">
 
@@ -161709,6 +163072,7 @@ export namespace Prisma {
     bundleComponents?: BundleComponentListRelationFilter
     bundleUsedIn?: BundleComponentListRelationFilter
     serialNumbers?: SerialNumberListRelationFilter
+    channelContents?: SkuChannelContentListRelationFilter
   }
 
   export type SkuOrderByWithRelationInput = {
@@ -161737,6 +163101,7 @@ export namespace Prisma {
     bundleComponents?: BundleComponentOrderByRelationAggregateInput
     bundleUsedIn?: BundleComponentOrderByRelationAggregateInput
     serialNumbers?: SerialNumberOrderByRelationAggregateInput
+    channelContents?: SkuChannelContentOrderByRelationAggregateInput
   }
 
   export type SkuWhereUniqueInput = Prisma.AtLeast<{
@@ -161769,6 +163134,7 @@ export namespace Prisma {
     bundleComponents?: BundleComponentListRelationFilter
     bundleUsedIn?: BundleComponentListRelationFilter
     serialNumbers?: SerialNumberListRelationFilter
+    channelContents?: SkuChannelContentListRelationFilter
   }, "id" | "tenantId_code">
 
   export type SkuOrderByWithAggregationInput = {
@@ -163724,6 +165090,7 @@ export namespace Prisma {
     holdReason?: StringNullableFilter<"SalesOrder"> | string | null
     fulfillmentType?: EnumFulfillmentTypeFilter<"SalesOrder"> | $Enums.FulfillmentType
     projectRef?: StringNullableFilter<"SalesOrder"> | string | null
+    channel?: StringFilter<"SalesOrder"> | string
     createdBy?: StringNullableFilter<"SalesOrder"> | string | null
     createdAt?: DateTimeFilter<"SalesOrder"> | Date | string
     updatedAt?: DateTimeFilter<"SalesOrder"> | Date | string
@@ -163745,6 +165112,7 @@ export namespace Prisma {
     holdReason?: SortOrderInput | SortOrder
     fulfillmentType?: SortOrder
     projectRef?: SortOrderInput | SortOrder
+    channel?: SortOrder
     createdBy?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -163770,6 +165138,7 @@ export namespace Prisma {
     holdReason?: StringNullableFilter<"SalesOrder"> | string | null
     fulfillmentType?: EnumFulfillmentTypeFilter<"SalesOrder"> | $Enums.FulfillmentType
     projectRef?: StringNullableFilter<"SalesOrder"> | string | null
+    channel?: StringFilter<"SalesOrder"> | string
     createdBy?: StringNullableFilter<"SalesOrder"> | string | null
     createdAt?: DateTimeFilter<"SalesOrder"> | Date | string
     updatedAt?: DateTimeFilter<"SalesOrder"> | Date | string
@@ -163791,6 +165160,7 @@ export namespace Prisma {
     holdReason?: SortOrderInput | SortOrder
     fulfillmentType?: SortOrder
     projectRef?: SortOrderInput | SortOrder
+    channel?: SortOrder
     createdBy?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -163817,6 +165187,7 @@ export namespace Prisma {
     holdReason?: StringNullableWithAggregatesFilter<"SalesOrder"> | string | null
     fulfillmentType?: EnumFulfillmentTypeWithAggregatesFilter<"SalesOrder"> | $Enums.FulfillmentType
     projectRef?: StringNullableWithAggregatesFilter<"SalesOrder"> | string | null
+    channel?: StringWithAggregatesFilter<"SalesOrder"> | string
     createdBy?: StringNullableWithAggregatesFilter<"SalesOrder"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"SalesOrder"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"SalesOrder"> | Date | string
@@ -166565,6 +167936,7 @@ export namespace Prisma {
     prefix?: StringFilter<"ApiKey"> | string
     keyHash?: StringFilter<"ApiKey"> | string
     permissions?: StringNullableListFilter<"ApiKey">
+    accountId?: UuidNullableFilter<"ApiKey"> | string | null
     active?: BoolFilter<"ApiKey"> | boolean
     lastUsedAt?: DateTimeNullableFilter<"ApiKey"> | Date | string | null
     createdBy?: StringNullableFilter<"ApiKey"> | string | null
@@ -166579,6 +167951,7 @@ export namespace Prisma {
     prefix?: SortOrder
     keyHash?: SortOrder
     permissions?: SortOrder
+    accountId?: SortOrderInput | SortOrder
     active?: SortOrder
     lastUsedAt?: SortOrderInput | SortOrder
     createdBy?: SortOrderInput | SortOrder
@@ -166597,6 +167970,7 @@ export namespace Prisma {
     name?: StringFilter<"ApiKey"> | string
     prefix?: StringFilter<"ApiKey"> | string
     permissions?: StringNullableListFilter<"ApiKey">
+    accountId?: UuidNullableFilter<"ApiKey"> | string | null
     active?: BoolFilter<"ApiKey"> | boolean
     lastUsedAt?: DateTimeNullableFilter<"ApiKey"> | Date | string | null
     createdBy?: StringNullableFilter<"ApiKey"> | string | null
@@ -166611,6 +167985,7 @@ export namespace Prisma {
     prefix?: SortOrder
     keyHash?: SortOrder
     permissions?: SortOrder
+    accountId?: SortOrderInput | SortOrder
     active?: SortOrder
     lastUsedAt?: SortOrderInput | SortOrder
     createdBy?: SortOrderInput | SortOrder
@@ -166630,6 +168005,7 @@ export namespace Prisma {
     prefix?: StringWithAggregatesFilter<"ApiKey"> | string
     keyHash?: StringWithAggregatesFilter<"ApiKey"> | string
     permissions?: StringNullableListFilter<"ApiKey">
+    accountId?: UuidNullableWithAggregatesFilter<"ApiKey"> | string | null
     active?: BoolWithAggregatesFilter<"ApiKey"> | boolean
     lastUsedAt?: DateTimeNullableWithAggregatesFilter<"ApiKey"> | Date | string | null
     createdBy?: StringNullableWithAggregatesFilter<"ApiKey"> | string | null
@@ -168481,6 +169857,7 @@ export namespace Prisma {
     packageNumber?: StringFilter<"Package"> | string
     status?: EnumPackageStatusFilter<"Package"> | $Enums.PackageStatus
     weightKg?: DecimalNullableFilter<"Package"> | Decimal | DecimalJsLike | number | string | null
+    ssccCode?: StringNullableFilter<"Package"> | string | null
     createdBy?: StringNullableFilter<"Package"> | string | null
     createdAt?: DateTimeFilter<"Package"> | Date | string
     updatedAt?: DateTimeFilter<"Package"> | Date | string
@@ -168496,6 +169873,7 @@ export namespace Prisma {
     packageNumber?: SortOrder
     status?: SortOrder
     weightKg?: SortOrderInput | SortOrder
+    ssccCode?: SortOrderInput | SortOrder
     createdBy?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -168515,6 +169893,7 @@ export namespace Prisma {
     packageNumber?: StringFilter<"Package"> | string
     status?: EnumPackageStatusFilter<"Package"> | $Enums.PackageStatus
     weightKg?: DecimalNullableFilter<"Package"> | Decimal | DecimalJsLike | number | string | null
+    ssccCode?: StringNullableFilter<"Package"> | string | null
     createdBy?: StringNullableFilter<"Package"> | string | null
     createdAt?: DateTimeFilter<"Package"> | Date | string
     updatedAt?: DateTimeFilter<"Package"> | Date | string
@@ -168530,6 +169909,7 @@ export namespace Prisma {
     packageNumber?: SortOrder
     status?: SortOrder
     weightKg?: SortOrderInput | SortOrder
+    ssccCode?: SortOrderInput | SortOrder
     createdBy?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -168550,6 +169930,7 @@ export namespace Prisma {
     packageNumber?: StringWithAggregatesFilter<"Package"> | string
     status?: EnumPackageStatusWithAggregatesFilter<"Package"> | $Enums.PackageStatus
     weightKg?: DecimalNullableWithAggregatesFilter<"Package"> | Decimal | DecimalJsLike | number | string | null
+    ssccCode?: StringNullableWithAggregatesFilter<"Package"> | string | null
     createdBy?: StringNullableWithAggregatesFilter<"Package"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Package"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Package"> | Date | string
@@ -168935,6 +170316,90 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"FrameworkAgreement"> | Date | string
   }
 
+  export type SkuChannelContentWhereInput = {
+    AND?: SkuChannelContentWhereInput | SkuChannelContentWhereInput[]
+    OR?: SkuChannelContentWhereInput[]
+    NOT?: SkuChannelContentWhereInput | SkuChannelContentWhereInput[]
+    id?: UuidFilter<"SkuChannelContent"> | string
+    tenantId?: UuidFilter<"SkuChannelContent"> | string
+    skuId?: UuidFilter<"SkuChannelContent"> | string
+    channel?: StringFilter<"SkuChannelContent"> | string
+    title?: StringFilter<"SkuChannelContent"> | string
+    description?: StringNullableFilter<"SkuChannelContent"> | string | null
+    attributes?: JsonNullableFilter<"SkuChannelContent">
+    updatedBy?: StringNullableFilter<"SkuChannelContent"> | string | null
+    createdAt?: DateTimeFilter<"SkuChannelContent"> | Date | string
+    updatedAt?: DateTimeFilter<"SkuChannelContent"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    sku?: XOR<SkuScalarRelationFilter, SkuWhereInput>
+  }
+
+  export type SkuChannelContentOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    skuId?: SortOrder
+    channel?: SortOrder
+    title?: SortOrder
+    description?: SortOrderInput | SortOrder
+    attributes?: SortOrderInput | SortOrder
+    updatedBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+    sku?: SkuOrderByWithRelationInput
+  }
+
+  export type SkuChannelContentWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    tenantId_skuId_channel?: SkuChannelContentTenantIdSkuIdChannelCompoundUniqueInput
+    AND?: SkuChannelContentWhereInput | SkuChannelContentWhereInput[]
+    OR?: SkuChannelContentWhereInput[]
+    NOT?: SkuChannelContentWhereInput | SkuChannelContentWhereInput[]
+    tenantId?: UuidFilter<"SkuChannelContent"> | string
+    skuId?: UuidFilter<"SkuChannelContent"> | string
+    channel?: StringFilter<"SkuChannelContent"> | string
+    title?: StringFilter<"SkuChannelContent"> | string
+    description?: StringNullableFilter<"SkuChannelContent"> | string | null
+    attributes?: JsonNullableFilter<"SkuChannelContent">
+    updatedBy?: StringNullableFilter<"SkuChannelContent"> | string | null
+    createdAt?: DateTimeFilter<"SkuChannelContent"> | Date | string
+    updatedAt?: DateTimeFilter<"SkuChannelContent"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    sku?: XOR<SkuScalarRelationFilter, SkuWhereInput>
+  }, "id" | "tenantId_skuId_channel">
+
+  export type SkuChannelContentOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    skuId?: SortOrder
+    channel?: SortOrder
+    title?: SortOrder
+    description?: SortOrderInput | SortOrder
+    attributes?: SortOrderInput | SortOrder
+    updatedBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: SkuChannelContentCountOrderByAggregateInput
+    _max?: SkuChannelContentMaxOrderByAggregateInput
+    _min?: SkuChannelContentMinOrderByAggregateInput
+  }
+
+  export type SkuChannelContentScalarWhereWithAggregatesInput = {
+    AND?: SkuChannelContentScalarWhereWithAggregatesInput | SkuChannelContentScalarWhereWithAggregatesInput[]
+    OR?: SkuChannelContentScalarWhereWithAggregatesInput[]
+    NOT?: SkuChannelContentScalarWhereWithAggregatesInput | SkuChannelContentScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"SkuChannelContent"> | string
+    tenantId?: UuidWithAggregatesFilter<"SkuChannelContent"> | string
+    skuId?: UuidWithAggregatesFilter<"SkuChannelContent"> | string
+    channel?: StringWithAggregatesFilter<"SkuChannelContent"> | string
+    title?: StringWithAggregatesFilter<"SkuChannelContent"> | string
+    description?: StringNullableWithAggregatesFilter<"SkuChannelContent"> | string | null
+    attributes?: JsonNullableWithAggregatesFilter<"SkuChannelContent">
+    updatedBy?: StringNullableWithAggregatesFilter<"SkuChannelContent"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"SkuChannelContent"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"SkuChannelContent"> | Date | string
+  }
+
   export type TenantCreateInput = {
     id?: string
     slug: string
@@ -169045,6 +170510,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -169158,6 +170624,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -169271,6 +170738,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -169384,6 +170852,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -171746,6 +173215,7 @@ export namespace Prisma {
     bundleComponents?: BundleComponentCreateNestedManyWithoutBundleSkuInput
     bundleUsedIn?: BundleComponentCreateNestedManyWithoutComponentSkuInput
     serialNumbers?: SerialNumberCreateNestedManyWithoutSkuInput
+    channelContents?: SkuChannelContentCreateNestedManyWithoutSkuInput
   }
 
   export type SkuUncheckedCreateInput = {
@@ -171773,6 +173243,7 @@ export namespace Prisma {
     bundleComponents?: BundleComponentUncheckedCreateNestedManyWithoutBundleSkuInput
     bundleUsedIn?: BundleComponentUncheckedCreateNestedManyWithoutComponentSkuInput
     serialNumbers?: SerialNumberUncheckedCreateNestedManyWithoutSkuInput
+    channelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutSkuInput
   }
 
   export type SkuUpdateInput = {
@@ -171800,6 +173271,7 @@ export namespace Prisma {
     bundleComponents?: BundleComponentUpdateManyWithoutBundleSkuNestedInput
     bundleUsedIn?: BundleComponentUpdateManyWithoutComponentSkuNestedInput
     serialNumbers?: SerialNumberUpdateManyWithoutSkuNestedInput
+    channelContents?: SkuChannelContentUpdateManyWithoutSkuNestedInput
   }
 
   export type SkuUncheckedUpdateInput = {
@@ -171827,6 +173299,7 @@ export namespace Prisma {
     bundleComponents?: BundleComponentUncheckedUpdateManyWithoutBundleSkuNestedInput
     bundleUsedIn?: BundleComponentUncheckedUpdateManyWithoutComponentSkuNestedInput
     serialNumbers?: SerialNumberUncheckedUpdateManyWithoutSkuNestedInput
+    channelContents?: SkuChannelContentUncheckedUpdateManyWithoutSkuNestedInput
   }
 
   export type SkuCreateManyInput = {
@@ -173931,6 +175404,7 @@ export namespace Prisma {
     holdReason?: string | null
     fulfillmentType?: $Enums.FulfillmentType
     projectRef?: string | null
+    channel?: string
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -173952,6 +175426,7 @@ export namespace Prisma {
     holdReason?: string | null
     fulfillmentType?: $Enums.FulfillmentType
     projectRef?: string | null
+    channel?: string
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -173971,6 +175446,7 @@ export namespace Prisma {
     holdReason?: NullableStringFieldUpdateOperationsInput | string | null
     fulfillmentType?: EnumFulfillmentTypeFieldUpdateOperationsInput | $Enums.FulfillmentType
     projectRef?: NullableStringFieldUpdateOperationsInput | string | null
+    channel?: StringFieldUpdateOperationsInput | string
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -173992,6 +175468,7 @@ export namespace Prisma {
     holdReason?: NullableStringFieldUpdateOperationsInput | string | null
     fulfillmentType?: EnumFulfillmentTypeFieldUpdateOperationsInput | $Enums.FulfillmentType
     projectRef?: NullableStringFieldUpdateOperationsInput | string | null
+    channel?: StringFieldUpdateOperationsInput | string
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -174012,6 +175489,7 @@ export namespace Prisma {
     holdReason?: string | null
     fulfillmentType?: $Enums.FulfillmentType
     projectRef?: string | null
+    channel?: string
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -174029,6 +175507,7 @@ export namespace Prisma {
     holdReason?: NullableStringFieldUpdateOperationsInput | string | null
     fulfillmentType?: EnumFulfillmentTypeFieldUpdateOperationsInput | $Enums.FulfillmentType
     projectRef?: NullableStringFieldUpdateOperationsInput | string | null
+    channel?: StringFieldUpdateOperationsInput | string
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -174047,6 +175526,7 @@ export namespace Prisma {
     holdReason?: NullableStringFieldUpdateOperationsInput | string | null
     fulfillmentType?: EnumFulfillmentTypeFieldUpdateOperationsInput | $Enums.FulfillmentType
     projectRef?: NullableStringFieldUpdateOperationsInput | string | null
+    channel?: StringFieldUpdateOperationsInput | string
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -176961,6 +178441,7 @@ export namespace Prisma {
     prefix: string
     keyHash: string
     permissions?: ApiKeyCreatepermissionsInput | string[]
+    accountId?: string | null
     active?: boolean
     lastUsedAt?: Date | string | null
     createdBy?: string | null
@@ -176975,6 +178456,7 @@ export namespace Prisma {
     prefix: string
     keyHash: string
     permissions?: ApiKeyCreatepermissionsInput | string[]
+    accountId?: string | null
     active?: boolean
     lastUsedAt?: Date | string | null
     createdBy?: string | null
@@ -176987,6 +178469,7 @@ export namespace Prisma {
     prefix?: StringFieldUpdateOperationsInput | string
     keyHash?: StringFieldUpdateOperationsInput | string
     permissions?: ApiKeyUpdatepermissionsInput | string[]
+    accountId?: NullableStringFieldUpdateOperationsInput | string | null
     active?: BoolFieldUpdateOperationsInput | boolean
     lastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
@@ -177001,6 +178484,7 @@ export namespace Prisma {
     prefix?: StringFieldUpdateOperationsInput | string
     keyHash?: StringFieldUpdateOperationsInput | string
     permissions?: ApiKeyUpdatepermissionsInput | string[]
+    accountId?: NullableStringFieldUpdateOperationsInput | string | null
     active?: BoolFieldUpdateOperationsInput | boolean
     lastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
@@ -177014,6 +178498,7 @@ export namespace Prisma {
     prefix: string
     keyHash: string
     permissions?: ApiKeyCreatepermissionsInput | string[]
+    accountId?: string | null
     active?: boolean
     lastUsedAt?: Date | string | null
     createdBy?: string | null
@@ -177026,6 +178511,7 @@ export namespace Prisma {
     prefix?: StringFieldUpdateOperationsInput | string
     keyHash?: StringFieldUpdateOperationsInput | string
     permissions?: ApiKeyUpdatepermissionsInput | string[]
+    accountId?: NullableStringFieldUpdateOperationsInput | string | null
     active?: BoolFieldUpdateOperationsInput | boolean
     lastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
@@ -177039,6 +178525,7 @@ export namespace Prisma {
     prefix?: StringFieldUpdateOperationsInput | string
     keyHash?: StringFieldUpdateOperationsInput | string
     permissions?: ApiKeyUpdatepermissionsInput | string[]
+    accountId?: NullableStringFieldUpdateOperationsInput | string | null
     active?: BoolFieldUpdateOperationsInput | boolean
     lastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
@@ -179015,6 +180502,7 @@ export namespace Prisma {
     packageNumber: string
     status?: $Enums.PackageStatus
     weightKg?: Decimal | DecimalJsLike | number | string | null
+    ssccCode?: string | null
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -179030,6 +180518,7 @@ export namespace Prisma {
     packageNumber: string
     status?: $Enums.PackageStatus
     weightKg?: Decimal | DecimalJsLike | number | string | null
+    ssccCode?: string | null
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -179041,6 +180530,7 @@ export namespace Prisma {
     packageNumber?: StringFieldUpdateOperationsInput | string
     status?: EnumPackageStatusFieldUpdateOperationsInput | $Enums.PackageStatus
     weightKg?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    ssccCode?: NullableStringFieldUpdateOperationsInput | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -179056,6 +180546,7 @@ export namespace Prisma {
     packageNumber?: StringFieldUpdateOperationsInput | string
     status?: EnumPackageStatusFieldUpdateOperationsInput | $Enums.PackageStatus
     weightKg?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    ssccCode?: NullableStringFieldUpdateOperationsInput | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -179069,6 +180560,7 @@ export namespace Prisma {
     packageNumber: string
     status?: $Enums.PackageStatus
     weightKg?: Decimal | DecimalJsLike | number | string | null
+    ssccCode?: string | null
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -179079,6 +180571,7 @@ export namespace Prisma {
     packageNumber?: StringFieldUpdateOperationsInput | string
     status?: EnumPackageStatusFieldUpdateOperationsInput | $Enums.PackageStatus
     weightKg?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    ssccCode?: NullableStringFieldUpdateOperationsInput | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -179091,6 +180584,7 @@ export namespace Prisma {
     packageNumber?: StringFieldUpdateOperationsInput | string
     status?: EnumPackageStatusFieldUpdateOperationsInput | $Enums.PackageStatus
     weightKg?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    ssccCode?: NullableStringFieldUpdateOperationsInput | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -179496,6 +180990,95 @@ export namespace Prisma {
     validTo?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumFrameworkStatusFieldUpdateOperationsInput | $Enums.FrameworkStatus
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SkuChannelContentCreateInput = {
+    id?: string
+    channel: string
+    title: string
+    description?: string | null
+    attributes?: NullableJsonNullValueInput | InputJsonValue
+    updatedBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutSkuChannelContentsInput
+    sku: SkuCreateNestedOneWithoutChannelContentsInput
+  }
+
+  export type SkuChannelContentUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    skuId: string
+    channel: string
+    title: string
+    description?: string | null
+    attributes?: NullableJsonNullValueInput | InputJsonValue
+    updatedBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SkuChannelContentUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    channel?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    attributes?: NullableJsonNullValueInput | InputJsonValue
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutSkuChannelContentsNestedInput
+    sku?: SkuUpdateOneRequiredWithoutChannelContentsNestedInput
+  }
+
+  export type SkuChannelContentUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    channel?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    attributes?: NullableJsonNullValueInput | InputJsonValue
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SkuChannelContentCreateManyInput = {
+    id?: string
+    tenantId: string
+    skuId: string
+    channel: string
+    title: string
+    description?: string | null
+    attributes?: NullableJsonNullValueInput | InputJsonValue
+    updatedBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SkuChannelContentUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    channel?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    attributes?: NullableJsonNullValueInput | InputJsonValue
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SkuChannelContentUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    channel?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    attributes?: NullableJsonNullValueInput | InputJsonValue
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -180168,6 +181751,12 @@ export namespace Prisma {
     none?: CustomObjectDefinitionWhereInput
   }
 
+  export type SkuChannelContentListRelationFilter = {
+    every?: SkuChannelContentWhereInput
+    some?: SkuChannelContentWhereInput
+    none?: SkuChannelContentWhereInput
+  }
+
   export type FrameworkAgreementListRelationFilter = {
     every?: FrameworkAgreementWhereInput
     some?: FrameworkAgreementWhereInput
@@ -180579,6 +182168,10 @@ export namespace Prisma {
   }
 
   export type CustomObjectDefinitionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type SkuChannelContentOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -184000,6 +185593,7 @@ export namespace Prisma {
     holdReason?: SortOrder
     fulfillmentType?: SortOrder
     projectRef?: SortOrder
+    channel?: SortOrder
     createdBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -184022,6 +185616,7 @@ export namespace Prisma {
     holdReason?: SortOrder
     fulfillmentType?: SortOrder
     projectRef?: SortOrder
+    channel?: SortOrder
     createdBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -184040,6 +185635,7 @@ export namespace Prisma {
     holdReason?: SortOrder
     fulfillmentType?: SortOrder
     projectRef?: SortOrder
+    channel?: SortOrder
     createdBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -186049,6 +187645,7 @@ export namespace Prisma {
     prefix?: SortOrder
     keyHash?: SortOrder
     permissions?: SortOrder
+    accountId?: SortOrder
     active?: SortOrder
     lastUsedAt?: SortOrder
     createdBy?: SortOrder
@@ -186061,6 +187658,7 @@ export namespace Prisma {
     name?: SortOrder
     prefix?: SortOrder
     keyHash?: SortOrder
+    accountId?: SortOrder
     active?: SortOrder
     lastUsedAt?: SortOrder
     createdBy?: SortOrder
@@ -186073,6 +187671,7 @@ export namespace Prisma {
     name?: SortOrder
     prefix?: SortOrder
     keyHash?: SortOrder
+    accountId?: SortOrder
     active?: SortOrder
     lastUsedAt?: SortOrder
     createdBy?: SortOrder
@@ -187427,6 +189026,7 @@ export namespace Prisma {
     packageNumber?: SortOrder
     status?: SortOrder
     weightKg?: SortOrder
+    ssccCode?: SortOrder
     createdBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -187443,6 +189043,7 @@ export namespace Prisma {
     packageNumber?: SortOrder
     status?: SortOrder
     weightKg?: SortOrder
+    ssccCode?: SortOrder
     createdBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -187455,6 +189056,7 @@ export namespace Prisma {
     packageNumber?: SortOrder
     status?: SortOrder
     weightKg?: SortOrder
+    ssccCode?: SortOrder
     createdBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -187757,6 +189359,49 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumFrameworkStatusFilter<$PrismaModel>
     _max?: NestedEnumFrameworkStatusFilter<$PrismaModel>
+  }
+
+  export type SkuChannelContentTenantIdSkuIdChannelCompoundUniqueInput = {
+    tenantId: string
+    skuId: string
+    channel: string
+  }
+
+  export type SkuChannelContentCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    skuId?: SortOrder
+    channel?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    attributes?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SkuChannelContentMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    skuId?: SortOrder
+    channel?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SkuChannelContentMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    skuId?: SortOrder
+    channel?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type TenantConfigurationVersionCreateNestedManyWithoutTenantInput = {
@@ -188471,6 +190116,13 @@ export namespace Prisma {
     connectOrCreate?: CustomObjectDefinitionCreateOrConnectWithoutTenantInput | CustomObjectDefinitionCreateOrConnectWithoutTenantInput[]
     createMany?: CustomObjectDefinitionCreateManyTenantInputEnvelope
     connect?: CustomObjectDefinitionWhereUniqueInput | CustomObjectDefinitionWhereUniqueInput[]
+  }
+
+  export type SkuChannelContentCreateNestedManyWithoutTenantInput = {
+    create?: XOR<SkuChannelContentCreateWithoutTenantInput, SkuChannelContentUncheckedCreateWithoutTenantInput> | SkuChannelContentCreateWithoutTenantInput[] | SkuChannelContentUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: SkuChannelContentCreateOrConnectWithoutTenantInput | SkuChannelContentCreateOrConnectWithoutTenantInput[]
+    createMany?: SkuChannelContentCreateManyTenantInputEnvelope
+    connect?: SkuChannelContentWhereUniqueInput | SkuChannelContentWhereUniqueInput[]
   }
 
   export type FrameworkAgreementCreateNestedManyWithoutTenantInput = {
@@ -189192,6 +190844,13 @@ export namespace Prisma {
     connectOrCreate?: CustomObjectDefinitionCreateOrConnectWithoutTenantInput | CustomObjectDefinitionCreateOrConnectWithoutTenantInput[]
     createMany?: CustomObjectDefinitionCreateManyTenantInputEnvelope
     connect?: CustomObjectDefinitionWhereUniqueInput | CustomObjectDefinitionWhereUniqueInput[]
+  }
+
+  export type SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<SkuChannelContentCreateWithoutTenantInput, SkuChannelContentUncheckedCreateWithoutTenantInput> | SkuChannelContentCreateWithoutTenantInput[] | SkuChannelContentUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: SkuChannelContentCreateOrConnectWithoutTenantInput | SkuChannelContentCreateOrConnectWithoutTenantInput[]
+    createMany?: SkuChannelContentCreateManyTenantInputEnvelope
+    connect?: SkuChannelContentWhereUniqueInput | SkuChannelContentWhereUniqueInput[]
   }
 
   export type FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput = {
@@ -190649,6 +192308,20 @@ export namespace Prisma {
     deleteMany?: CustomObjectDefinitionScalarWhereInput | CustomObjectDefinitionScalarWhereInput[]
   }
 
+  export type SkuChannelContentUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<SkuChannelContentCreateWithoutTenantInput, SkuChannelContentUncheckedCreateWithoutTenantInput> | SkuChannelContentCreateWithoutTenantInput[] | SkuChannelContentUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: SkuChannelContentCreateOrConnectWithoutTenantInput | SkuChannelContentCreateOrConnectWithoutTenantInput[]
+    upsert?: SkuChannelContentUpsertWithWhereUniqueWithoutTenantInput | SkuChannelContentUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: SkuChannelContentCreateManyTenantInputEnvelope
+    set?: SkuChannelContentWhereUniqueInput | SkuChannelContentWhereUniqueInput[]
+    disconnect?: SkuChannelContentWhereUniqueInput | SkuChannelContentWhereUniqueInput[]
+    delete?: SkuChannelContentWhereUniqueInput | SkuChannelContentWhereUniqueInput[]
+    connect?: SkuChannelContentWhereUniqueInput | SkuChannelContentWhereUniqueInput[]
+    update?: SkuChannelContentUpdateWithWhereUniqueWithoutTenantInput | SkuChannelContentUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: SkuChannelContentUpdateManyWithWhereWithoutTenantInput | SkuChannelContentUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: SkuChannelContentScalarWhereInput | SkuChannelContentScalarWhereInput[]
+  }
+
   export type FrameworkAgreementUpdateManyWithoutTenantNestedInput = {
     create?: XOR<FrameworkAgreementCreateWithoutTenantInput, FrameworkAgreementUncheckedCreateWithoutTenantInput> | FrameworkAgreementCreateWithoutTenantInput[] | FrameworkAgreementUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: FrameworkAgreementCreateOrConnectWithoutTenantInput | FrameworkAgreementCreateOrConnectWithoutTenantInput[]
@@ -192089,6 +193762,20 @@ export namespace Prisma {
     update?: CustomObjectDefinitionUpdateWithWhereUniqueWithoutTenantInput | CustomObjectDefinitionUpdateWithWhereUniqueWithoutTenantInput[]
     updateMany?: CustomObjectDefinitionUpdateManyWithWhereWithoutTenantInput | CustomObjectDefinitionUpdateManyWithWhereWithoutTenantInput[]
     deleteMany?: CustomObjectDefinitionScalarWhereInput | CustomObjectDefinitionScalarWhereInput[]
+  }
+
+  export type SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<SkuChannelContentCreateWithoutTenantInput, SkuChannelContentUncheckedCreateWithoutTenantInput> | SkuChannelContentCreateWithoutTenantInput[] | SkuChannelContentUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: SkuChannelContentCreateOrConnectWithoutTenantInput | SkuChannelContentCreateOrConnectWithoutTenantInput[]
+    upsert?: SkuChannelContentUpsertWithWhereUniqueWithoutTenantInput | SkuChannelContentUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: SkuChannelContentCreateManyTenantInputEnvelope
+    set?: SkuChannelContentWhereUniqueInput | SkuChannelContentWhereUniqueInput[]
+    disconnect?: SkuChannelContentWhereUniqueInput | SkuChannelContentWhereUniqueInput[]
+    delete?: SkuChannelContentWhereUniqueInput | SkuChannelContentWhereUniqueInput[]
+    connect?: SkuChannelContentWhereUniqueInput | SkuChannelContentWhereUniqueInput[]
+    update?: SkuChannelContentUpdateWithWhereUniqueWithoutTenantInput | SkuChannelContentUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: SkuChannelContentUpdateManyWithWhereWithoutTenantInput | SkuChannelContentUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: SkuChannelContentScalarWhereInput | SkuChannelContentScalarWhereInput[]
   }
 
   export type FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput = {
@@ -193578,6 +195265,13 @@ export namespace Prisma {
     connect?: SerialNumberWhereUniqueInput | SerialNumberWhereUniqueInput[]
   }
 
+  export type SkuChannelContentCreateNestedManyWithoutSkuInput = {
+    create?: XOR<SkuChannelContentCreateWithoutSkuInput, SkuChannelContentUncheckedCreateWithoutSkuInput> | SkuChannelContentCreateWithoutSkuInput[] | SkuChannelContentUncheckedCreateWithoutSkuInput[]
+    connectOrCreate?: SkuChannelContentCreateOrConnectWithoutSkuInput | SkuChannelContentCreateOrConnectWithoutSkuInput[]
+    createMany?: SkuChannelContentCreateManySkuInputEnvelope
+    connect?: SkuChannelContentWhereUniqueInput | SkuChannelContentWhereUniqueInput[]
+  }
+
   export type BarcodeUncheckedCreateNestedManyWithoutSkuInput = {
     create?: XOR<BarcodeCreateWithoutSkuInput, BarcodeUncheckedCreateWithoutSkuInput> | BarcodeCreateWithoutSkuInput[] | BarcodeUncheckedCreateWithoutSkuInput[]
     connectOrCreate?: BarcodeCreateOrConnectWithoutSkuInput | BarcodeCreateOrConnectWithoutSkuInput[]
@@ -193618,6 +195312,13 @@ export namespace Prisma {
     connectOrCreate?: SerialNumberCreateOrConnectWithoutSkuInput | SerialNumberCreateOrConnectWithoutSkuInput[]
     createMany?: SerialNumberCreateManySkuInputEnvelope
     connect?: SerialNumberWhereUniqueInput | SerialNumberWhereUniqueInput[]
+  }
+
+  export type SkuChannelContentUncheckedCreateNestedManyWithoutSkuInput = {
+    create?: XOR<SkuChannelContentCreateWithoutSkuInput, SkuChannelContentUncheckedCreateWithoutSkuInput> | SkuChannelContentCreateWithoutSkuInput[] | SkuChannelContentUncheckedCreateWithoutSkuInput[]
+    connectOrCreate?: SkuChannelContentCreateOrConnectWithoutSkuInput | SkuChannelContentCreateOrConnectWithoutSkuInput[]
+    createMany?: SkuChannelContentCreateManySkuInputEnvelope
+    connect?: SkuChannelContentWhereUniqueInput | SkuChannelContentWhereUniqueInput[]
   }
 
   export type NullableIntFieldUpdateOperationsInput = {
@@ -193736,6 +195437,20 @@ export namespace Prisma {
     deleteMany?: SerialNumberScalarWhereInput | SerialNumberScalarWhereInput[]
   }
 
+  export type SkuChannelContentUpdateManyWithoutSkuNestedInput = {
+    create?: XOR<SkuChannelContentCreateWithoutSkuInput, SkuChannelContentUncheckedCreateWithoutSkuInput> | SkuChannelContentCreateWithoutSkuInput[] | SkuChannelContentUncheckedCreateWithoutSkuInput[]
+    connectOrCreate?: SkuChannelContentCreateOrConnectWithoutSkuInput | SkuChannelContentCreateOrConnectWithoutSkuInput[]
+    upsert?: SkuChannelContentUpsertWithWhereUniqueWithoutSkuInput | SkuChannelContentUpsertWithWhereUniqueWithoutSkuInput[]
+    createMany?: SkuChannelContentCreateManySkuInputEnvelope
+    set?: SkuChannelContentWhereUniqueInput | SkuChannelContentWhereUniqueInput[]
+    disconnect?: SkuChannelContentWhereUniqueInput | SkuChannelContentWhereUniqueInput[]
+    delete?: SkuChannelContentWhereUniqueInput | SkuChannelContentWhereUniqueInput[]
+    connect?: SkuChannelContentWhereUniqueInput | SkuChannelContentWhereUniqueInput[]
+    update?: SkuChannelContentUpdateWithWhereUniqueWithoutSkuInput | SkuChannelContentUpdateWithWhereUniqueWithoutSkuInput[]
+    updateMany?: SkuChannelContentUpdateManyWithWhereWithoutSkuInput | SkuChannelContentUpdateManyWithWhereWithoutSkuInput[]
+    deleteMany?: SkuChannelContentScalarWhereInput | SkuChannelContentScalarWhereInput[]
+  }
+
   export type BarcodeUncheckedUpdateManyWithoutSkuNestedInput = {
     create?: XOR<BarcodeCreateWithoutSkuInput, BarcodeUncheckedCreateWithoutSkuInput> | BarcodeCreateWithoutSkuInput[] | BarcodeUncheckedCreateWithoutSkuInput[]
     connectOrCreate?: BarcodeCreateOrConnectWithoutSkuInput | BarcodeCreateOrConnectWithoutSkuInput[]
@@ -193818,6 +195533,20 @@ export namespace Prisma {
     update?: SerialNumberUpdateWithWhereUniqueWithoutSkuInput | SerialNumberUpdateWithWhereUniqueWithoutSkuInput[]
     updateMany?: SerialNumberUpdateManyWithWhereWithoutSkuInput | SerialNumberUpdateManyWithWhereWithoutSkuInput[]
     deleteMany?: SerialNumberScalarWhereInput | SerialNumberScalarWhereInput[]
+  }
+
+  export type SkuChannelContentUncheckedUpdateManyWithoutSkuNestedInput = {
+    create?: XOR<SkuChannelContentCreateWithoutSkuInput, SkuChannelContentUncheckedCreateWithoutSkuInput> | SkuChannelContentCreateWithoutSkuInput[] | SkuChannelContentUncheckedCreateWithoutSkuInput[]
+    connectOrCreate?: SkuChannelContentCreateOrConnectWithoutSkuInput | SkuChannelContentCreateOrConnectWithoutSkuInput[]
+    upsert?: SkuChannelContentUpsertWithWhereUniqueWithoutSkuInput | SkuChannelContentUpsertWithWhereUniqueWithoutSkuInput[]
+    createMany?: SkuChannelContentCreateManySkuInputEnvelope
+    set?: SkuChannelContentWhereUniqueInput | SkuChannelContentWhereUniqueInput[]
+    disconnect?: SkuChannelContentWhereUniqueInput | SkuChannelContentWhereUniqueInput[]
+    delete?: SkuChannelContentWhereUniqueInput | SkuChannelContentWhereUniqueInput[]
+    connect?: SkuChannelContentWhereUniqueInput | SkuChannelContentWhereUniqueInput[]
+    update?: SkuChannelContentUpdateWithWhereUniqueWithoutSkuInput | SkuChannelContentUpdateWithWhereUniqueWithoutSkuInput[]
+    updateMany?: SkuChannelContentUpdateManyWithWhereWithoutSkuInput | SkuChannelContentUpdateManyWithWhereWithoutSkuInput[]
+    deleteMany?: SkuChannelContentScalarWhereInput | SkuChannelContentScalarWhereInput[]
   }
 
   export type SkuCreateNestedOneWithoutBarcodesInput = {
@@ -196892,6 +198621,34 @@ export namespace Prisma {
     update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutFrameworkAgreementsInput, TenantUpdateWithoutFrameworkAgreementsInput>, TenantUncheckedUpdateWithoutFrameworkAgreementsInput>
   }
 
+  export type TenantCreateNestedOneWithoutSkuChannelContentsInput = {
+    create?: XOR<TenantCreateWithoutSkuChannelContentsInput, TenantUncheckedCreateWithoutSkuChannelContentsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutSkuChannelContentsInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type SkuCreateNestedOneWithoutChannelContentsInput = {
+    create?: XOR<SkuCreateWithoutChannelContentsInput, SkuUncheckedCreateWithoutChannelContentsInput>
+    connectOrCreate?: SkuCreateOrConnectWithoutChannelContentsInput
+    connect?: SkuWhereUniqueInput
+  }
+
+  export type TenantUpdateOneRequiredWithoutSkuChannelContentsNestedInput = {
+    create?: XOR<TenantCreateWithoutSkuChannelContentsInput, TenantUncheckedCreateWithoutSkuChannelContentsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutSkuChannelContentsInput
+    upsert?: TenantUpsertWithoutSkuChannelContentsInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutSkuChannelContentsInput, TenantUpdateWithoutSkuChannelContentsInput>, TenantUncheckedUpdateWithoutSkuChannelContentsInput>
+  }
+
+  export type SkuUpdateOneRequiredWithoutChannelContentsNestedInput = {
+    create?: XOR<SkuCreateWithoutChannelContentsInput, SkuUncheckedCreateWithoutChannelContentsInput>
+    connectOrCreate?: SkuCreateOrConnectWithoutChannelContentsInput
+    upsert?: SkuUpsertWithoutChannelContentsInput
+    connect?: SkuWhereUniqueInput
+    update?: XOR<XOR<SkuUpdateToOneWithWhereWithoutChannelContentsInput, SkuUpdateWithoutChannelContentsInput>, SkuUncheckedUpdateWithoutChannelContentsInput>
+  }
+
   export type NestedUuidFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -199573,6 +201330,7 @@ export namespace Prisma {
     holdReason?: string | null
     fulfillmentType?: $Enums.FulfillmentType
     projectRef?: string | null
+    channel?: string
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -199592,6 +201350,7 @@ export namespace Prisma {
     holdReason?: string | null
     fulfillmentType?: $Enums.FulfillmentType
     projectRef?: string | null
+    channel?: string
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -200713,6 +202472,7 @@ export namespace Prisma {
     prefix: string
     keyHash: string
     permissions?: ApiKeyCreatepermissionsInput | string[]
+    accountId?: string | null
     active?: boolean
     lastUsedAt?: Date | string | null
     createdBy?: string | null
@@ -200725,6 +202485,7 @@ export namespace Prisma {
     prefix: string
     keyHash: string
     permissions?: ApiKeyCreatepermissionsInput | string[]
+    accountId?: string | null
     active?: boolean
     lastUsedAt?: Date | string | null
     createdBy?: string | null
@@ -201630,6 +203391,7 @@ export namespace Prisma {
     packageNumber: string
     status?: $Enums.PackageStatus
     weightKg?: Decimal | DecimalJsLike | number | string | null
+    ssccCode?: string | null
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -201643,6 +203405,7 @@ export namespace Prisma {
     packageNumber: string
     status?: $Enums.PackageStatus
     weightKg?: Decimal | DecimalJsLike | number | string | null
+    ssccCode?: string | null
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -201720,6 +203483,40 @@ export namespace Prisma {
 
   export type CustomObjectDefinitionCreateManyTenantInputEnvelope = {
     data: CustomObjectDefinitionCreateManyTenantInput | CustomObjectDefinitionCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type SkuChannelContentCreateWithoutTenantInput = {
+    id?: string
+    channel: string
+    title: string
+    description?: string | null
+    attributes?: NullableJsonNullValueInput | InputJsonValue
+    updatedBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    sku: SkuCreateNestedOneWithoutChannelContentsInput
+  }
+
+  export type SkuChannelContentUncheckedCreateWithoutTenantInput = {
+    id?: string
+    skuId: string
+    channel: string
+    title: string
+    description?: string | null
+    attributes?: NullableJsonNullValueInput | InputJsonValue
+    updatedBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SkuChannelContentCreateOrConnectWithoutTenantInput = {
+    where: SkuChannelContentWhereUniqueInput
+    create: XOR<SkuChannelContentCreateWithoutTenantInput, SkuChannelContentUncheckedCreateWithoutTenantInput>
+  }
+
+  export type SkuChannelContentCreateManyTenantInputEnvelope = {
+    data: SkuChannelContentCreateManyTenantInput | SkuChannelContentCreateManyTenantInput[]
     skipDuplicates?: boolean
   }
 
@@ -202947,6 +204744,7 @@ export namespace Prisma {
     holdReason?: StringNullableFilter<"SalesOrder"> | string | null
     fulfillmentType?: EnumFulfillmentTypeFilter<"SalesOrder"> | $Enums.FulfillmentType
     projectRef?: StringNullableFilter<"SalesOrder"> | string | null
+    channel?: StringFilter<"SalesOrder"> | string
     createdBy?: StringNullableFilter<"SalesOrder"> | string | null
     createdAt?: DateTimeFilter<"SalesOrder"> | Date | string
     updatedAt?: DateTimeFilter<"SalesOrder"> | Date | string
@@ -204009,6 +205807,7 @@ export namespace Prisma {
     prefix?: StringFilter<"ApiKey"> | string
     keyHash?: StringFilter<"ApiKey"> | string
     permissions?: StringNullableListFilter<"ApiKey">
+    accountId?: UuidNullableFilter<"ApiKey"> | string | null
     active?: BoolFilter<"ApiKey"> | boolean
     lastUsedAt?: DateTimeNullableFilter<"ApiKey"> | Date | string | null
     createdBy?: StringNullableFilter<"ApiKey"> | string | null
@@ -204880,6 +206679,7 @@ export namespace Prisma {
     packageNumber?: StringFilter<"Package"> | string
     status?: EnumPackageStatusFilter<"Package"> | $Enums.PackageStatus
     weightKg?: DecimalNullableFilter<"Package"> | Decimal | DecimalJsLike | number | string | null
+    ssccCode?: StringNullableFilter<"Package"> | string | null
     createdBy?: StringNullableFilter<"Package"> | string | null
     createdAt?: DateTimeFilter<"Package"> | Date | string
     updatedAt?: DateTimeFilter<"Package"> | Date | string
@@ -204944,6 +206744,38 @@ export namespace Prisma {
     createdBy?: StringNullableFilter<"CustomObjectDefinition"> | string | null
     createdAt?: DateTimeFilter<"CustomObjectDefinition"> | Date | string
     updatedAt?: DateTimeFilter<"CustomObjectDefinition"> | Date | string
+  }
+
+  export type SkuChannelContentUpsertWithWhereUniqueWithoutTenantInput = {
+    where: SkuChannelContentWhereUniqueInput
+    update: XOR<SkuChannelContentUpdateWithoutTenantInput, SkuChannelContentUncheckedUpdateWithoutTenantInput>
+    create: XOR<SkuChannelContentCreateWithoutTenantInput, SkuChannelContentUncheckedCreateWithoutTenantInput>
+  }
+
+  export type SkuChannelContentUpdateWithWhereUniqueWithoutTenantInput = {
+    where: SkuChannelContentWhereUniqueInput
+    data: XOR<SkuChannelContentUpdateWithoutTenantInput, SkuChannelContentUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type SkuChannelContentUpdateManyWithWhereWithoutTenantInput = {
+    where: SkuChannelContentScalarWhereInput
+    data: XOR<SkuChannelContentUpdateManyMutationInput, SkuChannelContentUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type SkuChannelContentScalarWhereInput = {
+    AND?: SkuChannelContentScalarWhereInput | SkuChannelContentScalarWhereInput[]
+    OR?: SkuChannelContentScalarWhereInput[]
+    NOT?: SkuChannelContentScalarWhereInput | SkuChannelContentScalarWhereInput[]
+    id?: UuidFilter<"SkuChannelContent"> | string
+    tenantId?: UuidFilter<"SkuChannelContent"> | string
+    skuId?: UuidFilter<"SkuChannelContent"> | string
+    channel?: StringFilter<"SkuChannelContent"> | string
+    title?: StringFilter<"SkuChannelContent"> | string
+    description?: StringNullableFilter<"SkuChannelContent"> | string | null
+    attributes?: JsonNullableFilter<"SkuChannelContent">
+    updatedBy?: StringNullableFilter<"SkuChannelContent"> | string | null
+    createdAt?: DateTimeFilter<"SkuChannelContent"> | Date | string
+    updatedAt?: DateTimeFilter<"SkuChannelContent"> | Date | string
   }
 
   export type FrameworkAgreementUpsertWithWhereUniqueWithoutTenantInput = {
@@ -205091,6 +206923,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -205203,6 +207036,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -205331,6 +207165,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -205443,6 +207278,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -205555,6 +207391,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -205667,6 +207504,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -205829,6 +207667,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -205941,6 +207780,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -206069,6 +207909,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -206181,6 +208022,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -206447,6 +208289,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -206559,6 +208402,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -206783,6 +208627,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -206895,6 +208740,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -207052,6 +208898,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -207164,6 +209011,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -207311,6 +209159,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -207423,6 +209272,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -207580,6 +209430,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -207692,6 +209543,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -207839,6 +209691,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -207951,6 +209804,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -208168,6 +210022,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -208280,6 +210135,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -208461,6 +210317,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -208573,6 +210430,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -208732,6 +210590,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -208844,6 +210703,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -208993,6 +210853,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -209105,6 +210966,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -209283,6 +211145,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -209395,6 +211258,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -209605,6 +211469,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -209717,6 +211582,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -209901,6 +211767,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -210013,6 +211880,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -210193,6 +212061,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -210305,6 +212174,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -210433,6 +212303,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -210545,6 +212416,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -210657,6 +212529,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -210769,6 +212642,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -210897,6 +212771,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -211009,6 +212884,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -211121,6 +212997,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -211233,6 +213110,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -211361,6 +213239,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -211473,6 +213352,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -211585,6 +213465,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -211697,6 +213578,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -211825,6 +213707,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -211937,6 +213820,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -212049,6 +213933,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -212161,6 +214046,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -212289,6 +214175,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -212401,6 +214288,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -212513,6 +214401,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -212625,6 +214514,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -212753,6 +214643,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -212865,6 +214756,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -212977,6 +214869,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -213089,6 +214982,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -213217,6 +215111,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -213329,6 +215224,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -213441,6 +215337,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -213553,6 +215450,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -213743,6 +215641,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -213855,6 +215754,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -214225,6 +216125,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -214337,6 +216238,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -214493,6 +216395,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -214605,6 +216508,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -214790,6 +216694,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -214902,6 +216807,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -215030,6 +216936,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -215142,6 +217049,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -215254,6 +217162,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -215366,6 +217275,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -215494,6 +217404,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -215606,6 +217517,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -215718,6 +217630,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -215830,6 +217743,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -215984,6 +217898,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -216096,6 +218011,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -216284,6 +218200,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -216396,6 +218313,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -216705,6 +218623,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -216817,6 +218736,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -217050,6 +218970,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -217162,6 +219083,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -217329,6 +219251,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -217441,6 +219364,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -217682,6 +219606,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -217794,6 +219719,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -217826,6 +219752,7 @@ export namespace Prisma {
     bundleComponents?: BundleComponentCreateNestedManyWithoutBundleSkuInput
     bundleUsedIn?: BundleComponentCreateNestedManyWithoutComponentSkuInput
     serialNumbers?: SerialNumberCreateNestedManyWithoutSkuInput
+    channelContents?: SkuChannelContentCreateNestedManyWithoutSkuInput
   }
 
   export type SkuUncheckedCreateWithoutProductInput = {
@@ -217852,6 +219779,7 @@ export namespace Prisma {
     bundleComponents?: BundleComponentUncheckedCreateNestedManyWithoutBundleSkuInput
     bundleUsedIn?: BundleComponentUncheckedCreateNestedManyWithoutComponentSkuInput
     serialNumbers?: SerialNumberUncheckedCreateNestedManyWithoutSkuInput
+    channelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutSkuInput
   }
 
   export type SkuCreateOrConnectWithoutProductInput = {
@@ -217984,6 +219912,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -218096,6 +220025,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -218334,6 +220264,40 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type SkuChannelContentCreateWithoutSkuInput = {
+    id?: string
+    channel: string
+    title: string
+    description?: string | null
+    attributes?: NullableJsonNullValueInput | InputJsonValue
+    updatedBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutSkuChannelContentsInput
+  }
+
+  export type SkuChannelContentUncheckedCreateWithoutSkuInput = {
+    id?: string
+    tenantId: string
+    channel: string
+    title: string
+    description?: string | null
+    attributes?: NullableJsonNullValueInput | InputJsonValue
+    updatedBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SkuChannelContentCreateOrConnectWithoutSkuInput = {
+    where: SkuChannelContentWhereUniqueInput
+    create: XOR<SkuChannelContentCreateWithoutSkuInput, SkuChannelContentUncheckedCreateWithoutSkuInput>
+  }
+
+  export type SkuChannelContentCreateManySkuInputEnvelope = {
+    data: SkuChannelContentCreateManySkuInput | SkuChannelContentCreateManySkuInput[]
+    skipDuplicates?: boolean
+  }
+
   export type ProductUpsertWithoutSkusInput = {
     update: XOR<ProductUpdateWithoutSkusInput, ProductUncheckedUpdateWithoutSkusInput>
     create: XOR<ProductCreateWithoutSkusInput, ProductUncheckedCreateWithoutSkusInput>
@@ -218519,6 +220483,22 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"SerialNumber"> | Date | string
   }
 
+  export type SkuChannelContentUpsertWithWhereUniqueWithoutSkuInput = {
+    where: SkuChannelContentWhereUniqueInput
+    update: XOR<SkuChannelContentUpdateWithoutSkuInput, SkuChannelContentUncheckedUpdateWithoutSkuInput>
+    create: XOR<SkuChannelContentCreateWithoutSkuInput, SkuChannelContentUncheckedCreateWithoutSkuInput>
+  }
+
+  export type SkuChannelContentUpdateWithWhereUniqueWithoutSkuInput = {
+    where: SkuChannelContentWhereUniqueInput
+    data: XOR<SkuChannelContentUpdateWithoutSkuInput, SkuChannelContentUncheckedUpdateWithoutSkuInput>
+  }
+
+  export type SkuChannelContentUpdateManyWithWhereWithoutSkuInput = {
+    where: SkuChannelContentScalarWhereInput
+    data: XOR<SkuChannelContentUpdateManyMutationInput, SkuChannelContentUncheckedUpdateManyWithoutSkuInput>
+  }
+
   export type SkuCreateWithoutBarcodesInput = {
     id?: string
     tenantId: string
@@ -218543,6 +220523,7 @@ export namespace Prisma {
     bundleComponents?: BundleComponentCreateNestedManyWithoutBundleSkuInput
     bundleUsedIn?: BundleComponentCreateNestedManyWithoutComponentSkuInput
     serialNumbers?: SerialNumberCreateNestedManyWithoutSkuInput
+    channelContents?: SkuChannelContentCreateNestedManyWithoutSkuInput
   }
 
   export type SkuUncheckedCreateWithoutBarcodesInput = {
@@ -218569,6 +220550,7 @@ export namespace Prisma {
     bundleComponents?: BundleComponentUncheckedCreateNestedManyWithoutBundleSkuInput
     bundleUsedIn?: BundleComponentUncheckedCreateNestedManyWithoutComponentSkuInput
     serialNumbers?: SerialNumberUncheckedCreateNestedManyWithoutSkuInput
+    channelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutSkuInput
   }
 
   export type SkuCreateOrConnectWithoutBarcodesInput = {
@@ -218611,6 +220593,7 @@ export namespace Prisma {
     bundleComponents?: BundleComponentUpdateManyWithoutBundleSkuNestedInput
     bundleUsedIn?: BundleComponentUpdateManyWithoutComponentSkuNestedInput
     serialNumbers?: SerialNumberUpdateManyWithoutSkuNestedInput
+    channelContents?: SkuChannelContentUpdateManyWithoutSkuNestedInput
   }
 
   export type SkuUncheckedUpdateWithoutBarcodesInput = {
@@ -218637,6 +220620,7 @@ export namespace Prisma {
     bundleComponents?: BundleComponentUncheckedUpdateManyWithoutBundleSkuNestedInput
     bundleUsedIn?: BundleComponentUncheckedUpdateManyWithoutComponentSkuNestedInput
     serialNumbers?: SerialNumberUncheckedUpdateManyWithoutSkuNestedInput
+    channelContents?: SkuChannelContentUncheckedUpdateManyWithoutSkuNestedInput
   }
 
   export type SkuCreateWithoutUomConversionsInput = {
@@ -218663,6 +220647,7 @@ export namespace Prisma {
     bundleComponents?: BundleComponentCreateNestedManyWithoutBundleSkuInput
     bundleUsedIn?: BundleComponentCreateNestedManyWithoutComponentSkuInput
     serialNumbers?: SerialNumberCreateNestedManyWithoutSkuInput
+    channelContents?: SkuChannelContentCreateNestedManyWithoutSkuInput
   }
 
   export type SkuUncheckedCreateWithoutUomConversionsInput = {
@@ -218689,6 +220674,7 @@ export namespace Prisma {
     bundleComponents?: BundleComponentUncheckedCreateNestedManyWithoutBundleSkuInput
     bundleUsedIn?: BundleComponentUncheckedCreateNestedManyWithoutComponentSkuInput
     serialNumbers?: SerialNumberUncheckedCreateNestedManyWithoutSkuInput
+    channelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutSkuInput
   }
 
   export type SkuCreateOrConnectWithoutUomConversionsInput = {
@@ -218731,6 +220717,7 @@ export namespace Prisma {
     bundleComponents?: BundleComponentUpdateManyWithoutBundleSkuNestedInput
     bundleUsedIn?: BundleComponentUpdateManyWithoutComponentSkuNestedInput
     serialNumbers?: SerialNumberUpdateManyWithoutSkuNestedInput
+    channelContents?: SkuChannelContentUpdateManyWithoutSkuNestedInput
   }
 
   export type SkuUncheckedUpdateWithoutUomConversionsInput = {
@@ -218757,6 +220744,7 @@ export namespace Prisma {
     bundleComponents?: BundleComponentUncheckedUpdateManyWithoutBundleSkuNestedInput
     bundleUsedIn?: BundleComponentUncheckedUpdateManyWithoutComponentSkuNestedInput
     serialNumbers?: SerialNumberUncheckedUpdateManyWithoutSkuNestedInput
+    channelContents?: SkuChannelContentUncheckedUpdateManyWithoutSkuNestedInput
   }
 
   export type TenantCreateWithoutWarehousesInput = {
@@ -218868,6 +220856,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -218980,6 +220969,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -219130,6 +221120,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -219242,6 +221233,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -219424,6 +221416,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -219536,6 +221529,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -219664,6 +221658,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -219776,6 +221771,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -219888,6 +221884,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -220000,6 +221997,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -220128,6 +222126,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -220240,6 +222239,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -220352,6 +222352,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -220464,6 +222465,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -220592,6 +222594,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -220704,6 +222707,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -220816,6 +222820,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -220928,6 +222933,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -221056,6 +223062,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -221168,6 +223175,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -221280,6 +223288,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -221392,6 +223401,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -221546,6 +223556,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -221658,6 +223669,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -221786,6 +223798,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -221898,6 +223911,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -222059,6 +224073,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -222171,6 +224186,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -222322,6 +224338,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -222434,6 +224451,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -222562,6 +224580,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -222674,6 +224693,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -222786,6 +224806,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -222898,6 +224919,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -223050,6 +225072,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -223162,6 +225185,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -223290,6 +225314,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -223402,6 +225427,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -223551,6 +225577,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -223663,6 +225690,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -223802,6 +225830,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -223914,6 +225943,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -224042,6 +226072,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -224154,6 +226185,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -224266,6 +226298,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -224378,6 +226411,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -224506,6 +226540,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -224618,6 +226653,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -224730,6 +226766,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -224842,6 +226879,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -224970,6 +227008,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -225082,6 +227121,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -225194,6 +227234,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -225306,6 +227347,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -225434,6 +227476,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -225546,6 +227589,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -225658,6 +227702,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -225770,6 +227815,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -225924,6 +227970,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -226036,6 +228083,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -226164,6 +228212,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -226276,6 +228325,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -226437,6 +228487,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -226549,6 +228600,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -226700,6 +228752,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -226812,6 +228865,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -226974,6 +229028,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -227086,6 +229141,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -227214,6 +229270,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -227326,6 +229383,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -227358,6 +229416,7 @@ export namespace Prisma {
     bundleComponents?: BundleComponentCreateNestedManyWithoutBundleSkuInput
     bundleUsedIn?: BundleComponentCreateNestedManyWithoutComponentSkuInput
     serialNumbers?: SerialNumberCreateNestedManyWithoutSkuInput
+    channelContents?: SkuChannelContentCreateNestedManyWithoutSkuInput
   }
 
   export type SkuUncheckedCreateWithoutPackagingLevelsInput = {
@@ -227384,6 +229443,7 @@ export namespace Prisma {
     bundleComponents?: BundleComponentUncheckedCreateNestedManyWithoutBundleSkuInput
     bundleUsedIn?: BundleComponentUncheckedCreateNestedManyWithoutComponentSkuInput
     serialNumbers?: SerialNumberUncheckedCreateNestedManyWithoutSkuInput
+    channelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutSkuInput
   }
 
   export type SkuCreateOrConnectWithoutPackagingLevelsInput = {
@@ -227511,6 +229571,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -227623,6 +229684,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -227661,6 +229723,7 @@ export namespace Prisma {
     bundleComponents?: BundleComponentUpdateManyWithoutBundleSkuNestedInput
     bundleUsedIn?: BundleComponentUpdateManyWithoutComponentSkuNestedInput
     serialNumbers?: SerialNumberUpdateManyWithoutSkuNestedInput
+    channelContents?: SkuChannelContentUpdateManyWithoutSkuNestedInput
   }
 
   export type SkuUncheckedUpdateWithoutPackagingLevelsInput = {
@@ -227687,6 +229750,7 @@ export namespace Prisma {
     bundleComponents?: BundleComponentUncheckedUpdateManyWithoutBundleSkuNestedInput
     bundleUsedIn?: BundleComponentUncheckedUpdateManyWithoutComponentSkuNestedInput
     serialNumbers?: SerialNumberUncheckedUpdateManyWithoutSkuNestedInput
+    channelContents?: SkuChannelContentUncheckedUpdateManyWithoutSkuNestedInput
   }
 
   export type TenantCreateWithoutSkuSubstitutionsInput = {
@@ -227798,6 +229862,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -227910,6 +229975,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -228038,6 +230104,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -228150,6 +230217,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -228262,6 +230330,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -228374,6 +230443,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -228502,6 +230572,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -228614,6 +230685,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -228726,6 +230798,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -228838,6 +230911,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -229013,6 +231087,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -229125,6 +231200,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -229290,6 +231366,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -229402,6 +231479,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -229451,6 +231529,7 @@ export namespace Prisma {
     packageNumber: string
     status?: $Enums.PackageStatus
     weightKg?: Decimal | DecimalJsLike | number | string | null
+    ssccCode?: string | null
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -229464,6 +231543,7 @@ export namespace Prisma {
     packageNumber: string
     status?: $Enums.PackageStatus
     weightKg?: Decimal | DecimalJsLike | number | string | null
+    ssccCode?: string | null
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -229600,6 +231680,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -229712,6 +231793,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -229856,6 +231938,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -229968,6 +232051,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -229988,6 +232072,7 @@ export namespace Prisma {
     holdReason?: string | null
     fulfillmentType?: $Enums.FulfillmentType
     projectRef?: string | null
+    channel?: string
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -230008,6 +232093,7 @@ export namespace Prisma {
     holdReason?: string | null
     fulfillmentType?: $Enums.FulfillmentType
     projectRef?: string | null
+    channel?: string
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -230139,6 +232225,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -230251,6 +232338,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -230277,6 +232365,7 @@ export namespace Prisma {
     holdReason?: NullableStringFieldUpdateOperationsInput | string | null
     fulfillmentType?: EnumFulfillmentTypeFieldUpdateOperationsInput | $Enums.FulfillmentType
     projectRef?: NullableStringFieldUpdateOperationsInput | string | null
+    channel?: StringFieldUpdateOperationsInput | string
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -230297,6 +232386,7 @@ export namespace Prisma {
     holdReason?: NullableStringFieldUpdateOperationsInput | string | null
     fulfillmentType?: EnumFulfillmentTypeFieldUpdateOperationsInput | $Enums.FulfillmentType
     projectRef?: NullableStringFieldUpdateOperationsInput | string | null
+    channel?: StringFieldUpdateOperationsInput | string
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -230412,6 +232502,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -230524,6 +232615,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -230652,6 +232744,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -230764,6 +232857,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -230876,6 +232970,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -230988,6 +233083,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -231116,6 +233212,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -231228,6 +233325,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -231340,6 +233438,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -231452,6 +233551,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -231610,6 +233710,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -231722,6 +233823,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -231850,6 +233952,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -231962,6 +234065,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -232123,6 +234227,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -232235,6 +234340,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -232386,6 +234492,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -232498,6 +234605,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -232688,6 +234796,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -232800,6 +234909,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -232944,6 +235054,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -233056,6 +235167,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -233223,6 +235335,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -233335,6 +235448,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -233492,6 +235606,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -233604,6 +235719,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -233762,6 +235878,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -233874,6 +235991,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -234002,6 +236120,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -234114,6 +236233,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -234273,6 +236393,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -234385,6 +236506,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -234534,6 +236656,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -234646,6 +236769,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -234806,6 +236930,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -234918,6 +237043,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -235046,6 +237172,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -235158,6 +237285,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -235313,6 +237441,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -235425,6 +237554,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -235570,6 +237700,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -235682,6 +237813,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -235810,6 +237942,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -235922,6 +238055,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -236034,6 +238168,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -236146,6 +238281,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -236274,6 +238410,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -236386,6 +238523,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -236498,6 +238636,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -236610,6 +238749,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -236768,6 +238908,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -236880,6 +239021,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -237008,6 +239150,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -237120,6 +239263,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -237273,6 +239417,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -237385,6 +239530,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -237528,6 +239674,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -237640,6 +239787,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -237800,6 +239948,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -237912,6 +240061,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -238040,6 +240190,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -238152,6 +240303,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -238323,6 +240475,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -238435,6 +240588,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -238596,6 +240750,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -238708,6 +240863,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -238862,6 +241018,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -238974,6 +241131,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -239102,6 +241260,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -239214,6 +241373,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -239369,6 +241529,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -239481,6 +241642,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -239626,6 +241788,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -239738,6 +241901,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -239896,6 +242060,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -240008,6 +242173,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -240136,6 +242302,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -240248,6 +242415,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -240411,6 +242579,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -240523,6 +242692,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -240676,6 +242846,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -240788,6 +242959,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -240916,6 +243088,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -241028,6 +243201,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -241140,6 +243314,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -241252,6 +243427,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -241412,6 +243588,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -241524,6 +243701,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -241652,6 +243830,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -241764,6 +243943,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -241935,6 +244115,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -242047,6 +244228,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -242208,6 +244390,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -242320,6 +244503,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -242448,6 +244632,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -242560,6 +244745,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -242672,6 +244858,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -242784,6 +244971,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -242912,6 +245100,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -243024,6 +245213,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -243136,6 +245326,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -243248,6 +245439,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -243393,6 +245585,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -243505,6 +245698,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -243640,6 +245834,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -243752,6 +245947,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -243911,6 +246107,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -244023,6 +246220,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -244172,6 +246370,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -244284,6 +246483,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -244412,6 +246612,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -244524,6 +246725,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -244636,6 +246838,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -244748,6 +246951,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -244876,6 +247080,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -244988,6 +247193,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -245100,6 +247306,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -245212,6 +247419,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -245368,6 +247576,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -245480,6 +247689,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -245608,6 +247818,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -245720,6 +247931,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -245871,6 +248083,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -245983,6 +248196,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -246124,6 +248338,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -246236,6 +248451,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -246402,6 +248618,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -246514,6 +248731,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -246642,6 +248860,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -246754,6 +248973,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -246909,6 +249129,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -247021,6 +249242,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -247166,6 +249388,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -247278,6 +249501,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -247406,6 +249630,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -247518,6 +249743,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -247630,6 +249856,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -247742,6 +249969,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -247870,6 +250098,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -247982,6 +250211,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -248094,6 +250324,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -248206,6 +250437,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -248385,6 +250617,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -248497,6 +250730,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -248654,6 +250888,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -248766,6 +251001,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -248922,6 +251158,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -249034,6 +251271,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -249162,6 +251400,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -249274,6 +251513,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -249437,6 +251677,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -249549,6 +251790,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -249702,6 +251944,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -249814,6 +252057,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -249968,6 +252212,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -250080,6 +252325,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -250208,6 +252454,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -250320,6 +252567,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -250481,6 +252729,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -250593,6 +252842,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -250744,6 +252994,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -250856,6 +253107,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -251016,6 +253268,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -251128,6 +253381,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -251256,6 +253510,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -251368,6 +253623,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -251519,6 +253775,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -251631,6 +253888,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -251772,6 +254030,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -251884,6 +254143,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -252038,6 +254298,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -252150,6 +254411,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -252285,6 +254547,7 @@ export namespace Prisma {
     packagingLevels?: PackagingLevelCreateNestedManyWithoutSkuInput
     bundleUsedIn?: BundleComponentCreateNestedManyWithoutComponentSkuInput
     serialNumbers?: SerialNumberCreateNestedManyWithoutSkuInput
+    channelContents?: SkuChannelContentCreateNestedManyWithoutSkuInput
   }
 
   export type SkuUncheckedCreateWithoutBundleComponentsInput = {
@@ -252311,6 +254574,7 @@ export namespace Prisma {
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutSkuInput
     bundleUsedIn?: BundleComponentUncheckedCreateNestedManyWithoutComponentSkuInput
     serialNumbers?: SerialNumberUncheckedCreateNestedManyWithoutSkuInput
+    channelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutSkuInput
   }
 
   export type SkuCreateOrConnectWithoutBundleComponentsInput = {
@@ -252342,6 +254606,7 @@ export namespace Prisma {
     packagingLevels?: PackagingLevelCreateNestedManyWithoutSkuInput
     bundleComponents?: BundleComponentCreateNestedManyWithoutBundleSkuInput
     serialNumbers?: SerialNumberCreateNestedManyWithoutSkuInput
+    channelContents?: SkuChannelContentCreateNestedManyWithoutSkuInput
   }
 
   export type SkuUncheckedCreateWithoutBundleUsedInInput = {
@@ -252368,6 +254633,7 @@ export namespace Prisma {
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutSkuInput
     bundleComponents?: BundleComponentUncheckedCreateNestedManyWithoutBundleSkuInput
     serialNumbers?: SerialNumberUncheckedCreateNestedManyWithoutSkuInput
+    channelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutSkuInput
   }
 
   export type SkuCreateOrConnectWithoutBundleUsedInInput = {
@@ -252410,6 +254676,7 @@ export namespace Prisma {
     packagingLevels?: PackagingLevelUpdateManyWithoutSkuNestedInput
     bundleUsedIn?: BundleComponentUpdateManyWithoutComponentSkuNestedInput
     serialNumbers?: SerialNumberUpdateManyWithoutSkuNestedInput
+    channelContents?: SkuChannelContentUpdateManyWithoutSkuNestedInput
   }
 
   export type SkuUncheckedUpdateWithoutBundleComponentsInput = {
@@ -252436,6 +254703,7 @@ export namespace Prisma {
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutSkuNestedInput
     bundleUsedIn?: BundleComponentUncheckedUpdateManyWithoutComponentSkuNestedInput
     serialNumbers?: SerialNumberUncheckedUpdateManyWithoutSkuNestedInput
+    channelContents?: SkuChannelContentUncheckedUpdateManyWithoutSkuNestedInput
   }
 
   export type SkuUpsertWithoutBundleUsedInInput = {
@@ -252473,6 +254741,7 @@ export namespace Prisma {
     packagingLevels?: PackagingLevelUpdateManyWithoutSkuNestedInput
     bundleComponents?: BundleComponentUpdateManyWithoutBundleSkuNestedInput
     serialNumbers?: SerialNumberUpdateManyWithoutSkuNestedInput
+    channelContents?: SkuChannelContentUpdateManyWithoutSkuNestedInput
   }
 
   export type SkuUncheckedUpdateWithoutBundleUsedInInput = {
@@ -252499,6 +254768,7 @@ export namespace Prisma {
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutSkuNestedInput
     bundleComponents?: BundleComponentUncheckedUpdateManyWithoutBundleSkuNestedInput
     serialNumbers?: SerialNumberUncheckedUpdateManyWithoutSkuNestedInput
+    channelContents?: SkuChannelContentUncheckedUpdateManyWithoutSkuNestedInput
   }
 
   export type SkuCreateWithoutSerialNumbersInput = {
@@ -252525,6 +254795,7 @@ export namespace Prisma {
     packagingLevels?: PackagingLevelCreateNestedManyWithoutSkuInput
     bundleComponents?: BundleComponentCreateNestedManyWithoutBundleSkuInput
     bundleUsedIn?: BundleComponentCreateNestedManyWithoutComponentSkuInput
+    channelContents?: SkuChannelContentCreateNestedManyWithoutSkuInput
   }
 
   export type SkuUncheckedCreateWithoutSerialNumbersInput = {
@@ -252551,6 +254822,7 @@ export namespace Prisma {
     packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutSkuInput
     bundleComponents?: BundleComponentUncheckedCreateNestedManyWithoutBundleSkuInput
     bundleUsedIn?: BundleComponentUncheckedCreateNestedManyWithoutComponentSkuInput
+    channelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutSkuInput
   }
 
   export type SkuCreateOrConnectWithoutSerialNumbersInput = {
@@ -252593,6 +254865,7 @@ export namespace Prisma {
     packagingLevels?: PackagingLevelUpdateManyWithoutSkuNestedInput
     bundleComponents?: BundleComponentUpdateManyWithoutBundleSkuNestedInput
     bundleUsedIn?: BundleComponentUpdateManyWithoutComponentSkuNestedInput
+    channelContents?: SkuChannelContentUpdateManyWithoutSkuNestedInput
   }
 
   export type SkuUncheckedUpdateWithoutSerialNumbersInput = {
@@ -252619,6 +254892,7 @@ export namespace Prisma {
     packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutSkuNestedInput
     bundleComponents?: BundleComponentUncheckedUpdateManyWithoutBundleSkuNestedInput
     bundleUsedIn?: BundleComponentUncheckedUpdateManyWithoutComponentSkuNestedInput
+    channelContents?: SkuChannelContentUncheckedUpdateManyWithoutSkuNestedInput
   }
 
   export type TenantCreateWithoutBreakGlassGrantsInput = {
@@ -252730,6 +255004,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -252842,6 +255117,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -253001,6 +255277,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -253113,6 +255390,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -253262,6 +255540,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -253374,6 +255653,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -253502,6 +255782,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -253614,6 +255895,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -253726,6 +256008,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -253838,6 +256121,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -253996,6 +256280,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -254108,6 +256393,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -254302,6 +256588,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -254414,6 +256701,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -254542,6 +256830,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -254654,6 +256943,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -254766,6 +257056,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -254878,6 +257169,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -255045,6 +257337,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -255157,6 +257450,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -255314,6 +257608,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -255426,6 +257721,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -255554,6 +257850,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -255666,6 +257963,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -255778,6 +258076,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -255890,6 +258189,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -256018,6 +258318,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -256130,6 +258431,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -256242,6 +258544,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -256354,6 +258657,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -256482,6 +258786,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -256594,6 +258899,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -256706,6 +259012,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -256818,6 +259125,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -256976,6 +259284,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -257088,6 +259397,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -257302,6 +259612,7 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -257414,6 +259725,7 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -257434,6 +259746,7 @@ export namespace Prisma {
     holdReason?: string | null
     fulfillmentType?: $Enums.FulfillmentType
     projectRef?: string | null
+    channel?: string
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -257454,6 +259767,7 @@ export namespace Prisma {
     holdReason?: string | null
     fulfillmentType?: $Enums.FulfillmentType
     projectRef?: string | null
+    channel?: string
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -257609,6 +259923,7 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -257721,6 +260036,7 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -257747,6 +260063,7 @@ export namespace Prisma {
     holdReason?: NullableStringFieldUpdateOperationsInput | string | null
     fulfillmentType?: EnumFulfillmentTypeFieldUpdateOperationsInput | $Enums.FulfillmentType
     projectRef?: NullableStringFieldUpdateOperationsInput | string | null
+    channel?: StringFieldUpdateOperationsInput | string
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -257767,6 +260084,7 @@ export namespace Prisma {
     holdReason?: NullableStringFieldUpdateOperationsInput | string | null
     fulfillmentType?: EnumFulfillmentTypeFieldUpdateOperationsInput | $Enums.FulfillmentType
     projectRef?: NullableStringFieldUpdateOperationsInput | string | null
+    channel?: StringFieldUpdateOperationsInput | string
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -257805,6 +260123,7 @@ export namespace Prisma {
     packageNumber: string
     status?: $Enums.PackageStatus
     weightKg?: Decimal | DecimalJsLike | number | string | null
+    ssccCode?: string | null
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -257819,6 +260138,7 @@ export namespace Prisma {
     packageNumber: string
     status?: $Enums.PackageStatus
     weightKg?: Decimal | DecimalJsLike | number | string | null
+    ssccCode?: string | null
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -257845,6 +260165,7 @@ export namespace Prisma {
     packageNumber?: StringFieldUpdateOperationsInput | string
     status?: EnumPackageStatusFieldUpdateOperationsInput | $Enums.PackageStatus
     weightKg?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    ssccCode?: NullableStringFieldUpdateOperationsInput | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -257859,6 +260180,7 @@ export namespace Prisma {
     packageNumber?: StringFieldUpdateOperationsInput | string
     status?: EnumPackageStatusFieldUpdateOperationsInput | $Enums.PackageStatus
     weightKg?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    ssccCode?: NullableStringFieldUpdateOperationsInput | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -257973,6 +260295,7 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -258085,6 +260408,7 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -258252,6 +260576,7 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -258364,6 +260689,7 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -258521,6 +260847,7 @@ export namespace Prisma {
     rfqs?: RfqCreateNestedManyWithoutTenantInput
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -258633,6 +260960,7 @@ export namespace Prisma {
     rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -258789,6 +261117,7 @@ export namespace Prisma {
     rfqs?: RfqUpdateManyWithoutTenantNestedInput
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -258901,6 +261230,7 @@ export namespace Prisma {
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -259107,6 +261437,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutFrameworkAgreementsInput = {
@@ -259219,6 +261550,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
     landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutFrameworkAgreementsInput = {
@@ -259347,6 +261679,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutFrameworkAgreementsInput = {
@@ -259459,6 +261792,599 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
     landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantCreateWithoutSkuChannelContentsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    factories?: FactoryCreateNestedManyWithoutTenantInput
+    users?: UserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionCreateNestedManyWithoutTenantInput
+    tasks?: TaskCreateNestedManyWithoutTenantInput
+    notifications?: NotificationCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    products?: ProductCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountCreateNestedManyWithoutTenantInput
+    leads?: LeadCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryCreateNestedManyWithoutTenantInput
+    quotes?: QuoteCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
+    comments?: CommentCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
+    exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
+    breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
+    masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
+    supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
+    employees?: EmployeeCreateNestedManyWithoutTenantInput
+    assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
+    rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutSkuChannelContentsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityUncheckedCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    factories?: FactoryUncheckedCreateNestedManyWithoutTenantInput
+    users?: UserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventUncheckedCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventUncheckedCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryUncheckedCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationUncheckedCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutTenantInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalUncheckedCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventUncheckedCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    products?: ProductUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountUncheckedCreateNestedManyWithoutTenantInput
+    leads?: LeadUncheckedCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityUncheckedCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityUncheckedCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListUncheckedCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryUncheckedCreateNestedManyWithoutTenantInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineUncheckedCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderUncheckedCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventUncheckedCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierUncheckedCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
+    comments?: CommentUncheckedCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderUncheckedCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
+    exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
+    breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
+    masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
+    supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
+    employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
+    assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
+    rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutSkuChannelContentsInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutSkuChannelContentsInput, TenantUncheckedCreateWithoutSkuChannelContentsInput>
+  }
+
+  export type SkuCreateWithoutChannelContentsInput = {
+    id?: string
+    tenantId: string
+    code: string
+    name: string
+    baseUom: string
+    lotTracked?: boolean
+    shelfLifeDays?: number | null
+    variantValues?: NullableJsonNullValueInput | InputJsonValue
+    weightKg?: Decimal | DecimalJsLike | number | string | null
+    lengthCm?: Decimal | DecimalJsLike | number | string | null
+    widthCm?: Decimal | DecimalJsLike | number | string | null
+    heightCm?: Decimal | DecimalJsLike | number | string | null
+    serialPolicy?: $Enums.SerialPolicy
+    standardCost?: Decimal | DecimalJsLike | number | string | null
+    status?: $Enums.SkuStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    product: ProductCreateNestedOneWithoutSkusInput
+    barcodes?: BarcodeCreateNestedManyWithoutSkuInput
+    uomConversions?: UomConversionCreateNestedManyWithoutSkuInput
+    packagingLevels?: PackagingLevelCreateNestedManyWithoutSkuInput
+    bundleComponents?: BundleComponentCreateNestedManyWithoutBundleSkuInput
+    bundleUsedIn?: BundleComponentCreateNestedManyWithoutComponentSkuInput
+    serialNumbers?: SerialNumberCreateNestedManyWithoutSkuInput
+  }
+
+  export type SkuUncheckedCreateWithoutChannelContentsInput = {
+    id?: string
+    tenantId: string
+    productId: string
+    code: string
+    name: string
+    baseUom: string
+    lotTracked?: boolean
+    shelfLifeDays?: number | null
+    variantValues?: NullableJsonNullValueInput | InputJsonValue
+    weightKg?: Decimal | DecimalJsLike | number | string | null
+    lengthCm?: Decimal | DecimalJsLike | number | string | null
+    widthCm?: Decimal | DecimalJsLike | number | string | null
+    heightCm?: Decimal | DecimalJsLike | number | string | null
+    serialPolicy?: $Enums.SerialPolicy
+    standardCost?: Decimal | DecimalJsLike | number | string | null
+    status?: $Enums.SkuStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    barcodes?: BarcodeUncheckedCreateNestedManyWithoutSkuInput
+    uomConversions?: UomConversionUncheckedCreateNestedManyWithoutSkuInput
+    packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutSkuInput
+    bundleComponents?: BundleComponentUncheckedCreateNestedManyWithoutBundleSkuInput
+    bundleUsedIn?: BundleComponentUncheckedCreateNestedManyWithoutComponentSkuInput
+    serialNumbers?: SerialNumberUncheckedCreateNestedManyWithoutSkuInput
+  }
+
+  export type SkuCreateOrConnectWithoutChannelContentsInput = {
+    where: SkuWhereUniqueInput
+    create: XOR<SkuCreateWithoutChannelContentsInput, SkuUncheckedCreateWithoutChannelContentsInput>
+  }
+
+  export type TenantUpsertWithoutSkuChannelContentsInput = {
+    update: XOR<TenantUpdateWithoutSkuChannelContentsInput, TenantUncheckedUpdateWithoutSkuChannelContentsInput>
+    create: XOR<TenantCreateWithoutSkuChannelContentsInput, TenantUncheckedCreateWithoutSkuChannelContentsInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutSkuChannelContentsInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutSkuChannelContentsInput, TenantUncheckedUpdateWithoutSkuChannelContentsInput>
+  }
+
+  export type TenantUpdateWithoutSkuChannelContentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUpdateManyWithoutTenantNestedInput
+    users?: UserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    products?: ProductUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUpdateManyWithoutTenantNestedInput
+    leads?: LeadUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
+    comments?: CommentUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
+    exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
+    breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
+    masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
+    supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
+    employees?: EmployeeUpdateManyWithoutTenantNestedInput
+    assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
+    rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutSkuChannelContentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUncheckedUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUncheckedUpdateManyWithoutTenantNestedInput
+    users?: UserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUncheckedUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUncheckedUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUncheckedUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUncheckedUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUncheckedUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUncheckedUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    products?: ProductUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUncheckedUpdateManyWithoutTenantNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUncheckedUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUncheckedUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUncheckedUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUncheckedUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUncheckedUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
+    exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
+    breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
+    masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
+    supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
+    employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
+    assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
+    rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type SkuUpsertWithoutChannelContentsInput = {
+    update: XOR<SkuUpdateWithoutChannelContentsInput, SkuUncheckedUpdateWithoutChannelContentsInput>
+    create: XOR<SkuCreateWithoutChannelContentsInput, SkuUncheckedCreateWithoutChannelContentsInput>
+    where?: SkuWhereInput
+  }
+
+  export type SkuUpdateToOneWithWhereWithoutChannelContentsInput = {
+    where?: SkuWhereInput
+    data: XOR<SkuUpdateWithoutChannelContentsInput, SkuUncheckedUpdateWithoutChannelContentsInput>
+  }
+
+  export type SkuUpdateWithoutChannelContentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    baseUom?: StringFieldUpdateOperationsInput | string
+    lotTracked?: BoolFieldUpdateOperationsInput | boolean
+    shelfLifeDays?: NullableIntFieldUpdateOperationsInput | number | null
+    variantValues?: NullableJsonNullValueInput | InputJsonValue
+    weightKg?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    lengthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    widthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    heightCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    serialPolicy?: EnumSerialPolicyFieldUpdateOperationsInput | $Enums.SerialPolicy
+    standardCost?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    product?: ProductUpdateOneRequiredWithoutSkusNestedInput
+    barcodes?: BarcodeUpdateManyWithoutSkuNestedInput
+    uomConversions?: UomConversionUpdateManyWithoutSkuNestedInput
+    packagingLevels?: PackagingLevelUpdateManyWithoutSkuNestedInput
+    bundleComponents?: BundleComponentUpdateManyWithoutBundleSkuNestedInput
+    bundleUsedIn?: BundleComponentUpdateManyWithoutComponentSkuNestedInput
+    serialNumbers?: SerialNumberUpdateManyWithoutSkuNestedInput
+  }
+
+  export type SkuUncheckedUpdateWithoutChannelContentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    productId?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    baseUom?: StringFieldUpdateOperationsInput | string
+    lotTracked?: BoolFieldUpdateOperationsInput | boolean
+    shelfLifeDays?: NullableIntFieldUpdateOperationsInput | number | null
+    variantValues?: NullableJsonNullValueInput | InputJsonValue
+    weightKg?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    lengthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    widthCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    heightCm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    serialPolicy?: EnumSerialPolicyFieldUpdateOperationsInput | $Enums.SerialPolicy
+    standardCost?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    barcodes?: BarcodeUncheckedUpdateManyWithoutSkuNestedInput
+    uomConversions?: UomConversionUncheckedUpdateManyWithoutSkuNestedInput
+    packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutSkuNestedInput
+    bundleComponents?: BundleComponentUncheckedUpdateManyWithoutBundleSkuNestedInput
+    bundleUsedIn?: BundleComponentUncheckedUpdateManyWithoutComponentSkuNestedInput
+    serialNumbers?: SerialNumberUncheckedUpdateManyWithoutSkuNestedInput
   }
 
   export type TenantConfigurationVersionCreateManyTenantInput = {
@@ -259883,6 +262809,7 @@ export namespace Prisma {
     holdReason?: string | null
     fulfillmentType?: $Enums.FulfillmentType
     projectRef?: string | null
+    channel?: string
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -260265,6 +263192,7 @@ export namespace Prisma {
     prefix: string
     keyHash: string
     permissions?: ApiKeyCreatepermissionsInput | string[]
+    accountId?: string | null
     active?: boolean
     lastUsedAt?: Date | string | null
     createdBy?: string | null
@@ -260576,6 +263504,7 @@ export namespace Prisma {
     packageNumber: string
     status?: $Enums.PackageStatus
     weightKg?: Decimal | DecimalJsLike | number | string | null
+    ssccCode?: string | null
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -260598,6 +263527,18 @@ export namespace Prisma {
     fields: JsonNullValueInput | InputJsonValue
     status?: $Enums.CustomObjectStatus
     createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SkuChannelContentCreateManyTenantInput = {
+    id?: string
+    skuId: string
+    channel: string
+    title: string
+    description?: string | null
+    attributes?: NullableJsonNullValueInput | InputJsonValue
+    updatedBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -261904,6 +264845,7 @@ export namespace Prisma {
     holdReason?: NullableStringFieldUpdateOperationsInput | string | null
     fulfillmentType?: EnumFulfillmentTypeFieldUpdateOperationsInput | $Enums.FulfillmentType
     projectRef?: NullableStringFieldUpdateOperationsInput | string | null
+    channel?: StringFieldUpdateOperationsInput | string
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -261923,6 +264865,7 @@ export namespace Prisma {
     holdReason?: NullableStringFieldUpdateOperationsInput | string | null
     fulfillmentType?: EnumFulfillmentTypeFieldUpdateOperationsInput | $Enums.FulfillmentType
     projectRef?: NullableStringFieldUpdateOperationsInput | string | null
+    channel?: StringFieldUpdateOperationsInput | string
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -261942,6 +264885,7 @@ export namespace Prisma {
     holdReason?: NullableStringFieldUpdateOperationsInput | string | null
     fulfillmentType?: EnumFulfillmentTypeFieldUpdateOperationsInput | $Enums.FulfillmentType
     projectRef?: NullableStringFieldUpdateOperationsInput | string | null
+    channel?: StringFieldUpdateOperationsInput | string
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -263092,6 +266036,7 @@ export namespace Prisma {
     prefix?: StringFieldUpdateOperationsInput | string
     keyHash?: StringFieldUpdateOperationsInput | string
     permissions?: ApiKeyUpdatepermissionsInput | string[]
+    accountId?: NullableStringFieldUpdateOperationsInput | string | null
     active?: BoolFieldUpdateOperationsInput | boolean
     lastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
@@ -263104,6 +266049,7 @@ export namespace Prisma {
     prefix?: StringFieldUpdateOperationsInput | string
     keyHash?: StringFieldUpdateOperationsInput | string
     permissions?: ApiKeyUpdatepermissionsInput | string[]
+    accountId?: NullableStringFieldUpdateOperationsInput | string | null
     active?: BoolFieldUpdateOperationsInput | boolean
     lastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
@@ -263116,6 +266062,7 @@ export namespace Prisma {
     prefix?: StringFieldUpdateOperationsInput | string
     keyHash?: StringFieldUpdateOperationsInput | string
     permissions?: ApiKeyUpdatepermissionsInput | string[]
+    accountId?: NullableStringFieldUpdateOperationsInput | string | null
     active?: BoolFieldUpdateOperationsInput | boolean
     lastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
@@ -264040,6 +266987,7 @@ export namespace Prisma {
     packageNumber?: StringFieldUpdateOperationsInput | string
     status?: EnumPackageStatusFieldUpdateOperationsInput | $Enums.PackageStatus
     weightKg?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    ssccCode?: NullableStringFieldUpdateOperationsInput | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -264053,6 +267001,7 @@ export namespace Prisma {
     packageNumber?: StringFieldUpdateOperationsInput | string
     status?: EnumPackageStatusFieldUpdateOperationsInput | $Enums.PackageStatus
     weightKg?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    ssccCode?: NullableStringFieldUpdateOperationsInput | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -264065,6 +267014,7 @@ export namespace Prisma {
     packageNumber?: StringFieldUpdateOperationsInput | string
     status?: EnumPackageStatusFieldUpdateOperationsInput | $Enums.PackageStatus
     weightKg?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    ssccCode?: NullableStringFieldUpdateOperationsInput | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -264131,6 +267081,42 @@ export namespace Prisma {
     fields?: JsonNullValueInput | InputJsonValue
     status?: EnumCustomObjectStatusFieldUpdateOperationsInput | $Enums.CustomObjectStatus
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SkuChannelContentUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    channel?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    attributes?: NullableJsonNullValueInput | InputJsonValue
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sku?: SkuUpdateOneRequiredWithoutChannelContentsNestedInput
+  }
+
+  export type SkuChannelContentUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    channel?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    attributes?: NullableJsonNullValueInput | InputJsonValue
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SkuChannelContentUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    channel?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    attributes?: NullableJsonNullValueInput | InputJsonValue
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -264905,6 +267891,7 @@ export namespace Prisma {
     bundleComponents?: BundleComponentUpdateManyWithoutBundleSkuNestedInput
     bundleUsedIn?: BundleComponentUpdateManyWithoutComponentSkuNestedInput
     serialNumbers?: SerialNumberUpdateManyWithoutSkuNestedInput
+    channelContents?: SkuChannelContentUpdateManyWithoutSkuNestedInput
   }
 
   export type SkuUncheckedUpdateWithoutProductInput = {
@@ -264931,6 +267918,7 @@ export namespace Prisma {
     bundleComponents?: BundleComponentUncheckedUpdateManyWithoutBundleSkuNestedInput
     bundleUsedIn?: BundleComponentUncheckedUpdateManyWithoutComponentSkuNestedInput
     serialNumbers?: SerialNumberUncheckedUpdateManyWithoutSkuNestedInput
+    channelContents?: SkuChannelContentUncheckedUpdateManyWithoutSkuNestedInput
   }
 
   export type SkuUncheckedUpdateManyWithoutProductInput = {
@@ -265000,6 +267988,18 @@ export namespace Prisma {
     serial: string
     status?: $Enums.SerialStatus
     note?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SkuChannelContentCreateManySkuInput = {
+    id?: string
+    tenantId: string
+    channel: string
+    title: string
+    description?: string | null
+    attributes?: NullableJsonNullValueInput | InputJsonValue
+    updatedBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -265153,6 +268153,42 @@ export namespace Prisma {
     serial?: StringFieldUpdateOperationsInput | string
     status?: EnumSerialStatusFieldUpdateOperationsInput | $Enums.SerialStatus
     note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SkuChannelContentUpdateWithoutSkuInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    channel?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    attributes?: NullableJsonNullValueInput | InputJsonValue
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutSkuChannelContentsNestedInput
+  }
+
+  export type SkuChannelContentUncheckedUpdateWithoutSkuInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    channel?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    attributes?: NullableJsonNullValueInput | InputJsonValue
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SkuChannelContentUncheckedUpdateManyWithoutSkuInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    channel?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    attributes?: NullableJsonNullValueInput | InputJsonValue
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -265340,6 +268376,7 @@ export namespace Prisma {
     packageNumber: string
     status?: $Enums.PackageStatus
     weightKg?: Decimal | DecimalJsLike | number | string | null
+    ssccCode?: string | null
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -265389,6 +268426,7 @@ export namespace Prisma {
     packageNumber?: StringFieldUpdateOperationsInput | string
     status?: EnumPackageStatusFieldUpdateOperationsInput | $Enums.PackageStatus
     weightKg?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    ssccCode?: NullableStringFieldUpdateOperationsInput | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -265402,6 +268440,7 @@ export namespace Prisma {
     packageNumber?: StringFieldUpdateOperationsInput | string
     status?: EnumPackageStatusFieldUpdateOperationsInput | $Enums.PackageStatus
     weightKg?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    ssccCode?: NullableStringFieldUpdateOperationsInput | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -265414,6 +268453,7 @@ export namespace Prisma {
     packageNumber?: StringFieldUpdateOperationsInput | string
     status?: EnumPackageStatusFieldUpdateOperationsInput | $Enums.PackageStatus
     weightKg?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    ssccCode?: NullableStringFieldUpdateOperationsInput | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string

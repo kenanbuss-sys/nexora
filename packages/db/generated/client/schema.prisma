@@ -142,6 +142,7 @@ model Tenant {
   packages                Package[]
   landedCosts             LandedCost[]
   customObjectDefinitions CustomObjectDefinition[]
+  skuChannelContents      SkuChannelContent[]
   frameworkAgreements     FrameworkAgreement[]
 
   @@map("tenant")
@@ -827,13 +828,14 @@ model Sku {
   createdAt     DateTime     @default(now()) @map("created_at")
   updatedAt     DateTime     @updatedAt @map("updated_at")
 
-  product          Product           @relation(fields: [productId], references: [id])
+  product          Product             @relation(fields: [productId], references: [id])
   barcodes         Barcode[]
   uomConversions   UomConversion[]
   packagingLevels  PackagingLevel[]
-  bundleComponents BundleComponent[] @relation("BundleParent")
-  bundleUsedIn     BundleComponent[] @relation("BundleComponentSku")
+  bundleComponents BundleComponent[]   @relation("BundleParent")
+  bundleUsedIn     BundleComponent[]   @relation("BundleComponentSku")
   serialNumbers    SerialNumber[]
+  channelContents  SkuChannelContent[]
 
   @@unique([tenantId, code])
   @@map("sku")
@@ -1447,6 +1449,8 @@ model SalesOrder {
   fulfillmentType FulfillmentType  @default(DELIVERY) @map("fulfillment_type")
   /// Sprint 102 (B2B-009): customer's project/site reference.
   projectRef      String?          @map("project_ref")
+  /// Sprint 124 (COM-006): originating channel — one canonical order model.
+  channel         String           @default("direct")
   createdBy       String?          @map("created_by")
   createdAt       DateTime         @default(now()) @map("created_at")
   updatedAt       DateTime         @updatedAt @map("updated_at")
@@ -2307,6 +2311,8 @@ model ApiKey {
   prefix      String
   keyHash     String    @unique @map("key_hash")
   permissions String[]
+  /// Sprint 124 (B2B-014): key acts for this customer account (API/EDI ordering).
+  accountId   String?   @map("account_id") @db.Uuid
   active      Boolean   @default(true)
   lastUsedAt  DateTime? @map("last_used_at")
   createdBy   String?   @map("created_by")
@@ -2922,6 +2928,8 @@ model Package {
   packageNumber String        @map("package_number")
   status        PackageStatus @default(PACKED)
   weightKg      Decimal?      @map("weight_kg") @db.Decimal(10, 3)
+  /// Sprint 124 (WMS-020): GS1 SSCC logistic-unit code.
+  ssccCode      String?       @map("sscc_code")
   createdBy     String?       @map("created_by")
   createdAt     DateTime      @default(now()) @map("created_at")
   updatedAt     DateTime      @updatedAt @map("updated_at")
@@ -3050,4 +3058,25 @@ model FrameworkAgreement {
   @@unique([tenantId, agreementNumber])
   @@index([tenantId, supplierId])
   @@map("framework_agreement")
+}
+
+/// Sprint 124 (PIM-009): per-channel commercial content for a SKU —
+/// titles and copy differ per storefront, the SKU stays one record.
+model SkuChannelContent {
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId    String   @map("tenant_id") @db.Uuid
+  skuId       String   @map("sku_id") @db.Uuid
+  channel     String
+  title       String
+  description String?
+  attributes  Json?
+  updatedBy   String?  @map("updated_by")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+  sku    Sku    @relation(fields: [skuId], references: [id])
+
+  @@unique([tenantId, skuId, channel])
+  @@map("sku_channel_content")
 }

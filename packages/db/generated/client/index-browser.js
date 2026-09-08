@@ -780,6 +780,7 @@ exports.Prisma.SalesOrderScalarFieldEnum = {
   holdReason: 'holdReason',
   fulfillmentType: 'fulfillmentType',
   projectRef: 'projectRef',
+  channel: 'channel',
   createdBy: 'createdBy',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -1206,6 +1207,7 @@ exports.Prisma.ApiKeyScalarFieldEnum = {
   prefix: 'prefix',
   keyHash: 'keyHash',
   permissions: 'permissions',
+  accountId: 'accountId',
   active: 'active',
   lastUsedAt: 'lastUsedAt',
   createdBy: 'createdBy',
@@ -1500,6 +1502,7 @@ exports.Prisma.PackageScalarFieldEnum = {
   packageNumber: 'packageNumber',
   status: 'status',
   weightKg: 'weightKg',
+  ssccCode: 'ssccCode',
   createdBy: 'createdBy',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -1559,6 +1562,19 @@ exports.Prisma.FrameworkAgreementScalarFieldEnum = {
   validTo: 'validTo',
   status: 'status',
   createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.SkuChannelContentScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  skuId: 'skuId',
+  channel: 'channel',
+  title: 'title',
+  description: 'description',
+  attributes: 'attributes',
+  updatedBy: 'updatedBy',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -2119,7 +2135,8 @@ exports.Prisma.ModelName = {
   LandedCost: 'LandedCost',
   CustomObjectDefinition: 'CustomObjectDefinition',
   CustomObjectRecord: 'CustomObjectRecord',
-  FrameworkAgreement: 'FrameworkAgreement'
+  FrameworkAgreement: 'FrameworkAgreement',
+  SkuChannelContent: 'SkuChannelContent'
 };
 
 /**
