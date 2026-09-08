@@ -17,3 +17,4 @@ export {
   type SupplierView,
 } from './procurement.service';
 export { RfqService, type RfqQuoteView, type RfqView } from './rfq.service';
+export { ContainerService, type ContainerStatus, type ContainerView } from './container.service';

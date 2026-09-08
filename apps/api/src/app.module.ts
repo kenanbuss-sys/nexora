@@ -42,7 +42,7 @@ import {
   LocationMasterService,
 } from '@nexora/domain-mdm';
 import { ReturnsService, OrderService } from '@nexora/domain-oms';
-import { ProcurementService, RfqService } from '@nexora/domain-proc';
+import { ContainerService, ProcurementService, RfqService } from '@nexora/domain-proc';
 import { EngineeringService } from '@nexora/domain-eng';
 import { PlanningService } from '@nexora/domain-plan';
 import { ShopFloorService, MesService } from '@nexora/domain-mes';
@@ -224,6 +224,8 @@ import {
   TenantExportController,
 } from './iam/service-accounts.controller';
 import {
+  CONTAINER_SERVICE,
+  ContainersController,
   SupplierPortalController,
   PROCUREMENT_SERVICE,
   RFQ_SERVICE,
@@ -349,6 +351,7 @@ export const REDIS = 'REDIS';
     RequisitionsController,
     PurchaseOrdersController,
     SupplierPortalController,
+    ContainersController,
     RfqsController,
     FrameworkAgreementsController,
     BomsController,
@@ -684,6 +687,11 @@ export const REDIS = 'REDIS';
           getEffectiveConfiguration: (t) => tenants.getEffectiveConfiguration(t),
         }),
       inject: [PRISMA, TENANT_SERVICE],
+    },
+    {
+      provide: CONTAINER_SERVICE,
+      useFactory: (prisma: PrismaClient) => new ContainerService(prisma),
+      inject: [PRISMA],
     },
     {
       provide: RFQ_SERVICE,

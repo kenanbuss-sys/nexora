@@ -9,7 +9,7 @@ import {
   Query,
   Req,
 } from '@nestjs/common';
-import type { ProcurementService, RfqService } from '@nexora/domain-proc';
+import type { ContainerService, ProcurementService, RfqService } from '@nexora/domain-proc';
 import type { RequestContext } from '@nexora/tenancy';
 import { z } from 'zod';
 import type { AuthenticatedRequest } from '../auth/auth.guard';
@@ -18,6 +18,7 @@ import { RequirePermission } from '../auth/permissions.guard';
 import { parseBody } from '../common/validate';
 
 export const PROCUREMENT_SERVICE = 'PROCUREMENT_SERVICE';
+export const CONTAINER_SERVICE = 'CONTAINER_SERVICE';
 export const RFQ_SERVICE = 'RFQ_SERVICE';
 
 const createSupplierSchema = z.object({
@@ -332,5 +333,52 @@ export class SupplierPortalController {
   ) {
     const supplierId = this.supplierOf(request);
     return this.proc.supplierAcknowledgePo(id, supplierId, parseBody(supplierAckSchema, body), ctx);
+  }
+}
+
+const createContainerSchema = z.object({
+  containerNumber: z.string().min(11).max(11),
+  poId: z.string().uuid().optional(),
+  carrier: z.string().max(100).optional(),
+  eta: z.string().datetime().optional(),
+  notes: z.string().max(500).optional(),
+});
+const advanceContainerSchema = z.object({
+  eta: z.string().datetime().optional(),
+  notes: z.string().max(500).optional(),
+});
+
+/** Container / import tracking (PROC-010). */
+@Controller('api/v1/containers')
+export class ContainersController {
+  constructor(@Inject(CONTAINER_SERVICE) private readonly containers: ContainerService) {}
+
+  @Get()
+  @RequirePermission('purchase.read')
+  async list(@Ctx() ctx: RequestContext, @Query('status') status?: string) {
+    return {
+      containers: await this.containers.listContainers(
+        { status: (status || undefined) as never },
+        ctx,
+      ),
+    };
+  }
+
+  @Get('in-transit')
+  @RequirePermission('purchase.read')
+  async inTransit(@Ctx() ctx: RequestContext) {
+    return { containers: await this.containers.inTransit(ctx) };
+  }
+
+  @Post()
+  @RequirePermission('purchase.manage')
+  async create(@Body() body: unknown, @Ctx() ctx: RequestContext) {
+    return this.containers.createContainer(parseBody(createContainerSchema, body), ctx);
+  }
+
+  @Post(':id/advance')
+  @RequirePermission('purchase.manage')
+  async advance(@Param('id') id: string, @Body() body: unknown, @Ctx() ctx: RequestContext) {
+    return this.containers.advance(id, parseBody(advanceContainerSchema, body), ctx);
   }
 }
