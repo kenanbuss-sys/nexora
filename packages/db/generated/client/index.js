@@ -2308,7 +2308,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/home/claude/nexora/packages/db/generated/client",
+      "value": "/home/runner/work/nexora/nexora/packages/db/generated/client",
       "fromEnvVar": null
     },
     "config": {
@@ -2325,7 +2325,7 @@ const config = {
       "driverAdapters",
       "queryCompiler"
     ],
-    "sourceFilePath": "/home/claude/nexora/prisma/schema.prisma",
+    "sourceFilePath": "/home/runner/work/nexora/nexora/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -2339,6 +2339,7 @@ const config = {
   ],
   "activeProvider": "postgresql",
   "postinstall": false,
+  "ciName": "GitHub Actions",
   "inlineDatasources": {
     "db": {
       "url": {
