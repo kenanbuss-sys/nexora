@@ -994,6 +994,8 @@ exports.Prisma.WorkOrderOperationScalarFieldEnum = {
   name: 'name',
   workCenter: 'workCenter',
   status: 'status',
+  assignedTo: 'assignedTo',
+  confirmedQty: 'confirmedQty',
   startedAt: 'startedAt',
   completedAt: 'completedAt'
 };
@@ -1579,6 +1581,20 @@ exports.Prisma.SkuChannelContentScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.ContainerScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  containerNumber: 'containerNumber',
+  poId: 'poId',
+  carrier: 'carrier',
+  status: 'status',
+  eta: 'eta',
+  notes: 'notes',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -2136,7 +2152,8 @@ exports.Prisma.ModelName = {
   CustomObjectDefinition: 'CustomObjectDefinition',
   CustomObjectRecord: 'CustomObjectRecord',
   FrameworkAgreement: 'FrameworkAgreement',
-  SkuChannelContent: 'SkuChannelContent'
+  SkuChannelContent: 'SkuChannelContent',
+  Container: 'Container'
 };
 
 /**

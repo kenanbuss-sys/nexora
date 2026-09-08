@@ -143,6 +143,7 @@ model Tenant {
   landedCosts             LandedCost[]
   customObjectDefinitions CustomObjectDefinition[]
   skuChannelContents      SkuChannelContent[]
+  containers              Container[]
   frameworkAgreements     FrameworkAgreement[]
 
   @@map("tenant")
@@ -1608,6 +1609,7 @@ model PurchaseOrder {
   tenant      Tenant              @relation(fields: [tenantId], references: [id])
   lines       PurchaseOrderLine[]
   landedCosts LandedCost[]
+  containers  Container[]
 
   @@unique([tenantId, poNumber])
   @@index([tenantId, status])
@@ -1869,15 +1871,17 @@ model WorkOrder {
 
 /// Operation snapshot copied from the released routing (MES-002/009).
 model WorkOrderOperation {
-  id          String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  tenantId    String            @map("tenant_id") @db.Uuid
-  workOrderId String            @map("work_order_id") @db.Uuid
-  seq         Int
-  name        String
-  workCenter  String            @map("work_center")
-  status      WoOperationStatus @default(PENDING)
-  startedAt   DateTime?         @map("started_at")
-  completedAt DateTime?         @map("completed_at")
+  id           String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId     String            @map("tenant_id") @db.Uuid
+  workOrderId  String            @map("work_order_id") @db.Uuid
+  seq          Int
+  name         String
+  workCenter   String            @map("work_center")
+  status       WoOperationStatus @default(PENDING)
+  assignedTo   String?           @map("assigned_to")
+  confirmedQty Decimal           @default(0) @map("confirmed_qty") @db.Decimal(18, 3)
+  startedAt    DateTime?         @map("started_at")
+  completedAt  DateTime?         @map("completed_at")
 
   tenant    Tenant    @relation(fields: [tenantId], references: [id])
   workOrder WorkOrder @relation(fields: [workOrderId], references: [id])
@@ -3079,4 +3083,27 @@ model SkuChannelContent {
 
   @@unique([tenantId, skuId, channel])
   @@map("sku_channel_content")
+}
+
+/// Container / import tracking (PROC-010). A logistics container moves
+/// through a fixed lifecycle; history lives in the audit trail.
+model Container {
+  id              String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId        String    @map("tenant_id") @db.Uuid
+  containerNumber String    @map("container_number")
+  poId            String?   @map("po_id") @db.Uuid
+  carrier         String?
+  status          String    @default("BOOKED")
+  eta             DateTime?
+  notes           String?
+  createdBy       String?   @map("created_by")
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
+
+  tenant        Tenant         @relation(fields: [tenantId], references: [id])
+  purchaseOrder PurchaseOrder? @relation(fields: [poId], references: [id])
+
+  @@unique([tenantId, containerNumber])
+  @@index([tenantId, status])
+  @@map("container")
 }
