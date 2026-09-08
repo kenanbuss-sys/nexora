@@ -452,28 +452,28 @@ OPS-015,OPS,Support portal,P0,Implemented (Sprint 188),R0,,,Cross-tenant open-ca
 OPS-016,OPS,Status-page hooks,P0,Implemented (Sprint 188),R0,,,Public component-status endpoint
 OPS-017,OPS,Tenant data export/offboarding,P0,DONE,R0,,,Audited tenant JSON export (Sprint 021)
 OPS-018,OPS,Cost observability,P0,Implemented (Sprint 188),R0,,,Estimated per-tenant spend from usage
-GRC-001,GRC,Policies,P3,PLANNED,R4+,,,
-GRC-002,GRC,Risk register,P3,PLANNED,R4+,,,
-GRC-003,GRC,Controls,P3,PLANNED,R4+,,,
-GRC-004,GRC,Internal audits,P3,PLANNED,R4+,,,
-GRC-005,GRC,Compliance tasks,P3,PLANNED,R4+,,,
-GRC-006,GRC,Incident management,P3,PLANNED,R4+,,,
-GRC-007,GRC,Near-miss,P3,PLANNED,R4+,,,
-GRC-008,GRC,PPE requirements,P3,PLANNED,R4+,,,
-GRC-009,GRC,Safety checklists,P3,PLANNED,R4+,,,
-GRC-010,GRC,Data governance,P3,PLANNED,R4+,,,
-GRC-011,GRC,Legal hold hooks,P3,PLANNED,R4+,,,
+GRC-001,GRC,Policies,P3,Implemented (Sprint 199),R4+,,,Policy register (custom objects)
+GRC-002,GRC,Risk register,P3,Implemented (Sprint 199),R4+,,,Validated risk register + severity flags
+GRC-003,GRC,Controls,P3,Implemented (Sprint 199),R4+,,,Control catalogue register
+GRC-004,GRC,Internal audits,P3,Implemented (Sprint 199),R4+,,,Audit register with owners/due dates
+GRC-005,GRC,Compliance tasks,P3,Implemented (Sprint 199),R4+,,,Via the task engine + registers
+GRC-006,GRC,Incident management,P3,Implemented (Sprint 199),R4+,,,Incident log + critical flags
+GRC-007,GRC,Near-miss,P3,Implemented (Sprint 199),R4+,,,Near-miss log
+GRC-008,GRC,PPE requirements,P3,Implemented (Sprint 199),R4+,,,PPE register per workplace
+GRC-009,GRC,Safety checklists,P3,Implemented (Sprint 199),R4+,,,Checklist register
+GRC-010,GRC,Data governance,P3,Implemented (Sprint 200),R4+,,,Classification gap report
+GRC-011,GRC,Legal hold hooks,P3,Implemented (Sprint 200),R4+,,,Holds exempt purges (audited)
 GRC-012,GRC,Privacy-request workflows,P3,DONE,R4+,,,"Sprint 078: GDPR data-subject export + irreversible PERSON anonymization (orgs refused), audited; Parties page GDPR action."
-EXT-001,EXT,Extension SDK,P2,PLANNED,R4+,,,
-EXT-002,EXT,Module manifest,P2,PLANNED,R4+,,,
-EXT-003,EXT,Custom UI slots,P2,PLANNED,R4+,,,
-EXT-004,EXT,Custom actions,P2,PLANNED,R4+,,,
-EXT-005,EXT,Event subscribers,P2,PLANNED,R4+,,,
-EXT-006,EXT,Industry packs,P2,PLANNED,R4+,,,
-EXT-007,EXT,Template marketplace,P2,PLANNED,R4+,,,
-EXT-008,EXT,Connector marketplace,P2,PLANNED,R4+,,,
-EXT-009,EXT,Compatibility policy,P2,PLANNED,R4+,,,
-EXT-010,EXT,Extension isolation/security,P2,PLANNED,R4+,,,
+EXT-001,EXT,Extension SDK,P2,Implemented (Sprint 197),R4+,,,Manifest schema + validate loop
+EXT-002,EXT,Module manifest,P2,Implemented (Sprint 197),R4+,,,Validated manifests in versioned config
+EXT-003,EXT,Custom UI slots,P2,Implemented (Sprint 197),R4+,,,Slot registry served to the shell
+EXT-004,EXT,Custom actions,P2,Implemented (Sprint 197),R4+,,,Connector-routed audited actions
+EXT-005,EXT,Event subscribers,P2,Implemented (Sprint 197),R4+,,,Manifest subscriptions + webhook stack
+EXT-006,EXT,Industry packs,P2,Implemented (Sprint 198),R4+,,,Atomic config bundles (key-merged)
+EXT-007,EXT,Template marketplace,P2,Implemented (Sprint 198),R4+,,,Curated workflow templates from packs
+EXT-008,EXT,Connector marketplace,P2,Implemented (Sprint 198),R4+,,,Curated connector recipes from packs
+EXT-009,EXT,Compatibility policy,P2,Implemented (Sprint 197),R4+,,,Extension API version check
+EXT-010,EXT,Extension isolation/security,P2,Implemented (Sprint 197),R4+,,,Permission containment + data-only extensions
 CSM-001,CSM,Customer support cases,P2,DONE,R4+,,,"Sprint 064: numbered support cases with enforced lifecycle, priorities, account/order links, audited."
 CSM-002,CSM,Omnichannel case intake,P2,PLANNED,R4+,,,
 CSM-003,CSM,Case routing/assignment,P2,DONE,R4+,,,"Sprint 064: case assignment to active tenant users, audited."
