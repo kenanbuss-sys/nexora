@@ -305,9 +305,7 @@ export class WmsOrderService {
    * idempotent per scan event (the event id is the idempotency key),
    * so replays and double-drains never double-post.
    */
-  async applyOfflineExecution(
-    ctx: RequestContext,
-  ): Promise<{
+  async applyOfflineExecution(ctx: RequestContext): Promise<{
     scanned: number;
     applied: number;
     failed: Array<{ value: string; reason: string }>;

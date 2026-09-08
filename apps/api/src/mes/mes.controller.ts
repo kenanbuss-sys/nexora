@@ -139,6 +139,13 @@ export class WorkOrdersController {
     return this.mes.confirmOperation({ workOrderId: id, operationId: opId, ...input }, ctx);
   }
 
+  /** MES-019 — drain offline-queued production confirmations. */
+  @Post('offline/confirmations')
+  @RequirePermission('production.execute')
+  async applyOfflineConfirmations(@Ctx() ctx: RequestContext) {
+    return this.mes.applyOfflineConfirmations(ctx);
+  }
+
   @Post(':id/rework')
   @RequirePermission('production.manage')
   async rework(@Param('id') id: string, @Ctx() ctx: RequestContext) {

@@ -805,6 +805,61 @@ export class MesService {
   }
 
   /**
+   * Mobile production (MES-019): operators on handhelds queue
+   * confirmations offline as scan events (`mes-conf:<woId>:<opId>:<qty>`);
+   * this drains the queue into confirmOperation — the scan event id
+   * is the confirmation key, so replays never double-count.
+   */
+  async applyOfflineConfirmations(
+    ctx: RequestContext,
+  ): Promise<{
+    scanned: number;
+    applied: number;
+    failed: Array<{ value: string; reason: string }>;
+  }> {
+    const events = await this.prisma.scanEvent.findMany({
+      where: { tenantId: ctx.tenantId, value: { startsWith: 'mes-conf:' } },
+      orderBy: [{ capturedAt: 'asc' }],
+      take: 500,
+    });
+    let applied = 0;
+    const failed: Array<{ value: string; reason: string }> = [];
+    for (const event of events) {
+      const parts = event.value.split(':');
+      const workOrderId = parts[1];
+      const operationId = parts[2];
+      const quantity = Number(parts[3]);
+      if (!workOrderId || !operationId || !(quantity > 0)) {
+        failed.push({ value: event.value, reason: 'MALFORMED' });
+        continue;
+      }
+      try {
+        const marker = `wo:${workOrderId}:op:${operationId}:confirm:${event.id}`;
+        const before = await this.prisma.auditEvent.findFirst({
+          where: {
+            tenantId: ctx.tenantId,
+            action: 'mes.operation.confirm',
+            objectType: 'WorkOrderOperation',
+            objectId: marker,
+          },
+          select: { id: true },
+        });
+        await this.confirmOperation(
+          { workOrderId, operationId, quantity, confirmationKey: event.id },
+          ctx,
+        );
+        if (!before) applied += 1;
+      } catch (error) {
+        failed.push({
+          value: event.value,
+          reason: (error as { code?: string }).code ?? 'FAILED',
+        });
+      }
+    }
+    return { scanned: events.length, applied, failed };
+  }
+
+  /**
    * IN_PROGRESS -> COMPLETED (MES-010/011): receipts the good quantity
    * into the ledger idempotently and records scrap. good + scrap must
    * not exceed the ordered quantity, and all operations must be done.
