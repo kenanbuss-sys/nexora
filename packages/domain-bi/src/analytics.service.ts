@@ -429,6 +429,57 @@ export class AnalyticsService {
     ];
   }
 
+  /**
+   * Profitability analytics (BI-008): per sales channel — revenue
+   * from non-cancelled orders, estimated cost from the SKUs' standard
+   * costs, margin and margin % — where the money is actually made.
+   */
+  async profitabilityAnalytics(ctx: RequestContext): Promise<
+    Array<{
+      channel: string;
+      orders: number;
+      revenue: string;
+      estCost: string;
+      margin: string;
+      marginPct: string | null;
+    }>
+  > {
+    const orders = await this.prisma.salesOrder.findMany({
+      where: { tenantId: ctx.tenantId, status: { not: 'CANCELLED' } },
+      include: { lines: true },
+      take: 2000,
+    });
+    const skuIds = [...new Set(orders.flatMap((o) => o.lines.map((l) => l.skuId)))];
+    const skus = await this.prisma.sku.findMany({
+      where: { tenantId: ctx.tenantId, id: { in: skuIds } },
+      select: { id: true, standardCost: true },
+    });
+    const costOf = new Map(skus.map((s) => [s.id, Number(s.standardCost ?? 0)]));
+    const rows = new Map<string, { orders: number; revenue: number; cost: number }>();
+    for (const order of orders) {
+      const entry = rows.get(order.channel) ?? { orders: 0, revenue: 0, cost: 0 };
+      entry.orders += 1;
+      entry.revenue += Number(order.total);
+      for (const line of order.lines) {
+        entry.cost += Number(line.quantity) * (costOf.get(line.skuId) ?? 0);
+      }
+      rows.set(order.channel, entry);
+    }
+    return [...rows.entries()]
+      .map(([channel, v]) => {
+        const margin = v.revenue - v.cost;
+        return {
+          channel,
+          orders: v.orders,
+          revenue: v.revenue.toFixed(2),
+          estCost: v.cost.toFixed(2),
+          margin: margin.toFixed(2),
+          marginPct: v.revenue > 0 ? ((margin / v.revenue) * 100).toFixed(1) : null,
+        };
+      })
+      .sort((a, b) => Number(b.revenue) - Number(a.revenue));
+  }
+
   async customerAnalytics(ctx: RequestContext): Promise<CustomerAnalyticsRow[]> {
     const orders = await this.prisma.salesOrder.findMany({
       where: { tenantId: ctx.tenantId, status: { not: 'CANCELLED' } },

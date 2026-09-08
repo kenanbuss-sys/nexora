@@ -67,6 +67,13 @@ export class AnalyticsController {
     return { rows: await this.analytics.processAnalytics(ctx) };
   }
 
+  /** BI-008 — profitability per channel. */
+  @Get('profitability')
+  @RequirePermission('analytics.read')
+  async profitability(@Ctx() ctx: RequestContext) {
+    return { rows: await this.analytics.profitabilityAnalytics(ctx) };
+  }
+
   @Get('customers')
   @RequirePermission('analytics.read')
   async customers(@Ctx() ctx: RequestContext) {
