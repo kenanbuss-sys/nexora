@@ -354,26 +354,26 @@ FIN-014,FIN,Payment matching,P1,DONE,R3,,,
 FIN-015,FIN,Treasury snapshot,P1,Implemented (Sprint 131),R3,,,
 FIN-016,FIN,Cost centers,P1,DONE,R3,,,Cost centers with invoice attribution (Sprint 019)
 FIN-017,FIN,Profit centers,P1,Implemented (Sprint 131),R3,,,
-FIN-018,FIN,Project profitability,P1,PLANNED,R3,,,
+FIN-018,FIN,Project profitability,P1,Implemented (Sprint 174),R3,,,Revenue/cost/margin per project
 FIN-019,FIN,Operational P&L,P1,DONE,R3,,,
-FIN-020,FIN,Accounting integration,P1,PLANNED,R3,,,
-FIN-021,FIN,Tax/fiscal/eInvoice adapters,P1,PLANNED,R3,,,
-FIN-022,FIN,Invoice matching,P1,PLANNED,R3,,,
+FIN-020,FIN,Accounting integration,P1,Implemented (Sprint 153),R3,,,Via accounting connector export (INT-002)
+FIN-021,FIN,Tax/fiscal/eInvoice adapters,P1,Implemented (Sprint 162),R3,,,Via fiscal connector (INT-006)
+FIN-022,FIN,Invoice matching,P1,Implemented (Sprint 173),R3,,,AP worklist + configured tolerance
 BI-001,BI,Executive dashboards,P1,DONE,R3,,,
 BI-002,BI,Operational dashboards,P1,DONE,R3,,,
 BI-003,BI,KPI catalog,P1,DONE,R3,,,
 BI-004,BI,Semantic layer,P1,PLANNED,R3,,,
 BI-005,BI,Report builder,P1,PLANNED,R3,,,
-BI-006,BI,Scheduled reports,P1,PLANNED,R3,,,
+BI-006,BI,Scheduled reports,P1,Implemented (Sprint 178),R3,,,Config-driven daily runs + in-app delivery
 BI-007,BI,Drill-through,P1,PLANNED,R3,,,
-BI-008,BI,Profitability analytics,P1,PLANNED,R3,,,
+BI-008,BI,Profitability analytics,P1,Implemented (Sprint 177),R3,,,Revenue/cost/margin per channel
 BI-009,BI,Inventory analytics,P1,DONE,R3,,,
 BI-010,BI,Manufacturing analytics,P1,DONE,R3,,,
 BI-011,BI,Customer analytics,P1,DONE,R3,,,
-BI-012,BI,Supplier analytics,P1,PLANNED,R3,,,
-BI-013,BI,Process analytics,P1,PLANNED,R3,,,
+BI-012,BI,Supplier analytics,P1,Implemented (Sprint 176),R3,,,Sourcing scorecard per supplier
+BI-013,BI,Process analytics,P1,Implemented (Sprint 176),R3,,,Cycle times across core flows
 BI-014,BI,Control Center,P1,DONE,R3,,,"Sprint 071: Control Center pulse — live aggregate of orders, backorders, approvals, cases, change requests, break-glass, NCRs, overdue invoices."
-BI-015,BI,Governed data export,P1,PLANNED,R3,,,
+BI-015,BI,Governed data export,P1,Implemented (Sprint 175),R3,,,Permissioned audited CSV exports
 AI-001,AI,Executive copilot,P3,PLANNED,R4+,,,
 AI-002,AI,Role copilots,P3,PLANNED,R4+,,,
 AI-003,AI,Document extraction,P3,PLANNED,R4+,,,
