@@ -98,6 +98,28 @@ export class WorkOrdersController {
     );
   }
 
+  @Post(':id/operations/:opId/assign-operator')
+  @RequirePermission('production.manage')
+  async assignOperator(
+    @Param('id') id: string,
+    @Param('opId') opId: string,
+    @Body() body: unknown,
+    @Ctx() ctx: RequestContext,
+  ) {
+    const input = parseBody(z.object({ userId: z.string().uuid() }), body);
+    return this.mes.assignOperator(
+      { workOrderId: id, operationId: opId, userId: input.userId },
+      ctx,
+    );
+  }
+
+  /** MES-005 — the calling operator's open queue (static beats :id). */
+  @Get('my-operations')
+  @RequirePermission('production.execute')
+  async myOperations(@Ctx() ctx: RequestContext) {
+    return { operations: await this.mes.myOperations(ctx) };
+  }
+
   @Post(':id/rework')
   @RequirePermission('production.manage')
   async rework(@Param('id') id: string, @Ctx() ctx: RequestContext) {

@@ -27,6 +27,8 @@ export interface WoOperationView {
   name: string;
   workCenter: string;
   status: WoOperationStatus;
+  assignedTo: string | null;
+  confirmedQty: string;
 }
 
 export interface WorkOrderView {
@@ -89,6 +91,8 @@ function toView(wo: {
     name: string;
     workCenter: string;
     status: WoOperationStatus;
+    assignedTo: string | null;
+    confirmedQty: { toString(): string };
   }>;
 }): WorkOrderView {
   return {
@@ -111,6 +115,8 @@ function toView(wo: {
         name: o.name,
         workCenter: o.workCenter,
         status: o.status,
+        assignedTo: o.assignedTo,
+        confirmedQty: o.confirmedQty.toString(),
       })),
   };
 }
@@ -327,6 +333,86 @@ export class MesService {
       newValues: { workCenter: center.code },
     });
     return this.getWorkOrder(wo.id, ctx);
+  }
+
+  /**
+   * Operator assignment (MES-005): a named operator owns an operation.
+   * Assignment is validated against the tenant's active users and
+   * audited; the operator queue lists everything assigned to a user.
+   */
+  async assignOperator(
+    input: { workOrderId: string; operationId: string; userId: string },
+    ctx: RequestContext,
+  ): Promise<WorkOrderView> {
+    const wo = await this.prisma.workOrder.findFirst({
+      where: { id: input.workOrderId, tenantId: ctx.tenantId },
+      include: { operations: true },
+    });
+    if (!wo) throw notFound('WorkOrder', input.workOrderId);
+    const op = wo.operations.find((o) => o.id === input.operationId);
+    if (!op) throw notFound('WorkOrderOperation', input.operationId);
+    if (op.status === 'DONE') {
+      throw new DomainError('INVALID_STATE', 'Completed operations cannot be reassigned');
+    }
+    const user = await this.prisma.user.findFirst({
+      where: { id: input.userId, tenantId: ctx.tenantId },
+      select: { id: true, status: true },
+    });
+    if (!user) throw notFound('User', input.userId);
+    if (user.status !== 'ACTIVE') {
+      throw new DomainError('INVALID_STATE', 'Only active users can be assigned');
+    }
+    await this.prisma.workOrderOperation.update({
+      where: { id: op.id },
+      data: { assignedTo: user.id },
+    });
+    await writeAudit(this.prisma, {
+      tenantId: ctx.tenantId,
+      actorType: ctx.actorType,
+      actorId: ctx.userId,
+      action: 'mes.operation.assign_operator',
+      objectType: 'WorkOrderOperation',
+      objectId: op.id,
+      source: 'api',
+      previousValues: { assignedTo: op.assignedTo },
+      newValues: { assignedTo: user.id },
+    });
+    return this.getWorkOrder(wo.id, ctx);
+  }
+
+  /** The calling operator's open queue, ordered by WO then sequence. */
+  async myOperations(ctx: RequestContext): Promise<
+    Array<{
+      workOrderId: string;
+      woNumber: string;
+      operationId: string;
+      seq: number;
+      name: string;
+      workCenter: string;
+      status: WoOperationStatus;
+    }>
+  > {
+    if (!ctx.userId) return [];
+    const ops = await this.prisma.workOrderOperation.findMany({
+      where: { tenantId: ctx.tenantId, assignedTo: ctx.userId, status: { not: 'DONE' } },
+      orderBy: [{ workOrderId: 'asc' }, { seq: 'asc' }],
+      take: 200,
+    });
+    if (ops.length === 0) return [];
+    const orders = await this.prisma.workOrder.findMany({
+      where: { tenantId: ctx.tenantId, id: { in: [...new Set(ops.map((o) => o.workOrderId))] } },
+      select: { id: true, woNumber: true, status: true },
+    });
+    const numberOf = new Map(orders.map((o) => [o.id, o.woNumber]));
+    return ops.map((o) => ({
+      workOrderId: o.workOrderId,
+      woNumber: numberOf.get(o.workOrderId) ?? '',
+      operationId: o.id,
+      seq: o.seq,
+      name: o.name,
+      workCenter: o.workCenter,
+      status: o.status,
+    }));
   }
 
   /**
