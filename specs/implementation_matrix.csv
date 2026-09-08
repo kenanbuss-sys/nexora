@@ -286,21 +286,21 @@ SVC-012,SVC,Service parts,P2,PLANNED,R4+,,,
 SVC-013,SVC,Customer approvals,P2,PLANNED,R4+,,,
 SVC-014,SVC,SLA,P2,PLANNED,R4+,,,
 SVC-015,SVC,Service history,P2,PLANNED,R4+,,,
-LOG-001,LOG,Shipment planning,P2,PLANNED,R4+,,,
-LOG-002,LOG,Carrier management,P2,PLANNED,R4+,,,
-LOG-003,LOG,Courier adapters,P2,PLANNED,R4+,,,
-LOG-004,LOG,Fleet,P2,PLANNED,R4+,,,
-LOG-005,LOG,Drivers,P2,PLANNED,R4+,,,
-LOG-006,LOG,Route planning,P2,PLANNED,R4+,,,
-LOG-007,LOG,Load planning,P2,PLANNED,R4+,,,
-LOG-008,LOG,Dispatch,P2,PLANNED,R4+,,,
-LOG-009,LOG,Track & trace,P2,PLANNED,R4+,,,
-LOG-010,LOG,Proof of delivery,P2,PLANNED,R4+,,,
-LOG-011,LOG,Delivery exceptions,P2,PLANNED,R4+,,,
-LOG-012,LOG,Reverse logistics,P2,PLANNED,R4+,,,
-LOG-013,LOG,Freight cost,P2,PLANNED,R4+,,,
-LOG-014,LOG,Dock scheduling,P2,PLANNED,R4+,,,
-LOG-015,LOG,Yard events,P2,PLANNED,R4+,,,
+LOG-001,LOG,Shipment planning,P2,Implemented (Sprint 190),R4+,,,Shipments with sequenced stops
+LOG-002,LOG,Carrier management,P2,Implemented (Sprint 190),R4+,,,Carriers as configuration + connector registry
+LOG-003,LOG,Courier adapters,P2,Implemented (Sprint 192),R4+,,,Courier connectors as carriers (INT-005)
+LOG-004,LOG,Fleet,P2,Implemented (Sprint 190),R4+,,,Vehicle registry + capacity
+LOG-005,LOG,Drivers,P2,Implemented (Sprint 190),R4+,,,Driver registry
+LOG-006,LOG,Route planning,P2,Implemented (Sprint 190),R4+,,,Sequenced stops with in-order execution
+LOG-007,LOG,Load planning,P2,Implemented (Sprint 191),R4+,,,Packed weight vs vehicle capacity
+LOG-008,LOG,Dispatch,P2,Implemented (Sprint 190),R4+,,,Guarded dispatch + lifecycle
+LOG-009,LOG,Track & trace,P2,Implemented (Sprint 190),R4+,,,Stop-by-stop trace + audit trail
+LOG-010,LOG,Proof of delivery,P2,Implemented (Sprint 191),R4+,,,PIN-hashed POD once per shipment
+LOG-011,LOG,Delivery exceptions,P2,Implemented (Sprint 191),R4+,,,Reasoned exceptions + failed-stop desk
+LOG-012,LOG,Reverse logistics,P2,Implemented (Sprint 192),R4+,,,Exactly-once reversed return shipments
+LOG-013,LOG,Freight cost,P2,Implemented (Sprint 191),R4+,,,Per-shipment cost + per-carrier report
+LOG-014,LOG,Dock scheduling,P2,Implemented (Sprint 192),R4+,,,Overlap-protected dock appointments
+LOG-015,LOG,Yard events,P2,Implemented (Sprint 192),R4+,,,Audited arrivals/departures
 PRJ-001,PRJ,Projects,P2,PLANNED,R4+,,,
 PRJ-002,PRJ,Sites,P2,PLANNED,R4+,,,
 PRJ-003,PRJ,Milestones,P2,PLANNED,R4+,,,
