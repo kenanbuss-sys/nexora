@@ -129,6 +129,7 @@ import {
   SitesController,
 } from './mdm/mdm.controller';
 import {
+  DeviceEvidenceController,
   MachineGatewayController,
   SCALE_SERVICE,
   WeightsController,
@@ -354,6 +355,7 @@ export const REDIS = 'REDIS';
     PrintJobsController,
     WeightsController,
     MachineGatewayController,
+    DeviceEvidenceController,
     CrmAccountsController,
     LoyaltyController,
     SupportCasesController,

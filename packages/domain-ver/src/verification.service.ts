@@ -93,12 +93,40 @@ export class VerificationService {
     let accepted = 0;
     let duplicates = 0;
 
+    // RFID adapter (DEV-007): tag registry resolves RFID captures to
+    // SKUs at ingest, same as barcodes resolve through the catalog.
+    let rfidMap: Map<string, string> | null = null;
+    if (events.some((e) => e.kind === 'RFID') && this.configuration) {
+      try {
+        const { config } = await this.configuration.getEffectiveConfiguration(device.tenantId);
+        const ver = ((config as Record<string, unknown>).ver ?? {}) as Record<string, unknown>;
+        const tags = Array.isArray(ver.rfidTags)
+          ? (ver.rfidTags as Array<Record<string, unknown>>)
+          : [];
+        const pairs: Array<[string, string]> = [];
+        for (const tag of tags) {
+          if (typeof tag.tag === 'string' && typeof tag.skuCode === 'string') {
+            const sku = await this.prisma.sku.findFirst({
+              where: { tenantId: device.tenantId, code: tag.skuCode },
+              select: { id: true },
+            });
+            if (sku) pairs.push([tag.tag.toUpperCase(), sku.id]);
+          }
+        }
+        rfidMap = new Map(pairs);
+      } catch {
+        rfidMap = null;
+      }
+    }
+
     for (const event of events) {
       try {
         const resolvedSkuId =
           event.kind === 'BARCODE'
             ? await this.skus.resolveBarcode(device.tenantId, event.value)
-            : null;
+            : event.kind === 'RFID'
+              ? (rfidMap?.get(event.value.trim().toUpperCase()) ?? null)
+              : null;
         const created = await this.prisma.scanEvent.create({
           data: {
             tenantId: device.tenantId,

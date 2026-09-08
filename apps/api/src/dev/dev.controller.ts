@@ -9,7 +9,9 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import type { DeviceService, PrintService, ScaleService } from '@nexora/domain-dev';
+import type { CollaborationService } from '@nexora/domain-collab';
 import type { ShopFloorService } from '@nexora/domain-mes';
+import { COLLAB_SERVICE } from '../collab/collab.controller';
 import { SHOPFLOOR_SERVICE } from '../mes/shopfloor.controller';
 import type { VerificationService } from '@nexora/domain-ver';
 import type { RequestContext } from '@nexora/tenancy';
@@ -409,5 +411,62 @@ export class MachineGatewayController {
         platformAdmin: false,
       },
     );
+  }
+}
+
+/**
+ * Camera/evidence capture (DEV-009): devices upload photo evidence
+ * for a scan event with their enrollment token; the attachment goes
+ * through the document domain and links into the verification trail.
+ */
+@Controller('api/v1/devices/evidence')
+export class DeviceEvidenceController {
+  constructor(
+    @Inject(DEVICE_SERVICE) private readonly devices: DeviceService,
+    @Inject(COLLAB_SERVICE) private readonly collab: CollaborationService,
+    @Inject(VERIFICATION_SERVICE) private readonly verification: VerificationService,
+  ) {}
+
+  @Post()
+  @Public()
+  async upload(@Body() body: unknown) {
+    const input = parseBody(
+      z.object({
+        enrollmentToken: z.string().min(8),
+        scanEventId: z.string().uuid(),
+        fileName: z.string().min(1).max(200),
+        contentType: z.string().min(3).max(100),
+        dataBase64: z.string().min(1),
+      }),
+      body,
+    );
+    const device = await this.devices.resolveByToken(input.enrollmentToken);
+    if (!device || !device.active) {
+      throw new UnauthorizedException({ code: 'UNAUTHENTICATED', message: 'Unknown device token' });
+    }
+    const serviceCtx = {
+      tenantId: device.tenantId,
+      tenantSlug: '',
+      tenantStatus: 'ACTIVE' as const,
+      actorType: 'SERVICE' as const,
+      userId: undefined,
+      userStatus: undefined,
+      platformAdmin: false,
+    };
+    const attachment = await this.collab.uploadAttachment(
+      {
+        entityType: 'work_order',
+        entityId: input.scanEventId,
+        fileName: input.fileName,
+        contentType: input.contentType,
+        dataBase64: input.dataBase64,
+      },
+      serviceCtx,
+    );
+    await this.verification.linkEvidence(
+      { scanEventId: input.scanEventId, attachmentId: attachment.id },
+      serviceCtx,
+    );
+    return { attachmentId: attachment.id, ok: true };
   }
 }
