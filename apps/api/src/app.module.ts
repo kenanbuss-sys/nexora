@@ -51,6 +51,7 @@ import { ContainerService, ProcurementService, RfqService } from '@nexora/domain
 import { EngineeringService } from '@nexora/domain-eng';
 import { PlanningService } from '@nexora/domain-plan';
 import { ShopFloorService, MesService } from '@nexora/domain-mes';
+import { LogisticsService } from '@nexora/domain-log';
 import { QualityService } from '@nexora/domain-qc';
 import {
   DevBankFeedAdapter,
@@ -221,6 +222,7 @@ import {
   FinanceController,
 } from './fin/fin.controller';
 import { ANALYTICS_SERVICE, AnalyticsController } from './bi/bi.controller';
+import { LOGISTICS_SERVICE, LogisticsController, ShipmentsController } from './log/log.controller';
 import {
   CustomerApiController,
   PORTAL_SERVICE,
@@ -398,6 +400,8 @@ export const REDIS = 'REDIS';
     ExchangeRatesController,
     ValuationController,
     AnalyticsController,
+    LogisticsController,
+    ShipmentsController,
     PortalUsersController,
     CustomerApiController,
     PortalController,
@@ -629,6 +633,14 @@ export const REDIS = 'REDIS';
       provide: SCALE_SERVICE,
       useFactory: (prisma: PrismaClient) => new ScaleService(prisma),
       inject: [PRISMA],
+    },
+    {
+      provide: LOGISTICS_SERVICE,
+      useFactory: (prisma: PrismaClient, tenants: TenantService) =>
+        new LogisticsService(prisma, {
+          getEffectiveConfiguration: (t) => tenants.getEffectiveConfiguration(t),
+        }),
+      inject: [PRISMA, TENANT_SERVICE],
     },
     {
       provide: VERIFICATION_SERVICE,
