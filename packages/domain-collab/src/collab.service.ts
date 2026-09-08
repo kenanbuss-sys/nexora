@@ -3,6 +3,7 @@ import type { PrismaClient } from '@nexora/db';
 import { EVENT_TYPES, publishToOutbox } from '@nexora/events';
 import { DomainError, notFound } from '@nexora/kernel';
 import type { RequestContext } from '@nexora/tenancy';
+import type { OcrPort, OcrResult } from './ocr';
 
 /**
  * Collaboration layer — comments with mentions on any business record
@@ -71,6 +72,7 @@ export class CollaborationService {
     private readonly permissions?: {
       getPermissionKeys(userId: string, tenantId: string): Promise<string[]>;
     },
+    private readonly ocr?: OcrPort,
   ) {}
 
   /**
@@ -362,6 +364,43 @@ export class CollaborationService {
       ...this.toAttachmentView(attachment),
       dataBase64: Buffer.from(blob.data).toString('base64'),
     };
+  }
+
+  /**
+   * OCR capture (DOC-010): run the configured OCR engine over a stored
+   * attachment and return the extracted text and fields. Access
+   * follows the same document policy as download; each capture is
+   * audited.
+   */
+  async captureAttachment(attachmentId: string, ctx: RequestContext): Promise<OcrResult> {
+    if (!this.ocr) {
+      throw new DomainError('INVALID_STATE', 'No OCR engine is configured');
+    }
+    const attachment = await this.prisma.attachment.findFirst({
+      where: { id: attachmentId, tenantId: ctx.tenantId },
+    });
+    if (!attachment) throw notFound('Attachment', attachmentId);
+    await this.assertDocumentAccess(attachment.entityType, ctx);
+    const blob = await this.prisma.attachmentBlob.findFirst({
+      where: { attachmentId: attachment.id, tenantId: ctx.tenantId },
+    });
+    if (!blob) throw notFound('AttachmentBlob', attachmentId);
+    const result = await this.ocr.extract({
+      fileName: attachment.fileName,
+      contentType: attachment.contentType,
+      data: Buffer.from(blob.data),
+    });
+    await writeAudit(this.prisma, {
+      tenantId: ctx.tenantId,
+      actorType: ctx.actorType,
+      actorId: ctx.userId,
+      action: 'doc.ocr.capture',
+      objectType: 'Attachment',
+      objectId: attachment.id,
+      source: 'api',
+      newValues: { fields: result.fields, chars: result.text.length },
+    });
+    return result;
   }
 
   private toAttachmentView(a: {

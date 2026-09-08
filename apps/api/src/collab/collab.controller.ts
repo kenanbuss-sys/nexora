@@ -75,6 +75,13 @@ export class AttachmentsController {
     return this.collab.uploadAttachment(parseBody(uploadAttachmentSchema, body), ctx);
   }
 
+  /** DOC-010 — OCR capture over a stored attachment. */
+  @Post(':id/ocr')
+  @RequirePermission('collab.use')
+  async capture(@Param('id') id: string, @Ctx() ctx: RequestContext) {
+    return this.collab.captureAttachment(id, ctx);
+  }
+
   @Get(':id/download')
   @RequirePermission('collab.use')
   async download(@Param('id') id: string, @Ctx() ctx: RequestContext) {

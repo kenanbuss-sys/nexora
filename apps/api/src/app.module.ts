@@ -60,7 +60,7 @@ import {
 } from '@nexora/domain-fin';
 import { AnalyticsService } from '@nexora/domain-bi';
 import { PortalService } from '@nexora/domain-b2b';
-import { CollaborationService, SearchService } from '@nexora/domain-collab';
+import { DevOcrAdapter, CollaborationService, SearchService } from '@nexora/domain-collab';
 import {
   ConnectorService,
   IntegrationService,
@@ -1125,6 +1125,7 @@ export const REDIS = 'REDIS';
               return grants.map((g) => g.permissionKey);
             },
           },
+          new DevOcrAdapter(),
         ),
       inject: [PRISMA, TASK_SERVICE, TENANT_SERVICE, ROLE_SERVICE],
     },

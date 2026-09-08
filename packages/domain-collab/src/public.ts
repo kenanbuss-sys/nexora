@@ -10,3 +10,4 @@ export {
   type MentionNotifier,
 } from './collab.service';
 export { SearchService, type SearchHit } from './search.service';
+export { DevOcrAdapter, type OcrPort, type OcrResult } from './ocr';
