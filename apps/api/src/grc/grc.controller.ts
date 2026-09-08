@@ -22,4 +22,11 @@ export class GrcController {
   async overview(@Ctx() ctx: RequestContext) {
     return this.grc.overview(ctx);
   }
+
+  /** GRC-010 — data governance gap report. */
+  @Get('data-governance')
+  @RequirePermission('configuration.read')
+  async dataGovernance(@Ctx() ctx: RequestContext) {
+    return this.grc.dataGovernance(ctx);
+  }
 }

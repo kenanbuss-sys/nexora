@@ -134,14 +134,53 @@ export class CollaborationService {
     } catch {
       rules = [];
     }
+    // Legal holds (GRC-011): held entities are exempt from purging.
+    let holds: Array<{ entityType: string; entityId?: string | undefined }> = [];
+    try {
+      const { config } = await this.config.getEffectiveConfiguration(ctx.tenantId);
+      const raw = (config as { grc?: { legalHolds?: unknown } })?.grc?.legalHolds;
+      if (Array.isArray(raw)) {
+        holds = raw
+          .map((entry) => ({
+            entityType: String((entry as { entityType?: unknown })?.entityType ?? ''),
+            entityId:
+              typeof (entry as { entityId?: unknown })?.entityId === 'string'
+                ? (entry as { entityId: string }).entityId
+                : undefined,
+          }))
+          .filter((hold) => hold.entityType.length > 0);
+      }
+    } catch {
+      holds = [];
+    }
+    const isHeld = (entityType: string, entityId: string): boolean =>
+      holds.some(
+        (hold) =>
+          hold.entityType === entityType &&
+          (hold.entityId === undefined || hold.entityId === entityId),
+      );
     const results: Array<{ entityType: string; days: number; purged: number }> = [];
     for (const rule of rules) {
       const cutoff = new Date(Date.now() - rule.days * 86_400_000);
-      const stale = await this.prisma.attachment.findMany({
+      const staleAll = await this.prisma.attachment.findMany({
         where: { tenantId: ctx.tenantId, entityType: rule.entityType, createdAt: { lt: cutoff } },
-        select: { id: true },
+        select: { id: true, entityId: true },
         take: 500,
       });
+      const held = staleAll.filter((a) => isHeld(rule.entityType, a.entityId));
+      if (held.length > 0) {
+        await writeAudit(this.prisma, {
+          tenantId: ctx.tenantId,
+          actorType: ctx.actorType,
+          actorId: ctx.userId,
+          action: 'doc.retention.hold',
+          objectType: 'Attachment',
+          objectId: rule.entityType,
+          source: 'api',
+          newValues: { held: held.length },
+        });
+      }
+      const stale = staleAll.filter((a) => !isHeld(rule.entityType, a.entityId));
       if (stale.length > 0) {
         const ids = stale.map((a) => a.id);
         await this.prisma.attachmentBlob.deleteMany({ where: { attachmentId: { in: ids } } });

@@ -702,9 +702,11 @@ export const REDIS = 'REDIS';
     },
     {
       provide: GRC_SERVICE,
-      useFactory: (prisma: PrismaClient, objects: CustomObjectService) =>
-        new GrcService(prisma, objects),
-      inject: [PRISMA, CUSTOM_OBJECT_SERVICE],
+      useFactory: (prisma: PrismaClient, objects: CustomObjectService, tenants: TenantService) =>
+        new GrcService(prisma, objects, {
+          getEffectiveConfiguration: (t) => tenants.getEffectiveConfiguration(t),
+        }),
+      inject: [PRISMA, CUSTOM_OBJECT_SERVICE, TENANT_SERVICE],
     },
     {
       provide: LOGISTICS_SERVICE,

@@ -123,7 +123,73 @@ export class GrcService {
   constructor(
     private readonly prisma: PrismaClient,
     private readonly objects: CustomObjectService,
+    private readonly configuration?: {
+      getEffectiveConfiguration(tenantId: string): Promise<{ config: unknown }>;
+    },
   ) {}
+
+  /**
+   * Data governance (GRC-010): declared data classes
+   * (`grc.dataClasses`: [{ entityType, class, retentionDays? }])
+   * against what is actually enforced — retention rules, access
+   * policies and legal holds — so unprotected confidential data is
+   * visible, not assumed.
+   */
+  async dataGovernance(ctx: RequestContext): Promise<{
+    rows: Array<{
+      entityType: string;
+      dataClass: string;
+      retentionConfigured: boolean;
+      accessPolicyConfigured: boolean;
+      legalHold: boolean;
+      gap: boolean;
+    }>;
+  }> {
+    if (!this.configuration) {
+      throw new DomainError('INVALID_STATE', 'Configuration is not wired');
+    }
+    const { config } = await this.configuration.getEffectiveConfiguration(ctx.tenantId);
+    const full = (config ?? {}) as Record<string, unknown>;
+    const grc = (full.grc ?? {}) as Record<string, unknown>;
+    const doc = (full.doc ?? {}) as Record<string, unknown>;
+    const classes = Array.isArray(grc.dataClasses)
+      ? (grc.dataClasses as Array<Record<string, unknown>>)
+      : [];
+    const retention = new Set(
+      (Array.isArray(doc.retention) ? (doc.retention as Array<Record<string, unknown>>) : [])
+        .map((rule) => String(rule.entityType ?? ''))
+        .filter(Boolean),
+    );
+    const accessPolicies = new Set(
+      (Array.isArray(doc.accessPolicy) ? (doc.accessPolicy as Array<Record<string, unknown>>) : [])
+        .map((rule) => String(rule.entityType ?? ''))
+        .filter(Boolean),
+    );
+    const legalHolds = new Set(
+      (Array.isArray(grc.legalHolds) ? (grc.legalHolds as Array<Record<string, unknown>>) : [])
+        .map((hold) => String(hold.entityType ?? ''))
+        .filter(Boolean),
+    );
+    const rows = classes
+      .filter((entry) => typeof entry.entityType === 'string' && typeof entry.class === 'string')
+      .map((entry) => {
+        const entityType = entry.entityType as string;
+        const dataClass = entry.class as string;
+        const retentionConfigured = retention.has(entityType);
+        const accessPolicyConfigured = accessPolicies.has(entityType);
+        const gap =
+          dataClass === 'confidential' && !(retentionConfigured && accessPolicyConfigured);
+        return {
+          entityType,
+          dataClass,
+          retentionConfigured,
+          accessPolicyConfigured,
+          legalHold: legalHolds.has(entityType),
+          gap,
+        };
+      });
+    return { rows };
+  }
 
   /** Provision the GRC registers once; re-running reports what exists. */
   async setup(ctx: RequestContext): Promise<{ created: string[]; existing: string[] }> {
