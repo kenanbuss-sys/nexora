@@ -112,6 +112,13 @@ export class FinanceController {
     return this.finance.matchingWorklist(ctx);
   }
 
+  /** FIN-018 — project profitability. */
+  @Get('projects')
+  @RequirePermission('finance.read')
+  async projects(@Ctx() ctx: RequestContext) {
+    return { rows: await this.finance.projectProfitability(ctx) };
+  }
+
   @Get('margin')
   @RequirePermission('finance.read')
   async margin(@Ctx() ctx: RequestContext) {

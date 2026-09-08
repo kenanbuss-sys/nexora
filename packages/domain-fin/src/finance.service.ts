@@ -608,6 +608,71 @@ export class FinanceService {
       .sort((a, b) => a.value.localeCompare(b.value));
   }
 
+  /**
+   * Project profitability (FIN-018): revenue from customer invoices of
+   * project-tagged sales orders (projectRef), cost from supplier
+   * invoices attributed to the project dimension — one margin view
+   * per project.
+   */
+  async projectProfitability(ctx: RequestContext): Promise<
+    Array<{
+      project: string;
+      revenue: string;
+      cost: string;
+      margin: string;
+      marginPct: string | null;
+    }>
+  > {
+    const [customerInvoices, supplierInvoices] = await Promise.all([
+      this.prisma.invoice.findMany({
+        where: { tenantId: ctx.tenantId, invoiceType: 'CUSTOMER', status: { not: 'VOID' } },
+        select: { orderRefId: true, total: true },
+        take: 5000,
+      }),
+      this.prisma.invoice.findMany({
+        where: { tenantId: ctx.tenantId, invoiceType: 'SUPPLIER', status: { not: 'VOID' } },
+        select: { dimensions: true, total: true },
+        take: 5000,
+      }),
+    ]);
+    const orders = await this.prisma.salesOrder.findMany({
+      where: {
+        tenantId: ctx.tenantId,
+        id: { in: customerInvoices.map((i) => i.orderRefId) },
+        projectRef: { not: null },
+      },
+      select: { id: true, projectRef: true },
+    });
+    const projectOf = new Map(orders.map((o) => [o.id, o.projectRef as string]));
+    const rows = new Map<string, { revenue: number; cost: number }>();
+    const bump = (project: string, revenue: number, cost: number) => {
+      const entry = rows.get(project) ?? { revenue: 0, cost: 0 };
+      entry.revenue += revenue;
+      entry.cost += cost;
+      rows.set(project, entry);
+    };
+    for (const invoice of customerInvoices) {
+      const project = projectOf.get(invoice.orderRefId);
+      if (project) bump(project, Number(invoice.total), 0);
+    }
+    for (const invoice of supplierInvoices) {
+      const dims = (invoice.dimensions ?? {}) as Record<string, unknown>;
+      if (typeof dims.project === 'string') bump(dims.project, 0, Number(invoice.total));
+    }
+    return [...rows.entries()]
+      .map(([project, v]) => {
+        const margin = v.revenue - v.cost;
+        return {
+          project,
+          revenue: v.revenue.toFixed(2),
+          cost: v.cost.toFixed(2),
+          margin: margin.toFixed(2),
+          marginPct: v.revenue > 0 ? ((margin / v.revenue) * 100).toFixed(1) : null,
+        };
+      })
+      .sort((a, b) => a.project.localeCompare(b.project));
+  }
+
   async marginAnalysis(ctx: RequestContext): Promise<MarginRow[]> {
     const invoices = await this.prisma.invoice.findMany({
       where: { tenantId: ctx.tenantId, invoiceType: 'CUSTOMER', status: { not: 'VOID' } },
