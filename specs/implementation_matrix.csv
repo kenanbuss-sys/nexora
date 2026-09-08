@@ -271,21 +271,21 @@ EAM-011,EAM,Tool checkout,P2,DONE,R4+,,,Sprint 202: tool checkout OUT/IN with se
 EAM-012,EAM,Asset warranty/contracts,P2,DONE,R4+,,,Sprint 202: warranty coverage from eam.warranties config surfaced in the asset report.
 EAM-013,EAM,Asset costs,P2,DONE,R4+,,,Sprint 202: asset cost roll-up from completed maintenance (labor + parts) in the asset report.
 EAM-014,EAM,Condition-monitoring hooks,P2,DONE,R4+,,,Sprint 202: meter readings are the condition-monitoring hook; thresholds evaluable by rules.
-SVC-001,SVC,Installed base,P2,PLANNED,R4+,,,
-SVC-002,SVC,Warranty,P2,PLANNED,R4+,,,
-SVC-003,SVC,Service requests,P2,PLANNED,R4+,,,
-SVC-004,SVC,Service orders,P2,PLANNED,R4+,,,
-SVC-005,SVC,RMA,P2,PLANNED,R4+,,,
-SVC-006,SVC,Field scheduling,P2,PLANNED,R4+,,,
-SVC-007,SVC,Skills-based assignment,P2,PLANNED,R4+,,,
-SVC-008,SVC,Field mobile,P2,PLANNED,R4+,,,
-SVC-009,SVC,Measurements/surveys,P2,PLANNED,R4+,,,
-SVC-010,SVC,Installation orders,P2,PLANNED,R4+,,,
-SVC-011,SVC,Proof of service,P2,PLANNED,R4+,,,
-SVC-012,SVC,Service parts,P2,PLANNED,R4+,,,
-SVC-013,SVC,Customer approvals,P2,PLANNED,R4+,,,
-SVC-014,SVC,SLA,P2,PLANNED,R4+,,,
-SVC-015,SVC,Service history,P2,PLANNED,R4+,,,
+SVC-001,SVC,Installed base,P2,DONE,R4+,,,Sprint 210: installed base per CRM account — assets with serial, location, install date.
+SVC-002,SVC,Warranty,P2,DONE,R4+,,,Sprint 210: warranty windows per asset with an expiring-warranty report (configurable notice days).
+SVC-003,SVC,Service requests,P2,DONE,R4+,,,Sprint 210: numbered service requests (SR-) with priority and asset linkage.
+SVC-004,SVC,Service orders,P2,DONE,R4+,,,Sprint 210: service orders (SVO-) with PLANNED-SCHEDULED-IN_PROGRESS-DONE lifecycle.
+SVC-005,SVC,RMA,P2,DONE,R4+,,,Sprint 210: RMA lifecycle REQUESTED-APPROVED-RECEIVED-CLOSED; receiving books stock via the ledger.
+SVC-006,SVC,Field scheduling,P2,DONE,R4+,,,Sprint 210: field scheduling with two-hour slot conflict detection per technician.
+SVC-007,SVC,Skills-based assignment,P2,DONE,R4+,,,Sprint 210: skills-based assignment — order skillsRequired validated against HCM employee skills.
+SVC-008,SVC,Field mobile,P2,DONE,R4+,,,Sprint 210: field mobile — technician my-orders queue, start/measure/parts/complete from the field.
+SVC-009,SVC,Measurements/surveys,P2,DONE,R4+,,,Sprint 210: measurements recorded during the visit on the audit trail (key/value/unit).
+SVC-010,SVC,Installation orders,P2,DONE,R4+,,,Sprint 210: installation orders hand new assets to the installed base on completion.
+SVC-011,SVC,Proof of service,P2,DONE,R4+,,,Sprint 210: proof of service — once-only customer sign-off with hashed PIN.
+SVC-012,SVC,Service parts,P2,DONE,R4+,,,Sprint 210: service parts consumed through the stock ledger, idempotent per order+key.
+SVC-013,SVC,Customer approvals,P2,DONE,R4+,,,Sprint 210: customer approval through the approvals domain gates work start (configurable).
+SVC-014,SVC,SLA,P2,DONE,R4+,,,Sprint 210: SLA due dates from svc.sla config per priority; overdue report.
+SVC-015,SVC,Service history,P2,DONE,R4+,,,Sprint 210: per-asset service history — requests, orders and consumed parts.
 LOG-001,LOG,Shipment planning,P2,Implemented (Sprint 190),R4+,,,Shipments with sequenced stops
 LOG-002,LOG,Carrier management,P2,Implemented (Sprint 190),R4+,,,Carriers as configuration + connector registry
 LOG-003,LOG,Courier adapters,P2,Implemented (Sprint 192),R4+,,,Courier connectors as carriers (INT-005)
