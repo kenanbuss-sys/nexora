@@ -20,6 +20,8 @@ import { PRISMA } from './auth.guard';
 
 /** URL prefix (after /api/v1/) → module key. First match wins. */
 export const MODULE_ROUTE_MAP: Array<[string, string]> = [
+  ['workflows', 'automation'],
+  ['forms', 'automation'],
   ['crm', 'crm'],
   ['quotes', 'sales'],
   ['price-lists', 'sales'],

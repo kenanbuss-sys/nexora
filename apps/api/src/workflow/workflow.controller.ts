@@ -46,6 +46,12 @@ export class WorkflowsController {
     @Inject(TENANT_SERVICE) private readonly tenants: TenantService,
   ) {}
 
+  @Get()
+  @RequirePermission('workflow.read')
+  async listDefinitions(@Ctx() ctx: RequestContext) {
+    return { workflows: await this.workflows.listDefinitions(ctx) };
+  }
+
   /** WF-011 — publish from the tenant's template library. */
   @Post('from-template')
   @RequirePermission('workflow.publish')

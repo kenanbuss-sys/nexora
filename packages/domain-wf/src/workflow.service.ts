@@ -30,6 +30,38 @@ export type AuthorizeFn = (permissionKey: string) => Promise<boolean>;
 export class WorkflowService {
   constructor(private readonly prisma: PrismaClient) {}
 
+  /** Definitions with their latest published version (designer list). */
+  async listDefinitions(
+    ctx: RequestContext,
+  ): Promise<
+    Array<{ key: string; name: string; version: number; spec: unknown; instances: number }>
+  > {
+    const definitions = await this.prisma.workflowDefinition.findMany({
+      where: { tenantId: ctx.tenantId },
+      include: { versions: { orderBy: { version: 'desc' }, take: 1 } },
+      orderBy: { key: 'asc' },
+      take: 100,
+    });
+    const counts = await this.prisma.workflowInstance.groupBy({
+      by: ['definitionId'],
+      where: { tenantId: ctx.tenantId },
+      _count: { _all: true },
+    });
+    const countOf = new Map(counts.map((c) => [c.definitionId, c._count._all]));
+    return definitions
+      .filter((d) => d.versions.length > 0)
+      .map((d) => {
+        const latest = d.versions[0] as (typeof d.versions)[number];
+        return {
+          key: d.key,
+          name: d.name,
+          version: latest.version,
+          spec: latest.spec,
+          instances: countOf.get(d.id) ?? 0,
+        };
+      });
+  }
+
   /** Publish a new immutable version of a workflow (creates the definition on first publish). */
   async publishWorkflow(
     input: { key: string; name: string; spec: unknown },

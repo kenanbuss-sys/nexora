@@ -203,6 +203,7 @@ const NAV: Array<{ href: string; label: string; icon: string; permission: string
   { href: '/devices', label: 'Devices', icon: 'devices', permission: 'device.read' },
   { href: '/data', label: 'Import/export', icon: 'data', permission: 'product.read' },
   { href: '/objects', label: 'Objects', icon: 'data', permission: 'configuration.read' },
+  { href: '/workflows', label: 'Workflows', icon: 'data', permission: 'workflow.read' },
   { href: '/settings', label: 'Settings', icon: 'settings', permission: 'configuration.read' },
   { href: '/users', label: 'Users & roles', icon: 'users', permission: 'iam.user.manage' },
 ];
