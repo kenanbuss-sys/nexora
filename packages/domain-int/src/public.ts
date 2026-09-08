@@ -28,6 +28,7 @@ export {
 } from './connector.service';
 export {
   ExtensionService,
+  PACK_CATALOG,
   PLATFORM_EXTENSION_API,
   type ActionConnectorGate,
   type ExtensionConfigGate,

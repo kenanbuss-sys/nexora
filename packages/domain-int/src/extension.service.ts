@@ -77,6 +77,74 @@ export interface ActionConnectorGate {
   ): Promise<{ ok: boolean; reference: string }>;
 }
 
+/**
+ * Curated marketplace catalog (EXT-006/007/008). Packs are governed
+ * bundles of CONFIGURATION — terminology, workflow templates, forms,
+ * connector recipes — applied atomically into the tenant's versioned
+ * configuration. No tenant-specific code, ever.
+ */
+export const PACK_CATALOG: Array<{
+  key: string;
+  name: string;
+  description: string;
+  fragment: Record<string, unknown>;
+}> = [
+  {
+    key: 'retail-bih',
+    name: 'Maloprodaja BiH',
+    description: 'POS + fiskalizacija + webshop kanal za maloprodaju u BiH.',
+    fragment: {
+      wf: {
+        templates: [
+          {
+            key: 'povrat-robe',
+            name: 'Povrat robe',
+            spec: {
+              initial: 'ZAHTJEV',
+              states: [
+                { name: 'ZAHTJEV' },
+                { name: 'ODOBRENO' },
+                { name: 'ZATVORENO', terminal: true },
+              ],
+              transitions: [
+                { from: 'ZAHTJEV', to: 'ODOBRENO', trigger: 'odobri' },
+                { from: 'ODOBRENO', to: 'ZATVORENO', trigger: 'zatvori' },
+              ],
+            },
+          },
+        ],
+        forms: [
+          {
+            key: 'povrat-forma',
+            title: 'Zahtjev za povrat',
+            fields: [
+              {
+                key: 'razlog',
+                label: 'Razlog',
+                type: 'choice',
+                required: true,
+                choices: ['osteceno', 'pogresno', 'ostalo'],
+              },
+              { key: 'opis', label: 'Opis', type: 'text', required: true, max: 300 },
+            ],
+          },
+        ],
+      },
+      int: {
+        connectors: [{ key: 'fiskal-bih', kind: 'fiscal', adapter: 'noop', config: {} }],
+      },
+    },
+  },
+  {
+    key: 'manufacturing-core',
+    name: 'Proizvodnja — osnovni paket',
+    description: 'Backflush, andon prag i radne instrukcije za proizvodne pogone.',
+    fragment: {
+      mes: { issueMode: 'backflush', andon: { downtimeMinutes: 30 } },
+    },
+  },
+];
+
 export class ExtensionService {
   constructor(
     private readonly prisma: PrismaClient,
@@ -84,6 +152,91 @@ export class ExtensionService {
     private readonly permissions: PermissionCatalogGate,
     private readonly connectors: ActionConnectorGate,
   ) {}
+
+  /** EXT-006/007/008: browse the curated pack/template/connector catalog. */
+  catalog(): {
+    packs: Array<{ key: string; name: string; description: string }>;
+    workflowTemplates: Array<{ pack: string; key: string; name: string }>;
+    connectorRecipes: Array<{ pack: string; key: string; kind: string }>;
+  } {
+    const packs = PACK_CATALOG.map((pack) => ({
+      key: pack.key,
+      name: pack.name,
+      description: pack.description,
+    }));
+    const workflowTemplates = PACK_CATALOG.flatMap((pack) => {
+      const wf = (pack.fragment.wf ?? {}) as { templates?: Array<{ key: string; name: string }> };
+      return (wf.templates ?? []).map((template) => ({
+        pack: pack.key,
+        key: template.key,
+        name: template.name,
+      }));
+    });
+    const connectorRecipes = PACK_CATALOG.flatMap((pack) => {
+      const int = (pack.fragment.int ?? {}) as {
+        connectors?: Array<{ key: string; kind: string }>;
+      };
+      return (int.connectors ?? []).map((connector) => ({
+        pack: pack.key,
+        key: connector.key,
+        kind: connector.kind,
+      }));
+    });
+    return { packs, workflowTemplates, connectorRecipes };
+  }
+
+  /** Apply a pack's configuration fragment atomically (shallow-merge per top key, arrays keyed-merged). */
+  async applyPack(packKey: string, ctx: RequestContext): Promise<{ version: number }> {
+    const pack = PACK_CATALOG.find((entry) => entry.key === packKey);
+    if (!pack) throw notFound('Pack', packKey);
+    const { config } = await this.config.getEffectiveConfiguration(ctx.tenantId);
+    const full = (config ?? {}) as Record<string, unknown>;
+    const merged: Record<string, unknown> = { ...full };
+    for (const [topKey, fragmentValue] of Object.entries(pack.fragment)) {
+      const existing = merged[topKey];
+      if (
+        typeof existing === 'object' &&
+        existing !== null &&
+        !Array.isArray(existing) &&
+        typeof fragmentValue === 'object' &&
+        fragmentValue !== null &&
+        !Array.isArray(fragmentValue)
+      ) {
+        const combined: Record<string, unknown> = { ...(existing as Record<string, unknown>) };
+        for (const [innerKey, innerValue] of Object.entries(
+          fragmentValue as Record<string, unknown>,
+        )) {
+          const current = combined[innerKey];
+          if (Array.isArray(current) && Array.isArray(innerValue)) {
+            const keyed = new Map(
+              current.map((item) => [(item as { key?: unknown }).key ?? Symbol('x'), item]),
+            );
+            for (const item of innerValue) {
+              keyed.set((item as { key?: unknown }).key ?? Symbol('y'), item);
+            }
+            combined[innerKey] = [...keyed.values()];
+          } else {
+            combined[innerKey] = innerValue;
+          }
+        }
+        merged[topKey] = combined;
+      } else {
+        merged[topKey] = fragmentValue;
+      }
+    }
+    const result = await this.config.updateConfiguration(merged, ctx);
+    await writeAudit(this.prisma, {
+      tenantId: ctx.tenantId,
+      actorType: ctx.actorType,
+      actorId: ctx.userId,
+      action: 'ext.pack.apply',
+      objectType: 'Pack',
+      objectId: pack.key,
+      source: 'api',
+      newValues: { configVersion: result.version },
+    });
+    return result;
+  }
 
   private async installed(tenantId: string): Promise<ExtensionManifest[]> {
     const { config } = await this.config.getEffectiveConfiguration(tenantId);
@@ -160,9 +313,7 @@ export class ExtensionService {
   }
 
   /** EXT-003: effective UI slots across installed extensions. */
-  async uiSlots(
-    ctx: RequestContext,
-  ): Promise<
+  async uiSlots(ctx: RequestContext): Promise<
     Array<{
       slot: string;
       label: string;

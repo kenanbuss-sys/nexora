@@ -241,6 +241,18 @@ export class ExtensionsController {
     return this.extensions.install(body, ctx);
   }
 
+  @Get('marketplace')
+  @RequirePermission('integration.manage')
+  marketplace() {
+    return this.extensions.catalog();
+  }
+
+  @Post('packs/:key/apply')
+  @RequirePermission('integration.manage')
+  async applyPack(@Param('key') key: string, @Ctx() ctx: RequestContext) {
+    return this.extensions.applyPack(key, ctx);
+  }
+
   @Get('ui-slots')
   @RequirePermission('configuration.read')
   async uiSlots(@Ctx() ctx: RequestContext) {
