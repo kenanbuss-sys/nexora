@@ -157,6 +157,7 @@ export interface MarketplaceOrderGate {
       warehouseId: string;
       currency: string;
       lines: Array<{ code: string; quantity: number }>;
+      channel?: string;
     },
     ctx: RequestContext,
   ): Promise<{ orderId: string; orderNumber: string; unknownCodes: string[] }>;
@@ -405,7 +406,7 @@ export class ConnectorService {
       }
       try {
         const created = await this.orders.quickOrder(
-          { accountId, warehouseId, currency: 'EUR', lines: orderLines },
+          { accountId, warehouseId, currency: 'EUR', lines: orderLines, channel: 'marketplace' },
           ctx,
         );
         await writeAudit(this.prisma, {

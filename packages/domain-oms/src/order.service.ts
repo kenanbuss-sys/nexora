@@ -40,6 +40,7 @@ export interface OrderView {
   warehouseId: string;
   fulfillmentType: string;
   projectRef: string | null;
+  channel: string;
   status: SalesOrderStatus;
   currency: string;
   total: string;
@@ -150,6 +151,7 @@ function toView(order: {
   holdReason: string | null;
   fulfillmentType: string;
   projectRef: string | null;
+  channel: string;
 
   createdAt: Date;
   lines: Array<{
@@ -176,6 +178,7 @@ function toView(order: {
     holdReason: order.holdReason,
     fulfillmentType: order.fulfillmentType,
     projectRef: order.projectRef,
+    channel: order.channel,
     createdAt: order.createdAt.toISOString(),
     lines: order.lines.map((l) => ({
       id: l.id,
@@ -447,6 +450,7 @@ export class OrderService {
       currency: string;
       lines: Array<{ code: string; quantity: number }>;
       fulfillmentType?: 'DELIVERY' | 'PICKUP' | undefined;
+      channel?: string | undefined;
     },
     ctx: RequestContext,
   ): Promise<{ order: OrderView; unknownCodes: string[] }> {
@@ -470,6 +474,7 @@ export class OrderService {
         warehouseId: input.warehouseId,
         currency: input.currency,
         ...(input.fulfillmentType !== undefined ? { fulfillmentType: input.fulfillmentType } : {}),
+        ...(input.channel !== undefined ? { channel: input.channel } : {}),
       },
       ctx,
     );
@@ -506,7 +511,7 @@ export class OrderService {
     ctx: RequestContext,
   ): Promise<{ order: OrderView; unknownCodes: string[] }> {
     const { order, unknownCodes } = await this.quickOrder(
-      { ...input, fulfillmentType: input.fulfillmentType ?? 'PICKUP' },
+      { ...input, fulfillmentType: input.fulfillmentType ?? 'PICKUP', channel: 'store' },
       ctx,
     );
     const confirmed = await this.confirmOrder(order.id, ctx, { allowBackorder: true });
@@ -733,6 +738,30 @@ export class OrderService {
   }
 
   /** Creates a DRAFT order (OMS-001) after account validation (OMS-002). */
+  /**
+   * COM-006 — channel attribution mix: orders and revenue per intake
+   * channel (direct, portal, marketplace, store, ...), non-cancelled.
+   */
+  async channelMix(
+    ctx: RequestContext,
+  ): Promise<Array<{ channel: string; orders: number; revenue: string }>> {
+    const rows = await this.prisma.salesOrder.findMany({
+      where: { tenantId: ctx.tenantId, status: { not: 'CANCELLED' } },
+      select: { channel: true, total: true },
+      take: 5000,
+    });
+    const mix = new Map<string, { orders: number; revenue: number }>();
+    for (const row of rows) {
+      const entry = mix.get(row.channel) ?? { orders: 0, revenue: 0 };
+      entry.orders += 1;
+      entry.revenue += Number(row.total);
+      mix.set(row.channel, entry);
+    }
+    return [...mix.entries()]
+      .map(([channel, m]) => ({ channel, orders: m.orders, revenue: m.revenue.toFixed(2) }))
+      .sort((a, b) => b.orders - a.orders);
+  }
+
   async createOrder(
     input: {
       accountId: string;
@@ -740,9 +769,13 @@ export class OrderService {
       currency: string;
       fulfillmentType?: 'DELIVERY' | 'PICKUP' | undefined;
       projectRef?: string | undefined;
+      channel?: string | undefined;
     },
     ctx: RequestContext,
   ): Promise<OrderView> {
+    if (input.channel !== undefined && !/^[a-z][a-z0-9_-]{1,31}$/.test(input.channel)) {
+      throw new DomainError('VALIDATION_FAILED', 'Invalid channel code');
+    }
     const account = await this.accounts.getAccountState(ctx.tenantId, input.accountId);
     if (!account.exists) throw notFound('CrmAccount', input.accountId);
     if (!account.active) throw new DomainError('INVALID_STATE', 'Account is blocked');
@@ -767,6 +800,7 @@ export class OrderService {
             ? { fulfillmentType: input.fulfillmentType }
             : {}),
           ...(input.projectRef !== undefined ? { projectRef: input.projectRef } : {}),
+          ...(input.channel !== undefined ? { channel: input.channel } : {}),
           createdBy: ctx.userId ?? null,
         },
         include: { lines: true },

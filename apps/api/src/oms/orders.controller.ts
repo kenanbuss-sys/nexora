@@ -14,6 +14,10 @@ const createOrderSchema = z.object({
   currency: z.string().length(3),
   fulfillmentType: z.enum(['DELIVERY', 'PICKUP']).optional(),
   projectRef: z.string().max(120).optional(),
+  channel: z
+    .string()
+    .regex(/^[a-z][a-z0-9_-]{1,31}$/)
+    .optional(),
 });
 const fromQuoteSchema = z.object({
   quoteId: z.string().uuid(),
@@ -78,6 +82,13 @@ export class OrdersController {
   @RequirePermission('order.create')
   async create(@Body() body: unknown, @Ctx() ctx: RequestContext) {
     return this.orders.createOrder(parseBody(createOrderSchema, body), ctx);
+  }
+
+  /** COM-006 — channel attribution mix. */
+  @Get('channel-mix')
+  @RequirePermission('order.read')
+  async channelMix(@Ctx() ctx: RequestContext) {
+    return { mix: await this.orders.channelMix(ctx) };
   }
 
   @Get('abandoned')

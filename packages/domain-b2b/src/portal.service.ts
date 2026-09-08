@@ -70,7 +70,7 @@ export interface PortalCaseGate {
 /** Cross-domain contract: order lifecycle is owned by OMS (COM-002). */
 export interface PortalOrderGate {
   createOrder(
-    input: { accountId: string; warehouseId: string; currency: string },
+    input: { accountId: string; warehouseId: string; currency: string; channel?: string },
     ctx: RequestContext,
   ): Promise<{ id: string; orderNumber: string }>;
   addLine(
@@ -312,7 +312,12 @@ export class PortalService {
       warehouseId = warehouse.id;
     }
     const order = await this.orders.createOrder(
-      { accountId: portal.accountId, warehouseId, currency: input.currency ?? 'EUR' },
+      {
+        accountId: portal.accountId,
+        warehouseId,
+        currency: input.currency ?? 'EUR',
+        channel: 'portal',
+      },
       ctx,
     );
     for (const line of input.lines) {
