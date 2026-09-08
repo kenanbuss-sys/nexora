@@ -145,6 +145,18 @@ export class ConnectorsController {
     return this.connectors.exportCatalog(key, ctx);
   }
 
+  /** INT-005 — courier connectors. */
+  @Post(':key/shipments')
+  @RequirePermission('inventory.adjust')
+  async createShipment(
+    @Param('key') key: string,
+    @Body() body: unknown,
+    @Ctx() ctx: RequestContext,
+  ) {
+    const input = parseBody(z.object({ packageId: z.string().uuid() }), body);
+    return this.connectors.createShipment({ key, packageId: input.packageId }, ctx);
+  }
+
   @Post(':key/import-orders')
   @RequirePermission('integration.manage')
   async importOrders(@Param('key') key: string, @Ctx() ctx: RequestContext) {

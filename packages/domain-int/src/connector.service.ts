@@ -622,6 +622,71 @@ export class ConnectorService {
   }
 
   /**
+   * Courier connectors (INT-005): book a shipment for a packed
+   * package — exactly once per (connector, package); a retry returns
+   * the existing tracking reference. The SSCC and weight ride along.
+   */
+  async createShipment(
+    input: { key: string; packageId: string },
+    ctx: RequestContext,
+  ): Promise<{ trackingRef: string; existing: boolean }> {
+    const { entry, adapter } = await this.resolve(input.key, ctx.tenantId);
+    if (entry.kind !== 'courier') {
+      throw new DomainError('INVALID_STATE', `Connector '${input.key}' is not a courier connector`);
+    }
+    const pkg = await this.prisma.package.findFirst({
+      where: { id: input.packageId, tenantId: ctx.tenantId },
+    });
+    if (!pkg) throw notFound('Package', input.packageId);
+    if (pkg.status === 'SHIPPED') {
+      throw new DomainError('INVALID_STATE', 'The package already shipped');
+    }
+    const marker = `${entry.key}:${pkg.id}`;
+    const existing = await this.prisma.auditEvent.findFirst({
+      where: {
+        tenantId: ctx.tenantId,
+        action: 'int.courier.shipment',
+        objectType: 'Package',
+        objectId: marker,
+      },
+      orderBy: { occurredAt: 'desc' },
+    });
+    if (existing) {
+      const trackingRef =
+        (existing.newValues as { trackingRef?: string } | null)?.trackingRef ?? '';
+      return { trackingRef, existing: true };
+    }
+    const order = await this.prisma.salesOrder.findFirst({
+      where: { id: pkg.orderId, tenantId: ctx.tenantId },
+      select: { orderNumber: true },
+    });
+    const result = await adapter.push(
+      'shipment',
+      {
+        packageNumber: pkg.packageNumber,
+        ssccCode: pkg.ssccCode,
+        orderNumber: order?.orderNumber ?? null,
+        weightKg: pkg.weightKg === null ? null : String(pkg.weightKg),
+      },
+      entry.config,
+    );
+    if (!result.ok) {
+      throw new DomainError('INVALID_STATE', 'The courier refused the shipment');
+    }
+    await writeAudit(this.prisma, {
+      tenantId: ctx.tenantId,
+      actorType: ctx.actorType,
+      actorId: ctx.userId,
+      action: 'int.courier.shipment',
+      objectType: 'Package',
+      objectId: marker,
+      source: 'api',
+      newValues: { trackingRef: result.reference, packageNumber: pkg.packageNumber },
+    });
+    return { trackingRef: result.reference, existing: false };
+  }
+
+  /**
    * Payment connectors (INT-004): create a payment intent for a sales
    * order through a declared payment connector — one intent per
    * (connector, order), a retry returns the existing reference — and
