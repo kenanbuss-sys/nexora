@@ -48,6 +48,7 @@
     "@nexora/domain-b2b": "workspace:*",
     "@nexora/domain-collab": "workspace:*",
     "@nexora/domain-int": "workspace:*",
+    "@nexora/domain-ai": "workspace:*",
     "@nexora/domain-log": "workspace:*",
     "@nexora/audit": "workspace:*"
   },
