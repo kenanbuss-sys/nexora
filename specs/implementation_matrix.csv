@@ -301,18 +301,18 @@ LOG-012,LOG,Reverse logistics,P2,Implemented (Sprint 192),R4+,,,Exactly-once rev
 LOG-013,LOG,Freight cost,P2,Implemented (Sprint 191),R4+,,,Per-shipment cost + per-carrier report
 LOG-014,LOG,Dock scheduling,P2,Implemented (Sprint 192),R4+,,,Overlap-protected dock appointments
 LOG-015,LOG,Yard events,P2,Implemented (Sprint 192),R4+,,,Audited arrivals/departures
-PRJ-001,PRJ,Projects,P2,PLANNED,R4+,,,
-PRJ-002,PRJ,Sites,P2,PLANNED,R4+,,,
-PRJ-003,PRJ,Milestones,P2,PLANNED,R4+,,,
-PRJ-004,PRJ,Budgets,P2,PLANNED,R4+,,,
-PRJ-005,PRJ,Job costing,P2,PLANNED,R4+,,,
-PRJ-006,PRJ,Project procurement,P2,PLANNED,R4+,,,
-PRJ-007,PRJ,Project inventory,P2,PLANNED,R4+,,,
-PRJ-008,PRJ,Subcontractors,P2,PLANNED,R4+,,,
-PRJ-009,PRJ,Timesheets,P2,PLANNED,R4+,,,
-PRJ-010,PRJ,Project documents,P2,PLANNED,R4+,,,
-PRJ-011,PRJ,Change orders,P2,PLANNED,R4+,,,
-PRJ-012,PRJ,Project profitability,P2,PLANNED,R4+,,,
+PRJ-001,PRJ,Projects,P2,DONE,R4+,,,Sprint 204: projects as governed custom-object register (code, status, budget, currency).
+PRJ-002,PRJ,Sites,P2,DONE,R4+,,,Sprint 204: sites register linked to projects by code.
+PRJ-003,PRJ,Milestones,P2,DONE,R4+,,,Sprint 204: milestone register with due dates; idempotent completion on the audit trail.
+PRJ-004,PRJ,Budgets,P2,DONE,R4+,,,Sprint 204: budgets on the project record; effective budget = budget + change orders.
+PRJ-005,PRJ,Job costing,P2,DONE,R4+,,,Sprint 204: job-cost ledger on audit events — labor/material/subcontract/other, idempotent per entry.
+PRJ-006,PRJ,Project procurement,P2,DONE,R4+,,,Sprint 204: purchase orders linked read-only; PO totals join the job cost.
+PRJ-007,PRJ,Project inventory,P2,DONE,R4+,,,Sprint 204: material issues to projects through the stock ledger (idempotent ISSUE), costed.
+PRJ-008,PRJ,Subcontractors,P2,DONE,R4+,,,Sprint 204: subcontractor costs as first-class job-cost entries per supplier engagement.
+PRJ-009,PRJ,Timesheets,P2,DONE,R4+,,,Sprint 204: timesheets — one line per employee/project/day, costed at prj.laborRate.
+PRJ-010,PRJ,Project documents,P2,DONE,R4+,,,Sprint 204: project documents are attachments on the project record.
+PRJ-011,PRJ,Change orders,P2,DONE,R4+,,,Sprint 204: change orders with mandatory reason adjust the effective budget, idempotent per key.
+PRJ-012,PRJ,Project profitability,P2,DONE,R4+,,,Sprint 204: profitability — latest revenue vs total job cost with margin percent.
 HCM-001,HCM,Employee master,P2,DONE,R4+,,,"Sprint 072: numbered employee master with lifecycle, audited; People page."
 HCM-002,HCM,Shift planning,P2,DONE,R4+,,,Sprint 203: leave requests through the approvals domain, duplicate-safe per employee+range.
 HCM-003,HCM,Attendance,P2,DONE,R4+,,,Sprint 203: time & attendance — idempotent, sequence-guarded clock events with paired-hours report.
