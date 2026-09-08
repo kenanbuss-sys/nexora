@@ -67,6 +67,30 @@ export class WorkflowService {
     });
   }
 
+  /**
+   * Reusable templates (WF-011): publish a workflow from the tenant's
+   * template library (`wf.templates`: [{ key, name, spec }]) — one
+   * governed source of proven definitions instead of copy-paste.
+   */
+  async publishFromTemplate(
+    input: { templateKey: string; key?: string | undefined },
+    configuration: { getEffectiveConfiguration(tenantId: string): Promise<{ config: unknown }> },
+    ctx: RequestContext,
+  ): Promise<WorkflowVersionView> {
+    const { config } = await configuration.getEffectiveConfiguration(ctx.tenantId);
+    const wf = ((config as Record<string, unknown>).wf ?? {}) as Record<string, unknown>;
+    const templates = Array.isArray(wf.templates)
+      ? (wf.templates as Array<Record<string, unknown>>)
+      : [];
+    const template = templates.find((t) => t.key === input.templateKey);
+    if (!template) throw notFound('WorkflowTemplate', input.templateKey);
+    const name = typeof template.name === 'string' ? template.name : input.templateKey;
+    return this.publishWorkflow(
+      { key: input.key ?? input.templateKey, name, spec: template.spec },
+      ctx,
+    );
+  }
+
   /** Start an instance on the LATEST published version; the instance stays pinned to it. */
   async startWorkflow(
     input: {

@@ -123,6 +123,47 @@ export class RuleService {
   }
 
   /**
+   * Simulation / test mode (WF-009): evaluate a candidate event
+   * against the enabled rules WITHOUT executing anything or claiming
+   * the event — which rules match, and which actions would fire.
+   * Audited so test runs are traceable.
+   */
+  async simulateEvent(
+    input: { eventType: string; payload: Record<string, unknown> },
+    ctx: RequestContext,
+  ): Promise<{
+    matched: Array<{ key: string; version: number; actions: RuleAction[] }>;
+    evaluated: number;
+  }> {
+    const versions = await this.prisma.ruleVersion.findMany({
+      where: { tenantId: ctx.tenantId, enabled: true },
+      include: { rule: { select: { key: true } } },
+    });
+    const matched: Array<{ key: string; version: number; actions: RuleAction[] }> = [];
+    for (const version of versions) {
+      const spec = version.spec as unknown as RuleSpec;
+      if (spec.when !== input.eventType) continue;
+      if (!matchesConditions(spec.if, input.payload)) continue;
+      matched.push({
+        key: version.rule.key,
+        version: version.version,
+        actions: spec.then as RuleAction[],
+      });
+    }
+    await writeAudit(this.prisma, {
+      tenantId: ctx.tenantId,
+      actorType: ctx.actorType,
+      actorId: ctx.userId,
+      action: 'rule.simulate',
+      objectType: 'RuleEvent',
+      objectId: input.eventType,
+      source: 'api',
+      newValues: { matched: matched.map((m) => m.key), evaluated: versions.length },
+    });
+    return { matched, evaluated: versions.length };
+  }
+
+  /**
    * Evaluate one business event. Idempotent per (event, consumer): repeated
    * delivery is a no-op. Returns the number of actions applied.
    */

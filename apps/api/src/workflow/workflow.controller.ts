@@ -2,11 +2,13 @@ import { Body, Controller, Get, Inject, Param, Post, Query } from '@nestjs/commo
 import type { FormService, ApprovalService, RuleService, WorkflowService } from '@nexora/domain-wf';
 import type { RoleService } from '@nexora/domain-iam';
 import type { RequestContext } from '@nexora/tenancy';
+import type { TenantService } from '@nexora/domain-core';
 import { z } from 'zod';
 import { Ctx } from '../auth/ctx.decorator';
 import { RequirePermission, ROLE_SERVICE } from '../auth/permissions.guard';
 import { parseBody } from '../common/validate';
 import { APPROVAL_SERVICE } from '../tasks/tasks.controller';
+import { TENANT_SERVICE } from '../tenants/tenants.controller';
 
 export const WORKFLOW_SERVICE = 'WORKFLOW_SERVICE';
 export const FORM_SERVICE = 'FORM_SERVICE';
@@ -41,7 +43,29 @@ export class WorkflowsController {
   constructor(
     @Inject(WORKFLOW_SERVICE) private readonly workflows: WorkflowService,
     @Inject(ROLE_SERVICE) private readonly roles: RoleService,
+    @Inject(TENANT_SERVICE) private readonly tenants: TenantService,
   ) {}
+
+  /** WF-011 — publish from the tenant's template library. */
+  @Post('from-template')
+  @RequirePermission('workflow.publish')
+  async fromTemplate(@Body() body: unknown, @Ctx() ctx: RequestContext) {
+    const input = parseBody(
+      z.object({
+        templateKey: z.string().min(2).max(64),
+        key: z
+          .string()
+          .regex(/^[a-z][a-z0-9-]{1,63}$/)
+          .optional(),
+      }),
+      body,
+    );
+    return this.workflows.publishFromTemplate(
+      input,
+      { getEffectiveConfiguration: (t) => this.tenants.getEffectiveConfiguration(t) },
+      ctx,
+    );
+  }
 
   @Post('publish')
   @RequirePermission('workflow.publish')
@@ -74,6 +98,20 @@ export class WorkflowsController {
 @Controller('api/v1/rules')
 export class RulesController {
   constructor(@Inject(WF_RULE_SERVICE) private readonly rules: RuleService) {}
+
+  /** WF-009 — dry-run a candidate event against the enabled rules. */
+  @Post('simulate')
+  @RequirePermission('automation.manage')
+  async simulate(@Body() body: unknown, @Ctx() ctx: RequestContext) {
+    const input = parseBody(
+      z.object({
+        eventType: z.string().min(3).max(100),
+        payload: z.record(z.unknown()).default({}),
+      }),
+      body,
+    );
+    return this.rules.simulateEvent(input, ctx);
+  }
 
   @Post('publish')
   @RequirePermission('automation.manage')
