@@ -362,10 +362,10 @@ FIN-022,FIN,Invoice matching,P1,Implemented (Sprint 173),R3,,,AP worklist + conf
 BI-001,BI,Executive dashboards,P1,DONE,R3,,,
 BI-002,BI,Operational dashboards,P1,DONE,R3,,,
 BI-003,BI,KPI catalog,P1,DONE,R3,,,
-BI-004,BI,Semantic layer,P1,PLANNED,R3,,,
-BI-005,BI,Report builder,P1,PLANNED,R3,,,
+BI-004,BI,Semantic layer,P1,Implemented (Sprint 184),R3,,,Governed dimensions/measures per dataset
+BI-005,BI,Report builder,P1,Implemented (Sprint 184),R3,,,Grouped reports over the semantic model
 BI-006,BI,Scheduled reports,P1,Implemented (Sprint 178),R3,,,Config-driven daily runs + in-app delivery
-BI-007,BI,Drill-through,P1,PLANNED,R3,,,
+BI-007,BI,Drill-through,P1,Implemented (Sprint 184),R3,,,Records behind one grouped row
 BI-008,BI,Profitability analytics,P1,Implemented (Sprint 177),R3,,,Revenue/cost/margin per channel
 BI-009,BI,Inventory analytics,P1,DONE,R3,,,
 BI-010,BI,Manufacturing analytics,P1,DONE,R3,,,
@@ -422,7 +422,7 @@ DEV-012,DEV,Offline synchronization,P1,Implemented (Sprints 166/167),R1,,,Offlin
 DEV-013,DEV,Machine gateway,P1,Implemented (Sprint 172),R1,,,Device-auth gateway into shop-floor events
 DEV-014,DEV,Machine events,P1,Implemented (Sprint 172),R1,,,Idempotent machine event ingestion
 DEV-015,DEV,Device event audit,P1,Implemented (Sprint 171),R1,,,Chronological per-device event trail
-WF-001,WF,Workflow designer,P0,PLANNED,R0,,,
+WF-001,WF,Workflow designer,P0,Implemented (Sprint 185),R0,,,Designer UI + definitions list + immutable publish
 WF-002,WF,Approval builder,P0,Partially implemented (Sprint 002),R0,,,Approval primitive with SoD (builder UI later)
 WF-003,WF,Rules designer,P0,Partially implemented (Sprint 002),R0,,,Declarative rule spec + publish (designer later)
 WF-004,WF,Timers/SLA,P0,DONE,R0,,,Sprint 069: overdue-approvals SLA report with configurable hours; surfaced on Operations.
