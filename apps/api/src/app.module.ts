@@ -37,7 +37,7 @@ import {
   SalesTeamService,
   TerritoryService,
 } from '@nexora/domain-crm';
-import { DeviceService } from '@nexora/domain-dev';
+import { PrintService, DeviceService } from '@nexora/domain-dev';
 import {
   MasterDataApprovalService,
   ConsentService,
@@ -124,6 +124,8 @@ import {
   SitesController,
 } from './mdm/mdm.controller';
 import {
+  PRINT_SERVICE,
+  PrintJobsController,
   DEVICE_SERVICE,
   DevicesController,
   ScanEventsController,
@@ -338,6 +340,7 @@ export const REDIS = 'REDIS';
     WmsOrdersController,
     DevicesController,
     ScanEventsController,
+    PrintJobsController,
     CrmAccountsController,
     LoyaltyController,
     SupportCasesController,
@@ -589,6 +592,11 @@ export const REDIS = 'REDIS';
     {
       provide: DEVICE_SERVICE,
       useFactory: (prisma: PrismaClient) => new DeviceService(prisma),
+      inject: [PRISMA],
+    },
+    {
+      provide: PRINT_SERVICE,
+      useFactory: (prisma: PrismaClient) => new PrintService(prisma),
       inject: [PRISMA],
     },
     {

@@ -1,5 +1,14 @@
-import { Body, Controller, Get, Inject, Param, Post } from '@nestjs/common';
-import type { DeviceService } from '@nexora/domain-dev';
+import {
+  Body,
+  Controller,
+  Get,
+  Inject,
+  Param,
+  Post,
+  Query,
+  UnauthorizedException,
+} from '@nestjs/common';
+import type { DeviceService, PrintService } from '@nexora/domain-dev';
 import type { VerificationService } from '@nexora/domain-ver';
 import type { RequestContext } from '@nexora/tenancy';
 import { z } from 'zod';
@@ -9,6 +18,7 @@ import { RequirePermission } from '../auth/permissions.guard';
 import { parseBody } from '../common/validate';
 
 export const DEVICE_SERVICE = 'DEVICE_SERVICE';
+export const PRINT_SERVICE = 'PRINT_SERVICE';
 export const VERIFICATION_SERVICE = 'VERIFICATION_SERVICE';
 
 const registerSchema = z.object({
@@ -244,5 +254,40 @@ export class ScanEventsController {
   @RequirePermission('verification.audit')
   async list(@Ctx() ctx: RequestContext) {
     return { events: await this.verification.listEvents({}, ctx) };
+  }
+}
+
+/** Printer job queue (DEV-006) — device-facing, enrollment-token auth. */
+@Controller('api/v1/devices/print-jobs')
+export class PrintJobsController {
+  constructor(
+    @Inject(PRINT_SERVICE) private readonly printing: PrintService,
+    @Inject(DEVICE_SERVICE) private readonly devices: DeviceService,
+  ) {}
+
+  private async deviceOf(enrollmentToken: string) {
+    const resolved = await this.devices.resolveByToken(enrollmentToken);
+    if (!resolved || !resolved.active) {
+      throw new UnauthorizedException({ code: 'UNAUTHENTICATED', message: 'Unknown device token' });
+    }
+    return resolved;
+  }
+
+  @Get()
+  @Public()
+  async pending(@Query('enrollmentToken') enrollmentToken: string) {
+    const device = await this.deviceOf(enrollmentToken ?? '');
+    return { jobs: await this.printing.pendingJobs(device.tenantId, device.deviceId) };
+  }
+
+  @Post('ack')
+  @Public()
+  async ack(@Body() body: unknown) {
+    const input = parseBody(
+      z.object({ enrollmentToken: z.string().min(8), jobKey: z.string().min(1).max(80) }),
+      body,
+    );
+    const device = await this.deviceOf(input.enrollmentToken);
+    return this.printing.ackJob(device.tenantId, device.deviceId, input.jobKey);
   }
 }

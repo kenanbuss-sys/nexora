@@ -10,6 +10,9 @@ import {
 } from '@nestjs/common';
 import type { RoleService } from '@nexora/domain-iam';
 import type { QuarantineService, InventoryService, PackingService } from '@nexora/domain-wms';
+import type { PrintService } from '@nexora/domain-dev';
+import { zplSsccLabel } from '@nexora/domain-dev';
+import { PRINT_SERVICE } from '../dev/dev.controller';
 import type { RequestContext } from '@nexora/tenancy';
 import { z } from 'zod';
 import { Ctx } from '../auth/ctx.decorator';
@@ -264,7 +267,10 @@ const createPackageSchema = z.object({
 
 @Controller('api/v1/packages')
 export class PackagesController {
-  constructor(@Inject(PACKING_SERVICE) private readonly packing: PackingService) {}
+  constructor(
+    @Inject(PACKING_SERVICE) private readonly packing: PackingService,
+    @Inject(PRINT_SERVICE) private readonly printing: PrintService,
+  ) {}
 
   @Get()
   @RequirePermission('inventory.read')
@@ -288,6 +294,24 @@ export class PackagesController {
   @RequirePermission('inventory.adjust')
   async ship(@Param('id') id: string, @Ctx() ctx: RequestContext) {
     return this.packing.transition(id, 'SHIPPED', ctx);
+  }
+
+  /** DEV-006 — render + queue the SSCC label on a printer device. */
+  @Post(':id/print-label')
+  @RequirePermission('inventory.adjust')
+  async printLabel(@Param('id') id: string, @Body() body: unknown, @Ctx() ctx: RequestContext) {
+    const input = parseBody(z.object({ deviceId: z.string().uuid() }), body);
+    const pkg = await this.packing.assignSscc(id, ctx);
+    const zpl = zplSsccLabel({
+      packageNumber: pkg.packageNumber,
+      ssccCode: pkg.ssccCode ?? '',
+      orderNumber: pkg.orderNumber || null,
+    });
+    const queued = await this.printing.queueLabel(
+      { deviceId: input.deviceId, jobKey: `sscc:${pkg.id}`, zpl },
+      ctx,
+    );
+    return { ...queued, zpl };
   }
 
   /** WMS-020 — assign the GS1 SSCC-18 logistics label code. */

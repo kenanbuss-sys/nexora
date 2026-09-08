@@ -133,7 +133,6 @@ integration('Sprint 168 — RFID & NFC', () => {
     await prisma?.$disconnect();
   });
 
-
   it('VER-003: RFID tags resolve to active SKUs', async () => {
     await api('POST', '/api/v1/tenant/configuration', tokenA, {
       config: {
