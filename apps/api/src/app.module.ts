@@ -55,6 +55,7 @@ import { PlanningService } from '@nexora/domain-plan';
 import { ShopFloorService, MesService } from '@nexora/domain-mes';
 import { LogisticsService } from '@nexora/domain-log';
 import { CopilotService, devAiAdapter, InsightsService } from '@nexora/domain-ai';
+import { EsgService } from '@nexora/domain-esg';
 import { MarketingService } from '@nexora/domain-mkt';
 import { ProjectService } from '@nexora/domain-prj';
 import { QualityService } from '@nexora/domain-qc';
@@ -242,6 +243,7 @@ import { GRC_SERVICE, GrcController } from './grc/grc.controller';
 import { PROJECT_SERVICE, ProjectsController } from './prj/prj.controller';
 import { CASE_OPS_SERVICE, CaseOpsController } from './crm/caseops.controller';
 import { MARKETING_SERVICE, MarketingController } from './mkt/mkt.controller';
+import { ESG_SERVICE, EsgController } from './esg/esg.controller';
 import {
   COPILOT_SERVICE,
   CopilotController,
@@ -397,6 +399,7 @@ export const REDIS = 'REDIS';
     SupportCasesController,
     CaseOpsController,
     MarketingController,
+    EsgController,
     OnboardingController,
     ContractsController,
     EmployeesController,
@@ -720,6 +723,25 @@ export const REDIS = 'REDIS';
           },
         ),
       inject: [PRISMA, ANALYTICS_SERVICE, FINANCE_SERVICE, TASK_SERVICE, APPROVAL_SERVICE],
+    },
+    {
+      provide: ESG_SERVICE,
+      useFactory: (
+        prisma: PrismaClient,
+        tenants: TenantService,
+        objects: CustomObjectService,
+        connectors: ConnectorService,
+      ) =>
+        new EsgService(
+          prisma,
+          { getEffectiveConfiguration: (t) => tenants.getEffectiveConfiguration(t) },
+          {
+            defineObject: (input, ctx) => objects.defineObject(input, ctx),
+            listRecords: (key, ctx) => objects.listRecords(key, ctx),
+          },
+          { pushObject: (input, ctx) => connectors.pushObject(input, ctx) },
+        ),
+      inject: [PRISMA, TENANT_SERVICE, CUSTOM_OBJECT_SERVICE, CONNECTOR_SERVICE],
     },
     {
       provide: MARKETING_SERVICE,
