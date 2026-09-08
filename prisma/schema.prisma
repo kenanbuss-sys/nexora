@@ -144,6 +144,7 @@ model Tenant {
   customObjectDefinitions CustomObjectDefinition[]
   skuChannelContents    SkuChannelContent[]
   containers            Container[]
+  posSessions           PosSession[]
   frameworkAgreements   FrameworkAgreement[]
 
   @@map("tenant")
@@ -2045,6 +2046,8 @@ model Invoice {
   dueAt         DateTime?     @map("due_at")
   /// Sprint 019 (FIN-016): actual spend/revenue attribution.
   costCenterId  String?       @map("cost_center_id") @db.Uuid
+  /// Sprint 157 (FIN-001): named financial dimensions (validated in FIN).
+  dimensions    Json?
   createdBy     String?       @map("created_by")
   createdAt     DateTime      @default(now()) @map("created_at")
   updatedAt     DateTime      @updatedAt @map("updated_at")
@@ -3105,4 +3108,27 @@ model Container {
   @@unique([tenantId, containerNumber])
   @@index([tenantId, status])
   @@map("container")
+}
+
+/// POS register session (COM-003). One OPEN session per register
+/// (partial unique index in the migration); sales flow through OMS
+/// orders on the pos channel, cash is reconciled at close.
+model PosSession {
+  id           String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId     String    @map("tenant_id") @db.Uuid
+  registerCode String    @map("register_code")
+  status       String    @default("OPEN")
+  openingFloat Decimal   @default(0) @map("opening_float") @db.Decimal(18, 2)
+  cashSales    Decimal   @default(0) @map("cash_sales") @db.Decimal(18, 2)
+  closingCount Decimal?  @map("closing_count") @db.Decimal(18, 2)
+  openedBy     String?   @map("opened_by")
+  openedAt     DateTime  @default(now()) @map("opened_at")
+  closedAt     DateTime? @map("closed_at")
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime  @updatedAt @map("updated_at")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@index([tenantId, status])
+  @@map("pos_session")
 }
