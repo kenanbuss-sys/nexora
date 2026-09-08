@@ -489,18 +489,18 @@ CSM-012,CSM,Case-to-service linkage,P2,DONE,R4+,,,Sprint 205: generic case linka
 CSM-013,CSM,Case-to-RMA linkage,P2,DONE,R4+,,,Sprint 205: case-to-RMA linkage via audited references, duplicate-safe.
 CSM-014,CSM,Support analytics,P2,DONE,R4+,,,Sprint 083: case analytics — status counts + average resolution time; CRM page badges.
 CSM-015,CSM,Customer satisfaction feedback,P2,DONE,R4+,,,Sprint 205: CSAT ratings (1-5) once per resolved case, with average and distribution report.
-MKT-001,MKT,Campaigns,P3,PLANNED,R4+,,,
-MKT-002,MKT,Audience segmentation,P3,PLANNED,R4+,,,
-MKT-003,MKT,Marketing lists,P3,PLANNED,R4+,,,
-MKT-004,MKT,Campaign journeys,P3,PLANNED,R4+,,,
-MKT-005,MKT,Email/SMS/push campaign adapters,P3,PLANNED,R4+,,,
-MKT-006,MKT,Lead capture forms,P3,PLANNED,R4+,,,
-MKT-007,MKT,Promotion linkage,P3,PLANNED,R4+,,,
-MKT-008,MKT,Coupon/audience targeting,P3,PLANNED,R4+,,,
-MKT-009,MKT,Consent-aware communication,P3,PLANNED,R4+,,,
-MKT-010,MKT,Campaign attribution,P3,PLANNED,R4+,,,
-MKT-011,MKT,Marketing analytics,P3,PLANNED,R4+,,,
-MKT-012,MKT,Experiment/A-B hooks,P3,PLANNED,R4+,,,
+MKT-001,MKT,Campaigns,P3,DONE,R4+,,,Sprint 206: campaigns as governed custom-object register (channel, status, budget).
+MKT-002,MKT,Audience segmentation,P3,DONE,R4+,,,Sprint 206: audience segments as config rules (all / with-orders / without-orders) over CRM accounts.
+MKT-003,MKT,Marketing lists,P3,DONE,R4+,,,Sprint 206: marketing lists materialize segments into audited audience snapshots.
+MKT-004,MKT,Campaign journeys,P3,DONE,R4+,,,Sprint 206: campaign journeys as ordered config steps with day offsets, sent step by step.
+MKT-005,MKT,Email/SMS/push campaign adapters,P3,DONE,R4+,,,Sprint 206: email/SMS/push sends through provider-neutral connectors, exactly-once per step+segment.
+MKT-006,MKT,Lead capture forms,P3,DONE,R4+,,,Sprint 206: lead-capture forms from config, validated, creating CRM leads once per submission.
+MKT-007,MKT,Promotion linkage,P3,DONE,R4+,,,Sprint 206: campaigns link to price lists for promotion pricing, duplicate-safe.
+MKT-008,MKT,Coupon/audience targeting,P3,DONE,R4+,,,Sprint 206: coupons in config tied to campaigns; valid only while the campaign is active.
+MKT-009,MKT,Consent-aware communication,P3,DONE,R4+,,,Sprint 206: opt-in consent registry per account+channel on the audit trail; sends filter on it.
+MKT-010,MKT,Campaign attribution,P3,DONE,R4+,,,Sprint 206: order-to-campaign attribution, one campaign per order, audited.
+MKT-011,MKT,Marketing analytics,P3,DONE,R4+,,,Sprint 206: campaign analytics — sends, recipients, attributed orders and revenue.
+MKT-012,MKT,Experiment/A-B hooks,P3,DONE,R4+,,,Sprint 206: deterministic A/B variant assignment (hash of tenant+campaign+subject).
 ESG-001,ESG,Energy consumption tracking,P3,PLANNED,R4+,,,
 ESG-002,ESG,Waste tracking,P3,PLANNED,R4+,,,
 ESG-003,ESG,Material sustainability attributes,P3,PLANNED,R4+,,,
