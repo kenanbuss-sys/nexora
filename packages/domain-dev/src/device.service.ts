@@ -57,7 +57,12 @@ function toView(d: {
 }
 
 export class DeviceService implements DeviceGate {
-  constructor(private readonly prisma: PrismaClient) {}
+  constructor(
+    private readonly prisma: PrismaClient,
+    private readonly configuration?: {
+      getEffectiveConfiguration(tenantId: string): Promise<{ config: unknown }>;
+    },
+  ) {}
 
   /** Permission: device.read. */
   async listDevices(ctx: RequestContext): Promise<DeviceView[]> {
@@ -299,6 +304,61 @@ export class DeviceService implements DeviceGate {
       })),
     ];
     return rows.sort((a, b) => b.at.localeCompare(a.at)).slice(0, 150);
+  }
+
+  /**
+   * Mobile version management (DEV-011): devices report their app
+   * version at enrollment (capabilities.appVersion); the fleet view
+   * compares against the configured minimum (`dev.minAppVersion`)
+   * so outdated devices are visible before they misbehave.
+   */
+  async fleetVersions(ctx: RequestContext): Promise<{
+    minAppVersion: string | null;
+    devices: Array<{
+      id: string;
+      code: string;
+      appVersion: string | null;
+      outdated: boolean;
+      status: string;
+    }>;
+  }> {
+    let minAppVersion: string | null = null;
+    if (this.configuration) {
+      try {
+        const { config } = await this.configuration.getEffectiveConfiguration(ctx.tenantId);
+        const dev = ((config as Record<string, unknown>).dev ?? {}) as Record<string, unknown>;
+        if (typeof dev.minAppVersion === 'string' && /^\d+\.\d+\.\d+$/.test(dev.minAppVersion)) {
+          minAppVersion = dev.minAppVersion;
+        }
+      } catch {
+        minAppVersion = null;
+      }
+    }
+    const compare = (a: string, b: string): number => {
+      const pa = a.split('.').map(Number);
+      const pb = b.split('.').map(Number);
+      for (let i = 0; i < 3; i += 1) {
+        if ((pa[i] ?? 0) !== (pb[i] ?? 0)) return (pa[i] ?? 0) - (pb[i] ?? 0);
+      }
+      return 0;
+    };
+    const rows = await this.prisma.device.findMany({
+      where: { tenantId: ctx.tenantId },
+      orderBy: { code: 'asc' },
+      take: 500,
+    });
+    return {
+      minAppVersion,
+      devices: rows.map((device) => {
+        const appVersion =
+          typeof (device.capabilities as { appVersion?: unknown } | null)?.appVersion === 'string'
+            ? (device.capabilities as { appVersion: string }).appVersion
+            : null;
+        const outdated =
+          minAppVersion !== null && (appVersion === null || compare(appVersion, minAppVersion) < 0);
+        return { id: device.id, code: device.code, appVersion, outdated, status: device.status };
+      }),
+    };
   }
 
   /** DeviceGate — used by VER through the public interface only. */

@@ -32,6 +32,10 @@ const registerSchema = z.object({
 const enrollSchema = z.object({
   enrollmentToken: z.string().min(16).max(128),
   capabilities: z.record(z.string(), z.unknown()).optional(),
+  appVersion: z
+    .string()
+    .regex(/^\d+\.\d+\.\d+$/)
+    .optional(),
 });
 const heartbeatSchema = z.object({ enrollmentToken: z.string().min(16).max(128) });
 const assignSchema = z.object({
@@ -81,6 +85,13 @@ export class DevicesController {
   }
 
   /** Device-side: claim identity with the one-time token. No user session. */
+  /** DEV-011 — fleet view: app versions vs the configured minimum. */
+  @Get('fleet')
+  @RequirePermission('device.read')
+  async fleet(@Ctx() ctx: RequestContext) {
+    return this.devices.fleetVersions(ctx);
+  }
+
   /** DEV-005 — scanner/device capability configuration. */
   @Post(':id/capabilities')
   @RequirePermission('device.assign')
@@ -104,7 +115,10 @@ export class DevicesController {
   @Public()
   async enroll(@Body() body: unknown) {
     const input = parseBody(enrollSchema, body);
-    return this.devices.enrollDevice(input.enrollmentToken, input.capabilities);
+    return this.devices.enrollDevice(input.enrollmentToken, {
+      ...(input.capabilities ?? {}),
+      ...(input.appVersion !== undefined ? { appVersion: input.appVersion } : {}),
+    });
   }
 
   /** Device-side liveness ping (DEV-004). */

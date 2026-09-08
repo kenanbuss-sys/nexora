@@ -612,8 +612,11 @@ export const REDIS = 'REDIS';
     },
     {
       provide: DEVICE_SERVICE,
-      useFactory: (prisma: PrismaClient) => new DeviceService(prisma),
-      inject: [PRISMA],
+      useFactory: (prisma: PrismaClient, tenants: TenantService) =>
+        new DeviceService(prisma, {
+          getEffectiveConfiguration: (t) => tenants.getEffectiveConfiguration(t),
+        }),
+      inject: [PRISMA, TENANT_SERVICE],
     },
     {
       provide: PRINT_SERVICE,
