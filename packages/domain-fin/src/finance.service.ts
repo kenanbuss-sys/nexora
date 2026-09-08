@@ -3,6 +3,7 @@ import type { InvoiceStatus, InvoiceType, PrismaClient } from '@nexora/db';
 import { EVENT_TYPES, publishToOutbox } from '@nexora/events';
 import { DomainError, notFound } from '@nexora/kernel';
 import type { RequestContext } from '@nexora/tenancy';
+import type { BankFeedPort } from './bankfeed';
 
 /**
  * Operational finance — AR invoices billed from fulfilled sales orders
@@ -81,7 +82,10 @@ export interface ThreeWayMatchView {
 }
 
 export class FinanceService {
-  constructor(private readonly prisma: PrismaClient) {}
+  constructor(
+    private readonly prisma: PrismaClient,
+    private readonly bankFeed?: BankFeedPort,
+  ) {}
 
   // --------------------------------------------------------------- invoices
 
@@ -336,6 +340,94 @@ export class FinanceService {
    * order total; COGS approximates each line's quantity at the average
    * received purchase price of the SKU.
    */
+  /**
+   * Bank feed import (FIN-013): pull normalized transactions from the
+   * provider-neutral port and reconcile them — exactly once per
+   * external reference. A transaction matches by remittance invoice
+   * number first, then by exact open amount; matched transactions
+   * record payments through the ordinary payment path (three-way
+   * match and over-payment guards included), the rest are reported.
+   */
+  async importBankFeed(ctx: RequestContext): Promise<{
+    fetched: number;
+    imported: number;
+    matched: number;
+    unmatched: Array<{ externalRef: string; amount: number; reason: string }>;
+  }> {
+    if (!this.bankFeed) {
+      throw new DomainError('INVALID_STATE', 'No bank feed is configured');
+    }
+    const transactions = await this.bankFeed.fetchTransactions(ctx.tenantId);
+    let imported = 0;
+    let matched = 0;
+    const unmatched: Array<{ externalRef: string; amount: number; reason: string }> = [];
+    for (const txn of transactions) {
+      const marker = await this.prisma.auditEvent.findFirst({
+        where: {
+          tenantId: ctx.tenantId,
+          action: 'fin.bankfeed.import',
+          objectType: 'BankTransaction',
+          objectId: txn.externalRef,
+        },
+        select: { id: true },
+      });
+      if (marker) continue;
+      imported += 1;
+      let invoice = null;
+      if (txn.invoiceNumber) {
+        invoice = await this.prisma.invoice.findFirst({
+          where: {
+            tenantId: ctx.tenantId,
+            invoiceNumber: txn.invoiceNumber,
+            status: { in: ['OPEN', 'PARTIALLY_PAID'] },
+          },
+        });
+      }
+      if (!invoice && txn.amount > 0) {
+        const candidates = await this.prisma.invoice.findMany({
+          where: { tenantId: ctx.tenantId, status: { in: ['OPEN', 'PARTIALLY_PAID'] } },
+          take: 500,
+        });
+        const exact = candidates.filter(
+          (c) => Math.abs(Number(c.total) - Number(c.paidAmount) - txn.amount) < 1e-9,
+        );
+        if (exact.length === 1) invoice = exact[0] ?? null;
+      }
+      let outcome: string;
+      if (!invoice) {
+        outcome = 'NO_MATCH';
+        unmatched.push({ externalRef: txn.externalRef, amount: txn.amount, reason: 'NO_MATCH' });
+      } else {
+        try {
+          await this.recordPayment(
+            { invoiceId: invoice.id, amount: txn.amount, reference: `bank:${txn.externalRef}` },
+            ctx,
+          );
+          matched += 1;
+          outcome = 'MATCHED';
+        } catch {
+          outcome = 'PAYMENT_REFUSED';
+          unmatched.push({
+            externalRef: txn.externalRef,
+            amount: txn.amount,
+            reason: 'PAYMENT_REFUSED',
+          });
+        }
+      }
+      await writeAudit(this.prisma, {
+        tenantId: ctx.tenantId,
+        actorType: ctx.actorType,
+        actorId: ctx.userId,
+        action: 'fin.bankfeed.import',
+        objectType: 'BankTransaction',
+        objectId: txn.externalRef,
+        source: 'api',
+        newValues: { amount: txn.amount, outcome, invoiceId: invoice?.id ?? null },
+      });
+    }
+    return { fetched: transactions.length, imported, matched, unmatched };
+  }
+
   async marginAnalysis(ctx: RequestContext): Promise<MarginRow[]> {
     const invoices = await this.prisma.invoice.findMany({
       where: { tenantId: ctx.tenantId, invoiceType: 'CUSTOMER', status: { not: 'VOID' } },

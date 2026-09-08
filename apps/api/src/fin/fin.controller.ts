@@ -84,6 +84,13 @@ export class FinanceController {
     return this.finance.recordPayment({ invoiceId: id, ...input }, ctx);
   }
 
+  /** FIN-013 — bank feed import & reconciliation. */
+  @Post('bank-feed/import')
+  @RequirePermission('finance.pay')
+  async importBankFeed(@Ctx() ctx: RequestContext) {
+    return this.finance.importBankFeed(ctx);
+  }
+
   @Get('margin')
   @RequirePermission('finance.read')
   async margin(@Ctx() ctx: RequestContext) {

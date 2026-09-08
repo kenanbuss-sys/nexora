@@ -53,6 +53,7 @@ import { PlanningService } from '@nexora/domain-plan';
 import { ShopFloorService, MesService } from '@nexora/domain-mes';
 import { QualityService } from '@nexora/domain-qc';
 import {
+  DevBankFeedAdapter,
   ValuationService,
   ExchangeRateService,
   FinanceService,
@@ -1031,8 +1032,14 @@ export const REDIS = 'REDIS';
     },
     {
       provide: FINANCE_SERVICE,
-      useFactory: (prisma: PrismaClient) => new FinanceService(prisma),
-      inject: [PRISMA],
+      useFactory: (prisma: PrismaClient, tenants: TenantService) =>
+        new FinanceService(
+          prisma,
+          new DevBankFeedAdapter({
+            getEffectiveConfiguration: (t) => tenants.getEffectiveConfiguration(t),
+          }),
+        ),
+      inject: [PRISMA, TENANT_SERVICE],
     },
     {
       provide: EXCHANGE_RATE_SERVICE,

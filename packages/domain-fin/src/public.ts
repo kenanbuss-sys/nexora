@@ -18,3 +18,4 @@ export {
 } from './treasury.service';
 export { ExchangeRateService, type ExchangeRateView } from './rates.service';
 export { ValuationService, type ValuationRow } from './valuation.service';
+export { DevBankFeedAdapter, type BankFeedPort, type BankTransaction } from './bankfeed';
