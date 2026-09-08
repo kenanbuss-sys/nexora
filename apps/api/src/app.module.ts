@@ -55,6 +55,7 @@ import { PlanningService } from '@nexora/domain-plan';
 import { ShopFloorService, MesService } from '@nexora/domain-mes';
 import { LogisticsService } from '@nexora/domain-log';
 import { CopilotService, devAiAdapter, InsightsService } from '@nexora/domain-ai';
+import { MarketingService } from '@nexora/domain-mkt';
 import { ProjectService } from '@nexora/domain-prj';
 import { QualityService } from '@nexora/domain-qc';
 import {
@@ -240,6 +241,7 @@ import { ANALYTICS_SERVICE, AnalyticsController } from './bi/bi.controller';
 import { GRC_SERVICE, GrcController } from './grc/grc.controller';
 import { PROJECT_SERVICE, ProjectsController } from './prj/prj.controller';
 import { CASE_OPS_SERVICE, CaseOpsController } from './crm/caseops.controller';
+import { MARKETING_SERVICE, MarketingController } from './mkt/mkt.controller';
 import {
   COPILOT_SERVICE,
   CopilotController,
@@ -394,6 +396,7 @@ export const REDIS = 'REDIS';
     LoyaltyController,
     SupportCasesController,
     CaseOpsController,
+    MarketingController,
     OnboardingController,
     ContractsController,
     EmployeesController,
@@ -717,6 +720,32 @@ export const REDIS = 'REDIS';
           },
         ),
       inject: [PRISMA, ANALYTICS_SERVICE, FINANCE_SERVICE, TASK_SERVICE, APPROVAL_SERVICE],
+    },
+    {
+      provide: MARKETING_SERVICE,
+      useFactory: (
+        prisma: PrismaClient,
+        objects: CustomObjectService,
+        tenants: TenantService,
+        connectors: ConnectorService,
+        crm: CrmService,
+      ) =>
+        new MarketingService(
+          prisma,
+          {
+            defineObject: (input, ctx) => objects.defineObject(input, ctx),
+            listRecords: (key, ctx) => objects.listRecords(key, ctx),
+          },
+          { getEffectiveConfiguration: (t) => tenants.getEffectiveConfiguration(t) },
+          { pushObject: (input, ctx) => connectors.pushObject(input, ctx) },
+          {
+            createLead: async (input, ctx) => {
+              const lead = await crm.createLead(input, ctx);
+              return { id: lead.id };
+            },
+          },
+        ),
+      inject: [PRISMA, CUSTOM_OBJECT_SERVICE, TENANT_SERVICE, CONNECTOR_SERVICE, CRM_SERVICE],
     },
     {
       provide: PROJECT_SERVICE,
