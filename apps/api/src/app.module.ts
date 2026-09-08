@@ -51,7 +51,7 @@ import {
 import { PosService, ReturnsService, OrderService } from '@nexora/domain-oms';
 import { ContainerService, ProcurementService, RfqService } from '@nexora/domain-proc';
 import { EngineeringService } from '@nexora/domain-eng';
-import { PlanningService } from '@nexora/domain-plan';
+import { AdvancedPlanningService, PlanningService } from '@nexora/domain-plan';
 import { ShopFloorService, MesService } from '@nexora/domain-mes';
 import { LogisticsService } from '@nexora/domain-log';
 import { CopilotService, devAiAdapter, InsightsService } from '@nexora/domain-ai';
@@ -220,7 +220,12 @@ import {
   EngineeringChangesController,
   RoutingsController,
 } from './eng/eng.controller';
-import { PLANNING_SERVICE, PlanningController } from './plan/plan.controller';
+import {
+  ADVANCED_PLANNING_SERVICE,
+  AdvancedPlanningController,
+  PLANNING_SERVICE,
+  PlanningController,
+} from './plan/plan.controller';
 import { MES_SERVICE, WorkOrdersController } from './mes/mes.controller';
 import {
   NcrsController,
@@ -432,6 +437,7 @@ export const REDIS = 'REDIS';
     RoutingsController,
     EngineeringChangesController,
     PlanningController,
+    AdvancedPlanningController,
     WorkOrdersController,
     QcPlansController,
     QcInspectionsController,
@@ -1301,6 +1307,14 @@ export const REDIS = 'REDIS';
       provide: PLANNING_SERVICE,
       useFactory: (prisma: PrismaClient) => new PlanningService(prisma),
       inject: [PRISMA],
+    },
+    {
+      provide: ADVANCED_PLANNING_SERVICE,
+      useFactory: (prisma: PrismaClient, tenants: TenantService) =>
+        new AdvancedPlanningService(prisma, {
+          getEffectiveConfiguration: (t) => tenants.getEffectiveConfiguration(t),
+        }),
+      inject: [PRISMA, TENANT_SERVICE],
     },
     {
       provide: QUALITY_SERVICE,
