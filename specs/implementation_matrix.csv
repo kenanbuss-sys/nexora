@@ -416,7 +416,7 @@ DEV-006,DEV,Printer adapter,P1,Implemented (Sprint 169),R1,,,ZPL SSCC labels + p
 DEV-007,DEV,RFID adapter,P1,Implemented (Sprint 183),R1,,,RFID ingest resolution via tag registry
 DEV-008,DEV,Scale adapter,P1,Implemented (Sprint 170),R1,,,Device-auth weight capture onto packages
 DEV-009,DEV,Signature/camera adapter,P1,Implemented (Sprint 183),R1,,,Device-auth evidence upload + VER-016 signatures
-DEV-010,DEV,Kiosk/tablet mode,P1,PLANNED,R1,,,
+DEV-010,DEV,Kiosk/tablet mode,P1,Implemented (earlier sprint),R1,,,Production kiosk page (scan-first operator view)
 DEV-011,DEV,Mobile version management,P1,Implemented (Sprint 182),R1,,,App versions vs configured minimum (fleet view)
 DEV-012,DEV,Offline synchronization,P1,Implemented (Sprints 166/167),R1,,,Offline envelopes + exactly-once drains (VER-017/018)
 DEV-013,DEV,Machine gateway,P1,Implemented (Sprint 172),R1,,,Device-auth gateway into shop-floor events
@@ -434,24 +434,24 @@ WF-009,WF,Simulation/test mode,P0,Implemented (Sprint 180),R0,,,Zero-side-effect
 WF-010,WF,Audit/explanation,P0,Partially implemented (Sprint 002),R0,,,Workflow/rule/approval audit trail
 WF-011,WF,Reusable templates,P0,Implemented (Sprint 180),R0,,,Publish workflows from template library
 WF-012,WF,Override governance,P0,Implemented (Sprint 181),R0,,,Reasoned audited overrides under dedicated permission
-OPS-001,OPS,Platform admin,P0,PLANNED,R0,,,
+OPS-001,OPS,Platform admin,P0,Implemented (Sprint 187),R0,,,Tenant list/suspend/resume + platform surfaces
 OPS-002,OPS,Tenant provisioning,P0,DONE,R0,,,Self-hosted Docker stack: one-command provisioning (Sprint 026)
 OPS-003,OPS,Environment management,P0,DONE,R0,,,Compose environments with env-file config (Sprint 026)
-OPS-004,OPS,Release management,P0,PLANNED,R0,,,
-OPS-005,OPS,Tenant rollout,P0,PLANNED,R0,,,
+OPS-004,OPS,Release management,P0,Implemented (Sprint 187),R0,,,Release info endpoint + CI/migration pipeline
+OPS-005,OPS,Tenant rollout,P0,Implemented (Sprint 187),R0,,,Per-tenant module flips gate live routes
 OPS-006,OPS,Database migrations,P0,DONE,R0,,,Auto-applied tracked SQL migrations on deploy (Sprint 026)
 OPS-007,OPS,Observability,P0,DONE,R0,,,"Sprint 075: platform observability snapshot — outbox backlog/failures, oldest-pending age, tenant & audit volume."
-OPS-008,OPS,Error tracking,P0,PLANNED,R0,,,
-OPS-009,OPS,Integration monitoring,P0,PLANNED,R0,,,
-OPS-010,OPS,Device monitoring,P0,PLANNED,R0,,,
+OPS-008,OPS,Error tracking,P0,Implemented (Sprint 186),R0,,,Unhandled errors into security log + ops view
+OPS-009,OPS,Integration monitoring,P0,Implemented (Sprint 186),R0,,,Webhook delivery health per tenant
+OPS-010,OPS,Device monitoring,P0,Implemented (Sprint 186),R0,,,Fleet health + stale device flags
 OPS-011,OPS,Backups,P0,DONE,R0,,,Documented volume/pg_dump backup procedure (Sprint 026)
 OPS-012,OPS,PITR,P0,Implemented (Sprint 123),R0,,,"WAL archiving + nightly base backups + restore runbook"
-OPS-013,OPS,Disaster recovery,P0,PLANNED,R0,,,
+OPS-013,OPS,Disaster recovery,P0,Implemented (Sprint 188),R0,,,DR drill script + runbook + off-host guidance
 OPS-014,OPS,Usage analytics,P0,DONE,R0,,,"Per-tenant usage analytics, operator-only (Sprint 021)"
-OPS-015,OPS,Support portal,P0,PLANNED,R0,,,
-OPS-016,OPS,Status-page hooks,P0,PLANNED,R0,,,
+OPS-015,OPS,Support portal,P0,Implemented (Sprint 188),R0,,,Cross-tenant open-case view for platform ops
+OPS-016,OPS,Status-page hooks,P0,Implemented (Sprint 188),R0,,,Public component-status endpoint
 OPS-017,OPS,Tenant data export/offboarding,P0,DONE,R0,,,Audited tenant JSON export (Sprint 021)
-OPS-018,OPS,Cost observability,P0,PLANNED,R0,,,
+OPS-018,OPS,Cost observability,P0,Implemented (Sprint 188),R0,,,Estimated per-tenant spend from usage
 GRC-001,GRC,Policies,P3,PLANNED,R4+,,,
 GRC-002,GRC,Risk register,P3,PLANNED,R4+,,,
 GRC-003,GRC,Controls,P3,PLANNED,R4+,,,
