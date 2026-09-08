@@ -1611,6 +1611,75 @@ exports.Prisma.PosSessionScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.VehicleScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  plate: 'plate',
+  name: 'name',
+  capacityKg: 'capacityKg',
+  active: 'active',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.DriverScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  name: 'name',
+  licenseNo: 'licenseNo',
+  active: 'active',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ShipmentScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  shipmentNumber: 'shipmentNumber',
+  carrierKey: 'carrierKey',
+  vehicleId: 'vehicleId',
+  driverId: 'driverId',
+  status: 'status',
+  plannedAt: 'plannedAt',
+  deliveredAt: 'deliveredAt',
+  freightCost: 'freightCost',
+  currency: 'currency',
+  podName: 'podName',
+  podSignatureHash: 'podSignatureHash',
+  notes: 'notes',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ShipmentStopScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  shipmentId: 'shipmentId',
+  seq: 'seq',
+  address: 'address',
+  orderId: 'orderId',
+  status: 'status',
+  note: 'note',
+  arrivedAt: 'arrivedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.DockAppointmentScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  warehouseId: 'warehouseId',
+  dockCode: 'dockCode',
+  scheduledAt: 'scheduledAt',
+  durationMin: 'durationMin',
+  reference: 'reference',
+  status: 'status',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -2170,7 +2239,12 @@ exports.Prisma.ModelName = {
   FrameworkAgreement: 'FrameworkAgreement',
   SkuChannelContent: 'SkuChannelContent',
   Container: 'Container',
-  PosSession: 'PosSession'
+  PosSession: 'PosSession',
+  Vehicle: 'Vehicle',
+  Driver: 'Driver',
+  Shipment: 'Shipment',
+  ShipmentStop: 'ShipmentStop',
+  DockAppointment: 'DockAppointment'
 };
 
 /**

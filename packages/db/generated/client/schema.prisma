@@ -145,6 +145,11 @@ model Tenant {
   skuChannelContents      SkuChannelContent[]
   containers              Container[]
   posSessions             PosSession[]
+  vehicles                Vehicle[]
+  drivers                 Driver[]
+  shipments               Shipment[]
+  shipmentStops           ShipmentStop[]
+  dockAppointments        DockAppointment[]
   frameworkAgreements     FrameworkAgreement[]
 
   @@map("tenant")
@@ -881,8 +886,9 @@ model Warehouse {
   code     String
   name     String
 
-  tenant    Tenant              @relation(fields: [tenantId], references: [id])
-  locations WarehouseLocation[]
+  tenant           Tenant              @relation(fields: [tenantId], references: [id])
+  locations        WarehouseLocation[]
+  dockAppointments DockAppointment[]
 
   @@unique([tenantId, code])
   @@map("warehouse")
@@ -3132,4 +3138,116 @@ model PosSession {
 
   @@index([tenantId, status])
   @@map("pos_session")
+}
+
+// ---------------------------------------------------------------------------
+// LOG — logistics & transport (LOG-001..015)
+
+/// Fleet vehicle (LOG-004).
+model Vehicle {
+  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId   String   @map("tenant_id") @db.Uuid
+  plate      String
+  name       String
+  capacityKg Decimal  @default(0) @map("capacity_kg") @db.Decimal(18, 2)
+  active     Boolean  @default(true)
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  tenant    Tenant     @relation(fields: [tenantId], references: [id])
+  shipments Shipment[]
+
+  @@unique([tenantId, plate])
+  @@map("vehicle")
+}
+
+/// Driver registry (LOG-005).
+model Driver {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId  String   @map("tenant_id") @db.Uuid
+  name      String
+  licenseNo String?  @map("license_no")
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  tenant    Tenant     @relation(fields: [tenantId], references: [id])
+  shipments Shipment[]
+
+  @@index([tenantId])
+  @@map("driver")
+}
+
+/// Outbound/inbound shipment (LOG-001/008/009/010/013). Status:
+/// PLANNED → DISPATCHED → IN_TRANSIT → DELIVERED, with EXCEPTION and
+/// RETURNED as governed detours; history is the audit trail.
+model Shipment {
+  id               String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId         String    @map("tenant_id") @db.Uuid
+  shipmentNumber   String    @map("shipment_number")
+  carrierKey       String?   @map("carrier_key")
+  vehicleId        String?   @map("vehicle_id") @db.Uuid
+  driverId         String?   @map("driver_id") @db.Uuid
+  status           String    @default("PLANNED")
+  plannedAt        DateTime? @map("planned_at")
+  deliveredAt      DateTime? @map("delivered_at")
+  freightCost      Decimal?  @map("freight_cost") @db.Decimal(18, 2)
+  currency         String?   @db.Char(3)
+  podName          String?   @map("pod_name")
+  podSignatureHash String?   @map("pod_signature_hash")
+  notes            String?
+  createdBy        String?   @map("created_by")
+  createdAt        DateTime  @default(now()) @map("created_at")
+  updatedAt        DateTime  @updatedAt @map("updated_at")
+
+  tenant  Tenant         @relation(fields: [tenantId], references: [id])
+  vehicle Vehicle?       @relation(fields: [vehicleId], references: [id])
+  driver  Driver?        @relation(fields: [driverId], references: [id])
+  stops   ShipmentStop[]
+
+  @@unique([tenantId, shipmentNumber])
+  @@index([tenantId, status])
+  @@map("shipment")
+}
+
+/// Route stop (LOG-006). Sequence is the route.
+model ShipmentStop {
+  id         String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId   String    @map("tenant_id") @db.Uuid
+  shipmentId String    @map("shipment_id") @db.Uuid
+  seq        Int
+  address    String
+  orderId    String?   @map("order_id") @db.Uuid
+  status     String    @default("PENDING")
+  note       String?
+  arrivedAt  DateTime? @map("arrived_at")
+  createdAt  DateTime  @default(now()) @map("created_at")
+  updatedAt  DateTime  @updatedAt @map("updated_at")
+
+  tenant   Tenant   @relation(fields: [tenantId], references: [id])
+  shipment Shipment @relation(fields: [shipmentId], references: [id], onDelete: Cascade)
+
+  @@unique([tenantId, shipmentId, seq])
+  @@map("shipment_stop")
+}
+
+/// Dock appointment (LOG-014). Yard events ride the audit trail.
+model DockAppointment {
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId    String   @map("tenant_id") @db.Uuid
+  warehouseId String   @map("warehouse_id") @db.Uuid
+  dockCode    String   @map("dock_code")
+  scheduledAt DateTime @map("scheduled_at")
+  durationMin Int      @default(60) @map("duration_min")
+  reference   String?
+  status      String   @default("BOOKED")
+  createdBy   String?  @map("created_by")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  tenant    Tenant    @relation(fields: [tenantId], references: [id])
+  warehouse Warehouse @relation(fields: [warehouseId], references: [id])
+
+  @@index([tenantId, warehouseId, scheduledAt])
+  @@map("dock_appointment")
 }

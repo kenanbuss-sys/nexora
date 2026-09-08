@@ -727,6 +727,33 @@ export type Container = $Result.DefaultSelection<Prisma.$ContainerPayload>
  * orders on the pos channel, cash is reconciled at close.
  */
 export type PosSession = $Result.DefaultSelection<Prisma.$PosSessionPayload>
+/**
+ * Model Vehicle
+ * Fleet vehicle (LOG-004).
+ */
+export type Vehicle = $Result.DefaultSelection<Prisma.$VehiclePayload>
+/**
+ * Model Driver
+ * Driver registry (LOG-005).
+ */
+export type Driver = $Result.DefaultSelection<Prisma.$DriverPayload>
+/**
+ * Model Shipment
+ * Outbound/inbound shipment (LOG-001/008/009/010/013). Status:
+ * PLANNED → DISPATCHED → IN_TRANSIT → DELIVERED, with EXCEPTION and
+ * RETURNED as governed detours; history is the audit trail.
+ */
+export type Shipment = $Result.DefaultSelection<Prisma.$ShipmentPayload>
+/**
+ * Model ShipmentStop
+ * Route stop (LOG-006). Sequence is the route.
+ */
+export type ShipmentStop = $Result.DefaultSelection<Prisma.$ShipmentStopPayload>
+/**
+ * Model DockAppointment
+ * Dock appointment (LOG-014). Yard events ride the audit trail.
+ */
+export type DockAppointment = $Result.DefaultSelection<Prisma.$DockAppointmentPayload>
 
 /**
  * Enums
@@ -2930,6 +2957,56 @@ export class PrismaClient<
     * ```
     */
   get posSession(): Prisma.PosSessionDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.vehicle`: Exposes CRUD operations for the **Vehicle** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Vehicles
+    * const vehicles = await prisma.vehicle.findMany()
+    * ```
+    */
+  get vehicle(): Prisma.VehicleDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.driver`: Exposes CRUD operations for the **Driver** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Drivers
+    * const drivers = await prisma.driver.findMany()
+    * ```
+    */
+  get driver(): Prisma.DriverDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.shipment`: Exposes CRUD operations for the **Shipment** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Shipments
+    * const shipments = await prisma.shipment.findMany()
+    * ```
+    */
+  get shipment(): Prisma.ShipmentDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.shipmentStop`: Exposes CRUD operations for the **ShipmentStop** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ShipmentStops
+    * const shipmentStops = await prisma.shipmentStop.findMany()
+    * ```
+    */
+  get shipmentStop(): Prisma.ShipmentStopDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.dockAppointment`: Exposes CRUD operations for the **DockAppointment** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more DockAppointments
+    * const dockAppointments = await prisma.dockAppointment.findMany()
+    * ```
+    */
+  get dockAppointment(): Prisma.DockAppointmentDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -3494,7 +3571,12 @@ export namespace Prisma {
     FrameworkAgreement: 'FrameworkAgreement',
     SkuChannelContent: 'SkuChannelContent',
     Container: 'Container',
-    PosSession: 'PosSession'
+    PosSession: 'PosSession',
+    Vehicle: 'Vehicle',
+    Driver: 'Driver',
+    Shipment: 'Shipment',
+    ShipmentStop: 'ShipmentStop',
+    DockAppointment: 'DockAppointment'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -3513,7 +3595,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "tenant" | "tenantConfigurationVersion" | "legalEntity" | "businessUnit" | "branch" | "factory" | "user" | "userCredential" | "role" | "rolePermission" | "userRoleAssignment" | "auditEvent" | "outboxEvent" | "terminologyEntry" | "moduleActivation" | "customFieldDefinition" | "task" | "notification" | "workflowDefinition" | "workflowVersion" | "workflowInstance" | "ruleDefinition" | "ruleVersion" | "approval" | "processedEvent" | "documentTemplate" | "documentTemplateVersion" | "party" | "consentRecord" | "partyExternalIdentity" | "product" | "sku" | "barcode" | "uomConversion" | "warehouse" | "warehouseLocation" | "stockMovement" | "stockReservation" | "device" | "scanEvent" | "wmsOrder" | "wmsOrderLine" | "territory" | "salesTeam" | "salesTeamMember" | "crmAccount" | "lead" | "opportunity" | "crmActivity" | "priceList" | "priceListEntry" | "quote" | "packagingLevel" | "skuSubstitution" | "discountRule" | "quoteLine" | "salesOrder" | "salesOrderLine" | "orderEvent" | "supplier" | "purchaseRequisition" | "purchaseRequisitionLine" | "purchaseOrder" | "purchaseOrderLine" | "bom" | "bomLine" | "routing" | "routingOperation" | "engineeringChange" | "planningPolicy" | "mrpRun" | "mrpSuggestion" | "workOrder" | "workOrderOperation" | "qcPlan" | "qcPlanItem" | "qcInspection" | "qcInspectionItem" | "ncr" | "invoice" | "payment" | "portalUser" | "comment" | "attachment" | "attachmentBlob" | "numberSequence" | "exchangeRate" | "costCenter" | "budget" | "webhookSubscription" | "webhookDelivery" | "apiKey" | "securityEvent" | "productCategory" | "returnOrder" | "returnOrderLine" | "stockCount" | "stockCountLine" | "workCenter" | "downtimeEvent" | "promotion" | "promotionRedemption" | "bundleComponent" | "serialNumber" | "breakGlassGrant" | "masterDataRequest" | "loyaltyAccount" | "loyaltyTransaction" | "supportCase" | "contract" | "employee" | "asset" | "quarantineHold" | "rfq" | "rfqQuote" | "package" | "packageLine" | "landedCost" | "customObjectDefinition" | "customObjectRecord" | "frameworkAgreement" | "skuChannelContent" | "container" | "posSession"
+      modelProps: "tenant" | "tenantConfigurationVersion" | "legalEntity" | "businessUnit" | "branch" | "factory" | "user" | "userCredential" | "role" | "rolePermission" | "userRoleAssignment" | "auditEvent" | "outboxEvent" | "terminologyEntry" | "moduleActivation" | "customFieldDefinition" | "task" | "notification" | "workflowDefinition" | "workflowVersion" | "workflowInstance" | "ruleDefinition" | "ruleVersion" | "approval" | "processedEvent" | "documentTemplate" | "documentTemplateVersion" | "party" | "consentRecord" | "partyExternalIdentity" | "product" | "sku" | "barcode" | "uomConversion" | "warehouse" | "warehouseLocation" | "stockMovement" | "stockReservation" | "device" | "scanEvent" | "wmsOrder" | "wmsOrderLine" | "territory" | "salesTeam" | "salesTeamMember" | "crmAccount" | "lead" | "opportunity" | "crmActivity" | "priceList" | "priceListEntry" | "quote" | "packagingLevel" | "skuSubstitution" | "discountRule" | "quoteLine" | "salesOrder" | "salesOrderLine" | "orderEvent" | "supplier" | "purchaseRequisition" | "purchaseRequisitionLine" | "purchaseOrder" | "purchaseOrderLine" | "bom" | "bomLine" | "routing" | "routingOperation" | "engineeringChange" | "planningPolicy" | "mrpRun" | "mrpSuggestion" | "workOrder" | "workOrderOperation" | "qcPlan" | "qcPlanItem" | "qcInspection" | "qcInspectionItem" | "ncr" | "invoice" | "payment" | "portalUser" | "comment" | "attachment" | "attachmentBlob" | "numberSequence" | "exchangeRate" | "costCenter" | "budget" | "webhookSubscription" | "webhookDelivery" | "apiKey" | "securityEvent" | "productCategory" | "returnOrder" | "returnOrderLine" | "stockCount" | "stockCountLine" | "workCenter" | "downtimeEvent" | "promotion" | "promotionRedemption" | "bundleComponent" | "serialNumber" | "breakGlassGrant" | "masterDataRequest" | "loyaltyAccount" | "loyaltyTransaction" | "supportCase" | "contract" | "employee" | "asset" | "quarantineHold" | "rfq" | "rfqQuote" | "package" | "packageLine" | "landedCost" | "customObjectDefinition" | "customObjectRecord" | "frameworkAgreement" | "skuChannelContent" | "container" | "posSession" | "vehicle" | "driver" | "shipment" | "shipmentStop" | "dockAppointment"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -12693,6 +12775,376 @@ export namespace Prisma {
           }
         }
       }
+      Vehicle: {
+        payload: Prisma.$VehiclePayload<ExtArgs>
+        fields: Prisma.VehicleFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.VehicleFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VehiclePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.VehicleFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VehiclePayload>
+          }
+          findFirst: {
+            args: Prisma.VehicleFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VehiclePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.VehicleFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VehiclePayload>
+          }
+          findMany: {
+            args: Prisma.VehicleFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VehiclePayload>[]
+          }
+          create: {
+            args: Prisma.VehicleCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VehiclePayload>
+          }
+          createMany: {
+            args: Prisma.VehicleCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.VehicleCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VehiclePayload>[]
+          }
+          delete: {
+            args: Prisma.VehicleDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VehiclePayload>
+          }
+          update: {
+            args: Prisma.VehicleUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VehiclePayload>
+          }
+          deleteMany: {
+            args: Prisma.VehicleDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.VehicleUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.VehicleUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VehiclePayload>[]
+          }
+          upsert: {
+            args: Prisma.VehicleUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VehiclePayload>
+          }
+          aggregate: {
+            args: Prisma.VehicleAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateVehicle>
+          }
+          groupBy: {
+            args: Prisma.VehicleGroupByArgs<ExtArgs>
+            result: $Utils.Optional<VehicleGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.VehicleCountArgs<ExtArgs>
+            result: $Utils.Optional<VehicleCountAggregateOutputType> | number
+          }
+        }
+      }
+      Driver: {
+        payload: Prisma.$DriverPayload<ExtArgs>
+        fields: Prisma.DriverFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.DriverFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DriverPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.DriverFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DriverPayload>
+          }
+          findFirst: {
+            args: Prisma.DriverFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DriverPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.DriverFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DriverPayload>
+          }
+          findMany: {
+            args: Prisma.DriverFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DriverPayload>[]
+          }
+          create: {
+            args: Prisma.DriverCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DriverPayload>
+          }
+          createMany: {
+            args: Prisma.DriverCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.DriverCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DriverPayload>[]
+          }
+          delete: {
+            args: Prisma.DriverDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DriverPayload>
+          }
+          update: {
+            args: Prisma.DriverUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DriverPayload>
+          }
+          deleteMany: {
+            args: Prisma.DriverDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.DriverUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.DriverUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DriverPayload>[]
+          }
+          upsert: {
+            args: Prisma.DriverUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DriverPayload>
+          }
+          aggregate: {
+            args: Prisma.DriverAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateDriver>
+          }
+          groupBy: {
+            args: Prisma.DriverGroupByArgs<ExtArgs>
+            result: $Utils.Optional<DriverGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.DriverCountArgs<ExtArgs>
+            result: $Utils.Optional<DriverCountAggregateOutputType> | number
+          }
+        }
+      }
+      Shipment: {
+        payload: Prisma.$ShipmentPayload<ExtArgs>
+        fields: Prisma.ShipmentFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ShipmentFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShipmentPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ShipmentFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShipmentPayload>
+          }
+          findFirst: {
+            args: Prisma.ShipmentFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShipmentPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ShipmentFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShipmentPayload>
+          }
+          findMany: {
+            args: Prisma.ShipmentFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShipmentPayload>[]
+          }
+          create: {
+            args: Prisma.ShipmentCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShipmentPayload>
+          }
+          createMany: {
+            args: Prisma.ShipmentCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ShipmentCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShipmentPayload>[]
+          }
+          delete: {
+            args: Prisma.ShipmentDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShipmentPayload>
+          }
+          update: {
+            args: Prisma.ShipmentUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShipmentPayload>
+          }
+          deleteMany: {
+            args: Prisma.ShipmentDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ShipmentUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ShipmentUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShipmentPayload>[]
+          }
+          upsert: {
+            args: Prisma.ShipmentUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShipmentPayload>
+          }
+          aggregate: {
+            args: Prisma.ShipmentAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateShipment>
+          }
+          groupBy: {
+            args: Prisma.ShipmentGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ShipmentGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ShipmentCountArgs<ExtArgs>
+            result: $Utils.Optional<ShipmentCountAggregateOutputType> | number
+          }
+        }
+      }
+      ShipmentStop: {
+        payload: Prisma.$ShipmentStopPayload<ExtArgs>
+        fields: Prisma.ShipmentStopFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ShipmentStopFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShipmentStopPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ShipmentStopFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShipmentStopPayload>
+          }
+          findFirst: {
+            args: Prisma.ShipmentStopFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShipmentStopPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ShipmentStopFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShipmentStopPayload>
+          }
+          findMany: {
+            args: Prisma.ShipmentStopFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShipmentStopPayload>[]
+          }
+          create: {
+            args: Prisma.ShipmentStopCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShipmentStopPayload>
+          }
+          createMany: {
+            args: Prisma.ShipmentStopCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ShipmentStopCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShipmentStopPayload>[]
+          }
+          delete: {
+            args: Prisma.ShipmentStopDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShipmentStopPayload>
+          }
+          update: {
+            args: Prisma.ShipmentStopUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShipmentStopPayload>
+          }
+          deleteMany: {
+            args: Prisma.ShipmentStopDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ShipmentStopUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ShipmentStopUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShipmentStopPayload>[]
+          }
+          upsert: {
+            args: Prisma.ShipmentStopUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShipmentStopPayload>
+          }
+          aggregate: {
+            args: Prisma.ShipmentStopAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateShipmentStop>
+          }
+          groupBy: {
+            args: Prisma.ShipmentStopGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ShipmentStopGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ShipmentStopCountArgs<ExtArgs>
+            result: $Utils.Optional<ShipmentStopCountAggregateOutputType> | number
+          }
+        }
+      }
+      DockAppointment: {
+        payload: Prisma.$DockAppointmentPayload<ExtArgs>
+        fields: Prisma.DockAppointmentFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.DockAppointmentFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DockAppointmentPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.DockAppointmentFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DockAppointmentPayload>
+          }
+          findFirst: {
+            args: Prisma.DockAppointmentFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DockAppointmentPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.DockAppointmentFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DockAppointmentPayload>
+          }
+          findMany: {
+            args: Prisma.DockAppointmentFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DockAppointmentPayload>[]
+          }
+          create: {
+            args: Prisma.DockAppointmentCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DockAppointmentPayload>
+          }
+          createMany: {
+            args: Prisma.DockAppointmentCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.DockAppointmentCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DockAppointmentPayload>[]
+          }
+          delete: {
+            args: Prisma.DockAppointmentDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DockAppointmentPayload>
+          }
+          update: {
+            args: Prisma.DockAppointmentUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DockAppointmentPayload>
+          }
+          deleteMany: {
+            args: Prisma.DockAppointmentDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.DockAppointmentUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.DockAppointmentUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DockAppointmentPayload>[]
+          }
+          upsert: {
+            args: Prisma.DockAppointmentUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DockAppointmentPayload>
+          }
+          aggregate: {
+            args: Prisma.DockAppointmentAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateDockAppointment>
+          }
+          groupBy: {
+            args: Prisma.DockAppointmentGroupByArgs<ExtArgs>
+            result: $Utils.Optional<DockAppointmentGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.DockAppointmentCountArgs<ExtArgs>
+            result: $Utils.Optional<DockAppointmentCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -12913,6 +13365,11 @@ export namespace Prisma {
     skuChannelContent?: SkuChannelContentOmit
     container?: ContainerOmit
     posSession?: PosSessionOmit
+    vehicle?: VehicleOmit
+    driver?: DriverOmit
+    shipment?: ShipmentOmit
+    shipmentStop?: ShipmentStopOmit
+    dockAppointment?: DockAppointmentOmit
   }
 
   /* Types for Logging */
@@ -13098,6 +13555,11 @@ export namespace Prisma {
     skuChannelContents: number
     containers: number
     posSessions: number
+    vehicles: number
+    drivers: number
+    shipments: number
+    shipmentStops: number
+    dockAppointments: number
     frameworkAgreements: number
   }
 
@@ -13207,6 +13669,11 @@ export namespace Prisma {
     skuChannelContents?: boolean | TenantCountOutputTypeCountSkuChannelContentsArgs
     containers?: boolean | TenantCountOutputTypeCountContainersArgs
     posSessions?: boolean | TenantCountOutputTypeCountPosSessionsArgs
+    vehicles?: boolean | TenantCountOutputTypeCountVehiclesArgs
+    drivers?: boolean | TenantCountOutputTypeCountDriversArgs
+    shipments?: boolean | TenantCountOutputTypeCountShipmentsArgs
+    shipmentStops?: boolean | TenantCountOutputTypeCountShipmentStopsArgs
+    dockAppointments?: boolean | TenantCountOutputTypeCountDockAppointmentsArgs
     frameworkAgreements?: boolean | TenantCountOutputTypeCountFrameworkAgreementsArgs
   }
 
@@ -13959,6 +14426,41 @@ export namespace Prisma {
   /**
    * TenantCountOutputType without action
    */
+  export type TenantCountOutputTypeCountVehiclesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: VehicleWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountDriversArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DriverWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountShipmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ShipmentWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountShipmentStopsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ShipmentStopWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountDockAppointmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DockAppointmentWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
   export type TenantCountOutputTypeCountFrameworkAgreementsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: FrameworkAgreementWhereInput
   }
@@ -14437,10 +14939,12 @@ export namespace Prisma {
 
   export type WarehouseCountOutputType = {
     locations: number
+    dockAppointments: number
   }
 
   export type WarehouseCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     locations?: boolean | WarehouseCountOutputTypeCountLocationsArgs
+    dockAppointments?: boolean | WarehouseCountOutputTypeCountDockAppointmentsArgs
   }
 
   // Custom InputTypes
@@ -14459,6 +14963,13 @@ export namespace Prisma {
    */
   export type WarehouseCountOutputTypeCountLocationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: WarehouseLocationWhereInput
+  }
+
+  /**
+   * WarehouseCountOutputType without action
+   */
+  export type WarehouseCountOutputTypeCountDockAppointmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DockAppointmentWhereInput
   }
 
 
@@ -15265,6 +15776,99 @@ export namespace Prisma {
 
 
   /**
+   * Count Type VehicleCountOutputType
+   */
+
+  export type VehicleCountOutputType = {
+    shipments: number
+  }
+
+  export type VehicleCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    shipments?: boolean | VehicleCountOutputTypeCountShipmentsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * VehicleCountOutputType without action
+   */
+  export type VehicleCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VehicleCountOutputType
+     */
+    select?: VehicleCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * VehicleCountOutputType without action
+   */
+  export type VehicleCountOutputTypeCountShipmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ShipmentWhereInput
+  }
+
+
+  /**
+   * Count Type DriverCountOutputType
+   */
+
+  export type DriverCountOutputType = {
+    shipments: number
+  }
+
+  export type DriverCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    shipments?: boolean | DriverCountOutputTypeCountShipmentsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * DriverCountOutputType without action
+   */
+  export type DriverCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DriverCountOutputType
+     */
+    select?: DriverCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * DriverCountOutputType without action
+   */
+  export type DriverCountOutputTypeCountShipmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ShipmentWhereInput
+  }
+
+
+  /**
+   * Count Type ShipmentCountOutputType
+   */
+
+  export type ShipmentCountOutputType = {
+    stops: number
+  }
+
+  export type ShipmentCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    stops?: boolean | ShipmentCountOutputTypeCountStopsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * ShipmentCountOutputType without action
+   */
+  export type ShipmentCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShipmentCountOutputType
+     */
+    select?: ShipmentCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * ShipmentCountOutputType without action
+   */
+  export type ShipmentCountOutputTypeCountStopsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ShipmentStopWhereInput
+  }
+
+
+  /**
    * Models
    */
 
@@ -15587,6 +16191,11 @@ export namespace Prisma {
     skuChannelContents?: boolean | Tenant$skuChannelContentsArgs<ExtArgs>
     containers?: boolean | Tenant$containersArgs<ExtArgs>
     posSessions?: boolean | Tenant$posSessionsArgs<ExtArgs>
+    vehicles?: boolean | Tenant$vehiclesArgs<ExtArgs>
+    drivers?: boolean | Tenant$driversArgs<ExtArgs>
+    shipments?: boolean | Tenant$shipmentsArgs<ExtArgs>
+    shipmentStops?: boolean | Tenant$shipmentStopsArgs<ExtArgs>
+    dockAppointments?: boolean | Tenant$dockAppointmentsArgs<ExtArgs>
     frameworkAgreements?: boolean | Tenant$frameworkAgreementsArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["tenant"]>
@@ -15728,6 +16337,11 @@ export namespace Prisma {
     skuChannelContents?: boolean | Tenant$skuChannelContentsArgs<ExtArgs>
     containers?: boolean | Tenant$containersArgs<ExtArgs>
     posSessions?: boolean | Tenant$posSessionsArgs<ExtArgs>
+    vehicles?: boolean | Tenant$vehiclesArgs<ExtArgs>
+    drivers?: boolean | Tenant$driversArgs<ExtArgs>
+    shipments?: boolean | Tenant$shipmentsArgs<ExtArgs>
+    shipmentStops?: boolean | Tenant$shipmentStopsArgs<ExtArgs>
+    dockAppointments?: boolean | Tenant$dockAppointmentsArgs<ExtArgs>
     frameworkAgreements?: boolean | Tenant$frameworkAgreementsArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }
@@ -15842,6 +16456,11 @@ export namespace Prisma {
       skuChannelContents: Prisma.$SkuChannelContentPayload<ExtArgs>[]
       containers: Prisma.$ContainerPayload<ExtArgs>[]
       posSessions: Prisma.$PosSessionPayload<ExtArgs>[]
+      vehicles: Prisma.$VehiclePayload<ExtArgs>[]
+      drivers: Prisma.$DriverPayload<ExtArgs>[]
+      shipments: Prisma.$ShipmentPayload<ExtArgs>[]
+      shipmentStops: Prisma.$ShipmentStopPayload<ExtArgs>[]
+      dockAppointments: Prisma.$DockAppointmentPayload<ExtArgs>[]
       frameworkAgreements: Prisma.$FrameworkAgreementPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -16351,6 +16970,11 @@ export namespace Prisma {
     skuChannelContents<T extends Tenant$skuChannelContentsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$skuChannelContentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SkuChannelContentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     containers<T extends Tenant$containersArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$containersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ContainerPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     posSessions<T extends Tenant$posSessionsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$posSessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PosSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    vehicles<T extends Tenant$vehiclesArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$vehiclesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VehiclePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    drivers<T extends Tenant$driversArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$driversArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DriverPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    shipments<T extends Tenant$shipmentsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$shipmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShipmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    shipmentStops<T extends Tenant$shipmentStopsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$shipmentStopsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShipmentStopPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    dockAppointments<T extends Tenant$dockAppointmentsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$dockAppointmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DockAppointmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     frameworkAgreements<T extends Tenant$frameworkAgreementsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$frameworkAgreementsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FrameworkAgreementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -19293,6 +19917,126 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: PosSessionScalarFieldEnum | PosSessionScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.vehicles
+   */
+  export type Tenant$vehiclesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Vehicle
+     */
+    select?: VehicleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Vehicle
+     */
+    omit?: VehicleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VehicleInclude<ExtArgs> | null
+    where?: VehicleWhereInput
+    orderBy?: VehicleOrderByWithRelationInput | VehicleOrderByWithRelationInput[]
+    cursor?: VehicleWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: VehicleScalarFieldEnum | VehicleScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.drivers
+   */
+  export type Tenant$driversArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Driver
+     */
+    select?: DriverSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Driver
+     */
+    omit?: DriverOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DriverInclude<ExtArgs> | null
+    where?: DriverWhereInput
+    orderBy?: DriverOrderByWithRelationInput | DriverOrderByWithRelationInput[]
+    cursor?: DriverWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DriverScalarFieldEnum | DriverScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.shipments
+   */
+  export type Tenant$shipmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Shipment
+     */
+    select?: ShipmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Shipment
+     */
+    omit?: ShipmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShipmentInclude<ExtArgs> | null
+    where?: ShipmentWhereInput
+    orderBy?: ShipmentOrderByWithRelationInput | ShipmentOrderByWithRelationInput[]
+    cursor?: ShipmentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ShipmentScalarFieldEnum | ShipmentScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.shipmentStops
+   */
+  export type Tenant$shipmentStopsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShipmentStop
+     */
+    select?: ShipmentStopSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShipmentStop
+     */
+    omit?: ShipmentStopOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShipmentStopInclude<ExtArgs> | null
+    where?: ShipmentStopWhereInput
+    orderBy?: ShipmentStopOrderByWithRelationInput | ShipmentStopOrderByWithRelationInput[]
+    cursor?: ShipmentStopWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ShipmentStopScalarFieldEnum | ShipmentStopScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.dockAppointments
+   */
+  export type Tenant$dockAppointmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DockAppointment
+     */
+    select?: DockAppointmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DockAppointment
+     */
+    omit?: DockAppointmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DockAppointmentInclude<ExtArgs> | null
+    where?: DockAppointmentWhereInput
+    orderBy?: DockAppointmentOrderByWithRelationInput | DockAppointmentOrderByWithRelationInput[]
+    cursor?: DockAppointmentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DockAppointmentScalarFieldEnum | DockAppointmentScalarFieldEnum[]
   }
 
   /**
@@ -56872,6 +57616,7 @@ export namespace Prisma {
     name?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     locations?: boolean | Warehouse$locationsArgs<ExtArgs>
+    dockAppointments?: boolean | Warehouse$dockAppointmentsArgs<ExtArgs>
     _count?: boolean | WarehouseCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["warehouse"]>
 
@@ -56902,6 +57647,7 @@ export namespace Prisma {
   export type WarehouseInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     locations?: boolean | Warehouse$locationsArgs<ExtArgs>
+    dockAppointments?: boolean | Warehouse$dockAppointmentsArgs<ExtArgs>
     _count?: boolean | WarehouseCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type WarehouseIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -56916,6 +57662,7 @@ export namespace Prisma {
     objects: {
       tenant: Prisma.$TenantPayload<ExtArgs>
       locations: Prisma.$WarehouseLocationPayload<ExtArgs>[]
+      dockAppointments: Prisma.$DockAppointmentPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -57318,6 +58065,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     locations<T extends Warehouse$locationsArgs<ExtArgs> = {}>(args?: Subset<T, Warehouse$locationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WarehouseLocationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    dockAppointments<T extends Warehouse$dockAppointmentsArgs<ExtArgs> = {}>(args?: Subset<T, Warehouse$dockAppointmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DockAppointmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -57768,6 +58516,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: WarehouseLocationScalarFieldEnum | WarehouseLocationScalarFieldEnum[]
+  }
+
+  /**
+   * Warehouse.dockAppointments
+   */
+  export type Warehouse$dockAppointmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DockAppointment
+     */
+    select?: DockAppointmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DockAppointment
+     */
+    omit?: DockAppointmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DockAppointmentInclude<ExtArgs> | null
+    where?: DockAppointmentWhereInput
+    orderBy?: DockAppointmentOrderByWithRelationInput | DockAppointmentOrderByWithRelationInput[]
+    cursor?: DockAppointmentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DockAppointmentScalarFieldEnum | DockAppointmentScalarFieldEnum[]
   }
 
   /**
@@ -160303,6 +161075,5969 @@ export namespace Prisma {
 
 
   /**
+   * Model Vehicle
+   */
+
+  export type AggregateVehicle = {
+    _count: VehicleCountAggregateOutputType | null
+    _avg: VehicleAvgAggregateOutputType | null
+    _sum: VehicleSumAggregateOutputType | null
+    _min: VehicleMinAggregateOutputType | null
+    _max: VehicleMaxAggregateOutputType | null
+  }
+
+  export type VehicleAvgAggregateOutputType = {
+    capacityKg: Decimal | null
+  }
+
+  export type VehicleSumAggregateOutputType = {
+    capacityKg: Decimal | null
+  }
+
+  export type VehicleMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    plate: string | null
+    name: string | null
+    capacityKg: Decimal | null
+    active: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type VehicleMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    plate: string | null
+    name: string | null
+    capacityKg: Decimal | null
+    active: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type VehicleCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    plate: number
+    name: number
+    capacityKg: number
+    active: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type VehicleAvgAggregateInputType = {
+    capacityKg?: true
+  }
+
+  export type VehicleSumAggregateInputType = {
+    capacityKg?: true
+  }
+
+  export type VehicleMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    plate?: true
+    name?: true
+    capacityKg?: true
+    active?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type VehicleMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    plate?: true
+    name?: true
+    capacityKg?: true
+    active?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type VehicleCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    plate?: true
+    name?: true
+    capacityKg?: true
+    active?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type VehicleAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Vehicle to aggregate.
+     */
+    where?: VehicleWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Vehicles to fetch.
+     */
+    orderBy?: VehicleOrderByWithRelationInput | VehicleOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: VehicleWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Vehicles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Vehicles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Vehicles
+    **/
+    _count?: true | VehicleCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: VehicleAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: VehicleSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: VehicleMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: VehicleMaxAggregateInputType
+  }
+
+  export type GetVehicleAggregateType<T extends VehicleAggregateArgs> = {
+        [P in keyof T & keyof AggregateVehicle]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateVehicle[P]>
+      : GetScalarType<T[P], AggregateVehicle[P]>
+  }
+
+
+
+
+  export type VehicleGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: VehicleWhereInput
+    orderBy?: VehicleOrderByWithAggregationInput | VehicleOrderByWithAggregationInput[]
+    by: VehicleScalarFieldEnum[] | VehicleScalarFieldEnum
+    having?: VehicleScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: VehicleCountAggregateInputType | true
+    _avg?: VehicleAvgAggregateInputType
+    _sum?: VehicleSumAggregateInputType
+    _min?: VehicleMinAggregateInputType
+    _max?: VehicleMaxAggregateInputType
+  }
+
+  export type VehicleGroupByOutputType = {
+    id: string
+    tenantId: string
+    plate: string
+    name: string
+    capacityKg: Decimal
+    active: boolean
+    createdAt: Date
+    updatedAt: Date
+    _count: VehicleCountAggregateOutputType | null
+    _avg: VehicleAvgAggregateOutputType | null
+    _sum: VehicleSumAggregateOutputType | null
+    _min: VehicleMinAggregateOutputType | null
+    _max: VehicleMaxAggregateOutputType | null
+  }
+
+  type GetVehicleGroupByPayload<T extends VehicleGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<VehicleGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof VehicleGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], VehicleGroupByOutputType[P]>
+            : GetScalarType<T[P], VehicleGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type VehicleSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    plate?: boolean
+    name?: boolean
+    capacityKg?: boolean
+    active?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    shipments?: boolean | Vehicle$shipmentsArgs<ExtArgs>
+    _count?: boolean | VehicleCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["vehicle"]>
+
+  export type VehicleSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    plate?: boolean
+    name?: boolean
+    capacityKg?: boolean
+    active?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["vehicle"]>
+
+  export type VehicleSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    plate?: boolean
+    name?: boolean
+    capacityKg?: boolean
+    active?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["vehicle"]>
+
+  export type VehicleSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    plate?: boolean
+    name?: boolean
+    capacityKg?: boolean
+    active?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type VehicleOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "plate" | "name" | "capacityKg" | "active" | "createdAt" | "updatedAt", ExtArgs["result"]["vehicle"]>
+  export type VehicleInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    shipments?: boolean | Vehicle$shipmentsArgs<ExtArgs>
+    _count?: boolean | VehicleCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type VehicleIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type VehicleIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+
+  export type $VehiclePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Vehicle"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+      shipments: Prisma.$ShipmentPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      plate: string
+      name: string
+      capacityKg: Prisma.Decimal
+      active: boolean
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["vehicle"]>
+    composites: {}
+  }
+
+  type VehicleGetPayload<S extends boolean | null | undefined | VehicleDefaultArgs> = $Result.GetResult<Prisma.$VehiclePayload, S>
+
+  type VehicleCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<VehicleFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: VehicleCountAggregateInputType | true
+    }
+
+  export interface VehicleDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Vehicle'], meta: { name: 'Vehicle' } }
+    /**
+     * Find zero or one Vehicle that matches the filter.
+     * @param {VehicleFindUniqueArgs} args - Arguments to find a Vehicle
+     * @example
+     * // Get one Vehicle
+     * const vehicle = await prisma.vehicle.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends VehicleFindUniqueArgs>(args: SelectSubset<T, VehicleFindUniqueArgs<ExtArgs>>): Prisma__VehicleClient<$Result.GetResult<Prisma.$VehiclePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Vehicle that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {VehicleFindUniqueOrThrowArgs} args - Arguments to find a Vehicle
+     * @example
+     * // Get one Vehicle
+     * const vehicle = await prisma.vehicle.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends VehicleFindUniqueOrThrowArgs>(args: SelectSubset<T, VehicleFindUniqueOrThrowArgs<ExtArgs>>): Prisma__VehicleClient<$Result.GetResult<Prisma.$VehiclePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Vehicle that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VehicleFindFirstArgs} args - Arguments to find a Vehicle
+     * @example
+     * // Get one Vehicle
+     * const vehicle = await prisma.vehicle.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends VehicleFindFirstArgs>(args?: SelectSubset<T, VehicleFindFirstArgs<ExtArgs>>): Prisma__VehicleClient<$Result.GetResult<Prisma.$VehiclePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Vehicle that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VehicleFindFirstOrThrowArgs} args - Arguments to find a Vehicle
+     * @example
+     * // Get one Vehicle
+     * const vehicle = await prisma.vehicle.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends VehicleFindFirstOrThrowArgs>(args?: SelectSubset<T, VehicleFindFirstOrThrowArgs<ExtArgs>>): Prisma__VehicleClient<$Result.GetResult<Prisma.$VehiclePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Vehicles that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VehicleFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Vehicles
+     * const vehicles = await prisma.vehicle.findMany()
+     * 
+     * // Get first 10 Vehicles
+     * const vehicles = await prisma.vehicle.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const vehicleWithIdOnly = await prisma.vehicle.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends VehicleFindManyArgs>(args?: SelectSubset<T, VehicleFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VehiclePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Vehicle.
+     * @param {VehicleCreateArgs} args - Arguments to create a Vehicle.
+     * @example
+     * // Create one Vehicle
+     * const Vehicle = await prisma.vehicle.create({
+     *   data: {
+     *     // ... data to create a Vehicle
+     *   }
+     * })
+     * 
+     */
+    create<T extends VehicleCreateArgs>(args: SelectSubset<T, VehicleCreateArgs<ExtArgs>>): Prisma__VehicleClient<$Result.GetResult<Prisma.$VehiclePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Vehicles.
+     * @param {VehicleCreateManyArgs} args - Arguments to create many Vehicles.
+     * @example
+     * // Create many Vehicles
+     * const vehicle = await prisma.vehicle.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends VehicleCreateManyArgs>(args?: SelectSubset<T, VehicleCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Vehicles and returns the data saved in the database.
+     * @param {VehicleCreateManyAndReturnArgs} args - Arguments to create many Vehicles.
+     * @example
+     * // Create many Vehicles
+     * const vehicle = await prisma.vehicle.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Vehicles and only return the `id`
+     * const vehicleWithIdOnly = await prisma.vehicle.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends VehicleCreateManyAndReturnArgs>(args?: SelectSubset<T, VehicleCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VehiclePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Vehicle.
+     * @param {VehicleDeleteArgs} args - Arguments to delete one Vehicle.
+     * @example
+     * // Delete one Vehicle
+     * const Vehicle = await prisma.vehicle.delete({
+     *   where: {
+     *     // ... filter to delete one Vehicle
+     *   }
+     * })
+     * 
+     */
+    delete<T extends VehicleDeleteArgs>(args: SelectSubset<T, VehicleDeleteArgs<ExtArgs>>): Prisma__VehicleClient<$Result.GetResult<Prisma.$VehiclePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Vehicle.
+     * @param {VehicleUpdateArgs} args - Arguments to update one Vehicle.
+     * @example
+     * // Update one Vehicle
+     * const vehicle = await prisma.vehicle.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends VehicleUpdateArgs>(args: SelectSubset<T, VehicleUpdateArgs<ExtArgs>>): Prisma__VehicleClient<$Result.GetResult<Prisma.$VehiclePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Vehicles.
+     * @param {VehicleDeleteManyArgs} args - Arguments to filter Vehicles to delete.
+     * @example
+     * // Delete a few Vehicles
+     * const { count } = await prisma.vehicle.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends VehicleDeleteManyArgs>(args?: SelectSubset<T, VehicleDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Vehicles.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VehicleUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Vehicles
+     * const vehicle = await prisma.vehicle.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends VehicleUpdateManyArgs>(args: SelectSubset<T, VehicleUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Vehicles and returns the data updated in the database.
+     * @param {VehicleUpdateManyAndReturnArgs} args - Arguments to update many Vehicles.
+     * @example
+     * // Update many Vehicles
+     * const vehicle = await prisma.vehicle.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Vehicles and only return the `id`
+     * const vehicleWithIdOnly = await prisma.vehicle.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends VehicleUpdateManyAndReturnArgs>(args: SelectSubset<T, VehicleUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VehiclePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Vehicle.
+     * @param {VehicleUpsertArgs} args - Arguments to update or create a Vehicle.
+     * @example
+     * // Update or create a Vehicle
+     * const vehicle = await prisma.vehicle.upsert({
+     *   create: {
+     *     // ... data to create a Vehicle
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Vehicle we want to update
+     *   }
+     * })
+     */
+    upsert<T extends VehicleUpsertArgs>(args: SelectSubset<T, VehicleUpsertArgs<ExtArgs>>): Prisma__VehicleClient<$Result.GetResult<Prisma.$VehiclePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Vehicles.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VehicleCountArgs} args - Arguments to filter Vehicles to count.
+     * @example
+     * // Count the number of Vehicles
+     * const count = await prisma.vehicle.count({
+     *   where: {
+     *     // ... the filter for the Vehicles we want to count
+     *   }
+     * })
+    **/
+    count<T extends VehicleCountArgs>(
+      args?: Subset<T, VehicleCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], VehicleCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Vehicle.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VehicleAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends VehicleAggregateArgs>(args: Subset<T, VehicleAggregateArgs>): Prisma.PrismaPromise<GetVehicleAggregateType<T>>
+
+    /**
+     * Group by Vehicle.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VehicleGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends VehicleGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: VehicleGroupByArgs['orderBy'] }
+        : { orderBy?: VehicleGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, VehicleGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetVehicleGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Vehicle model
+   */
+  readonly fields: VehicleFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Vehicle.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__VehicleClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    shipments<T extends Vehicle$shipmentsArgs<ExtArgs> = {}>(args?: Subset<T, Vehicle$shipmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShipmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Vehicle model
+   */
+  interface VehicleFieldRefs {
+    readonly id: FieldRef<"Vehicle", 'String'>
+    readonly tenantId: FieldRef<"Vehicle", 'String'>
+    readonly plate: FieldRef<"Vehicle", 'String'>
+    readonly name: FieldRef<"Vehicle", 'String'>
+    readonly capacityKg: FieldRef<"Vehicle", 'Decimal'>
+    readonly active: FieldRef<"Vehicle", 'Boolean'>
+    readonly createdAt: FieldRef<"Vehicle", 'DateTime'>
+    readonly updatedAt: FieldRef<"Vehicle", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Vehicle findUnique
+   */
+  export type VehicleFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Vehicle
+     */
+    select?: VehicleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Vehicle
+     */
+    omit?: VehicleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VehicleInclude<ExtArgs> | null
+    /**
+     * Filter, which Vehicle to fetch.
+     */
+    where: VehicleWhereUniqueInput
+  }
+
+  /**
+   * Vehicle findUniqueOrThrow
+   */
+  export type VehicleFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Vehicle
+     */
+    select?: VehicleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Vehicle
+     */
+    omit?: VehicleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VehicleInclude<ExtArgs> | null
+    /**
+     * Filter, which Vehicle to fetch.
+     */
+    where: VehicleWhereUniqueInput
+  }
+
+  /**
+   * Vehicle findFirst
+   */
+  export type VehicleFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Vehicle
+     */
+    select?: VehicleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Vehicle
+     */
+    omit?: VehicleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VehicleInclude<ExtArgs> | null
+    /**
+     * Filter, which Vehicle to fetch.
+     */
+    where?: VehicleWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Vehicles to fetch.
+     */
+    orderBy?: VehicleOrderByWithRelationInput | VehicleOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Vehicles.
+     */
+    cursor?: VehicleWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Vehicles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Vehicles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Vehicles.
+     */
+    distinct?: VehicleScalarFieldEnum | VehicleScalarFieldEnum[]
+  }
+
+  /**
+   * Vehicle findFirstOrThrow
+   */
+  export type VehicleFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Vehicle
+     */
+    select?: VehicleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Vehicle
+     */
+    omit?: VehicleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VehicleInclude<ExtArgs> | null
+    /**
+     * Filter, which Vehicle to fetch.
+     */
+    where?: VehicleWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Vehicles to fetch.
+     */
+    orderBy?: VehicleOrderByWithRelationInput | VehicleOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Vehicles.
+     */
+    cursor?: VehicleWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Vehicles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Vehicles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Vehicles.
+     */
+    distinct?: VehicleScalarFieldEnum | VehicleScalarFieldEnum[]
+  }
+
+  /**
+   * Vehicle findMany
+   */
+  export type VehicleFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Vehicle
+     */
+    select?: VehicleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Vehicle
+     */
+    omit?: VehicleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VehicleInclude<ExtArgs> | null
+    /**
+     * Filter, which Vehicles to fetch.
+     */
+    where?: VehicleWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Vehicles to fetch.
+     */
+    orderBy?: VehicleOrderByWithRelationInput | VehicleOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Vehicles.
+     */
+    cursor?: VehicleWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Vehicles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Vehicles.
+     */
+    skip?: number
+    distinct?: VehicleScalarFieldEnum | VehicleScalarFieldEnum[]
+  }
+
+  /**
+   * Vehicle create
+   */
+  export type VehicleCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Vehicle
+     */
+    select?: VehicleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Vehicle
+     */
+    omit?: VehicleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VehicleInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Vehicle.
+     */
+    data: XOR<VehicleCreateInput, VehicleUncheckedCreateInput>
+  }
+
+  /**
+   * Vehicle createMany
+   */
+  export type VehicleCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Vehicles.
+     */
+    data: VehicleCreateManyInput | VehicleCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Vehicle createManyAndReturn
+   */
+  export type VehicleCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Vehicle
+     */
+    select?: VehicleSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Vehicle
+     */
+    omit?: VehicleOmit<ExtArgs> | null
+    /**
+     * The data used to create many Vehicles.
+     */
+    data: VehicleCreateManyInput | VehicleCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VehicleIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Vehicle update
+   */
+  export type VehicleUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Vehicle
+     */
+    select?: VehicleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Vehicle
+     */
+    omit?: VehicleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VehicleInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Vehicle.
+     */
+    data: XOR<VehicleUpdateInput, VehicleUncheckedUpdateInput>
+    /**
+     * Choose, which Vehicle to update.
+     */
+    where: VehicleWhereUniqueInput
+  }
+
+  /**
+   * Vehicle updateMany
+   */
+  export type VehicleUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Vehicles.
+     */
+    data: XOR<VehicleUpdateManyMutationInput, VehicleUncheckedUpdateManyInput>
+    /**
+     * Filter which Vehicles to update
+     */
+    where?: VehicleWhereInput
+    /**
+     * Limit how many Vehicles to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Vehicle updateManyAndReturn
+   */
+  export type VehicleUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Vehicle
+     */
+    select?: VehicleSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Vehicle
+     */
+    omit?: VehicleOmit<ExtArgs> | null
+    /**
+     * The data used to update Vehicles.
+     */
+    data: XOR<VehicleUpdateManyMutationInput, VehicleUncheckedUpdateManyInput>
+    /**
+     * Filter which Vehicles to update
+     */
+    where?: VehicleWhereInput
+    /**
+     * Limit how many Vehicles to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VehicleIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Vehicle upsert
+   */
+  export type VehicleUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Vehicle
+     */
+    select?: VehicleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Vehicle
+     */
+    omit?: VehicleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VehicleInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Vehicle to update in case it exists.
+     */
+    where: VehicleWhereUniqueInput
+    /**
+     * In case the Vehicle found by the `where` argument doesn't exist, create a new Vehicle with this data.
+     */
+    create: XOR<VehicleCreateInput, VehicleUncheckedCreateInput>
+    /**
+     * In case the Vehicle was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<VehicleUpdateInput, VehicleUncheckedUpdateInput>
+  }
+
+  /**
+   * Vehicle delete
+   */
+  export type VehicleDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Vehicle
+     */
+    select?: VehicleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Vehicle
+     */
+    omit?: VehicleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VehicleInclude<ExtArgs> | null
+    /**
+     * Filter which Vehicle to delete.
+     */
+    where: VehicleWhereUniqueInput
+  }
+
+  /**
+   * Vehicle deleteMany
+   */
+  export type VehicleDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Vehicles to delete
+     */
+    where?: VehicleWhereInput
+    /**
+     * Limit how many Vehicles to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Vehicle.shipments
+   */
+  export type Vehicle$shipmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Shipment
+     */
+    select?: ShipmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Shipment
+     */
+    omit?: ShipmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShipmentInclude<ExtArgs> | null
+    where?: ShipmentWhereInput
+    orderBy?: ShipmentOrderByWithRelationInput | ShipmentOrderByWithRelationInput[]
+    cursor?: ShipmentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ShipmentScalarFieldEnum | ShipmentScalarFieldEnum[]
+  }
+
+  /**
+   * Vehicle without action
+   */
+  export type VehicleDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Vehicle
+     */
+    select?: VehicleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Vehicle
+     */
+    omit?: VehicleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VehicleInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Driver
+   */
+
+  export type AggregateDriver = {
+    _count: DriverCountAggregateOutputType | null
+    _min: DriverMinAggregateOutputType | null
+    _max: DriverMaxAggregateOutputType | null
+  }
+
+  export type DriverMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    name: string | null
+    licenseNo: string | null
+    active: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type DriverMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    name: string | null
+    licenseNo: string | null
+    active: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type DriverCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    name: number
+    licenseNo: number
+    active: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type DriverMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    name?: true
+    licenseNo?: true
+    active?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type DriverMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    name?: true
+    licenseNo?: true
+    active?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type DriverCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    name?: true
+    licenseNo?: true
+    active?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type DriverAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Driver to aggregate.
+     */
+    where?: DriverWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Drivers to fetch.
+     */
+    orderBy?: DriverOrderByWithRelationInput | DriverOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: DriverWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Drivers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Drivers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Drivers
+    **/
+    _count?: true | DriverCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: DriverMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: DriverMaxAggregateInputType
+  }
+
+  export type GetDriverAggregateType<T extends DriverAggregateArgs> = {
+        [P in keyof T & keyof AggregateDriver]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateDriver[P]>
+      : GetScalarType<T[P], AggregateDriver[P]>
+  }
+
+
+
+
+  export type DriverGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DriverWhereInput
+    orderBy?: DriverOrderByWithAggregationInput | DriverOrderByWithAggregationInput[]
+    by: DriverScalarFieldEnum[] | DriverScalarFieldEnum
+    having?: DriverScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: DriverCountAggregateInputType | true
+    _min?: DriverMinAggregateInputType
+    _max?: DriverMaxAggregateInputType
+  }
+
+  export type DriverGroupByOutputType = {
+    id: string
+    tenantId: string
+    name: string
+    licenseNo: string | null
+    active: boolean
+    createdAt: Date
+    updatedAt: Date
+    _count: DriverCountAggregateOutputType | null
+    _min: DriverMinAggregateOutputType | null
+    _max: DriverMaxAggregateOutputType | null
+  }
+
+  type GetDriverGroupByPayload<T extends DriverGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<DriverGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof DriverGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], DriverGroupByOutputType[P]>
+            : GetScalarType<T[P], DriverGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type DriverSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    name?: boolean
+    licenseNo?: boolean
+    active?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    shipments?: boolean | Driver$shipmentsArgs<ExtArgs>
+    _count?: boolean | DriverCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["driver"]>
+
+  export type DriverSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    name?: boolean
+    licenseNo?: boolean
+    active?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["driver"]>
+
+  export type DriverSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    name?: boolean
+    licenseNo?: boolean
+    active?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["driver"]>
+
+  export type DriverSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    name?: boolean
+    licenseNo?: boolean
+    active?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type DriverOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "name" | "licenseNo" | "active" | "createdAt" | "updatedAt", ExtArgs["result"]["driver"]>
+  export type DriverInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    shipments?: boolean | Driver$shipmentsArgs<ExtArgs>
+    _count?: boolean | DriverCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type DriverIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type DriverIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+
+  export type $DriverPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Driver"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+      shipments: Prisma.$ShipmentPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      name: string
+      licenseNo: string | null
+      active: boolean
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["driver"]>
+    composites: {}
+  }
+
+  type DriverGetPayload<S extends boolean | null | undefined | DriverDefaultArgs> = $Result.GetResult<Prisma.$DriverPayload, S>
+
+  type DriverCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<DriverFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: DriverCountAggregateInputType | true
+    }
+
+  export interface DriverDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Driver'], meta: { name: 'Driver' } }
+    /**
+     * Find zero or one Driver that matches the filter.
+     * @param {DriverFindUniqueArgs} args - Arguments to find a Driver
+     * @example
+     * // Get one Driver
+     * const driver = await prisma.driver.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends DriverFindUniqueArgs>(args: SelectSubset<T, DriverFindUniqueArgs<ExtArgs>>): Prisma__DriverClient<$Result.GetResult<Prisma.$DriverPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Driver that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {DriverFindUniqueOrThrowArgs} args - Arguments to find a Driver
+     * @example
+     * // Get one Driver
+     * const driver = await prisma.driver.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends DriverFindUniqueOrThrowArgs>(args: SelectSubset<T, DriverFindUniqueOrThrowArgs<ExtArgs>>): Prisma__DriverClient<$Result.GetResult<Prisma.$DriverPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Driver that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DriverFindFirstArgs} args - Arguments to find a Driver
+     * @example
+     * // Get one Driver
+     * const driver = await prisma.driver.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends DriverFindFirstArgs>(args?: SelectSubset<T, DriverFindFirstArgs<ExtArgs>>): Prisma__DriverClient<$Result.GetResult<Prisma.$DriverPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Driver that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DriverFindFirstOrThrowArgs} args - Arguments to find a Driver
+     * @example
+     * // Get one Driver
+     * const driver = await prisma.driver.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends DriverFindFirstOrThrowArgs>(args?: SelectSubset<T, DriverFindFirstOrThrowArgs<ExtArgs>>): Prisma__DriverClient<$Result.GetResult<Prisma.$DriverPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Drivers that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DriverFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Drivers
+     * const drivers = await prisma.driver.findMany()
+     * 
+     * // Get first 10 Drivers
+     * const drivers = await prisma.driver.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const driverWithIdOnly = await prisma.driver.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends DriverFindManyArgs>(args?: SelectSubset<T, DriverFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DriverPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Driver.
+     * @param {DriverCreateArgs} args - Arguments to create a Driver.
+     * @example
+     * // Create one Driver
+     * const Driver = await prisma.driver.create({
+     *   data: {
+     *     // ... data to create a Driver
+     *   }
+     * })
+     * 
+     */
+    create<T extends DriverCreateArgs>(args: SelectSubset<T, DriverCreateArgs<ExtArgs>>): Prisma__DriverClient<$Result.GetResult<Prisma.$DriverPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Drivers.
+     * @param {DriverCreateManyArgs} args - Arguments to create many Drivers.
+     * @example
+     * // Create many Drivers
+     * const driver = await prisma.driver.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends DriverCreateManyArgs>(args?: SelectSubset<T, DriverCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Drivers and returns the data saved in the database.
+     * @param {DriverCreateManyAndReturnArgs} args - Arguments to create many Drivers.
+     * @example
+     * // Create many Drivers
+     * const driver = await prisma.driver.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Drivers and only return the `id`
+     * const driverWithIdOnly = await prisma.driver.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends DriverCreateManyAndReturnArgs>(args?: SelectSubset<T, DriverCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DriverPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Driver.
+     * @param {DriverDeleteArgs} args - Arguments to delete one Driver.
+     * @example
+     * // Delete one Driver
+     * const Driver = await prisma.driver.delete({
+     *   where: {
+     *     // ... filter to delete one Driver
+     *   }
+     * })
+     * 
+     */
+    delete<T extends DriverDeleteArgs>(args: SelectSubset<T, DriverDeleteArgs<ExtArgs>>): Prisma__DriverClient<$Result.GetResult<Prisma.$DriverPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Driver.
+     * @param {DriverUpdateArgs} args - Arguments to update one Driver.
+     * @example
+     * // Update one Driver
+     * const driver = await prisma.driver.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends DriverUpdateArgs>(args: SelectSubset<T, DriverUpdateArgs<ExtArgs>>): Prisma__DriverClient<$Result.GetResult<Prisma.$DriverPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Drivers.
+     * @param {DriverDeleteManyArgs} args - Arguments to filter Drivers to delete.
+     * @example
+     * // Delete a few Drivers
+     * const { count } = await prisma.driver.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends DriverDeleteManyArgs>(args?: SelectSubset<T, DriverDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Drivers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DriverUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Drivers
+     * const driver = await prisma.driver.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends DriverUpdateManyArgs>(args: SelectSubset<T, DriverUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Drivers and returns the data updated in the database.
+     * @param {DriverUpdateManyAndReturnArgs} args - Arguments to update many Drivers.
+     * @example
+     * // Update many Drivers
+     * const driver = await prisma.driver.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Drivers and only return the `id`
+     * const driverWithIdOnly = await prisma.driver.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends DriverUpdateManyAndReturnArgs>(args: SelectSubset<T, DriverUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DriverPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Driver.
+     * @param {DriverUpsertArgs} args - Arguments to update or create a Driver.
+     * @example
+     * // Update or create a Driver
+     * const driver = await prisma.driver.upsert({
+     *   create: {
+     *     // ... data to create a Driver
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Driver we want to update
+     *   }
+     * })
+     */
+    upsert<T extends DriverUpsertArgs>(args: SelectSubset<T, DriverUpsertArgs<ExtArgs>>): Prisma__DriverClient<$Result.GetResult<Prisma.$DriverPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Drivers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DriverCountArgs} args - Arguments to filter Drivers to count.
+     * @example
+     * // Count the number of Drivers
+     * const count = await prisma.driver.count({
+     *   where: {
+     *     // ... the filter for the Drivers we want to count
+     *   }
+     * })
+    **/
+    count<T extends DriverCountArgs>(
+      args?: Subset<T, DriverCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], DriverCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Driver.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DriverAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends DriverAggregateArgs>(args: Subset<T, DriverAggregateArgs>): Prisma.PrismaPromise<GetDriverAggregateType<T>>
+
+    /**
+     * Group by Driver.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DriverGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends DriverGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: DriverGroupByArgs['orderBy'] }
+        : { orderBy?: DriverGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, DriverGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetDriverGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Driver model
+   */
+  readonly fields: DriverFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Driver.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__DriverClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    shipments<T extends Driver$shipmentsArgs<ExtArgs> = {}>(args?: Subset<T, Driver$shipmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShipmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Driver model
+   */
+  interface DriverFieldRefs {
+    readonly id: FieldRef<"Driver", 'String'>
+    readonly tenantId: FieldRef<"Driver", 'String'>
+    readonly name: FieldRef<"Driver", 'String'>
+    readonly licenseNo: FieldRef<"Driver", 'String'>
+    readonly active: FieldRef<"Driver", 'Boolean'>
+    readonly createdAt: FieldRef<"Driver", 'DateTime'>
+    readonly updatedAt: FieldRef<"Driver", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Driver findUnique
+   */
+  export type DriverFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Driver
+     */
+    select?: DriverSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Driver
+     */
+    omit?: DriverOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DriverInclude<ExtArgs> | null
+    /**
+     * Filter, which Driver to fetch.
+     */
+    where: DriverWhereUniqueInput
+  }
+
+  /**
+   * Driver findUniqueOrThrow
+   */
+  export type DriverFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Driver
+     */
+    select?: DriverSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Driver
+     */
+    omit?: DriverOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DriverInclude<ExtArgs> | null
+    /**
+     * Filter, which Driver to fetch.
+     */
+    where: DriverWhereUniqueInput
+  }
+
+  /**
+   * Driver findFirst
+   */
+  export type DriverFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Driver
+     */
+    select?: DriverSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Driver
+     */
+    omit?: DriverOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DriverInclude<ExtArgs> | null
+    /**
+     * Filter, which Driver to fetch.
+     */
+    where?: DriverWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Drivers to fetch.
+     */
+    orderBy?: DriverOrderByWithRelationInput | DriverOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Drivers.
+     */
+    cursor?: DriverWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Drivers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Drivers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Drivers.
+     */
+    distinct?: DriverScalarFieldEnum | DriverScalarFieldEnum[]
+  }
+
+  /**
+   * Driver findFirstOrThrow
+   */
+  export type DriverFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Driver
+     */
+    select?: DriverSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Driver
+     */
+    omit?: DriverOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DriverInclude<ExtArgs> | null
+    /**
+     * Filter, which Driver to fetch.
+     */
+    where?: DriverWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Drivers to fetch.
+     */
+    orderBy?: DriverOrderByWithRelationInput | DriverOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Drivers.
+     */
+    cursor?: DriverWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Drivers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Drivers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Drivers.
+     */
+    distinct?: DriverScalarFieldEnum | DriverScalarFieldEnum[]
+  }
+
+  /**
+   * Driver findMany
+   */
+  export type DriverFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Driver
+     */
+    select?: DriverSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Driver
+     */
+    omit?: DriverOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DriverInclude<ExtArgs> | null
+    /**
+     * Filter, which Drivers to fetch.
+     */
+    where?: DriverWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Drivers to fetch.
+     */
+    orderBy?: DriverOrderByWithRelationInput | DriverOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Drivers.
+     */
+    cursor?: DriverWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Drivers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Drivers.
+     */
+    skip?: number
+    distinct?: DriverScalarFieldEnum | DriverScalarFieldEnum[]
+  }
+
+  /**
+   * Driver create
+   */
+  export type DriverCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Driver
+     */
+    select?: DriverSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Driver
+     */
+    omit?: DriverOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DriverInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Driver.
+     */
+    data: XOR<DriverCreateInput, DriverUncheckedCreateInput>
+  }
+
+  /**
+   * Driver createMany
+   */
+  export type DriverCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Drivers.
+     */
+    data: DriverCreateManyInput | DriverCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Driver createManyAndReturn
+   */
+  export type DriverCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Driver
+     */
+    select?: DriverSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Driver
+     */
+    omit?: DriverOmit<ExtArgs> | null
+    /**
+     * The data used to create many Drivers.
+     */
+    data: DriverCreateManyInput | DriverCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DriverIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Driver update
+   */
+  export type DriverUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Driver
+     */
+    select?: DriverSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Driver
+     */
+    omit?: DriverOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DriverInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Driver.
+     */
+    data: XOR<DriverUpdateInput, DriverUncheckedUpdateInput>
+    /**
+     * Choose, which Driver to update.
+     */
+    where: DriverWhereUniqueInput
+  }
+
+  /**
+   * Driver updateMany
+   */
+  export type DriverUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Drivers.
+     */
+    data: XOR<DriverUpdateManyMutationInput, DriverUncheckedUpdateManyInput>
+    /**
+     * Filter which Drivers to update
+     */
+    where?: DriverWhereInput
+    /**
+     * Limit how many Drivers to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Driver updateManyAndReturn
+   */
+  export type DriverUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Driver
+     */
+    select?: DriverSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Driver
+     */
+    omit?: DriverOmit<ExtArgs> | null
+    /**
+     * The data used to update Drivers.
+     */
+    data: XOR<DriverUpdateManyMutationInput, DriverUncheckedUpdateManyInput>
+    /**
+     * Filter which Drivers to update
+     */
+    where?: DriverWhereInput
+    /**
+     * Limit how many Drivers to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DriverIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Driver upsert
+   */
+  export type DriverUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Driver
+     */
+    select?: DriverSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Driver
+     */
+    omit?: DriverOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DriverInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Driver to update in case it exists.
+     */
+    where: DriverWhereUniqueInput
+    /**
+     * In case the Driver found by the `where` argument doesn't exist, create a new Driver with this data.
+     */
+    create: XOR<DriverCreateInput, DriverUncheckedCreateInput>
+    /**
+     * In case the Driver was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<DriverUpdateInput, DriverUncheckedUpdateInput>
+  }
+
+  /**
+   * Driver delete
+   */
+  export type DriverDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Driver
+     */
+    select?: DriverSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Driver
+     */
+    omit?: DriverOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DriverInclude<ExtArgs> | null
+    /**
+     * Filter which Driver to delete.
+     */
+    where: DriverWhereUniqueInput
+  }
+
+  /**
+   * Driver deleteMany
+   */
+  export type DriverDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Drivers to delete
+     */
+    where?: DriverWhereInput
+    /**
+     * Limit how many Drivers to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Driver.shipments
+   */
+  export type Driver$shipmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Shipment
+     */
+    select?: ShipmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Shipment
+     */
+    omit?: ShipmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShipmentInclude<ExtArgs> | null
+    where?: ShipmentWhereInput
+    orderBy?: ShipmentOrderByWithRelationInput | ShipmentOrderByWithRelationInput[]
+    cursor?: ShipmentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ShipmentScalarFieldEnum | ShipmentScalarFieldEnum[]
+  }
+
+  /**
+   * Driver without action
+   */
+  export type DriverDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Driver
+     */
+    select?: DriverSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Driver
+     */
+    omit?: DriverOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DriverInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Shipment
+   */
+
+  export type AggregateShipment = {
+    _count: ShipmentCountAggregateOutputType | null
+    _avg: ShipmentAvgAggregateOutputType | null
+    _sum: ShipmentSumAggregateOutputType | null
+    _min: ShipmentMinAggregateOutputType | null
+    _max: ShipmentMaxAggregateOutputType | null
+  }
+
+  export type ShipmentAvgAggregateOutputType = {
+    freightCost: Decimal | null
+  }
+
+  export type ShipmentSumAggregateOutputType = {
+    freightCost: Decimal | null
+  }
+
+  export type ShipmentMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    shipmentNumber: string | null
+    carrierKey: string | null
+    vehicleId: string | null
+    driverId: string | null
+    status: string | null
+    plannedAt: Date | null
+    deliveredAt: Date | null
+    freightCost: Decimal | null
+    currency: string | null
+    podName: string | null
+    podSignatureHash: string | null
+    notes: string | null
+    createdBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ShipmentMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    shipmentNumber: string | null
+    carrierKey: string | null
+    vehicleId: string | null
+    driverId: string | null
+    status: string | null
+    plannedAt: Date | null
+    deliveredAt: Date | null
+    freightCost: Decimal | null
+    currency: string | null
+    podName: string | null
+    podSignatureHash: string | null
+    notes: string | null
+    createdBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ShipmentCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    shipmentNumber: number
+    carrierKey: number
+    vehicleId: number
+    driverId: number
+    status: number
+    plannedAt: number
+    deliveredAt: number
+    freightCost: number
+    currency: number
+    podName: number
+    podSignatureHash: number
+    notes: number
+    createdBy: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type ShipmentAvgAggregateInputType = {
+    freightCost?: true
+  }
+
+  export type ShipmentSumAggregateInputType = {
+    freightCost?: true
+  }
+
+  export type ShipmentMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    shipmentNumber?: true
+    carrierKey?: true
+    vehicleId?: true
+    driverId?: true
+    status?: true
+    plannedAt?: true
+    deliveredAt?: true
+    freightCost?: true
+    currency?: true
+    podName?: true
+    podSignatureHash?: true
+    notes?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ShipmentMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    shipmentNumber?: true
+    carrierKey?: true
+    vehicleId?: true
+    driverId?: true
+    status?: true
+    plannedAt?: true
+    deliveredAt?: true
+    freightCost?: true
+    currency?: true
+    podName?: true
+    podSignatureHash?: true
+    notes?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ShipmentCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    shipmentNumber?: true
+    carrierKey?: true
+    vehicleId?: true
+    driverId?: true
+    status?: true
+    plannedAt?: true
+    deliveredAt?: true
+    freightCost?: true
+    currency?: true
+    podName?: true
+    podSignatureHash?: true
+    notes?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type ShipmentAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Shipment to aggregate.
+     */
+    where?: ShipmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Shipments to fetch.
+     */
+    orderBy?: ShipmentOrderByWithRelationInput | ShipmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ShipmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Shipments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Shipments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Shipments
+    **/
+    _count?: true | ShipmentCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ShipmentAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ShipmentSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ShipmentMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ShipmentMaxAggregateInputType
+  }
+
+  export type GetShipmentAggregateType<T extends ShipmentAggregateArgs> = {
+        [P in keyof T & keyof AggregateShipment]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateShipment[P]>
+      : GetScalarType<T[P], AggregateShipment[P]>
+  }
+
+
+
+
+  export type ShipmentGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ShipmentWhereInput
+    orderBy?: ShipmentOrderByWithAggregationInput | ShipmentOrderByWithAggregationInput[]
+    by: ShipmentScalarFieldEnum[] | ShipmentScalarFieldEnum
+    having?: ShipmentScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ShipmentCountAggregateInputType | true
+    _avg?: ShipmentAvgAggregateInputType
+    _sum?: ShipmentSumAggregateInputType
+    _min?: ShipmentMinAggregateInputType
+    _max?: ShipmentMaxAggregateInputType
+  }
+
+  export type ShipmentGroupByOutputType = {
+    id: string
+    tenantId: string
+    shipmentNumber: string
+    carrierKey: string | null
+    vehicleId: string | null
+    driverId: string | null
+    status: string
+    plannedAt: Date | null
+    deliveredAt: Date | null
+    freightCost: Decimal | null
+    currency: string | null
+    podName: string | null
+    podSignatureHash: string | null
+    notes: string | null
+    createdBy: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: ShipmentCountAggregateOutputType | null
+    _avg: ShipmentAvgAggregateOutputType | null
+    _sum: ShipmentSumAggregateOutputType | null
+    _min: ShipmentMinAggregateOutputType | null
+    _max: ShipmentMaxAggregateOutputType | null
+  }
+
+  type GetShipmentGroupByPayload<T extends ShipmentGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ShipmentGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ShipmentGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ShipmentGroupByOutputType[P]>
+            : GetScalarType<T[P], ShipmentGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ShipmentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    shipmentNumber?: boolean
+    carrierKey?: boolean
+    vehicleId?: boolean
+    driverId?: boolean
+    status?: boolean
+    plannedAt?: boolean
+    deliveredAt?: boolean
+    freightCost?: boolean
+    currency?: boolean
+    podName?: boolean
+    podSignatureHash?: boolean
+    notes?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    vehicle?: boolean | Shipment$vehicleArgs<ExtArgs>
+    driver?: boolean | Shipment$driverArgs<ExtArgs>
+    stops?: boolean | Shipment$stopsArgs<ExtArgs>
+    _count?: boolean | ShipmentCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["shipment"]>
+
+  export type ShipmentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    shipmentNumber?: boolean
+    carrierKey?: boolean
+    vehicleId?: boolean
+    driverId?: boolean
+    status?: boolean
+    plannedAt?: boolean
+    deliveredAt?: boolean
+    freightCost?: boolean
+    currency?: boolean
+    podName?: boolean
+    podSignatureHash?: boolean
+    notes?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    vehicle?: boolean | Shipment$vehicleArgs<ExtArgs>
+    driver?: boolean | Shipment$driverArgs<ExtArgs>
+  }, ExtArgs["result"]["shipment"]>
+
+  export type ShipmentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    shipmentNumber?: boolean
+    carrierKey?: boolean
+    vehicleId?: boolean
+    driverId?: boolean
+    status?: boolean
+    plannedAt?: boolean
+    deliveredAt?: boolean
+    freightCost?: boolean
+    currency?: boolean
+    podName?: boolean
+    podSignatureHash?: boolean
+    notes?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    vehicle?: boolean | Shipment$vehicleArgs<ExtArgs>
+    driver?: boolean | Shipment$driverArgs<ExtArgs>
+  }, ExtArgs["result"]["shipment"]>
+
+  export type ShipmentSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    shipmentNumber?: boolean
+    carrierKey?: boolean
+    vehicleId?: boolean
+    driverId?: boolean
+    status?: boolean
+    plannedAt?: boolean
+    deliveredAt?: boolean
+    freightCost?: boolean
+    currency?: boolean
+    podName?: boolean
+    podSignatureHash?: boolean
+    notes?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type ShipmentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "shipmentNumber" | "carrierKey" | "vehicleId" | "driverId" | "status" | "plannedAt" | "deliveredAt" | "freightCost" | "currency" | "podName" | "podSignatureHash" | "notes" | "createdBy" | "createdAt" | "updatedAt", ExtArgs["result"]["shipment"]>
+  export type ShipmentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    vehicle?: boolean | Shipment$vehicleArgs<ExtArgs>
+    driver?: boolean | Shipment$driverArgs<ExtArgs>
+    stops?: boolean | Shipment$stopsArgs<ExtArgs>
+    _count?: boolean | ShipmentCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type ShipmentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    vehicle?: boolean | Shipment$vehicleArgs<ExtArgs>
+    driver?: boolean | Shipment$driverArgs<ExtArgs>
+  }
+  export type ShipmentIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    vehicle?: boolean | Shipment$vehicleArgs<ExtArgs>
+    driver?: boolean | Shipment$driverArgs<ExtArgs>
+  }
+
+  export type $ShipmentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Shipment"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+      vehicle: Prisma.$VehiclePayload<ExtArgs> | null
+      driver: Prisma.$DriverPayload<ExtArgs> | null
+      stops: Prisma.$ShipmentStopPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      shipmentNumber: string
+      carrierKey: string | null
+      vehicleId: string | null
+      driverId: string | null
+      status: string
+      plannedAt: Date | null
+      deliveredAt: Date | null
+      freightCost: Prisma.Decimal | null
+      currency: string | null
+      podName: string | null
+      podSignatureHash: string | null
+      notes: string | null
+      createdBy: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["shipment"]>
+    composites: {}
+  }
+
+  type ShipmentGetPayload<S extends boolean | null | undefined | ShipmentDefaultArgs> = $Result.GetResult<Prisma.$ShipmentPayload, S>
+
+  type ShipmentCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ShipmentFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ShipmentCountAggregateInputType | true
+    }
+
+  export interface ShipmentDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Shipment'], meta: { name: 'Shipment' } }
+    /**
+     * Find zero or one Shipment that matches the filter.
+     * @param {ShipmentFindUniqueArgs} args - Arguments to find a Shipment
+     * @example
+     * // Get one Shipment
+     * const shipment = await prisma.shipment.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ShipmentFindUniqueArgs>(args: SelectSubset<T, ShipmentFindUniqueArgs<ExtArgs>>): Prisma__ShipmentClient<$Result.GetResult<Prisma.$ShipmentPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Shipment that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ShipmentFindUniqueOrThrowArgs} args - Arguments to find a Shipment
+     * @example
+     * // Get one Shipment
+     * const shipment = await prisma.shipment.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ShipmentFindUniqueOrThrowArgs>(args: SelectSubset<T, ShipmentFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ShipmentClient<$Result.GetResult<Prisma.$ShipmentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Shipment that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShipmentFindFirstArgs} args - Arguments to find a Shipment
+     * @example
+     * // Get one Shipment
+     * const shipment = await prisma.shipment.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ShipmentFindFirstArgs>(args?: SelectSubset<T, ShipmentFindFirstArgs<ExtArgs>>): Prisma__ShipmentClient<$Result.GetResult<Prisma.$ShipmentPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Shipment that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShipmentFindFirstOrThrowArgs} args - Arguments to find a Shipment
+     * @example
+     * // Get one Shipment
+     * const shipment = await prisma.shipment.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ShipmentFindFirstOrThrowArgs>(args?: SelectSubset<T, ShipmentFindFirstOrThrowArgs<ExtArgs>>): Prisma__ShipmentClient<$Result.GetResult<Prisma.$ShipmentPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Shipments that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShipmentFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Shipments
+     * const shipments = await prisma.shipment.findMany()
+     * 
+     * // Get first 10 Shipments
+     * const shipments = await prisma.shipment.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const shipmentWithIdOnly = await prisma.shipment.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ShipmentFindManyArgs>(args?: SelectSubset<T, ShipmentFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShipmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Shipment.
+     * @param {ShipmentCreateArgs} args - Arguments to create a Shipment.
+     * @example
+     * // Create one Shipment
+     * const Shipment = await prisma.shipment.create({
+     *   data: {
+     *     // ... data to create a Shipment
+     *   }
+     * })
+     * 
+     */
+    create<T extends ShipmentCreateArgs>(args: SelectSubset<T, ShipmentCreateArgs<ExtArgs>>): Prisma__ShipmentClient<$Result.GetResult<Prisma.$ShipmentPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Shipments.
+     * @param {ShipmentCreateManyArgs} args - Arguments to create many Shipments.
+     * @example
+     * // Create many Shipments
+     * const shipment = await prisma.shipment.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ShipmentCreateManyArgs>(args?: SelectSubset<T, ShipmentCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Shipments and returns the data saved in the database.
+     * @param {ShipmentCreateManyAndReturnArgs} args - Arguments to create many Shipments.
+     * @example
+     * // Create many Shipments
+     * const shipment = await prisma.shipment.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Shipments and only return the `id`
+     * const shipmentWithIdOnly = await prisma.shipment.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ShipmentCreateManyAndReturnArgs>(args?: SelectSubset<T, ShipmentCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShipmentPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Shipment.
+     * @param {ShipmentDeleteArgs} args - Arguments to delete one Shipment.
+     * @example
+     * // Delete one Shipment
+     * const Shipment = await prisma.shipment.delete({
+     *   where: {
+     *     // ... filter to delete one Shipment
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ShipmentDeleteArgs>(args: SelectSubset<T, ShipmentDeleteArgs<ExtArgs>>): Prisma__ShipmentClient<$Result.GetResult<Prisma.$ShipmentPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Shipment.
+     * @param {ShipmentUpdateArgs} args - Arguments to update one Shipment.
+     * @example
+     * // Update one Shipment
+     * const shipment = await prisma.shipment.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ShipmentUpdateArgs>(args: SelectSubset<T, ShipmentUpdateArgs<ExtArgs>>): Prisma__ShipmentClient<$Result.GetResult<Prisma.$ShipmentPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Shipments.
+     * @param {ShipmentDeleteManyArgs} args - Arguments to filter Shipments to delete.
+     * @example
+     * // Delete a few Shipments
+     * const { count } = await prisma.shipment.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ShipmentDeleteManyArgs>(args?: SelectSubset<T, ShipmentDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Shipments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShipmentUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Shipments
+     * const shipment = await prisma.shipment.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ShipmentUpdateManyArgs>(args: SelectSubset<T, ShipmentUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Shipments and returns the data updated in the database.
+     * @param {ShipmentUpdateManyAndReturnArgs} args - Arguments to update many Shipments.
+     * @example
+     * // Update many Shipments
+     * const shipment = await prisma.shipment.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Shipments and only return the `id`
+     * const shipmentWithIdOnly = await prisma.shipment.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ShipmentUpdateManyAndReturnArgs>(args: SelectSubset<T, ShipmentUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShipmentPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Shipment.
+     * @param {ShipmentUpsertArgs} args - Arguments to update or create a Shipment.
+     * @example
+     * // Update or create a Shipment
+     * const shipment = await prisma.shipment.upsert({
+     *   create: {
+     *     // ... data to create a Shipment
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Shipment we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ShipmentUpsertArgs>(args: SelectSubset<T, ShipmentUpsertArgs<ExtArgs>>): Prisma__ShipmentClient<$Result.GetResult<Prisma.$ShipmentPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Shipments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShipmentCountArgs} args - Arguments to filter Shipments to count.
+     * @example
+     * // Count the number of Shipments
+     * const count = await prisma.shipment.count({
+     *   where: {
+     *     // ... the filter for the Shipments we want to count
+     *   }
+     * })
+    **/
+    count<T extends ShipmentCountArgs>(
+      args?: Subset<T, ShipmentCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ShipmentCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Shipment.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShipmentAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ShipmentAggregateArgs>(args: Subset<T, ShipmentAggregateArgs>): Prisma.PrismaPromise<GetShipmentAggregateType<T>>
+
+    /**
+     * Group by Shipment.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShipmentGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ShipmentGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ShipmentGroupByArgs['orderBy'] }
+        : { orderBy?: ShipmentGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ShipmentGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetShipmentGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Shipment model
+   */
+  readonly fields: ShipmentFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Shipment.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ShipmentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    vehicle<T extends Shipment$vehicleArgs<ExtArgs> = {}>(args?: Subset<T, Shipment$vehicleArgs<ExtArgs>>): Prisma__VehicleClient<$Result.GetResult<Prisma.$VehiclePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    driver<T extends Shipment$driverArgs<ExtArgs> = {}>(args?: Subset<T, Shipment$driverArgs<ExtArgs>>): Prisma__DriverClient<$Result.GetResult<Prisma.$DriverPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    stops<T extends Shipment$stopsArgs<ExtArgs> = {}>(args?: Subset<T, Shipment$stopsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShipmentStopPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Shipment model
+   */
+  interface ShipmentFieldRefs {
+    readonly id: FieldRef<"Shipment", 'String'>
+    readonly tenantId: FieldRef<"Shipment", 'String'>
+    readonly shipmentNumber: FieldRef<"Shipment", 'String'>
+    readonly carrierKey: FieldRef<"Shipment", 'String'>
+    readonly vehicleId: FieldRef<"Shipment", 'String'>
+    readonly driverId: FieldRef<"Shipment", 'String'>
+    readonly status: FieldRef<"Shipment", 'String'>
+    readonly plannedAt: FieldRef<"Shipment", 'DateTime'>
+    readonly deliveredAt: FieldRef<"Shipment", 'DateTime'>
+    readonly freightCost: FieldRef<"Shipment", 'Decimal'>
+    readonly currency: FieldRef<"Shipment", 'String'>
+    readonly podName: FieldRef<"Shipment", 'String'>
+    readonly podSignatureHash: FieldRef<"Shipment", 'String'>
+    readonly notes: FieldRef<"Shipment", 'String'>
+    readonly createdBy: FieldRef<"Shipment", 'String'>
+    readonly createdAt: FieldRef<"Shipment", 'DateTime'>
+    readonly updatedAt: FieldRef<"Shipment", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Shipment findUnique
+   */
+  export type ShipmentFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Shipment
+     */
+    select?: ShipmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Shipment
+     */
+    omit?: ShipmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShipmentInclude<ExtArgs> | null
+    /**
+     * Filter, which Shipment to fetch.
+     */
+    where: ShipmentWhereUniqueInput
+  }
+
+  /**
+   * Shipment findUniqueOrThrow
+   */
+  export type ShipmentFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Shipment
+     */
+    select?: ShipmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Shipment
+     */
+    omit?: ShipmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShipmentInclude<ExtArgs> | null
+    /**
+     * Filter, which Shipment to fetch.
+     */
+    where: ShipmentWhereUniqueInput
+  }
+
+  /**
+   * Shipment findFirst
+   */
+  export type ShipmentFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Shipment
+     */
+    select?: ShipmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Shipment
+     */
+    omit?: ShipmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShipmentInclude<ExtArgs> | null
+    /**
+     * Filter, which Shipment to fetch.
+     */
+    where?: ShipmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Shipments to fetch.
+     */
+    orderBy?: ShipmentOrderByWithRelationInput | ShipmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Shipments.
+     */
+    cursor?: ShipmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Shipments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Shipments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Shipments.
+     */
+    distinct?: ShipmentScalarFieldEnum | ShipmentScalarFieldEnum[]
+  }
+
+  /**
+   * Shipment findFirstOrThrow
+   */
+  export type ShipmentFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Shipment
+     */
+    select?: ShipmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Shipment
+     */
+    omit?: ShipmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShipmentInclude<ExtArgs> | null
+    /**
+     * Filter, which Shipment to fetch.
+     */
+    where?: ShipmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Shipments to fetch.
+     */
+    orderBy?: ShipmentOrderByWithRelationInput | ShipmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Shipments.
+     */
+    cursor?: ShipmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Shipments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Shipments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Shipments.
+     */
+    distinct?: ShipmentScalarFieldEnum | ShipmentScalarFieldEnum[]
+  }
+
+  /**
+   * Shipment findMany
+   */
+  export type ShipmentFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Shipment
+     */
+    select?: ShipmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Shipment
+     */
+    omit?: ShipmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShipmentInclude<ExtArgs> | null
+    /**
+     * Filter, which Shipments to fetch.
+     */
+    where?: ShipmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Shipments to fetch.
+     */
+    orderBy?: ShipmentOrderByWithRelationInput | ShipmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Shipments.
+     */
+    cursor?: ShipmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Shipments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Shipments.
+     */
+    skip?: number
+    distinct?: ShipmentScalarFieldEnum | ShipmentScalarFieldEnum[]
+  }
+
+  /**
+   * Shipment create
+   */
+  export type ShipmentCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Shipment
+     */
+    select?: ShipmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Shipment
+     */
+    omit?: ShipmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShipmentInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Shipment.
+     */
+    data: XOR<ShipmentCreateInput, ShipmentUncheckedCreateInput>
+  }
+
+  /**
+   * Shipment createMany
+   */
+  export type ShipmentCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Shipments.
+     */
+    data: ShipmentCreateManyInput | ShipmentCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Shipment createManyAndReturn
+   */
+  export type ShipmentCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Shipment
+     */
+    select?: ShipmentSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Shipment
+     */
+    omit?: ShipmentOmit<ExtArgs> | null
+    /**
+     * The data used to create many Shipments.
+     */
+    data: ShipmentCreateManyInput | ShipmentCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShipmentIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Shipment update
+   */
+  export type ShipmentUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Shipment
+     */
+    select?: ShipmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Shipment
+     */
+    omit?: ShipmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShipmentInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Shipment.
+     */
+    data: XOR<ShipmentUpdateInput, ShipmentUncheckedUpdateInput>
+    /**
+     * Choose, which Shipment to update.
+     */
+    where: ShipmentWhereUniqueInput
+  }
+
+  /**
+   * Shipment updateMany
+   */
+  export type ShipmentUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Shipments.
+     */
+    data: XOR<ShipmentUpdateManyMutationInput, ShipmentUncheckedUpdateManyInput>
+    /**
+     * Filter which Shipments to update
+     */
+    where?: ShipmentWhereInput
+    /**
+     * Limit how many Shipments to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Shipment updateManyAndReturn
+   */
+  export type ShipmentUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Shipment
+     */
+    select?: ShipmentSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Shipment
+     */
+    omit?: ShipmentOmit<ExtArgs> | null
+    /**
+     * The data used to update Shipments.
+     */
+    data: XOR<ShipmentUpdateManyMutationInput, ShipmentUncheckedUpdateManyInput>
+    /**
+     * Filter which Shipments to update
+     */
+    where?: ShipmentWhereInput
+    /**
+     * Limit how many Shipments to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShipmentIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Shipment upsert
+   */
+  export type ShipmentUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Shipment
+     */
+    select?: ShipmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Shipment
+     */
+    omit?: ShipmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShipmentInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Shipment to update in case it exists.
+     */
+    where: ShipmentWhereUniqueInput
+    /**
+     * In case the Shipment found by the `where` argument doesn't exist, create a new Shipment with this data.
+     */
+    create: XOR<ShipmentCreateInput, ShipmentUncheckedCreateInput>
+    /**
+     * In case the Shipment was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ShipmentUpdateInput, ShipmentUncheckedUpdateInput>
+  }
+
+  /**
+   * Shipment delete
+   */
+  export type ShipmentDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Shipment
+     */
+    select?: ShipmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Shipment
+     */
+    omit?: ShipmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShipmentInclude<ExtArgs> | null
+    /**
+     * Filter which Shipment to delete.
+     */
+    where: ShipmentWhereUniqueInput
+  }
+
+  /**
+   * Shipment deleteMany
+   */
+  export type ShipmentDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Shipments to delete
+     */
+    where?: ShipmentWhereInput
+    /**
+     * Limit how many Shipments to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Shipment.vehicle
+   */
+  export type Shipment$vehicleArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Vehicle
+     */
+    select?: VehicleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Vehicle
+     */
+    omit?: VehicleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VehicleInclude<ExtArgs> | null
+    where?: VehicleWhereInput
+  }
+
+  /**
+   * Shipment.driver
+   */
+  export type Shipment$driverArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Driver
+     */
+    select?: DriverSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Driver
+     */
+    omit?: DriverOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DriverInclude<ExtArgs> | null
+    where?: DriverWhereInput
+  }
+
+  /**
+   * Shipment.stops
+   */
+  export type Shipment$stopsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShipmentStop
+     */
+    select?: ShipmentStopSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShipmentStop
+     */
+    omit?: ShipmentStopOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShipmentStopInclude<ExtArgs> | null
+    where?: ShipmentStopWhereInput
+    orderBy?: ShipmentStopOrderByWithRelationInput | ShipmentStopOrderByWithRelationInput[]
+    cursor?: ShipmentStopWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ShipmentStopScalarFieldEnum | ShipmentStopScalarFieldEnum[]
+  }
+
+  /**
+   * Shipment without action
+   */
+  export type ShipmentDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Shipment
+     */
+    select?: ShipmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Shipment
+     */
+    omit?: ShipmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShipmentInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ShipmentStop
+   */
+
+  export type AggregateShipmentStop = {
+    _count: ShipmentStopCountAggregateOutputType | null
+    _avg: ShipmentStopAvgAggregateOutputType | null
+    _sum: ShipmentStopSumAggregateOutputType | null
+    _min: ShipmentStopMinAggregateOutputType | null
+    _max: ShipmentStopMaxAggregateOutputType | null
+  }
+
+  export type ShipmentStopAvgAggregateOutputType = {
+    seq: number | null
+  }
+
+  export type ShipmentStopSumAggregateOutputType = {
+    seq: number | null
+  }
+
+  export type ShipmentStopMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    shipmentId: string | null
+    seq: number | null
+    address: string | null
+    orderId: string | null
+    status: string | null
+    note: string | null
+    arrivedAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ShipmentStopMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    shipmentId: string | null
+    seq: number | null
+    address: string | null
+    orderId: string | null
+    status: string | null
+    note: string | null
+    arrivedAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ShipmentStopCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    shipmentId: number
+    seq: number
+    address: number
+    orderId: number
+    status: number
+    note: number
+    arrivedAt: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type ShipmentStopAvgAggregateInputType = {
+    seq?: true
+  }
+
+  export type ShipmentStopSumAggregateInputType = {
+    seq?: true
+  }
+
+  export type ShipmentStopMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    shipmentId?: true
+    seq?: true
+    address?: true
+    orderId?: true
+    status?: true
+    note?: true
+    arrivedAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ShipmentStopMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    shipmentId?: true
+    seq?: true
+    address?: true
+    orderId?: true
+    status?: true
+    note?: true
+    arrivedAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ShipmentStopCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    shipmentId?: true
+    seq?: true
+    address?: true
+    orderId?: true
+    status?: true
+    note?: true
+    arrivedAt?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type ShipmentStopAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ShipmentStop to aggregate.
+     */
+    where?: ShipmentStopWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ShipmentStops to fetch.
+     */
+    orderBy?: ShipmentStopOrderByWithRelationInput | ShipmentStopOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ShipmentStopWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ShipmentStops from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ShipmentStops.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ShipmentStops
+    **/
+    _count?: true | ShipmentStopCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ShipmentStopAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ShipmentStopSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ShipmentStopMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ShipmentStopMaxAggregateInputType
+  }
+
+  export type GetShipmentStopAggregateType<T extends ShipmentStopAggregateArgs> = {
+        [P in keyof T & keyof AggregateShipmentStop]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateShipmentStop[P]>
+      : GetScalarType<T[P], AggregateShipmentStop[P]>
+  }
+
+
+
+
+  export type ShipmentStopGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ShipmentStopWhereInput
+    orderBy?: ShipmentStopOrderByWithAggregationInput | ShipmentStopOrderByWithAggregationInput[]
+    by: ShipmentStopScalarFieldEnum[] | ShipmentStopScalarFieldEnum
+    having?: ShipmentStopScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ShipmentStopCountAggregateInputType | true
+    _avg?: ShipmentStopAvgAggregateInputType
+    _sum?: ShipmentStopSumAggregateInputType
+    _min?: ShipmentStopMinAggregateInputType
+    _max?: ShipmentStopMaxAggregateInputType
+  }
+
+  export type ShipmentStopGroupByOutputType = {
+    id: string
+    tenantId: string
+    shipmentId: string
+    seq: number
+    address: string
+    orderId: string | null
+    status: string
+    note: string | null
+    arrivedAt: Date | null
+    createdAt: Date
+    updatedAt: Date
+    _count: ShipmentStopCountAggregateOutputType | null
+    _avg: ShipmentStopAvgAggregateOutputType | null
+    _sum: ShipmentStopSumAggregateOutputType | null
+    _min: ShipmentStopMinAggregateOutputType | null
+    _max: ShipmentStopMaxAggregateOutputType | null
+  }
+
+  type GetShipmentStopGroupByPayload<T extends ShipmentStopGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ShipmentStopGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ShipmentStopGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ShipmentStopGroupByOutputType[P]>
+            : GetScalarType<T[P], ShipmentStopGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ShipmentStopSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    shipmentId?: boolean
+    seq?: boolean
+    address?: boolean
+    orderId?: boolean
+    status?: boolean
+    note?: boolean
+    arrivedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    shipment?: boolean | ShipmentDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["shipmentStop"]>
+
+  export type ShipmentStopSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    shipmentId?: boolean
+    seq?: boolean
+    address?: boolean
+    orderId?: boolean
+    status?: boolean
+    note?: boolean
+    arrivedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    shipment?: boolean | ShipmentDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["shipmentStop"]>
+
+  export type ShipmentStopSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    shipmentId?: boolean
+    seq?: boolean
+    address?: boolean
+    orderId?: boolean
+    status?: boolean
+    note?: boolean
+    arrivedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    shipment?: boolean | ShipmentDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["shipmentStop"]>
+
+  export type ShipmentStopSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    shipmentId?: boolean
+    seq?: boolean
+    address?: boolean
+    orderId?: boolean
+    status?: boolean
+    note?: boolean
+    arrivedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type ShipmentStopOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "shipmentId" | "seq" | "address" | "orderId" | "status" | "note" | "arrivedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["shipmentStop"]>
+  export type ShipmentStopInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    shipment?: boolean | ShipmentDefaultArgs<ExtArgs>
+  }
+  export type ShipmentStopIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    shipment?: boolean | ShipmentDefaultArgs<ExtArgs>
+  }
+  export type ShipmentStopIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    shipment?: boolean | ShipmentDefaultArgs<ExtArgs>
+  }
+
+  export type $ShipmentStopPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ShipmentStop"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+      shipment: Prisma.$ShipmentPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      shipmentId: string
+      seq: number
+      address: string
+      orderId: string | null
+      status: string
+      note: string | null
+      arrivedAt: Date | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["shipmentStop"]>
+    composites: {}
+  }
+
+  type ShipmentStopGetPayload<S extends boolean | null | undefined | ShipmentStopDefaultArgs> = $Result.GetResult<Prisma.$ShipmentStopPayload, S>
+
+  type ShipmentStopCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ShipmentStopFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ShipmentStopCountAggregateInputType | true
+    }
+
+  export interface ShipmentStopDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ShipmentStop'], meta: { name: 'ShipmentStop' } }
+    /**
+     * Find zero or one ShipmentStop that matches the filter.
+     * @param {ShipmentStopFindUniqueArgs} args - Arguments to find a ShipmentStop
+     * @example
+     * // Get one ShipmentStop
+     * const shipmentStop = await prisma.shipmentStop.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ShipmentStopFindUniqueArgs>(args: SelectSubset<T, ShipmentStopFindUniqueArgs<ExtArgs>>): Prisma__ShipmentStopClient<$Result.GetResult<Prisma.$ShipmentStopPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ShipmentStop that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ShipmentStopFindUniqueOrThrowArgs} args - Arguments to find a ShipmentStop
+     * @example
+     * // Get one ShipmentStop
+     * const shipmentStop = await prisma.shipmentStop.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ShipmentStopFindUniqueOrThrowArgs>(args: SelectSubset<T, ShipmentStopFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ShipmentStopClient<$Result.GetResult<Prisma.$ShipmentStopPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ShipmentStop that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShipmentStopFindFirstArgs} args - Arguments to find a ShipmentStop
+     * @example
+     * // Get one ShipmentStop
+     * const shipmentStop = await prisma.shipmentStop.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ShipmentStopFindFirstArgs>(args?: SelectSubset<T, ShipmentStopFindFirstArgs<ExtArgs>>): Prisma__ShipmentStopClient<$Result.GetResult<Prisma.$ShipmentStopPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ShipmentStop that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShipmentStopFindFirstOrThrowArgs} args - Arguments to find a ShipmentStop
+     * @example
+     * // Get one ShipmentStop
+     * const shipmentStop = await prisma.shipmentStop.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ShipmentStopFindFirstOrThrowArgs>(args?: SelectSubset<T, ShipmentStopFindFirstOrThrowArgs<ExtArgs>>): Prisma__ShipmentStopClient<$Result.GetResult<Prisma.$ShipmentStopPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ShipmentStops that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShipmentStopFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ShipmentStops
+     * const shipmentStops = await prisma.shipmentStop.findMany()
+     * 
+     * // Get first 10 ShipmentStops
+     * const shipmentStops = await prisma.shipmentStop.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const shipmentStopWithIdOnly = await prisma.shipmentStop.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ShipmentStopFindManyArgs>(args?: SelectSubset<T, ShipmentStopFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShipmentStopPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ShipmentStop.
+     * @param {ShipmentStopCreateArgs} args - Arguments to create a ShipmentStop.
+     * @example
+     * // Create one ShipmentStop
+     * const ShipmentStop = await prisma.shipmentStop.create({
+     *   data: {
+     *     // ... data to create a ShipmentStop
+     *   }
+     * })
+     * 
+     */
+    create<T extends ShipmentStopCreateArgs>(args: SelectSubset<T, ShipmentStopCreateArgs<ExtArgs>>): Prisma__ShipmentStopClient<$Result.GetResult<Prisma.$ShipmentStopPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ShipmentStops.
+     * @param {ShipmentStopCreateManyArgs} args - Arguments to create many ShipmentStops.
+     * @example
+     * // Create many ShipmentStops
+     * const shipmentStop = await prisma.shipmentStop.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ShipmentStopCreateManyArgs>(args?: SelectSubset<T, ShipmentStopCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ShipmentStops and returns the data saved in the database.
+     * @param {ShipmentStopCreateManyAndReturnArgs} args - Arguments to create many ShipmentStops.
+     * @example
+     * // Create many ShipmentStops
+     * const shipmentStop = await prisma.shipmentStop.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ShipmentStops and only return the `id`
+     * const shipmentStopWithIdOnly = await prisma.shipmentStop.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ShipmentStopCreateManyAndReturnArgs>(args?: SelectSubset<T, ShipmentStopCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShipmentStopPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ShipmentStop.
+     * @param {ShipmentStopDeleteArgs} args - Arguments to delete one ShipmentStop.
+     * @example
+     * // Delete one ShipmentStop
+     * const ShipmentStop = await prisma.shipmentStop.delete({
+     *   where: {
+     *     // ... filter to delete one ShipmentStop
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ShipmentStopDeleteArgs>(args: SelectSubset<T, ShipmentStopDeleteArgs<ExtArgs>>): Prisma__ShipmentStopClient<$Result.GetResult<Prisma.$ShipmentStopPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ShipmentStop.
+     * @param {ShipmentStopUpdateArgs} args - Arguments to update one ShipmentStop.
+     * @example
+     * // Update one ShipmentStop
+     * const shipmentStop = await prisma.shipmentStop.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ShipmentStopUpdateArgs>(args: SelectSubset<T, ShipmentStopUpdateArgs<ExtArgs>>): Prisma__ShipmentStopClient<$Result.GetResult<Prisma.$ShipmentStopPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ShipmentStops.
+     * @param {ShipmentStopDeleteManyArgs} args - Arguments to filter ShipmentStops to delete.
+     * @example
+     * // Delete a few ShipmentStops
+     * const { count } = await prisma.shipmentStop.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ShipmentStopDeleteManyArgs>(args?: SelectSubset<T, ShipmentStopDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ShipmentStops.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShipmentStopUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ShipmentStops
+     * const shipmentStop = await prisma.shipmentStop.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ShipmentStopUpdateManyArgs>(args: SelectSubset<T, ShipmentStopUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ShipmentStops and returns the data updated in the database.
+     * @param {ShipmentStopUpdateManyAndReturnArgs} args - Arguments to update many ShipmentStops.
+     * @example
+     * // Update many ShipmentStops
+     * const shipmentStop = await prisma.shipmentStop.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ShipmentStops and only return the `id`
+     * const shipmentStopWithIdOnly = await prisma.shipmentStop.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ShipmentStopUpdateManyAndReturnArgs>(args: SelectSubset<T, ShipmentStopUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShipmentStopPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ShipmentStop.
+     * @param {ShipmentStopUpsertArgs} args - Arguments to update or create a ShipmentStop.
+     * @example
+     * // Update or create a ShipmentStop
+     * const shipmentStop = await prisma.shipmentStop.upsert({
+     *   create: {
+     *     // ... data to create a ShipmentStop
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ShipmentStop we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ShipmentStopUpsertArgs>(args: SelectSubset<T, ShipmentStopUpsertArgs<ExtArgs>>): Prisma__ShipmentStopClient<$Result.GetResult<Prisma.$ShipmentStopPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ShipmentStops.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShipmentStopCountArgs} args - Arguments to filter ShipmentStops to count.
+     * @example
+     * // Count the number of ShipmentStops
+     * const count = await prisma.shipmentStop.count({
+     *   where: {
+     *     // ... the filter for the ShipmentStops we want to count
+     *   }
+     * })
+    **/
+    count<T extends ShipmentStopCountArgs>(
+      args?: Subset<T, ShipmentStopCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ShipmentStopCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ShipmentStop.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShipmentStopAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ShipmentStopAggregateArgs>(args: Subset<T, ShipmentStopAggregateArgs>): Prisma.PrismaPromise<GetShipmentStopAggregateType<T>>
+
+    /**
+     * Group by ShipmentStop.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShipmentStopGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ShipmentStopGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ShipmentStopGroupByArgs['orderBy'] }
+        : { orderBy?: ShipmentStopGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ShipmentStopGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetShipmentStopGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ShipmentStop model
+   */
+  readonly fields: ShipmentStopFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ShipmentStop.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ShipmentStopClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    shipment<T extends ShipmentDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ShipmentDefaultArgs<ExtArgs>>): Prisma__ShipmentClient<$Result.GetResult<Prisma.$ShipmentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ShipmentStop model
+   */
+  interface ShipmentStopFieldRefs {
+    readonly id: FieldRef<"ShipmentStop", 'String'>
+    readonly tenantId: FieldRef<"ShipmentStop", 'String'>
+    readonly shipmentId: FieldRef<"ShipmentStop", 'String'>
+    readonly seq: FieldRef<"ShipmentStop", 'Int'>
+    readonly address: FieldRef<"ShipmentStop", 'String'>
+    readonly orderId: FieldRef<"ShipmentStop", 'String'>
+    readonly status: FieldRef<"ShipmentStop", 'String'>
+    readonly note: FieldRef<"ShipmentStop", 'String'>
+    readonly arrivedAt: FieldRef<"ShipmentStop", 'DateTime'>
+    readonly createdAt: FieldRef<"ShipmentStop", 'DateTime'>
+    readonly updatedAt: FieldRef<"ShipmentStop", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ShipmentStop findUnique
+   */
+  export type ShipmentStopFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShipmentStop
+     */
+    select?: ShipmentStopSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShipmentStop
+     */
+    omit?: ShipmentStopOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShipmentStopInclude<ExtArgs> | null
+    /**
+     * Filter, which ShipmentStop to fetch.
+     */
+    where: ShipmentStopWhereUniqueInput
+  }
+
+  /**
+   * ShipmentStop findUniqueOrThrow
+   */
+  export type ShipmentStopFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShipmentStop
+     */
+    select?: ShipmentStopSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShipmentStop
+     */
+    omit?: ShipmentStopOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShipmentStopInclude<ExtArgs> | null
+    /**
+     * Filter, which ShipmentStop to fetch.
+     */
+    where: ShipmentStopWhereUniqueInput
+  }
+
+  /**
+   * ShipmentStop findFirst
+   */
+  export type ShipmentStopFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShipmentStop
+     */
+    select?: ShipmentStopSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShipmentStop
+     */
+    omit?: ShipmentStopOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShipmentStopInclude<ExtArgs> | null
+    /**
+     * Filter, which ShipmentStop to fetch.
+     */
+    where?: ShipmentStopWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ShipmentStops to fetch.
+     */
+    orderBy?: ShipmentStopOrderByWithRelationInput | ShipmentStopOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ShipmentStops.
+     */
+    cursor?: ShipmentStopWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ShipmentStops from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ShipmentStops.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ShipmentStops.
+     */
+    distinct?: ShipmentStopScalarFieldEnum | ShipmentStopScalarFieldEnum[]
+  }
+
+  /**
+   * ShipmentStop findFirstOrThrow
+   */
+  export type ShipmentStopFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShipmentStop
+     */
+    select?: ShipmentStopSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShipmentStop
+     */
+    omit?: ShipmentStopOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShipmentStopInclude<ExtArgs> | null
+    /**
+     * Filter, which ShipmentStop to fetch.
+     */
+    where?: ShipmentStopWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ShipmentStops to fetch.
+     */
+    orderBy?: ShipmentStopOrderByWithRelationInput | ShipmentStopOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ShipmentStops.
+     */
+    cursor?: ShipmentStopWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ShipmentStops from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ShipmentStops.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ShipmentStops.
+     */
+    distinct?: ShipmentStopScalarFieldEnum | ShipmentStopScalarFieldEnum[]
+  }
+
+  /**
+   * ShipmentStop findMany
+   */
+  export type ShipmentStopFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShipmentStop
+     */
+    select?: ShipmentStopSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShipmentStop
+     */
+    omit?: ShipmentStopOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShipmentStopInclude<ExtArgs> | null
+    /**
+     * Filter, which ShipmentStops to fetch.
+     */
+    where?: ShipmentStopWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ShipmentStops to fetch.
+     */
+    orderBy?: ShipmentStopOrderByWithRelationInput | ShipmentStopOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ShipmentStops.
+     */
+    cursor?: ShipmentStopWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ShipmentStops from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ShipmentStops.
+     */
+    skip?: number
+    distinct?: ShipmentStopScalarFieldEnum | ShipmentStopScalarFieldEnum[]
+  }
+
+  /**
+   * ShipmentStop create
+   */
+  export type ShipmentStopCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShipmentStop
+     */
+    select?: ShipmentStopSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShipmentStop
+     */
+    omit?: ShipmentStopOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShipmentStopInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ShipmentStop.
+     */
+    data: XOR<ShipmentStopCreateInput, ShipmentStopUncheckedCreateInput>
+  }
+
+  /**
+   * ShipmentStop createMany
+   */
+  export type ShipmentStopCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ShipmentStops.
+     */
+    data: ShipmentStopCreateManyInput | ShipmentStopCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ShipmentStop createManyAndReturn
+   */
+  export type ShipmentStopCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShipmentStop
+     */
+    select?: ShipmentStopSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShipmentStop
+     */
+    omit?: ShipmentStopOmit<ExtArgs> | null
+    /**
+     * The data used to create many ShipmentStops.
+     */
+    data: ShipmentStopCreateManyInput | ShipmentStopCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShipmentStopIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ShipmentStop update
+   */
+  export type ShipmentStopUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShipmentStop
+     */
+    select?: ShipmentStopSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShipmentStop
+     */
+    omit?: ShipmentStopOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShipmentStopInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ShipmentStop.
+     */
+    data: XOR<ShipmentStopUpdateInput, ShipmentStopUncheckedUpdateInput>
+    /**
+     * Choose, which ShipmentStop to update.
+     */
+    where: ShipmentStopWhereUniqueInput
+  }
+
+  /**
+   * ShipmentStop updateMany
+   */
+  export type ShipmentStopUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ShipmentStops.
+     */
+    data: XOR<ShipmentStopUpdateManyMutationInput, ShipmentStopUncheckedUpdateManyInput>
+    /**
+     * Filter which ShipmentStops to update
+     */
+    where?: ShipmentStopWhereInput
+    /**
+     * Limit how many ShipmentStops to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ShipmentStop updateManyAndReturn
+   */
+  export type ShipmentStopUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShipmentStop
+     */
+    select?: ShipmentStopSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShipmentStop
+     */
+    omit?: ShipmentStopOmit<ExtArgs> | null
+    /**
+     * The data used to update ShipmentStops.
+     */
+    data: XOR<ShipmentStopUpdateManyMutationInput, ShipmentStopUncheckedUpdateManyInput>
+    /**
+     * Filter which ShipmentStops to update
+     */
+    where?: ShipmentStopWhereInput
+    /**
+     * Limit how many ShipmentStops to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShipmentStopIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ShipmentStop upsert
+   */
+  export type ShipmentStopUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShipmentStop
+     */
+    select?: ShipmentStopSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShipmentStop
+     */
+    omit?: ShipmentStopOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShipmentStopInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ShipmentStop to update in case it exists.
+     */
+    where: ShipmentStopWhereUniqueInput
+    /**
+     * In case the ShipmentStop found by the `where` argument doesn't exist, create a new ShipmentStop with this data.
+     */
+    create: XOR<ShipmentStopCreateInput, ShipmentStopUncheckedCreateInput>
+    /**
+     * In case the ShipmentStop was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ShipmentStopUpdateInput, ShipmentStopUncheckedUpdateInput>
+  }
+
+  /**
+   * ShipmentStop delete
+   */
+  export type ShipmentStopDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShipmentStop
+     */
+    select?: ShipmentStopSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShipmentStop
+     */
+    omit?: ShipmentStopOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShipmentStopInclude<ExtArgs> | null
+    /**
+     * Filter which ShipmentStop to delete.
+     */
+    where: ShipmentStopWhereUniqueInput
+  }
+
+  /**
+   * ShipmentStop deleteMany
+   */
+  export type ShipmentStopDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ShipmentStops to delete
+     */
+    where?: ShipmentStopWhereInput
+    /**
+     * Limit how many ShipmentStops to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ShipmentStop without action
+   */
+  export type ShipmentStopDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShipmentStop
+     */
+    select?: ShipmentStopSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShipmentStop
+     */
+    omit?: ShipmentStopOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShipmentStopInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model DockAppointment
+   */
+
+  export type AggregateDockAppointment = {
+    _count: DockAppointmentCountAggregateOutputType | null
+    _avg: DockAppointmentAvgAggregateOutputType | null
+    _sum: DockAppointmentSumAggregateOutputType | null
+    _min: DockAppointmentMinAggregateOutputType | null
+    _max: DockAppointmentMaxAggregateOutputType | null
+  }
+
+  export type DockAppointmentAvgAggregateOutputType = {
+    durationMin: number | null
+  }
+
+  export type DockAppointmentSumAggregateOutputType = {
+    durationMin: number | null
+  }
+
+  export type DockAppointmentMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    warehouseId: string | null
+    dockCode: string | null
+    scheduledAt: Date | null
+    durationMin: number | null
+    reference: string | null
+    status: string | null
+    createdBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type DockAppointmentMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    warehouseId: string | null
+    dockCode: string | null
+    scheduledAt: Date | null
+    durationMin: number | null
+    reference: string | null
+    status: string | null
+    createdBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type DockAppointmentCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    warehouseId: number
+    dockCode: number
+    scheduledAt: number
+    durationMin: number
+    reference: number
+    status: number
+    createdBy: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type DockAppointmentAvgAggregateInputType = {
+    durationMin?: true
+  }
+
+  export type DockAppointmentSumAggregateInputType = {
+    durationMin?: true
+  }
+
+  export type DockAppointmentMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    warehouseId?: true
+    dockCode?: true
+    scheduledAt?: true
+    durationMin?: true
+    reference?: true
+    status?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type DockAppointmentMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    warehouseId?: true
+    dockCode?: true
+    scheduledAt?: true
+    durationMin?: true
+    reference?: true
+    status?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type DockAppointmentCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    warehouseId?: true
+    dockCode?: true
+    scheduledAt?: true
+    durationMin?: true
+    reference?: true
+    status?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type DockAppointmentAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which DockAppointment to aggregate.
+     */
+    where?: DockAppointmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DockAppointments to fetch.
+     */
+    orderBy?: DockAppointmentOrderByWithRelationInput | DockAppointmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: DockAppointmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DockAppointments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DockAppointments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned DockAppointments
+    **/
+    _count?: true | DockAppointmentCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: DockAppointmentAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: DockAppointmentSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: DockAppointmentMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: DockAppointmentMaxAggregateInputType
+  }
+
+  export type GetDockAppointmentAggregateType<T extends DockAppointmentAggregateArgs> = {
+        [P in keyof T & keyof AggregateDockAppointment]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateDockAppointment[P]>
+      : GetScalarType<T[P], AggregateDockAppointment[P]>
+  }
+
+
+
+
+  export type DockAppointmentGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DockAppointmentWhereInput
+    orderBy?: DockAppointmentOrderByWithAggregationInput | DockAppointmentOrderByWithAggregationInput[]
+    by: DockAppointmentScalarFieldEnum[] | DockAppointmentScalarFieldEnum
+    having?: DockAppointmentScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: DockAppointmentCountAggregateInputType | true
+    _avg?: DockAppointmentAvgAggregateInputType
+    _sum?: DockAppointmentSumAggregateInputType
+    _min?: DockAppointmentMinAggregateInputType
+    _max?: DockAppointmentMaxAggregateInputType
+  }
+
+  export type DockAppointmentGroupByOutputType = {
+    id: string
+    tenantId: string
+    warehouseId: string
+    dockCode: string
+    scheduledAt: Date
+    durationMin: number
+    reference: string | null
+    status: string
+    createdBy: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: DockAppointmentCountAggregateOutputType | null
+    _avg: DockAppointmentAvgAggregateOutputType | null
+    _sum: DockAppointmentSumAggregateOutputType | null
+    _min: DockAppointmentMinAggregateOutputType | null
+    _max: DockAppointmentMaxAggregateOutputType | null
+  }
+
+  type GetDockAppointmentGroupByPayload<T extends DockAppointmentGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<DockAppointmentGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof DockAppointmentGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], DockAppointmentGroupByOutputType[P]>
+            : GetScalarType<T[P], DockAppointmentGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type DockAppointmentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    warehouseId?: boolean
+    dockCode?: boolean
+    scheduledAt?: boolean
+    durationMin?: boolean
+    reference?: boolean
+    status?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    warehouse?: boolean | WarehouseDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["dockAppointment"]>
+
+  export type DockAppointmentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    warehouseId?: boolean
+    dockCode?: boolean
+    scheduledAt?: boolean
+    durationMin?: boolean
+    reference?: boolean
+    status?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    warehouse?: boolean | WarehouseDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["dockAppointment"]>
+
+  export type DockAppointmentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    warehouseId?: boolean
+    dockCode?: boolean
+    scheduledAt?: boolean
+    durationMin?: boolean
+    reference?: boolean
+    status?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    warehouse?: boolean | WarehouseDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["dockAppointment"]>
+
+  export type DockAppointmentSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    warehouseId?: boolean
+    dockCode?: boolean
+    scheduledAt?: boolean
+    durationMin?: boolean
+    reference?: boolean
+    status?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type DockAppointmentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "warehouseId" | "dockCode" | "scheduledAt" | "durationMin" | "reference" | "status" | "createdBy" | "createdAt" | "updatedAt", ExtArgs["result"]["dockAppointment"]>
+  export type DockAppointmentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    warehouse?: boolean | WarehouseDefaultArgs<ExtArgs>
+  }
+  export type DockAppointmentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    warehouse?: boolean | WarehouseDefaultArgs<ExtArgs>
+  }
+  export type DockAppointmentIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    warehouse?: boolean | WarehouseDefaultArgs<ExtArgs>
+  }
+
+  export type $DockAppointmentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "DockAppointment"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+      warehouse: Prisma.$WarehousePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      warehouseId: string
+      dockCode: string
+      scheduledAt: Date
+      durationMin: number
+      reference: string | null
+      status: string
+      createdBy: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["dockAppointment"]>
+    composites: {}
+  }
+
+  type DockAppointmentGetPayload<S extends boolean | null | undefined | DockAppointmentDefaultArgs> = $Result.GetResult<Prisma.$DockAppointmentPayload, S>
+
+  type DockAppointmentCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<DockAppointmentFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: DockAppointmentCountAggregateInputType | true
+    }
+
+  export interface DockAppointmentDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['DockAppointment'], meta: { name: 'DockAppointment' } }
+    /**
+     * Find zero or one DockAppointment that matches the filter.
+     * @param {DockAppointmentFindUniqueArgs} args - Arguments to find a DockAppointment
+     * @example
+     * // Get one DockAppointment
+     * const dockAppointment = await prisma.dockAppointment.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends DockAppointmentFindUniqueArgs>(args: SelectSubset<T, DockAppointmentFindUniqueArgs<ExtArgs>>): Prisma__DockAppointmentClient<$Result.GetResult<Prisma.$DockAppointmentPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one DockAppointment that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {DockAppointmentFindUniqueOrThrowArgs} args - Arguments to find a DockAppointment
+     * @example
+     * // Get one DockAppointment
+     * const dockAppointment = await prisma.dockAppointment.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends DockAppointmentFindUniqueOrThrowArgs>(args: SelectSubset<T, DockAppointmentFindUniqueOrThrowArgs<ExtArgs>>): Prisma__DockAppointmentClient<$Result.GetResult<Prisma.$DockAppointmentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first DockAppointment that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DockAppointmentFindFirstArgs} args - Arguments to find a DockAppointment
+     * @example
+     * // Get one DockAppointment
+     * const dockAppointment = await prisma.dockAppointment.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends DockAppointmentFindFirstArgs>(args?: SelectSubset<T, DockAppointmentFindFirstArgs<ExtArgs>>): Prisma__DockAppointmentClient<$Result.GetResult<Prisma.$DockAppointmentPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first DockAppointment that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DockAppointmentFindFirstOrThrowArgs} args - Arguments to find a DockAppointment
+     * @example
+     * // Get one DockAppointment
+     * const dockAppointment = await prisma.dockAppointment.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends DockAppointmentFindFirstOrThrowArgs>(args?: SelectSubset<T, DockAppointmentFindFirstOrThrowArgs<ExtArgs>>): Prisma__DockAppointmentClient<$Result.GetResult<Prisma.$DockAppointmentPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more DockAppointments that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DockAppointmentFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all DockAppointments
+     * const dockAppointments = await prisma.dockAppointment.findMany()
+     * 
+     * // Get first 10 DockAppointments
+     * const dockAppointments = await prisma.dockAppointment.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const dockAppointmentWithIdOnly = await prisma.dockAppointment.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends DockAppointmentFindManyArgs>(args?: SelectSubset<T, DockAppointmentFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DockAppointmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a DockAppointment.
+     * @param {DockAppointmentCreateArgs} args - Arguments to create a DockAppointment.
+     * @example
+     * // Create one DockAppointment
+     * const DockAppointment = await prisma.dockAppointment.create({
+     *   data: {
+     *     // ... data to create a DockAppointment
+     *   }
+     * })
+     * 
+     */
+    create<T extends DockAppointmentCreateArgs>(args: SelectSubset<T, DockAppointmentCreateArgs<ExtArgs>>): Prisma__DockAppointmentClient<$Result.GetResult<Prisma.$DockAppointmentPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many DockAppointments.
+     * @param {DockAppointmentCreateManyArgs} args - Arguments to create many DockAppointments.
+     * @example
+     * // Create many DockAppointments
+     * const dockAppointment = await prisma.dockAppointment.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends DockAppointmentCreateManyArgs>(args?: SelectSubset<T, DockAppointmentCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many DockAppointments and returns the data saved in the database.
+     * @param {DockAppointmentCreateManyAndReturnArgs} args - Arguments to create many DockAppointments.
+     * @example
+     * // Create many DockAppointments
+     * const dockAppointment = await prisma.dockAppointment.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many DockAppointments and only return the `id`
+     * const dockAppointmentWithIdOnly = await prisma.dockAppointment.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends DockAppointmentCreateManyAndReturnArgs>(args?: SelectSubset<T, DockAppointmentCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DockAppointmentPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a DockAppointment.
+     * @param {DockAppointmentDeleteArgs} args - Arguments to delete one DockAppointment.
+     * @example
+     * // Delete one DockAppointment
+     * const DockAppointment = await prisma.dockAppointment.delete({
+     *   where: {
+     *     // ... filter to delete one DockAppointment
+     *   }
+     * })
+     * 
+     */
+    delete<T extends DockAppointmentDeleteArgs>(args: SelectSubset<T, DockAppointmentDeleteArgs<ExtArgs>>): Prisma__DockAppointmentClient<$Result.GetResult<Prisma.$DockAppointmentPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one DockAppointment.
+     * @param {DockAppointmentUpdateArgs} args - Arguments to update one DockAppointment.
+     * @example
+     * // Update one DockAppointment
+     * const dockAppointment = await prisma.dockAppointment.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends DockAppointmentUpdateArgs>(args: SelectSubset<T, DockAppointmentUpdateArgs<ExtArgs>>): Prisma__DockAppointmentClient<$Result.GetResult<Prisma.$DockAppointmentPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more DockAppointments.
+     * @param {DockAppointmentDeleteManyArgs} args - Arguments to filter DockAppointments to delete.
+     * @example
+     * // Delete a few DockAppointments
+     * const { count } = await prisma.dockAppointment.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends DockAppointmentDeleteManyArgs>(args?: SelectSubset<T, DockAppointmentDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more DockAppointments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DockAppointmentUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many DockAppointments
+     * const dockAppointment = await prisma.dockAppointment.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends DockAppointmentUpdateManyArgs>(args: SelectSubset<T, DockAppointmentUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more DockAppointments and returns the data updated in the database.
+     * @param {DockAppointmentUpdateManyAndReturnArgs} args - Arguments to update many DockAppointments.
+     * @example
+     * // Update many DockAppointments
+     * const dockAppointment = await prisma.dockAppointment.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more DockAppointments and only return the `id`
+     * const dockAppointmentWithIdOnly = await prisma.dockAppointment.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends DockAppointmentUpdateManyAndReturnArgs>(args: SelectSubset<T, DockAppointmentUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DockAppointmentPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one DockAppointment.
+     * @param {DockAppointmentUpsertArgs} args - Arguments to update or create a DockAppointment.
+     * @example
+     * // Update or create a DockAppointment
+     * const dockAppointment = await prisma.dockAppointment.upsert({
+     *   create: {
+     *     // ... data to create a DockAppointment
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the DockAppointment we want to update
+     *   }
+     * })
+     */
+    upsert<T extends DockAppointmentUpsertArgs>(args: SelectSubset<T, DockAppointmentUpsertArgs<ExtArgs>>): Prisma__DockAppointmentClient<$Result.GetResult<Prisma.$DockAppointmentPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of DockAppointments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DockAppointmentCountArgs} args - Arguments to filter DockAppointments to count.
+     * @example
+     * // Count the number of DockAppointments
+     * const count = await prisma.dockAppointment.count({
+     *   where: {
+     *     // ... the filter for the DockAppointments we want to count
+     *   }
+     * })
+    **/
+    count<T extends DockAppointmentCountArgs>(
+      args?: Subset<T, DockAppointmentCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], DockAppointmentCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a DockAppointment.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DockAppointmentAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends DockAppointmentAggregateArgs>(args: Subset<T, DockAppointmentAggregateArgs>): Prisma.PrismaPromise<GetDockAppointmentAggregateType<T>>
+
+    /**
+     * Group by DockAppointment.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DockAppointmentGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends DockAppointmentGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: DockAppointmentGroupByArgs['orderBy'] }
+        : { orderBy?: DockAppointmentGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, DockAppointmentGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetDockAppointmentGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the DockAppointment model
+   */
+  readonly fields: DockAppointmentFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for DockAppointment.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__DockAppointmentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    warehouse<T extends WarehouseDefaultArgs<ExtArgs> = {}>(args?: Subset<T, WarehouseDefaultArgs<ExtArgs>>): Prisma__WarehouseClient<$Result.GetResult<Prisma.$WarehousePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the DockAppointment model
+   */
+  interface DockAppointmentFieldRefs {
+    readonly id: FieldRef<"DockAppointment", 'String'>
+    readonly tenantId: FieldRef<"DockAppointment", 'String'>
+    readonly warehouseId: FieldRef<"DockAppointment", 'String'>
+    readonly dockCode: FieldRef<"DockAppointment", 'String'>
+    readonly scheduledAt: FieldRef<"DockAppointment", 'DateTime'>
+    readonly durationMin: FieldRef<"DockAppointment", 'Int'>
+    readonly reference: FieldRef<"DockAppointment", 'String'>
+    readonly status: FieldRef<"DockAppointment", 'String'>
+    readonly createdBy: FieldRef<"DockAppointment", 'String'>
+    readonly createdAt: FieldRef<"DockAppointment", 'DateTime'>
+    readonly updatedAt: FieldRef<"DockAppointment", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * DockAppointment findUnique
+   */
+  export type DockAppointmentFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DockAppointment
+     */
+    select?: DockAppointmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DockAppointment
+     */
+    omit?: DockAppointmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DockAppointmentInclude<ExtArgs> | null
+    /**
+     * Filter, which DockAppointment to fetch.
+     */
+    where: DockAppointmentWhereUniqueInput
+  }
+
+  /**
+   * DockAppointment findUniqueOrThrow
+   */
+  export type DockAppointmentFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DockAppointment
+     */
+    select?: DockAppointmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DockAppointment
+     */
+    omit?: DockAppointmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DockAppointmentInclude<ExtArgs> | null
+    /**
+     * Filter, which DockAppointment to fetch.
+     */
+    where: DockAppointmentWhereUniqueInput
+  }
+
+  /**
+   * DockAppointment findFirst
+   */
+  export type DockAppointmentFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DockAppointment
+     */
+    select?: DockAppointmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DockAppointment
+     */
+    omit?: DockAppointmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DockAppointmentInclude<ExtArgs> | null
+    /**
+     * Filter, which DockAppointment to fetch.
+     */
+    where?: DockAppointmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DockAppointments to fetch.
+     */
+    orderBy?: DockAppointmentOrderByWithRelationInput | DockAppointmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DockAppointments.
+     */
+    cursor?: DockAppointmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DockAppointments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DockAppointments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DockAppointments.
+     */
+    distinct?: DockAppointmentScalarFieldEnum | DockAppointmentScalarFieldEnum[]
+  }
+
+  /**
+   * DockAppointment findFirstOrThrow
+   */
+  export type DockAppointmentFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DockAppointment
+     */
+    select?: DockAppointmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DockAppointment
+     */
+    omit?: DockAppointmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DockAppointmentInclude<ExtArgs> | null
+    /**
+     * Filter, which DockAppointment to fetch.
+     */
+    where?: DockAppointmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DockAppointments to fetch.
+     */
+    orderBy?: DockAppointmentOrderByWithRelationInput | DockAppointmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DockAppointments.
+     */
+    cursor?: DockAppointmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DockAppointments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DockAppointments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DockAppointments.
+     */
+    distinct?: DockAppointmentScalarFieldEnum | DockAppointmentScalarFieldEnum[]
+  }
+
+  /**
+   * DockAppointment findMany
+   */
+  export type DockAppointmentFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DockAppointment
+     */
+    select?: DockAppointmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DockAppointment
+     */
+    omit?: DockAppointmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DockAppointmentInclude<ExtArgs> | null
+    /**
+     * Filter, which DockAppointments to fetch.
+     */
+    where?: DockAppointmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DockAppointments to fetch.
+     */
+    orderBy?: DockAppointmentOrderByWithRelationInput | DockAppointmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing DockAppointments.
+     */
+    cursor?: DockAppointmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DockAppointments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DockAppointments.
+     */
+    skip?: number
+    distinct?: DockAppointmentScalarFieldEnum | DockAppointmentScalarFieldEnum[]
+  }
+
+  /**
+   * DockAppointment create
+   */
+  export type DockAppointmentCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DockAppointment
+     */
+    select?: DockAppointmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DockAppointment
+     */
+    omit?: DockAppointmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DockAppointmentInclude<ExtArgs> | null
+    /**
+     * The data needed to create a DockAppointment.
+     */
+    data: XOR<DockAppointmentCreateInput, DockAppointmentUncheckedCreateInput>
+  }
+
+  /**
+   * DockAppointment createMany
+   */
+  export type DockAppointmentCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many DockAppointments.
+     */
+    data: DockAppointmentCreateManyInput | DockAppointmentCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * DockAppointment createManyAndReturn
+   */
+  export type DockAppointmentCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DockAppointment
+     */
+    select?: DockAppointmentSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the DockAppointment
+     */
+    omit?: DockAppointmentOmit<ExtArgs> | null
+    /**
+     * The data used to create many DockAppointments.
+     */
+    data: DockAppointmentCreateManyInput | DockAppointmentCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DockAppointmentIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * DockAppointment update
+   */
+  export type DockAppointmentUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DockAppointment
+     */
+    select?: DockAppointmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DockAppointment
+     */
+    omit?: DockAppointmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DockAppointmentInclude<ExtArgs> | null
+    /**
+     * The data needed to update a DockAppointment.
+     */
+    data: XOR<DockAppointmentUpdateInput, DockAppointmentUncheckedUpdateInput>
+    /**
+     * Choose, which DockAppointment to update.
+     */
+    where: DockAppointmentWhereUniqueInput
+  }
+
+  /**
+   * DockAppointment updateMany
+   */
+  export type DockAppointmentUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update DockAppointments.
+     */
+    data: XOR<DockAppointmentUpdateManyMutationInput, DockAppointmentUncheckedUpdateManyInput>
+    /**
+     * Filter which DockAppointments to update
+     */
+    where?: DockAppointmentWhereInput
+    /**
+     * Limit how many DockAppointments to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * DockAppointment updateManyAndReturn
+   */
+  export type DockAppointmentUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DockAppointment
+     */
+    select?: DockAppointmentSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the DockAppointment
+     */
+    omit?: DockAppointmentOmit<ExtArgs> | null
+    /**
+     * The data used to update DockAppointments.
+     */
+    data: XOR<DockAppointmentUpdateManyMutationInput, DockAppointmentUncheckedUpdateManyInput>
+    /**
+     * Filter which DockAppointments to update
+     */
+    where?: DockAppointmentWhereInput
+    /**
+     * Limit how many DockAppointments to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DockAppointmentIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * DockAppointment upsert
+   */
+  export type DockAppointmentUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DockAppointment
+     */
+    select?: DockAppointmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DockAppointment
+     */
+    omit?: DockAppointmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DockAppointmentInclude<ExtArgs> | null
+    /**
+     * The filter to search for the DockAppointment to update in case it exists.
+     */
+    where: DockAppointmentWhereUniqueInput
+    /**
+     * In case the DockAppointment found by the `where` argument doesn't exist, create a new DockAppointment with this data.
+     */
+    create: XOR<DockAppointmentCreateInput, DockAppointmentUncheckedCreateInput>
+    /**
+     * In case the DockAppointment was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<DockAppointmentUpdateInput, DockAppointmentUncheckedUpdateInput>
+  }
+
+  /**
+   * DockAppointment delete
+   */
+  export type DockAppointmentDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DockAppointment
+     */
+    select?: DockAppointmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DockAppointment
+     */
+    omit?: DockAppointmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DockAppointmentInclude<ExtArgs> | null
+    /**
+     * Filter which DockAppointment to delete.
+     */
+    where: DockAppointmentWhereUniqueInput
+  }
+
+  /**
+   * DockAppointment deleteMany
+   */
+  export type DockAppointmentDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which DockAppointments to delete
+     */
+    where?: DockAppointmentWhereInput
+    /**
+     * Limit how many DockAppointments to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * DockAppointment without action
+   */
+  export type DockAppointmentDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DockAppointment
+     */
+    select?: DockAppointmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DockAppointment
+     */
+    omit?: DockAppointmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DockAppointmentInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -162178,6 +168913,90 @@ export namespace Prisma {
   export type PosSessionScalarFieldEnum = (typeof PosSessionScalarFieldEnum)[keyof typeof PosSessionScalarFieldEnum]
 
 
+  export const VehicleScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    plate: 'plate',
+    name: 'name',
+    capacityKg: 'capacityKg',
+    active: 'active',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type VehicleScalarFieldEnum = (typeof VehicleScalarFieldEnum)[keyof typeof VehicleScalarFieldEnum]
+
+
+  export const DriverScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    name: 'name',
+    licenseNo: 'licenseNo',
+    active: 'active',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type DriverScalarFieldEnum = (typeof DriverScalarFieldEnum)[keyof typeof DriverScalarFieldEnum]
+
+
+  export const ShipmentScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    shipmentNumber: 'shipmentNumber',
+    carrierKey: 'carrierKey',
+    vehicleId: 'vehicleId',
+    driverId: 'driverId',
+    status: 'status',
+    plannedAt: 'plannedAt',
+    deliveredAt: 'deliveredAt',
+    freightCost: 'freightCost',
+    currency: 'currency',
+    podName: 'podName',
+    podSignatureHash: 'podSignatureHash',
+    notes: 'notes',
+    createdBy: 'createdBy',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type ShipmentScalarFieldEnum = (typeof ShipmentScalarFieldEnum)[keyof typeof ShipmentScalarFieldEnum]
+
+
+  export const ShipmentStopScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    shipmentId: 'shipmentId',
+    seq: 'seq',
+    address: 'address',
+    orderId: 'orderId',
+    status: 'status',
+    note: 'note',
+    arrivedAt: 'arrivedAt',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type ShipmentStopScalarFieldEnum = (typeof ShipmentStopScalarFieldEnum)[keyof typeof ShipmentStopScalarFieldEnum]
+
+
+  export const DockAppointmentScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    warehouseId: 'warehouseId',
+    dockCode: 'dockCode',
+    scheduledAt: 'scheduledAt',
+    durationMin: 'durationMin',
+    reference: 'reference',
+    status: 'status',
+    createdBy: 'createdBy',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type DockAppointmentScalarFieldEnum = (typeof DockAppointmentScalarFieldEnum)[keyof typeof DockAppointmentScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -163323,6 +170142,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentListRelationFilter
     containers?: ContainerListRelationFilter
     posSessions?: PosSessionListRelationFilter
+    vehicles?: VehicleListRelationFilter
+    drivers?: DriverListRelationFilter
+    shipments?: ShipmentListRelationFilter
+    shipmentStops?: ShipmentStopListRelationFilter
+    dockAppointments?: DockAppointmentListRelationFilter
     frameworkAgreements?: FrameworkAgreementListRelationFilter
   }
 
@@ -163439,6 +170263,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentOrderByRelationAggregateInput
     containers?: ContainerOrderByRelationAggregateInput
     posSessions?: PosSessionOrderByRelationAggregateInput
+    vehicles?: VehicleOrderByRelationAggregateInput
+    drivers?: DriverOrderByRelationAggregateInput
+    shipments?: ShipmentOrderByRelationAggregateInput
+    shipmentStops?: ShipmentStopOrderByRelationAggregateInput
+    dockAppointments?: DockAppointmentOrderByRelationAggregateInput
     frameworkAgreements?: FrameworkAgreementOrderByRelationAggregateInput
   }
 
@@ -163558,6 +170387,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentListRelationFilter
     containers?: ContainerListRelationFilter
     posSessions?: PosSessionListRelationFilter
+    vehicles?: VehicleListRelationFilter
+    drivers?: DriverListRelationFilter
+    shipments?: ShipmentListRelationFilter
+    shipmentStops?: ShipmentStopListRelationFilter
+    dockAppointments?: DockAppointmentListRelationFilter
     frameworkAgreements?: FrameworkAgreementListRelationFilter
   }, "id" | "slug">
 
@@ -166057,6 +172891,7 @@ export namespace Prisma {
     name?: StringFilter<"Warehouse"> | string
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
     locations?: WarehouseLocationListRelationFilter
+    dockAppointments?: DockAppointmentListRelationFilter
   }
 
   export type WarehouseOrderByWithRelationInput = {
@@ -166066,6 +172901,7 @@ export namespace Prisma {
     name?: SortOrder
     tenant?: TenantOrderByWithRelationInput
     locations?: WarehouseLocationOrderByRelationAggregateInput
+    dockAppointments?: DockAppointmentOrderByRelationAggregateInput
   }
 
   export type WarehouseWhereUniqueInput = Prisma.AtLeast<{
@@ -166079,6 +172915,7 @@ export namespace Prisma {
     name?: StringFilter<"Warehouse"> | string
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
     locations?: WarehouseLocationListRelationFilter
+    dockAppointments?: DockAppointmentListRelationFilter
   }, "id" | "tenantId_code">
 
   export type WarehouseOrderByWithAggregationInput = {
@@ -173335,6 +180172,458 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"PosSession"> | Date | string
   }
 
+  export type VehicleWhereInput = {
+    AND?: VehicleWhereInput | VehicleWhereInput[]
+    OR?: VehicleWhereInput[]
+    NOT?: VehicleWhereInput | VehicleWhereInput[]
+    id?: UuidFilter<"Vehicle"> | string
+    tenantId?: UuidFilter<"Vehicle"> | string
+    plate?: StringFilter<"Vehicle"> | string
+    name?: StringFilter<"Vehicle"> | string
+    capacityKg?: DecimalFilter<"Vehicle"> | Decimal | DecimalJsLike | number | string
+    active?: BoolFilter<"Vehicle"> | boolean
+    createdAt?: DateTimeFilter<"Vehicle"> | Date | string
+    updatedAt?: DateTimeFilter<"Vehicle"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    shipments?: ShipmentListRelationFilter
+  }
+
+  export type VehicleOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    plate?: SortOrder
+    name?: SortOrder
+    capacityKg?: SortOrder
+    active?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+    shipments?: ShipmentOrderByRelationAggregateInput
+  }
+
+  export type VehicleWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    tenantId_plate?: VehicleTenantIdPlateCompoundUniqueInput
+    AND?: VehicleWhereInput | VehicleWhereInput[]
+    OR?: VehicleWhereInput[]
+    NOT?: VehicleWhereInput | VehicleWhereInput[]
+    tenantId?: UuidFilter<"Vehicle"> | string
+    plate?: StringFilter<"Vehicle"> | string
+    name?: StringFilter<"Vehicle"> | string
+    capacityKg?: DecimalFilter<"Vehicle"> | Decimal | DecimalJsLike | number | string
+    active?: BoolFilter<"Vehicle"> | boolean
+    createdAt?: DateTimeFilter<"Vehicle"> | Date | string
+    updatedAt?: DateTimeFilter<"Vehicle"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    shipments?: ShipmentListRelationFilter
+  }, "id" | "tenantId_plate">
+
+  export type VehicleOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    plate?: SortOrder
+    name?: SortOrder
+    capacityKg?: SortOrder
+    active?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: VehicleCountOrderByAggregateInput
+    _avg?: VehicleAvgOrderByAggregateInput
+    _max?: VehicleMaxOrderByAggregateInput
+    _min?: VehicleMinOrderByAggregateInput
+    _sum?: VehicleSumOrderByAggregateInput
+  }
+
+  export type VehicleScalarWhereWithAggregatesInput = {
+    AND?: VehicleScalarWhereWithAggregatesInput | VehicleScalarWhereWithAggregatesInput[]
+    OR?: VehicleScalarWhereWithAggregatesInput[]
+    NOT?: VehicleScalarWhereWithAggregatesInput | VehicleScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"Vehicle"> | string
+    tenantId?: UuidWithAggregatesFilter<"Vehicle"> | string
+    plate?: StringWithAggregatesFilter<"Vehicle"> | string
+    name?: StringWithAggregatesFilter<"Vehicle"> | string
+    capacityKg?: DecimalWithAggregatesFilter<"Vehicle"> | Decimal | DecimalJsLike | number | string
+    active?: BoolWithAggregatesFilter<"Vehicle"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"Vehicle"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Vehicle"> | Date | string
+  }
+
+  export type DriverWhereInput = {
+    AND?: DriverWhereInput | DriverWhereInput[]
+    OR?: DriverWhereInput[]
+    NOT?: DriverWhereInput | DriverWhereInput[]
+    id?: UuidFilter<"Driver"> | string
+    tenantId?: UuidFilter<"Driver"> | string
+    name?: StringFilter<"Driver"> | string
+    licenseNo?: StringNullableFilter<"Driver"> | string | null
+    active?: BoolFilter<"Driver"> | boolean
+    createdAt?: DateTimeFilter<"Driver"> | Date | string
+    updatedAt?: DateTimeFilter<"Driver"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    shipments?: ShipmentListRelationFilter
+  }
+
+  export type DriverOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    name?: SortOrder
+    licenseNo?: SortOrderInput | SortOrder
+    active?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+    shipments?: ShipmentOrderByRelationAggregateInput
+  }
+
+  export type DriverWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: DriverWhereInput | DriverWhereInput[]
+    OR?: DriverWhereInput[]
+    NOT?: DriverWhereInput | DriverWhereInput[]
+    tenantId?: UuidFilter<"Driver"> | string
+    name?: StringFilter<"Driver"> | string
+    licenseNo?: StringNullableFilter<"Driver"> | string | null
+    active?: BoolFilter<"Driver"> | boolean
+    createdAt?: DateTimeFilter<"Driver"> | Date | string
+    updatedAt?: DateTimeFilter<"Driver"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    shipments?: ShipmentListRelationFilter
+  }, "id">
+
+  export type DriverOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    name?: SortOrder
+    licenseNo?: SortOrderInput | SortOrder
+    active?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: DriverCountOrderByAggregateInput
+    _max?: DriverMaxOrderByAggregateInput
+    _min?: DriverMinOrderByAggregateInput
+  }
+
+  export type DriverScalarWhereWithAggregatesInput = {
+    AND?: DriverScalarWhereWithAggregatesInput | DriverScalarWhereWithAggregatesInput[]
+    OR?: DriverScalarWhereWithAggregatesInput[]
+    NOT?: DriverScalarWhereWithAggregatesInput | DriverScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"Driver"> | string
+    tenantId?: UuidWithAggregatesFilter<"Driver"> | string
+    name?: StringWithAggregatesFilter<"Driver"> | string
+    licenseNo?: StringNullableWithAggregatesFilter<"Driver"> | string | null
+    active?: BoolWithAggregatesFilter<"Driver"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"Driver"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Driver"> | Date | string
+  }
+
+  export type ShipmentWhereInput = {
+    AND?: ShipmentWhereInput | ShipmentWhereInput[]
+    OR?: ShipmentWhereInput[]
+    NOT?: ShipmentWhereInput | ShipmentWhereInput[]
+    id?: UuidFilter<"Shipment"> | string
+    tenantId?: UuidFilter<"Shipment"> | string
+    shipmentNumber?: StringFilter<"Shipment"> | string
+    carrierKey?: StringNullableFilter<"Shipment"> | string | null
+    vehicleId?: UuidNullableFilter<"Shipment"> | string | null
+    driverId?: UuidNullableFilter<"Shipment"> | string | null
+    status?: StringFilter<"Shipment"> | string
+    plannedAt?: DateTimeNullableFilter<"Shipment"> | Date | string | null
+    deliveredAt?: DateTimeNullableFilter<"Shipment"> | Date | string | null
+    freightCost?: DecimalNullableFilter<"Shipment"> | Decimal | DecimalJsLike | number | string | null
+    currency?: StringNullableFilter<"Shipment"> | string | null
+    podName?: StringNullableFilter<"Shipment"> | string | null
+    podSignatureHash?: StringNullableFilter<"Shipment"> | string | null
+    notes?: StringNullableFilter<"Shipment"> | string | null
+    createdBy?: StringNullableFilter<"Shipment"> | string | null
+    createdAt?: DateTimeFilter<"Shipment"> | Date | string
+    updatedAt?: DateTimeFilter<"Shipment"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    vehicle?: XOR<VehicleNullableScalarRelationFilter, VehicleWhereInput> | null
+    driver?: XOR<DriverNullableScalarRelationFilter, DriverWhereInput> | null
+    stops?: ShipmentStopListRelationFilter
+  }
+
+  export type ShipmentOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    shipmentNumber?: SortOrder
+    carrierKey?: SortOrderInput | SortOrder
+    vehicleId?: SortOrderInput | SortOrder
+    driverId?: SortOrderInput | SortOrder
+    status?: SortOrder
+    plannedAt?: SortOrderInput | SortOrder
+    deliveredAt?: SortOrderInput | SortOrder
+    freightCost?: SortOrderInput | SortOrder
+    currency?: SortOrderInput | SortOrder
+    podName?: SortOrderInput | SortOrder
+    podSignatureHash?: SortOrderInput | SortOrder
+    notes?: SortOrderInput | SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+    vehicle?: VehicleOrderByWithRelationInput
+    driver?: DriverOrderByWithRelationInput
+    stops?: ShipmentStopOrderByRelationAggregateInput
+  }
+
+  export type ShipmentWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    tenantId_shipmentNumber?: ShipmentTenantIdShipmentNumberCompoundUniqueInput
+    AND?: ShipmentWhereInput | ShipmentWhereInput[]
+    OR?: ShipmentWhereInput[]
+    NOT?: ShipmentWhereInput | ShipmentWhereInput[]
+    tenantId?: UuidFilter<"Shipment"> | string
+    shipmentNumber?: StringFilter<"Shipment"> | string
+    carrierKey?: StringNullableFilter<"Shipment"> | string | null
+    vehicleId?: UuidNullableFilter<"Shipment"> | string | null
+    driverId?: UuidNullableFilter<"Shipment"> | string | null
+    status?: StringFilter<"Shipment"> | string
+    plannedAt?: DateTimeNullableFilter<"Shipment"> | Date | string | null
+    deliveredAt?: DateTimeNullableFilter<"Shipment"> | Date | string | null
+    freightCost?: DecimalNullableFilter<"Shipment"> | Decimal | DecimalJsLike | number | string | null
+    currency?: StringNullableFilter<"Shipment"> | string | null
+    podName?: StringNullableFilter<"Shipment"> | string | null
+    podSignatureHash?: StringNullableFilter<"Shipment"> | string | null
+    notes?: StringNullableFilter<"Shipment"> | string | null
+    createdBy?: StringNullableFilter<"Shipment"> | string | null
+    createdAt?: DateTimeFilter<"Shipment"> | Date | string
+    updatedAt?: DateTimeFilter<"Shipment"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    vehicle?: XOR<VehicleNullableScalarRelationFilter, VehicleWhereInput> | null
+    driver?: XOR<DriverNullableScalarRelationFilter, DriverWhereInput> | null
+    stops?: ShipmentStopListRelationFilter
+  }, "id" | "tenantId_shipmentNumber">
+
+  export type ShipmentOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    shipmentNumber?: SortOrder
+    carrierKey?: SortOrderInput | SortOrder
+    vehicleId?: SortOrderInput | SortOrder
+    driverId?: SortOrderInput | SortOrder
+    status?: SortOrder
+    plannedAt?: SortOrderInput | SortOrder
+    deliveredAt?: SortOrderInput | SortOrder
+    freightCost?: SortOrderInput | SortOrder
+    currency?: SortOrderInput | SortOrder
+    podName?: SortOrderInput | SortOrder
+    podSignatureHash?: SortOrderInput | SortOrder
+    notes?: SortOrderInput | SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: ShipmentCountOrderByAggregateInput
+    _avg?: ShipmentAvgOrderByAggregateInput
+    _max?: ShipmentMaxOrderByAggregateInput
+    _min?: ShipmentMinOrderByAggregateInput
+    _sum?: ShipmentSumOrderByAggregateInput
+  }
+
+  export type ShipmentScalarWhereWithAggregatesInput = {
+    AND?: ShipmentScalarWhereWithAggregatesInput | ShipmentScalarWhereWithAggregatesInput[]
+    OR?: ShipmentScalarWhereWithAggregatesInput[]
+    NOT?: ShipmentScalarWhereWithAggregatesInput | ShipmentScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"Shipment"> | string
+    tenantId?: UuidWithAggregatesFilter<"Shipment"> | string
+    shipmentNumber?: StringWithAggregatesFilter<"Shipment"> | string
+    carrierKey?: StringNullableWithAggregatesFilter<"Shipment"> | string | null
+    vehicleId?: UuidNullableWithAggregatesFilter<"Shipment"> | string | null
+    driverId?: UuidNullableWithAggregatesFilter<"Shipment"> | string | null
+    status?: StringWithAggregatesFilter<"Shipment"> | string
+    plannedAt?: DateTimeNullableWithAggregatesFilter<"Shipment"> | Date | string | null
+    deliveredAt?: DateTimeNullableWithAggregatesFilter<"Shipment"> | Date | string | null
+    freightCost?: DecimalNullableWithAggregatesFilter<"Shipment"> | Decimal | DecimalJsLike | number | string | null
+    currency?: StringNullableWithAggregatesFilter<"Shipment"> | string | null
+    podName?: StringNullableWithAggregatesFilter<"Shipment"> | string | null
+    podSignatureHash?: StringNullableWithAggregatesFilter<"Shipment"> | string | null
+    notes?: StringNullableWithAggregatesFilter<"Shipment"> | string | null
+    createdBy?: StringNullableWithAggregatesFilter<"Shipment"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Shipment"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Shipment"> | Date | string
+  }
+
+  export type ShipmentStopWhereInput = {
+    AND?: ShipmentStopWhereInput | ShipmentStopWhereInput[]
+    OR?: ShipmentStopWhereInput[]
+    NOT?: ShipmentStopWhereInput | ShipmentStopWhereInput[]
+    id?: UuidFilter<"ShipmentStop"> | string
+    tenantId?: UuidFilter<"ShipmentStop"> | string
+    shipmentId?: UuidFilter<"ShipmentStop"> | string
+    seq?: IntFilter<"ShipmentStop"> | number
+    address?: StringFilter<"ShipmentStop"> | string
+    orderId?: UuidNullableFilter<"ShipmentStop"> | string | null
+    status?: StringFilter<"ShipmentStop"> | string
+    note?: StringNullableFilter<"ShipmentStop"> | string | null
+    arrivedAt?: DateTimeNullableFilter<"ShipmentStop"> | Date | string | null
+    createdAt?: DateTimeFilter<"ShipmentStop"> | Date | string
+    updatedAt?: DateTimeFilter<"ShipmentStop"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    shipment?: XOR<ShipmentScalarRelationFilter, ShipmentWhereInput>
+  }
+
+  export type ShipmentStopOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    shipmentId?: SortOrder
+    seq?: SortOrder
+    address?: SortOrder
+    orderId?: SortOrderInput | SortOrder
+    status?: SortOrder
+    note?: SortOrderInput | SortOrder
+    arrivedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+    shipment?: ShipmentOrderByWithRelationInput
+  }
+
+  export type ShipmentStopWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    tenantId_shipmentId_seq?: ShipmentStopTenantIdShipmentIdSeqCompoundUniqueInput
+    AND?: ShipmentStopWhereInput | ShipmentStopWhereInput[]
+    OR?: ShipmentStopWhereInput[]
+    NOT?: ShipmentStopWhereInput | ShipmentStopWhereInput[]
+    tenantId?: UuidFilter<"ShipmentStop"> | string
+    shipmentId?: UuidFilter<"ShipmentStop"> | string
+    seq?: IntFilter<"ShipmentStop"> | number
+    address?: StringFilter<"ShipmentStop"> | string
+    orderId?: UuidNullableFilter<"ShipmentStop"> | string | null
+    status?: StringFilter<"ShipmentStop"> | string
+    note?: StringNullableFilter<"ShipmentStop"> | string | null
+    arrivedAt?: DateTimeNullableFilter<"ShipmentStop"> | Date | string | null
+    createdAt?: DateTimeFilter<"ShipmentStop"> | Date | string
+    updatedAt?: DateTimeFilter<"ShipmentStop"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    shipment?: XOR<ShipmentScalarRelationFilter, ShipmentWhereInput>
+  }, "id" | "tenantId_shipmentId_seq">
+
+  export type ShipmentStopOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    shipmentId?: SortOrder
+    seq?: SortOrder
+    address?: SortOrder
+    orderId?: SortOrderInput | SortOrder
+    status?: SortOrder
+    note?: SortOrderInput | SortOrder
+    arrivedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: ShipmentStopCountOrderByAggregateInput
+    _avg?: ShipmentStopAvgOrderByAggregateInput
+    _max?: ShipmentStopMaxOrderByAggregateInput
+    _min?: ShipmentStopMinOrderByAggregateInput
+    _sum?: ShipmentStopSumOrderByAggregateInput
+  }
+
+  export type ShipmentStopScalarWhereWithAggregatesInput = {
+    AND?: ShipmentStopScalarWhereWithAggregatesInput | ShipmentStopScalarWhereWithAggregatesInput[]
+    OR?: ShipmentStopScalarWhereWithAggregatesInput[]
+    NOT?: ShipmentStopScalarWhereWithAggregatesInput | ShipmentStopScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"ShipmentStop"> | string
+    tenantId?: UuidWithAggregatesFilter<"ShipmentStop"> | string
+    shipmentId?: UuidWithAggregatesFilter<"ShipmentStop"> | string
+    seq?: IntWithAggregatesFilter<"ShipmentStop"> | number
+    address?: StringWithAggregatesFilter<"ShipmentStop"> | string
+    orderId?: UuidNullableWithAggregatesFilter<"ShipmentStop"> | string | null
+    status?: StringWithAggregatesFilter<"ShipmentStop"> | string
+    note?: StringNullableWithAggregatesFilter<"ShipmentStop"> | string | null
+    arrivedAt?: DateTimeNullableWithAggregatesFilter<"ShipmentStop"> | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"ShipmentStop"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"ShipmentStop"> | Date | string
+  }
+
+  export type DockAppointmentWhereInput = {
+    AND?: DockAppointmentWhereInput | DockAppointmentWhereInput[]
+    OR?: DockAppointmentWhereInput[]
+    NOT?: DockAppointmentWhereInput | DockAppointmentWhereInput[]
+    id?: UuidFilter<"DockAppointment"> | string
+    tenantId?: UuidFilter<"DockAppointment"> | string
+    warehouseId?: UuidFilter<"DockAppointment"> | string
+    dockCode?: StringFilter<"DockAppointment"> | string
+    scheduledAt?: DateTimeFilter<"DockAppointment"> | Date | string
+    durationMin?: IntFilter<"DockAppointment"> | number
+    reference?: StringNullableFilter<"DockAppointment"> | string | null
+    status?: StringFilter<"DockAppointment"> | string
+    createdBy?: StringNullableFilter<"DockAppointment"> | string | null
+    createdAt?: DateTimeFilter<"DockAppointment"> | Date | string
+    updatedAt?: DateTimeFilter<"DockAppointment"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    warehouse?: XOR<WarehouseScalarRelationFilter, WarehouseWhereInput>
+  }
+
+  export type DockAppointmentOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    warehouseId?: SortOrder
+    dockCode?: SortOrder
+    scheduledAt?: SortOrder
+    durationMin?: SortOrder
+    reference?: SortOrderInput | SortOrder
+    status?: SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+    warehouse?: WarehouseOrderByWithRelationInput
+  }
+
+  export type DockAppointmentWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: DockAppointmentWhereInput | DockAppointmentWhereInput[]
+    OR?: DockAppointmentWhereInput[]
+    NOT?: DockAppointmentWhereInput | DockAppointmentWhereInput[]
+    tenantId?: UuidFilter<"DockAppointment"> | string
+    warehouseId?: UuidFilter<"DockAppointment"> | string
+    dockCode?: StringFilter<"DockAppointment"> | string
+    scheduledAt?: DateTimeFilter<"DockAppointment"> | Date | string
+    durationMin?: IntFilter<"DockAppointment"> | number
+    reference?: StringNullableFilter<"DockAppointment"> | string | null
+    status?: StringFilter<"DockAppointment"> | string
+    createdBy?: StringNullableFilter<"DockAppointment"> | string | null
+    createdAt?: DateTimeFilter<"DockAppointment"> | Date | string
+    updatedAt?: DateTimeFilter<"DockAppointment"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    warehouse?: XOR<WarehouseScalarRelationFilter, WarehouseWhereInput>
+  }, "id">
+
+  export type DockAppointmentOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    warehouseId?: SortOrder
+    dockCode?: SortOrder
+    scheduledAt?: SortOrder
+    durationMin?: SortOrder
+    reference?: SortOrderInput | SortOrder
+    status?: SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: DockAppointmentCountOrderByAggregateInput
+    _avg?: DockAppointmentAvgOrderByAggregateInput
+    _max?: DockAppointmentMaxOrderByAggregateInput
+    _min?: DockAppointmentMinOrderByAggregateInput
+    _sum?: DockAppointmentSumOrderByAggregateInput
+  }
+
+  export type DockAppointmentScalarWhereWithAggregatesInput = {
+    AND?: DockAppointmentScalarWhereWithAggregatesInput | DockAppointmentScalarWhereWithAggregatesInput[]
+    OR?: DockAppointmentScalarWhereWithAggregatesInput[]
+    NOT?: DockAppointmentScalarWhereWithAggregatesInput | DockAppointmentScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"DockAppointment"> | string
+    tenantId?: UuidWithAggregatesFilter<"DockAppointment"> | string
+    warehouseId?: UuidWithAggregatesFilter<"DockAppointment"> | string
+    dockCode?: StringWithAggregatesFilter<"DockAppointment"> | string
+    scheduledAt?: DateTimeWithAggregatesFilter<"DockAppointment"> | Date | string
+    durationMin?: IntWithAggregatesFilter<"DockAppointment"> | number
+    reference?: StringNullableWithAggregatesFilter<"DockAppointment"> | string | null
+    status?: StringWithAggregatesFilter<"DockAppointment"> | string
+    createdBy?: StringNullableWithAggregatesFilter<"DockAppointment"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"DockAppointment"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"DockAppointment"> | Date | string
+  }
+
   export type TenantCreateInput = {
     id?: string
     slug: string
@@ -173448,6 +180737,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -173564,6 +180858,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -173680,6 +180979,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -173796,6 +181100,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -176437,6 +183746,7 @@ export namespace Prisma {
     name: string
     tenant: TenantCreateNestedOneWithoutWarehousesInput
     locations?: WarehouseLocationCreateNestedManyWithoutWarehouseInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutWarehouseInput
   }
 
   export type WarehouseUncheckedCreateInput = {
@@ -176445,6 +183755,7 @@ export namespace Prisma {
     code: string
     name: string
     locations?: WarehouseLocationUncheckedCreateNestedManyWithoutWarehouseInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutWarehouseInput
   }
 
   export type WarehouseUpdateInput = {
@@ -176453,6 +183764,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     tenant?: TenantUpdateOneRequiredWithoutWarehousesNestedInput
     locations?: WarehouseLocationUpdateManyWithoutWarehouseNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutWarehouseNestedInput
   }
 
   export type WarehouseUncheckedUpdateInput = {
@@ -176461,6 +183773,7 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     locations?: WarehouseLocationUncheckedUpdateManyWithoutWarehouseNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutWarehouseNestedInput
   }
 
   export type WarehouseCreateManyInput = {
@@ -184251,6 +191564,492 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type VehicleCreateInput = {
+    id?: string
+    plate: string
+    name: string
+    capacityKg?: Decimal | DecimalJsLike | number | string
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutVehiclesInput
+    shipments?: ShipmentCreateNestedManyWithoutVehicleInput
+  }
+
+  export type VehicleUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    plate: string
+    name: string
+    capacityKg?: Decimal | DecimalJsLike | number | string
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutVehicleInput
+  }
+
+  export type VehicleUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    plate?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    capacityKg?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutVehiclesNestedInput
+    shipments?: ShipmentUpdateManyWithoutVehicleNestedInput
+  }
+
+  export type VehicleUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    plate?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    capacityKg?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    shipments?: ShipmentUncheckedUpdateManyWithoutVehicleNestedInput
+  }
+
+  export type VehicleCreateManyInput = {
+    id?: string
+    tenantId: string
+    plate: string
+    name: string
+    capacityKg?: Decimal | DecimalJsLike | number | string
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type VehicleUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    plate?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    capacityKg?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VehicleUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    plate?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    capacityKg?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DriverCreateInput = {
+    id?: string
+    name: string
+    licenseNo?: string | null
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutDriversInput
+    shipments?: ShipmentCreateNestedManyWithoutDriverInput
+  }
+
+  export type DriverUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    name: string
+    licenseNo?: string | null
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutDriverInput
+  }
+
+  export type DriverUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    licenseNo?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutDriversNestedInput
+    shipments?: ShipmentUpdateManyWithoutDriverNestedInput
+  }
+
+  export type DriverUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    licenseNo?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    shipments?: ShipmentUncheckedUpdateManyWithoutDriverNestedInput
+  }
+
+  export type DriverCreateManyInput = {
+    id?: string
+    tenantId: string
+    name: string
+    licenseNo?: string | null
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DriverUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    licenseNo?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DriverUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    licenseNo?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ShipmentCreateInput = {
+    id?: string
+    shipmentNumber: string
+    carrierKey?: string | null
+    status?: string
+    plannedAt?: Date | string | null
+    deliveredAt?: Date | string | null
+    freightCost?: Decimal | DecimalJsLike | number | string | null
+    currency?: string | null
+    podName?: string | null
+    podSignatureHash?: string | null
+    notes?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutShipmentsInput
+    vehicle?: VehicleCreateNestedOneWithoutShipmentsInput
+    driver?: DriverCreateNestedOneWithoutShipmentsInput
+    stops?: ShipmentStopCreateNestedManyWithoutShipmentInput
+  }
+
+  export type ShipmentUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    shipmentNumber: string
+    carrierKey?: string | null
+    vehicleId?: string | null
+    driverId?: string | null
+    status?: string
+    plannedAt?: Date | string | null
+    deliveredAt?: Date | string | null
+    freightCost?: Decimal | DecimalJsLike | number | string | null
+    currency?: string | null
+    podName?: string | null
+    podSignatureHash?: string | null
+    notes?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    stops?: ShipmentStopUncheckedCreateNestedManyWithoutShipmentInput
+  }
+
+  export type ShipmentUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    shipmentNumber?: StringFieldUpdateOperationsInput | string
+    carrierKey?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    plannedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    freightCost?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    currency?: NullableStringFieldUpdateOperationsInput | string | null
+    podName?: NullableStringFieldUpdateOperationsInput | string | null
+    podSignatureHash?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutShipmentsNestedInput
+    vehicle?: VehicleUpdateOneWithoutShipmentsNestedInput
+    driver?: DriverUpdateOneWithoutShipmentsNestedInput
+    stops?: ShipmentStopUpdateManyWithoutShipmentNestedInput
+  }
+
+  export type ShipmentUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    shipmentNumber?: StringFieldUpdateOperationsInput | string
+    carrierKey?: NullableStringFieldUpdateOperationsInput | string | null
+    vehicleId?: NullableStringFieldUpdateOperationsInput | string | null
+    driverId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    plannedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    freightCost?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    currency?: NullableStringFieldUpdateOperationsInput | string | null
+    podName?: NullableStringFieldUpdateOperationsInput | string | null
+    podSignatureHash?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    stops?: ShipmentStopUncheckedUpdateManyWithoutShipmentNestedInput
+  }
+
+  export type ShipmentCreateManyInput = {
+    id?: string
+    tenantId: string
+    shipmentNumber: string
+    carrierKey?: string | null
+    vehicleId?: string | null
+    driverId?: string | null
+    status?: string
+    plannedAt?: Date | string | null
+    deliveredAt?: Date | string | null
+    freightCost?: Decimal | DecimalJsLike | number | string | null
+    currency?: string | null
+    podName?: string | null
+    podSignatureHash?: string | null
+    notes?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ShipmentUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    shipmentNumber?: StringFieldUpdateOperationsInput | string
+    carrierKey?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    plannedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    freightCost?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    currency?: NullableStringFieldUpdateOperationsInput | string | null
+    podName?: NullableStringFieldUpdateOperationsInput | string | null
+    podSignatureHash?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ShipmentUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    shipmentNumber?: StringFieldUpdateOperationsInput | string
+    carrierKey?: NullableStringFieldUpdateOperationsInput | string | null
+    vehicleId?: NullableStringFieldUpdateOperationsInput | string | null
+    driverId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    plannedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    freightCost?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    currency?: NullableStringFieldUpdateOperationsInput | string | null
+    podName?: NullableStringFieldUpdateOperationsInput | string | null
+    podSignatureHash?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ShipmentStopCreateInput = {
+    id?: string
+    seq: number
+    address: string
+    orderId?: string | null
+    status?: string
+    note?: string | null
+    arrivedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutShipmentStopsInput
+    shipment: ShipmentCreateNestedOneWithoutStopsInput
+  }
+
+  export type ShipmentStopUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    shipmentId: string
+    seq: number
+    address: string
+    orderId?: string | null
+    status?: string
+    note?: string | null
+    arrivedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ShipmentStopUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    seq?: IntFieldUpdateOperationsInput | number
+    address?: StringFieldUpdateOperationsInput | string
+    orderId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    arrivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutShipmentStopsNestedInput
+    shipment?: ShipmentUpdateOneRequiredWithoutStopsNestedInput
+  }
+
+  export type ShipmentStopUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    shipmentId?: StringFieldUpdateOperationsInput | string
+    seq?: IntFieldUpdateOperationsInput | number
+    address?: StringFieldUpdateOperationsInput | string
+    orderId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    arrivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ShipmentStopCreateManyInput = {
+    id?: string
+    tenantId: string
+    shipmentId: string
+    seq: number
+    address: string
+    orderId?: string | null
+    status?: string
+    note?: string | null
+    arrivedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ShipmentStopUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    seq?: IntFieldUpdateOperationsInput | number
+    address?: StringFieldUpdateOperationsInput | string
+    orderId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    arrivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ShipmentStopUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    shipmentId?: StringFieldUpdateOperationsInput | string
+    seq?: IntFieldUpdateOperationsInput | number
+    address?: StringFieldUpdateOperationsInput | string
+    orderId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    arrivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DockAppointmentCreateInput = {
+    id?: string
+    dockCode: string
+    scheduledAt: Date | string
+    durationMin?: number
+    reference?: string | null
+    status?: string
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutDockAppointmentsInput
+    warehouse: WarehouseCreateNestedOneWithoutDockAppointmentsInput
+  }
+
+  export type DockAppointmentUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    warehouseId: string
+    dockCode: string
+    scheduledAt: Date | string
+    durationMin?: number
+    reference?: string | null
+    status?: string
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DockAppointmentUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    dockCode?: StringFieldUpdateOperationsInput | string
+    scheduledAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    durationMin?: IntFieldUpdateOperationsInput | number
+    reference?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutDockAppointmentsNestedInput
+    warehouse?: WarehouseUpdateOneRequiredWithoutDockAppointmentsNestedInput
+  }
+
+  export type DockAppointmentUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    warehouseId?: StringFieldUpdateOperationsInput | string
+    dockCode?: StringFieldUpdateOperationsInput | string
+    scheduledAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    durationMin?: IntFieldUpdateOperationsInput | number
+    reference?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DockAppointmentCreateManyInput = {
+    id?: string
+    tenantId: string
+    warehouseId: string
+    dockCode: string
+    scheduledAt: Date | string
+    durationMin?: number
+    reference?: string | null
+    status?: string
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DockAppointmentUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    dockCode?: StringFieldUpdateOperationsInput | string
+    scheduledAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    durationMin?: IntFieldUpdateOperationsInput | number
+    reference?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DockAppointmentUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    warehouseId?: StringFieldUpdateOperationsInput | string
+    dockCode?: StringFieldUpdateOperationsInput | string
+    scheduledAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    durationMin?: IntFieldUpdateOperationsInput | number
+    reference?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type UuidFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -184937,6 +192736,36 @@ export namespace Prisma {
     none?: PosSessionWhereInput
   }
 
+  export type VehicleListRelationFilter = {
+    every?: VehicleWhereInput
+    some?: VehicleWhereInput
+    none?: VehicleWhereInput
+  }
+
+  export type DriverListRelationFilter = {
+    every?: DriverWhereInput
+    some?: DriverWhereInput
+    none?: DriverWhereInput
+  }
+
+  export type ShipmentListRelationFilter = {
+    every?: ShipmentWhereInput
+    some?: ShipmentWhereInput
+    none?: ShipmentWhereInput
+  }
+
+  export type ShipmentStopListRelationFilter = {
+    every?: ShipmentStopWhereInput
+    some?: ShipmentStopWhereInput
+    none?: ShipmentStopWhereInput
+  }
+
+  export type DockAppointmentListRelationFilter = {
+    every?: DockAppointmentWhereInput
+    some?: DockAppointmentWhereInput
+    none?: DockAppointmentWhereInput
+  }
+
   export type FrameworkAgreementListRelationFilter = {
     every?: FrameworkAgreementWhereInput
     some?: FrameworkAgreementWhereInput
@@ -185360,6 +193189,26 @@ export namespace Prisma {
   }
 
   export type PosSessionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type VehicleOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type DriverOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ShipmentOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ShipmentStopOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type DockAppointmentOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -192710,6 +200559,276 @@ export namespace Prisma {
     closingCount?: SortOrder
   }
 
+  export type VehicleTenantIdPlateCompoundUniqueInput = {
+    tenantId: string
+    plate: string
+  }
+
+  export type VehicleCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    plate?: SortOrder
+    name?: SortOrder
+    capacityKg?: SortOrder
+    active?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type VehicleAvgOrderByAggregateInput = {
+    capacityKg?: SortOrder
+  }
+
+  export type VehicleMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    plate?: SortOrder
+    name?: SortOrder
+    capacityKg?: SortOrder
+    active?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type VehicleMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    plate?: SortOrder
+    name?: SortOrder
+    capacityKg?: SortOrder
+    active?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type VehicleSumOrderByAggregateInput = {
+    capacityKg?: SortOrder
+  }
+
+  export type DriverCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    name?: SortOrder
+    licenseNo?: SortOrder
+    active?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type DriverMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    name?: SortOrder
+    licenseNo?: SortOrder
+    active?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type DriverMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    name?: SortOrder
+    licenseNo?: SortOrder
+    active?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type VehicleNullableScalarRelationFilter = {
+    is?: VehicleWhereInput | null
+    isNot?: VehicleWhereInput | null
+  }
+
+  export type DriverNullableScalarRelationFilter = {
+    is?: DriverWhereInput | null
+    isNot?: DriverWhereInput | null
+  }
+
+  export type ShipmentTenantIdShipmentNumberCompoundUniqueInput = {
+    tenantId: string
+    shipmentNumber: string
+  }
+
+  export type ShipmentCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    shipmentNumber?: SortOrder
+    carrierKey?: SortOrder
+    vehicleId?: SortOrder
+    driverId?: SortOrder
+    status?: SortOrder
+    plannedAt?: SortOrder
+    deliveredAt?: SortOrder
+    freightCost?: SortOrder
+    currency?: SortOrder
+    podName?: SortOrder
+    podSignatureHash?: SortOrder
+    notes?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ShipmentAvgOrderByAggregateInput = {
+    freightCost?: SortOrder
+  }
+
+  export type ShipmentMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    shipmentNumber?: SortOrder
+    carrierKey?: SortOrder
+    vehicleId?: SortOrder
+    driverId?: SortOrder
+    status?: SortOrder
+    plannedAt?: SortOrder
+    deliveredAt?: SortOrder
+    freightCost?: SortOrder
+    currency?: SortOrder
+    podName?: SortOrder
+    podSignatureHash?: SortOrder
+    notes?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ShipmentMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    shipmentNumber?: SortOrder
+    carrierKey?: SortOrder
+    vehicleId?: SortOrder
+    driverId?: SortOrder
+    status?: SortOrder
+    plannedAt?: SortOrder
+    deliveredAt?: SortOrder
+    freightCost?: SortOrder
+    currency?: SortOrder
+    podName?: SortOrder
+    podSignatureHash?: SortOrder
+    notes?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ShipmentSumOrderByAggregateInput = {
+    freightCost?: SortOrder
+  }
+
+  export type ShipmentScalarRelationFilter = {
+    is?: ShipmentWhereInput
+    isNot?: ShipmentWhereInput
+  }
+
+  export type ShipmentStopTenantIdShipmentIdSeqCompoundUniqueInput = {
+    tenantId: string
+    shipmentId: string
+    seq: number
+  }
+
+  export type ShipmentStopCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    shipmentId?: SortOrder
+    seq?: SortOrder
+    address?: SortOrder
+    orderId?: SortOrder
+    status?: SortOrder
+    note?: SortOrder
+    arrivedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ShipmentStopAvgOrderByAggregateInput = {
+    seq?: SortOrder
+  }
+
+  export type ShipmentStopMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    shipmentId?: SortOrder
+    seq?: SortOrder
+    address?: SortOrder
+    orderId?: SortOrder
+    status?: SortOrder
+    note?: SortOrder
+    arrivedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ShipmentStopMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    shipmentId?: SortOrder
+    seq?: SortOrder
+    address?: SortOrder
+    orderId?: SortOrder
+    status?: SortOrder
+    note?: SortOrder
+    arrivedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ShipmentStopSumOrderByAggregateInput = {
+    seq?: SortOrder
+  }
+
+  export type DockAppointmentCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    warehouseId?: SortOrder
+    dockCode?: SortOrder
+    scheduledAt?: SortOrder
+    durationMin?: SortOrder
+    reference?: SortOrder
+    status?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type DockAppointmentAvgOrderByAggregateInput = {
+    durationMin?: SortOrder
+  }
+
+  export type DockAppointmentMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    warehouseId?: SortOrder
+    dockCode?: SortOrder
+    scheduledAt?: SortOrder
+    durationMin?: SortOrder
+    reference?: SortOrder
+    status?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type DockAppointmentMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    warehouseId?: SortOrder
+    dockCode?: SortOrder
+    scheduledAt?: SortOrder
+    durationMin?: SortOrder
+    reference?: SortOrder
+    status?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type DockAppointmentSumOrderByAggregateInput = {
+    durationMin?: SortOrder
+  }
+
   export type TenantConfigurationVersionCreateNestedManyWithoutTenantInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -193443,6 +201562,41 @@ export namespace Prisma {
     connectOrCreate?: PosSessionCreateOrConnectWithoutTenantInput | PosSessionCreateOrConnectWithoutTenantInput[]
     createMany?: PosSessionCreateManyTenantInputEnvelope
     connect?: PosSessionWhereUniqueInput | PosSessionWhereUniqueInput[]
+  }
+
+  export type VehicleCreateNestedManyWithoutTenantInput = {
+    create?: XOR<VehicleCreateWithoutTenantInput, VehicleUncheckedCreateWithoutTenantInput> | VehicleCreateWithoutTenantInput[] | VehicleUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: VehicleCreateOrConnectWithoutTenantInput | VehicleCreateOrConnectWithoutTenantInput[]
+    createMany?: VehicleCreateManyTenantInputEnvelope
+    connect?: VehicleWhereUniqueInput | VehicleWhereUniqueInput[]
+  }
+
+  export type DriverCreateNestedManyWithoutTenantInput = {
+    create?: XOR<DriverCreateWithoutTenantInput, DriverUncheckedCreateWithoutTenantInput> | DriverCreateWithoutTenantInput[] | DriverUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: DriverCreateOrConnectWithoutTenantInput | DriverCreateOrConnectWithoutTenantInput[]
+    createMany?: DriverCreateManyTenantInputEnvelope
+    connect?: DriverWhereUniqueInput | DriverWhereUniqueInput[]
+  }
+
+  export type ShipmentCreateNestedManyWithoutTenantInput = {
+    create?: XOR<ShipmentCreateWithoutTenantInput, ShipmentUncheckedCreateWithoutTenantInput> | ShipmentCreateWithoutTenantInput[] | ShipmentUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: ShipmentCreateOrConnectWithoutTenantInput | ShipmentCreateOrConnectWithoutTenantInput[]
+    createMany?: ShipmentCreateManyTenantInputEnvelope
+    connect?: ShipmentWhereUniqueInput | ShipmentWhereUniqueInput[]
+  }
+
+  export type ShipmentStopCreateNestedManyWithoutTenantInput = {
+    create?: XOR<ShipmentStopCreateWithoutTenantInput, ShipmentStopUncheckedCreateWithoutTenantInput> | ShipmentStopCreateWithoutTenantInput[] | ShipmentStopUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: ShipmentStopCreateOrConnectWithoutTenantInput | ShipmentStopCreateOrConnectWithoutTenantInput[]
+    createMany?: ShipmentStopCreateManyTenantInputEnvelope
+    connect?: ShipmentStopWhereUniqueInput | ShipmentStopWhereUniqueInput[]
+  }
+
+  export type DockAppointmentCreateNestedManyWithoutTenantInput = {
+    create?: XOR<DockAppointmentCreateWithoutTenantInput, DockAppointmentUncheckedCreateWithoutTenantInput> | DockAppointmentCreateWithoutTenantInput[] | DockAppointmentUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: DockAppointmentCreateOrConnectWithoutTenantInput | DockAppointmentCreateOrConnectWithoutTenantInput[]
+    createMany?: DockAppointmentCreateManyTenantInputEnvelope
+    connect?: DockAppointmentWhereUniqueInput | DockAppointmentWhereUniqueInput[]
   }
 
   export type FrameworkAgreementCreateNestedManyWithoutTenantInput = {
@@ -194185,6 +202339,41 @@ export namespace Prisma {
     connectOrCreate?: PosSessionCreateOrConnectWithoutTenantInput | PosSessionCreateOrConnectWithoutTenantInput[]
     createMany?: PosSessionCreateManyTenantInputEnvelope
     connect?: PosSessionWhereUniqueInput | PosSessionWhereUniqueInput[]
+  }
+
+  export type VehicleUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<VehicleCreateWithoutTenantInput, VehicleUncheckedCreateWithoutTenantInput> | VehicleCreateWithoutTenantInput[] | VehicleUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: VehicleCreateOrConnectWithoutTenantInput | VehicleCreateOrConnectWithoutTenantInput[]
+    createMany?: VehicleCreateManyTenantInputEnvelope
+    connect?: VehicleWhereUniqueInput | VehicleWhereUniqueInput[]
+  }
+
+  export type DriverUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<DriverCreateWithoutTenantInput, DriverUncheckedCreateWithoutTenantInput> | DriverCreateWithoutTenantInput[] | DriverUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: DriverCreateOrConnectWithoutTenantInput | DriverCreateOrConnectWithoutTenantInput[]
+    createMany?: DriverCreateManyTenantInputEnvelope
+    connect?: DriverWhereUniqueInput | DriverWhereUniqueInput[]
+  }
+
+  export type ShipmentUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<ShipmentCreateWithoutTenantInput, ShipmentUncheckedCreateWithoutTenantInput> | ShipmentCreateWithoutTenantInput[] | ShipmentUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: ShipmentCreateOrConnectWithoutTenantInput | ShipmentCreateOrConnectWithoutTenantInput[]
+    createMany?: ShipmentCreateManyTenantInputEnvelope
+    connect?: ShipmentWhereUniqueInput | ShipmentWhereUniqueInput[]
+  }
+
+  export type ShipmentStopUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<ShipmentStopCreateWithoutTenantInput, ShipmentStopUncheckedCreateWithoutTenantInput> | ShipmentStopCreateWithoutTenantInput[] | ShipmentStopUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: ShipmentStopCreateOrConnectWithoutTenantInput | ShipmentStopCreateOrConnectWithoutTenantInput[]
+    createMany?: ShipmentStopCreateManyTenantInputEnvelope
+    connect?: ShipmentStopWhereUniqueInput | ShipmentStopWhereUniqueInput[]
+  }
+
+  export type DockAppointmentUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<DockAppointmentCreateWithoutTenantInput, DockAppointmentUncheckedCreateWithoutTenantInput> | DockAppointmentCreateWithoutTenantInput[] | DockAppointmentUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: DockAppointmentCreateOrConnectWithoutTenantInput | DockAppointmentCreateOrConnectWithoutTenantInput[]
+    createMany?: DockAppointmentCreateManyTenantInputEnvelope
+    connect?: DockAppointmentWhereUniqueInput | DockAppointmentWhereUniqueInput[]
   }
 
   export type FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput = {
@@ -195684,6 +203873,76 @@ export namespace Prisma {
     deleteMany?: PosSessionScalarWhereInput | PosSessionScalarWhereInput[]
   }
 
+  export type VehicleUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<VehicleCreateWithoutTenantInput, VehicleUncheckedCreateWithoutTenantInput> | VehicleCreateWithoutTenantInput[] | VehicleUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: VehicleCreateOrConnectWithoutTenantInput | VehicleCreateOrConnectWithoutTenantInput[]
+    upsert?: VehicleUpsertWithWhereUniqueWithoutTenantInput | VehicleUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: VehicleCreateManyTenantInputEnvelope
+    set?: VehicleWhereUniqueInput | VehicleWhereUniqueInput[]
+    disconnect?: VehicleWhereUniqueInput | VehicleWhereUniqueInput[]
+    delete?: VehicleWhereUniqueInput | VehicleWhereUniqueInput[]
+    connect?: VehicleWhereUniqueInput | VehicleWhereUniqueInput[]
+    update?: VehicleUpdateWithWhereUniqueWithoutTenantInput | VehicleUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: VehicleUpdateManyWithWhereWithoutTenantInput | VehicleUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: VehicleScalarWhereInput | VehicleScalarWhereInput[]
+  }
+
+  export type DriverUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<DriverCreateWithoutTenantInput, DriverUncheckedCreateWithoutTenantInput> | DriverCreateWithoutTenantInput[] | DriverUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: DriverCreateOrConnectWithoutTenantInput | DriverCreateOrConnectWithoutTenantInput[]
+    upsert?: DriverUpsertWithWhereUniqueWithoutTenantInput | DriverUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: DriverCreateManyTenantInputEnvelope
+    set?: DriverWhereUniqueInput | DriverWhereUniqueInput[]
+    disconnect?: DriverWhereUniqueInput | DriverWhereUniqueInput[]
+    delete?: DriverWhereUniqueInput | DriverWhereUniqueInput[]
+    connect?: DriverWhereUniqueInput | DriverWhereUniqueInput[]
+    update?: DriverUpdateWithWhereUniqueWithoutTenantInput | DriverUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: DriverUpdateManyWithWhereWithoutTenantInput | DriverUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: DriverScalarWhereInput | DriverScalarWhereInput[]
+  }
+
+  export type ShipmentUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<ShipmentCreateWithoutTenantInput, ShipmentUncheckedCreateWithoutTenantInput> | ShipmentCreateWithoutTenantInput[] | ShipmentUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: ShipmentCreateOrConnectWithoutTenantInput | ShipmentCreateOrConnectWithoutTenantInput[]
+    upsert?: ShipmentUpsertWithWhereUniqueWithoutTenantInput | ShipmentUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: ShipmentCreateManyTenantInputEnvelope
+    set?: ShipmentWhereUniqueInput | ShipmentWhereUniqueInput[]
+    disconnect?: ShipmentWhereUniqueInput | ShipmentWhereUniqueInput[]
+    delete?: ShipmentWhereUniqueInput | ShipmentWhereUniqueInput[]
+    connect?: ShipmentWhereUniqueInput | ShipmentWhereUniqueInput[]
+    update?: ShipmentUpdateWithWhereUniqueWithoutTenantInput | ShipmentUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: ShipmentUpdateManyWithWhereWithoutTenantInput | ShipmentUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: ShipmentScalarWhereInput | ShipmentScalarWhereInput[]
+  }
+
+  export type ShipmentStopUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<ShipmentStopCreateWithoutTenantInput, ShipmentStopUncheckedCreateWithoutTenantInput> | ShipmentStopCreateWithoutTenantInput[] | ShipmentStopUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: ShipmentStopCreateOrConnectWithoutTenantInput | ShipmentStopCreateOrConnectWithoutTenantInput[]
+    upsert?: ShipmentStopUpsertWithWhereUniqueWithoutTenantInput | ShipmentStopUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: ShipmentStopCreateManyTenantInputEnvelope
+    set?: ShipmentStopWhereUniqueInput | ShipmentStopWhereUniqueInput[]
+    disconnect?: ShipmentStopWhereUniqueInput | ShipmentStopWhereUniqueInput[]
+    delete?: ShipmentStopWhereUniqueInput | ShipmentStopWhereUniqueInput[]
+    connect?: ShipmentStopWhereUniqueInput | ShipmentStopWhereUniqueInput[]
+    update?: ShipmentStopUpdateWithWhereUniqueWithoutTenantInput | ShipmentStopUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: ShipmentStopUpdateManyWithWhereWithoutTenantInput | ShipmentStopUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: ShipmentStopScalarWhereInput | ShipmentStopScalarWhereInput[]
+  }
+
+  export type DockAppointmentUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<DockAppointmentCreateWithoutTenantInput, DockAppointmentUncheckedCreateWithoutTenantInput> | DockAppointmentCreateWithoutTenantInput[] | DockAppointmentUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: DockAppointmentCreateOrConnectWithoutTenantInput | DockAppointmentCreateOrConnectWithoutTenantInput[]
+    upsert?: DockAppointmentUpsertWithWhereUniqueWithoutTenantInput | DockAppointmentUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: DockAppointmentCreateManyTenantInputEnvelope
+    set?: DockAppointmentWhereUniqueInput | DockAppointmentWhereUniqueInput[]
+    disconnect?: DockAppointmentWhereUniqueInput | DockAppointmentWhereUniqueInput[]
+    delete?: DockAppointmentWhereUniqueInput | DockAppointmentWhereUniqueInput[]
+    connect?: DockAppointmentWhereUniqueInput | DockAppointmentWhereUniqueInput[]
+    update?: DockAppointmentUpdateWithWhereUniqueWithoutTenantInput | DockAppointmentUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: DockAppointmentUpdateManyWithWhereWithoutTenantInput | DockAppointmentUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: DockAppointmentScalarWhereInput | DockAppointmentScalarWhereInput[]
+  }
+
   export type FrameworkAgreementUpdateManyWithoutTenantNestedInput = {
     create?: XOR<FrameworkAgreementCreateWithoutTenantInput, FrameworkAgreementUncheckedCreateWithoutTenantInput> | FrameworkAgreementCreateWithoutTenantInput[] | FrameworkAgreementUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: FrameworkAgreementCreateOrConnectWithoutTenantInput | FrameworkAgreementCreateOrConnectWithoutTenantInput[]
@@ -197166,6 +205425,76 @@ export namespace Prisma {
     update?: PosSessionUpdateWithWhereUniqueWithoutTenantInput | PosSessionUpdateWithWhereUniqueWithoutTenantInput[]
     updateMany?: PosSessionUpdateManyWithWhereWithoutTenantInput | PosSessionUpdateManyWithWhereWithoutTenantInput[]
     deleteMany?: PosSessionScalarWhereInput | PosSessionScalarWhereInput[]
+  }
+
+  export type VehicleUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<VehicleCreateWithoutTenantInput, VehicleUncheckedCreateWithoutTenantInput> | VehicleCreateWithoutTenantInput[] | VehicleUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: VehicleCreateOrConnectWithoutTenantInput | VehicleCreateOrConnectWithoutTenantInput[]
+    upsert?: VehicleUpsertWithWhereUniqueWithoutTenantInput | VehicleUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: VehicleCreateManyTenantInputEnvelope
+    set?: VehicleWhereUniqueInput | VehicleWhereUniqueInput[]
+    disconnect?: VehicleWhereUniqueInput | VehicleWhereUniqueInput[]
+    delete?: VehicleWhereUniqueInput | VehicleWhereUniqueInput[]
+    connect?: VehicleWhereUniqueInput | VehicleWhereUniqueInput[]
+    update?: VehicleUpdateWithWhereUniqueWithoutTenantInput | VehicleUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: VehicleUpdateManyWithWhereWithoutTenantInput | VehicleUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: VehicleScalarWhereInput | VehicleScalarWhereInput[]
+  }
+
+  export type DriverUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<DriverCreateWithoutTenantInput, DriverUncheckedCreateWithoutTenantInput> | DriverCreateWithoutTenantInput[] | DriverUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: DriverCreateOrConnectWithoutTenantInput | DriverCreateOrConnectWithoutTenantInput[]
+    upsert?: DriverUpsertWithWhereUniqueWithoutTenantInput | DriverUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: DriverCreateManyTenantInputEnvelope
+    set?: DriverWhereUniqueInput | DriverWhereUniqueInput[]
+    disconnect?: DriverWhereUniqueInput | DriverWhereUniqueInput[]
+    delete?: DriverWhereUniqueInput | DriverWhereUniqueInput[]
+    connect?: DriverWhereUniqueInput | DriverWhereUniqueInput[]
+    update?: DriverUpdateWithWhereUniqueWithoutTenantInput | DriverUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: DriverUpdateManyWithWhereWithoutTenantInput | DriverUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: DriverScalarWhereInput | DriverScalarWhereInput[]
+  }
+
+  export type ShipmentUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<ShipmentCreateWithoutTenantInput, ShipmentUncheckedCreateWithoutTenantInput> | ShipmentCreateWithoutTenantInput[] | ShipmentUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: ShipmentCreateOrConnectWithoutTenantInput | ShipmentCreateOrConnectWithoutTenantInput[]
+    upsert?: ShipmentUpsertWithWhereUniqueWithoutTenantInput | ShipmentUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: ShipmentCreateManyTenantInputEnvelope
+    set?: ShipmentWhereUniqueInput | ShipmentWhereUniqueInput[]
+    disconnect?: ShipmentWhereUniqueInput | ShipmentWhereUniqueInput[]
+    delete?: ShipmentWhereUniqueInput | ShipmentWhereUniqueInput[]
+    connect?: ShipmentWhereUniqueInput | ShipmentWhereUniqueInput[]
+    update?: ShipmentUpdateWithWhereUniqueWithoutTenantInput | ShipmentUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: ShipmentUpdateManyWithWhereWithoutTenantInput | ShipmentUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: ShipmentScalarWhereInput | ShipmentScalarWhereInput[]
+  }
+
+  export type ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<ShipmentStopCreateWithoutTenantInput, ShipmentStopUncheckedCreateWithoutTenantInput> | ShipmentStopCreateWithoutTenantInput[] | ShipmentStopUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: ShipmentStopCreateOrConnectWithoutTenantInput | ShipmentStopCreateOrConnectWithoutTenantInput[]
+    upsert?: ShipmentStopUpsertWithWhereUniqueWithoutTenantInput | ShipmentStopUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: ShipmentStopCreateManyTenantInputEnvelope
+    set?: ShipmentStopWhereUniqueInput | ShipmentStopWhereUniqueInput[]
+    disconnect?: ShipmentStopWhereUniqueInput | ShipmentStopWhereUniqueInput[]
+    delete?: ShipmentStopWhereUniqueInput | ShipmentStopWhereUniqueInput[]
+    connect?: ShipmentStopWhereUniqueInput | ShipmentStopWhereUniqueInput[]
+    update?: ShipmentStopUpdateWithWhereUniqueWithoutTenantInput | ShipmentStopUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: ShipmentStopUpdateManyWithWhereWithoutTenantInput | ShipmentStopUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: ShipmentStopScalarWhereInput | ShipmentStopScalarWhereInput[]
+  }
+
+  export type DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<DockAppointmentCreateWithoutTenantInput, DockAppointmentUncheckedCreateWithoutTenantInput> | DockAppointmentCreateWithoutTenantInput[] | DockAppointmentUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: DockAppointmentCreateOrConnectWithoutTenantInput | DockAppointmentCreateOrConnectWithoutTenantInput[]
+    upsert?: DockAppointmentUpsertWithWhereUniqueWithoutTenantInput | DockAppointmentUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: DockAppointmentCreateManyTenantInputEnvelope
+    set?: DockAppointmentWhereUniqueInput | DockAppointmentWhereUniqueInput[]
+    disconnect?: DockAppointmentWhereUniqueInput | DockAppointmentWhereUniqueInput[]
+    delete?: DockAppointmentWhereUniqueInput | DockAppointmentWhereUniqueInput[]
+    connect?: DockAppointmentWhereUniqueInput | DockAppointmentWhereUniqueInput[]
+    update?: DockAppointmentUpdateWithWhereUniqueWithoutTenantInput | DockAppointmentUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: DockAppointmentUpdateManyWithWhereWithoutTenantInput | DockAppointmentUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: DockAppointmentScalarWhereInput | DockAppointmentScalarWhereInput[]
   }
 
   export type FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput = {
@@ -198988,11 +207317,25 @@ export namespace Prisma {
     connect?: WarehouseLocationWhereUniqueInput | WarehouseLocationWhereUniqueInput[]
   }
 
+  export type DockAppointmentCreateNestedManyWithoutWarehouseInput = {
+    create?: XOR<DockAppointmentCreateWithoutWarehouseInput, DockAppointmentUncheckedCreateWithoutWarehouseInput> | DockAppointmentCreateWithoutWarehouseInput[] | DockAppointmentUncheckedCreateWithoutWarehouseInput[]
+    connectOrCreate?: DockAppointmentCreateOrConnectWithoutWarehouseInput | DockAppointmentCreateOrConnectWithoutWarehouseInput[]
+    createMany?: DockAppointmentCreateManyWarehouseInputEnvelope
+    connect?: DockAppointmentWhereUniqueInput | DockAppointmentWhereUniqueInput[]
+  }
+
   export type WarehouseLocationUncheckedCreateNestedManyWithoutWarehouseInput = {
     create?: XOR<WarehouseLocationCreateWithoutWarehouseInput, WarehouseLocationUncheckedCreateWithoutWarehouseInput> | WarehouseLocationCreateWithoutWarehouseInput[] | WarehouseLocationUncheckedCreateWithoutWarehouseInput[]
     connectOrCreate?: WarehouseLocationCreateOrConnectWithoutWarehouseInput | WarehouseLocationCreateOrConnectWithoutWarehouseInput[]
     createMany?: WarehouseLocationCreateManyWarehouseInputEnvelope
     connect?: WarehouseLocationWhereUniqueInput | WarehouseLocationWhereUniqueInput[]
+  }
+
+  export type DockAppointmentUncheckedCreateNestedManyWithoutWarehouseInput = {
+    create?: XOR<DockAppointmentCreateWithoutWarehouseInput, DockAppointmentUncheckedCreateWithoutWarehouseInput> | DockAppointmentCreateWithoutWarehouseInput[] | DockAppointmentUncheckedCreateWithoutWarehouseInput[]
+    connectOrCreate?: DockAppointmentCreateOrConnectWithoutWarehouseInput | DockAppointmentCreateOrConnectWithoutWarehouseInput[]
+    createMany?: DockAppointmentCreateManyWarehouseInputEnvelope
+    connect?: DockAppointmentWhereUniqueInput | DockAppointmentWhereUniqueInput[]
   }
 
   export type TenantUpdateOneRequiredWithoutWarehousesNestedInput = {
@@ -199017,6 +207360,20 @@ export namespace Prisma {
     deleteMany?: WarehouseLocationScalarWhereInput | WarehouseLocationScalarWhereInput[]
   }
 
+  export type DockAppointmentUpdateManyWithoutWarehouseNestedInput = {
+    create?: XOR<DockAppointmentCreateWithoutWarehouseInput, DockAppointmentUncheckedCreateWithoutWarehouseInput> | DockAppointmentCreateWithoutWarehouseInput[] | DockAppointmentUncheckedCreateWithoutWarehouseInput[]
+    connectOrCreate?: DockAppointmentCreateOrConnectWithoutWarehouseInput | DockAppointmentCreateOrConnectWithoutWarehouseInput[]
+    upsert?: DockAppointmentUpsertWithWhereUniqueWithoutWarehouseInput | DockAppointmentUpsertWithWhereUniqueWithoutWarehouseInput[]
+    createMany?: DockAppointmentCreateManyWarehouseInputEnvelope
+    set?: DockAppointmentWhereUniqueInput | DockAppointmentWhereUniqueInput[]
+    disconnect?: DockAppointmentWhereUniqueInput | DockAppointmentWhereUniqueInput[]
+    delete?: DockAppointmentWhereUniqueInput | DockAppointmentWhereUniqueInput[]
+    connect?: DockAppointmentWhereUniqueInput | DockAppointmentWhereUniqueInput[]
+    update?: DockAppointmentUpdateWithWhereUniqueWithoutWarehouseInput | DockAppointmentUpdateWithWhereUniqueWithoutWarehouseInput[]
+    updateMany?: DockAppointmentUpdateManyWithWhereWithoutWarehouseInput | DockAppointmentUpdateManyWithWhereWithoutWarehouseInput[]
+    deleteMany?: DockAppointmentScalarWhereInput | DockAppointmentScalarWhereInput[]
+  }
+
   export type WarehouseLocationUncheckedUpdateManyWithoutWarehouseNestedInput = {
     create?: XOR<WarehouseLocationCreateWithoutWarehouseInput, WarehouseLocationUncheckedCreateWithoutWarehouseInput> | WarehouseLocationCreateWithoutWarehouseInput[] | WarehouseLocationUncheckedCreateWithoutWarehouseInput[]
     connectOrCreate?: WarehouseLocationCreateOrConnectWithoutWarehouseInput | WarehouseLocationCreateOrConnectWithoutWarehouseInput[]
@@ -199029,6 +207386,20 @@ export namespace Prisma {
     update?: WarehouseLocationUpdateWithWhereUniqueWithoutWarehouseInput | WarehouseLocationUpdateWithWhereUniqueWithoutWarehouseInput[]
     updateMany?: WarehouseLocationUpdateManyWithWhereWithoutWarehouseInput | WarehouseLocationUpdateManyWithWhereWithoutWarehouseInput[]
     deleteMany?: WarehouseLocationScalarWhereInput | WarehouseLocationScalarWhereInput[]
+  }
+
+  export type DockAppointmentUncheckedUpdateManyWithoutWarehouseNestedInput = {
+    create?: XOR<DockAppointmentCreateWithoutWarehouseInput, DockAppointmentUncheckedCreateWithoutWarehouseInput> | DockAppointmentCreateWithoutWarehouseInput[] | DockAppointmentUncheckedCreateWithoutWarehouseInput[]
+    connectOrCreate?: DockAppointmentCreateOrConnectWithoutWarehouseInput | DockAppointmentCreateOrConnectWithoutWarehouseInput[]
+    upsert?: DockAppointmentUpsertWithWhereUniqueWithoutWarehouseInput | DockAppointmentUpsertWithWhereUniqueWithoutWarehouseInput[]
+    createMany?: DockAppointmentCreateManyWarehouseInputEnvelope
+    set?: DockAppointmentWhereUniqueInput | DockAppointmentWhereUniqueInput[]
+    disconnect?: DockAppointmentWhereUniqueInput | DockAppointmentWhereUniqueInput[]
+    delete?: DockAppointmentWhereUniqueInput | DockAppointmentWhereUniqueInput[]
+    connect?: DockAppointmentWhereUniqueInput | DockAppointmentWhereUniqueInput[]
+    update?: DockAppointmentUpdateWithWhereUniqueWithoutWarehouseInput | DockAppointmentUpdateWithWhereUniqueWithoutWarehouseInput[]
+    updateMany?: DockAppointmentUpdateManyWithWhereWithoutWarehouseInput | DockAppointmentUpdateManyWithWhereWithoutWarehouseInput[]
+    deleteMany?: DockAppointmentScalarWhereInput | DockAppointmentScalarWhereInput[]
   }
 
   export type WarehouseCreateNestedOneWithoutLocationsInput = {
@@ -202125,6 +210496,262 @@ export namespace Prisma {
     update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutPosSessionsInput, TenantUpdateWithoutPosSessionsInput>, TenantUncheckedUpdateWithoutPosSessionsInput>
   }
 
+  export type TenantCreateNestedOneWithoutVehiclesInput = {
+    create?: XOR<TenantCreateWithoutVehiclesInput, TenantUncheckedCreateWithoutVehiclesInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutVehiclesInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type ShipmentCreateNestedManyWithoutVehicleInput = {
+    create?: XOR<ShipmentCreateWithoutVehicleInput, ShipmentUncheckedCreateWithoutVehicleInput> | ShipmentCreateWithoutVehicleInput[] | ShipmentUncheckedCreateWithoutVehicleInput[]
+    connectOrCreate?: ShipmentCreateOrConnectWithoutVehicleInput | ShipmentCreateOrConnectWithoutVehicleInput[]
+    createMany?: ShipmentCreateManyVehicleInputEnvelope
+    connect?: ShipmentWhereUniqueInput | ShipmentWhereUniqueInput[]
+  }
+
+  export type ShipmentUncheckedCreateNestedManyWithoutVehicleInput = {
+    create?: XOR<ShipmentCreateWithoutVehicleInput, ShipmentUncheckedCreateWithoutVehicleInput> | ShipmentCreateWithoutVehicleInput[] | ShipmentUncheckedCreateWithoutVehicleInput[]
+    connectOrCreate?: ShipmentCreateOrConnectWithoutVehicleInput | ShipmentCreateOrConnectWithoutVehicleInput[]
+    createMany?: ShipmentCreateManyVehicleInputEnvelope
+    connect?: ShipmentWhereUniqueInput | ShipmentWhereUniqueInput[]
+  }
+
+  export type TenantUpdateOneRequiredWithoutVehiclesNestedInput = {
+    create?: XOR<TenantCreateWithoutVehiclesInput, TenantUncheckedCreateWithoutVehiclesInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutVehiclesInput
+    upsert?: TenantUpsertWithoutVehiclesInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutVehiclesInput, TenantUpdateWithoutVehiclesInput>, TenantUncheckedUpdateWithoutVehiclesInput>
+  }
+
+  export type ShipmentUpdateManyWithoutVehicleNestedInput = {
+    create?: XOR<ShipmentCreateWithoutVehicleInput, ShipmentUncheckedCreateWithoutVehicleInput> | ShipmentCreateWithoutVehicleInput[] | ShipmentUncheckedCreateWithoutVehicleInput[]
+    connectOrCreate?: ShipmentCreateOrConnectWithoutVehicleInput | ShipmentCreateOrConnectWithoutVehicleInput[]
+    upsert?: ShipmentUpsertWithWhereUniqueWithoutVehicleInput | ShipmentUpsertWithWhereUniqueWithoutVehicleInput[]
+    createMany?: ShipmentCreateManyVehicleInputEnvelope
+    set?: ShipmentWhereUniqueInput | ShipmentWhereUniqueInput[]
+    disconnect?: ShipmentWhereUniqueInput | ShipmentWhereUniqueInput[]
+    delete?: ShipmentWhereUniqueInput | ShipmentWhereUniqueInput[]
+    connect?: ShipmentWhereUniqueInput | ShipmentWhereUniqueInput[]
+    update?: ShipmentUpdateWithWhereUniqueWithoutVehicleInput | ShipmentUpdateWithWhereUniqueWithoutVehicleInput[]
+    updateMany?: ShipmentUpdateManyWithWhereWithoutVehicleInput | ShipmentUpdateManyWithWhereWithoutVehicleInput[]
+    deleteMany?: ShipmentScalarWhereInput | ShipmentScalarWhereInput[]
+  }
+
+  export type ShipmentUncheckedUpdateManyWithoutVehicleNestedInput = {
+    create?: XOR<ShipmentCreateWithoutVehicleInput, ShipmentUncheckedCreateWithoutVehicleInput> | ShipmentCreateWithoutVehicleInput[] | ShipmentUncheckedCreateWithoutVehicleInput[]
+    connectOrCreate?: ShipmentCreateOrConnectWithoutVehicleInput | ShipmentCreateOrConnectWithoutVehicleInput[]
+    upsert?: ShipmentUpsertWithWhereUniqueWithoutVehicleInput | ShipmentUpsertWithWhereUniqueWithoutVehicleInput[]
+    createMany?: ShipmentCreateManyVehicleInputEnvelope
+    set?: ShipmentWhereUniqueInput | ShipmentWhereUniqueInput[]
+    disconnect?: ShipmentWhereUniqueInput | ShipmentWhereUniqueInput[]
+    delete?: ShipmentWhereUniqueInput | ShipmentWhereUniqueInput[]
+    connect?: ShipmentWhereUniqueInput | ShipmentWhereUniqueInput[]
+    update?: ShipmentUpdateWithWhereUniqueWithoutVehicleInput | ShipmentUpdateWithWhereUniqueWithoutVehicleInput[]
+    updateMany?: ShipmentUpdateManyWithWhereWithoutVehicleInput | ShipmentUpdateManyWithWhereWithoutVehicleInput[]
+    deleteMany?: ShipmentScalarWhereInput | ShipmentScalarWhereInput[]
+  }
+
+  export type TenantCreateNestedOneWithoutDriversInput = {
+    create?: XOR<TenantCreateWithoutDriversInput, TenantUncheckedCreateWithoutDriversInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutDriversInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type ShipmentCreateNestedManyWithoutDriverInput = {
+    create?: XOR<ShipmentCreateWithoutDriverInput, ShipmentUncheckedCreateWithoutDriverInput> | ShipmentCreateWithoutDriverInput[] | ShipmentUncheckedCreateWithoutDriverInput[]
+    connectOrCreate?: ShipmentCreateOrConnectWithoutDriverInput | ShipmentCreateOrConnectWithoutDriverInput[]
+    createMany?: ShipmentCreateManyDriverInputEnvelope
+    connect?: ShipmentWhereUniqueInput | ShipmentWhereUniqueInput[]
+  }
+
+  export type ShipmentUncheckedCreateNestedManyWithoutDriverInput = {
+    create?: XOR<ShipmentCreateWithoutDriverInput, ShipmentUncheckedCreateWithoutDriverInput> | ShipmentCreateWithoutDriverInput[] | ShipmentUncheckedCreateWithoutDriverInput[]
+    connectOrCreate?: ShipmentCreateOrConnectWithoutDriverInput | ShipmentCreateOrConnectWithoutDriverInput[]
+    createMany?: ShipmentCreateManyDriverInputEnvelope
+    connect?: ShipmentWhereUniqueInput | ShipmentWhereUniqueInput[]
+  }
+
+  export type TenantUpdateOneRequiredWithoutDriversNestedInput = {
+    create?: XOR<TenantCreateWithoutDriversInput, TenantUncheckedCreateWithoutDriversInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutDriversInput
+    upsert?: TenantUpsertWithoutDriversInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutDriversInput, TenantUpdateWithoutDriversInput>, TenantUncheckedUpdateWithoutDriversInput>
+  }
+
+  export type ShipmentUpdateManyWithoutDriverNestedInput = {
+    create?: XOR<ShipmentCreateWithoutDriverInput, ShipmentUncheckedCreateWithoutDriverInput> | ShipmentCreateWithoutDriverInput[] | ShipmentUncheckedCreateWithoutDriverInput[]
+    connectOrCreate?: ShipmentCreateOrConnectWithoutDriverInput | ShipmentCreateOrConnectWithoutDriverInput[]
+    upsert?: ShipmentUpsertWithWhereUniqueWithoutDriverInput | ShipmentUpsertWithWhereUniqueWithoutDriverInput[]
+    createMany?: ShipmentCreateManyDriverInputEnvelope
+    set?: ShipmentWhereUniqueInput | ShipmentWhereUniqueInput[]
+    disconnect?: ShipmentWhereUniqueInput | ShipmentWhereUniqueInput[]
+    delete?: ShipmentWhereUniqueInput | ShipmentWhereUniqueInput[]
+    connect?: ShipmentWhereUniqueInput | ShipmentWhereUniqueInput[]
+    update?: ShipmentUpdateWithWhereUniqueWithoutDriverInput | ShipmentUpdateWithWhereUniqueWithoutDriverInput[]
+    updateMany?: ShipmentUpdateManyWithWhereWithoutDriverInput | ShipmentUpdateManyWithWhereWithoutDriverInput[]
+    deleteMany?: ShipmentScalarWhereInput | ShipmentScalarWhereInput[]
+  }
+
+  export type ShipmentUncheckedUpdateManyWithoutDriverNestedInput = {
+    create?: XOR<ShipmentCreateWithoutDriverInput, ShipmentUncheckedCreateWithoutDriverInput> | ShipmentCreateWithoutDriverInput[] | ShipmentUncheckedCreateWithoutDriverInput[]
+    connectOrCreate?: ShipmentCreateOrConnectWithoutDriverInput | ShipmentCreateOrConnectWithoutDriverInput[]
+    upsert?: ShipmentUpsertWithWhereUniqueWithoutDriverInput | ShipmentUpsertWithWhereUniqueWithoutDriverInput[]
+    createMany?: ShipmentCreateManyDriverInputEnvelope
+    set?: ShipmentWhereUniqueInput | ShipmentWhereUniqueInput[]
+    disconnect?: ShipmentWhereUniqueInput | ShipmentWhereUniqueInput[]
+    delete?: ShipmentWhereUniqueInput | ShipmentWhereUniqueInput[]
+    connect?: ShipmentWhereUniqueInput | ShipmentWhereUniqueInput[]
+    update?: ShipmentUpdateWithWhereUniqueWithoutDriverInput | ShipmentUpdateWithWhereUniqueWithoutDriverInput[]
+    updateMany?: ShipmentUpdateManyWithWhereWithoutDriverInput | ShipmentUpdateManyWithWhereWithoutDriverInput[]
+    deleteMany?: ShipmentScalarWhereInput | ShipmentScalarWhereInput[]
+  }
+
+  export type TenantCreateNestedOneWithoutShipmentsInput = {
+    create?: XOR<TenantCreateWithoutShipmentsInput, TenantUncheckedCreateWithoutShipmentsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutShipmentsInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type VehicleCreateNestedOneWithoutShipmentsInput = {
+    create?: XOR<VehicleCreateWithoutShipmentsInput, VehicleUncheckedCreateWithoutShipmentsInput>
+    connectOrCreate?: VehicleCreateOrConnectWithoutShipmentsInput
+    connect?: VehicleWhereUniqueInput
+  }
+
+  export type DriverCreateNestedOneWithoutShipmentsInput = {
+    create?: XOR<DriverCreateWithoutShipmentsInput, DriverUncheckedCreateWithoutShipmentsInput>
+    connectOrCreate?: DriverCreateOrConnectWithoutShipmentsInput
+    connect?: DriverWhereUniqueInput
+  }
+
+  export type ShipmentStopCreateNestedManyWithoutShipmentInput = {
+    create?: XOR<ShipmentStopCreateWithoutShipmentInput, ShipmentStopUncheckedCreateWithoutShipmentInput> | ShipmentStopCreateWithoutShipmentInput[] | ShipmentStopUncheckedCreateWithoutShipmentInput[]
+    connectOrCreate?: ShipmentStopCreateOrConnectWithoutShipmentInput | ShipmentStopCreateOrConnectWithoutShipmentInput[]
+    createMany?: ShipmentStopCreateManyShipmentInputEnvelope
+    connect?: ShipmentStopWhereUniqueInput | ShipmentStopWhereUniqueInput[]
+  }
+
+  export type ShipmentStopUncheckedCreateNestedManyWithoutShipmentInput = {
+    create?: XOR<ShipmentStopCreateWithoutShipmentInput, ShipmentStopUncheckedCreateWithoutShipmentInput> | ShipmentStopCreateWithoutShipmentInput[] | ShipmentStopUncheckedCreateWithoutShipmentInput[]
+    connectOrCreate?: ShipmentStopCreateOrConnectWithoutShipmentInput | ShipmentStopCreateOrConnectWithoutShipmentInput[]
+    createMany?: ShipmentStopCreateManyShipmentInputEnvelope
+    connect?: ShipmentStopWhereUniqueInput | ShipmentStopWhereUniqueInput[]
+  }
+
+  export type TenantUpdateOneRequiredWithoutShipmentsNestedInput = {
+    create?: XOR<TenantCreateWithoutShipmentsInput, TenantUncheckedCreateWithoutShipmentsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutShipmentsInput
+    upsert?: TenantUpsertWithoutShipmentsInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutShipmentsInput, TenantUpdateWithoutShipmentsInput>, TenantUncheckedUpdateWithoutShipmentsInput>
+  }
+
+  export type VehicleUpdateOneWithoutShipmentsNestedInput = {
+    create?: XOR<VehicleCreateWithoutShipmentsInput, VehicleUncheckedCreateWithoutShipmentsInput>
+    connectOrCreate?: VehicleCreateOrConnectWithoutShipmentsInput
+    upsert?: VehicleUpsertWithoutShipmentsInput
+    disconnect?: VehicleWhereInput | boolean
+    delete?: VehicleWhereInput | boolean
+    connect?: VehicleWhereUniqueInput
+    update?: XOR<XOR<VehicleUpdateToOneWithWhereWithoutShipmentsInput, VehicleUpdateWithoutShipmentsInput>, VehicleUncheckedUpdateWithoutShipmentsInput>
+  }
+
+  export type DriverUpdateOneWithoutShipmentsNestedInput = {
+    create?: XOR<DriverCreateWithoutShipmentsInput, DriverUncheckedCreateWithoutShipmentsInput>
+    connectOrCreate?: DriverCreateOrConnectWithoutShipmentsInput
+    upsert?: DriverUpsertWithoutShipmentsInput
+    disconnect?: DriverWhereInput | boolean
+    delete?: DriverWhereInput | boolean
+    connect?: DriverWhereUniqueInput
+    update?: XOR<XOR<DriverUpdateToOneWithWhereWithoutShipmentsInput, DriverUpdateWithoutShipmentsInput>, DriverUncheckedUpdateWithoutShipmentsInput>
+  }
+
+  export type ShipmentStopUpdateManyWithoutShipmentNestedInput = {
+    create?: XOR<ShipmentStopCreateWithoutShipmentInput, ShipmentStopUncheckedCreateWithoutShipmentInput> | ShipmentStopCreateWithoutShipmentInput[] | ShipmentStopUncheckedCreateWithoutShipmentInput[]
+    connectOrCreate?: ShipmentStopCreateOrConnectWithoutShipmentInput | ShipmentStopCreateOrConnectWithoutShipmentInput[]
+    upsert?: ShipmentStopUpsertWithWhereUniqueWithoutShipmentInput | ShipmentStopUpsertWithWhereUniqueWithoutShipmentInput[]
+    createMany?: ShipmentStopCreateManyShipmentInputEnvelope
+    set?: ShipmentStopWhereUniqueInput | ShipmentStopWhereUniqueInput[]
+    disconnect?: ShipmentStopWhereUniqueInput | ShipmentStopWhereUniqueInput[]
+    delete?: ShipmentStopWhereUniqueInput | ShipmentStopWhereUniqueInput[]
+    connect?: ShipmentStopWhereUniqueInput | ShipmentStopWhereUniqueInput[]
+    update?: ShipmentStopUpdateWithWhereUniqueWithoutShipmentInput | ShipmentStopUpdateWithWhereUniqueWithoutShipmentInput[]
+    updateMany?: ShipmentStopUpdateManyWithWhereWithoutShipmentInput | ShipmentStopUpdateManyWithWhereWithoutShipmentInput[]
+    deleteMany?: ShipmentStopScalarWhereInput | ShipmentStopScalarWhereInput[]
+  }
+
+  export type ShipmentStopUncheckedUpdateManyWithoutShipmentNestedInput = {
+    create?: XOR<ShipmentStopCreateWithoutShipmentInput, ShipmentStopUncheckedCreateWithoutShipmentInput> | ShipmentStopCreateWithoutShipmentInput[] | ShipmentStopUncheckedCreateWithoutShipmentInput[]
+    connectOrCreate?: ShipmentStopCreateOrConnectWithoutShipmentInput | ShipmentStopCreateOrConnectWithoutShipmentInput[]
+    upsert?: ShipmentStopUpsertWithWhereUniqueWithoutShipmentInput | ShipmentStopUpsertWithWhereUniqueWithoutShipmentInput[]
+    createMany?: ShipmentStopCreateManyShipmentInputEnvelope
+    set?: ShipmentStopWhereUniqueInput | ShipmentStopWhereUniqueInput[]
+    disconnect?: ShipmentStopWhereUniqueInput | ShipmentStopWhereUniqueInput[]
+    delete?: ShipmentStopWhereUniqueInput | ShipmentStopWhereUniqueInput[]
+    connect?: ShipmentStopWhereUniqueInput | ShipmentStopWhereUniqueInput[]
+    update?: ShipmentStopUpdateWithWhereUniqueWithoutShipmentInput | ShipmentStopUpdateWithWhereUniqueWithoutShipmentInput[]
+    updateMany?: ShipmentStopUpdateManyWithWhereWithoutShipmentInput | ShipmentStopUpdateManyWithWhereWithoutShipmentInput[]
+    deleteMany?: ShipmentStopScalarWhereInput | ShipmentStopScalarWhereInput[]
+  }
+
+  export type TenantCreateNestedOneWithoutShipmentStopsInput = {
+    create?: XOR<TenantCreateWithoutShipmentStopsInput, TenantUncheckedCreateWithoutShipmentStopsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutShipmentStopsInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type ShipmentCreateNestedOneWithoutStopsInput = {
+    create?: XOR<ShipmentCreateWithoutStopsInput, ShipmentUncheckedCreateWithoutStopsInput>
+    connectOrCreate?: ShipmentCreateOrConnectWithoutStopsInput
+    connect?: ShipmentWhereUniqueInput
+  }
+
+  export type TenantUpdateOneRequiredWithoutShipmentStopsNestedInput = {
+    create?: XOR<TenantCreateWithoutShipmentStopsInput, TenantUncheckedCreateWithoutShipmentStopsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutShipmentStopsInput
+    upsert?: TenantUpsertWithoutShipmentStopsInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutShipmentStopsInput, TenantUpdateWithoutShipmentStopsInput>, TenantUncheckedUpdateWithoutShipmentStopsInput>
+  }
+
+  export type ShipmentUpdateOneRequiredWithoutStopsNestedInput = {
+    create?: XOR<ShipmentCreateWithoutStopsInput, ShipmentUncheckedCreateWithoutStopsInput>
+    connectOrCreate?: ShipmentCreateOrConnectWithoutStopsInput
+    upsert?: ShipmentUpsertWithoutStopsInput
+    connect?: ShipmentWhereUniqueInput
+    update?: XOR<XOR<ShipmentUpdateToOneWithWhereWithoutStopsInput, ShipmentUpdateWithoutStopsInput>, ShipmentUncheckedUpdateWithoutStopsInput>
+  }
+
+  export type TenantCreateNestedOneWithoutDockAppointmentsInput = {
+    create?: XOR<TenantCreateWithoutDockAppointmentsInput, TenantUncheckedCreateWithoutDockAppointmentsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutDockAppointmentsInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type WarehouseCreateNestedOneWithoutDockAppointmentsInput = {
+    create?: XOR<WarehouseCreateWithoutDockAppointmentsInput, WarehouseUncheckedCreateWithoutDockAppointmentsInput>
+    connectOrCreate?: WarehouseCreateOrConnectWithoutDockAppointmentsInput
+    connect?: WarehouseWhereUniqueInput
+  }
+
+  export type TenantUpdateOneRequiredWithoutDockAppointmentsNestedInput = {
+    create?: XOR<TenantCreateWithoutDockAppointmentsInput, TenantUncheckedCreateWithoutDockAppointmentsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutDockAppointmentsInput
+    upsert?: TenantUpsertWithoutDockAppointmentsInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutDockAppointmentsInput, TenantUpdateWithoutDockAppointmentsInput>, TenantUncheckedUpdateWithoutDockAppointmentsInput>
+  }
+
+  export type WarehouseUpdateOneRequiredWithoutDockAppointmentsNestedInput = {
+    create?: XOR<WarehouseCreateWithoutDockAppointmentsInput, WarehouseUncheckedCreateWithoutDockAppointmentsInput>
+    connectOrCreate?: WarehouseCreateOrConnectWithoutDockAppointmentsInput
+    upsert?: WarehouseUpsertWithoutDockAppointmentsInput
+    connect?: WarehouseWhereUniqueInput
+    update?: XOR<XOR<WarehouseUpdateToOneWithWhereWithoutDockAppointmentsInput, WarehouseUpdateWithoutDockAppointmentsInput>, WarehouseUncheckedUpdateWithoutDockAppointmentsInput>
+  }
+
   export type NestedUuidFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -204261,6 +212888,7 @@ export namespace Prisma {
     code: string
     name: string
     locations?: WarehouseLocationCreateNestedManyWithoutWarehouseInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutWarehouseInput
   }
 
   export type WarehouseUncheckedCreateWithoutTenantInput = {
@@ -204268,6 +212896,7 @@ export namespace Prisma {
     code: string
     name: string
     locations?: WarehouseLocationUncheckedCreateNestedManyWithoutWarehouseInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutWarehouseInput
   }
 
   export type WarehouseCreateOrConnectWithoutTenantInput = {
@@ -207075,6 +215704,190 @@ export namespace Prisma {
 
   export type PosSessionCreateManyTenantInputEnvelope = {
     data: PosSessionCreateManyTenantInput | PosSessionCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type VehicleCreateWithoutTenantInput = {
+    id?: string
+    plate: string
+    name: string
+    capacityKg?: Decimal | DecimalJsLike | number | string
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    shipments?: ShipmentCreateNestedManyWithoutVehicleInput
+  }
+
+  export type VehicleUncheckedCreateWithoutTenantInput = {
+    id?: string
+    plate: string
+    name: string
+    capacityKg?: Decimal | DecimalJsLike | number | string
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutVehicleInput
+  }
+
+  export type VehicleCreateOrConnectWithoutTenantInput = {
+    where: VehicleWhereUniqueInput
+    create: XOR<VehicleCreateWithoutTenantInput, VehicleUncheckedCreateWithoutTenantInput>
+  }
+
+  export type VehicleCreateManyTenantInputEnvelope = {
+    data: VehicleCreateManyTenantInput | VehicleCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type DriverCreateWithoutTenantInput = {
+    id?: string
+    name: string
+    licenseNo?: string | null
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    shipments?: ShipmentCreateNestedManyWithoutDriverInput
+  }
+
+  export type DriverUncheckedCreateWithoutTenantInput = {
+    id?: string
+    name: string
+    licenseNo?: string | null
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutDriverInput
+  }
+
+  export type DriverCreateOrConnectWithoutTenantInput = {
+    where: DriverWhereUniqueInput
+    create: XOR<DriverCreateWithoutTenantInput, DriverUncheckedCreateWithoutTenantInput>
+  }
+
+  export type DriverCreateManyTenantInputEnvelope = {
+    data: DriverCreateManyTenantInput | DriverCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ShipmentCreateWithoutTenantInput = {
+    id?: string
+    shipmentNumber: string
+    carrierKey?: string | null
+    status?: string
+    plannedAt?: Date | string | null
+    deliveredAt?: Date | string | null
+    freightCost?: Decimal | DecimalJsLike | number | string | null
+    currency?: string | null
+    podName?: string | null
+    podSignatureHash?: string | null
+    notes?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    vehicle?: VehicleCreateNestedOneWithoutShipmentsInput
+    driver?: DriverCreateNestedOneWithoutShipmentsInput
+    stops?: ShipmentStopCreateNestedManyWithoutShipmentInput
+  }
+
+  export type ShipmentUncheckedCreateWithoutTenantInput = {
+    id?: string
+    shipmentNumber: string
+    carrierKey?: string | null
+    vehicleId?: string | null
+    driverId?: string | null
+    status?: string
+    plannedAt?: Date | string | null
+    deliveredAt?: Date | string | null
+    freightCost?: Decimal | DecimalJsLike | number | string | null
+    currency?: string | null
+    podName?: string | null
+    podSignatureHash?: string | null
+    notes?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    stops?: ShipmentStopUncheckedCreateNestedManyWithoutShipmentInput
+  }
+
+  export type ShipmentCreateOrConnectWithoutTenantInput = {
+    where: ShipmentWhereUniqueInput
+    create: XOR<ShipmentCreateWithoutTenantInput, ShipmentUncheckedCreateWithoutTenantInput>
+  }
+
+  export type ShipmentCreateManyTenantInputEnvelope = {
+    data: ShipmentCreateManyTenantInput | ShipmentCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ShipmentStopCreateWithoutTenantInput = {
+    id?: string
+    seq: number
+    address: string
+    orderId?: string | null
+    status?: string
+    note?: string | null
+    arrivedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    shipment: ShipmentCreateNestedOneWithoutStopsInput
+  }
+
+  export type ShipmentStopUncheckedCreateWithoutTenantInput = {
+    id?: string
+    shipmentId: string
+    seq: number
+    address: string
+    orderId?: string | null
+    status?: string
+    note?: string | null
+    arrivedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ShipmentStopCreateOrConnectWithoutTenantInput = {
+    where: ShipmentStopWhereUniqueInput
+    create: XOR<ShipmentStopCreateWithoutTenantInput, ShipmentStopUncheckedCreateWithoutTenantInput>
+  }
+
+  export type ShipmentStopCreateManyTenantInputEnvelope = {
+    data: ShipmentStopCreateManyTenantInput | ShipmentStopCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type DockAppointmentCreateWithoutTenantInput = {
+    id?: string
+    dockCode: string
+    scheduledAt: Date | string
+    durationMin?: number
+    reference?: string | null
+    status?: string
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    warehouse: WarehouseCreateNestedOneWithoutDockAppointmentsInput
+  }
+
+  export type DockAppointmentUncheckedCreateWithoutTenantInput = {
+    id?: string
+    warehouseId: string
+    dockCode: string
+    scheduledAt: Date | string
+    durationMin?: number
+    reference?: string | null
+    status?: string
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DockAppointmentCreateOrConnectWithoutTenantInput = {
+    where: DockAppointmentWhereUniqueInput
+    create: XOR<DockAppointmentCreateWithoutTenantInput, DockAppointmentUncheckedCreateWithoutTenantInput>
+  }
+
+  export type DockAppointmentCreateManyTenantInputEnvelope = {
+    data: DockAppointmentCreateManyTenantInput | DockAppointmentCreateManyTenantInput[]
     skipDuplicates?: boolean
   }
 
@@ -210406,6 +219219,170 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"PosSession"> | Date | string
   }
 
+  export type VehicleUpsertWithWhereUniqueWithoutTenantInput = {
+    where: VehicleWhereUniqueInput
+    update: XOR<VehicleUpdateWithoutTenantInput, VehicleUncheckedUpdateWithoutTenantInput>
+    create: XOR<VehicleCreateWithoutTenantInput, VehicleUncheckedCreateWithoutTenantInput>
+  }
+
+  export type VehicleUpdateWithWhereUniqueWithoutTenantInput = {
+    where: VehicleWhereUniqueInput
+    data: XOR<VehicleUpdateWithoutTenantInput, VehicleUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type VehicleUpdateManyWithWhereWithoutTenantInput = {
+    where: VehicleScalarWhereInput
+    data: XOR<VehicleUpdateManyMutationInput, VehicleUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type VehicleScalarWhereInput = {
+    AND?: VehicleScalarWhereInput | VehicleScalarWhereInput[]
+    OR?: VehicleScalarWhereInput[]
+    NOT?: VehicleScalarWhereInput | VehicleScalarWhereInput[]
+    id?: UuidFilter<"Vehicle"> | string
+    tenantId?: UuidFilter<"Vehicle"> | string
+    plate?: StringFilter<"Vehicle"> | string
+    name?: StringFilter<"Vehicle"> | string
+    capacityKg?: DecimalFilter<"Vehicle"> | Decimal | DecimalJsLike | number | string
+    active?: BoolFilter<"Vehicle"> | boolean
+    createdAt?: DateTimeFilter<"Vehicle"> | Date | string
+    updatedAt?: DateTimeFilter<"Vehicle"> | Date | string
+  }
+
+  export type DriverUpsertWithWhereUniqueWithoutTenantInput = {
+    where: DriverWhereUniqueInput
+    update: XOR<DriverUpdateWithoutTenantInput, DriverUncheckedUpdateWithoutTenantInput>
+    create: XOR<DriverCreateWithoutTenantInput, DriverUncheckedCreateWithoutTenantInput>
+  }
+
+  export type DriverUpdateWithWhereUniqueWithoutTenantInput = {
+    where: DriverWhereUniqueInput
+    data: XOR<DriverUpdateWithoutTenantInput, DriverUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type DriverUpdateManyWithWhereWithoutTenantInput = {
+    where: DriverScalarWhereInput
+    data: XOR<DriverUpdateManyMutationInput, DriverUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type DriverScalarWhereInput = {
+    AND?: DriverScalarWhereInput | DriverScalarWhereInput[]
+    OR?: DriverScalarWhereInput[]
+    NOT?: DriverScalarWhereInput | DriverScalarWhereInput[]
+    id?: UuidFilter<"Driver"> | string
+    tenantId?: UuidFilter<"Driver"> | string
+    name?: StringFilter<"Driver"> | string
+    licenseNo?: StringNullableFilter<"Driver"> | string | null
+    active?: BoolFilter<"Driver"> | boolean
+    createdAt?: DateTimeFilter<"Driver"> | Date | string
+    updatedAt?: DateTimeFilter<"Driver"> | Date | string
+  }
+
+  export type ShipmentUpsertWithWhereUniqueWithoutTenantInput = {
+    where: ShipmentWhereUniqueInput
+    update: XOR<ShipmentUpdateWithoutTenantInput, ShipmentUncheckedUpdateWithoutTenantInput>
+    create: XOR<ShipmentCreateWithoutTenantInput, ShipmentUncheckedCreateWithoutTenantInput>
+  }
+
+  export type ShipmentUpdateWithWhereUniqueWithoutTenantInput = {
+    where: ShipmentWhereUniqueInput
+    data: XOR<ShipmentUpdateWithoutTenantInput, ShipmentUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type ShipmentUpdateManyWithWhereWithoutTenantInput = {
+    where: ShipmentScalarWhereInput
+    data: XOR<ShipmentUpdateManyMutationInput, ShipmentUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type ShipmentScalarWhereInput = {
+    AND?: ShipmentScalarWhereInput | ShipmentScalarWhereInput[]
+    OR?: ShipmentScalarWhereInput[]
+    NOT?: ShipmentScalarWhereInput | ShipmentScalarWhereInput[]
+    id?: UuidFilter<"Shipment"> | string
+    tenantId?: UuidFilter<"Shipment"> | string
+    shipmentNumber?: StringFilter<"Shipment"> | string
+    carrierKey?: StringNullableFilter<"Shipment"> | string | null
+    vehicleId?: UuidNullableFilter<"Shipment"> | string | null
+    driverId?: UuidNullableFilter<"Shipment"> | string | null
+    status?: StringFilter<"Shipment"> | string
+    plannedAt?: DateTimeNullableFilter<"Shipment"> | Date | string | null
+    deliveredAt?: DateTimeNullableFilter<"Shipment"> | Date | string | null
+    freightCost?: DecimalNullableFilter<"Shipment"> | Decimal | DecimalJsLike | number | string | null
+    currency?: StringNullableFilter<"Shipment"> | string | null
+    podName?: StringNullableFilter<"Shipment"> | string | null
+    podSignatureHash?: StringNullableFilter<"Shipment"> | string | null
+    notes?: StringNullableFilter<"Shipment"> | string | null
+    createdBy?: StringNullableFilter<"Shipment"> | string | null
+    createdAt?: DateTimeFilter<"Shipment"> | Date | string
+    updatedAt?: DateTimeFilter<"Shipment"> | Date | string
+  }
+
+  export type ShipmentStopUpsertWithWhereUniqueWithoutTenantInput = {
+    where: ShipmentStopWhereUniqueInput
+    update: XOR<ShipmentStopUpdateWithoutTenantInput, ShipmentStopUncheckedUpdateWithoutTenantInput>
+    create: XOR<ShipmentStopCreateWithoutTenantInput, ShipmentStopUncheckedCreateWithoutTenantInput>
+  }
+
+  export type ShipmentStopUpdateWithWhereUniqueWithoutTenantInput = {
+    where: ShipmentStopWhereUniqueInput
+    data: XOR<ShipmentStopUpdateWithoutTenantInput, ShipmentStopUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type ShipmentStopUpdateManyWithWhereWithoutTenantInput = {
+    where: ShipmentStopScalarWhereInput
+    data: XOR<ShipmentStopUpdateManyMutationInput, ShipmentStopUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type ShipmentStopScalarWhereInput = {
+    AND?: ShipmentStopScalarWhereInput | ShipmentStopScalarWhereInput[]
+    OR?: ShipmentStopScalarWhereInput[]
+    NOT?: ShipmentStopScalarWhereInput | ShipmentStopScalarWhereInput[]
+    id?: UuidFilter<"ShipmentStop"> | string
+    tenantId?: UuidFilter<"ShipmentStop"> | string
+    shipmentId?: UuidFilter<"ShipmentStop"> | string
+    seq?: IntFilter<"ShipmentStop"> | number
+    address?: StringFilter<"ShipmentStop"> | string
+    orderId?: UuidNullableFilter<"ShipmentStop"> | string | null
+    status?: StringFilter<"ShipmentStop"> | string
+    note?: StringNullableFilter<"ShipmentStop"> | string | null
+    arrivedAt?: DateTimeNullableFilter<"ShipmentStop"> | Date | string | null
+    createdAt?: DateTimeFilter<"ShipmentStop"> | Date | string
+    updatedAt?: DateTimeFilter<"ShipmentStop"> | Date | string
+  }
+
+  export type DockAppointmentUpsertWithWhereUniqueWithoutTenantInput = {
+    where: DockAppointmentWhereUniqueInput
+    update: XOR<DockAppointmentUpdateWithoutTenantInput, DockAppointmentUncheckedUpdateWithoutTenantInput>
+    create: XOR<DockAppointmentCreateWithoutTenantInput, DockAppointmentUncheckedCreateWithoutTenantInput>
+  }
+
+  export type DockAppointmentUpdateWithWhereUniqueWithoutTenantInput = {
+    where: DockAppointmentWhereUniqueInput
+    data: XOR<DockAppointmentUpdateWithoutTenantInput, DockAppointmentUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type DockAppointmentUpdateManyWithWhereWithoutTenantInput = {
+    where: DockAppointmentScalarWhereInput
+    data: XOR<DockAppointmentUpdateManyMutationInput, DockAppointmentUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type DockAppointmentScalarWhereInput = {
+    AND?: DockAppointmentScalarWhereInput | DockAppointmentScalarWhereInput[]
+    OR?: DockAppointmentScalarWhereInput[]
+    NOT?: DockAppointmentScalarWhereInput | DockAppointmentScalarWhereInput[]
+    id?: UuidFilter<"DockAppointment"> | string
+    tenantId?: UuidFilter<"DockAppointment"> | string
+    warehouseId?: UuidFilter<"DockAppointment"> | string
+    dockCode?: StringFilter<"DockAppointment"> | string
+    scheduledAt?: DateTimeFilter<"DockAppointment"> | Date | string
+    durationMin?: IntFilter<"DockAppointment"> | number
+    reference?: StringNullableFilter<"DockAppointment"> | string | null
+    status?: StringFilter<"DockAppointment"> | string
+    createdBy?: StringNullableFilter<"DockAppointment"> | string | null
+    createdAt?: DateTimeFilter<"DockAppointment"> | Date | string
+    updatedAt?: DateTimeFilter<"DockAppointment"> | Date | string
+  }
+
   export type FrameworkAgreementUpsertWithWhereUniqueWithoutTenantInput = {
     where: FrameworkAgreementWhereUniqueInput
     update: XOR<FrameworkAgreementUpdateWithoutTenantInput, FrameworkAgreementUncheckedUpdateWithoutTenantInput>
@@ -210554,6 +219531,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -210669,6 +219651,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -210800,6 +219787,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -210915,6 +219907,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -211030,6 +220027,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -211145,6 +220147,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -211310,6 +220317,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -211425,6 +220437,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -211556,6 +220573,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -211671,6 +220693,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -211940,6 +220967,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -212055,6 +221087,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -212282,6 +221319,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -212397,6 +221439,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -212557,6 +221604,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -212672,6 +221724,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -212822,6 +221879,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -212937,6 +221999,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -213097,6 +222164,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -213212,6 +222284,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -213362,6 +222439,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -213477,6 +222559,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -213697,6 +222784,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -213812,6 +222904,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -213996,6 +223093,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -214111,6 +223213,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -214273,6 +223380,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -214388,6 +223500,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -214540,6 +223657,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -214655,6 +223777,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -214836,6 +223963,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -214951,6 +224083,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -215164,6 +224301,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -215279,6 +224421,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -215466,6 +224613,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -215581,6 +224733,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -215764,6 +224921,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -215879,6 +225041,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -216010,6 +225177,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -216125,6 +225297,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -216240,6 +225417,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -216355,6 +225537,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -216486,6 +225673,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -216601,6 +225793,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -216716,6 +225913,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -216831,6 +226033,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -216962,6 +226169,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -217077,6 +226289,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -217192,6 +226409,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -217307,6 +226529,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -217438,6 +226665,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -217553,6 +226785,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -217668,6 +226905,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -217783,6 +227025,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -217914,6 +227161,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -218029,6 +227281,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -218144,6 +227401,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -218259,6 +227521,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -218390,6 +227657,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -218505,6 +227777,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -218620,6 +227897,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -218735,6 +228017,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -218866,6 +228153,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -218981,6 +228273,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -219096,6 +228393,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -219211,6 +228513,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -219404,6 +228711,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -219519,6 +228831,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -219892,6 +229209,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -220007,6 +229329,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -220166,6 +229493,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -220281,6 +229613,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -220469,6 +229806,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -220584,6 +229926,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -220715,6 +230062,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -220830,6 +230182,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -220945,6 +230302,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -221060,6 +230422,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -221191,6 +230558,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -221306,6 +230678,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -221421,6 +230798,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -221536,6 +230918,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -221693,6 +231080,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -221808,6 +231200,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -221999,6 +231396,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -222114,6 +231516,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -222426,6 +231833,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -222541,6 +231953,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -222777,6 +232194,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -222892,6 +232314,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -223062,6 +232489,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -223177,6 +232609,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -223421,6 +232858,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -223536,6 +232978,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -223731,6 +233178,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -223846,6 +233298,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -224679,6 +234136,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -224794,6 +234256,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -224821,6 +234288,42 @@ export namespace Prisma {
 
   export type WarehouseLocationCreateManyWarehouseInputEnvelope = {
     data: WarehouseLocationCreateManyWarehouseInput | WarehouseLocationCreateManyWarehouseInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type DockAppointmentCreateWithoutWarehouseInput = {
+    id?: string
+    dockCode: string
+    scheduledAt: Date | string
+    durationMin?: number
+    reference?: string | null
+    status?: string
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutDockAppointmentsInput
+  }
+
+  export type DockAppointmentUncheckedCreateWithoutWarehouseInput = {
+    id?: string
+    tenantId: string
+    dockCode: string
+    scheduledAt: Date | string
+    durationMin?: number
+    reference?: string | null
+    status?: string
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DockAppointmentCreateOrConnectWithoutWarehouseInput = {
+    where: DockAppointmentWhereUniqueInput
+    create: XOR<DockAppointmentCreateWithoutWarehouseInput, DockAppointmentUncheckedCreateWithoutWarehouseInput>
+  }
+
+  export type DockAppointmentCreateManyWarehouseInputEnvelope = {
+    data: DockAppointmentCreateManyWarehouseInput | DockAppointmentCreateManyWarehouseInput[]
     skipDuplicates?: boolean
   }
 
@@ -224947,6 +234450,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -225062,6 +234570,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -225091,11 +234604,28 @@ export namespace Prisma {
     code?: StringFilter<"WarehouseLocation"> | string
   }
 
+  export type DockAppointmentUpsertWithWhereUniqueWithoutWarehouseInput = {
+    where: DockAppointmentWhereUniqueInput
+    update: XOR<DockAppointmentUpdateWithoutWarehouseInput, DockAppointmentUncheckedUpdateWithoutWarehouseInput>
+    create: XOR<DockAppointmentCreateWithoutWarehouseInput, DockAppointmentUncheckedCreateWithoutWarehouseInput>
+  }
+
+  export type DockAppointmentUpdateWithWhereUniqueWithoutWarehouseInput = {
+    where: DockAppointmentWhereUniqueInput
+    data: XOR<DockAppointmentUpdateWithoutWarehouseInput, DockAppointmentUncheckedUpdateWithoutWarehouseInput>
+  }
+
+  export type DockAppointmentUpdateManyWithWhereWithoutWarehouseInput = {
+    where: DockAppointmentScalarWhereInput
+    data: XOR<DockAppointmentUpdateManyMutationInput, DockAppointmentUncheckedUpdateManyWithoutWarehouseInput>
+  }
+
   export type WarehouseCreateWithoutLocationsInput = {
     id?: string
     code: string
     name: string
     tenant: TenantCreateNestedOneWithoutWarehousesInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutWarehouseInput
   }
 
   export type WarehouseUncheckedCreateWithoutLocationsInput = {
@@ -225103,6 +234633,7 @@ export namespace Prisma {
     tenantId: string
     code: string
     name: string
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutWarehouseInput
   }
 
   export type WarehouseCreateOrConnectWithoutLocationsInput = {
@@ -225126,6 +234657,7 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     tenant?: TenantUpdateOneRequiredWithoutWarehousesNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutWarehouseNestedInput
   }
 
   export type WarehouseUncheckedUpdateWithoutLocationsInput = {
@@ -225133,6 +234665,7 @@ export namespace Prisma {
     tenantId?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutWarehouseNestedInput
   }
 
   export type TenantCreateWithoutStockMovementsInput = {
@@ -225247,6 +234780,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -225362,6 +234900,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -225493,6 +235036,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -225608,6 +235156,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -225723,6 +235276,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -225838,6 +235396,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -225969,6 +235532,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -226084,6 +235652,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -226199,6 +235772,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -226314,6 +235892,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -226445,6 +236028,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -226560,6 +236148,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -226675,6 +236268,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -226790,6 +236388,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -226921,6 +236524,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -227036,6 +236644,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -227151,6 +236764,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -227266,6 +236884,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -227423,6 +237046,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -227538,6 +237166,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -227669,6 +237302,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -227784,6 +237422,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -227948,6 +237591,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -228063,6 +237711,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -228217,6 +237870,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -228332,6 +237990,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -228463,6 +238126,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -228578,6 +238246,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -228693,6 +238366,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -228808,6 +238486,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -228963,6 +238646,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -229078,6 +238766,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -229209,6 +238902,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -229324,6 +239022,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -229476,6 +239179,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -229591,6 +239299,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -229733,6 +239446,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -229848,6 +239566,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -229979,6 +239702,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -230094,6 +239822,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -230209,6 +239942,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -230324,6 +240062,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -230455,6 +240198,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -230570,6 +240318,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -230685,6 +240438,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -230800,6 +240558,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -230931,6 +240694,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -231046,6 +240814,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -231161,6 +240934,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -231276,6 +241054,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -231407,6 +241190,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -231522,6 +241310,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -231637,6 +241430,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -231752,6 +241550,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -231909,6 +241712,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -232024,6 +241832,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -232155,6 +241968,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -232270,6 +242088,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -232434,6 +242257,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -232549,6 +242377,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -232703,6 +242536,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -232818,6 +242656,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -232983,6 +242826,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -233098,6 +242946,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -233229,6 +243082,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -233344,6 +243202,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -233534,6 +243397,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -233649,6 +243517,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -233829,6 +243702,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -233944,6 +243822,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -234075,6 +243958,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -234190,6 +244078,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -234305,6 +244198,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -234420,6 +244318,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -234551,6 +244454,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -234666,6 +244574,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -234781,6 +244694,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -234896,6 +244814,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -235074,6 +244997,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -235189,6 +245117,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -235357,6 +245290,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -235472,6 +245410,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -235675,6 +245618,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -235790,6 +245738,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -235937,6 +245890,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -236052,6 +246010,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -236228,6 +246191,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -236343,6 +246311,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -236509,6 +246482,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -236624,6 +246602,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -236755,6 +246738,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -236870,6 +246858,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -236985,6 +246978,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -237100,6 +247098,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -237231,6 +247234,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -237346,6 +247354,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -237461,6 +247474,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -237576,6 +247594,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -237737,6 +247760,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -237852,6 +247880,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -237983,6 +248016,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -238098,6 +248136,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -238262,6 +248305,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -238377,6 +248425,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -238531,6 +248584,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -238646,6 +248704,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -238875,6 +248938,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -238990,6 +249058,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -239153,6 +249226,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -239268,6 +249346,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -239440,6 +249523,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -239555,6 +249643,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -239717,6 +249810,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -239832,6 +249930,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -239993,6 +250096,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -240108,6 +250216,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -240239,6 +250352,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -240354,6 +250472,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -240516,6 +250639,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -240631,6 +250759,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -240783,6 +250916,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -240898,6 +251036,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -241061,6 +251204,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -241176,6 +251324,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -241307,6 +251460,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -241422,6 +251580,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -241580,6 +251743,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -241695,6 +251863,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -241843,6 +252016,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -241958,6 +252136,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -242089,6 +252272,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -242204,6 +252392,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -242319,6 +252512,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -242434,6 +252632,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -242565,6 +252768,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -242680,6 +252888,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -242795,6 +253008,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -242910,6 +253128,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -243071,6 +253294,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -243186,6 +253414,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -243317,6 +253550,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -243432,6 +253670,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -243588,6 +253831,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -243703,6 +253951,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -243849,6 +254102,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -243964,6 +254222,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -244131,6 +254394,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -244246,6 +254514,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -244377,6 +254650,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -244492,6 +254770,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -244666,6 +254949,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -244781,6 +255069,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -244945,6 +255238,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -245060,6 +255358,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -245217,6 +255520,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -245332,6 +255640,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -245463,6 +255776,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -245578,6 +255896,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -245736,6 +256059,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -245851,6 +256179,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -245999,6 +256332,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -246114,6 +256452,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -246275,6 +256618,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -246390,6 +256738,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -246521,6 +256874,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -246636,6 +256994,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -246802,6 +257165,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -246917,6 +257285,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -247073,6 +257446,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -247188,6 +257566,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -247319,6 +257702,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -247434,6 +257822,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -247549,6 +257942,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -247664,6 +258062,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -247827,6 +258230,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -247942,6 +258350,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -248073,6 +258486,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -248188,6 +258606,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -248364,6 +258787,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -248479,6 +258907,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -248645,6 +259078,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -248760,6 +259198,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -248891,6 +259334,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -249006,6 +259454,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -249121,6 +259574,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -249236,6 +259694,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -249367,6 +259830,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -249482,6 +259950,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -249597,6 +260070,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -249712,6 +260190,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -249860,6 +260343,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -249975,6 +260463,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -250113,6 +260606,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -250228,6 +260726,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -250390,6 +260893,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -250505,6 +261013,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -250657,6 +261170,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -250772,6 +261290,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -250903,6 +261426,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -251018,6 +261546,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -251133,6 +261666,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -251248,6 +261786,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -251379,6 +261922,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -251494,6 +262042,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -251609,6 +262162,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -251724,6 +262282,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -251883,6 +262446,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -251998,6 +262566,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -252129,6 +262702,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -252244,6 +262822,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -252398,6 +262981,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -252513,6 +263101,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -252657,6 +263250,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -252772,6 +263370,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -252941,6 +263544,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -253056,6 +263664,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -253187,6 +263800,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -253302,6 +263920,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -253460,6 +264083,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -253575,6 +264203,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -253723,6 +264356,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -253838,6 +264476,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -253969,6 +264612,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -254084,6 +264732,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -254199,6 +264852,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -254314,6 +264972,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -254445,6 +265108,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -254560,6 +265228,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -254675,6 +265348,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -254790,6 +265468,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -254972,6 +265655,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -255087,6 +265775,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -255247,6 +265940,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -255362,6 +266060,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -255521,6 +266224,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -255636,6 +266344,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -255767,6 +266480,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -255882,6 +266600,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -256048,6 +266771,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -256163,6 +266891,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -256319,6 +267052,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -256434,6 +267172,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -256591,6 +267334,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -256706,6 +267454,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -256837,6 +267590,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -256952,6 +267710,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -257116,6 +267879,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -257231,6 +267999,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -257385,6 +268158,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -257500,6 +268278,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -257663,6 +268446,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -257778,6 +268566,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -257909,6 +268702,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -258024,6 +268822,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -258178,6 +268981,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -258293,6 +269101,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -258437,6 +269250,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -258552,6 +269370,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -258709,6 +269532,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -258824,6 +269652,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -259419,6 +270252,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -259534,6 +270372,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -259696,6 +270539,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -259811,6 +270659,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -259963,6 +270816,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -260078,6 +270936,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -260209,6 +271072,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -260324,6 +271192,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -260439,6 +271312,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -260554,6 +271432,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -260715,6 +271598,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -260830,6 +271718,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -261027,6 +271920,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -261142,6 +272040,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -261273,6 +272176,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -261388,6 +272296,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -261503,6 +272416,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -261618,6 +272536,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -261788,6 +272711,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -261903,6 +272831,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -262063,6 +272996,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -262178,6 +273116,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -262309,6 +273252,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -262424,6 +273372,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -262539,6 +273492,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -262654,6 +273612,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -262785,6 +273748,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -262900,6 +273868,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -263015,6 +273988,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -263130,6 +274108,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -263261,6 +274244,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -263376,6 +274364,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -263491,6 +274484,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -263606,6 +274604,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -263767,6 +274770,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -263882,6 +274890,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -264099,6 +275112,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -264214,6 +275232,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -264414,6 +275437,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -264529,6 +275557,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -264790,6 +275823,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -264905,6 +275943,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -265077,6 +276120,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -265192,6 +276240,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -265354,6 +276407,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -265469,6 +276527,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -265628,6 +276691,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -265743,6 +276811,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -265952,6 +277025,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutFrameworkAgreementsInput = {
@@ -266067,6 +277145,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutFrameworkAgreementsInput = {
@@ -266198,6 +277281,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutFrameworkAgreementsInput = {
@@ -266313,6 +277401,11 @@ export namespace Prisma {
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSkuChannelContentsInput = {
@@ -266427,6 +277520,11 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -266542,6 +277640,11 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -266732,6 +277835,11 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -266847,6 +277955,11 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -267027,6 +278140,11 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -267142,6 +278260,11 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -267314,6 +278437,11 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -267429,6 +278557,11 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -267591,6 +278724,11 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
     containers?: ContainerCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
   }
 
@@ -267706,6 +278844,11 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
     skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
     containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -267837,6 +278980,11 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
     containers?: ContainerUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
   }
 
@@ -267952,7 +279100,2936 @@ export namespace Prisma {
     customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
     skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
     containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantCreateWithoutVehiclesInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    factories?: FactoryCreateNestedManyWithoutTenantInput
+    users?: UserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionCreateNestedManyWithoutTenantInput
+    tasks?: TaskCreateNestedManyWithoutTenantInput
+    notifications?: NotificationCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    products?: ProductCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountCreateNestedManyWithoutTenantInput
+    leads?: LeadCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryCreateNestedManyWithoutTenantInput
+    quotes?: QuoteCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
+    comments?: CommentCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
+    exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
+    breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
+    masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
+    supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
+    employees?: EmployeeCreateNestedManyWithoutTenantInput
+    assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
+    rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
+    containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutVehiclesInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityUncheckedCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    factories?: FactoryUncheckedCreateNestedManyWithoutTenantInput
+    users?: UserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventUncheckedCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventUncheckedCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryUncheckedCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationUncheckedCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutTenantInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalUncheckedCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventUncheckedCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    products?: ProductUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountUncheckedCreateNestedManyWithoutTenantInput
+    leads?: LeadUncheckedCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityUncheckedCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityUncheckedCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListUncheckedCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryUncheckedCreateNestedManyWithoutTenantInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineUncheckedCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderUncheckedCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventUncheckedCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierUncheckedCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
+    comments?: CommentUncheckedCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderUncheckedCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
+    exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
+    breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
+    masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
+    supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
+    employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
+    assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
+    rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
+    containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutVehiclesInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutVehiclesInput, TenantUncheckedCreateWithoutVehiclesInput>
+  }
+
+  export type ShipmentCreateWithoutVehicleInput = {
+    id?: string
+    shipmentNumber: string
+    carrierKey?: string | null
+    status?: string
+    plannedAt?: Date | string | null
+    deliveredAt?: Date | string | null
+    freightCost?: Decimal | DecimalJsLike | number | string | null
+    currency?: string | null
+    podName?: string | null
+    podSignatureHash?: string | null
+    notes?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutShipmentsInput
+    driver?: DriverCreateNestedOneWithoutShipmentsInput
+    stops?: ShipmentStopCreateNestedManyWithoutShipmentInput
+  }
+
+  export type ShipmentUncheckedCreateWithoutVehicleInput = {
+    id?: string
+    tenantId: string
+    shipmentNumber: string
+    carrierKey?: string | null
+    driverId?: string | null
+    status?: string
+    plannedAt?: Date | string | null
+    deliveredAt?: Date | string | null
+    freightCost?: Decimal | DecimalJsLike | number | string | null
+    currency?: string | null
+    podName?: string | null
+    podSignatureHash?: string | null
+    notes?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    stops?: ShipmentStopUncheckedCreateNestedManyWithoutShipmentInput
+  }
+
+  export type ShipmentCreateOrConnectWithoutVehicleInput = {
+    where: ShipmentWhereUniqueInput
+    create: XOR<ShipmentCreateWithoutVehicleInput, ShipmentUncheckedCreateWithoutVehicleInput>
+  }
+
+  export type ShipmentCreateManyVehicleInputEnvelope = {
+    data: ShipmentCreateManyVehicleInput | ShipmentCreateManyVehicleInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TenantUpsertWithoutVehiclesInput = {
+    update: XOR<TenantUpdateWithoutVehiclesInput, TenantUncheckedUpdateWithoutVehiclesInput>
+    create: XOR<TenantCreateWithoutVehiclesInput, TenantUncheckedCreateWithoutVehiclesInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutVehiclesInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutVehiclesInput, TenantUncheckedUpdateWithoutVehiclesInput>
+  }
+
+  export type TenantUpdateWithoutVehiclesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUpdateManyWithoutTenantNestedInput
+    users?: UserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    products?: ProductUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUpdateManyWithoutTenantNestedInput
+    leads?: LeadUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
+    comments?: CommentUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
+    exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
+    breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
+    masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
+    supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
+    employees?: EmployeeUpdateManyWithoutTenantNestedInput
+    assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
+    rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
+    containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutVehiclesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUncheckedUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUncheckedUpdateManyWithoutTenantNestedInput
+    users?: UserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUncheckedUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUncheckedUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUncheckedUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUncheckedUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUncheckedUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUncheckedUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    products?: ProductUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUncheckedUpdateManyWithoutTenantNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUncheckedUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUncheckedUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUncheckedUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUncheckedUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUncheckedUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
+    exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
+    breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
+    masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
+    supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
+    employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
+    assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
+    rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
+    containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type ShipmentUpsertWithWhereUniqueWithoutVehicleInput = {
+    where: ShipmentWhereUniqueInput
+    update: XOR<ShipmentUpdateWithoutVehicleInput, ShipmentUncheckedUpdateWithoutVehicleInput>
+    create: XOR<ShipmentCreateWithoutVehicleInput, ShipmentUncheckedCreateWithoutVehicleInput>
+  }
+
+  export type ShipmentUpdateWithWhereUniqueWithoutVehicleInput = {
+    where: ShipmentWhereUniqueInput
+    data: XOR<ShipmentUpdateWithoutVehicleInput, ShipmentUncheckedUpdateWithoutVehicleInput>
+  }
+
+  export type ShipmentUpdateManyWithWhereWithoutVehicleInput = {
+    where: ShipmentScalarWhereInput
+    data: XOR<ShipmentUpdateManyMutationInput, ShipmentUncheckedUpdateManyWithoutVehicleInput>
+  }
+
+  export type TenantCreateWithoutDriversInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    factories?: FactoryCreateNestedManyWithoutTenantInput
+    users?: UserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionCreateNestedManyWithoutTenantInput
+    tasks?: TaskCreateNestedManyWithoutTenantInput
+    notifications?: NotificationCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    products?: ProductCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountCreateNestedManyWithoutTenantInput
+    leads?: LeadCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryCreateNestedManyWithoutTenantInput
+    quotes?: QuoteCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
+    comments?: CommentCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
+    exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
+    breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
+    masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
+    supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
+    employees?: EmployeeCreateNestedManyWithoutTenantInput
+    assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
+    rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
+    containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutDriversInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityUncheckedCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    factories?: FactoryUncheckedCreateNestedManyWithoutTenantInput
+    users?: UserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventUncheckedCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventUncheckedCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryUncheckedCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationUncheckedCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutTenantInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalUncheckedCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventUncheckedCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    products?: ProductUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountUncheckedCreateNestedManyWithoutTenantInput
+    leads?: LeadUncheckedCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityUncheckedCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityUncheckedCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListUncheckedCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryUncheckedCreateNestedManyWithoutTenantInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineUncheckedCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderUncheckedCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventUncheckedCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierUncheckedCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
+    comments?: CommentUncheckedCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderUncheckedCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
+    exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
+    breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
+    masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
+    supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
+    employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
+    assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
+    rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
+    containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutDriversInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutDriversInput, TenantUncheckedCreateWithoutDriversInput>
+  }
+
+  export type ShipmentCreateWithoutDriverInput = {
+    id?: string
+    shipmentNumber: string
+    carrierKey?: string | null
+    status?: string
+    plannedAt?: Date | string | null
+    deliveredAt?: Date | string | null
+    freightCost?: Decimal | DecimalJsLike | number | string | null
+    currency?: string | null
+    podName?: string | null
+    podSignatureHash?: string | null
+    notes?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutShipmentsInput
+    vehicle?: VehicleCreateNestedOneWithoutShipmentsInput
+    stops?: ShipmentStopCreateNestedManyWithoutShipmentInput
+  }
+
+  export type ShipmentUncheckedCreateWithoutDriverInput = {
+    id?: string
+    tenantId: string
+    shipmentNumber: string
+    carrierKey?: string | null
+    vehicleId?: string | null
+    status?: string
+    plannedAt?: Date | string | null
+    deliveredAt?: Date | string | null
+    freightCost?: Decimal | DecimalJsLike | number | string | null
+    currency?: string | null
+    podName?: string | null
+    podSignatureHash?: string | null
+    notes?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    stops?: ShipmentStopUncheckedCreateNestedManyWithoutShipmentInput
+  }
+
+  export type ShipmentCreateOrConnectWithoutDriverInput = {
+    where: ShipmentWhereUniqueInput
+    create: XOR<ShipmentCreateWithoutDriverInput, ShipmentUncheckedCreateWithoutDriverInput>
+  }
+
+  export type ShipmentCreateManyDriverInputEnvelope = {
+    data: ShipmentCreateManyDriverInput | ShipmentCreateManyDriverInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TenantUpsertWithoutDriversInput = {
+    update: XOR<TenantUpdateWithoutDriversInput, TenantUncheckedUpdateWithoutDriversInput>
+    create: XOR<TenantCreateWithoutDriversInput, TenantUncheckedCreateWithoutDriversInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutDriversInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutDriversInput, TenantUncheckedUpdateWithoutDriversInput>
+  }
+
+  export type TenantUpdateWithoutDriversInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUpdateManyWithoutTenantNestedInput
+    users?: UserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    products?: ProductUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUpdateManyWithoutTenantNestedInput
+    leads?: LeadUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
+    comments?: CommentUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
+    exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
+    breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
+    masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
+    supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
+    employees?: EmployeeUpdateManyWithoutTenantNestedInput
+    assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
+    rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
+    containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutDriversInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUncheckedUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUncheckedUpdateManyWithoutTenantNestedInput
+    users?: UserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUncheckedUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUncheckedUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUncheckedUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUncheckedUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUncheckedUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUncheckedUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    products?: ProductUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUncheckedUpdateManyWithoutTenantNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUncheckedUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUncheckedUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUncheckedUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUncheckedUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUncheckedUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
+    exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
+    breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
+    masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
+    supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
+    employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
+    assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
+    rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
+    containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type ShipmentUpsertWithWhereUniqueWithoutDriverInput = {
+    where: ShipmentWhereUniqueInput
+    update: XOR<ShipmentUpdateWithoutDriverInput, ShipmentUncheckedUpdateWithoutDriverInput>
+    create: XOR<ShipmentCreateWithoutDriverInput, ShipmentUncheckedCreateWithoutDriverInput>
+  }
+
+  export type ShipmentUpdateWithWhereUniqueWithoutDriverInput = {
+    where: ShipmentWhereUniqueInput
+    data: XOR<ShipmentUpdateWithoutDriverInput, ShipmentUncheckedUpdateWithoutDriverInput>
+  }
+
+  export type ShipmentUpdateManyWithWhereWithoutDriverInput = {
+    where: ShipmentScalarWhereInput
+    data: XOR<ShipmentUpdateManyMutationInput, ShipmentUncheckedUpdateManyWithoutDriverInput>
+  }
+
+  export type TenantCreateWithoutShipmentsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    factories?: FactoryCreateNestedManyWithoutTenantInput
+    users?: UserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionCreateNestedManyWithoutTenantInput
+    tasks?: TaskCreateNestedManyWithoutTenantInput
+    notifications?: NotificationCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    products?: ProductCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountCreateNestedManyWithoutTenantInput
+    leads?: LeadCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryCreateNestedManyWithoutTenantInput
+    quotes?: QuoteCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
+    comments?: CommentCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
+    exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
+    breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
+    masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
+    supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
+    employees?: EmployeeCreateNestedManyWithoutTenantInput
+    assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
+    rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
+    containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutShipmentsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityUncheckedCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    factories?: FactoryUncheckedCreateNestedManyWithoutTenantInput
+    users?: UserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventUncheckedCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventUncheckedCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryUncheckedCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationUncheckedCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutTenantInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalUncheckedCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventUncheckedCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    products?: ProductUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountUncheckedCreateNestedManyWithoutTenantInput
+    leads?: LeadUncheckedCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityUncheckedCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityUncheckedCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListUncheckedCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryUncheckedCreateNestedManyWithoutTenantInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineUncheckedCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderUncheckedCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventUncheckedCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierUncheckedCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
+    comments?: CommentUncheckedCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderUncheckedCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
+    exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
+    breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
+    masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
+    supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
+    employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
+    assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
+    rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
+    containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutShipmentsInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutShipmentsInput, TenantUncheckedCreateWithoutShipmentsInput>
+  }
+
+  export type VehicleCreateWithoutShipmentsInput = {
+    id?: string
+    plate: string
+    name: string
+    capacityKg?: Decimal | DecimalJsLike | number | string
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutVehiclesInput
+  }
+
+  export type VehicleUncheckedCreateWithoutShipmentsInput = {
+    id?: string
+    tenantId: string
+    plate: string
+    name: string
+    capacityKg?: Decimal | DecimalJsLike | number | string
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type VehicleCreateOrConnectWithoutShipmentsInput = {
+    where: VehicleWhereUniqueInput
+    create: XOR<VehicleCreateWithoutShipmentsInput, VehicleUncheckedCreateWithoutShipmentsInput>
+  }
+
+  export type DriverCreateWithoutShipmentsInput = {
+    id?: string
+    name: string
+    licenseNo?: string | null
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutDriversInput
+  }
+
+  export type DriverUncheckedCreateWithoutShipmentsInput = {
+    id?: string
+    tenantId: string
+    name: string
+    licenseNo?: string | null
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DriverCreateOrConnectWithoutShipmentsInput = {
+    where: DriverWhereUniqueInput
+    create: XOR<DriverCreateWithoutShipmentsInput, DriverUncheckedCreateWithoutShipmentsInput>
+  }
+
+  export type ShipmentStopCreateWithoutShipmentInput = {
+    id?: string
+    seq: number
+    address: string
+    orderId?: string | null
+    status?: string
+    note?: string | null
+    arrivedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutShipmentStopsInput
+  }
+
+  export type ShipmentStopUncheckedCreateWithoutShipmentInput = {
+    id?: string
+    tenantId: string
+    seq: number
+    address: string
+    orderId?: string | null
+    status?: string
+    note?: string | null
+    arrivedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ShipmentStopCreateOrConnectWithoutShipmentInput = {
+    where: ShipmentStopWhereUniqueInput
+    create: XOR<ShipmentStopCreateWithoutShipmentInput, ShipmentStopUncheckedCreateWithoutShipmentInput>
+  }
+
+  export type ShipmentStopCreateManyShipmentInputEnvelope = {
+    data: ShipmentStopCreateManyShipmentInput | ShipmentStopCreateManyShipmentInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TenantUpsertWithoutShipmentsInput = {
+    update: XOR<TenantUpdateWithoutShipmentsInput, TenantUncheckedUpdateWithoutShipmentsInput>
+    create: XOR<TenantCreateWithoutShipmentsInput, TenantUncheckedCreateWithoutShipmentsInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutShipmentsInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutShipmentsInput, TenantUncheckedUpdateWithoutShipmentsInput>
+  }
+
+  export type TenantUpdateWithoutShipmentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUpdateManyWithoutTenantNestedInput
+    users?: UserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    products?: ProductUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUpdateManyWithoutTenantNestedInput
+    leads?: LeadUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
+    comments?: CommentUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
+    exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
+    breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
+    masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
+    supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
+    employees?: EmployeeUpdateManyWithoutTenantNestedInput
+    assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
+    rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
+    containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutShipmentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUncheckedUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUncheckedUpdateManyWithoutTenantNestedInput
+    users?: UserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUncheckedUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUncheckedUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUncheckedUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUncheckedUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUncheckedUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUncheckedUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    products?: ProductUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUncheckedUpdateManyWithoutTenantNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUncheckedUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUncheckedUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUncheckedUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUncheckedUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUncheckedUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
+    exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
+    breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
+    masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
+    supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
+    employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
+    assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
+    rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
+    containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type VehicleUpsertWithoutShipmentsInput = {
+    update: XOR<VehicleUpdateWithoutShipmentsInput, VehicleUncheckedUpdateWithoutShipmentsInput>
+    create: XOR<VehicleCreateWithoutShipmentsInput, VehicleUncheckedCreateWithoutShipmentsInput>
+    where?: VehicleWhereInput
+  }
+
+  export type VehicleUpdateToOneWithWhereWithoutShipmentsInput = {
+    where?: VehicleWhereInput
+    data: XOR<VehicleUpdateWithoutShipmentsInput, VehicleUncheckedUpdateWithoutShipmentsInput>
+  }
+
+  export type VehicleUpdateWithoutShipmentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    plate?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    capacityKg?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutVehiclesNestedInput
+  }
+
+  export type VehicleUncheckedUpdateWithoutShipmentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    plate?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    capacityKg?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DriverUpsertWithoutShipmentsInput = {
+    update: XOR<DriverUpdateWithoutShipmentsInput, DriverUncheckedUpdateWithoutShipmentsInput>
+    create: XOR<DriverCreateWithoutShipmentsInput, DriverUncheckedCreateWithoutShipmentsInput>
+    where?: DriverWhereInput
+  }
+
+  export type DriverUpdateToOneWithWhereWithoutShipmentsInput = {
+    where?: DriverWhereInput
+    data: XOR<DriverUpdateWithoutShipmentsInput, DriverUncheckedUpdateWithoutShipmentsInput>
+  }
+
+  export type DriverUpdateWithoutShipmentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    licenseNo?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutDriversNestedInput
+  }
+
+  export type DriverUncheckedUpdateWithoutShipmentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    licenseNo?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ShipmentStopUpsertWithWhereUniqueWithoutShipmentInput = {
+    where: ShipmentStopWhereUniqueInput
+    update: XOR<ShipmentStopUpdateWithoutShipmentInput, ShipmentStopUncheckedUpdateWithoutShipmentInput>
+    create: XOR<ShipmentStopCreateWithoutShipmentInput, ShipmentStopUncheckedCreateWithoutShipmentInput>
+  }
+
+  export type ShipmentStopUpdateWithWhereUniqueWithoutShipmentInput = {
+    where: ShipmentStopWhereUniqueInput
+    data: XOR<ShipmentStopUpdateWithoutShipmentInput, ShipmentStopUncheckedUpdateWithoutShipmentInput>
+  }
+
+  export type ShipmentStopUpdateManyWithWhereWithoutShipmentInput = {
+    where: ShipmentStopScalarWhereInput
+    data: XOR<ShipmentStopUpdateManyMutationInput, ShipmentStopUncheckedUpdateManyWithoutShipmentInput>
+  }
+
+  export type TenantCreateWithoutShipmentStopsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    factories?: FactoryCreateNestedManyWithoutTenantInput
+    users?: UserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionCreateNestedManyWithoutTenantInput
+    tasks?: TaskCreateNestedManyWithoutTenantInput
+    notifications?: NotificationCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    products?: ProductCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountCreateNestedManyWithoutTenantInput
+    leads?: LeadCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryCreateNestedManyWithoutTenantInput
+    quotes?: QuoteCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
+    comments?: CommentCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
+    exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
+    breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
+    masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
+    supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
+    employees?: EmployeeCreateNestedManyWithoutTenantInput
+    assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
+    rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
+    containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutShipmentStopsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityUncheckedCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    factories?: FactoryUncheckedCreateNestedManyWithoutTenantInput
+    users?: UserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventUncheckedCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventUncheckedCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryUncheckedCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationUncheckedCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutTenantInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalUncheckedCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventUncheckedCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    products?: ProductUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountUncheckedCreateNestedManyWithoutTenantInput
+    leads?: LeadUncheckedCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityUncheckedCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityUncheckedCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListUncheckedCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryUncheckedCreateNestedManyWithoutTenantInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineUncheckedCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderUncheckedCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventUncheckedCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierUncheckedCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
+    comments?: CommentUncheckedCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderUncheckedCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
+    exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
+    breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
+    masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
+    supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
+    employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
+    assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
+    rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
+    containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutShipmentStopsInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutShipmentStopsInput, TenantUncheckedCreateWithoutShipmentStopsInput>
+  }
+
+  export type ShipmentCreateWithoutStopsInput = {
+    id?: string
+    shipmentNumber: string
+    carrierKey?: string | null
+    status?: string
+    plannedAt?: Date | string | null
+    deliveredAt?: Date | string | null
+    freightCost?: Decimal | DecimalJsLike | number | string | null
+    currency?: string | null
+    podName?: string | null
+    podSignatureHash?: string | null
+    notes?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutShipmentsInput
+    vehicle?: VehicleCreateNestedOneWithoutShipmentsInput
+    driver?: DriverCreateNestedOneWithoutShipmentsInput
+  }
+
+  export type ShipmentUncheckedCreateWithoutStopsInput = {
+    id?: string
+    tenantId: string
+    shipmentNumber: string
+    carrierKey?: string | null
+    vehicleId?: string | null
+    driverId?: string | null
+    status?: string
+    plannedAt?: Date | string | null
+    deliveredAt?: Date | string | null
+    freightCost?: Decimal | DecimalJsLike | number | string | null
+    currency?: string | null
+    podName?: string | null
+    podSignatureHash?: string | null
+    notes?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ShipmentCreateOrConnectWithoutStopsInput = {
+    where: ShipmentWhereUniqueInput
+    create: XOR<ShipmentCreateWithoutStopsInput, ShipmentUncheckedCreateWithoutStopsInput>
+  }
+
+  export type TenantUpsertWithoutShipmentStopsInput = {
+    update: XOR<TenantUpdateWithoutShipmentStopsInput, TenantUncheckedUpdateWithoutShipmentStopsInput>
+    create: XOR<TenantCreateWithoutShipmentStopsInput, TenantUncheckedCreateWithoutShipmentStopsInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutShipmentStopsInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutShipmentStopsInput, TenantUncheckedUpdateWithoutShipmentStopsInput>
+  }
+
+  export type TenantUpdateWithoutShipmentStopsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUpdateManyWithoutTenantNestedInput
+    users?: UserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    products?: ProductUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUpdateManyWithoutTenantNestedInput
+    leads?: LeadUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
+    comments?: CommentUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
+    exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
+    breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
+    masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
+    supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
+    employees?: EmployeeUpdateManyWithoutTenantNestedInput
+    assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
+    rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
+    containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutShipmentStopsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUncheckedUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUncheckedUpdateManyWithoutTenantNestedInput
+    users?: UserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUncheckedUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUncheckedUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUncheckedUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUncheckedUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUncheckedUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUncheckedUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    products?: ProductUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUncheckedUpdateManyWithoutTenantNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUncheckedUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUncheckedUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUncheckedUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUncheckedUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUncheckedUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
+    exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
+    breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
+    masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
+    supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
+    employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
+    assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
+    rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
+    containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type ShipmentUpsertWithoutStopsInput = {
+    update: XOR<ShipmentUpdateWithoutStopsInput, ShipmentUncheckedUpdateWithoutStopsInput>
+    create: XOR<ShipmentCreateWithoutStopsInput, ShipmentUncheckedCreateWithoutStopsInput>
+    where?: ShipmentWhereInput
+  }
+
+  export type ShipmentUpdateToOneWithWhereWithoutStopsInput = {
+    where?: ShipmentWhereInput
+    data: XOR<ShipmentUpdateWithoutStopsInput, ShipmentUncheckedUpdateWithoutStopsInput>
+  }
+
+  export type ShipmentUpdateWithoutStopsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    shipmentNumber?: StringFieldUpdateOperationsInput | string
+    carrierKey?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    plannedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    freightCost?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    currency?: NullableStringFieldUpdateOperationsInput | string | null
+    podName?: NullableStringFieldUpdateOperationsInput | string | null
+    podSignatureHash?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutShipmentsNestedInput
+    vehicle?: VehicleUpdateOneWithoutShipmentsNestedInput
+    driver?: DriverUpdateOneWithoutShipmentsNestedInput
+  }
+
+  export type ShipmentUncheckedUpdateWithoutStopsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    shipmentNumber?: StringFieldUpdateOperationsInput | string
+    carrierKey?: NullableStringFieldUpdateOperationsInput | string | null
+    vehicleId?: NullableStringFieldUpdateOperationsInput | string | null
+    driverId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    plannedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    freightCost?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    currency?: NullableStringFieldUpdateOperationsInput | string | null
+    podName?: NullableStringFieldUpdateOperationsInput | string | null
+    podSignatureHash?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TenantCreateWithoutDockAppointmentsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    factories?: FactoryCreateNestedManyWithoutTenantInput
+    users?: UserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionCreateNestedManyWithoutTenantInput
+    tasks?: TaskCreateNestedManyWithoutTenantInput
+    notifications?: NotificationCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    products?: ProductCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountCreateNestedManyWithoutTenantInput
+    leads?: LeadCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryCreateNestedManyWithoutTenantInput
+    quotes?: QuoteCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
+    comments?: CommentCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
+    exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
+    breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
+    masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
+    supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
+    employees?: EmployeeCreateNestedManyWithoutTenantInput
+    assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
+    rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
+    containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutDockAppointmentsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityUncheckedCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    factories?: FactoryUncheckedCreateNestedManyWithoutTenantInput
+    users?: UserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventUncheckedCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventUncheckedCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryUncheckedCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationUncheckedCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutTenantInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalUncheckedCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventUncheckedCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    products?: ProductUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountUncheckedCreateNestedManyWithoutTenantInput
+    leads?: LeadUncheckedCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityUncheckedCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityUncheckedCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListUncheckedCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryUncheckedCreateNestedManyWithoutTenantInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineUncheckedCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderUncheckedCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventUncheckedCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierUncheckedCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
+    comments?: CommentUncheckedCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderUncheckedCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
+    exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
+    breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
+    masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
+    supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
+    employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
+    assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
+    rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
+    containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutDockAppointmentsInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutDockAppointmentsInput, TenantUncheckedCreateWithoutDockAppointmentsInput>
+  }
+
+  export type WarehouseCreateWithoutDockAppointmentsInput = {
+    id?: string
+    code: string
+    name: string
+    tenant: TenantCreateNestedOneWithoutWarehousesInput
+    locations?: WarehouseLocationCreateNestedManyWithoutWarehouseInput
+  }
+
+  export type WarehouseUncheckedCreateWithoutDockAppointmentsInput = {
+    id?: string
+    tenantId: string
+    code: string
+    name: string
+    locations?: WarehouseLocationUncheckedCreateNestedManyWithoutWarehouseInput
+  }
+
+  export type WarehouseCreateOrConnectWithoutDockAppointmentsInput = {
+    where: WarehouseWhereUniqueInput
+    create: XOR<WarehouseCreateWithoutDockAppointmentsInput, WarehouseUncheckedCreateWithoutDockAppointmentsInput>
+  }
+
+  export type TenantUpsertWithoutDockAppointmentsInput = {
+    update: XOR<TenantUpdateWithoutDockAppointmentsInput, TenantUncheckedUpdateWithoutDockAppointmentsInput>
+    create: XOR<TenantCreateWithoutDockAppointmentsInput, TenantUncheckedCreateWithoutDockAppointmentsInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutDockAppointmentsInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutDockAppointmentsInput, TenantUncheckedUpdateWithoutDockAppointmentsInput>
+  }
+
+  export type TenantUpdateWithoutDockAppointmentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUpdateManyWithoutTenantNestedInput
+    users?: UserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    products?: ProductUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUpdateManyWithoutTenantNestedInput
+    leads?: LeadUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
+    comments?: CommentUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
+    exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
+    breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
+    masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
+    supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
+    employees?: EmployeeUpdateManyWithoutTenantNestedInput
+    assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
+    rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
+    containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutDockAppointmentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUncheckedUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUncheckedUpdateManyWithoutTenantNestedInput
+    users?: UserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUncheckedUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUncheckedUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUncheckedUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUncheckedUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUncheckedUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUncheckedUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    products?: ProductUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUncheckedUpdateManyWithoutTenantNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUncheckedUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUncheckedUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUncheckedUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUncheckedUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUncheckedUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
+    exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
+    breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
+    masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
+    supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
+    employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
+    assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
+    rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
+    containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type WarehouseUpsertWithoutDockAppointmentsInput = {
+    update: XOR<WarehouseUpdateWithoutDockAppointmentsInput, WarehouseUncheckedUpdateWithoutDockAppointmentsInput>
+    create: XOR<WarehouseCreateWithoutDockAppointmentsInput, WarehouseUncheckedCreateWithoutDockAppointmentsInput>
+    where?: WarehouseWhereInput
+  }
+
+  export type WarehouseUpdateToOneWithWhereWithoutDockAppointmentsInput = {
+    where?: WarehouseWhereInput
+    data: XOR<WarehouseUpdateWithoutDockAppointmentsInput, WarehouseUncheckedUpdateWithoutDockAppointmentsInput>
+  }
+
+  export type WarehouseUpdateWithoutDockAppointmentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    tenant?: TenantUpdateOneRequiredWithoutWarehousesNestedInput
+    locations?: WarehouseLocationUpdateManyWithoutWarehouseNestedInput
+  }
+
+  export type WarehouseUncheckedUpdateWithoutDockAppointmentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    locations?: WarehouseLocationUncheckedUpdateManyWithoutWarehouseNestedInput
   }
 
   export type TenantConfigurationVersionCreateManyTenantInput = {
@@ -269141,6 +283218,70 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type VehicleCreateManyTenantInput = {
+    id?: string
+    plate: string
+    name: string
+    capacityKg?: Decimal | DecimalJsLike | number | string
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DriverCreateManyTenantInput = {
+    id?: string
+    name: string
+    licenseNo?: string | null
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ShipmentCreateManyTenantInput = {
+    id?: string
+    shipmentNumber: string
+    carrierKey?: string | null
+    vehicleId?: string | null
+    driverId?: string | null
+    status?: string
+    plannedAt?: Date | string | null
+    deliveredAt?: Date | string | null
+    freightCost?: Decimal | DecimalJsLike | number | string | null
+    currency?: string | null
+    podName?: string | null
+    podSignatureHash?: string | null
+    notes?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ShipmentStopCreateManyTenantInput = {
+    id?: string
+    shipmentId: string
+    seq: number
+    address: string
+    orderId?: string | null
+    status?: string
+    note?: string | null
+    arrivedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DockAppointmentCreateManyTenantInput = {
+    id?: string
+    warehouseId: string
+    dockCode: string
+    scheduledAt: Date | string
+    durationMin?: number
+    reference?: string | null
+    status?: string
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type FrameworkAgreementCreateManyTenantInput = {
     id?: string
     agreementNumber: string
@@ -269858,6 +283999,7 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     locations?: WarehouseLocationUpdateManyWithoutWarehouseNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutWarehouseNestedInput
   }
 
   export type WarehouseUncheckedUpdateWithoutTenantInput = {
@@ -269865,6 +284007,7 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     locations?: WarehouseLocationUncheckedUpdateManyWithoutWarehouseNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutWarehouseNestedInput
   }
 
   export type WarehouseUncheckedUpdateManyWithoutTenantInput = {
@@ -272811,6 +286954,204 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type VehicleUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    plate?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    capacityKg?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    shipments?: ShipmentUpdateManyWithoutVehicleNestedInput
+  }
+
+  export type VehicleUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    plate?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    capacityKg?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    shipments?: ShipmentUncheckedUpdateManyWithoutVehicleNestedInput
+  }
+
+  export type VehicleUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    plate?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    capacityKg?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DriverUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    licenseNo?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    shipments?: ShipmentUpdateManyWithoutDriverNestedInput
+  }
+
+  export type DriverUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    licenseNo?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    shipments?: ShipmentUncheckedUpdateManyWithoutDriverNestedInput
+  }
+
+  export type DriverUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    licenseNo?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ShipmentUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    shipmentNumber?: StringFieldUpdateOperationsInput | string
+    carrierKey?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    plannedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    freightCost?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    currency?: NullableStringFieldUpdateOperationsInput | string | null
+    podName?: NullableStringFieldUpdateOperationsInput | string | null
+    podSignatureHash?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    vehicle?: VehicleUpdateOneWithoutShipmentsNestedInput
+    driver?: DriverUpdateOneWithoutShipmentsNestedInput
+    stops?: ShipmentStopUpdateManyWithoutShipmentNestedInput
+  }
+
+  export type ShipmentUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    shipmentNumber?: StringFieldUpdateOperationsInput | string
+    carrierKey?: NullableStringFieldUpdateOperationsInput | string | null
+    vehicleId?: NullableStringFieldUpdateOperationsInput | string | null
+    driverId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    plannedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    freightCost?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    currency?: NullableStringFieldUpdateOperationsInput | string | null
+    podName?: NullableStringFieldUpdateOperationsInput | string | null
+    podSignatureHash?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    stops?: ShipmentStopUncheckedUpdateManyWithoutShipmentNestedInput
+  }
+
+  export type ShipmentUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    shipmentNumber?: StringFieldUpdateOperationsInput | string
+    carrierKey?: NullableStringFieldUpdateOperationsInput | string | null
+    vehicleId?: NullableStringFieldUpdateOperationsInput | string | null
+    driverId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    plannedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    freightCost?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    currency?: NullableStringFieldUpdateOperationsInput | string | null
+    podName?: NullableStringFieldUpdateOperationsInput | string | null
+    podSignatureHash?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ShipmentStopUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    seq?: IntFieldUpdateOperationsInput | number
+    address?: StringFieldUpdateOperationsInput | string
+    orderId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    arrivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    shipment?: ShipmentUpdateOneRequiredWithoutStopsNestedInput
+  }
+
+  export type ShipmentStopUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    shipmentId?: StringFieldUpdateOperationsInput | string
+    seq?: IntFieldUpdateOperationsInput | number
+    address?: StringFieldUpdateOperationsInput | string
+    orderId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    arrivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ShipmentStopUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    shipmentId?: StringFieldUpdateOperationsInput | string
+    seq?: IntFieldUpdateOperationsInput | number
+    address?: StringFieldUpdateOperationsInput | string
+    orderId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    arrivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DockAppointmentUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    dockCode?: StringFieldUpdateOperationsInput | string
+    scheduledAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    durationMin?: IntFieldUpdateOperationsInput | number
+    reference?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    warehouse?: WarehouseUpdateOneRequiredWithoutDockAppointmentsNestedInput
+  }
+
+  export type DockAppointmentUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    warehouseId?: StringFieldUpdateOperationsInput | string
+    dockCode?: StringFieldUpdateOperationsInput | string
+    scheduledAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    durationMin?: IntFieldUpdateOperationsInput | number
+    reference?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DockAppointmentUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    warehouseId?: StringFieldUpdateOperationsInput | string
+    dockCode?: StringFieldUpdateOperationsInput | string
+    scheduledAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    durationMin?: IntFieldUpdateOperationsInput | number
+    reference?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type FrameworkAgreementUpdateWithoutTenantInput = {
     id?: StringFieldUpdateOperationsInput | string
     agreementNumber?: StringFieldUpdateOperationsInput | string
@@ -273889,6 +288230,19 @@ export namespace Prisma {
     code: string
   }
 
+  export type DockAppointmentCreateManyWarehouseInput = {
+    id?: string
+    tenantId: string
+    dockCode: string
+    scheduledAt: Date | string
+    durationMin?: number
+    reference?: string | null
+    status?: string
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type WarehouseLocationUpdateWithoutWarehouseInput = {
     id?: StringFieldUpdateOperationsInput | string
     tenantId?: StringFieldUpdateOperationsInput | string
@@ -273905,6 +288259,45 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     tenantId?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type DockAppointmentUpdateWithoutWarehouseInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    dockCode?: StringFieldUpdateOperationsInput | string
+    scheduledAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    durationMin?: IntFieldUpdateOperationsInput | number
+    reference?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutDockAppointmentsNestedInput
+  }
+
+  export type DockAppointmentUncheckedUpdateWithoutWarehouseInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    dockCode?: StringFieldUpdateOperationsInput | string
+    scheduledAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    durationMin?: IntFieldUpdateOperationsInput | number
+    reference?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DockAppointmentUncheckedUpdateManyWithoutWarehouseInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    dockCode?: StringFieldUpdateOperationsInput | string
+    scheduledAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    durationMin?: IntFieldUpdateOperationsInput | number
+    reference?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type WmsOrderLineCreateManyOrderInput = {
@@ -275027,6 +289420,214 @@ export namespace Prisma {
     tenantId?: StringFieldUpdateOperationsInput | string
     data?: JsonNullValueInput | InputJsonValue
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ShipmentCreateManyVehicleInput = {
+    id?: string
+    tenantId: string
+    shipmentNumber: string
+    carrierKey?: string | null
+    driverId?: string | null
+    status?: string
+    plannedAt?: Date | string | null
+    deliveredAt?: Date | string | null
+    freightCost?: Decimal | DecimalJsLike | number | string | null
+    currency?: string | null
+    podName?: string | null
+    podSignatureHash?: string | null
+    notes?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ShipmentUpdateWithoutVehicleInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    shipmentNumber?: StringFieldUpdateOperationsInput | string
+    carrierKey?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    plannedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    freightCost?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    currency?: NullableStringFieldUpdateOperationsInput | string | null
+    podName?: NullableStringFieldUpdateOperationsInput | string | null
+    podSignatureHash?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutShipmentsNestedInput
+    driver?: DriverUpdateOneWithoutShipmentsNestedInput
+    stops?: ShipmentStopUpdateManyWithoutShipmentNestedInput
+  }
+
+  export type ShipmentUncheckedUpdateWithoutVehicleInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    shipmentNumber?: StringFieldUpdateOperationsInput | string
+    carrierKey?: NullableStringFieldUpdateOperationsInput | string | null
+    driverId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    plannedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    freightCost?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    currency?: NullableStringFieldUpdateOperationsInput | string | null
+    podName?: NullableStringFieldUpdateOperationsInput | string | null
+    podSignatureHash?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    stops?: ShipmentStopUncheckedUpdateManyWithoutShipmentNestedInput
+  }
+
+  export type ShipmentUncheckedUpdateManyWithoutVehicleInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    shipmentNumber?: StringFieldUpdateOperationsInput | string
+    carrierKey?: NullableStringFieldUpdateOperationsInput | string | null
+    driverId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    plannedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    freightCost?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    currency?: NullableStringFieldUpdateOperationsInput | string | null
+    podName?: NullableStringFieldUpdateOperationsInput | string | null
+    podSignatureHash?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ShipmentCreateManyDriverInput = {
+    id?: string
+    tenantId: string
+    shipmentNumber: string
+    carrierKey?: string | null
+    vehicleId?: string | null
+    status?: string
+    plannedAt?: Date | string | null
+    deliveredAt?: Date | string | null
+    freightCost?: Decimal | DecimalJsLike | number | string | null
+    currency?: string | null
+    podName?: string | null
+    podSignatureHash?: string | null
+    notes?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ShipmentUpdateWithoutDriverInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    shipmentNumber?: StringFieldUpdateOperationsInput | string
+    carrierKey?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    plannedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    freightCost?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    currency?: NullableStringFieldUpdateOperationsInput | string | null
+    podName?: NullableStringFieldUpdateOperationsInput | string | null
+    podSignatureHash?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutShipmentsNestedInput
+    vehicle?: VehicleUpdateOneWithoutShipmentsNestedInput
+    stops?: ShipmentStopUpdateManyWithoutShipmentNestedInput
+  }
+
+  export type ShipmentUncheckedUpdateWithoutDriverInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    shipmentNumber?: StringFieldUpdateOperationsInput | string
+    carrierKey?: NullableStringFieldUpdateOperationsInput | string | null
+    vehicleId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    plannedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    freightCost?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    currency?: NullableStringFieldUpdateOperationsInput | string | null
+    podName?: NullableStringFieldUpdateOperationsInput | string | null
+    podSignatureHash?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    stops?: ShipmentStopUncheckedUpdateManyWithoutShipmentNestedInput
+  }
+
+  export type ShipmentUncheckedUpdateManyWithoutDriverInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    shipmentNumber?: StringFieldUpdateOperationsInput | string
+    carrierKey?: NullableStringFieldUpdateOperationsInput | string | null
+    vehicleId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    plannedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    freightCost?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    currency?: NullableStringFieldUpdateOperationsInput | string | null
+    podName?: NullableStringFieldUpdateOperationsInput | string | null
+    podSignatureHash?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ShipmentStopCreateManyShipmentInput = {
+    id?: string
+    tenantId: string
+    seq: number
+    address: string
+    orderId?: string | null
+    status?: string
+    note?: string | null
+    arrivedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ShipmentStopUpdateWithoutShipmentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    seq?: IntFieldUpdateOperationsInput | number
+    address?: StringFieldUpdateOperationsInput | string
+    orderId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    arrivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutShipmentStopsNestedInput
+  }
+
+  export type ShipmentStopUncheckedUpdateWithoutShipmentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    seq?: IntFieldUpdateOperationsInput | number
+    address?: StringFieldUpdateOperationsInput | string
+    orderId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    arrivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ShipmentStopUncheckedUpdateManyWithoutShipmentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    seq?: IntFieldUpdateOperationsInput | number
+    address?: StringFieldUpdateOperationsInput | string
+    orderId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    arrivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
