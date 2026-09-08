@@ -79,6 +79,25 @@ export class DevicesController {
   }
 
   /** Device-side: claim identity with the one-time token. No user session. */
+  /** DEV-005 — scanner/device capability configuration. */
+  @Post(':id/capabilities')
+  @RequirePermission('device.assign')
+  async setCapabilities(
+    @Param('id') id: string,
+    @Body() body: unknown,
+    @Ctx() ctx: RequestContext,
+  ) {
+    const input = parseBody(z.object({ capabilities: z.record(z.string(), z.unknown()) }), body);
+    return this.devices.setCapabilities(id, input.capabilities, ctx);
+  }
+
+  /** DEV-015 — one chronological event trail per device. */
+  @Get(':id/events')
+  @RequirePermission('device.read')
+  async deviceEvents(@Param('id') id: string, @Ctx() ctx: RequestContext) {
+    return { events: await this.devices.deviceEventAudit(id, ctx) };
+  }
+
   @Post('enroll')
   @Public()
   async enroll(@Body() body: unknown) {

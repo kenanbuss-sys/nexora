@@ -221,6 +221,86 @@ export class DeviceService implements DeviceGate {
     });
   }
 
+  /**
+   * Scanner configuration (DEV-005): governed update of a device's
+   * declared capabilities — symbologies, prefixes, mode — audited
+   * with before/after; hardware specifics stay data, never code.
+   */
+  async setCapabilities(
+    deviceId: string,
+    capabilities: Record<string, unknown>,
+    ctx: RequestContext,
+  ): Promise<DeviceView> {
+    const device = await this.prisma.device.findFirst({
+      where: { id: deviceId, tenantId: ctx.tenantId },
+    });
+    if (!device) throw notFound('Device', deviceId);
+    const updated = await this.prisma.$transaction(async (tx) => {
+      const row = await tx.device.update({
+        where: { id: device.id },
+        data: { capabilities: capabilities as Prisma.InputJsonValue },
+      });
+      await writeAudit(tx, {
+        tenantId: ctx.tenantId,
+        actorType: ctx.actorType,
+        actorId: ctx.userId,
+        action: 'dev.device.capabilities',
+        objectType: 'Device',
+        objectId: device.id,
+        source: 'api',
+        previousValues: { capabilities: device.capabilities as Prisma.InputJsonValue },
+        newValues: { capabilities: capabilities as Prisma.InputJsonValue },
+      });
+      return row;
+    });
+    return toView(updated);
+  }
+
+  /**
+   * Device event audit (DEV-015): one chronological trail per device —
+   * captured scan events plus every audited device action (prints,
+   * weights, enrollment, capability changes).
+   */
+  async deviceEventAudit(
+    deviceId: string,
+    ctx: RequestContext,
+  ): Promise<Array<{ at: string; kind: string; detail: string }>> {
+    const device = await this.prisma.device.findFirst({
+      where: { id: deviceId, tenantId: ctx.tenantId },
+      select: { id: true },
+    });
+    if (!device) throw notFound('Device', deviceId);
+    const [scans, audits] = await Promise.all([
+      this.prisma.scanEvent.findMany({
+        where: { tenantId: ctx.tenantId, deviceId: device.id },
+        orderBy: { capturedAt: 'desc' },
+        take: 100,
+      }),
+      this.prisma.auditEvent.findMany({
+        where: {
+          tenantId: ctx.tenantId,
+          action: { startsWith: 'dev.' },
+          OR: [{ objectId: device.id }, { objectId: { startsWith: `${device.id}:` } }],
+        },
+        orderBy: { occurredAt: 'desc' },
+        take: 100,
+      }),
+    ]);
+    const rows = [
+      ...scans.map((event) => ({
+        at: event.capturedAt.toISOString(),
+        kind: `scan:${event.kind}`,
+        detail: event.value,
+      })),
+      ...audits.map((event) => ({
+        at: event.occurredAt.toISOString(),
+        kind: event.action,
+        detail: event.objectId,
+      })),
+    ];
+    return rows.sort((a, b) => b.at.localeCompare(a.at)).slice(0, 150);
+  }
+
   /** DeviceGate — used by VER through the public interface only. */
   async resolveByToken(
     enrollmentToken: string,
