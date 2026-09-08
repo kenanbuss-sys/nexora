@@ -318,6 +318,117 @@ export class AnalyticsService {
   }
 
   /** Top customers by ordered revenue (BI-011). */
+  /**
+   * Supplier analytics (BI-012): per-supplier spend, open orders,
+   * received share and on-time signal — the sourcing scorecard.
+   */
+  async supplierAnalytics(ctx: RequestContext): Promise<
+    Array<{
+      supplierId: string;
+      name: string;
+      purchaseOrders: number;
+      openOrders: number;
+      spend: string;
+      receivedSharePct: string;
+      overduePos: number;
+    }>
+  > {
+    const [suppliers, orders, parties] = await Promise.all([
+      this.prisma.supplier.findMany({ where: { tenantId: ctx.tenantId }, take: 200 }),
+      this.prisma.purchaseOrder.findMany({
+        where: { tenantId: ctx.tenantId },
+        include: { lines: true },
+        take: 2000,
+      }),
+      this.prisma.party.findMany({
+        where: { tenantId: ctx.tenantId },
+        select: { id: true, name: true },
+        take: 2000,
+      }),
+    ]);
+    const partyName = new Map(parties.map((p) => [p.id, p.name]));
+    const now = Date.now();
+    return suppliers
+      .map((supplier) => {
+        const pos = orders.filter((po) => po.supplierId === supplier.id);
+        let spend = 0;
+        let ordered = 0;
+        let received = 0;
+        let overdue = 0;
+        for (const po of pos) {
+          spend += Number(po.total);
+          for (const line of po.lines) {
+            ordered += Number(line.quantity) * Number(line.unitPrice);
+            received += Number(line.receivedQty) * Number(line.unitPrice);
+          }
+          if (po.status === 'OPEN' && po.expectedAt !== null && po.expectedAt.getTime() < now) {
+            overdue += 1;
+          }
+        }
+        return {
+          supplierId: supplier.id,
+          name: partyName.get(supplier.partyId) ?? '(nepoznat)',
+          purchaseOrders: pos.length,
+          openOrders: pos.filter((po) => po.status === 'OPEN' || po.status === 'PARTIALLY_RECEIVED')
+            .length,
+          spend: spend.toFixed(2),
+          receivedSharePct: ordered > 0 ? ((received / ordered) * 100).toFixed(1) : '0.0',
+          overduePos: overdue,
+        };
+      })
+      .sort((a, b) => Number(b.spend) - Number(a.spend));
+  }
+
+  /**
+   * Process analytics (BI-013): cycle times through the core flows —
+   * order to fulfilment, PO to receipt, work order to completion.
+   */
+  async processAnalytics(
+    ctx: RequestContext,
+  ): Promise<Array<{ process: string; completed: number; avgHours: string | null }>> {
+    const [orders, workOrders] = await Promise.all([
+      this.prisma.salesOrder.findMany({
+        where: { tenantId: ctx.tenantId, status: 'FULFILLED' },
+        select: { createdAt: true, updatedAt: true },
+        take: 2000,
+      }),
+      this.prisma.workOrder.findMany({
+        where: { tenantId: ctx.tenantId, status: 'COMPLETED' },
+        select: { createdAt: true, completedAt: true },
+        take: 2000,
+      }),
+    ]);
+    const receipts = await this.prisma.purchaseOrder.findMany({
+      where: { tenantId: ctx.tenantId, status: 'RECEIVED' },
+      select: { createdAt: true, updatedAt: true },
+      take: 2000,
+    });
+    const avg = (pairs: Array<[Date, Date | null]>): string | null => {
+      const spans = pairs
+        .filter((p): p is [Date, Date] => p[1] !== null)
+        .map(([a, b]) => (b.getTime() - a.getTime()) / 3_600_000);
+      if (spans.length === 0) return null;
+      return (spans.reduce((x, y) => x + y, 0) / spans.length).toFixed(2);
+    };
+    return [
+      {
+        process: 'order_to_fulfilment',
+        completed: orders.length,
+        avgHours: avg(orders.map((o) => [o.createdAt, o.updatedAt])),
+      },
+      {
+        process: 'po_to_receipt',
+        completed: receipts.length,
+        avgHours: avg(receipts.map((o) => [o.createdAt, o.updatedAt])),
+      },
+      {
+        process: 'wo_to_completion',
+        completed: workOrders.length,
+        avgHours: avg(workOrders.map((o) => [o.createdAt, o.completedAt])),
+      },
+    ];
+  }
+
   async customerAnalytics(ctx: RequestContext): Promise<CustomerAnalyticsRow[]> {
     const orders = await this.prisma.salesOrder.findMany({
       where: { tenantId: ctx.tenantId, status: { not: 'CANCELLED' } },

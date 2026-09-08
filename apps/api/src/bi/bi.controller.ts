@@ -53,6 +53,20 @@ export class AnalyticsController {
     return this.analytics.manufacturingAnalytics(ctx);
   }
 
+  /** BI-012 — supplier scorecard. */
+  @Get('suppliers')
+  @RequirePermission('analytics.read')
+  async suppliers(@Ctx() ctx: RequestContext) {
+    return { rows: await this.analytics.supplierAnalytics(ctx) };
+  }
+
+  /** BI-013 — process cycle times. */
+  @Get('processes')
+  @RequirePermission('analytics.read')
+  async processes(@Ctx() ctx: RequestContext) {
+    return { rows: await this.analytics.processAnalytics(ctx) };
+  }
+
   @Get('customers')
   @RequirePermission('analytics.read')
   async customers(@Ctx() ctx: RequestContext) {
