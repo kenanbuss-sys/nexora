@@ -411,17 +411,17 @@ DEV-001,DEV,Device registry,P1,Implemented (Sprint 005),R1,,,Device registry wit
 DEV-002,DEV,Enrollment,P1,Implemented (Sprint 005),R1,,,One-time token enrollment; device-side claim
 DEV-003,DEV,Assignment,P1,Implemented (Sprint 005),R1,,,User/branch assignment
 DEV-004,DEV,Health/last seen,P1,Implemented (Sprint 005),R1,,,Heartbeat + last-seen
-DEV-005,DEV,Scanner adapter,P1,PLANNED,R1,,,
-DEV-006,DEV,Printer adapter,P1,PLANNED,R1,,,
+DEV-005,DEV,Scanner adapter,P1,Implemented (Sprint 171),R1,,,Governed capability config + scan pipeline
+DEV-006,DEV,Printer adapter,P1,Implemented (Sprint 169),R1,,,ZPL SSCC labels + per-device queue + ack
 DEV-007,DEV,RFID adapter,P1,PLANNED,R1,,,
-DEV-008,DEV,Scale adapter,P1,PLANNED,R1,,,
+DEV-008,DEV,Scale adapter,P1,Implemented (Sprint 170),R1,,,Device-auth weight capture onto packages
 DEV-009,DEV,Signature/camera adapter,P1,PLANNED,R1,,,
 DEV-010,DEV,Kiosk/tablet mode,P1,PLANNED,R1,,,
 DEV-011,DEV,Mobile version management,P1,PLANNED,R1,,,
 DEV-012,DEV,Offline synchronization,P1,PLANNED,R1,,,
-DEV-013,DEV,Machine gateway,P1,PLANNED,R1,,,
-DEV-014,DEV,Machine events,P1,PLANNED,R1,,,
-DEV-015,DEV,Device event audit,P1,PLANNED,R1,,,
+DEV-013,DEV,Machine gateway,P1,Implemented (Sprint 172),R1,,,Device-auth gateway into shop-floor events
+DEV-014,DEV,Machine events,P1,Implemented (Sprint 172),R1,,,Idempotent machine event ingestion
+DEV-015,DEV,Device event audit,P1,Implemented (Sprint 171),R1,,,Chronological per-device event trail
 WF-001,WF,Workflow designer,P0,PLANNED,R0,,,
 WF-002,WF,Approval builder,P0,Partially implemented (Sprint 002),R0,,,Approval primitive with SoD (builder UI later)
 WF-003,WF,Rules designer,P0,Partially implemented (Sprint 002),R0,,,Declarative rule spec + publish (designer later)
