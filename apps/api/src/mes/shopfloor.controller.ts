@@ -31,6 +31,29 @@ export class ShopFloorController {
     return { alerts: await this.shopFloor.andonBoard(ctx) };
   }
 
+  /** MES-025 — machine hooks. */
+  @Post('machine-events')
+  @RequirePermission('production.execute')
+  async machineEvent(@Body() body: unknown, @Ctx() ctx: RequestContext) {
+    const input = parseBody(
+      z.object({
+        workCenterCode: z.string().min(1).max(60),
+        eventId: z.string().min(1).max(64),
+        eventType: z.enum(['COUNT', 'DOWN', 'UP']),
+        value: z.number().optional(),
+        workOrderId: z.string().uuid().optional(),
+      }),
+      body,
+    );
+    return this.shopFloor.recordMachineEvent(input, ctx);
+  }
+
+  @Get('machine-counters')
+  @RequirePermission('production.read')
+  async machineCounters(@Ctx() ctx: RequestContext) {
+    return { counters: await this.shopFloor.machineCounters(ctx) };
+  }
+
   @Get('work-centers')
   @RequirePermission('production.read')
   async workCenters(@Ctx() ctx: RequestContext) {

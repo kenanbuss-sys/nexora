@@ -210,6 +210,111 @@ export class ShopFloorService {
     };
   }
 
+  /**
+   * Machine hooks (MES-025): machines (or edge gateways) report
+   * production counts and state changes per work center. Counts are
+   * idempotent per (machine event id) and land in the audit stream
+   * for OEE; a DOWN state books breakdown downtime through the
+   * ordinary downtime path.
+   */
+  async recordMachineEvent(
+    input: {
+      workCenterCode: string;
+      eventId: string;
+      eventType: 'COUNT' | 'DOWN' | 'UP';
+      value?: number | undefined;
+      workOrderId?: string | undefined;
+    },
+    ctx: RequestContext,
+  ): Promise<{ accepted: boolean; duplicate: boolean; downtimeMinutes?: number }> {
+    if (!/^[A-Za-z0-9._:-]{1,64}$/.test(input.eventId)) {
+      throw new DomainError('VALIDATION_FAILED', 'Invalid machine event id');
+    }
+    const center = await this.prisma.workCenter.findFirst({
+      where: { tenantId: ctx.tenantId, code: input.workCenterCode.trim() },
+    });
+    if (!center) throw notFound('WorkCenter', input.workCenterCode);
+    if (!center.active) {
+      throw new DomainError('INVALID_STATE', `Work center ${center.code} is not active`);
+    }
+    const marker = `machine:${center.code}:${input.eventId}`;
+    const already = await this.prisma.auditEvent.findFirst({
+      where: {
+        tenantId: ctx.tenantId,
+        action: 'mes.machine.event',
+        objectType: 'WorkCenter',
+        objectId: marker,
+      },
+      select: { id: true },
+    });
+    if (already) return { accepted: true, duplicate: true };
+
+    let downtimeMinutes: number | undefined;
+    if (input.eventType === 'DOWN') {
+      const minutes = Math.max(1, Math.min(1440, Math.round(input.value ?? 1)));
+      await this.logDowntime(
+        {
+          workCenterId: center.id,
+          category: 'BREAKDOWN',
+          minutes,
+          reason: `Machine signal ${input.eventId}`,
+          workOrderId: input.workOrderId,
+        },
+        ctx,
+      );
+      downtimeMinutes = minutes;
+    } else if (input.eventType === 'COUNT') {
+      if (!(Number(input.value) > 0)) {
+        throw new DomainError('VALIDATION_FAILED', 'COUNT events need a positive value');
+      }
+    }
+    await writeAudit(this.prisma, {
+      tenantId: ctx.tenantId,
+      actorType: ctx.actorType,
+      actorId: ctx.userId,
+      action: 'mes.machine.event',
+      objectType: 'WorkCenter',
+      objectId: marker,
+      source: 'api',
+      newValues: {
+        workCenter: center.code,
+        eventType: input.eventType,
+        value: input.value ?? null,
+      },
+    });
+    return {
+      accepted: true,
+      duplicate: false,
+      ...(downtimeMinutes !== undefined ? { downtimeMinutes } : {}),
+    };
+  }
+
+  /** Machine production counters per center (from the audit stream). */
+  async machineCounters(
+    ctx: RequestContext,
+  ): Promise<Array<{ workCenter: string; count: number; events: number }>> {
+    const events = await this.prisma.auditEvent.findMany({
+      where: { tenantId: ctx.tenantId, action: 'mes.machine.event' },
+      take: 2000,
+    });
+    const byCenter = new Map<string, { count: number; events: number }>();
+    for (const event of events) {
+      const values = event.newValues as {
+        workCenter?: string;
+        eventType?: string;
+        value?: number | null;
+      } | null;
+      if (!values?.workCenter || values.eventType !== 'COUNT') continue;
+      const entry = byCenter.get(values.workCenter) ?? { count: 0, events: 0 };
+      entry.count += Number(values.value) || 0;
+      entry.events += 1;
+      byCenter.set(values.workCenter, entry);
+    }
+    return [...byCenter.entries()]
+      .map(([workCenter, v]) => ({ workCenter, count: v.count, events: v.events }))
+      .sort((a, b) => a.workCenter.localeCompare(b.workCenter));
+  }
+
   async listDowntime(ctx: RequestContext): Promise<DowntimeView[]> {
     const events = await this.prisma.downtimeEvent.findMany({
       where: { tenantId: ctx.tenantId },
