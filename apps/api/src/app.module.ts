@@ -30,6 +30,7 @@ import {
   QuoteService,
 } from '@nexora/domain-cpq';
 import {
+  CaseOpsService,
   OnboardingService,
   SupportCaseService,
   LoyaltyService,
@@ -238,6 +239,7 @@ import {
 import { ANALYTICS_SERVICE, AnalyticsController } from './bi/bi.controller';
 import { GRC_SERVICE, GrcController } from './grc/grc.controller';
 import { PROJECT_SERVICE, ProjectsController } from './prj/prj.controller';
+import { CASE_OPS_SERVICE, CaseOpsController } from './crm/caseops.controller';
 import {
   COPILOT_SERVICE,
   CopilotController,
@@ -391,6 +393,7 @@ export const REDIS = 'REDIS';
     CrmAccountsController,
     LoyaltyController,
     SupportCasesController,
+    CaseOpsController,
     OnboardingController,
     ContractsController,
     EmployeesController,
@@ -905,6 +908,27 @@ export const REDIS = 'REDIS';
       provide: SUPPORT_CASE_SERVICE,
       useFactory: (prisma: PrismaClient) => new SupportCaseService(prisma),
       inject: [PRISMA],
+    },
+    {
+      provide: CASE_OPS_SERVICE,
+      useFactory: (
+        prisma: PrismaClient,
+        cases: SupportCaseService,
+        tenants: TenantService,
+        tasks: TaskService,
+        objects: CustomObjectService,
+      ) =>
+        new CaseOpsService(
+          prisma,
+          cases,
+          { getEffectiveConfiguration: (t) => tenants.getEffectiveConfiguration(t) },
+          { createTask: async (input, ctx) => ({ id: (await tasks.createTask(input, ctx)).id }) },
+          {
+            defineObject: (input, ctx) => objects.defineObject(input, ctx),
+            listRecords: (key, ctx) => objects.listRecords(key, ctx),
+          },
+        ),
+      inject: [PRISMA, SUPPORT_CASE_SERVICE, TENANT_SERVICE, TASK_SERVICE, CUSTOM_OBJECT_SERVICE],
     },
     {
       provide: EMPLOYEE_SERVICE,

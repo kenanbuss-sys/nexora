@@ -24,3 +24,9 @@ export {
   OnboardingService,
   type OnboardingStatus,
 } from './onboarding.service';
+export {
+  CaseOpsService,
+  type CaseOpsConfigGate,
+  type CaseOpsObjectGate,
+  type CaseOpsTaskGate,
+} from './caseops.service';
