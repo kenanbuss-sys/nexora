@@ -6,6 +6,7 @@ import { loadEnv } from '@nexora/config';
 import type { PrismaClient } from '@nexora/db';
 import { createDb } from '@nexora/db';
 import {
+  GrcService,
   ConfigurationService,
   ImportExportService,
   OrganizationService,
@@ -224,6 +225,7 @@ import {
   FinanceController,
 } from './fin/fin.controller';
 import { ANALYTICS_SERVICE, AnalyticsController } from './bi/bi.controller';
+import { GRC_SERVICE, GrcController } from './grc/grc.controller';
 import {
   COPILOT_SERVICE,
   CopilotController,
@@ -418,6 +420,7 @@ export const REDIS = 'REDIS';
     AnalyticsController,
     LogisticsController,
     InsightsController,
+    GrcController,
     CopilotController,
     ShipmentsController,
     DocksController,
@@ -696,6 +699,12 @@ export const REDIS = 'REDIS';
           },
         ),
       inject: [PRISMA, ANALYTICS_SERVICE, FINANCE_SERVICE, TASK_SERVICE, APPROVAL_SERVICE],
+    },
+    {
+      provide: GRC_SERVICE,
+      useFactory: (prisma: PrismaClient, objects: CustomObjectService) =>
+        new GrcService(prisma, objects),
+      inject: [PRISMA, CUSTOM_OBJECT_SERVICE],
     },
     {
       provide: LOGISTICS_SERVICE,

@@ -33,3 +33,4 @@ export {
   type CustomFieldKind,
   type CustomObjectView,
 } from './customobject.service';
+export { GrcService } from './grc.service';
