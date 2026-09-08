@@ -580,11 +580,19 @@ export const REDIS = 'REDIS';
     },
     {
       provide: VERIFICATION_SERVICE,
-      useFactory: (prisma: PrismaClient, devices: DeviceService, catalog: CatalogService) =>
-        new VerificationService(prisma, devices, {
-          resolveBarcode: (tenantId, value) => catalog.resolveBarcode(tenantId, value),
-        }),
-      inject: [PRISMA, DEVICE_SERVICE, CATALOG_SERVICE],
+      useFactory: (
+        prisma: PrismaClient,
+        devices: DeviceService,
+        catalog: CatalogService,
+        tenants: TenantService,
+      ) =>
+        new VerificationService(
+          prisma,
+          devices,
+          { resolveBarcode: (tenantId, value) => catalog.resolveBarcode(tenantId, value) },
+          { getEffectiveConfiguration: (t) => tenants.getEffectiveConfiguration(t) },
+        ),
+      inject: [PRISMA, DEVICE_SERVICE, CATALOG_SERVICE, TENANT_SERVICE],
     },
     {
       provide: CRM_SERVICE,

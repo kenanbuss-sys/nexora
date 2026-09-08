@@ -152,6 +152,28 @@ export class ScanEventsController {
     return this.verification.locationCheck(input, ctx);
   }
 
+  /** Machine check (VER-008). */
+  @Post('machine-check')
+  @RequirePermission('production.read')
+  async machineCheck(@Body() body: unknown, @Ctx() ctx: RequestContext) {
+    const input = parseBody(
+      z.object({ code: z.string().min(1).max(60), operationId: z.string().uuid().optional() }),
+      body,
+    );
+    return this.verification.machineCheck(input, ctx);
+  }
+
+  /** Tool check (VER-009). */
+  @Post('tool-check')
+  @RequirePermission('production.read')
+  async toolCheck(@Body() body: unknown, @Ctx() ctx: RequestContext) {
+    const input = parseBody(
+      z.object({ code: z.string().min(1).max(60), operation: z.string().max(100).optional() }),
+      body,
+    );
+    return this.verification.toolCheck(input, ctx);
+  }
+
   /** Sequence check (VER-012). */
   @Post('sequence-check')
   @RequirePermission('production.read')

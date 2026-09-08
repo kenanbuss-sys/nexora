@@ -45,6 +45,11 @@ export interface SkuResolver {
   resolveBarcode(tenantId: string, value: string): Promise<string | null>;
 }
 
+/** Cross-domain contract: tenant configuration (owned by core). */
+export interface VerificationConfigGate {
+  getEffectiveConfiguration(tenantId: string): Promise<{ config: unknown }>;
+}
+
 /** Cross-domain contract: device identity is owned by DEV. */
 export interface DeviceTokenGate {
   resolveByToken(
@@ -63,6 +68,7 @@ export class VerificationService {
     private readonly prisma: PrismaClient,
     private readonly devices: DeviceTokenGate,
     private readonly skus: SkuResolver,
+    private readonly configuration?: VerificationConfigGate,
   ) {}
 
   /**
@@ -285,6 +291,91 @@ export class VerificationService {
       },
     });
     return { ok, expectedSeq: nextPending?.seq ?? null, scannedSeq: scanned?.seq ?? null };
+  }
+
+  /**
+   * Machine check (VER-008): a scanned machine/work-center code must
+   * exist and be active — and when an operation is given, be the
+   * center that operation is routed to. Audited.
+   */
+  async machineCheck(
+    input: { code: string; operationId?: string | undefined },
+    ctx: RequestContext,
+  ): Promise<{ ok: boolean; active: boolean; routedTo: string | null }> {
+    const code = input.code.trim();
+    const center = await this.prisma.workCenter.findFirst({
+      where: { tenantId: ctx.tenantId, code },
+    });
+    let routedTo: string | null = null;
+    let ok = center !== null && center.active;
+    if (ok && input.operationId) {
+      const op = await this.prisma.workOrderOperation.findFirst({
+        where: { tenantId: ctx.tenantId, id: input.operationId },
+        select: { workCenter: true },
+      });
+      routedTo = op?.workCenter ?? null;
+      ok = op !== null && op.workCenter === code;
+    }
+    await writeAudit(this.prisma, {
+      tenantId: ctx.tenantId,
+      actorType: ctx.actorType,
+      actorId: ctx.userId,
+      action: 'ver.machine_check',
+      objectType: 'WorkCenter',
+      objectId: center?.id ?? code,
+      source: 'api',
+      newValues: { ok, code, active: center?.active ?? false, routedTo },
+    });
+    return { ok, active: center?.active ?? false, routedTo };
+  }
+
+  /**
+   * Tool check (VER-009): tools live in tenant configuration
+   * (`ver.tools`: [{ code, name, calibratedUntil?, operations? }]).
+   * A tool passes when it exists, its calibration has not expired and
+   * — when an operation name is given — it is approved for it.
+   */
+  async toolCheck(
+    input: { code: string; operation?: string | undefined },
+    ctx: RequestContext,
+  ): Promise<{ ok: boolean; reason: string | null; name: string | null }> {
+    const code = input.code.trim();
+    let tools: Array<Record<string, unknown>> = [];
+    if (this.configuration) {
+      const { config } = await this.configuration.getEffectiveConfiguration(ctx.tenantId);
+      const ver = ((config as Record<string, unknown>).ver ?? {}) as Record<string, unknown>;
+      if (Array.isArray(ver.tools)) tools = ver.tools as Array<Record<string, unknown>>;
+    }
+    const tool = tools.find((t) => t.code === code);
+    let ok = false;
+    let reason: string | null = null;
+    if (!tool) {
+      reason = 'UNKNOWN_TOOL';
+    } else if (
+      typeof tool.calibratedUntil === 'string' &&
+      new Date(tool.calibratedUntil).getTime() < Date.now()
+    ) {
+      reason = 'CALIBRATION_EXPIRED';
+    } else if (
+      input.operation !== undefined &&
+      Array.isArray(tool.operations) &&
+      !(tool.operations as unknown[]).includes(input.operation)
+    ) {
+      reason = 'NOT_APPROVED_FOR_OPERATION';
+    } else {
+      ok = true;
+    }
+    await writeAudit(this.prisma, {
+      tenantId: ctx.tenantId,
+      actorType: ctx.actorType,
+      actorId: ctx.userId,
+      action: 'ver.tool_check',
+      objectType: 'Tool',
+      objectId: code,
+      source: 'api',
+      newValues: { ok, reason, operation: input.operation ?? null },
+    });
+    return { ok, reason, name: (tool?.name as string | undefined) ?? null };
   }
 
   async listEvents(
