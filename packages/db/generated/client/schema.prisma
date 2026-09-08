@@ -150,6 +150,11 @@ model Tenant {
   shipments               Shipment[]
   shipmentStops           ShipmentStop[]
   dockAppointments        DockAppointment[]
+  installedAssets         InstalledAsset[]
+  serviceRequests         ServiceRequest[]
+  serviceOrders           ServiceOrder[]
+  serviceOrderParts       ServiceOrderPart[]
+  rmas                    Rma[]
   frameworkAgreements     FrameworkAgreement[]
 
   @@map("tenant")
@@ -3250,4 +3255,121 @@ model DockAppointment {
 
   @@index([tenantId, warehouseId, scheduledAt], map: "dock_appointment_tenant_wh_idx")
   @@map("dock_appointment")
+}
+
+// ---------------------------------------------------------------------------
+// SVC — field service (SVC-001..015)
+
+/// Installed base (SVC-001) with warranty (SVC-002).
+model InstalledAsset {
+  id            String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId      String    @map("tenant_id") @db.Uuid
+  accountId     String    @map("account_id") @db.Uuid
+  skuId         String?   @map("sku_id") @db.Uuid
+  name          String
+  serial        String?
+  location      String?
+  installedAt   DateTime? @map("installed_at")
+  warrantyUntil DateTime? @map("warranty_until")
+  active        Boolean   @default(true)
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+
+  tenant          Tenant           @relation(fields: [tenantId], references: [id])
+  serviceRequests ServiceRequest[]
+  serviceOrders   ServiceOrder[]
+
+  @@index([tenantId, accountId])
+  @@map("installed_asset")
+}
+
+/// Service request (SVC-003) with SLA due (SVC-014).
+model ServiceRequest {
+  id               String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId         String    @map("tenant_id") @db.Uuid
+  requestNumber    String    @map("request_number")
+  accountId        String    @map("account_id") @db.Uuid
+  installedAssetId String?   @map("installed_asset_id") @db.Uuid
+  subject          String
+  priority         String    @default("NORMAL")
+  status           String    @default("OPEN")
+  slaDueAt         DateTime? @map("sla_due_at")
+  createdBy        String?   @map("created_by")
+  createdAt        DateTime  @default(now()) @map("created_at")
+  updatedAt        DateTime  @updatedAt @map("updated_at")
+
+  tenant         Tenant          @relation(fields: [tenantId], references: [id])
+  installedAsset InstalledAsset? @relation(fields: [installedAssetId], references: [id])
+  serviceOrders  ServiceOrder[]
+
+  @@unique([tenantId, requestNumber])
+  @@index([tenantId, status])
+  @@map("service_request")
+}
+
+/// Service order (SVC-004) — scheduling, assignment, proof of service.
+model ServiceOrder {
+  id                 String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId           String    @map("tenant_id") @db.Uuid
+  orderNumber        String    @map("order_number")
+  requestId          String?   @map("request_id") @db.Uuid
+  installedAssetId   String?   @map("installed_asset_id") @db.Uuid
+  accountId          String    @map("account_id") @db.Uuid
+  status             String    @default("PLANNED")
+  scheduledAt        DateTime? @map("scheduled_at")
+  assignedTo         String?   @map("assigned_to")
+  skillsRequired     Json?     @map("skills_required")
+  report             String?
+  proofName          String?   @map("proof_name")
+  proofSignatureHash String?   @map("proof_signature_hash")
+  createdBy          String?   @map("created_by")
+  createdAt          DateTime  @default(now()) @map("created_at")
+  updatedAt          DateTime  @updatedAt @map("updated_at")
+
+  tenant         Tenant             @relation(fields: [tenantId], references: [id])
+  request        ServiceRequest?    @relation(fields: [requestId], references: [id])
+  installedAsset InstalledAsset?    @relation(fields: [installedAssetId], references: [id])
+  parts          ServiceOrderPart[]
+
+  @@unique([tenantId, orderNumber])
+  @@index([tenantId, status])
+  @@map("service_order")
+}
+
+/// Consumed service parts (SVC-012); stock effects go through WMS.
+model ServiceOrderPart {
+  id             String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId       String   @map("tenant_id") @db.Uuid
+  serviceOrderId String   @map("service_order_id") @db.Uuid
+  skuId          String   @map("sku_id") @db.Uuid
+  quantity       Decimal  @db.Decimal(18, 3)
+  createdAt      DateTime @default(now()) @map("created_at")
+
+  tenant       Tenant       @relation(fields: [tenantId], references: [id])
+  serviceOrder ServiceOrder @relation(fields: [serviceOrderId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId, serviceOrderId])
+  @@map("service_order_part")
+}
+
+/// Return merchandise authorization (SVC-005).
+model Rma {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId  String   @map("tenant_id") @db.Uuid
+  rmaNumber String   @map("rma_number")
+  accountId String   @map("account_id") @db.Uuid
+  orderId   String?  @map("order_id") @db.Uuid
+  skuId     String   @map("sku_id") @db.Uuid
+  quantity  Decimal  @db.Decimal(18, 3)
+  reason    String
+  status    String   @default("REQUESTED")
+  createdBy String?  @map("created_by")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@unique([tenantId, rmaNumber])
+  @@index([tenantId, status])
+  @@map("rma")
 }

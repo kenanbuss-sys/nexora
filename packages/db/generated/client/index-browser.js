@@ -1680,6 +1680,79 @@ exports.Prisma.DockAppointmentScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.InstalledAssetScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  accountId: 'accountId',
+  skuId: 'skuId',
+  name: 'name',
+  serial: 'serial',
+  location: 'location',
+  installedAt: 'installedAt',
+  warrantyUntil: 'warrantyUntil',
+  active: 'active',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ServiceRequestScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  requestNumber: 'requestNumber',
+  accountId: 'accountId',
+  installedAssetId: 'installedAssetId',
+  subject: 'subject',
+  priority: 'priority',
+  status: 'status',
+  slaDueAt: 'slaDueAt',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ServiceOrderScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  orderNumber: 'orderNumber',
+  requestId: 'requestId',
+  installedAssetId: 'installedAssetId',
+  accountId: 'accountId',
+  status: 'status',
+  scheduledAt: 'scheduledAt',
+  assignedTo: 'assignedTo',
+  skillsRequired: 'skillsRequired',
+  report: 'report',
+  proofName: 'proofName',
+  proofSignatureHash: 'proofSignatureHash',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ServiceOrderPartScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  serviceOrderId: 'serviceOrderId',
+  skuId: 'skuId',
+  quantity: 'quantity',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.RmaScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  rmaNumber: 'rmaNumber',
+  accountId: 'accountId',
+  orderId: 'orderId',
+  skuId: 'skuId',
+  quantity: 'quantity',
+  reason: 'reason',
+  status: 'status',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -2244,7 +2317,12 @@ exports.Prisma.ModelName = {
   Driver: 'Driver',
   Shipment: 'Shipment',
   ShipmentStop: 'ShipmentStop',
-  DockAppointment: 'DockAppointment'
+  DockAppointment: 'DockAppointment',
+  InstalledAsset: 'InstalledAsset',
+  ServiceRequest: 'ServiceRequest',
+  ServiceOrder: 'ServiceOrder',
+  ServiceOrderPart: 'ServiceOrderPart',
+  Rma: 'Rma'
 };
 
 /**
