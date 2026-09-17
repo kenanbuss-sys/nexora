@@ -1,9 +1,8 @@
-# HANDOFF — 17.09.2026 (Sprint 225 — Make Consulting demo)
+# HANDOFF — 17.09.2026 (Sprint 226 — /projects + vizuelne osnove)
 
-Stanje: na `docs/software-factory-md-v1`. Novi `scripts/seed-make-demo.mjs` — ponovljiv aditivan generator demo tenanta `make` („Make Consulting d.o.o. Srebrenik (DEMO)"; brending u konfiguraciji tenanta, svi podaci sintetički/TEST). Puni scenario arhitektonske firme (klijenti, katalog opreme, zalihe, cjenovnici, CRM, ponude→narudžbe→fakture/uplate, nabavka, projekti kroz PRJ objekte, HR s odobrenim odsustvom, zadaci, imovina, B2B portal, označena DEMO proizvodnja kroz puni MES+QC tok) + jasno označen backdating samo vremenskih kolona (~6 mjeseci historije, ref. 2026-09-15). Idempotencija dokazana (2 pokretanja = isti brojevi); demo/demo2 tenanti netaknuti; 13 UI snimaka.
+Stanje: na `docs/software-factory-md-v1`. (1) Namjenski /projects ekran nad postojećim PRJ domenom: lista+detalj (faze s rokovima i završavanjem kroz dijalog, finansije isključivo iz stvarnih zapisa — budžet/change orderi/troškovi/nabavka/prihod/marža; profitabilnost skrivena bez evidentiranog prihoda), povezane narudžbe SAMO preko polja projectRef, dokumenti; nav "Projekti" (project.read); generično za sve tenante. Evidentirani nedostaci modela (klijent/odgovorna osoba, lista NBN, upload dokumenata) → backlog, bez izmišljanja. Demo dopunjen kroz generator (7 faza, 3 projectRef narudžbe; idempotentno). (2) Vizuelne osnove u zajedničkim tokenima: self-hosted Inter Variable (č/ć/š/đ/ž; Google import uklonjen), spacing skala 4–32, sadržaj 32/16px, radna širina 1440px, tabularne cifre, globalni :focus-visible, badge-info; white-label netaknut. Premium redizajn svih ekrana ostaje otvoren.
 
-Prijava: tenant `make`, subject `idp|admin` (ili admin@make.example / make-demo); portal klijent `idp|make-klijent`.
-Mac: kod ažuriran; za podatke na Mac localhostu pokrenuti JEDNOM u Terminalu:
-`cd ~/nexora && git pull --ff-only && DATABASE_URL="postgresql://$USER@localhost:5432/enterprise_os" node scripts/seed-make-demo.mjs`
+Provjere: tok projekat→faza→završena; prava; tenant izolacija; mobilno + zoom 200%; 11 snimaka; typecheck/build ✓; lint 0 errors.
+Mac osvježenje: Terminal 1 `cd ~/nexora && git pull --ff-only && bash scripts/mac-dev.sh`; Terminal 2 (poslije "API is up") `cd ~/nexora && DATABASE_URL="postgresql://$USER@localhost:5432/enterprise_os" node scripts/seed-make-demo.mjs`.
 
-Backlog dopuna: /projects UI (visok), make GL/banka seed (srednji), backdating faktura (nizak), CRM za PERSON (nizak). Otvoreno ostaje: vizuelni pregled 215–223, FIN-028, HR inventar, stvarni adapteri, EN stranice.
+Otvoreno: vizuelni pregled 215–226, premium redizajn, FIN-028, HR inventar, stvarni adapteri, EN stranice; make GL/banka seed; projektna polja (klijent/odgovorna osoba), NBN lista po projektu, upload dokumenata.

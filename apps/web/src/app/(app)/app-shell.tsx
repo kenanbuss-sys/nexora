@@ -204,6 +204,7 @@ const NAV_GROUPS: Array<{ section: string; items: NavItem[] }> = [
     section: 'Prodaja i kupci',
     items: [
       { href: '/crm', label: 'CRM', icon: 'sales', permission: 'crm.read' },
+      { href: '/projects', label: 'Projekti', icon: 'planning', permission: 'project.read' },
       { href: '/quotes', label: 'Ponude', icon: 'quotes', permission: 'quote.read' },
       { href: '/orders', label: 'Narudžbe', icon: 'orders', permission: 'order.read' },
       { href: '/portal', label: 'B2B portal', icon: 'portal', permission: 'portal.manage' },

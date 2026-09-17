@@ -301,11 +301,11 @@ LOG-012,LOG,Reverse logistics,P2,Implemented (Sprint 192),R4+,,,Exactly-once rev
 LOG-013,LOG,Freight cost,P2,Implemented (Sprint 191),R4+,,,Per-shipment cost + per-carrier report
 LOG-014,LOG,Dock scheduling,P2,Implemented (Sprint 192),R4+,,,Overlap-protected dock appointments
 LOG-015,LOG,Yard events,P2,Implemented (Sprint 192),R4+,,,Audited arrivals/departures
-PRJ-001,PRJ,Projects,P2,DONE,R4+,,,Sprint 204: projects as governed custom-object register (code, status, budget, currency).
+PRJ-001,PRJ,Projects,P2,DONE,R4+,,,"Sprint 204: projects as governed custom-object register (code Sprint 226: dedicated /projects UI (list+detail, milestones complete, real-record financials, projectRef-linked orders).", status, budget, currency).
 PRJ-002,PRJ,Sites,P2,DONE,R4+,,,Sprint 204: sites register linked to projects by code.
 PRJ-003,PRJ,Milestones,P2,DONE,R4+,,,Sprint 204: milestone register with due dates; idempotent completion on the audit trail.
-PRJ-004,PRJ,Budgets,P2,DONE,R4+,,,Sprint 204: budgets on the project record; effective budget = budget + change orders.
-PRJ-005,PRJ,Job costing,P2,DONE,R4+,,,Sprint 204: job-cost ledger on audit events — labor/material/subcontract/other, idempotent per entry.
+PRJ-004,PRJ,Budgets,P2,DONE,R4+,,,"Sprint 204: budgets on the project record; effective budget = budget + change orders. Sprint 226: dedicated /projects UI (list+detail, milestones complete, real-record financials, projectRef-linked orders)."
+PRJ-005,PRJ,Job costing,P2,DONE,R4+,,,"Sprint 204: job-cost ledger on audit events — labor/material/subcontract/other Sprint 226: dedicated /projects UI (list+detail, milestones complete, real-record financials, projectRef-linked orders).", idempotent per entry.
 PRJ-006,PRJ,Project procurement,P2,DONE,R4+,,,Sprint 204: purchase orders linked read-only; PO totals join the job cost.
 PRJ-007,PRJ,Project inventory,P2,DONE,R4+,,,Sprint 204: material issues to projects through the stock ledger (idempotent ISSUE), costed.
 PRJ-008,PRJ,Subcontractors,P2,DONE,R4+,,,Sprint 204: subcontractor costs as first-class job-cost entries per supplier engagement.

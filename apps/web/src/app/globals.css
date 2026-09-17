@@ -5,7 +5,6 @@
  * A tenant's white-label configuration may override these variables at
  * runtime; everything below consumes tokens only.
  */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap');
 
 :root {
   --color-bg: #f6f7fb;
@@ -35,13 +34,32 @@
   --shadow: 0 1px 2px rgba(16, 20, 35, 0.04), 0 4px 16px rgba(16, 20, 35, 0.05);
   --shadow-hover: 0 2px 4px rgba(16, 20, 35, 0.05), 0 12px 32px rgba(16, 20, 35, 0.09);
   --shadow-lg: 0 12px 48px rgba(16, 20, 35, 0.14);
+  /* Self-hosted Inter Variable (latin + latin-ext: č ć š đ ž) — profesionalna
+     osnova za sve tenante; white-label mijenja boje, ne tipografiju. */
   --font:
-    'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    'Inter Variable', 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue',
+    Arial, sans-serif;
+  /* Skala razmaka — jedina dozvoljena vertikala/horizontala razmaka. */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 24px;
+  --sp-6: 32px;
+  --color-info: #1d4ed8;
+  --color-info-soft: #e4ecfd;
   --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
 * {
   box-sizing: border-box;
+}
+
+/* Tastatura: jasan, dosljedan fokus na SVIM kontrolama (WCAG 2.4.7). */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  border-radius: 4px;
 }
 
 html,
@@ -118,8 +136,9 @@ h2::before {
 }
 
 .page {
-  padding: 30px 36px 48px;
-  max-width: 1200px;
+  /* Radni prikazi koriste dostupnu širinu; 24–32px okvira na desktopu. */
+  padding: var(--sp-6) var(--sp-6) 48px;
+  max-width: 1440px;
   animation: page-in 0.28s ease both;
 }
 
@@ -353,6 +372,11 @@ h2::before {
   color: var(--color-warn);
 }
 
+.badge-info {
+  background: var(--color-info-soft);
+  color: var(--color-info);
+}
+
 .badge-danger {
   background: var(--color-danger-soft);
   color: var(--color-danger);
@@ -418,6 +442,7 @@ h2::before {
 
 .mono {
   font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
   font-size: 12.5px;
 }
 

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
+import '@fontsource-variable/inter/index.css';
 import './globals.css';
 import { LanguageLayer } from './language-layer';
 

@@ -333,9 +333,14 @@ if (WH && firstAccount && orderCount < 8) {
     ['Market Lipa TEST d.o.o.', [['ST-KONF-CRN', 15, 189]], []],
   ];
   let made = 0;
+  const PROJECT_REF = { 'Tehno Park TEST d.o.o.': 'PRJ-2026-01', 'Amir Testić (rezidencija)': 'PRJ-2026-02', 'Hotel Panorama TEST d.o.o.': 'PRJ-2025-07' };
   for (const [name, lines, actions] of PLAN) {
     const account = accountByName.get(name) ?? firstAccount;
-    const o = await call('POST', '/api/v1/orders', admin, { accountId: account.id, warehouseId: WH.id, currency: 'EUR' });
+    const projectRef = PROJECT_REF[name];
+    const o = await call('POST', '/api/v1/orders', admin, {
+      accountId: account.id, warehouseId: WH.id, currency: 'EUR',
+      ...(projectRef ? { projectRef } : {}),
+    });
     for (const [code, qty, price] of lines) {
       const sku = skuByCode.get(code);
       if (sku) await call('POST', `/api/v1/orders/${o.body.id}/lines`, admin, { skuId: sku.id, quantity: qty, unitPrice: price });
@@ -379,6 +384,31 @@ try {
   approver = sign({ tenantSlug: SLUG, subject: 'idp|make-vodja' });
 } catch {
   /* nabavka će raditi ispod praga */
+}
+
+// Narudžbe vezane na projekte (stvarno polje projectRef) — aditivno.
+{
+  const all = await call('GET', '/api/v1/orders', admin);
+  const hasRef = (all.body.orders ?? []).some((o) => o.projectRef);
+  if (!hasRef && WH && firstAccount) {
+    const REFS = [
+      ['Tehno Park TEST d.o.o.', 'PRJ-2026-01', [['ST-RAD-PRO', 12, 349], ['PAN-AKU-60', 40, 42]], true],
+      ['Amir Testić (rezidencija)', 'PRJ-2026-02', [['POD-HRAST-M2', 60, 38]], false],
+      ['Hotel Panorama TEST d.o.o.', 'PRJ-2025-07', [['RASVJ-LED-120', 6, 260]], true],
+    ];
+    for (const [name, projectRef, lines, confirm] of REFS) {
+      const account = accountByName.get(name) ?? firstAccount;
+      const o = await call('POST', '/api/v1/orders', admin, {
+        accountId: account.id, warehouseId: WH.id, currency: 'EUR', projectRef,
+      });
+      for (const [code, qty, price] of lines) {
+        const sku = skuByCode.get(code);
+        if (sku) await call('POST', `/api/v1/orders/${o.body.id}/lines`, admin, { skuId: sku.id, quantity: qty, unitPrice: price });
+      }
+      if (confirm) await call('POST', `/api/v1/orders/${o.body.id}/confirm`, admin, {});
+    }
+    console.log('- 3 narudžbe vezane na projekte (projectRef)');
+  }
 }
 
 // ----------------------------------------------------------- 11) nabavka
@@ -533,6 +563,35 @@ try {
   await addOnce('PRJ-2026-01', '/change-orders', { key: 'make-co1', delta: 8500, reason: 'Prošireni obim: staklene pregrade sale za sastanke' });
   await addOnce('PRJ-2026-02', '/costs', { entryId: 'make-c3', kind: 'labor', amount: 9200, description: 'Projektantski sati — glavni projekat' });
   await addOnce('PRJ-2025-07', '/revenue', { amount: 112000 });
+  // faze (prj_milestone) — po projektu, bez duplikata po nazivu
+  const msRes = await call('GET', '/api/v1/custom-objects/prj_milestone/records', admin);
+  const msKeys = new Set(
+    (msRes.body.records ?? []).map((r) => `${(r.data ?? {}).projekt}:${(r.data ?? {}).naziv}`),
+  );
+  const MILESTONES = [
+    ['PRJ-2026-01', 'Glavni projekat i dozvole', '2026-05-30'],
+    ['PRJ-2026-01', 'Gradevinski radovi — faza 1', '2026-08-15'],
+    ['PRJ-2026-01', 'Opremanje i primopredaja', '2026-11-20'],
+    ['PRJ-2026-02', 'Idejno rješenje', '2026-07-10'],
+    ['PRJ-2026-02', 'Izvedbeni projekat enterijera', '2026-10-01'],
+    ['PRJ-2026-03', 'Koncept prodajnog prostora', '2026-10-20'],
+    ['PRJ-2025-07', 'Rekonstrukcija lobbyja', '2026-03-31'],
+  ];
+  for (const [projekt, naziv, rok] of MILESTONES) {
+    if (msKeys.has(`${projekt}:${naziv}`)) continue;
+    await call('POST', '/api/v1/custom-objects/prj_milestone/records', admin, {
+      data: { projekt, naziv, rok },
+    });
+  }
+  // završene faze na zaključenom projektu (idempotentno: 'done' marker po recordu)
+  const doneList = await call('GET', '/api/v1/projects/PRJ-2025-07/milestones', admin);
+  for (const m of doneList.body.milestones ?? []) {
+    if (!m.done) {
+      await call('POST', '/api/v1/projects/PRJ-2025-07/milestones/complete', admin, {
+        milestoneRecordId: m.id,
+      });
+    }
+  }
   await addOnce('PRJ-2025-07', '/costs', { entryId: 'make-c4', kind: 'other', amount: 84300, description: 'Ukupni troškovi izvedbe (zaključeno)' });
   console.log('- 4 projekta (aktivni/planiran/završen) s troškovima i prihodima');
 } catch (e) {

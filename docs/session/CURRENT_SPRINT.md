@@ -223,3 +223,20 @@ Prioritizovani backlog (dopuna, postojeće stavke sačuvane):
 2. make: GL nalozi/banka/kompenzacije demo zapisi (ledger sekcija prazna za make) — SREDNJI
 3. Backdating proširiti na datume faktura/uplata — NIZAK
 4. CRM računi za PERSON partije (portal/narudžbe za fizička lica) — NIZAK
+
+# Sprint 226 — 17.09.2026: /projects ekran + vizuelne osnove proizvoda
+
+## /projects (PRJ-001..012, generično za sve tenante)
+- [x] Model potvrđen: projekat = PRJ domen (governed custom objekti + namjenski API-ji: milestones/costing/profitability/documents; troškovi/prihodi/change orderi na audit ledgeru) — nije izjednačen s generičkim "Objektima"; nav stavka "Projekti" u Prodaja i kupci (project.read)
+- [x] Lista (DataTable: šifra/naziv/budžet/status, pretraga + status filter) i detalj: status, finansijski pregled ISKLJUČIVO iz stvarnih zapisa (budžet, change orderi → efektivni, troškovi po vrstama, nabavka s povezanih NBN, preostalo, prihod/rezultat/marža — profitabilnost se NE prikazuje bez evidentiranog prihoda), faze s rokovima + "Označi završenom" kroz ConfirmDialog (project.manage), povezane narudžbe SAMO preko stvarnog polja projectRef (bez povezivanja po nazivu), dokumenti (attachmenti projekta); bez pristupa → jasna poruka
+- [x] **Evidentirani nedostaci modela** (bez izmišljanja): klijent i odgovorna osoba ne postoje na projektu; lista povezanih NBN nije izložena (samo zbir u costing); upload dokumenata na projekat nema UI → backlog
+- [x] Demo dopuna kroz postojeći generator (aditivno, idempotentno — 2. pokretanje 0 novih): 7 faza kroz custom-objects (završene na PRJ-2025-07 kroz milestones/complete), 3 narudžbe s projectRef (2 potvrđene)
+
+## Vizuelne osnove (zajednički tokeni — osnova za sve tenante, ne demo dekoracija)
+- [x] **Self-hosted Inter Variable** (@fontsource-variable/inter, latin+latin-ext → č/ć/š/đ/ž) umjesto blokiranog Google Fonts importa (uklonjen); tipografska hijerarhija zadržana (14px osnovni tekst), **tabularne cifre** za iznose (.mono)
+- [x] Skala razmaka --sp-1..6 (4/8/12/16/24/32); sadržaj 32px desktop / 16px mobilno; radni prikazi do 1440px (tabele koriste širinu, page-sub ostaje čitljivih 720px)
+- [x] Globalni :focus-visible (2px akcent outline — tastatura), --color-info/badge-info za završene statuse; statusi svugdje tekst + boja; white-label i dalje mijenja samo tokene boja
+- [x] Provjere: browser tok projekat→faza→završena + povezana narudžba/dokumenti; prava (vodja bez project.read → poruka); tenant izolacija (demo ne vidi make projekte); mobilno 390px; zoom 200% (720px viewport); dashboard/tabela/forma/dijalog vizuelno pregledani (11 snimaka); typecheck ✓ build ✓ lint 0 errors. Kontrast: postojeći tokeni (tekst #101423 na #fff ≈ 16:1; muted-solid #647082 ≈ 4.6:1; badge parovi ≥4.5:1) — AA
+- Napomena: završni premium redizajn SVIH ekrana ostaje otvoren (ovaj task postavlja osnove, ne zatvara dizajn-fazu)
+
+Backlog ažuriran: /projects UI ✓ ZATVOREN; NOVO — polja klijent/odgovorna osoba/rokovi na projektu (model+UI), lista povezanih NBN po projektu, upload dokumenata na projekat (UI); ostale stavke nepromijenjene.
