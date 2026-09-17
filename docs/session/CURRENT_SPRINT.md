@@ -35,3 +35,15 @@ Sljedeći prijedlog: BACKLOG_DOPUNA faza 1 — čeka potvrdu vlasnika.
 - Restart `com.nexora.autodev` NEPOTVRĐEN s macOS hosta (launchctl nedostupan iz VM-a) — čeka read-only provjeru korisnika.
 
 **Sljedeći sprint (backlog Faza 1)**: dovršiti red 3 → **FIN-032 kompenzacije**, zatim red 4 (FIN-028 KUF/KIF + PDV, paket "accounting-bih"). Čeka odobrenje vlasnika.
+
+# Sprint 214 — ZAVRŠEN 17.09.2026: kompenzacije (FIN-032)
+
+- [x] Tok: otvorene stavke partnera (obje strane) → nacrt s djelimičnim iznosima (strane jednake, prekomjerno → 400) → pregled → **izričita potvrda**: zatvaranje kroz FIN-014 uplate (idempotentno po liniji, bez dupliranja) + **tačno jedan** povezani COMPENSATION nalog (duguje partner-dobavljač 4320*, potražuje partner-kupac 2110*) → dokument za štampu → **kontrolisano poništenje** s razlogom: release uplata + storno naloga + audit
+- [x] Minimalni zajednički release mehanizam: `FinanceService.releasePayment` — append-only NEGATIVNO ogledalo uplate, unique (tenant, reversesPaymentId) onemogućava dvostruki release; status fakture se ponovo izvodi
+- [x] Sigurnost/integritet: period-lock pre-check PRIJE ikakvog efekta; potvrda/poništenje step-idempotentni (retry dovršava, nikad ne duplira); konkurentna potvrda ne duplira (CAS na paidAmount); tenant granice + permisije (finance.read/pay)
+- [x] Matrica: AI-016 vraćen na PARTIAL (samo dev adapter — produkcijska vision integracija NIJE završena); ograničenja Sprinta 213 zadržana
+- [x] Deterministički datumi u sprint212 testovima (granice izvedene iz TODAY; bez zavisnosti od kalendarskog mjeseca)
+- [x] Testovi (INTEGRATION=1, lokalni PG s migracijom 20260917000214): sprint211 9/9, sprint212 9/9, sprint213 10/10, **sprint214 10/10** (prekomjerno zatvaranje, ponovljena i konkurentna potvrda, poništenje + ponovljeno poništenje, period lock bez polovičnih efekata, dokument, authz/cross-tenant); turbo typecheck ✓; lint 0 errors; web build ✓ (/compensations)
+- Ograničenja: loan settlements (dio FIN-032 naslova) nisu pokriveni; poništenje kompenzacije u zaključanom periodu odbija storno kroz ledger guard; UI print koristi window.open (bez DOC šablona)
+
+**Sljedeći sprint — PRIJEDLOG (bez implementacije): FIN-028 KUF/KIF + PDV (BiH lokalizacioni paket)**: knjige ulaznih/izlaznih faktura nad postojećim Invoice + GL (entryType KUF/KIF postoje), PDV stope/period status/prijava kao config paket "accounting-bih" (tenant konfiguracija, ne kod), izvještaji read-only usklađeni s knjigom; zavisi od odobrenja vlasnika.

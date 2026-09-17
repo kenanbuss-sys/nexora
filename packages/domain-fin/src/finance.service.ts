@@ -428,6 +428,95 @@ export class FinanceService {
     }));
   }
 
+  /**
+   * Controlled release of a matched payment (Sprint 214, FIN-032):
+   * an append-only NEGATIVE mirror payment reverses the original —
+   * paidAmount still only moves through payments, the history stays
+   * complete, and the unique (tenantId, reversesPaymentId) constraint
+   * makes a double release impossible. Audited with the reason.
+   */
+  async releasePayment(
+    input: { paymentId: string; reason: string },
+    ctx: RequestContext,
+  ): Promise<InvoiceView> {
+    if (input.reason.trim().length < 5) {
+      throw new DomainError('VALIDATION_FAILED', 'A release needs a reason');
+    }
+    const payment = await this.prisma.payment.findFirst({
+      where: { id: input.paymentId, tenantId: ctx.tenantId },
+    });
+    if (!payment) throw notFound('Payment', input.paymentId);
+    if (payment.reversesPaymentId !== null || Number(payment.amount) <= 0) {
+      throw new DomainError('INVALID_STATE', 'Only an original positive payment can be released');
+    }
+    const already = await this.prisma.payment.findFirst({
+      where: { tenantId: ctx.tenantId, reversesPaymentId: payment.id },
+    });
+    if (already) {
+      throw new DomainError('CONFLICT', 'The payment is already released', {
+        releasePaymentId: already.id,
+      });
+    }
+    const invoice = await this.prisma.invoice.findFirst({
+      where: { id: payment.invoiceId, tenantId: ctx.tenantId },
+    });
+    if (!invoice) throw notFound('Invoice', payment.invoiceId);
+    const amount = Number(payment.amount);
+    await this.prisma.$transaction(async (tx) => {
+      const count = await tx.payment.count({ where: { tenantId: ctx.tenantId } });
+      const release = await tx.payment.create({
+        data: {
+          tenantId: ctx.tenantId,
+          paymentNumber: `PAY-${String(count + 1).padStart(6, '0')}`,
+          invoiceId: invoice.id,
+          amount: -amount,
+          currency: payment.currency,
+          reference: `release:${payment.paymentNumber}`,
+          reversesPaymentId: payment.id,
+          createdBy: ctx.userId ?? null,
+        },
+      });
+      const newPaid = Math.round((Number(invoice.paidAmount) - amount) * 100) / 100;
+      if (newPaid < -1e-9) {
+        throw new DomainError('INVALID_STATE', 'Release would make paidAmount negative');
+      }
+      const flipped = await tx.invoice.updateMany({
+        where: {
+          id: invoice.id,
+          tenantId: ctx.tenantId,
+          paidAmount: invoice.paidAmount,
+          status: invoice.status,
+        },
+        data: {
+          paidAmount: newPaid,
+          status: newPaid <= 1e-9 ? 'OPEN' : 'PARTIALLY_PAID',
+        },
+      });
+      if (flipped.count === 0) {
+        throw new DomainError('CONFLICT', 'Invoice changed concurrently — retry the release');
+      }
+      await writeAudit(tx, {
+        tenantId: ctx.tenantId,
+        actorType: ctx.actorType,
+        actorId: ctx.userId,
+        action: 'fin.payment.release',
+        objectType: 'Payment',
+        objectId: release.id,
+        source: 'api',
+        newValues: {
+          reversesPaymentId: payment.id,
+          invoiceId: invoice.id,
+          amount: -amount,
+          reason: input.reason.trim(),
+        },
+      });
+    });
+    const fresh = await this.prisma.invoice.findFirst({
+      where: { id: invoice.id, tenantId: ctx.tenantId },
+    });
+    return this.invoiceView(fresh!);
+  }
+
   // ------------------------------------------------------------ read models
 
   /**

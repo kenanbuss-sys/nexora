@@ -67,8 +67,10 @@ import {
   LedgerReportsController,
 } from './fin/ledger.controller';
 import { BANK_STATEMENT_SERVICE, BankController, VISION_PORT } from './fin/bank.controller';
+import { COMPENSATION_SERVICE, CompensationController } from './fin/compensation.controller';
 import {
   BankStatementService,
+  CompensationService,
   DevBankFeedAdapter,
   ValuationService,
   ExchangeRateService,
@@ -462,6 +464,7 @@ export const REDIS = 'REDIS';
     LedgerController,
     LedgerReportsController,
     BankController,
+    CompensationController,
     TreasuryController,
     ExchangeRatesController,
     ValuationController,
@@ -854,6 +857,24 @@ export const REDIS = 'REDIS';
           recordPayment: (input, ctx) => finance.recordPayment(input, ctx),
         }),
       inject: [PRISMA, FINANCE_SERVICE],
+    },
+    {
+      provide: COMPENSATION_SERVICE,
+      useFactory: (prisma: PrismaClient, finance: FinanceService, ledger: LedgerService) =>
+        new CompensationService(
+          prisma,
+          {
+            recordPayment: (input, ctx) => finance.recordPayment(input, ctx),
+            releasePayment: (input, ctx) => finance.releasePayment(input, ctx),
+          },
+          {
+            ensurePartnerAccount: (input, ctx) => ledger.ensurePartnerAccount(input, ctx),
+            createDraft: (input, ctx) => ledger.createDraft(input, ctx),
+            post: (id, ctx) => ledger.post(id, ctx),
+            storno: (id, reason, ctx) => ledger.storno(id, reason, ctx),
+          },
+        ),
+      inject: [PRISMA, FINANCE_SERVICE, LEDGER_SERVICE],
     },
     {
       // AI-016: the vision provider is OPTIONAL. The dev stand-in is

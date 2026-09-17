@@ -828,6 +828,16 @@ export type BankStatementLine = $Result.DefaultSelection<Prisma.$BankStatementLi
  * it does NOT create a ledger entry. Idempotent via allocationKey.
  */
 export type PaymentAllocation = $Result.DefaultSelection<Prisma.$PaymentAllocationPayload>
+/**
+ * Model Compensation
+ * 
+ */
+export type Compensation = $Result.DefaultSelection<Prisma.$CompensationPayload>
+/**
+ * Model CompensationLine
+ * 
+ */
+export type CompensationLine = $Result.DefaultSelection<Prisma.$CompensationLinePayload>
 
 /**
  * Enums
@@ -1441,6 +1451,23 @@ export const BankStatementLineStatus: {
 
 export type BankStatementLineStatus = (typeof BankStatementLineStatus)[keyof typeof BankStatementLineStatus]
 
+
+export const CompensationStatus: {
+  DRAFT: 'DRAFT',
+  CONFIRMED: 'CONFIRMED',
+  CANCELLED: 'CANCELLED'
+};
+
+export type CompensationStatus = (typeof CompensationStatus)[keyof typeof CompensationStatus]
+
+
+export const CompensationSide: {
+  RECEIVABLE: 'RECEIVABLE',
+  PAYABLE: 'PAYABLE'
+};
+
+export type CompensationSide = (typeof CompensationSide)[keyof typeof CompensationSide]
+
 }
 
 export type TenantStatus = $Enums.TenantStatus
@@ -1698,6 +1725,14 @@ export const BankStatementStatus: typeof $Enums.BankStatementStatus
 export type BankStatementLineStatus = $Enums.BankStatementLineStatus
 
 export const BankStatementLineStatus: typeof $Enums.BankStatementLineStatus
+
+export type CompensationStatus = $Enums.CompensationStatus
+
+export const CompensationStatus: typeof $Enums.CompensationStatus
+
+export type CompensationSide = $Enums.CompensationSide
+
+export const CompensationSide: typeof $Enums.CompensationSide
 
 /**
  * ##  Prisma Client ʲˢ
@@ -3246,6 +3281,26 @@ export class PrismaClient<
     * ```
     */
   get paymentAllocation(): Prisma.PaymentAllocationDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.compensation`: Exposes CRUD operations for the **Compensation** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Compensations
+    * const compensations = await prisma.compensation.findMany()
+    * ```
+    */
+  get compensation(): Prisma.CompensationDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.compensationLine`: Exposes CRUD operations for the **CompensationLine** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more CompensationLines
+    * const compensationLines = await prisma.compensationLine.findMany()
+    * ```
+    */
+  get compensationLine(): Prisma.CompensationLineDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -3829,7 +3884,9 @@ export namespace Prisma {
     GlPeriodLock: 'GlPeriodLock',
     BankStatement: 'BankStatement',
     BankStatementLine: 'BankStatementLine',
-    PaymentAllocation: 'PaymentAllocation'
+    PaymentAllocation: 'PaymentAllocation',
+    Compensation: 'Compensation',
+    CompensationLine: 'CompensationLine'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -3848,7 +3905,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "tenant" | "tenantConfigurationVersion" | "legalEntity" | "businessUnit" | "branch" | "factory" | "user" | "userCredential" | "role" | "rolePermission" | "userRoleAssignment" | "auditEvent" | "outboxEvent" | "terminologyEntry" | "moduleActivation" | "customFieldDefinition" | "task" | "notification" | "workflowDefinition" | "workflowVersion" | "workflowInstance" | "ruleDefinition" | "ruleVersion" | "approval" | "processedEvent" | "documentTemplate" | "documentTemplateVersion" | "party" | "consentRecord" | "partyExternalIdentity" | "product" | "sku" | "barcode" | "uomConversion" | "warehouse" | "warehouseLocation" | "stockMovement" | "stockReservation" | "device" | "scanEvent" | "wmsOrder" | "wmsOrderLine" | "territory" | "salesTeam" | "salesTeamMember" | "crmAccount" | "lead" | "opportunity" | "crmActivity" | "priceList" | "priceListEntry" | "quote" | "packagingLevel" | "skuSubstitution" | "discountRule" | "quoteLine" | "salesOrder" | "salesOrderLine" | "orderEvent" | "supplier" | "purchaseRequisition" | "purchaseRequisitionLine" | "purchaseOrder" | "purchaseOrderLine" | "bom" | "bomLine" | "routing" | "routingOperation" | "engineeringChange" | "planningPolicy" | "mrpRun" | "mrpSuggestion" | "workOrder" | "workOrderOperation" | "qcPlan" | "qcPlanItem" | "qcInspection" | "qcInspectionItem" | "ncr" | "invoice" | "payment" | "portalUser" | "comment" | "attachment" | "attachmentBlob" | "numberSequence" | "exchangeRate" | "costCenter" | "budget" | "webhookSubscription" | "webhookDelivery" | "apiKey" | "securityEvent" | "productCategory" | "returnOrder" | "returnOrderLine" | "stockCount" | "stockCountLine" | "workCenter" | "downtimeEvent" | "promotion" | "promotionRedemption" | "bundleComponent" | "serialNumber" | "breakGlassGrant" | "masterDataRequest" | "loyaltyAccount" | "loyaltyTransaction" | "supportCase" | "contract" | "employee" | "asset" | "quarantineHold" | "rfq" | "rfqQuote" | "package" | "packageLine" | "landedCost" | "customObjectDefinition" | "customObjectRecord" | "frameworkAgreement" | "skuChannelContent" | "container" | "posSession" | "vehicle" | "driver" | "shipment" | "shipmentStop" | "dockAppointment" | "installedAsset" | "serviceRequest" | "serviceOrder" | "serviceOrderPart" | "rma" | "glAccount" | "glJournalEntry" | "glJournalLine" | "glSystemAccount" | "glOpeningBalanceDate" | "glPeriodLock" | "bankStatement" | "bankStatementLine" | "paymentAllocation"
+      modelProps: "tenant" | "tenantConfigurationVersion" | "legalEntity" | "businessUnit" | "branch" | "factory" | "user" | "userCredential" | "role" | "rolePermission" | "userRoleAssignment" | "auditEvent" | "outboxEvent" | "terminologyEntry" | "moduleActivation" | "customFieldDefinition" | "task" | "notification" | "workflowDefinition" | "workflowVersion" | "workflowInstance" | "ruleDefinition" | "ruleVersion" | "approval" | "processedEvent" | "documentTemplate" | "documentTemplateVersion" | "party" | "consentRecord" | "partyExternalIdentity" | "product" | "sku" | "barcode" | "uomConversion" | "warehouse" | "warehouseLocation" | "stockMovement" | "stockReservation" | "device" | "scanEvent" | "wmsOrder" | "wmsOrderLine" | "territory" | "salesTeam" | "salesTeamMember" | "crmAccount" | "lead" | "opportunity" | "crmActivity" | "priceList" | "priceListEntry" | "quote" | "packagingLevel" | "skuSubstitution" | "discountRule" | "quoteLine" | "salesOrder" | "salesOrderLine" | "orderEvent" | "supplier" | "purchaseRequisition" | "purchaseRequisitionLine" | "purchaseOrder" | "purchaseOrderLine" | "bom" | "bomLine" | "routing" | "routingOperation" | "engineeringChange" | "planningPolicy" | "mrpRun" | "mrpSuggestion" | "workOrder" | "workOrderOperation" | "qcPlan" | "qcPlanItem" | "qcInspection" | "qcInspectionItem" | "ncr" | "invoice" | "payment" | "portalUser" | "comment" | "attachment" | "attachmentBlob" | "numberSequence" | "exchangeRate" | "costCenter" | "budget" | "webhookSubscription" | "webhookDelivery" | "apiKey" | "securityEvent" | "productCategory" | "returnOrder" | "returnOrderLine" | "stockCount" | "stockCountLine" | "workCenter" | "downtimeEvent" | "promotion" | "promotionRedemption" | "bundleComponent" | "serialNumber" | "breakGlassGrant" | "masterDataRequest" | "loyaltyAccount" | "loyaltyTransaction" | "supportCase" | "contract" | "employee" | "asset" | "quarantineHold" | "rfq" | "rfqQuote" | "package" | "packageLine" | "landedCost" | "customObjectDefinition" | "customObjectRecord" | "frameworkAgreement" | "skuChannelContent" | "container" | "posSession" | "vehicle" | "driver" | "shipment" | "shipmentStop" | "dockAppointment" | "installedAsset" | "serviceRequest" | "serviceOrder" | "serviceOrderPart" | "rma" | "glAccount" | "glJournalEntry" | "glJournalLine" | "glSystemAccount" | "glOpeningBalanceDate" | "glPeriodLock" | "bankStatement" | "bankStatementLine" | "paymentAllocation" | "compensation" | "compensationLine"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -14434,6 +14491,154 @@ export namespace Prisma {
           }
         }
       }
+      Compensation: {
+        payload: Prisma.$CompensationPayload<ExtArgs>
+        fields: Prisma.CompensationFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CompensationFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompensationPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CompensationFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompensationPayload>
+          }
+          findFirst: {
+            args: Prisma.CompensationFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompensationPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CompensationFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompensationPayload>
+          }
+          findMany: {
+            args: Prisma.CompensationFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompensationPayload>[]
+          }
+          create: {
+            args: Prisma.CompensationCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompensationPayload>
+          }
+          createMany: {
+            args: Prisma.CompensationCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.CompensationCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompensationPayload>[]
+          }
+          delete: {
+            args: Prisma.CompensationDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompensationPayload>
+          }
+          update: {
+            args: Prisma.CompensationUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompensationPayload>
+          }
+          deleteMany: {
+            args: Prisma.CompensationDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CompensationUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.CompensationUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompensationPayload>[]
+          }
+          upsert: {
+            args: Prisma.CompensationUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompensationPayload>
+          }
+          aggregate: {
+            args: Prisma.CompensationAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCompensation>
+          }
+          groupBy: {
+            args: Prisma.CompensationGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CompensationGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CompensationCountArgs<ExtArgs>
+            result: $Utils.Optional<CompensationCountAggregateOutputType> | number
+          }
+        }
+      }
+      CompensationLine: {
+        payload: Prisma.$CompensationLinePayload<ExtArgs>
+        fields: Prisma.CompensationLineFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CompensationLineFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompensationLinePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CompensationLineFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompensationLinePayload>
+          }
+          findFirst: {
+            args: Prisma.CompensationLineFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompensationLinePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CompensationLineFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompensationLinePayload>
+          }
+          findMany: {
+            args: Prisma.CompensationLineFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompensationLinePayload>[]
+          }
+          create: {
+            args: Prisma.CompensationLineCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompensationLinePayload>
+          }
+          createMany: {
+            args: Prisma.CompensationLineCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.CompensationLineCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompensationLinePayload>[]
+          }
+          delete: {
+            args: Prisma.CompensationLineDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompensationLinePayload>
+          }
+          update: {
+            args: Prisma.CompensationLineUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompensationLinePayload>
+          }
+          deleteMany: {
+            args: Prisma.CompensationLineDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CompensationLineUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.CompensationLineUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompensationLinePayload>[]
+          }
+          upsert: {
+            args: Prisma.CompensationLineUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompensationLinePayload>
+          }
+          aggregate: {
+            args: Prisma.CompensationLineAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCompensationLine>
+          }
+          groupBy: {
+            args: Prisma.CompensationLineGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CompensationLineGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CompensationLineCountArgs<ExtArgs>
+            result: $Utils.Optional<CompensationLineCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -14673,6 +14878,8 @@ export namespace Prisma {
     bankStatement?: BankStatementOmit
     bankStatementLine?: BankStatementLineOmit
     paymentAllocation?: PaymentAllocationOmit
+    compensation?: CompensationOmit
+    compensationLine?: CompensationLineOmit
   }
 
   /* Types for Logging */
@@ -14878,6 +15085,8 @@ export namespace Prisma {
     bankStatements: number
     bankStatementLines: number
     paymentAllocations: number
+    compensations: number
+    compensationLines: number
   }
 
   export type TenantCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -15006,6 +15215,8 @@ export namespace Prisma {
     bankStatements?: boolean | TenantCountOutputTypeCountBankStatementsArgs
     bankStatementLines?: boolean | TenantCountOutputTypeCountBankStatementLinesArgs
     paymentAllocations?: boolean | TenantCountOutputTypeCountPaymentAllocationsArgs
+    compensations?: boolean | TenantCountOutputTypeCountCompensationsArgs
+    compensationLines?: boolean | TenantCountOutputTypeCountCompensationLinesArgs
   }
 
   // Custom InputTypes
@@ -15892,6 +16103,20 @@ export namespace Prisma {
    */
   export type TenantCountOutputTypeCountPaymentAllocationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: PaymentAllocationWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountCompensationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CompensationWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountCompensationLinesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CompensationLineWhereInput
   }
 
 
@@ -16839,11 +17064,13 @@ export namespace Prisma {
   export type InvoiceCountOutputType = {
     payments: number
     allocations: number
+    compensationLines: number
   }
 
   export type InvoiceCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     payments?: boolean | InvoiceCountOutputTypeCountPaymentsArgs
     allocations?: boolean | InvoiceCountOutputTypeCountAllocationsArgs
+    compensationLines?: boolean | InvoiceCountOutputTypeCountCompensationLinesArgs
   }
 
   // Custom InputTypes
@@ -16869,6 +17096,44 @@ export namespace Prisma {
    */
   export type InvoiceCountOutputTypeCountAllocationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: PaymentAllocationWhereInput
+  }
+
+  /**
+   * InvoiceCountOutputType without action
+   */
+  export type InvoiceCountOutputTypeCountCompensationLinesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CompensationLineWhereInput
+  }
+
+
+  /**
+   * Count Type PaymentCountOutputType
+   */
+
+  export type PaymentCountOutputType = {
+    reversedBy: number
+  }
+
+  export type PaymentCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    reversedBy?: boolean | PaymentCountOutputTypeCountReversedByArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * PaymentCountOutputType without action
+   */
+  export type PaymentCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentCountOutputType
+     */
+    select?: PaymentCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * PaymentCountOutputType without action
+   */
+  export type PaymentCountOutputTypeCountReversedByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PaymentWhereInput
   }
 
 
@@ -17533,6 +17798,37 @@ export namespace Prisma {
 
 
   /**
+   * Count Type CompensationCountOutputType
+   */
+
+  export type CompensationCountOutputType = {
+    lines: number
+  }
+
+  export type CompensationCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    lines?: boolean | CompensationCountOutputTypeCountLinesArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * CompensationCountOutputType without action
+   */
+  export type CompensationCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompensationCountOutputType
+     */
+    select?: CompensationCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * CompensationCountOutputType without action
+   */
+  export type CompensationCountOutputTypeCountLinesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CompensationLineWhereInput
+  }
+
+
+  /**
    * Models
    */
 
@@ -17875,6 +18171,8 @@ export namespace Prisma {
     bankStatements?: boolean | Tenant$bankStatementsArgs<ExtArgs>
     bankStatementLines?: boolean | Tenant$bankStatementLinesArgs<ExtArgs>
     paymentAllocations?: boolean | Tenant$paymentAllocationsArgs<ExtArgs>
+    compensations?: boolean | Tenant$compensationsArgs<ExtArgs>
+    compensationLines?: boolean | Tenant$compensationLinesArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["tenant"]>
 
@@ -18035,6 +18333,8 @@ export namespace Prisma {
     bankStatements?: boolean | Tenant$bankStatementsArgs<ExtArgs>
     bankStatementLines?: boolean | Tenant$bankStatementLinesArgs<ExtArgs>
     paymentAllocations?: boolean | Tenant$paymentAllocationsArgs<ExtArgs>
+    compensations?: boolean | Tenant$compensationsArgs<ExtArgs>
+    compensationLines?: boolean | Tenant$compensationLinesArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type TenantIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -18168,6 +18468,8 @@ export namespace Prisma {
       bankStatements: Prisma.$BankStatementPayload<ExtArgs>[]
       bankStatementLines: Prisma.$BankStatementLinePayload<ExtArgs>[]
       paymentAllocations: Prisma.$PaymentAllocationPayload<ExtArgs>[]
+      compensations: Prisma.$CompensationPayload<ExtArgs>[]
+      compensationLines: Prisma.$CompensationLinePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -18696,6 +18998,8 @@ export namespace Prisma {
     bankStatements<T extends Tenant$bankStatementsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$bankStatementsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BankStatementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     bankStatementLines<T extends Tenant$bankStatementLinesArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$bankStatementLinesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BankStatementLinePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     paymentAllocations<T extends Tenant$paymentAllocationsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$paymentAllocationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentAllocationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    compensations<T extends Tenant$compensationsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$compensationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CompensationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    compensationLines<T extends Tenant$compensationLinesArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$compensationLinesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CompensationLinePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -22117,6 +22421,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: PaymentAllocationScalarFieldEnum | PaymentAllocationScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.compensations
+   */
+  export type Tenant$compensationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Compensation
+     */
+    select?: CompensationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Compensation
+     */
+    omit?: CompensationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompensationInclude<ExtArgs> | null
+    where?: CompensationWhereInput
+    orderBy?: CompensationOrderByWithRelationInput | CompensationOrderByWithRelationInput[]
+    cursor?: CompensationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CompensationScalarFieldEnum | CompensationScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.compensationLines
+   */
+  export type Tenant$compensationLinesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompensationLine
+     */
+    select?: CompensationLineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CompensationLine
+     */
+    omit?: CompensationLineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompensationLineInclude<ExtArgs> | null
+    where?: CompensationLineWhereInput
+    orderBy?: CompensationLineOrderByWithRelationInput | CompensationLineOrderByWithRelationInput[]
+    cursor?: CompensationLineWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CompensationLineScalarFieldEnum | CompensationLineScalarFieldEnum[]
   }
 
   /**
@@ -111921,6 +112273,7 @@ export namespace Prisma {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     payments?: boolean | Invoice$paymentsArgs<ExtArgs>
     allocations?: boolean | Invoice$allocationsArgs<ExtArgs>
+    compensationLines?: boolean | Invoice$compensationLinesArgs<ExtArgs>
     _count?: boolean | InvoiceCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["invoice"]>
 
@@ -111991,6 +112344,7 @@ export namespace Prisma {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     payments?: boolean | Invoice$paymentsArgs<ExtArgs>
     allocations?: boolean | Invoice$allocationsArgs<ExtArgs>
+    compensationLines?: boolean | Invoice$compensationLinesArgs<ExtArgs>
     _count?: boolean | InvoiceCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type InvoiceIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -112006,6 +112360,7 @@ export namespace Prisma {
       tenant: Prisma.$TenantPayload<ExtArgs>
       payments: Prisma.$PaymentPayload<ExtArgs>[]
       allocations: Prisma.$PaymentAllocationPayload<ExtArgs>[]
+      compensationLines: Prisma.$CompensationLinePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -112428,6 +112783,7 @@ export namespace Prisma {
     tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     payments<T extends Invoice$paymentsArgs<ExtArgs> = {}>(args?: Subset<T, Invoice$paymentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     allocations<T extends Invoice$allocationsArgs<ExtArgs> = {}>(args?: Subset<T, Invoice$allocationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentAllocationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    compensationLines<T extends Invoice$compensationLinesArgs<ExtArgs> = {}>(args?: Subset<T, Invoice$compensationLinesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CompensationLinePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -112918,6 +113274,30 @@ export namespace Prisma {
   }
 
   /**
+   * Invoice.compensationLines
+   */
+  export type Invoice$compensationLinesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompensationLine
+     */
+    select?: CompensationLineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CompensationLine
+     */
+    omit?: CompensationLineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompensationLineInclude<ExtArgs> | null
+    where?: CompensationLineWhereInput
+    orderBy?: CompensationLineOrderByWithRelationInput | CompensationLineOrderByWithRelationInput[]
+    cursor?: CompensationLineWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CompensationLineScalarFieldEnum | CompensationLineScalarFieldEnum[]
+  }
+
+  /**
    * Invoice without action
    */
   export type InvoiceDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -112966,6 +113346,7 @@ export namespace Prisma {
     reference: string | null
     receivedAt: Date | null
     createdBy: string | null
+    reversesPaymentId: string | null
   }
 
   export type PaymentMaxAggregateOutputType = {
@@ -112978,6 +113359,7 @@ export namespace Prisma {
     reference: string | null
     receivedAt: Date | null
     createdBy: string | null
+    reversesPaymentId: string | null
   }
 
   export type PaymentCountAggregateOutputType = {
@@ -112990,6 +113372,7 @@ export namespace Prisma {
     reference: number
     receivedAt: number
     createdBy: number
+    reversesPaymentId: number
     _all: number
   }
 
@@ -113012,6 +113395,7 @@ export namespace Prisma {
     reference?: true
     receivedAt?: true
     createdBy?: true
+    reversesPaymentId?: true
   }
 
   export type PaymentMaxAggregateInputType = {
@@ -113024,6 +113408,7 @@ export namespace Prisma {
     reference?: true
     receivedAt?: true
     createdBy?: true
+    reversesPaymentId?: true
   }
 
   export type PaymentCountAggregateInputType = {
@@ -113036,6 +113421,7 @@ export namespace Prisma {
     reference?: true
     receivedAt?: true
     createdBy?: true
+    reversesPaymentId?: true
     _all?: true
   }
 
@@ -113135,6 +113521,7 @@ export namespace Prisma {
     reference: string | null
     receivedAt: Date
     createdBy: string | null
+    reversesPaymentId: string | null
     _count: PaymentCountAggregateOutputType | null
     _avg: PaymentAvgAggregateOutputType | null
     _sum: PaymentSumAggregateOutputType | null
@@ -113166,8 +113553,12 @@ export namespace Prisma {
     reference?: boolean
     receivedAt?: boolean
     createdBy?: boolean
+    reversesPaymentId?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     invoice?: boolean | InvoiceDefaultArgs<ExtArgs>
+    reverses?: boolean | Payment$reversesArgs<ExtArgs>
+    reversedBy?: boolean | Payment$reversedByArgs<ExtArgs>
+    _count?: boolean | PaymentCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["payment"]>
 
   export type PaymentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -113180,8 +113571,10 @@ export namespace Prisma {
     reference?: boolean
     receivedAt?: boolean
     createdBy?: boolean
+    reversesPaymentId?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     invoice?: boolean | InvoiceDefaultArgs<ExtArgs>
+    reverses?: boolean | Payment$reversesArgs<ExtArgs>
   }, ExtArgs["result"]["payment"]>
 
   export type PaymentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -113194,8 +113587,10 @@ export namespace Prisma {
     reference?: boolean
     receivedAt?: boolean
     createdBy?: boolean
+    reversesPaymentId?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     invoice?: boolean | InvoiceDefaultArgs<ExtArgs>
+    reverses?: boolean | Payment$reversesArgs<ExtArgs>
   }, ExtArgs["result"]["payment"]>
 
   export type PaymentSelectScalar = {
@@ -113208,20 +113603,26 @@ export namespace Prisma {
     reference?: boolean
     receivedAt?: boolean
     createdBy?: boolean
+    reversesPaymentId?: boolean
   }
 
-  export type PaymentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "paymentNumber" | "invoiceId" | "amount" | "currency" | "reference" | "receivedAt" | "createdBy", ExtArgs["result"]["payment"]>
+  export type PaymentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "paymentNumber" | "invoiceId" | "amount" | "currency" | "reference" | "receivedAt" | "createdBy" | "reversesPaymentId", ExtArgs["result"]["payment"]>
   export type PaymentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     invoice?: boolean | InvoiceDefaultArgs<ExtArgs>
+    reverses?: boolean | Payment$reversesArgs<ExtArgs>
+    reversedBy?: boolean | Payment$reversedByArgs<ExtArgs>
+    _count?: boolean | PaymentCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type PaymentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     invoice?: boolean | InvoiceDefaultArgs<ExtArgs>
+    reverses?: boolean | Payment$reversesArgs<ExtArgs>
   }
   export type PaymentIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     invoice?: boolean | InvoiceDefaultArgs<ExtArgs>
+    reverses?: boolean | Payment$reversesArgs<ExtArgs>
   }
 
   export type $PaymentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -113229,6 +113630,8 @@ export namespace Prisma {
     objects: {
       tenant: Prisma.$TenantPayload<ExtArgs>
       invoice: Prisma.$InvoicePayload<ExtArgs>
+      reverses: Prisma.$PaymentPayload<ExtArgs> | null
+      reversedBy: Prisma.$PaymentPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -113240,6 +113643,12 @@ export namespace Prisma {
       reference: string | null
       receivedAt: Date
       createdBy: string | null
+      /**
+       * Sprint 214 (FIN-032): a controlled release is a NEGATIVE mirror
+       * payment pointing at the payment it reverses — append-only, at
+       * most one release per payment (unique below).
+       */
+      reversesPaymentId: string | null
     }, ExtArgs["result"]["payment"]>
     composites: {}
   }
@@ -113636,6 +114045,8 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     invoice<T extends InvoiceDefaultArgs<ExtArgs> = {}>(args?: Subset<T, InvoiceDefaultArgs<ExtArgs>>): Prisma__InvoiceClient<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    reverses<T extends Payment$reversesArgs<ExtArgs> = {}>(args?: Subset<T, Payment$reversesArgs<ExtArgs>>): Prisma__PaymentClient<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    reversedBy<T extends Payment$reversedByArgs<ExtArgs> = {}>(args?: Subset<T, Payment$reversedByArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -113674,6 +114085,7 @@ export namespace Prisma {
     readonly reference: FieldRef<"Payment", 'String'>
     readonly receivedAt: FieldRef<"Payment", 'DateTime'>
     readonly createdBy: FieldRef<"Payment", 'String'>
+    readonly reversesPaymentId: FieldRef<"Payment", 'String'>
   }
     
 
@@ -114067,6 +114479,49 @@ export namespace Prisma {
      * Limit how many Payments to delete.
      */
     limit?: number
+  }
+
+  /**
+   * Payment.reverses
+   */
+  export type Payment$reversesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Payment
+     */
+    select?: PaymentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Payment
+     */
+    omit?: PaymentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentInclude<ExtArgs> | null
+    where?: PaymentWhereInput
+  }
+
+  /**
+   * Payment.reversedBy
+   */
+  export type Payment$reversedByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Payment
+     */
+    select?: PaymentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Payment
+     */
+    omit?: PaymentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentInclude<ExtArgs> | null
+    where?: PaymentWhereInput
+    orderBy?: PaymentOrderByWithRelationInput | PaymentOrderByWithRelationInput[]
+    cursor?: PaymentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PaymentScalarFieldEnum | PaymentScalarFieldEnum[]
   }
 
   /**
@@ -185527,6 +185982,2434 @@ export namespace Prisma {
 
 
   /**
+   * Model Compensation
+   */
+
+  export type AggregateCompensation = {
+    _count: CompensationCountAggregateOutputType | null
+    _avg: CompensationAvgAggregateOutputType | null
+    _sum: CompensationSumAggregateOutputType | null
+    _min: CompensationMinAggregateOutputType | null
+    _max: CompensationMaxAggregateOutputType | null
+  }
+
+  export type CompensationAvgAggregateOutputType = {
+    totalAmount: Decimal | null
+  }
+
+  export type CompensationSumAggregateOutputType = {
+    totalAmount: Decimal | null
+  }
+
+  export type CompensationMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    legalEntityId: string | null
+    compensationNumber: string | null
+    partnerId: string | null
+    currency: string | null
+    totalAmount: Decimal | null
+    bookingDate: Date | null
+    status: $Enums.CompensationStatus | null
+    glEntryId: string | null
+    confirmedAt: Date | null
+    confirmedBy: string | null
+    cancelledAt: Date | null
+    cancelledBy: string | null
+    cancelReason: string | null
+    createdBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type CompensationMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    legalEntityId: string | null
+    compensationNumber: string | null
+    partnerId: string | null
+    currency: string | null
+    totalAmount: Decimal | null
+    bookingDate: Date | null
+    status: $Enums.CompensationStatus | null
+    glEntryId: string | null
+    confirmedAt: Date | null
+    confirmedBy: string | null
+    cancelledAt: Date | null
+    cancelledBy: string | null
+    cancelReason: string | null
+    createdBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type CompensationCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    legalEntityId: number
+    compensationNumber: number
+    partnerId: number
+    currency: number
+    totalAmount: number
+    bookingDate: number
+    status: number
+    glEntryId: number
+    confirmedAt: number
+    confirmedBy: number
+    cancelledAt: number
+    cancelledBy: number
+    cancelReason: number
+    createdBy: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type CompensationAvgAggregateInputType = {
+    totalAmount?: true
+  }
+
+  export type CompensationSumAggregateInputType = {
+    totalAmount?: true
+  }
+
+  export type CompensationMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    legalEntityId?: true
+    compensationNumber?: true
+    partnerId?: true
+    currency?: true
+    totalAmount?: true
+    bookingDate?: true
+    status?: true
+    glEntryId?: true
+    confirmedAt?: true
+    confirmedBy?: true
+    cancelledAt?: true
+    cancelledBy?: true
+    cancelReason?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type CompensationMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    legalEntityId?: true
+    compensationNumber?: true
+    partnerId?: true
+    currency?: true
+    totalAmount?: true
+    bookingDate?: true
+    status?: true
+    glEntryId?: true
+    confirmedAt?: true
+    confirmedBy?: true
+    cancelledAt?: true
+    cancelledBy?: true
+    cancelReason?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type CompensationCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    legalEntityId?: true
+    compensationNumber?: true
+    partnerId?: true
+    currency?: true
+    totalAmount?: true
+    bookingDate?: true
+    status?: true
+    glEntryId?: true
+    confirmedAt?: true
+    confirmedBy?: true
+    cancelledAt?: true
+    cancelledBy?: true
+    cancelReason?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type CompensationAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Compensation to aggregate.
+     */
+    where?: CompensationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Compensations to fetch.
+     */
+    orderBy?: CompensationOrderByWithRelationInput | CompensationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CompensationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Compensations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Compensations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Compensations
+    **/
+    _count?: true | CompensationCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: CompensationAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: CompensationSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CompensationMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CompensationMaxAggregateInputType
+  }
+
+  export type GetCompensationAggregateType<T extends CompensationAggregateArgs> = {
+        [P in keyof T & keyof AggregateCompensation]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCompensation[P]>
+      : GetScalarType<T[P], AggregateCompensation[P]>
+  }
+
+
+
+
+  export type CompensationGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CompensationWhereInput
+    orderBy?: CompensationOrderByWithAggregationInput | CompensationOrderByWithAggregationInput[]
+    by: CompensationScalarFieldEnum[] | CompensationScalarFieldEnum
+    having?: CompensationScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CompensationCountAggregateInputType | true
+    _avg?: CompensationAvgAggregateInputType
+    _sum?: CompensationSumAggregateInputType
+    _min?: CompensationMinAggregateInputType
+    _max?: CompensationMaxAggregateInputType
+  }
+
+  export type CompensationGroupByOutputType = {
+    id: string
+    tenantId: string
+    legalEntityId: string
+    compensationNumber: string
+    partnerId: string
+    currency: string
+    totalAmount: Decimal
+    bookingDate: Date
+    status: $Enums.CompensationStatus
+    glEntryId: string | null
+    confirmedAt: Date | null
+    confirmedBy: string | null
+    cancelledAt: Date | null
+    cancelledBy: string | null
+    cancelReason: string | null
+    createdBy: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: CompensationCountAggregateOutputType | null
+    _avg: CompensationAvgAggregateOutputType | null
+    _sum: CompensationSumAggregateOutputType | null
+    _min: CompensationMinAggregateOutputType | null
+    _max: CompensationMaxAggregateOutputType | null
+  }
+
+  type GetCompensationGroupByPayload<T extends CompensationGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CompensationGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CompensationGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CompensationGroupByOutputType[P]>
+            : GetScalarType<T[P], CompensationGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CompensationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    legalEntityId?: boolean
+    compensationNumber?: boolean
+    partnerId?: boolean
+    currency?: boolean
+    totalAmount?: boolean
+    bookingDate?: boolean
+    status?: boolean
+    glEntryId?: boolean
+    confirmedAt?: boolean
+    confirmedBy?: boolean
+    cancelledAt?: boolean
+    cancelledBy?: boolean
+    cancelReason?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    lines?: boolean | Compensation$linesArgs<ExtArgs>
+    _count?: boolean | CompensationCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["compensation"]>
+
+  export type CompensationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    legalEntityId?: boolean
+    compensationNumber?: boolean
+    partnerId?: boolean
+    currency?: boolean
+    totalAmount?: boolean
+    bookingDate?: boolean
+    status?: boolean
+    glEntryId?: boolean
+    confirmedAt?: boolean
+    confirmedBy?: boolean
+    cancelledAt?: boolean
+    cancelledBy?: boolean
+    cancelReason?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["compensation"]>
+
+  export type CompensationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    legalEntityId?: boolean
+    compensationNumber?: boolean
+    partnerId?: boolean
+    currency?: boolean
+    totalAmount?: boolean
+    bookingDate?: boolean
+    status?: boolean
+    glEntryId?: boolean
+    confirmedAt?: boolean
+    confirmedBy?: boolean
+    cancelledAt?: boolean
+    cancelledBy?: boolean
+    cancelReason?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["compensation"]>
+
+  export type CompensationSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    legalEntityId?: boolean
+    compensationNumber?: boolean
+    partnerId?: boolean
+    currency?: boolean
+    totalAmount?: boolean
+    bookingDate?: boolean
+    status?: boolean
+    glEntryId?: boolean
+    confirmedAt?: boolean
+    confirmedBy?: boolean
+    cancelledAt?: boolean
+    cancelledBy?: boolean
+    cancelReason?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type CompensationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "legalEntityId" | "compensationNumber" | "partnerId" | "currency" | "totalAmount" | "bookingDate" | "status" | "glEntryId" | "confirmedAt" | "confirmedBy" | "cancelledAt" | "cancelledBy" | "cancelReason" | "createdBy" | "createdAt" | "updatedAt", ExtArgs["result"]["compensation"]>
+  export type CompensationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    lines?: boolean | Compensation$linesArgs<ExtArgs>
+    _count?: boolean | CompensationCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type CompensationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type CompensationIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+
+  export type $CompensationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Compensation"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+      lines: Prisma.$CompensationLinePayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      legalEntityId: string
+      compensationNumber: string
+      partnerId: string
+      currency: string
+      totalAmount: Prisma.Decimal
+      bookingDate: Date
+      status: $Enums.CompensationStatus
+      glEntryId: string | null
+      confirmedAt: Date | null
+      confirmedBy: string | null
+      cancelledAt: Date | null
+      cancelledBy: string | null
+      cancelReason: string | null
+      createdBy: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["compensation"]>
+    composites: {}
+  }
+
+  type CompensationGetPayload<S extends boolean | null | undefined | CompensationDefaultArgs> = $Result.GetResult<Prisma.$CompensationPayload, S>
+
+  type CompensationCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<CompensationFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: CompensationCountAggregateInputType | true
+    }
+
+  export interface CompensationDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Compensation'], meta: { name: 'Compensation' } }
+    /**
+     * Find zero or one Compensation that matches the filter.
+     * @param {CompensationFindUniqueArgs} args - Arguments to find a Compensation
+     * @example
+     * // Get one Compensation
+     * const compensation = await prisma.compensation.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends CompensationFindUniqueArgs>(args: SelectSubset<T, CompensationFindUniqueArgs<ExtArgs>>): Prisma__CompensationClient<$Result.GetResult<Prisma.$CompensationPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Compensation that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {CompensationFindUniqueOrThrowArgs} args - Arguments to find a Compensation
+     * @example
+     * // Get one Compensation
+     * const compensation = await prisma.compensation.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends CompensationFindUniqueOrThrowArgs>(args: SelectSubset<T, CompensationFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CompensationClient<$Result.GetResult<Prisma.$CompensationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Compensation that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CompensationFindFirstArgs} args - Arguments to find a Compensation
+     * @example
+     * // Get one Compensation
+     * const compensation = await prisma.compensation.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends CompensationFindFirstArgs>(args?: SelectSubset<T, CompensationFindFirstArgs<ExtArgs>>): Prisma__CompensationClient<$Result.GetResult<Prisma.$CompensationPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Compensation that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CompensationFindFirstOrThrowArgs} args - Arguments to find a Compensation
+     * @example
+     * // Get one Compensation
+     * const compensation = await prisma.compensation.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends CompensationFindFirstOrThrowArgs>(args?: SelectSubset<T, CompensationFindFirstOrThrowArgs<ExtArgs>>): Prisma__CompensationClient<$Result.GetResult<Prisma.$CompensationPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Compensations that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CompensationFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Compensations
+     * const compensations = await prisma.compensation.findMany()
+     * 
+     * // Get first 10 Compensations
+     * const compensations = await prisma.compensation.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const compensationWithIdOnly = await prisma.compensation.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends CompensationFindManyArgs>(args?: SelectSubset<T, CompensationFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CompensationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Compensation.
+     * @param {CompensationCreateArgs} args - Arguments to create a Compensation.
+     * @example
+     * // Create one Compensation
+     * const Compensation = await prisma.compensation.create({
+     *   data: {
+     *     // ... data to create a Compensation
+     *   }
+     * })
+     * 
+     */
+    create<T extends CompensationCreateArgs>(args: SelectSubset<T, CompensationCreateArgs<ExtArgs>>): Prisma__CompensationClient<$Result.GetResult<Prisma.$CompensationPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Compensations.
+     * @param {CompensationCreateManyArgs} args - Arguments to create many Compensations.
+     * @example
+     * // Create many Compensations
+     * const compensation = await prisma.compensation.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends CompensationCreateManyArgs>(args?: SelectSubset<T, CompensationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Compensations and returns the data saved in the database.
+     * @param {CompensationCreateManyAndReturnArgs} args - Arguments to create many Compensations.
+     * @example
+     * // Create many Compensations
+     * const compensation = await prisma.compensation.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Compensations and only return the `id`
+     * const compensationWithIdOnly = await prisma.compensation.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends CompensationCreateManyAndReturnArgs>(args?: SelectSubset<T, CompensationCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CompensationPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Compensation.
+     * @param {CompensationDeleteArgs} args - Arguments to delete one Compensation.
+     * @example
+     * // Delete one Compensation
+     * const Compensation = await prisma.compensation.delete({
+     *   where: {
+     *     // ... filter to delete one Compensation
+     *   }
+     * })
+     * 
+     */
+    delete<T extends CompensationDeleteArgs>(args: SelectSubset<T, CompensationDeleteArgs<ExtArgs>>): Prisma__CompensationClient<$Result.GetResult<Prisma.$CompensationPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Compensation.
+     * @param {CompensationUpdateArgs} args - Arguments to update one Compensation.
+     * @example
+     * // Update one Compensation
+     * const compensation = await prisma.compensation.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends CompensationUpdateArgs>(args: SelectSubset<T, CompensationUpdateArgs<ExtArgs>>): Prisma__CompensationClient<$Result.GetResult<Prisma.$CompensationPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Compensations.
+     * @param {CompensationDeleteManyArgs} args - Arguments to filter Compensations to delete.
+     * @example
+     * // Delete a few Compensations
+     * const { count } = await prisma.compensation.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends CompensationDeleteManyArgs>(args?: SelectSubset<T, CompensationDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Compensations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CompensationUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Compensations
+     * const compensation = await prisma.compensation.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends CompensationUpdateManyArgs>(args: SelectSubset<T, CompensationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Compensations and returns the data updated in the database.
+     * @param {CompensationUpdateManyAndReturnArgs} args - Arguments to update many Compensations.
+     * @example
+     * // Update many Compensations
+     * const compensation = await prisma.compensation.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Compensations and only return the `id`
+     * const compensationWithIdOnly = await prisma.compensation.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends CompensationUpdateManyAndReturnArgs>(args: SelectSubset<T, CompensationUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CompensationPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Compensation.
+     * @param {CompensationUpsertArgs} args - Arguments to update or create a Compensation.
+     * @example
+     * // Update or create a Compensation
+     * const compensation = await prisma.compensation.upsert({
+     *   create: {
+     *     // ... data to create a Compensation
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Compensation we want to update
+     *   }
+     * })
+     */
+    upsert<T extends CompensationUpsertArgs>(args: SelectSubset<T, CompensationUpsertArgs<ExtArgs>>): Prisma__CompensationClient<$Result.GetResult<Prisma.$CompensationPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Compensations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CompensationCountArgs} args - Arguments to filter Compensations to count.
+     * @example
+     * // Count the number of Compensations
+     * const count = await prisma.compensation.count({
+     *   where: {
+     *     // ... the filter for the Compensations we want to count
+     *   }
+     * })
+    **/
+    count<T extends CompensationCountArgs>(
+      args?: Subset<T, CompensationCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CompensationCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Compensation.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CompensationAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CompensationAggregateArgs>(args: Subset<T, CompensationAggregateArgs>): Prisma.PrismaPromise<GetCompensationAggregateType<T>>
+
+    /**
+     * Group by Compensation.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CompensationGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CompensationGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CompensationGroupByArgs['orderBy'] }
+        : { orderBy?: CompensationGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CompensationGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCompensationGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Compensation model
+   */
+  readonly fields: CompensationFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Compensation.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CompensationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    lines<T extends Compensation$linesArgs<ExtArgs> = {}>(args?: Subset<T, Compensation$linesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CompensationLinePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Compensation model
+   */
+  interface CompensationFieldRefs {
+    readonly id: FieldRef<"Compensation", 'String'>
+    readonly tenantId: FieldRef<"Compensation", 'String'>
+    readonly legalEntityId: FieldRef<"Compensation", 'String'>
+    readonly compensationNumber: FieldRef<"Compensation", 'String'>
+    readonly partnerId: FieldRef<"Compensation", 'String'>
+    readonly currency: FieldRef<"Compensation", 'String'>
+    readonly totalAmount: FieldRef<"Compensation", 'Decimal'>
+    readonly bookingDate: FieldRef<"Compensation", 'DateTime'>
+    readonly status: FieldRef<"Compensation", 'CompensationStatus'>
+    readonly glEntryId: FieldRef<"Compensation", 'String'>
+    readonly confirmedAt: FieldRef<"Compensation", 'DateTime'>
+    readonly confirmedBy: FieldRef<"Compensation", 'String'>
+    readonly cancelledAt: FieldRef<"Compensation", 'DateTime'>
+    readonly cancelledBy: FieldRef<"Compensation", 'String'>
+    readonly cancelReason: FieldRef<"Compensation", 'String'>
+    readonly createdBy: FieldRef<"Compensation", 'String'>
+    readonly createdAt: FieldRef<"Compensation", 'DateTime'>
+    readonly updatedAt: FieldRef<"Compensation", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Compensation findUnique
+   */
+  export type CompensationFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Compensation
+     */
+    select?: CompensationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Compensation
+     */
+    omit?: CompensationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompensationInclude<ExtArgs> | null
+    /**
+     * Filter, which Compensation to fetch.
+     */
+    where: CompensationWhereUniqueInput
+  }
+
+  /**
+   * Compensation findUniqueOrThrow
+   */
+  export type CompensationFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Compensation
+     */
+    select?: CompensationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Compensation
+     */
+    omit?: CompensationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompensationInclude<ExtArgs> | null
+    /**
+     * Filter, which Compensation to fetch.
+     */
+    where: CompensationWhereUniqueInput
+  }
+
+  /**
+   * Compensation findFirst
+   */
+  export type CompensationFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Compensation
+     */
+    select?: CompensationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Compensation
+     */
+    omit?: CompensationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompensationInclude<ExtArgs> | null
+    /**
+     * Filter, which Compensation to fetch.
+     */
+    where?: CompensationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Compensations to fetch.
+     */
+    orderBy?: CompensationOrderByWithRelationInput | CompensationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Compensations.
+     */
+    cursor?: CompensationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Compensations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Compensations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Compensations.
+     */
+    distinct?: CompensationScalarFieldEnum | CompensationScalarFieldEnum[]
+  }
+
+  /**
+   * Compensation findFirstOrThrow
+   */
+  export type CompensationFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Compensation
+     */
+    select?: CompensationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Compensation
+     */
+    omit?: CompensationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompensationInclude<ExtArgs> | null
+    /**
+     * Filter, which Compensation to fetch.
+     */
+    where?: CompensationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Compensations to fetch.
+     */
+    orderBy?: CompensationOrderByWithRelationInput | CompensationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Compensations.
+     */
+    cursor?: CompensationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Compensations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Compensations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Compensations.
+     */
+    distinct?: CompensationScalarFieldEnum | CompensationScalarFieldEnum[]
+  }
+
+  /**
+   * Compensation findMany
+   */
+  export type CompensationFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Compensation
+     */
+    select?: CompensationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Compensation
+     */
+    omit?: CompensationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompensationInclude<ExtArgs> | null
+    /**
+     * Filter, which Compensations to fetch.
+     */
+    where?: CompensationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Compensations to fetch.
+     */
+    orderBy?: CompensationOrderByWithRelationInput | CompensationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Compensations.
+     */
+    cursor?: CompensationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Compensations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Compensations.
+     */
+    skip?: number
+    distinct?: CompensationScalarFieldEnum | CompensationScalarFieldEnum[]
+  }
+
+  /**
+   * Compensation create
+   */
+  export type CompensationCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Compensation
+     */
+    select?: CompensationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Compensation
+     */
+    omit?: CompensationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompensationInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Compensation.
+     */
+    data: XOR<CompensationCreateInput, CompensationUncheckedCreateInput>
+  }
+
+  /**
+   * Compensation createMany
+   */
+  export type CompensationCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Compensations.
+     */
+    data: CompensationCreateManyInput | CompensationCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Compensation createManyAndReturn
+   */
+  export type CompensationCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Compensation
+     */
+    select?: CompensationSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Compensation
+     */
+    omit?: CompensationOmit<ExtArgs> | null
+    /**
+     * The data used to create many Compensations.
+     */
+    data: CompensationCreateManyInput | CompensationCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompensationIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Compensation update
+   */
+  export type CompensationUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Compensation
+     */
+    select?: CompensationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Compensation
+     */
+    omit?: CompensationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompensationInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Compensation.
+     */
+    data: XOR<CompensationUpdateInput, CompensationUncheckedUpdateInput>
+    /**
+     * Choose, which Compensation to update.
+     */
+    where: CompensationWhereUniqueInput
+  }
+
+  /**
+   * Compensation updateMany
+   */
+  export type CompensationUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Compensations.
+     */
+    data: XOR<CompensationUpdateManyMutationInput, CompensationUncheckedUpdateManyInput>
+    /**
+     * Filter which Compensations to update
+     */
+    where?: CompensationWhereInput
+    /**
+     * Limit how many Compensations to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Compensation updateManyAndReturn
+   */
+  export type CompensationUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Compensation
+     */
+    select?: CompensationSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Compensation
+     */
+    omit?: CompensationOmit<ExtArgs> | null
+    /**
+     * The data used to update Compensations.
+     */
+    data: XOR<CompensationUpdateManyMutationInput, CompensationUncheckedUpdateManyInput>
+    /**
+     * Filter which Compensations to update
+     */
+    where?: CompensationWhereInput
+    /**
+     * Limit how many Compensations to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompensationIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Compensation upsert
+   */
+  export type CompensationUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Compensation
+     */
+    select?: CompensationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Compensation
+     */
+    omit?: CompensationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompensationInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Compensation to update in case it exists.
+     */
+    where: CompensationWhereUniqueInput
+    /**
+     * In case the Compensation found by the `where` argument doesn't exist, create a new Compensation with this data.
+     */
+    create: XOR<CompensationCreateInput, CompensationUncheckedCreateInput>
+    /**
+     * In case the Compensation was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CompensationUpdateInput, CompensationUncheckedUpdateInput>
+  }
+
+  /**
+   * Compensation delete
+   */
+  export type CompensationDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Compensation
+     */
+    select?: CompensationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Compensation
+     */
+    omit?: CompensationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompensationInclude<ExtArgs> | null
+    /**
+     * Filter which Compensation to delete.
+     */
+    where: CompensationWhereUniqueInput
+  }
+
+  /**
+   * Compensation deleteMany
+   */
+  export type CompensationDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Compensations to delete
+     */
+    where?: CompensationWhereInput
+    /**
+     * Limit how many Compensations to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Compensation.lines
+   */
+  export type Compensation$linesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompensationLine
+     */
+    select?: CompensationLineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CompensationLine
+     */
+    omit?: CompensationLineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompensationLineInclude<ExtArgs> | null
+    where?: CompensationLineWhereInput
+    orderBy?: CompensationLineOrderByWithRelationInput | CompensationLineOrderByWithRelationInput[]
+    cursor?: CompensationLineWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CompensationLineScalarFieldEnum | CompensationLineScalarFieldEnum[]
+  }
+
+  /**
+   * Compensation without action
+   */
+  export type CompensationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Compensation
+     */
+    select?: CompensationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Compensation
+     */
+    omit?: CompensationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompensationInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model CompensationLine
+   */
+
+  export type AggregateCompensationLine = {
+    _count: CompensationLineCountAggregateOutputType | null
+    _avg: CompensationLineAvgAggregateOutputType | null
+    _sum: CompensationLineSumAggregateOutputType | null
+    _min: CompensationLineMinAggregateOutputType | null
+    _max: CompensationLineMaxAggregateOutputType | null
+  }
+
+  export type CompensationLineAvgAggregateOutputType = {
+    amount: Decimal | null
+  }
+
+  export type CompensationLineSumAggregateOutputType = {
+    amount: Decimal | null
+  }
+
+  export type CompensationLineMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    compensationId: string | null
+    invoiceId: string | null
+    side: $Enums.CompensationSide | null
+    amount: Decimal | null
+    paymentId: string | null
+  }
+
+  export type CompensationLineMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    compensationId: string | null
+    invoiceId: string | null
+    side: $Enums.CompensationSide | null
+    amount: Decimal | null
+    paymentId: string | null
+  }
+
+  export type CompensationLineCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    compensationId: number
+    invoiceId: number
+    side: number
+    amount: number
+    paymentId: number
+    _all: number
+  }
+
+
+  export type CompensationLineAvgAggregateInputType = {
+    amount?: true
+  }
+
+  export type CompensationLineSumAggregateInputType = {
+    amount?: true
+  }
+
+  export type CompensationLineMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    compensationId?: true
+    invoiceId?: true
+    side?: true
+    amount?: true
+    paymentId?: true
+  }
+
+  export type CompensationLineMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    compensationId?: true
+    invoiceId?: true
+    side?: true
+    amount?: true
+    paymentId?: true
+  }
+
+  export type CompensationLineCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    compensationId?: true
+    invoiceId?: true
+    side?: true
+    amount?: true
+    paymentId?: true
+    _all?: true
+  }
+
+  export type CompensationLineAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CompensationLine to aggregate.
+     */
+    where?: CompensationLineWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CompensationLines to fetch.
+     */
+    orderBy?: CompensationLineOrderByWithRelationInput | CompensationLineOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CompensationLineWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CompensationLines from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CompensationLines.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned CompensationLines
+    **/
+    _count?: true | CompensationLineCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: CompensationLineAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: CompensationLineSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CompensationLineMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CompensationLineMaxAggregateInputType
+  }
+
+  export type GetCompensationLineAggregateType<T extends CompensationLineAggregateArgs> = {
+        [P in keyof T & keyof AggregateCompensationLine]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCompensationLine[P]>
+      : GetScalarType<T[P], AggregateCompensationLine[P]>
+  }
+
+
+
+
+  export type CompensationLineGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CompensationLineWhereInput
+    orderBy?: CompensationLineOrderByWithAggregationInput | CompensationLineOrderByWithAggregationInput[]
+    by: CompensationLineScalarFieldEnum[] | CompensationLineScalarFieldEnum
+    having?: CompensationLineScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CompensationLineCountAggregateInputType | true
+    _avg?: CompensationLineAvgAggregateInputType
+    _sum?: CompensationLineSumAggregateInputType
+    _min?: CompensationLineMinAggregateInputType
+    _max?: CompensationLineMaxAggregateInputType
+  }
+
+  export type CompensationLineGroupByOutputType = {
+    id: string
+    tenantId: string
+    compensationId: string
+    invoiceId: string
+    side: $Enums.CompensationSide
+    amount: Decimal
+    paymentId: string | null
+    _count: CompensationLineCountAggregateOutputType | null
+    _avg: CompensationLineAvgAggregateOutputType | null
+    _sum: CompensationLineSumAggregateOutputType | null
+    _min: CompensationLineMinAggregateOutputType | null
+    _max: CompensationLineMaxAggregateOutputType | null
+  }
+
+  type GetCompensationLineGroupByPayload<T extends CompensationLineGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CompensationLineGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CompensationLineGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CompensationLineGroupByOutputType[P]>
+            : GetScalarType<T[P], CompensationLineGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CompensationLineSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    compensationId?: boolean
+    invoiceId?: boolean
+    side?: boolean
+    amount?: boolean
+    paymentId?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    compensation?: boolean | CompensationDefaultArgs<ExtArgs>
+    invoice?: boolean | InvoiceDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["compensationLine"]>
+
+  export type CompensationLineSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    compensationId?: boolean
+    invoiceId?: boolean
+    side?: boolean
+    amount?: boolean
+    paymentId?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    compensation?: boolean | CompensationDefaultArgs<ExtArgs>
+    invoice?: boolean | InvoiceDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["compensationLine"]>
+
+  export type CompensationLineSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    compensationId?: boolean
+    invoiceId?: boolean
+    side?: boolean
+    amount?: boolean
+    paymentId?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    compensation?: boolean | CompensationDefaultArgs<ExtArgs>
+    invoice?: boolean | InvoiceDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["compensationLine"]>
+
+  export type CompensationLineSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    compensationId?: boolean
+    invoiceId?: boolean
+    side?: boolean
+    amount?: boolean
+    paymentId?: boolean
+  }
+
+  export type CompensationLineOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "compensationId" | "invoiceId" | "side" | "amount" | "paymentId", ExtArgs["result"]["compensationLine"]>
+  export type CompensationLineInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    compensation?: boolean | CompensationDefaultArgs<ExtArgs>
+    invoice?: boolean | InvoiceDefaultArgs<ExtArgs>
+  }
+  export type CompensationLineIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    compensation?: boolean | CompensationDefaultArgs<ExtArgs>
+    invoice?: boolean | InvoiceDefaultArgs<ExtArgs>
+  }
+  export type CompensationLineIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    compensation?: boolean | CompensationDefaultArgs<ExtArgs>
+    invoice?: boolean | InvoiceDefaultArgs<ExtArgs>
+  }
+
+  export type $CompensationLinePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "CompensationLine"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+      compensation: Prisma.$CompensationPayload<ExtArgs>
+      invoice: Prisma.$InvoicePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      compensationId: string
+      invoiceId: string
+      side: $Enums.CompensationSide
+      amount: Prisma.Decimal
+      /**
+       * Set on confirm: the payment that closed this line (its release on cancel).
+       */
+      paymentId: string | null
+    }, ExtArgs["result"]["compensationLine"]>
+    composites: {}
+  }
+
+  type CompensationLineGetPayload<S extends boolean | null | undefined | CompensationLineDefaultArgs> = $Result.GetResult<Prisma.$CompensationLinePayload, S>
+
+  type CompensationLineCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<CompensationLineFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: CompensationLineCountAggregateInputType | true
+    }
+
+  export interface CompensationLineDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['CompensationLine'], meta: { name: 'CompensationLine' } }
+    /**
+     * Find zero or one CompensationLine that matches the filter.
+     * @param {CompensationLineFindUniqueArgs} args - Arguments to find a CompensationLine
+     * @example
+     * // Get one CompensationLine
+     * const compensationLine = await prisma.compensationLine.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends CompensationLineFindUniqueArgs>(args: SelectSubset<T, CompensationLineFindUniqueArgs<ExtArgs>>): Prisma__CompensationLineClient<$Result.GetResult<Prisma.$CompensationLinePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one CompensationLine that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {CompensationLineFindUniqueOrThrowArgs} args - Arguments to find a CompensationLine
+     * @example
+     * // Get one CompensationLine
+     * const compensationLine = await prisma.compensationLine.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends CompensationLineFindUniqueOrThrowArgs>(args: SelectSubset<T, CompensationLineFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CompensationLineClient<$Result.GetResult<Prisma.$CompensationLinePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CompensationLine that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CompensationLineFindFirstArgs} args - Arguments to find a CompensationLine
+     * @example
+     * // Get one CompensationLine
+     * const compensationLine = await prisma.compensationLine.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends CompensationLineFindFirstArgs>(args?: SelectSubset<T, CompensationLineFindFirstArgs<ExtArgs>>): Prisma__CompensationLineClient<$Result.GetResult<Prisma.$CompensationLinePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CompensationLine that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CompensationLineFindFirstOrThrowArgs} args - Arguments to find a CompensationLine
+     * @example
+     * // Get one CompensationLine
+     * const compensationLine = await prisma.compensationLine.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends CompensationLineFindFirstOrThrowArgs>(args?: SelectSubset<T, CompensationLineFindFirstOrThrowArgs<ExtArgs>>): Prisma__CompensationLineClient<$Result.GetResult<Prisma.$CompensationLinePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more CompensationLines that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CompensationLineFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all CompensationLines
+     * const compensationLines = await prisma.compensationLine.findMany()
+     * 
+     * // Get first 10 CompensationLines
+     * const compensationLines = await prisma.compensationLine.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const compensationLineWithIdOnly = await prisma.compensationLine.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends CompensationLineFindManyArgs>(args?: SelectSubset<T, CompensationLineFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CompensationLinePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a CompensationLine.
+     * @param {CompensationLineCreateArgs} args - Arguments to create a CompensationLine.
+     * @example
+     * // Create one CompensationLine
+     * const CompensationLine = await prisma.compensationLine.create({
+     *   data: {
+     *     // ... data to create a CompensationLine
+     *   }
+     * })
+     * 
+     */
+    create<T extends CompensationLineCreateArgs>(args: SelectSubset<T, CompensationLineCreateArgs<ExtArgs>>): Prisma__CompensationLineClient<$Result.GetResult<Prisma.$CompensationLinePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many CompensationLines.
+     * @param {CompensationLineCreateManyArgs} args - Arguments to create many CompensationLines.
+     * @example
+     * // Create many CompensationLines
+     * const compensationLine = await prisma.compensationLine.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends CompensationLineCreateManyArgs>(args?: SelectSubset<T, CompensationLineCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many CompensationLines and returns the data saved in the database.
+     * @param {CompensationLineCreateManyAndReturnArgs} args - Arguments to create many CompensationLines.
+     * @example
+     * // Create many CompensationLines
+     * const compensationLine = await prisma.compensationLine.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many CompensationLines and only return the `id`
+     * const compensationLineWithIdOnly = await prisma.compensationLine.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends CompensationLineCreateManyAndReturnArgs>(args?: SelectSubset<T, CompensationLineCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CompensationLinePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a CompensationLine.
+     * @param {CompensationLineDeleteArgs} args - Arguments to delete one CompensationLine.
+     * @example
+     * // Delete one CompensationLine
+     * const CompensationLine = await prisma.compensationLine.delete({
+     *   where: {
+     *     // ... filter to delete one CompensationLine
+     *   }
+     * })
+     * 
+     */
+    delete<T extends CompensationLineDeleteArgs>(args: SelectSubset<T, CompensationLineDeleteArgs<ExtArgs>>): Prisma__CompensationLineClient<$Result.GetResult<Prisma.$CompensationLinePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one CompensationLine.
+     * @param {CompensationLineUpdateArgs} args - Arguments to update one CompensationLine.
+     * @example
+     * // Update one CompensationLine
+     * const compensationLine = await prisma.compensationLine.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends CompensationLineUpdateArgs>(args: SelectSubset<T, CompensationLineUpdateArgs<ExtArgs>>): Prisma__CompensationLineClient<$Result.GetResult<Prisma.$CompensationLinePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more CompensationLines.
+     * @param {CompensationLineDeleteManyArgs} args - Arguments to filter CompensationLines to delete.
+     * @example
+     * // Delete a few CompensationLines
+     * const { count } = await prisma.compensationLine.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends CompensationLineDeleteManyArgs>(args?: SelectSubset<T, CompensationLineDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CompensationLines.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CompensationLineUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many CompensationLines
+     * const compensationLine = await prisma.compensationLine.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends CompensationLineUpdateManyArgs>(args: SelectSubset<T, CompensationLineUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CompensationLines and returns the data updated in the database.
+     * @param {CompensationLineUpdateManyAndReturnArgs} args - Arguments to update many CompensationLines.
+     * @example
+     * // Update many CompensationLines
+     * const compensationLine = await prisma.compensationLine.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more CompensationLines and only return the `id`
+     * const compensationLineWithIdOnly = await prisma.compensationLine.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends CompensationLineUpdateManyAndReturnArgs>(args: SelectSubset<T, CompensationLineUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CompensationLinePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one CompensationLine.
+     * @param {CompensationLineUpsertArgs} args - Arguments to update or create a CompensationLine.
+     * @example
+     * // Update or create a CompensationLine
+     * const compensationLine = await prisma.compensationLine.upsert({
+     *   create: {
+     *     // ... data to create a CompensationLine
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the CompensationLine we want to update
+     *   }
+     * })
+     */
+    upsert<T extends CompensationLineUpsertArgs>(args: SelectSubset<T, CompensationLineUpsertArgs<ExtArgs>>): Prisma__CompensationLineClient<$Result.GetResult<Prisma.$CompensationLinePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of CompensationLines.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CompensationLineCountArgs} args - Arguments to filter CompensationLines to count.
+     * @example
+     * // Count the number of CompensationLines
+     * const count = await prisma.compensationLine.count({
+     *   where: {
+     *     // ... the filter for the CompensationLines we want to count
+     *   }
+     * })
+    **/
+    count<T extends CompensationLineCountArgs>(
+      args?: Subset<T, CompensationLineCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CompensationLineCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a CompensationLine.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CompensationLineAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CompensationLineAggregateArgs>(args: Subset<T, CompensationLineAggregateArgs>): Prisma.PrismaPromise<GetCompensationLineAggregateType<T>>
+
+    /**
+     * Group by CompensationLine.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CompensationLineGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CompensationLineGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CompensationLineGroupByArgs['orderBy'] }
+        : { orderBy?: CompensationLineGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CompensationLineGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCompensationLineGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the CompensationLine model
+   */
+  readonly fields: CompensationLineFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for CompensationLine.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CompensationLineClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    compensation<T extends CompensationDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompensationDefaultArgs<ExtArgs>>): Prisma__CompensationClient<$Result.GetResult<Prisma.$CompensationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    invoice<T extends InvoiceDefaultArgs<ExtArgs> = {}>(args?: Subset<T, InvoiceDefaultArgs<ExtArgs>>): Prisma__InvoiceClient<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the CompensationLine model
+   */
+  interface CompensationLineFieldRefs {
+    readonly id: FieldRef<"CompensationLine", 'String'>
+    readonly tenantId: FieldRef<"CompensationLine", 'String'>
+    readonly compensationId: FieldRef<"CompensationLine", 'String'>
+    readonly invoiceId: FieldRef<"CompensationLine", 'String'>
+    readonly side: FieldRef<"CompensationLine", 'CompensationSide'>
+    readonly amount: FieldRef<"CompensationLine", 'Decimal'>
+    readonly paymentId: FieldRef<"CompensationLine", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * CompensationLine findUnique
+   */
+  export type CompensationLineFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompensationLine
+     */
+    select?: CompensationLineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CompensationLine
+     */
+    omit?: CompensationLineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompensationLineInclude<ExtArgs> | null
+    /**
+     * Filter, which CompensationLine to fetch.
+     */
+    where: CompensationLineWhereUniqueInput
+  }
+
+  /**
+   * CompensationLine findUniqueOrThrow
+   */
+  export type CompensationLineFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompensationLine
+     */
+    select?: CompensationLineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CompensationLine
+     */
+    omit?: CompensationLineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompensationLineInclude<ExtArgs> | null
+    /**
+     * Filter, which CompensationLine to fetch.
+     */
+    where: CompensationLineWhereUniqueInput
+  }
+
+  /**
+   * CompensationLine findFirst
+   */
+  export type CompensationLineFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompensationLine
+     */
+    select?: CompensationLineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CompensationLine
+     */
+    omit?: CompensationLineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompensationLineInclude<ExtArgs> | null
+    /**
+     * Filter, which CompensationLine to fetch.
+     */
+    where?: CompensationLineWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CompensationLines to fetch.
+     */
+    orderBy?: CompensationLineOrderByWithRelationInput | CompensationLineOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CompensationLines.
+     */
+    cursor?: CompensationLineWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CompensationLines from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CompensationLines.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CompensationLines.
+     */
+    distinct?: CompensationLineScalarFieldEnum | CompensationLineScalarFieldEnum[]
+  }
+
+  /**
+   * CompensationLine findFirstOrThrow
+   */
+  export type CompensationLineFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompensationLine
+     */
+    select?: CompensationLineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CompensationLine
+     */
+    omit?: CompensationLineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompensationLineInclude<ExtArgs> | null
+    /**
+     * Filter, which CompensationLine to fetch.
+     */
+    where?: CompensationLineWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CompensationLines to fetch.
+     */
+    orderBy?: CompensationLineOrderByWithRelationInput | CompensationLineOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CompensationLines.
+     */
+    cursor?: CompensationLineWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CompensationLines from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CompensationLines.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CompensationLines.
+     */
+    distinct?: CompensationLineScalarFieldEnum | CompensationLineScalarFieldEnum[]
+  }
+
+  /**
+   * CompensationLine findMany
+   */
+  export type CompensationLineFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompensationLine
+     */
+    select?: CompensationLineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CompensationLine
+     */
+    omit?: CompensationLineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompensationLineInclude<ExtArgs> | null
+    /**
+     * Filter, which CompensationLines to fetch.
+     */
+    where?: CompensationLineWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CompensationLines to fetch.
+     */
+    orderBy?: CompensationLineOrderByWithRelationInput | CompensationLineOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing CompensationLines.
+     */
+    cursor?: CompensationLineWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CompensationLines from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CompensationLines.
+     */
+    skip?: number
+    distinct?: CompensationLineScalarFieldEnum | CompensationLineScalarFieldEnum[]
+  }
+
+  /**
+   * CompensationLine create
+   */
+  export type CompensationLineCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompensationLine
+     */
+    select?: CompensationLineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CompensationLine
+     */
+    omit?: CompensationLineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompensationLineInclude<ExtArgs> | null
+    /**
+     * The data needed to create a CompensationLine.
+     */
+    data: XOR<CompensationLineCreateInput, CompensationLineUncheckedCreateInput>
+  }
+
+  /**
+   * CompensationLine createMany
+   */
+  export type CompensationLineCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many CompensationLines.
+     */
+    data: CompensationLineCreateManyInput | CompensationLineCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * CompensationLine createManyAndReturn
+   */
+  export type CompensationLineCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompensationLine
+     */
+    select?: CompensationLineSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CompensationLine
+     */
+    omit?: CompensationLineOmit<ExtArgs> | null
+    /**
+     * The data used to create many CompensationLines.
+     */
+    data: CompensationLineCreateManyInput | CompensationLineCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompensationLineIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CompensationLine update
+   */
+  export type CompensationLineUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompensationLine
+     */
+    select?: CompensationLineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CompensationLine
+     */
+    omit?: CompensationLineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompensationLineInclude<ExtArgs> | null
+    /**
+     * The data needed to update a CompensationLine.
+     */
+    data: XOR<CompensationLineUpdateInput, CompensationLineUncheckedUpdateInput>
+    /**
+     * Choose, which CompensationLine to update.
+     */
+    where: CompensationLineWhereUniqueInput
+  }
+
+  /**
+   * CompensationLine updateMany
+   */
+  export type CompensationLineUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update CompensationLines.
+     */
+    data: XOR<CompensationLineUpdateManyMutationInput, CompensationLineUncheckedUpdateManyInput>
+    /**
+     * Filter which CompensationLines to update
+     */
+    where?: CompensationLineWhereInput
+    /**
+     * Limit how many CompensationLines to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * CompensationLine updateManyAndReturn
+   */
+  export type CompensationLineUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompensationLine
+     */
+    select?: CompensationLineSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CompensationLine
+     */
+    omit?: CompensationLineOmit<ExtArgs> | null
+    /**
+     * The data used to update CompensationLines.
+     */
+    data: XOR<CompensationLineUpdateManyMutationInput, CompensationLineUncheckedUpdateManyInput>
+    /**
+     * Filter which CompensationLines to update
+     */
+    where?: CompensationLineWhereInput
+    /**
+     * Limit how many CompensationLines to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompensationLineIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CompensationLine upsert
+   */
+  export type CompensationLineUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompensationLine
+     */
+    select?: CompensationLineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CompensationLine
+     */
+    omit?: CompensationLineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompensationLineInclude<ExtArgs> | null
+    /**
+     * The filter to search for the CompensationLine to update in case it exists.
+     */
+    where: CompensationLineWhereUniqueInput
+    /**
+     * In case the CompensationLine found by the `where` argument doesn't exist, create a new CompensationLine with this data.
+     */
+    create: XOR<CompensationLineCreateInput, CompensationLineUncheckedCreateInput>
+    /**
+     * In case the CompensationLine was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CompensationLineUpdateInput, CompensationLineUncheckedUpdateInput>
+  }
+
+  /**
+   * CompensationLine delete
+   */
+  export type CompensationLineDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompensationLine
+     */
+    select?: CompensationLineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CompensationLine
+     */
+    omit?: CompensationLineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompensationLineInclude<ExtArgs> | null
+    /**
+     * Filter which CompensationLine to delete.
+     */
+    where: CompensationLineWhereUniqueInput
+  }
+
+  /**
+   * CompensationLine deleteMany
+   */
+  export type CompensationLineDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CompensationLines to delete
+     */
+    where?: CompensationLineWhereInput
+    /**
+     * Limit how many CompensationLines to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * CompensationLine without action
+   */
+  export type CompensationLineDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompensationLine
+     */
+    select?: CompensationLineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CompensationLine
+     */
+    omit?: CompensationLineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompensationLineInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -186750,7 +189633,8 @@ export namespace Prisma {
     currency: 'currency',
     reference: 'reference',
     receivedAt: 'receivedAt',
-    createdBy: 'createdBy'
+    createdBy: 'createdBy',
+    reversesPaymentId: 'reversesPaymentId'
   };
 
   export type PaymentScalarFieldEnum = (typeof PaymentScalarFieldEnum)[keyof typeof PaymentScalarFieldEnum]
@@ -187712,6 +190596,43 @@ export namespace Prisma {
   };
 
   export type PaymentAllocationScalarFieldEnum = (typeof PaymentAllocationScalarFieldEnum)[keyof typeof PaymentAllocationScalarFieldEnum]
+
+
+  export const CompensationScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    legalEntityId: 'legalEntityId',
+    compensationNumber: 'compensationNumber',
+    partnerId: 'partnerId',
+    currency: 'currency',
+    totalAmount: 'totalAmount',
+    bookingDate: 'bookingDate',
+    status: 'status',
+    glEntryId: 'glEntryId',
+    confirmedAt: 'confirmedAt',
+    confirmedBy: 'confirmedBy',
+    cancelledAt: 'cancelledAt',
+    cancelledBy: 'cancelledBy',
+    cancelReason: 'cancelReason',
+    createdBy: 'createdBy',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type CompensationScalarFieldEnum = (typeof CompensationScalarFieldEnum)[keyof typeof CompensationScalarFieldEnum]
+
+
+  export const CompensationLineScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    compensationId: 'compensationId',
+    invoiceId: 'invoiceId',
+    side: 'side',
+    amount: 'amount',
+    paymentId: 'paymentId'
+  };
+
+  export type CompensationLineScalarFieldEnum = (typeof CompensationLineScalarFieldEnum)[keyof typeof CompensationLineScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -188755,6 +191676,34 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'CompensationStatus'
+   */
+  export type EnumCompensationStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CompensationStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'CompensationStatus[]'
+   */
+  export type ListEnumCompensationStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CompensationStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'CompensationSide'
+   */
+  export type EnumCompensationSideFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CompensationSide'>
+    
+
+
+  /**
+   * Reference to a field of type 'CompensationSide[]'
+   */
+  export type ListEnumCompensationSideFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CompensationSide[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -188907,6 +191856,8 @@ export namespace Prisma {
     bankStatements?: BankStatementListRelationFilter
     bankStatementLines?: BankStatementLineListRelationFilter
     paymentAllocations?: PaymentAllocationListRelationFilter
+    compensations?: CompensationListRelationFilter
+    compensationLines?: CompensationLineListRelationFilter
   }
 
   export type TenantOrderByWithRelationInput = {
@@ -189042,6 +191993,8 @@ export namespace Prisma {
     bankStatements?: BankStatementOrderByRelationAggregateInput
     bankStatementLines?: BankStatementLineOrderByRelationAggregateInput
     paymentAllocations?: PaymentAllocationOrderByRelationAggregateInput
+    compensations?: CompensationOrderByRelationAggregateInput
+    compensationLines?: CompensationLineOrderByRelationAggregateInput
   }
 
   export type TenantWhereUniqueInput = Prisma.AtLeast<{
@@ -189180,6 +192133,8 @@ export namespace Prisma {
     bankStatements?: BankStatementListRelationFilter
     bankStatementLines?: BankStatementLineListRelationFilter
     paymentAllocations?: PaymentAllocationListRelationFilter
+    compensations?: CompensationListRelationFilter
+    compensationLines?: CompensationLineListRelationFilter
   }, "id" | "slug">
 
   export type TenantOrderByWithAggregationInput = {
@@ -195395,6 +198350,7 @@ export namespace Prisma {
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
     payments?: PaymentListRelationFilter
     allocations?: PaymentAllocationListRelationFilter
+    compensationLines?: CompensationLineListRelationFilter
   }
 
   export type InvoiceOrderByWithRelationInput = {
@@ -195418,6 +198374,7 @@ export namespace Prisma {
     tenant?: TenantOrderByWithRelationInput
     payments?: PaymentOrderByRelationAggregateInput
     allocations?: PaymentAllocationOrderByRelationAggregateInput
+    compensationLines?: CompensationLineOrderByRelationAggregateInput
   }
 
   export type InvoiceWhereUniqueInput = Prisma.AtLeast<{
@@ -195446,6 +198403,7 @@ export namespace Prisma {
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
     payments?: PaymentListRelationFilter
     allocations?: PaymentAllocationListRelationFilter
+    compensationLines?: CompensationLineListRelationFilter
   }, "id" | "tenantId_invoiceNumber" | "tenantId_invoiceType_orderRefId">
 
   export type InvoiceOrderByWithAggregationInput = {
@@ -195509,8 +198467,11 @@ export namespace Prisma {
     reference?: StringNullableFilter<"Payment"> | string | null
     receivedAt?: DateTimeFilter<"Payment"> | Date | string
     createdBy?: StringNullableFilter<"Payment"> | string | null
+    reversesPaymentId?: UuidNullableFilter<"Payment"> | string | null
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
     invoice?: XOR<InvoiceScalarRelationFilter, InvoiceWhereInput>
+    reverses?: XOR<PaymentNullableScalarRelationFilter, PaymentWhereInput> | null
+    reversedBy?: PaymentListRelationFilter
   }
 
   export type PaymentOrderByWithRelationInput = {
@@ -195523,13 +198484,17 @@ export namespace Prisma {
     reference?: SortOrderInput | SortOrder
     receivedAt?: SortOrder
     createdBy?: SortOrderInput | SortOrder
+    reversesPaymentId?: SortOrderInput | SortOrder
     tenant?: TenantOrderByWithRelationInput
     invoice?: InvoiceOrderByWithRelationInput
+    reverses?: PaymentOrderByWithRelationInput
+    reversedBy?: PaymentOrderByRelationAggregateInput
   }
 
   export type PaymentWhereUniqueInput = Prisma.AtLeast<{
     id?: string
     tenantId_paymentNumber?: PaymentTenantIdPaymentNumberCompoundUniqueInput
+    tenantId_reversesPaymentId?: PaymentTenantIdReversesPaymentIdCompoundUniqueInput
     AND?: PaymentWhereInput | PaymentWhereInput[]
     OR?: PaymentWhereInput[]
     NOT?: PaymentWhereInput | PaymentWhereInput[]
@@ -195541,9 +198506,12 @@ export namespace Prisma {
     reference?: StringNullableFilter<"Payment"> | string | null
     receivedAt?: DateTimeFilter<"Payment"> | Date | string
     createdBy?: StringNullableFilter<"Payment"> | string | null
+    reversesPaymentId?: UuidNullableFilter<"Payment"> | string | null
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
     invoice?: XOR<InvoiceScalarRelationFilter, InvoiceWhereInput>
-  }, "id" | "tenantId_paymentNumber">
+    reverses?: XOR<PaymentNullableScalarRelationFilter, PaymentWhereInput> | null
+    reversedBy?: PaymentListRelationFilter
+  }, "id" | "tenantId_paymentNumber" | "tenantId_reversesPaymentId">
 
   export type PaymentOrderByWithAggregationInput = {
     id?: SortOrder
@@ -195555,6 +198523,7 @@ export namespace Prisma {
     reference?: SortOrderInput | SortOrder
     receivedAt?: SortOrder
     createdBy?: SortOrderInput | SortOrder
+    reversesPaymentId?: SortOrderInput | SortOrder
     _count?: PaymentCountOrderByAggregateInput
     _avg?: PaymentAvgOrderByAggregateInput
     _max?: PaymentMaxOrderByAggregateInput
@@ -195575,6 +198544,7 @@ export namespace Prisma {
     reference?: StringNullableWithAggregatesFilter<"Payment"> | string | null
     receivedAt?: DateTimeWithAggregatesFilter<"Payment"> | Date | string
     createdBy?: StringNullableWithAggregatesFilter<"Payment"> | string | null
+    reversesPaymentId?: UuidNullableWithAggregatesFilter<"Payment"> | string | null
   }
 
   export type PortalUserWhereInput = {
@@ -200631,6 +203601,206 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"PaymentAllocation"> | Date | string
   }
 
+  export type CompensationWhereInput = {
+    AND?: CompensationWhereInput | CompensationWhereInput[]
+    OR?: CompensationWhereInput[]
+    NOT?: CompensationWhereInput | CompensationWhereInput[]
+    id?: UuidFilter<"Compensation"> | string
+    tenantId?: UuidFilter<"Compensation"> | string
+    legalEntityId?: UuidFilter<"Compensation"> | string
+    compensationNumber?: StringFilter<"Compensation"> | string
+    partnerId?: UuidFilter<"Compensation"> | string
+    currency?: StringFilter<"Compensation"> | string
+    totalAmount?: DecimalFilter<"Compensation"> | Decimal | DecimalJsLike | number | string
+    bookingDate?: DateTimeFilter<"Compensation"> | Date | string
+    status?: EnumCompensationStatusFilter<"Compensation"> | $Enums.CompensationStatus
+    glEntryId?: UuidNullableFilter<"Compensation"> | string | null
+    confirmedAt?: DateTimeNullableFilter<"Compensation"> | Date | string | null
+    confirmedBy?: StringNullableFilter<"Compensation"> | string | null
+    cancelledAt?: DateTimeNullableFilter<"Compensation"> | Date | string | null
+    cancelledBy?: StringNullableFilter<"Compensation"> | string | null
+    cancelReason?: StringNullableFilter<"Compensation"> | string | null
+    createdBy?: StringNullableFilter<"Compensation"> | string | null
+    createdAt?: DateTimeFilter<"Compensation"> | Date | string
+    updatedAt?: DateTimeFilter<"Compensation"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    lines?: CompensationLineListRelationFilter
+  }
+
+  export type CompensationOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    legalEntityId?: SortOrder
+    compensationNumber?: SortOrder
+    partnerId?: SortOrder
+    currency?: SortOrder
+    totalAmount?: SortOrder
+    bookingDate?: SortOrder
+    status?: SortOrder
+    glEntryId?: SortOrderInput | SortOrder
+    confirmedAt?: SortOrderInput | SortOrder
+    confirmedBy?: SortOrderInput | SortOrder
+    cancelledAt?: SortOrderInput | SortOrder
+    cancelledBy?: SortOrderInput | SortOrder
+    cancelReason?: SortOrderInput | SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+    lines?: CompensationLineOrderByRelationAggregateInput
+  }
+
+  export type CompensationWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    tenantId_legalEntityId_compensationNumber?: CompensationTenantIdLegalEntityIdCompensationNumberCompoundUniqueInput
+    AND?: CompensationWhereInput | CompensationWhereInput[]
+    OR?: CompensationWhereInput[]
+    NOT?: CompensationWhereInput | CompensationWhereInput[]
+    tenantId?: UuidFilter<"Compensation"> | string
+    legalEntityId?: UuidFilter<"Compensation"> | string
+    compensationNumber?: StringFilter<"Compensation"> | string
+    partnerId?: UuidFilter<"Compensation"> | string
+    currency?: StringFilter<"Compensation"> | string
+    totalAmount?: DecimalFilter<"Compensation"> | Decimal | DecimalJsLike | number | string
+    bookingDate?: DateTimeFilter<"Compensation"> | Date | string
+    status?: EnumCompensationStatusFilter<"Compensation"> | $Enums.CompensationStatus
+    glEntryId?: UuidNullableFilter<"Compensation"> | string | null
+    confirmedAt?: DateTimeNullableFilter<"Compensation"> | Date | string | null
+    confirmedBy?: StringNullableFilter<"Compensation"> | string | null
+    cancelledAt?: DateTimeNullableFilter<"Compensation"> | Date | string | null
+    cancelledBy?: StringNullableFilter<"Compensation"> | string | null
+    cancelReason?: StringNullableFilter<"Compensation"> | string | null
+    createdBy?: StringNullableFilter<"Compensation"> | string | null
+    createdAt?: DateTimeFilter<"Compensation"> | Date | string
+    updatedAt?: DateTimeFilter<"Compensation"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    lines?: CompensationLineListRelationFilter
+  }, "id" | "tenantId_legalEntityId_compensationNumber">
+
+  export type CompensationOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    legalEntityId?: SortOrder
+    compensationNumber?: SortOrder
+    partnerId?: SortOrder
+    currency?: SortOrder
+    totalAmount?: SortOrder
+    bookingDate?: SortOrder
+    status?: SortOrder
+    glEntryId?: SortOrderInput | SortOrder
+    confirmedAt?: SortOrderInput | SortOrder
+    confirmedBy?: SortOrderInput | SortOrder
+    cancelledAt?: SortOrderInput | SortOrder
+    cancelledBy?: SortOrderInput | SortOrder
+    cancelReason?: SortOrderInput | SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: CompensationCountOrderByAggregateInput
+    _avg?: CompensationAvgOrderByAggregateInput
+    _max?: CompensationMaxOrderByAggregateInput
+    _min?: CompensationMinOrderByAggregateInput
+    _sum?: CompensationSumOrderByAggregateInput
+  }
+
+  export type CompensationScalarWhereWithAggregatesInput = {
+    AND?: CompensationScalarWhereWithAggregatesInput | CompensationScalarWhereWithAggregatesInput[]
+    OR?: CompensationScalarWhereWithAggregatesInput[]
+    NOT?: CompensationScalarWhereWithAggregatesInput | CompensationScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"Compensation"> | string
+    tenantId?: UuidWithAggregatesFilter<"Compensation"> | string
+    legalEntityId?: UuidWithAggregatesFilter<"Compensation"> | string
+    compensationNumber?: StringWithAggregatesFilter<"Compensation"> | string
+    partnerId?: UuidWithAggregatesFilter<"Compensation"> | string
+    currency?: StringWithAggregatesFilter<"Compensation"> | string
+    totalAmount?: DecimalWithAggregatesFilter<"Compensation"> | Decimal | DecimalJsLike | number | string
+    bookingDate?: DateTimeWithAggregatesFilter<"Compensation"> | Date | string
+    status?: EnumCompensationStatusWithAggregatesFilter<"Compensation"> | $Enums.CompensationStatus
+    glEntryId?: UuidNullableWithAggregatesFilter<"Compensation"> | string | null
+    confirmedAt?: DateTimeNullableWithAggregatesFilter<"Compensation"> | Date | string | null
+    confirmedBy?: StringNullableWithAggregatesFilter<"Compensation"> | string | null
+    cancelledAt?: DateTimeNullableWithAggregatesFilter<"Compensation"> | Date | string | null
+    cancelledBy?: StringNullableWithAggregatesFilter<"Compensation"> | string | null
+    cancelReason?: StringNullableWithAggregatesFilter<"Compensation"> | string | null
+    createdBy?: StringNullableWithAggregatesFilter<"Compensation"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Compensation"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Compensation"> | Date | string
+  }
+
+  export type CompensationLineWhereInput = {
+    AND?: CompensationLineWhereInput | CompensationLineWhereInput[]
+    OR?: CompensationLineWhereInput[]
+    NOT?: CompensationLineWhereInput | CompensationLineWhereInput[]
+    id?: UuidFilter<"CompensationLine"> | string
+    tenantId?: UuidFilter<"CompensationLine"> | string
+    compensationId?: UuidFilter<"CompensationLine"> | string
+    invoiceId?: UuidFilter<"CompensationLine"> | string
+    side?: EnumCompensationSideFilter<"CompensationLine"> | $Enums.CompensationSide
+    amount?: DecimalFilter<"CompensationLine"> | Decimal | DecimalJsLike | number | string
+    paymentId?: UuidNullableFilter<"CompensationLine"> | string | null
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    compensation?: XOR<CompensationScalarRelationFilter, CompensationWhereInput>
+    invoice?: XOR<InvoiceScalarRelationFilter, InvoiceWhereInput>
+  }
+
+  export type CompensationLineOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    compensationId?: SortOrder
+    invoiceId?: SortOrder
+    side?: SortOrder
+    amount?: SortOrder
+    paymentId?: SortOrderInput | SortOrder
+    tenant?: TenantOrderByWithRelationInput
+    compensation?: CompensationOrderByWithRelationInput
+    invoice?: InvoiceOrderByWithRelationInput
+  }
+
+  export type CompensationLineWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    tenantId_compensationId_invoiceId?: CompensationLineTenantIdCompensationIdInvoiceIdCompoundUniqueInput
+    AND?: CompensationLineWhereInput | CompensationLineWhereInput[]
+    OR?: CompensationLineWhereInput[]
+    NOT?: CompensationLineWhereInput | CompensationLineWhereInput[]
+    tenantId?: UuidFilter<"CompensationLine"> | string
+    compensationId?: UuidFilter<"CompensationLine"> | string
+    invoiceId?: UuidFilter<"CompensationLine"> | string
+    side?: EnumCompensationSideFilter<"CompensationLine"> | $Enums.CompensationSide
+    amount?: DecimalFilter<"CompensationLine"> | Decimal | DecimalJsLike | number | string
+    paymentId?: UuidNullableFilter<"CompensationLine"> | string | null
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    compensation?: XOR<CompensationScalarRelationFilter, CompensationWhereInput>
+    invoice?: XOR<InvoiceScalarRelationFilter, InvoiceWhereInput>
+  }, "id" | "tenantId_compensationId_invoiceId">
+
+  export type CompensationLineOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    compensationId?: SortOrder
+    invoiceId?: SortOrder
+    side?: SortOrder
+    amount?: SortOrder
+    paymentId?: SortOrderInput | SortOrder
+    _count?: CompensationLineCountOrderByAggregateInput
+    _avg?: CompensationLineAvgOrderByAggregateInput
+    _max?: CompensationLineMaxOrderByAggregateInput
+    _min?: CompensationLineMinOrderByAggregateInput
+    _sum?: CompensationLineSumOrderByAggregateInput
+  }
+
+  export type CompensationLineScalarWhereWithAggregatesInput = {
+    AND?: CompensationLineScalarWhereWithAggregatesInput | CompensationLineScalarWhereWithAggregatesInput[]
+    OR?: CompensationLineScalarWhereWithAggregatesInput[]
+    NOT?: CompensationLineScalarWhereWithAggregatesInput | CompensationLineScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"CompensationLine"> | string
+    tenantId?: UuidWithAggregatesFilter<"CompensationLine"> | string
+    compensationId?: UuidWithAggregatesFilter<"CompensationLine"> | string
+    invoiceId?: UuidWithAggregatesFilter<"CompensationLine"> | string
+    side?: EnumCompensationSideWithAggregatesFilter<"CompensationLine"> | $Enums.CompensationSide
+    amount?: DecimalWithAggregatesFilter<"CompensationLine"> | Decimal | DecimalJsLike | number | string
+    paymentId?: UuidNullableWithAggregatesFilter<"CompensationLine"> | string | null
+  }
+
   export type TenantCreateInput = {
     id?: string
     slug: string
@@ -200764,6 +203934,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateInput = {
@@ -200899,6 +204071,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUpdateInput = {
@@ -201034,6 +204208,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateInput = {
@@ -201169,6 +204345,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateManyInput = {
@@ -207812,6 +210990,7 @@ export namespace Prisma {
     tenant: TenantCreateNestedOneWithoutInvoicesInput
     payments?: PaymentCreateNestedManyWithoutInvoiceInput
     allocations?: PaymentAllocationCreateNestedManyWithoutInvoiceInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutInvoiceInput
   }
 
   export type InvoiceUncheckedCreateInput = {
@@ -207834,6 +211013,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     payments?: PaymentUncheckedCreateNestedManyWithoutInvoiceInput
     allocations?: PaymentAllocationUncheckedCreateNestedManyWithoutInvoiceInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutInvoiceInput
   }
 
   export type InvoiceUpdateInput = {
@@ -207856,6 +211036,7 @@ export namespace Prisma {
     tenant?: TenantUpdateOneRequiredWithoutInvoicesNestedInput
     payments?: PaymentUpdateManyWithoutInvoiceNestedInput
     allocations?: PaymentAllocationUpdateManyWithoutInvoiceNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutInvoiceNestedInput
   }
 
   export type InvoiceUncheckedUpdateInput = {
@@ -207878,6 +211059,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     payments?: PaymentUncheckedUpdateManyWithoutInvoiceNestedInput
     allocations?: PaymentAllocationUncheckedUpdateManyWithoutInvoiceNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutInvoiceNestedInput
   }
 
   export type InvoiceCreateManyInput = {
@@ -207949,6 +211131,8 @@ export namespace Prisma {
     createdBy?: string | null
     tenant: TenantCreateNestedOneWithoutPaymentsInput
     invoice: InvoiceCreateNestedOneWithoutPaymentsInput
+    reverses?: PaymentCreateNestedOneWithoutReversedByInput
+    reversedBy?: PaymentCreateNestedManyWithoutReversesInput
   }
 
   export type PaymentUncheckedCreateInput = {
@@ -207961,6 +211145,8 @@ export namespace Prisma {
     reference?: string | null
     receivedAt?: Date | string
     createdBy?: string | null
+    reversesPaymentId?: string | null
+    reversedBy?: PaymentUncheckedCreateNestedManyWithoutReversesInput
   }
 
   export type PaymentUpdateInput = {
@@ -207973,6 +211159,8 @@ export namespace Prisma {
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     tenant?: TenantUpdateOneRequiredWithoutPaymentsNestedInput
     invoice?: InvoiceUpdateOneRequiredWithoutPaymentsNestedInput
+    reverses?: PaymentUpdateOneWithoutReversedByNestedInput
+    reversedBy?: PaymentUpdateManyWithoutReversesNestedInput
   }
 
   export type PaymentUncheckedUpdateInput = {
@@ -207985,6 +211173,8 @@ export namespace Prisma {
     reference?: NullableStringFieldUpdateOperationsInput | string | null
     receivedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    reversesPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    reversedBy?: PaymentUncheckedUpdateManyWithoutReversesNestedInput
   }
 
   export type PaymentCreateManyInput = {
@@ -207997,6 +211187,7 @@ export namespace Prisma {
     reference?: string | null
     receivedAt?: Date | string
     createdBy?: string | null
+    reversesPaymentId?: string | null
   }
 
   export type PaymentUpdateManyMutationInput = {
@@ -208019,6 +211210,7 @@ export namespace Prisma {
     reference?: NullableStringFieldUpdateOperationsInput | string | null
     receivedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    reversesPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type PortalUserCreateInput = {
@@ -213428,6 +216620,223 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type CompensationCreateInput = {
+    id?: string
+    legalEntityId: string
+    compensationNumber: string
+    partnerId: string
+    currency: string
+    totalAmount: Decimal | DecimalJsLike | number | string
+    bookingDate: Date | string
+    status?: $Enums.CompensationStatus
+    glEntryId?: string | null
+    confirmedAt?: Date | string | null
+    confirmedBy?: string | null
+    cancelledAt?: Date | string | null
+    cancelledBy?: string | null
+    cancelReason?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutCompensationsInput
+    lines?: CompensationLineCreateNestedManyWithoutCompensationInput
+  }
+
+  export type CompensationUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    legalEntityId: string
+    compensationNumber: string
+    partnerId: string
+    currency: string
+    totalAmount: Decimal | DecimalJsLike | number | string
+    bookingDate: Date | string
+    status?: $Enums.CompensationStatus
+    glEntryId?: string | null
+    confirmedAt?: Date | string | null
+    confirmedBy?: string | null
+    cancelledAt?: Date | string | null
+    cancelledBy?: string | null
+    cancelReason?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lines?: CompensationLineUncheckedCreateNestedManyWithoutCompensationInput
+  }
+
+  export type CompensationUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    legalEntityId?: StringFieldUpdateOperationsInput | string
+    compensationNumber?: StringFieldUpdateOperationsInput | string
+    partnerId?: StringFieldUpdateOperationsInput | string
+    currency?: StringFieldUpdateOperationsInput | string
+    totalAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    bookingDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumCompensationStatusFieldUpdateOperationsInput | $Enums.CompensationStatus
+    glEntryId?: NullableStringFieldUpdateOperationsInput | string | null
+    confirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    confirmedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cancelledBy?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelReason?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutCompensationsNestedInput
+    lines?: CompensationLineUpdateManyWithoutCompensationNestedInput
+  }
+
+  export type CompensationUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    legalEntityId?: StringFieldUpdateOperationsInput | string
+    compensationNumber?: StringFieldUpdateOperationsInput | string
+    partnerId?: StringFieldUpdateOperationsInput | string
+    currency?: StringFieldUpdateOperationsInput | string
+    totalAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    bookingDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumCompensationStatusFieldUpdateOperationsInput | $Enums.CompensationStatus
+    glEntryId?: NullableStringFieldUpdateOperationsInput | string | null
+    confirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    confirmedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cancelledBy?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelReason?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lines?: CompensationLineUncheckedUpdateManyWithoutCompensationNestedInput
+  }
+
+  export type CompensationCreateManyInput = {
+    id?: string
+    tenantId: string
+    legalEntityId: string
+    compensationNumber: string
+    partnerId: string
+    currency: string
+    totalAmount: Decimal | DecimalJsLike | number | string
+    bookingDate: Date | string
+    status?: $Enums.CompensationStatus
+    glEntryId?: string | null
+    confirmedAt?: Date | string | null
+    confirmedBy?: string | null
+    cancelledAt?: Date | string | null
+    cancelledBy?: string | null
+    cancelReason?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CompensationUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    legalEntityId?: StringFieldUpdateOperationsInput | string
+    compensationNumber?: StringFieldUpdateOperationsInput | string
+    partnerId?: StringFieldUpdateOperationsInput | string
+    currency?: StringFieldUpdateOperationsInput | string
+    totalAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    bookingDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumCompensationStatusFieldUpdateOperationsInput | $Enums.CompensationStatus
+    glEntryId?: NullableStringFieldUpdateOperationsInput | string | null
+    confirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    confirmedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cancelledBy?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelReason?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CompensationUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    legalEntityId?: StringFieldUpdateOperationsInput | string
+    compensationNumber?: StringFieldUpdateOperationsInput | string
+    partnerId?: StringFieldUpdateOperationsInput | string
+    currency?: StringFieldUpdateOperationsInput | string
+    totalAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    bookingDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumCompensationStatusFieldUpdateOperationsInput | $Enums.CompensationStatus
+    glEntryId?: NullableStringFieldUpdateOperationsInput | string | null
+    confirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    confirmedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cancelledBy?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelReason?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CompensationLineCreateInput = {
+    id?: string
+    side: $Enums.CompensationSide
+    amount: Decimal | DecimalJsLike | number | string
+    paymentId?: string | null
+    tenant: TenantCreateNestedOneWithoutCompensationLinesInput
+    compensation: CompensationCreateNestedOneWithoutLinesInput
+    invoice: InvoiceCreateNestedOneWithoutCompensationLinesInput
+  }
+
+  export type CompensationLineUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    compensationId: string
+    invoiceId: string
+    side: $Enums.CompensationSide
+    amount: Decimal | DecimalJsLike | number | string
+    paymentId?: string | null
+  }
+
+  export type CompensationLineUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    side?: EnumCompensationSideFieldUpdateOperationsInput | $Enums.CompensationSide
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    paymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    tenant?: TenantUpdateOneRequiredWithoutCompensationLinesNestedInput
+    compensation?: CompensationUpdateOneRequiredWithoutLinesNestedInput
+    invoice?: InvoiceUpdateOneRequiredWithoutCompensationLinesNestedInput
+  }
+
+  export type CompensationLineUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    compensationId?: StringFieldUpdateOperationsInput | string
+    invoiceId?: StringFieldUpdateOperationsInput | string
+    side?: EnumCompensationSideFieldUpdateOperationsInput | $Enums.CompensationSide
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    paymentId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type CompensationLineCreateManyInput = {
+    id?: string
+    tenantId: string
+    compensationId: string
+    invoiceId: string
+    side: $Enums.CompensationSide
+    amount: Decimal | DecimalJsLike | number | string
+    paymentId?: string | null
+  }
+
+  export type CompensationLineUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    side?: EnumCompensationSideFieldUpdateOperationsInput | $Enums.CompensationSide
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    paymentId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type CompensationLineUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    compensationId?: StringFieldUpdateOperationsInput | string
+    invoiceId?: StringFieldUpdateOperationsInput | string
+    side?: EnumCompensationSideFieldUpdateOperationsInput | $Enums.CompensationSide
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    paymentId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
   export type UuidFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -214234,6 +217643,18 @@ export namespace Prisma {
     none?: PaymentAllocationWhereInput
   }
 
+  export type CompensationListRelationFilter = {
+    every?: CompensationWhereInput
+    some?: CompensationWhereInput
+    none?: CompensationWhereInput
+  }
+
+  export type CompensationLineListRelationFilter = {
+    every?: CompensationLineWhereInput
+    some?: CompensationLineWhereInput
+    none?: CompensationLineWhereInput
+  }
+
   export type TenantConfigurationVersionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -214731,6 +218152,14 @@ export namespace Prisma {
   }
 
   export type PaymentAllocationOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type CompensationOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type CompensationLineOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -219676,9 +223105,19 @@ export namespace Prisma {
     isNot?: InvoiceWhereInput
   }
 
+  export type PaymentNullableScalarRelationFilter = {
+    is?: PaymentWhereInput | null
+    isNot?: PaymentWhereInput | null
+  }
+
   export type PaymentTenantIdPaymentNumberCompoundUniqueInput = {
     tenantId: string
     paymentNumber: string
+  }
+
+  export type PaymentTenantIdReversesPaymentIdCompoundUniqueInput = {
+    tenantId: string
+    reversesPaymentId: string
   }
 
   export type PaymentCountOrderByAggregateInput = {
@@ -219691,6 +223130,7 @@ export namespace Prisma {
     reference?: SortOrder
     receivedAt?: SortOrder
     createdBy?: SortOrder
+    reversesPaymentId?: SortOrder
   }
 
   export type PaymentAvgOrderByAggregateInput = {
@@ -219707,6 +223147,7 @@ export namespace Prisma {
     reference?: SortOrder
     receivedAt?: SortOrder
     createdBy?: SortOrder
+    reversesPaymentId?: SortOrder
   }
 
   export type PaymentMinOrderByAggregateInput = {
@@ -219719,6 +223160,7 @@ export namespace Prisma {
     reference?: SortOrder
     receivedAt?: SortOrder
     createdBy?: SortOrder
+    reversesPaymentId?: SortOrder
   }
 
   export type PaymentSumOrderByAggregateInput = {
@@ -223106,6 +226548,166 @@ export namespace Prisma {
     amount?: SortOrder
   }
 
+  export type EnumCompensationStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.CompensationStatus | EnumCompensationStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.CompensationStatus[] | ListEnumCompensationStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.CompensationStatus[] | ListEnumCompensationStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumCompensationStatusFilter<$PrismaModel> | $Enums.CompensationStatus
+  }
+
+  export type CompensationTenantIdLegalEntityIdCompensationNumberCompoundUniqueInput = {
+    tenantId: string
+    legalEntityId: string
+    compensationNumber: string
+  }
+
+  export type CompensationCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    legalEntityId?: SortOrder
+    compensationNumber?: SortOrder
+    partnerId?: SortOrder
+    currency?: SortOrder
+    totalAmount?: SortOrder
+    bookingDate?: SortOrder
+    status?: SortOrder
+    glEntryId?: SortOrder
+    confirmedAt?: SortOrder
+    confirmedBy?: SortOrder
+    cancelledAt?: SortOrder
+    cancelledBy?: SortOrder
+    cancelReason?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CompensationAvgOrderByAggregateInput = {
+    totalAmount?: SortOrder
+  }
+
+  export type CompensationMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    legalEntityId?: SortOrder
+    compensationNumber?: SortOrder
+    partnerId?: SortOrder
+    currency?: SortOrder
+    totalAmount?: SortOrder
+    bookingDate?: SortOrder
+    status?: SortOrder
+    glEntryId?: SortOrder
+    confirmedAt?: SortOrder
+    confirmedBy?: SortOrder
+    cancelledAt?: SortOrder
+    cancelledBy?: SortOrder
+    cancelReason?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CompensationMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    legalEntityId?: SortOrder
+    compensationNumber?: SortOrder
+    partnerId?: SortOrder
+    currency?: SortOrder
+    totalAmount?: SortOrder
+    bookingDate?: SortOrder
+    status?: SortOrder
+    glEntryId?: SortOrder
+    confirmedAt?: SortOrder
+    confirmedBy?: SortOrder
+    cancelledAt?: SortOrder
+    cancelledBy?: SortOrder
+    cancelReason?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CompensationSumOrderByAggregateInput = {
+    totalAmount?: SortOrder
+  }
+
+  export type EnumCompensationStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.CompensationStatus | EnumCompensationStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.CompensationStatus[] | ListEnumCompensationStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.CompensationStatus[] | ListEnumCompensationStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumCompensationStatusWithAggregatesFilter<$PrismaModel> | $Enums.CompensationStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumCompensationStatusFilter<$PrismaModel>
+    _max?: NestedEnumCompensationStatusFilter<$PrismaModel>
+  }
+
+  export type EnumCompensationSideFilter<$PrismaModel = never> = {
+    equals?: $Enums.CompensationSide | EnumCompensationSideFieldRefInput<$PrismaModel>
+    in?: $Enums.CompensationSide[] | ListEnumCompensationSideFieldRefInput<$PrismaModel>
+    notIn?: $Enums.CompensationSide[] | ListEnumCompensationSideFieldRefInput<$PrismaModel>
+    not?: NestedEnumCompensationSideFilter<$PrismaModel> | $Enums.CompensationSide
+  }
+
+  export type CompensationScalarRelationFilter = {
+    is?: CompensationWhereInput
+    isNot?: CompensationWhereInput
+  }
+
+  export type CompensationLineTenantIdCompensationIdInvoiceIdCompoundUniqueInput = {
+    tenantId: string
+    compensationId: string
+    invoiceId: string
+  }
+
+  export type CompensationLineCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    compensationId?: SortOrder
+    invoiceId?: SortOrder
+    side?: SortOrder
+    amount?: SortOrder
+    paymentId?: SortOrder
+  }
+
+  export type CompensationLineAvgOrderByAggregateInput = {
+    amount?: SortOrder
+  }
+
+  export type CompensationLineMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    compensationId?: SortOrder
+    invoiceId?: SortOrder
+    side?: SortOrder
+    amount?: SortOrder
+    paymentId?: SortOrder
+  }
+
+  export type CompensationLineMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    compensationId?: SortOrder
+    invoiceId?: SortOrder
+    side?: SortOrder
+    amount?: SortOrder
+    paymentId?: SortOrder
+  }
+
+  export type CompensationLineSumOrderByAggregateInput = {
+    amount?: SortOrder
+  }
+
+  export type EnumCompensationSideWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.CompensationSide | EnumCompensationSideFieldRefInput<$PrismaModel>
+    in?: $Enums.CompensationSide[] | ListEnumCompensationSideFieldRefInput<$PrismaModel>
+    notIn?: $Enums.CompensationSide[] | ListEnumCompensationSideFieldRefInput<$PrismaModel>
+    not?: NestedEnumCompensationSideWithAggregatesFilter<$PrismaModel> | $Enums.CompensationSide
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumCompensationSideFilter<$PrismaModel>
+    _max?: NestedEnumCompensationSideFilter<$PrismaModel>
+  }
+
   export type TenantConfigurationVersionCreateNestedManyWithoutTenantInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -223981,6 +227583,20 @@ export namespace Prisma {
     connect?: PaymentAllocationWhereUniqueInput | PaymentAllocationWhereUniqueInput[]
   }
 
+  export type CompensationCreateNestedManyWithoutTenantInput = {
+    create?: XOR<CompensationCreateWithoutTenantInput, CompensationUncheckedCreateWithoutTenantInput> | CompensationCreateWithoutTenantInput[] | CompensationUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: CompensationCreateOrConnectWithoutTenantInput | CompensationCreateOrConnectWithoutTenantInput[]
+    createMany?: CompensationCreateManyTenantInputEnvelope
+    connect?: CompensationWhereUniqueInput | CompensationWhereUniqueInput[]
+  }
+
+  export type CompensationLineCreateNestedManyWithoutTenantInput = {
+    create?: XOR<CompensationLineCreateWithoutTenantInput, CompensationLineUncheckedCreateWithoutTenantInput> | CompensationLineCreateWithoutTenantInput[] | CompensationLineUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: CompensationLineCreateOrConnectWithoutTenantInput | CompensationLineCreateOrConnectWithoutTenantInput[]
+    createMany?: CompensationLineCreateManyTenantInputEnvelope
+    connect?: CompensationLineWhereUniqueInput | CompensationLineWhereUniqueInput[]
+  }
+
   export type TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -224854,6 +228470,20 @@ export namespace Prisma {
     connectOrCreate?: PaymentAllocationCreateOrConnectWithoutTenantInput | PaymentAllocationCreateOrConnectWithoutTenantInput[]
     createMany?: PaymentAllocationCreateManyTenantInputEnvelope
     connect?: PaymentAllocationWhereUniqueInput | PaymentAllocationWhereUniqueInput[]
+  }
+
+  export type CompensationUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<CompensationCreateWithoutTenantInput, CompensationUncheckedCreateWithoutTenantInput> | CompensationCreateWithoutTenantInput[] | CompensationUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: CompensationCreateOrConnectWithoutTenantInput | CompensationCreateOrConnectWithoutTenantInput[]
+    createMany?: CompensationCreateManyTenantInputEnvelope
+    connect?: CompensationWhereUniqueInput | CompensationWhereUniqueInput[]
+  }
+
+  export type CompensationLineUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<CompensationLineCreateWithoutTenantInput, CompensationLineUncheckedCreateWithoutTenantInput> | CompensationLineCreateWithoutTenantInput[] | CompensationLineUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: CompensationLineCreateOrConnectWithoutTenantInput | CompensationLineCreateOrConnectWithoutTenantInput[]
+    createMany?: CompensationLineCreateManyTenantInputEnvelope
+    connect?: CompensationLineWhereUniqueInput | CompensationLineWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -226626,6 +230256,34 @@ export namespace Prisma {
     deleteMany?: PaymentAllocationScalarWhereInput | PaymentAllocationScalarWhereInput[]
   }
 
+  export type CompensationUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<CompensationCreateWithoutTenantInput, CompensationUncheckedCreateWithoutTenantInput> | CompensationCreateWithoutTenantInput[] | CompensationUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: CompensationCreateOrConnectWithoutTenantInput | CompensationCreateOrConnectWithoutTenantInput[]
+    upsert?: CompensationUpsertWithWhereUniqueWithoutTenantInput | CompensationUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: CompensationCreateManyTenantInputEnvelope
+    set?: CompensationWhereUniqueInput | CompensationWhereUniqueInput[]
+    disconnect?: CompensationWhereUniqueInput | CompensationWhereUniqueInput[]
+    delete?: CompensationWhereUniqueInput | CompensationWhereUniqueInput[]
+    connect?: CompensationWhereUniqueInput | CompensationWhereUniqueInput[]
+    update?: CompensationUpdateWithWhereUniqueWithoutTenantInput | CompensationUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: CompensationUpdateManyWithWhereWithoutTenantInput | CompensationUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: CompensationScalarWhereInput | CompensationScalarWhereInput[]
+  }
+
+  export type CompensationLineUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<CompensationLineCreateWithoutTenantInput, CompensationLineUncheckedCreateWithoutTenantInput> | CompensationLineCreateWithoutTenantInput[] | CompensationLineUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: CompensationLineCreateOrConnectWithoutTenantInput | CompensationLineCreateOrConnectWithoutTenantInput[]
+    upsert?: CompensationLineUpsertWithWhereUniqueWithoutTenantInput | CompensationLineUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: CompensationLineCreateManyTenantInputEnvelope
+    set?: CompensationLineWhereUniqueInput | CompensationLineWhereUniqueInput[]
+    disconnect?: CompensationLineWhereUniqueInput | CompensationLineWhereUniqueInput[]
+    delete?: CompensationLineWhereUniqueInput | CompensationLineWhereUniqueInput[]
+    connect?: CompensationLineWhereUniqueInput | CompensationLineWhereUniqueInput[]
+    update?: CompensationLineUpdateWithWhereUniqueWithoutTenantInput | CompensationLineUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: CompensationLineUpdateManyWithWhereWithoutTenantInput | CompensationLineUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: CompensationLineScalarWhereInput | CompensationLineScalarWhereInput[]
+  }
+
   export type TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -228374,6 +232032,34 @@ export namespace Prisma {
     update?: PaymentAllocationUpdateWithWhereUniqueWithoutTenantInput | PaymentAllocationUpdateWithWhereUniqueWithoutTenantInput[]
     updateMany?: PaymentAllocationUpdateManyWithWhereWithoutTenantInput | PaymentAllocationUpdateManyWithWhereWithoutTenantInput[]
     deleteMany?: PaymentAllocationScalarWhereInput | PaymentAllocationScalarWhereInput[]
+  }
+
+  export type CompensationUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<CompensationCreateWithoutTenantInput, CompensationUncheckedCreateWithoutTenantInput> | CompensationCreateWithoutTenantInput[] | CompensationUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: CompensationCreateOrConnectWithoutTenantInput | CompensationCreateOrConnectWithoutTenantInput[]
+    upsert?: CompensationUpsertWithWhereUniqueWithoutTenantInput | CompensationUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: CompensationCreateManyTenantInputEnvelope
+    set?: CompensationWhereUniqueInput | CompensationWhereUniqueInput[]
+    disconnect?: CompensationWhereUniqueInput | CompensationWhereUniqueInput[]
+    delete?: CompensationWhereUniqueInput | CompensationWhereUniqueInput[]
+    connect?: CompensationWhereUniqueInput | CompensationWhereUniqueInput[]
+    update?: CompensationUpdateWithWhereUniqueWithoutTenantInput | CompensationUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: CompensationUpdateManyWithWhereWithoutTenantInput | CompensationUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: CompensationScalarWhereInput | CompensationScalarWhereInput[]
+  }
+
+  export type CompensationLineUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<CompensationLineCreateWithoutTenantInput, CompensationLineUncheckedCreateWithoutTenantInput> | CompensationLineCreateWithoutTenantInput[] | CompensationLineUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: CompensationLineCreateOrConnectWithoutTenantInput | CompensationLineCreateOrConnectWithoutTenantInput[]
+    upsert?: CompensationLineUpsertWithWhereUniqueWithoutTenantInput | CompensationLineUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: CompensationLineCreateManyTenantInputEnvelope
+    set?: CompensationLineWhereUniqueInput | CompensationLineWhereUniqueInput[]
+    disconnect?: CompensationLineWhereUniqueInput | CompensationLineWhereUniqueInput[]
+    delete?: CompensationLineWhereUniqueInput | CompensationLineWhereUniqueInput[]
+    connect?: CompensationLineWhereUniqueInput | CompensationLineWhereUniqueInput[]
+    update?: CompensationLineUpdateWithWhereUniqueWithoutTenantInput | CompensationLineUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: CompensationLineUpdateManyWithWhereWithoutTenantInput | CompensationLineUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: CompensationLineScalarWhereInput | CompensationLineScalarWhereInput[]
   }
 
   export type TenantCreateNestedOneWithoutConfigurationVersionsInput = {
@@ -231888,6 +235574,13 @@ export namespace Prisma {
     connect?: PaymentAllocationWhereUniqueInput | PaymentAllocationWhereUniqueInput[]
   }
 
+  export type CompensationLineCreateNestedManyWithoutInvoiceInput = {
+    create?: XOR<CompensationLineCreateWithoutInvoiceInput, CompensationLineUncheckedCreateWithoutInvoiceInput> | CompensationLineCreateWithoutInvoiceInput[] | CompensationLineUncheckedCreateWithoutInvoiceInput[]
+    connectOrCreate?: CompensationLineCreateOrConnectWithoutInvoiceInput | CompensationLineCreateOrConnectWithoutInvoiceInput[]
+    createMany?: CompensationLineCreateManyInvoiceInputEnvelope
+    connect?: CompensationLineWhereUniqueInput | CompensationLineWhereUniqueInput[]
+  }
+
   export type PaymentUncheckedCreateNestedManyWithoutInvoiceInput = {
     create?: XOR<PaymentCreateWithoutInvoiceInput, PaymentUncheckedCreateWithoutInvoiceInput> | PaymentCreateWithoutInvoiceInput[] | PaymentUncheckedCreateWithoutInvoiceInput[]
     connectOrCreate?: PaymentCreateOrConnectWithoutInvoiceInput | PaymentCreateOrConnectWithoutInvoiceInput[]
@@ -231900,6 +235593,13 @@ export namespace Prisma {
     connectOrCreate?: PaymentAllocationCreateOrConnectWithoutInvoiceInput | PaymentAllocationCreateOrConnectWithoutInvoiceInput[]
     createMany?: PaymentAllocationCreateManyInvoiceInputEnvelope
     connect?: PaymentAllocationWhereUniqueInput | PaymentAllocationWhereUniqueInput[]
+  }
+
+  export type CompensationLineUncheckedCreateNestedManyWithoutInvoiceInput = {
+    create?: XOR<CompensationLineCreateWithoutInvoiceInput, CompensationLineUncheckedCreateWithoutInvoiceInput> | CompensationLineCreateWithoutInvoiceInput[] | CompensationLineUncheckedCreateWithoutInvoiceInput[]
+    connectOrCreate?: CompensationLineCreateOrConnectWithoutInvoiceInput | CompensationLineCreateOrConnectWithoutInvoiceInput[]
+    createMany?: CompensationLineCreateManyInvoiceInputEnvelope
+    connect?: CompensationLineWhereUniqueInput | CompensationLineWhereUniqueInput[]
   }
 
   export type EnumInvoiceTypeFieldUpdateOperationsInput = {
@@ -231946,6 +235646,20 @@ export namespace Prisma {
     deleteMany?: PaymentAllocationScalarWhereInput | PaymentAllocationScalarWhereInput[]
   }
 
+  export type CompensationLineUpdateManyWithoutInvoiceNestedInput = {
+    create?: XOR<CompensationLineCreateWithoutInvoiceInput, CompensationLineUncheckedCreateWithoutInvoiceInput> | CompensationLineCreateWithoutInvoiceInput[] | CompensationLineUncheckedCreateWithoutInvoiceInput[]
+    connectOrCreate?: CompensationLineCreateOrConnectWithoutInvoiceInput | CompensationLineCreateOrConnectWithoutInvoiceInput[]
+    upsert?: CompensationLineUpsertWithWhereUniqueWithoutInvoiceInput | CompensationLineUpsertWithWhereUniqueWithoutInvoiceInput[]
+    createMany?: CompensationLineCreateManyInvoiceInputEnvelope
+    set?: CompensationLineWhereUniqueInput | CompensationLineWhereUniqueInput[]
+    disconnect?: CompensationLineWhereUniqueInput | CompensationLineWhereUniqueInput[]
+    delete?: CompensationLineWhereUniqueInput | CompensationLineWhereUniqueInput[]
+    connect?: CompensationLineWhereUniqueInput | CompensationLineWhereUniqueInput[]
+    update?: CompensationLineUpdateWithWhereUniqueWithoutInvoiceInput | CompensationLineUpdateWithWhereUniqueWithoutInvoiceInput[]
+    updateMany?: CompensationLineUpdateManyWithWhereWithoutInvoiceInput | CompensationLineUpdateManyWithWhereWithoutInvoiceInput[]
+    deleteMany?: CompensationLineScalarWhereInput | CompensationLineScalarWhereInput[]
+  }
+
   export type PaymentUncheckedUpdateManyWithoutInvoiceNestedInput = {
     create?: XOR<PaymentCreateWithoutInvoiceInput, PaymentUncheckedCreateWithoutInvoiceInput> | PaymentCreateWithoutInvoiceInput[] | PaymentUncheckedCreateWithoutInvoiceInput[]
     connectOrCreate?: PaymentCreateOrConnectWithoutInvoiceInput | PaymentCreateOrConnectWithoutInvoiceInput[]
@@ -231974,6 +235688,20 @@ export namespace Prisma {
     deleteMany?: PaymentAllocationScalarWhereInput | PaymentAllocationScalarWhereInput[]
   }
 
+  export type CompensationLineUncheckedUpdateManyWithoutInvoiceNestedInput = {
+    create?: XOR<CompensationLineCreateWithoutInvoiceInput, CompensationLineUncheckedCreateWithoutInvoiceInput> | CompensationLineCreateWithoutInvoiceInput[] | CompensationLineUncheckedCreateWithoutInvoiceInput[]
+    connectOrCreate?: CompensationLineCreateOrConnectWithoutInvoiceInput | CompensationLineCreateOrConnectWithoutInvoiceInput[]
+    upsert?: CompensationLineUpsertWithWhereUniqueWithoutInvoiceInput | CompensationLineUpsertWithWhereUniqueWithoutInvoiceInput[]
+    createMany?: CompensationLineCreateManyInvoiceInputEnvelope
+    set?: CompensationLineWhereUniqueInput | CompensationLineWhereUniqueInput[]
+    disconnect?: CompensationLineWhereUniqueInput | CompensationLineWhereUniqueInput[]
+    delete?: CompensationLineWhereUniqueInput | CompensationLineWhereUniqueInput[]
+    connect?: CompensationLineWhereUniqueInput | CompensationLineWhereUniqueInput[]
+    update?: CompensationLineUpdateWithWhereUniqueWithoutInvoiceInput | CompensationLineUpdateWithWhereUniqueWithoutInvoiceInput[]
+    updateMany?: CompensationLineUpdateManyWithWhereWithoutInvoiceInput | CompensationLineUpdateManyWithWhereWithoutInvoiceInput[]
+    deleteMany?: CompensationLineScalarWhereInput | CompensationLineScalarWhereInput[]
+  }
+
   export type TenantCreateNestedOneWithoutPaymentsInput = {
     create?: XOR<TenantCreateWithoutPaymentsInput, TenantUncheckedCreateWithoutPaymentsInput>
     connectOrCreate?: TenantCreateOrConnectWithoutPaymentsInput
@@ -231984,6 +235712,26 @@ export namespace Prisma {
     create?: XOR<InvoiceCreateWithoutPaymentsInput, InvoiceUncheckedCreateWithoutPaymentsInput>
     connectOrCreate?: InvoiceCreateOrConnectWithoutPaymentsInput
     connect?: InvoiceWhereUniqueInput
+  }
+
+  export type PaymentCreateNestedOneWithoutReversedByInput = {
+    create?: XOR<PaymentCreateWithoutReversedByInput, PaymentUncheckedCreateWithoutReversedByInput>
+    connectOrCreate?: PaymentCreateOrConnectWithoutReversedByInput
+    connect?: PaymentWhereUniqueInput
+  }
+
+  export type PaymentCreateNestedManyWithoutReversesInput = {
+    create?: XOR<PaymentCreateWithoutReversesInput, PaymentUncheckedCreateWithoutReversesInput> | PaymentCreateWithoutReversesInput[] | PaymentUncheckedCreateWithoutReversesInput[]
+    connectOrCreate?: PaymentCreateOrConnectWithoutReversesInput | PaymentCreateOrConnectWithoutReversesInput[]
+    createMany?: PaymentCreateManyReversesInputEnvelope
+    connect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+  }
+
+  export type PaymentUncheckedCreateNestedManyWithoutReversesInput = {
+    create?: XOR<PaymentCreateWithoutReversesInput, PaymentUncheckedCreateWithoutReversesInput> | PaymentCreateWithoutReversesInput[] | PaymentUncheckedCreateWithoutReversesInput[]
+    connectOrCreate?: PaymentCreateOrConnectWithoutReversesInput | PaymentCreateOrConnectWithoutReversesInput[]
+    createMany?: PaymentCreateManyReversesInputEnvelope
+    connect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
   }
 
   export type TenantUpdateOneRequiredWithoutPaymentsNestedInput = {
@@ -232000,6 +235748,44 @@ export namespace Prisma {
     upsert?: InvoiceUpsertWithoutPaymentsInput
     connect?: InvoiceWhereUniqueInput
     update?: XOR<XOR<InvoiceUpdateToOneWithWhereWithoutPaymentsInput, InvoiceUpdateWithoutPaymentsInput>, InvoiceUncheckedUpdateWithoutPaymentsInput>
+  }
+
+  export type PaymentUpdateOneWithoutReversedByNestedInput = {
+    create?: XOR<PaymentCreateWithoutReversedByInput, PaymentUncheckedCreateWithoutReversedByInput>
+    connectOrCreate?: PaymentCreateOrConnectWithoutReversedByInput
+    upsert?: PaymentUpsertWithoutReversedByInput
+    disconnect?: PaymentWhereInput | boolean
+    delete?: PaymentWhereInput | boolean
+    connect?: PaymentWhereUniqueInput
+    update?: XOR<XOR<PaymentUpdateToOneWithWhereWithoutReversedByInput, PaymentUpdateWithoutReversedByInput>, PaymentUncheckedUpdateWithoutReversedByInput>
+  }
+
+  export type PaymentUpdateManyWithoutReversesNestedInput = {
+    create?: XOR<PaymentCreateWithoutReversesInput, PaymentUncheckedCreateWithoutReversesInput> | PaymentCreateWithoutReversesInput[] | PaymentUncheckedCreateWithoutReversesInput[]
+    connectOrCreate?: PaymentCreateOrConnectWithoutReversesInput | PaymentCreateOrConnectWithoutReversesInput[]
+    upsert?: PaymentUpsertWithWhereUniqueWithoutReversesInput | PaymentUpsertWithWhereUniqueWithoutReversesInput[]
+    createMany?: PaymentCreateManyReversesInputEnvelope
+    set?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    disconnect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    delete?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    connect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    update?: PaymentUpdateWithWhereUniqueWithoutReversesInput | PaymentUpdateWithWhereUniqueWithoutReversesInput[]
+    updateMany?: PaymentUpdateManyWithWhereWithoutReversesInput | PaymentUpdateManyWithWhereWithoutReversesInput[]
+    deleteMany?: PaymentScalarWhereInput | PaymentScalarWhereInput[]
+  }
+
+  export type PaymentUncheckedUpdateManyWithoutReversesNestedInput = {
+    create?: XOR<PaymentCreateWithoutReversesInput, PaymentUncheckedCreateWithoutReversesInput> | PaymentCreateWithoutReversesInput[] | PaymentUncheckedCreateWithoutReversesInput[]
+    connectOrCreate?: PaymentCreateOrConnectWithoutReversesInput | PaymentCreateOrConnectWithoutReversesInput[]
+    upsert?: PaymentUpsertWithWhereUniqueWithoutReversesInput | PaymentUpsertWithWhereUniqueWithoutReversesInput[]
+    createMany?: PaymentCreateManyReversesInputEnvelope
+    set?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    disconnect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    delete?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    connect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    update?: PaymentUpdateWithWhereUniqueWithoutReversesInput | PaymentUpdateWithWhereUniqueWithoutReversesInput[]
+    updateMany?: PaymentUpdateManyWithWhereWithoutReversesInput | PaymentUpdateManyWithWhereWithoutReversesInput[]
+    deleteMany?: PaymentScalarWhereInput | PaymentScalarWhereInput[]
   }
 
   export type TenantCreateNestedOneWithoutPortalUsersInput = {
@@ -234331,6 +238117,112 @@ export namespace Prisma {
     update?: XOR<XOR<InvoiceUpdateToOneWithWhereWithoutAllocationsInput, InvoiceUpdateWithoutAllocationsInput>, InvoiceUncheckedUpdateWithoutAllocationsInput>
   }
 
+  export type TenantCreateNestedOneWithoutCompensationsInput = {
+    create?: XOR<TenantCreateWithoutCompensationsInput, TenantUncheckedCreateWithoutCompensationsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutCompensationsInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type CompensationLineCreateNestedManyWithoutCompensationInput = {
+    create?: XOR<CompensationLineCreateWithoutCompensationInput, CompensationLineUncheckedCreateWithoutCompensationInput> | CompensationLineCreateWithoutCompensationInput[] | CompensationLineUncheckedCreateWithoutCompensationInput[]
+    connectOrCreate?: CompensationLineCreateOrConnectWithoutCompensationInput | CompensationLineCreateOrConnectWithoutCompensationInput[]
+    createMany?: CompensationLineCreateManyCompensationInputEnvelope
+    connect?: CompensationLineWhereUniqueInput | CompensationLineWhereUniqueInput[]
+  }
+
+  export type CompensationLineUncheckedCreateNestedManyWithoutCompensationInput = {
+    create?: XOR<CompensationLineCreateWithoutCompensationInput, CompensationLineUncheckedCreateWithoutCompensationInput> | CompensationLineCreateWithoutCompensationInput[] | CompensationLineUncheckedCreateWithoutCompensationInput[]
+    connectOrCreate?: CompensationLineCreateOrConnectWithoutCompensationInput | CompensationLineCreateOrConnectWithoutCompensationInput[]
+    createMany?: CompensationLineCreateManyCompensationInputEnvelope
+    connect?: CompensationLineWhereUniqueInput | CompensationLineWhereUniqueInput[]
+  }
+
+  export type EnumCompensationStatusFieldUpdateOperationsInput = {
+    set?: $Enums.CompensationStatus
+  }
+
+  export type TenantUpdateOneRequiredWithoutCompensationsNestedInput = {
+    create?: XOR<TenantCreateWithoutCompensationsInput, TenantUncheckedCreateWithoutCompensationsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutCompensationsInput
+    upsert?: TenantUpsertWithoutCompensationsInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutCompensationsInput, TenantUpdateWithoutCompensationsInput>, TenantUncheckedUpdateWithoutCompensationsInput>
+  }
+
+  export type CompensationLineUpdateManyWithoutCompensationNestedInput = {
+    create?: XOR<CompensationLineCreateWithoutCompensationInput, CompensationLineUncheckedCreateWithoutCompensationInput> | CompensationLineCreateWithoutCompensationInput[] | CompensationLineUncheckedCreateWithoutCompensationInput[]
+    connectOrCreate?: CompensationLineCreateOrConnectWithoutCompensationInput | CompensationLineCreateOrConnectWithoutCompensationInput[]
+    upsert?: CompensationLineUpsertWithWhereUniqueWithoutCompensationInput | CompensationLineUpsertWithWhereUniqueWithoutCompensationInput[]
+    createMany?: CompensationLineCreateManyCompensationInputEnvelope
+    set?: CompensationLineWhereUniqueInput | CompensationLineWhereUniqueInput[]
+    disconnect?: CompensationLineWhereUniqueInput | CompensationLineWhereUniqueInput[]
+    delete?: CompensationLineWhereUniqueInput | CompensationLineWhereUniqueInput[]
+    connect?: CompensationLineWhereUniqueInput | CompensationLineWhereUniqueInput[]
+    update?: CompensationLineUpdateWithWhereUniqueWithoutCompensationInput | CompensationLineUpdateWithWhereUniqueWithoutCompensationInput[]
+    updateMany?: CompensationLineUpdateManyWithWhereWithoutCompensationInput | CompensationLineUpdateManyWithWhereWithoutCompensationInput[]
+    deleteMany?: CompensationLineScalarWhereInput | CompensationLineScalarWhereInput[]
+  }
+
+  export type CompensationLineUncheckedUpdateManyWithoutCompensationNestedInput = {
+    create?: XOR<CompensationLineCreateWithoutCompensationInput, CompensationLineUncheckedCreateWithoutCompensationInput> | CompensationLineCreateWithoutCompensationInput[] | CompensationLineUncheckedCreateWithoutCompensationInput[]
+    connectOrCreate?: CompensationLineCreateOrConnectWithoutCompensationInput | CompensationLineCreateOrConnectWithoutCompensationInput[]
+    upsert?: CompensationLineUpsertWithWhereUniqueWithoutCompensationInput | CompensationLineUpsertWithWhereUniqueWithoutCompensationInput[]
+    createMany?: CompensationLineCreateManyCompensationInputEnvelope
+    set?: CompensationLineWhereUniqueInput | CompensationLineWhereUniqueInput[]
+    disconnect?: CompensationLineWhereUniqueInput | CompensationLineWhereUniqueInput[]
+    delete?: CompensationLineWhereUniqueInput | CompensationLineWhereUniqueInput[]
+    connect?: CompensationLineWhereUniqueInput | CompensationLineWhereUniqueInput[]
+    update?: CompensationLineUpdateWithWhereUniqueWithoutCompensationInput | CompensationLineUpdateWithWhereUniqueWithoutCompensationInput[]
+    updateMany?: CompensationLineUpdateManyWithWhereWithoutCompensationInput | CompensationLineUpdateManyWithWhereWithoutCompensationInput[]
+    deleteMany?: CompensationLineScalarWhereInput | CompensationLineScalarWhereInput[]
+  }
+
+  export type TenantCreateNestedOneWithoutCompensationLinesInput = {
+    create?: XOR<TenantCreateWithoutCompensationLinesInput, TenantUncheckedCreateWithoutCompensationLinesInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutCompensationLinesInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type CompensationCreateNestedOneWithoutLinesInput = {
+    create?: XOR<CompensationCreateWithoutLinesInput, CompensationUncheckedCreateWithoutLinesInput>
+    connectOrCreate?: CompensationCreateOrConnectWithoutLinesInput
+    connect?: CompensationWhereUniqueInput
+  }
+
+  export type InvoiceCreateNestedOneWithoutCompensationLinesInput = {
+    create?: XOR<InvoiceCreateWithoutCompensationLinesInput, InvoiceUncheckedCreateWithoutCompensationLinesInput>
+    connectOrCreate?: InvoiceCreateOrConnectWithoutCompensationLinesInput
+    connect?: InvoiceWhereUniqueInput
+  }
+
+  export type EnumCompensationSideFieldUpdateOperationsInput = {
+    set?: $Enums.CompensationSide
+  }
+
+  export type TenantUpdateOneRequiredWithoutCompensationLinesNestedInput = {
+    create?: XOR<TenantCreateWithoutCompensationLinesInput, TenantUncheckedCreateWithoutCompensationLinesInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutCompensationLinesInput
+    upsert?: TenantUpsertWithoutCompensationLinesInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutCompensationLinesInput, TenantUpdateWithoutCompensationLinesInput>, TenantUncheckedUpdateWithoutCompensationLinesInput>
+  }
+
+  export type CompensationUpdateOneRequiredWithoutLinesNestedInput = {
+    create?: XOR<CompensationCreateWithoutLinesInput, CompensationUncheckedCreateWithoutLinesInput>
+    connectOrCreate?: CompensationCreateOrConnectWithoutLinesInput
+    upsert?: CompensationUpsertWithoutLinesInput
+    connect?: CompensationWhereUniqueInput
+    update?: XOR<XOR<CompensationUpdateToOneWithWhereWithoutLinesInput, CompensationUpdateWithoutLinesInput>, CompensationUncheckedUpdateWithoutLinesInput>
+  }
+
+  export type InvoiceUpdateOneRequiredWithoutCompensationLinesNestedInput = {
+    create?: XOR<InvoiceCreateWithoutCompensationLinesInput, InvoiceUncheckedCreateWithoutCompensationLinesInput>
+    connectOrCreate?: InvoiceCreateOrConnectWithoutCompensationLinesInput
+    upsert?: InvoiceUpsertWithoutCompensationLinesInput
+    connect?: InvoiceWhereUniqueInput
+    update?: XOR<XOR<InvoiceUpdateToOneWithWhereWithoutCompensationLinesInput, InvoiceUpdateWithoutCompensationLinesInput>, InvoiceUncheckedUpdateWithoutCompensationLinesInput>
+  }
+
   export type NestedUuidFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -235798,6 +239690,40 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumBankStatementLineStatusFilter<$PrismaModel>
     _max?: NestedEnumBankStatementLineStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumCompensationStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.CompensationStatus | EnumCompensationStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.CompensationStatus[] | ListEnumCompensationStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.CompensationStatus[] | ListEnumCompensationStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumCompensationStatusFilter<$PrismaModel> | $Enums.CompensationStatus
+  }
+
+  export type NestedEnumCompensationStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.CompensationStatus | EnumCompensationStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.CompensationStatus[] | ListEnumCompensationStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.CompensationStatus[] | ListEnumCompensationStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumCompensationStatusWithAggregatesFilter<$PrismaModel> | $Enums.CompensationStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumCompensationStatusFilter<$PrismaModel>
+    _max?: NestedEnumCompensationStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumCompensationSideFilter<$PrismaModel = never> = {
+    equals?: $Enums.CompensationSide | EnumCompensationSideFieldRefInput<$PrismaModel>
+    in?: $Enums.CompensationSide[] | ListEnumCompensationSideFieldRefInput<$PrismaModel>
+    notIn?: $Enums.CompensationSide[] | ListEnumCompensationSideFieldRefInput<$PrismaModel>
+    not?: NestedEnumCompensationSideFilter<$PrismaModel> | $Enums.CompensationSide
+  }
+
+  export type NestedEnumCompensationSideWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.CompensationSide | EnumCompensationSideFieldRefInput<$PrismaModel>
+    in?: $Enums.CompensationSide[] | ListEnumCompensationSideFieldRefInput<$PrismaModel>
+    notIn?: $Enums.CompensationSide[] | ListEnumCompensationSideFieldRefInput<$PrismaModel>
+    not?: NestedEnumCompensationSideWithAggregatesFilter<$PrismaModel> | $Enums.CompensationSide
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumCompensationSideFilter<$PrismaModel>
+    _max?: NestedEnumCompensationSideFilter<$PrismaModel>
   }
 
   export type TenantConfigurationVersionCreateWithoutTenantInput = {
@@ -237853,6 +241779,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     payments?: PaymentCreateNestedManyWithoutInvoiceInput
     allocations?: PaymentAllocationCreateNestedManyWithoutInvoiceInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutInvoiceInput
   }
 
   export type InvoiceUncheckedCreateWithoutTenantInput = {
@@ -237874,6 +241801,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     payments?: PaymentUncheckedCreateNestedManyWithoutInvoiceInput
     allocations?: PaymentAllocationUncheckedCreateNestedManyWithoutInvoiceInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutInvoiceInput
   }
 
   export type InvoiceCreateOrConnectWithoutTenantInput = {
@@ -237895,6 +241823,8 @@ export namespace Prisma {
     receivedAt?: Date | string
     createdBy?: string | null
     invoice: InvoiceCreateNestedOneWithoutPaymentsInput
+    reverses?: PaymentCreateNestedOneWithoutReversedByInput
+    reversedBy?: PaymentCreateNestedManyWithoutReversesInput
   }
 
   export type PaymentUncheckedCreateWithoutTenantInput = {
@@ -237906,6 +241836,8 @@ export namespace Prisma {
     reference?: string | null
     receivedAt?: Date | string
     createdBy?: string | null
+    reversesPaymentId?: string | null
+    reversedBy?: PaymentUncheckedCreateNestedManyWithoutReversesInput
   }
 
   export type PaymentCreateOrConnectWithoutTenantInput = {
@@ -240048,6 +243980,86 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type CompensationCreateWithoutTenantInput = {
+    id?: string
+    legalEntityId: string
+    compensationNumber: string
+    partnerId: string
+    currency: string
+    totalAmount: Decimal | DecimalJsLike | number | string
+    bookingDate: Date | string
+    status?: $Enums.CompensationStatus
+    glEntryId?: string | null
+    confirmedAt?: Date | string | null
+    confirmedBy?: string | null
+    cancelledAt?: Date | string | null
+    cancelledBy?: string | null
+    cancelReason?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lines?: CompensationLineCreateNestedManyWithoutCompensationInput
+  }
+
+  export type CompensationUncheckedCreateWithoutTenantInput = {
+    id?: string
+    legalEntityId: string
+    compensationNumber: string
+    partnerId: string
+    currency: string
+    totalAmount: Decimal | DecimalJsLike | number | string
+    bookingDate: Date | string
+    status?: $Enums.CompensationStatus
+    glEntryId?: string | null
+    confirmedAt?: Date | string | null
+    confirmedBy?: string | null
+    cancelledAt?: Date | string | null
+    cancelledBy?: string | null
+    cancelReason?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lines?: CompensationLineUncheckedCreateNestedManyWithoutCompensationInput
+  }
+
+  export type CompensationCreateOrConnectWithoutTenantInput = {
+    where: CompensationWhereUniqueInput
+    create: XOR<CompensationCreateWithoutTenantInput, CompensationUncheckedCreateWithoutTenantInput>
+  }
+
+  export type CompensationCreateManyTenantInputEnvelope = {
+    data: CompensationCreateManyTenantInput | CompensationCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CompensationLineCreateWithoutTenantInput = {
+    id?: string
+    side: $Enums.CompensationSide
+    amount: Decimal | DecimalJsLike | number | string
+    paymentId?: string | null
+    compensation: CompensationCreateNestedOneWithoutLinesInput
+    invoice: InvoiceCreateNestedOneWithoutCompensationLinesInput
+  }
+
+  export type CompensationLineUncheckedCreateWithoutTenantInput = {
+    id?: string
+    compensationId: string
+    invoiceId: string
+    side: $Enums.CompensationSide
+    amount: Decimal | DecimalJsLike | number | string
+    paymentId?: string | null
+  }
+
+  export type CompensationLineCreateOrConnectWithoutTenantInput = {
+    where: CompensationLineWhereUniqueInput
+    create: XOR<CompensationLineCreateWithoutTenantInput, CompensationLineUncheckedCreateWithoutTenantInput>
+  }
+
+  export type CompensationLineCreateManyTenantInputEnvelope = {
+    data: CompensationLineCreateManyTenantInput | CompensationLineCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
   export type TenantConfigurationVersionUpsertWithWhereUniqueWithoutTenantInput = {
     where: TenantConfigurationVersionWhereUniqueInput
     update: XOR<TenantConfigurationVersionUpdateWithoutTenantInput, TenantConfigurationVersionUncheckedUpdateWithoutTenantInput>
@@ -241998,6 +246010,7 @@ export namespace Prisma {
     reference?: StringNullableFilter<"Payment"> | string | null
     receivedAt?: DateTimeFilter<"Payment"> | Date | string
     createdBy?: StringNullableFilter<"Payment"> | string | null
+    reversesPaymentId?: UuidNullableFilter<"Payment"> | string | null
   }
 
   export type PortalUserUpsertWithWhereUniqueWithoutTenantInput = {
@@ -243986,6 +247999,75 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"PaymentAllocation"> | Date | string
   }
 
+  export type CompensationUpsertWithWhereUniqueWithoutTenantInput = {
+    where: CompensationWhereUniqueInput
+    update: XOR<CompensationUpdateWithoutTenantInput, CompensationUncheckedUpdateWithoutTenantInput>
+    create: XOR<CompensationCreateWithoutTenantInput, CompensationUncheckedCreateWithoutTenantInput>
+  }
+
+  export type CompensationUpdateWithWhereUniqueWithoutTenantInput = {
+    where: CompensationWhereUniqueInput
+    data: XOR<CompensationUpdateWithoutTenantInput, CompensationUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type CompensationUpdateManyWithWhereWithoutTenantInput = {
+    where: CompensationScalarWhereInput
+    data: XOR<CompensationUpdateManyMutationInput, CompensationUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type CompensationScalarWhereInput = {
+    AND?: CompensationScalarWhereInput | CompensationScalarWhereInput[]
+    OR?: CompensationScalarWhereInput[]
+    NOT?: CompensationScalarWhereInput | CompensationScalarWhereInput[]
+    id?: UuidFilter<"Compensation"> | string
+    tenantId?: UuidFilter<"Compensation"> | string
+    legalEntityId?: UuidFilter<"Compensation"> | string
+    compensationNumber?: StringFilter<"Compensation"> | string
+    partnerId?: UuidFilter<"Compensation"> | string
+    currency?: StringFilter<"Compensation"> | string
+    totalAmount?: DecimalFilter<"Compensation"> | Decimal | DecimalJsLike | number | string
+    bookingDate?: DateTimeFilter<"Compensation"> | Date | string
+    status?: EnumCompensationStatusFilter<"Compensation"> | $Enums.CompensationStatus
+    glEntryId?: UuidNullableFilter<"Compensation"> | string | null
+    confirmedAt?: DateTimeNullableFilter<"Compensation"> | Date | string | null
+    confirmedBy?: StringNullableFilter<"Compensation"> | string | null
+    cancelledAt?: DateTimeNullableFilter<"Compensation"> | Date | string | null
+    cancelledBy?: StringNullableFilter<"Compensation"> | string | null
+    cancelReason?: StringNullableFilter<"Compensation"> | string | null
+    createdBy?: StringNullableFilter<"Compensation"> | string | null
+    createdAt?: DateTimeFilter<"Compensation"> | Date | string
+    updatedAt?: DateTimeFilter<"Compensation"> | Date | string
+  }
+
+  export type CompensationLineUpsertWithWhereUniqueWithoutTenantInput = {
+    where: CompensationLineWhereUniqueInput
+    update: XOR<CompensationLineUpdateWithoutTenantInput, CompensationLineUncheckedUpdateWithoutTenantInput>
+    create: XOR<CompensationLineCreateWithoutTenantInput, CompensationLineUncheckedCreateWithoutTenantInput>
+  }
+
+  export type CompensationLineUpdateWithWhereUniqueWithoutTenantInput = {
+    where: CompensationLineWhereUniqueInput
+    data: XOR<CompensationLineUpdateWithoutTenantInput, CompensationLineUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type CompensationLineUpdateManyWithWhereWithoutTenantInput = {
+    where: CompensationLineScalarWhereInput
+    data: XOR<CompensationLineUpdateManyMutationInput, CompensationLineUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type CompensationLineScalarWhereInput = {
+    AND?: CompensationLineScalarWhereInput | CompensationLineScalarWhereInput[]
+    OR?: CompensationLineScalarWhereInput[]
+    NOT?: CompensationLineScalarWhereInput | CompensationLineScalarWhereInput[]
+    id?: UuidFilter<"CompensationLine"> | string
+    tenantId?: UuidFilter<"CompensationLine"> | string
+    compensationId?: UuidFilter<"CompensationLine"> | string
+    invoiceId?: UuidFilter<"CompensationLine"> | string
+    side?: EnumCompensationSideFilter<"CompensationLine"> | $Enums.CompensationSide
+    amount?: DecimalFilter<"CompensationLine"> | Decimal | DecimalJsLike | number | string
+    paymentId?: UuidNullableFilter<"CompensationLine"> | string | null
+  }
+
   export type TenantCreateWithoutConfigurationVersionsInput = {
     id?: string
     slug: string
@@ -244118,6 +248200,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutConfigurationVersionsInput = {
@@ -244252,6 +248336,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutConfigurationVersionsInput = {
@@ -244402,6 +248488,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutConfigurationVersionsInput = {
@@ -244536,6 +248624,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutLegalEntitiesInput = {
@@ -244670,6 +248760,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLegalEntitiesInput = {
@@ -244804,6 +248896,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLegalEntitiesInput = {
@@ -244988,6 +249082,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLegalEntitiesInput = {
@@ -245122,6 +249218,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithWhereUniqueWithoutLegalEntityInput = {
@@ -245272,6 +249370,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBusinessUnitsInput = {
@@ -245406,6 +249506,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBusinessUnitsInput = {
@@ -245694,6 +249796,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBusinessUnitsInput = {
@@ -245828,6 +249932,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type LegalEntityUpsertWithoutBusinessUnitsInput = {
@@ -246074,6 +250180,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBranchesInput = {
@@ -246208,6 +250316,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBranchesInput = {
@@ -246387,6 +250497,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBranchesInput = {
@@ -246521,6 +250633,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithoutBranchesInput = {
@@ -246690,6 +250804,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutFactoriesInput = {
@@ -246824,6 +250940,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutFactoriesInput = {
@@ -247003,6 +251121,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutFactoriesInput = {
@@ -247137,6 +251257,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithoutFactoriesInput = {
@@ -247306,6 +251428,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutUsersInput = {
@@ -247440,6 +251564,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutUsersInput = {
@@ -247679,6 +251805,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutUsersInput = {
@@ -247813,6 +251941,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserRoleAssignmentUpsertWithWhereUniqueWithoutUserInput = {
@@ -248016,6 +252146,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutUserCredentialsInput = {
@@ -248150,6 +252282,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutUserCredentialsInput = {
@@ -248331,6 +252465,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutUserCredentialsInput = {
@@ -248465,6 +252601,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserUpsertWithoutCredentialInput = {
@@ -248636,6 +252774,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRolesInput = {
@@ -248770,6 +252910,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRolesInput = {
@@ -248970,6 +253112,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRolesInput = {
@@ -249104,6 +253248,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RolePermissionUpsertWithWhereUniqueWithoutRoleInput = {
@@ -249336,6 +253482,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoleAssignmentsInput = {
@@ -249470,6 +253618,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoleAssignmentsInput = {
@@ -249676,6 +253826,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoleAssignmentsInput = {
@@ -249810,6 +253962,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserUpsertWithoutRoleAssignmentsInput = {
@@ -250012,6 +254166,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAuditEventsInput = {
@@ -250146,6 +254302,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAuditEventsInput = {
@@ -250296,6 +254454,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAuditEventsInput = {
@@ -250430,6 +254590,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutOutboxEventsInput = {
@@ -250564,6 +254726,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOutboxEventsInput = {
@@ -250698,6 +254862,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOutboxEventsInput = {
@@ -250848,6 +255014,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOutboxEventsInput = {
@@ -250982,6 +255150,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutTerminologyEntriesInput = {
@@ -251116,6 +255286,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTerminologyEntriesInput = {
@@ -251250,6 +255422,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTerminologyEntriesInput = {
@@ -251400,6 +255574,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTerminologyEntriesInput = {
@@ -251534,6 +255710,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutModuleActivationsInput = {
@@ -251668,6 +255846,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutModuleActivationsInput = {
@@ -251802,6 +255982,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutModuleActivationsInput = {
@@ -251952,6 +256134,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutModuleActivationsInput = {
@@ -252086,6 +256270,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCustomFieldDefsInput = {
@@ -252220,6 +256406,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCustomFieldDefsInput = {
@@ -252354,6 +256542,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCustomFieldDefsInput = {
@@ -252504,6 +256694,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCustomFieldDefsInput = {
@@ -252638,6 +256830,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutTasksInput = {
@@ -252772,6 +256966,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTasksInput = {
@@ -252906,6 +257102,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTasksInput = {
@@ -253056,6 +257254,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTasksInput = {
@@ -253190,6 +257390,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutNotificationsInput = {
@@ -253324,6 +257526,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNotificationsInput = {
@@ -253458,6 +257662,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNotificationsInput = {
@@ -253608,6 +257814,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNotificationsInput = {
@@ -253742,6 +257950,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutWorkflowDefinitionsInput = {
@@ -253876,6 +258086,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkflowDefinitionsInput = {
@@ -254010,6 +258222,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkflowDefinitionsInput = {
@@ -254222,6 +258436,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkflowDefinitionsInput = {
@@ -254356,6 +258572,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkflowVersionUpsertWithWhereUniqueWithoutDefinitionInput = {
@@ -254748,6 +258966,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRuleDefinitionsInput = {
@@ -254882,6 +259102,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRuleDefinitionsInput = {
@@ -255060,6 +259282,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRuleDefinitionsInput = {
@@ -255194,6 +259418,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RuleVersionUpsertWithWhereUniqueWithoutRuleInput = {
@@ -255401,6 +259627,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutApprovalsInput = {
@@ -255535,6 +259763,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutApprovalsInput = {
@@ -255685,6 +259915,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutApprovalsInput = {
@@ -255819,6 +260051,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutProcessedEventsInput = {
@@ -255953,6 +260187,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProcessedEventsInput = {
@@ -256087,6 +260323,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProcessedEventsInput = {
@@ -256237,6 +260475,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProcessedEventsInput = {
@@ -256371,6 +260611,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutDocumentTemplatesInput = {
@@ -256505,6 +260747,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDocumentTemplatesInput = {
@@ -256639,6 +260883,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDocumentTemplatesInput = {
@@ -256815,6 +261061,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDocumentTemplatesInput = {
@@ -256949,6 +261197,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type DocumentTemplateVersionUpsertWithWhereUniqueWithoutTemplateInput = {
@@ -257159,6 +261409,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPartiesInput = {
@@ -257293,6 +261545,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPartiesInput = {
@@ -257624,6 +261878,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPartiesInput = {
@@ -257758,6 +262014,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PartyUpsertWithoutMergedPartiesInput = {
@@ -258013,6 +262271,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutConsentRecordsInput = {
@@ -258147,6 +262407,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutConsentRecordsInput = {
@@ -258336,6 +262598,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutConsentRecordsInput = {
@@ -258470,6 +262734,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PartyUpsertWithoutConsentRecordsInput = {
@@ -258733,6 +262999,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProductsInput = {
@@ -258867,6 +263135,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProductsInput = {
@@ -259081,6 +263351,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProductsInput = {
@@ -259215,6 +263487,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SkuUpsertWithWhereUniqueWithoutProductInput = {
@@ -260067,6 +264341,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWarehousesInput = {
@@ -260201,6 +264477,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWarehousesInput = {
@@ -260409,6 +264687,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWarehousesInput = {
@@ -260543,6 +264823,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WarehouseLocationUpsertWithWhereUniqueWithoutWarehouseInput = {
@@ -260767,6 +265049,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockMovementsInput = {
@@ -260901,6 +265185,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockMovementsInput = {
@@ -261051,6 +265337,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockMovementsInput = {
@@ -261185,6 +265473,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutStockReservationsInput = {
@@ -261319,6 +265609,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockReservationsInput = {
@@ -261453,6 +265745,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockReservationsInput = {
@@ -261603,6 +265897,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockReservationsInput = {
@@ -261737,6 +266033,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutDevicesInput = {
@@ -261871,6 +266169,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDevicesInput = {
@@ -262005,6 +266305,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDevicesInput = {
@@ -262155,6 +266457,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDevicesInput = {
@@ -262289,6 +266593,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutScanEventsInput = {
@@ -262423,6 +266729,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutScanEventsInput = {
@@ -262557,6 +266865,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutScanEventsInput = {
@@ -262707,6 +267017,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutScanEventsInput = {
@@ -262841,6 +267153,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutWmsOrdersInput = {
@@ -262975,6 +267289,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWmsOrdersInput = {
@@ -263109,6 +267425,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWmsOrdersInput = {
@@ -263285,6 +267603,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWmsOrdersInput = {
@@ -263419,6 +267739,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WmsOrderLineUpsertWithWhereUniqueWithoutOrderInput = {
@@ -263569,6 +267891,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWmsOrderLinesInput = {
@@ -263703,6 +268027,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWmsOrderLinesInput = {
@@ -263886,6 +268212,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWmsOrderLinesInput = {
@@ -264020,6 +268348,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WmsOrderUpsertWithoutLinesInput = {
@@ -264193,6 +268523,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTerritoriesInput = {
@@ -264327,6 +268659,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTerritoriesInput = {
@@ -264477,6 +268811,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTerritoriesInput = {
@@ -264611,6 +268947,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSalesTeamsInput = {
@@ -264745,6 +269083,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesTeamsInput = {
@@ -264879,6 +269219,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesTeamsInput = {
@@ -265053,6 +269395,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesTeamsInput = {
@@ -265187,6 +269531,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesTeamMemberUpsertWithWhereUniqueWithoutTeamInput = {
@@ -265337,6 +269683,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesTeamMembersInput = {
@@ -265471,6 +269819,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesTeamMembersInput = {
@@ -265642,6 +269992,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesTeamMembersInput = {
@@ -265776,6 +270128,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesTeamUpsertWithoutMembersInput = {
@@ -265937,6 +270291,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCrmAccountsInput = {
@@ -266071,6 +270427,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCrmAccountsInput = {
@@ -266221,6 +270579,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCrmAccountsInput = {
@@ -266355,6 +270715,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutLeadsInput = {
@@ -266489,6 +270851,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLeadsInput = {
@@ -266623,6 +270987,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLeadsInput = {
@@ -266773,6 +271139,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLeadsInput = {
@@ -266907,6 +271275,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutOpportunitiesInput = {
@@ -267041,6 +271411,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOpportunitiesInput = {
@@ -267175,6 +271547,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOpportunitiesInput = {
@@ -267325,6 +271699,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOpportunitiesInput = {
@@ -267459,6 +271835,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCrmActivitiesInput = {
@@ -267593,6 +271971,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCrmActivitiesInput = {
@@ -267727,6 +272107,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCrmActivitiesInput = {
@@ -267877,6 +272259,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCrmActivitiesInput = {
@@ -268011,6 +272395,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPriceListsInput = {
@@ -268145,6 +272531,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPriceListsInput = {
@@ -268279,6 +272667,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPriceListsInput = {
@@ -268455,6 +272845,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPriceListsInput = {
@@ -268589,6 +272981,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PriceListEntryUpsertWithWhereUniqueWithoutPriceListInput = {
@@ -268739,6 +273133,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPriceListEntriesInput = {
@@ -268873,6 +273269,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPriceListEntriesInput = {
@@ -269056,6 +273454,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPriceListEntriesInput = {
@@ -269190,6 +273590,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PriceListUpsertWithoutEntriesInput = {
@@ -269363,6 +273765,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQuotesInput = {
@@ -269497,6 +273901,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQuotesInput = {
@@ -269681,6 +274087,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQuotesInput = {
@@ -269815,6 +274223,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QuoteLineUpsertWithWhereUniqueWithoutQuoteInput = {
@@ -269965,6 +274375,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPackagingLevelsInput = {
@@ -270099,6 +274511,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPackagingLevelsInput = {
@@ -270308,6 +274722,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPackagingLevelsInput = {
@@ -270442,6 +274858,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SkuUpsertWithoutPackagingLevelsInput = {
@@ -270641,6 +275059,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSkuSubstitutionsInput = {
@@ -270775,6 +275195,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSkuSubstitutionsInput = {
@@ -270925,6 +275347,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSkuSubstitutionsInput = {
@@ -271059,6 +275483,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutDiscountRulesInput = {
@@ -271193,6 +275619,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDiscountRulesInput = {
@@ -271327,6 +275755,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDiscountRulesInput = {
@@ -271477,6 +275907,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDiscountRulesInput = {
@@ -271611,6 +276043,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutQuoteLinesInput = {
@@ -271745,6 +276179,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQuoteLinesInput = {
@@ -271879,6 +276315,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQuoteLinesInput = {
@@ -272076,6 +276514,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQuoteLinesInput = {
@@ -272210,6 +276650,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QuoteUpsertWithoutLinesInput = {
@@ -272397,6 +276839,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesOrdersInput = {
@@ -272531,6 +276975,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesOrdersInput = {
@@ -272753,6 +277199,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesOrdersInput = {
@@ -272887,6 +277335,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesOrderLineUpsertWithWhereUniqueWithoutOrderInput = {
@@ -273053,6 +277503,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesOrderLinesInput = {
@@ -273187,6 +277639,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesOrderLinesInput = {
@@ -273382,6 +277836,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesOrderLinesInput = {
@@ -273516,6 +277972,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesOrderUpsertWithoutLinesInput = {
@@ -273701,6 +278159,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOrderEventsInput = {
@@ -273835,6 +278295,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOrderEventsInput = {
@@ -273985,6 +278447,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOrderEventsInput = {
@@ -274119,6 +278583,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSuppliersInput = {
@@ -274253,6 +278719,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSuppliersInput = {
@@ -274387,6 +278855,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSuppliersInput = {
@@ -274537,6 +279007,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSuppliersInput = {
@@ -274671,6 +279143,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPurchaseRequisitionsInput = {
@@ -274805,6 +279279,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseRequisitionsInput = {
@@ -274939,6 +279415,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseRequisitionsInput = {
@@ -275119,6 +279597,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseRequisitionsInput = {
@@ -275253,6 +279733,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseRequisitionLineUpsertWithWhereUniqueWithoutRequisitionInput = {
@@ -275403,6 +279885,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseReqLinesInput = {
@@ -275537,6 +280021,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseReqLinesInput = {
@@ -275720,6 +280206,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseReqLinesInput = {
@@ -275854,6 +280342,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseRequisitionUpsertWithoutLinesInput = {
@@ -276027,6 +280517,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseOrdersInput = {
@@ -276161,6 +280653,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseOrdersInput = {
@@ -276409,6 +280903,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseOrdersInput = {
@@ -276543,6 +281039,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseOrderLineUpsertWithWhereUniqueWithoutPoInput = {
@@ -276725,6 +281223,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseOrderLinesInput = {
@@ -276859,6 +281359,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseOrderLinesInput = {
@@ -277050,6 +281552,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseOrderLinesInput = {
@@ -277184,6 +281688,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseOrderUpsertWithoutLinesInput = {
@@ -277365,6 +281871,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBomsInput = {
@@ -277499,6 +282007,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBomsInput = {
@@ -277679,6 +282189,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBomsInput = {
@@ -277813,6 +282325,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BomLineUpsertWithWhereUniqueWithoutBomInput = {
@@ -277963,6 +282477,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBomLinesInput = {
@@ -278097,6 +282613,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBomLinesInput = {
@@ -278278,6 +282796,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBomLinesInput = {
@@ -278412,6 +282932,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BomUpsertWithoutLinesInput = {
@@ -278583,6 +283105,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoutingsInput = {
@@ -278717,6 +283241,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoutingsInput = {
@@ -278899,6 +283425,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoutingsInput = {
@@ -279033,6 +283561,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RoutingOperationUpsertWithWhereUniqueWithoutRoutingInput = {
@@ -279183,6 +283713,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoutingOperationsInput = {
@@ -279317,6 +283849,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoutingOperationsInput = {
@@ -279494,6 +284028,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoutingOperationsInput = {
@@ -279628,6 +284164,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RoutingUpsertWithoutOperationsInput = {
@@ -279795,6 +284333,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutEngineeringChangesInput = {
@@ -279929,6 +284469,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutEngineeringChangesInput = {
@@ -280079,6 +284621,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutEngineeringChangesInput = {
@@ -280213,6 +284757,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPlanningPoliciesInput = {
@@ -280347,6 +284893,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPlanningPoliciesInput = {
@@ -280481,6 +285029,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPlanningPoliciesInput = {
@@ -280631,6 +285181,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPlanningPoliciesInput = {
@@ -280765,6 +285317,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutMrpRunsInput = {
@@ -280899,6 +285453,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutMrpRunsInput = {
@@ -281033,6 +285589,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutMrpRunsInput = {
@@ -281213,6 +285771,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutMrpRunsInput = {
@@ -281347,6 +285907,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type MrpSuggestionUpsertWithWhereUniqueWithoutRunInput = {
@@ -281497,6 +286059,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutMrpSuggestionsInput = {
@@ -281631,6 +286195,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutMrpSuggestionsInput = {
@@ -281806,6 +286372,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutMrpSuggestionsInput = {
@@ -281940,6 +286508,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type MrpRunUpsertWithoutSuggestionsInput = {
@@ -282105,6 +286675,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkOrdersInput = {
@@ -282239,6 +286811,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkOrdersInput = {
@@ -282425,6 +286999,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkOrdersInput = {
@@ -282559,6 +287135,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkOrderOperationUpsertWithWhereUniqueWithoutWorkOrderInput = {
@@ -282709,6 +287287,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkOrderOperationsInput = {
@@ -282843,6 +287423,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkOrderOperationsInput = {
@@ -283036,6 +287618,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkOrderOperationsInput = {
@@ -283170,6 +287754,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkOrderUpsertWithoutOperationsInput = {
@@ -283353,6 +287939,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcPlansInput = {
@@ -283487,6 +288075,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcPlansInput = {
@@ -283663,6 +288253,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcPlansInput = {
@@ -283797,6 +288389,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcPlanItemUpsertWithWhereUniqueWithoutPlanInput = {
@@ -283947,6 +288541,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcPlanItemsInput = {
@@ -284081,6 +288677,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcPlanItemsInput = {
@@ -284258,6 +288856,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcPlanItemsInput = {
@@ -284392,6 +288992,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcPlanUpsertWithoutItemsInput = {
@@ -284559,6 +289161,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcInspectionsInput = {
@@ -284693,6 +289297,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcInspectionsInput = {
@@ -284873,6 +289479,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcInspectionsInput = {
@@ -285007,6 +289615,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcInspectionItemUpsertWithWhereUniqueWithoutInspectionInput = {
@@ -285157,6 +289767,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcInspectionItemsInput = {
@@ -285291,6 +289903,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcInspectionItemsInput = {
@@ -285476,6 +290090,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcInspectionItemsInput = {
@@ -285610,6 +290226,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcInspectionUpsertWithoutItemsInput = {
@@ -285785,6 +290403,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNcrsInput = {
@@ -285919,6 +290539,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNcrsInput = {
@@ -286069,6 +290691,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNcrsInput = {
@@ -286203,6 +290827,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutInvoicesInput = {
@@ -286337,6 +290963,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutInvoicesInput = {
@@ -286471,6 +291099,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutInvoicesInput = {
@@ -286487,6 +291117,8 @@ export namespace Prisma {
     receivedAt?: Date | string
     createdBy?: string | null
     tenant: TenantCreateNestedOneWithoutPaymentsInput
+    reverses?: PaymentCreateNestedOneWithoutReversedByInput
+    reversedBy?: PaymentCreateNestedManyWithoutReversesInput
   }
 
   export type PaymentUncheckedCreateWithoutInvoiceInput = {
@@ -286498,6 +291130,8 @@ export namespace Prisma {
     reference?: string | null
     receivedAt?: Date | string
     createdBy?: string | null
+    reversesPaymentId?: string | null
+    reversedBy?: PaymentUncheckedCreateNestedManyWithoutReversesInput
   }
 
   export type PaymentCreateOrConnectWithoutInvoiceInput = {
@@ -286539,6 +291173,34 @@ export namespace Prisma {
 
   export type PaymentAllocationCreateManyInvoiceInputEnvelope = {
     data: PaymentAllocationCreateManyInvoiceInput | PaymentAllocationCreateManyInvoiceInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CompensationLineCreateWithoutInvoiceInput = {
+    id?: string
+    side: $Enums.CompensationSide
+    amount: Decimal | DecimalJsLike | number | string
+    paymentId?: string | null
+    tenant: TenantCreateNestedOneWithoutCompensationLinesInput
+    compensation: CompensationCreateNestedOneWithoutLinesInput
+  }
+
+  export type CompensationLineUncheckedCreateWithoutInvoiceInput = {
+    id?: string
+    tenantId: string
+    compensationId: string
+    side: $Enums.CompensationSide
+    amount: Decimal | DecimalJsLike | number | string
+    paymentId?: string | null
+  }
+
+  export type CompensationLineCreateOrConnectWithoutInvoiceInput = {
+    where: CompensationLineWhereUniqueInput
+    create: XOR<CompensationLineCreateWithoutInvoiceInput, CompensationLineUncheckedCreateWithoutInvoiceInput>
+  }
+
+  export type CompensationLineCreateManyInvoiceInputEnvelope = {
+    data: CompensationLineCreateManyInvoiceInput | CompensationLineCreateManyInvoiceInput[]
     skipDuplicates?: boolean
   }
 
@@ -286685,6 +291347,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutInvoicesInput = {
@@ -286819,6 +291483,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PaymentUpsertWithWhereUniqueWithoutInvoiceInput = {
@@ -286851,6 +291517,22 @@ export namespace Prisma {
   export type PaymentAllocationUpdateManyWithWhereWithoutInvoiceInput = {
     where: PaymentAllocationScalarWhereInput
     data: XOR<PaymentAllocationUpdateManyMutationInput, PaymentAllocationUncheckedUpdateManyWithoutInvoiceInput>
+  }
+
+  export type CompensationLineUpsertWithWhereUniqueWithoutInvoiceInput = {
+    where: CompensationLineWhereUniqueInput
+    update: XOR<CompensationLineUpdateWithoutInvoiceInput, CompensationLineUncheckedUpdateWithoutInvoiceInput>
+    create: XOR<CompensationLineCreateWithoutInvoiceInput, CompensationLineUncheckedCreateWithoutInvoiceInput>
+  }
+
+  export type CompensationLineUpdateWithWhereUniqueWithoutInvoiceInput = {
+    where: CompensationLineWhereUniqueInput
+    data: XOR<CompensationLineUpdateWithoutInvoiceInput, CompensationLineUncheckedUpdateWithoutInvoiceInput>
+  }
+
+  export type CompensationLineUpdateManyWithWhereWithoutInvoiceInput = {
+    where: CompensationLineScalarWhereInput
+    data: XOR<CompensationLineUpdateManyMutationInput, CompensationLineUncheckedUpdateManyWithoutInvoiceInput>
   }
 
   export type TenantCreateWithoutPaymentsInput = {
@@ -286985,6 +291667,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPaymentsInput = {
@@ -287119,6 +291803,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPaymentsInput = {
@@ -287145,6 +291831,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     tenant: TenantCreateNestedOneWithoutInvoicesInput
     allocations?: PaymentAllocationCreateNestedManyWithoutInvoiceInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutInvoiceInput
   }
 
   export type InvoiceUncheckedCreateWithoutPaymentsInput = {
@@ -287166,11 +291853,79 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     allocations?: PaymentAllocationUncheckedCreateNestedManyWithoutInvoiceInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutInvoiceInput
   }
 
   export type InvoiceCreateOrConnectWithoutPaymentsInput = {
     where: InvoiceWhereUniqueInput
     create: XOR<InvoiceCreateWithoutPaymentsInput, InvoiceUncheckedCreateWithoutPaymentsInput>
+  }
+
+  export type PaymentCreateWithoutReversedByInput = {
+    id?: string
+    paymentNumber: string
+    amount: Decimal | DecimalJsLike | number | string
+    currency: string
+    reference?: string | null
+    receivedAt?: Date | string
+    createdBy?: string | null
+    tenant: TenantCreateNestedOneWithoutPaymentsInput
+    invoice: InvoiceCreateNestedOneWithoutPaymentsInput
+    reverses?: PaymentCreateNestedOneWithoutReversedByInput
+  }
+
+  export type PaymentUncheckedCreateWithoutReversedByInput = {
+    id?: string
+    tenantId: string
+    paymentNumber: string
+    invoiceId: string
+    amount: Decimal | DecimalJsLike | number | string
+    currency: string
+    reference?: string | null
+    receivedAt?: Date | string
+    createdBy?: string | null
+    reversesPaymentId?: string | null
+  }
+
+  export type PaymentCreateOrConnectWithoutReversedByInput = {
+    where: PaymentWhereUniqueInput
+    create: XOR<PaymentCreateWithoutReversedByInput, PaymentUncheckedCreateWithoutReversedByInput>
+  }
+
+  export type PaymentCreateWithoutReversesInput = {
+    id?: string
+    paymentNumber: string
+    amount: Decimal | DecimalJsLike | number | string
+    currency: string
+    reference?: string | null
+    receivedAt?: Date | string
+    createdBy?: string | null
+    tenant: TenantCreateNestedOneWithoutPaymentsInput
+    invoice: InvoiceCreateNestedOneWithoutPaymentsInput
+    reversedBy?: PaymentCreateNestedManyWithoutReversesInput
+  }
+
+  export type PaymentUncheckedCreateWithoutReversesInput = {
+    id?: string
+    tenantId: string
+    paymentNumber: string
+    invoiceId: string
+    amount: Decimal | DecimalJsLike | number | string
+    currency: string
+    reference?: string | null
+    receivedAt?: Date | string
+    createdBy?: string | null
+    reversedBy?: PaymentUncheckedCreateNestedManyWithoutReversesInput
+  }
+
+  export type PaymentCreateOrConnectWithoutReversesInput = {
+    where: PaymentWhereUniqueInput
+    create: XOR<PaymentCreateWithoutReversesInput, PaymentUncheckedCreateWithoutReversesInput>
+  }
+
+  export type PaymentCreateManyReversesInputEnvelope = {
+    data: PaymentCreateManyReversesInput | PaymentCreateManyReversesInput[]
+    skipDuplicates?: boolean
   }
 
   export type TenantUpsertWithoutPaymentsInput = {
@@ -287316,6 +292071,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPaymentsInput = {
@@ -287450,6 +292207,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type InvoiceUpsertWithoutPaymentsInput = {
@@ -287482,6 +292241,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: TenantUpdateOneRequiredWithoutInvoicesNestedInput
     allocations?: PaymentAllocationUpdateManyWithoutInvoiceNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutInvoiceNestedInput
   }
 
   export type InvoiceUncheckedUpdateWithoutPaymentsInput = {
@@ -287503,6 +292263,60 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     allocations?: PaymentAllocationUncheckedUpdateManyWithoutInvoiceNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutInvoiceNestedInput
+  }
+
+  export type PaymentUpsertWithoutReversedByInput = {
+    update: XOR<PaymentUpdateWithoutReversedByInput, PaymentUncheckedUpdateWithoutReversedByInput>
+    create: XOR<PaymentCreateWithoutReversedByInput, PaymentUncheckedCreateWithoutReversedByInput>
+    where?: PaymentWhereInput
+  }
+
+  export type PaymentUpdateToOneWithWhereWithoutReversedByInput = {
+    where?: PaymentWhereInput
+    data: XOR<PaymentUpdateWithoutReversedByInput, PaymentUncheckedUpdateWithoutReversedByInput>
+  }
+
+  export type PaymentUpdateWithoutReversedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    paymentNumber?: StringFieldUpdateOperationsInput | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    reference?: NullableStringFieldUpdateOperationsInput | string | null
+    receivedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    tenant?: TenantUpdateOneRequiredWithoutPaymentsNestedInput
+    invoice?: InvoiceUpdateOneRequiredWithoutPaymentsNestedInput
+    reverses?: PaymentUpdateOneWithoutReversedByNestedInput
+  }
+
+  export type PaymentUncheckedUpdateWithoutReversedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    paymentNumber?: StringFieldUpdateOperationsInput | string
+    invoiceId?: StringFieldUpdateOperationsInput | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    reference?: NullableStringFieldUpdateOperationsInput | string | null
+    receivedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    reversesPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type PaymentUpsertWithWhereUniqueWithoutReversesInput = {
+    where: PaymentWhereUniqueInput
+    update: XOR<PaymentUpdateWithoutReversesInput, PaymentUncheckedUpdateWithoutReversesInput>
+    create: XOR<PaymentCreateWithoutReversesInput, PaymentUncheckedCreateWithoutReversesInput>
+  }
+
+  export type PaymentUpdateWithWhereUniqueWithoutReversesInput = {
+    where: PaymentWhereUniqueInput
+    data: XOR<PaymentUpdateWithoutReversesInput, PaymentUncheckedUpdateWithoutReversesInput>
+  }
+
+  export type PaymentUpdateManyWithWhereWithoutReversesInput = {
+    where: PaymentScalarWhereInput
+    data: XOR<PaymentUpdateManyMutationInput, PaymentUncheckedUpdateManyWithoutReversesInput>
   }
 
   export type TenantCreateWithoutPortalUsersInput = {
@@ -287637,6 +292451,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPortalUsersInput = {
@@ -287771,6 +292587,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPortalUsersInput = {
@@ -287921,6 +292739,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPortalUsersInput = {
@@ -288055,6 +292875,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCommentsInput = {
@@ -288189,6 +293011,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCommentsInput = {
@@ -288323,6 +293147,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCommentsInput = {
@@ -288473,6 +293299,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCommentsInput = {
@@ -288607,6 +293435,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutAttachmentsInput = {
@@ -288741,6 +293571,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAttachmentsInput = {
@@ -288875,6 +293707,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAttachmentsInput = {
@@ -289042,6 +293876,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAttachmentsInput = {
@@ -289176,6 +294012,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type AttachmentBlobUpsertWithoutAttachmentInput = {
@@ -289333,6 +294171,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAttachmentBlobsInput = {
@@ -289467,6 +294307,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAttachmentBlobsInput = {
@@ -289648,6 +294490,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAttachmentBlobsInput = {
@@ -289782,6 +294626,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type AttachmentUpsertWithoutBlobInput = {
@@ -289953,6 +294799,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNumberSequencesInput = {
@@ -290087,6 +294935,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNumberSequencesInput = {
@@ -290237,6 +295087,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNumberSequencesInput = {
@@ -290371,6 +295223,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutExchangeRatesInput = {
@@ -290505,6 +295359,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutExchangeRatesInput = {
@@ -290639,6 +295495,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutExchangeRatesInput = {
@@ -290789,6 +295647,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutExchangeRatesInput = {
@@ -290923,6 +295783,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCostCentersInput = {
@@ -291057,6 +295919,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCostCentersInput = {
@@ -291191,6 +296055,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCostCentersInput = {
@@ -291369,6 +296235,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCostCentersInput = {
@@ -291503,6 +296371,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BudgetUpsertWithWhereUniqueWithoutCostCenterInput = {
@@ -291653,6 +296523,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBudgetsInput = {
@@ -291787,6 +296659,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBudgetsInput = {
@@ -291960,6 +296834,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBudgetsInput = {
@@ -292094,6 +296970,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type CostCenterUpsertWithoutBudgetsInput = {
@@ -292257,6 +297135,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWebhookSubscriptionsInput = {
@@ -292391,6 +297271,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWebhookSubscriptionsInput = {
@@ -292579,6 +297461,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWebhookSubscriptionsInput = {
@@ -292713,6 +297597,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WebhookDeliveryUpsertWithWhereUniqueWithoutSubscriptionInput = {
@@ -292863,6 +297749,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWebhookDeliveriesInput = {
@@ -292997,6 +297885,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWebhookDeliveriesInput = {
@@ -293174,6 +298064,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWebhookDeliveriesInput = {
@@ -293308,6 +298200,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WebhookSubscriptionUpsertWithoutDeliveriesInput = {
@@ -293475,6 +298369,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutApiKeysInput = {
@@ -293609,6 +298505,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutApiKeysInput = {
@@ -293759,6 +298657,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutApiKeysInput = {
@@ -293893,6 +298793,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSecurityEventsInput = {
@@ -294027,6 +298929,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSecurityEventsInput = {
@@ -294161,6 +299065,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSecurityEventsInput = {
@@ -294311,6 +299217,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSecurityEventsInput = {
@@ -294445,6 +299353,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutProductCategoriesInput = {
@@ -294579,6 +299489,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProductCategoriesInput = {
@@ -294713,6 +299625,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProductCategoriesInput = {
@@ -294914,6 +299828,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProductCategoriesInput = {
@@ -295048,6 +299964,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ProductCategoryUpsertWithoutChildrenInput = {
@@ -295227,6 +300145,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutReturnOrdersInput = {
@@ -295361,6 +300281,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutReturnOrdersInput = {
@@ -295539,6 +300461,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutReturnOrdersInput = {
@@ -295673,6 +300597,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ReturnOrderLineUpsertWithWhereUniqueWithoutReturnOrderInput = {
@@ -295823,6 +300749,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutReturnOrderLinesInput = {
@@ -295957,6 +300885,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutReturnOrderLinesInput = {
@@ -296142,6 +301072,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutReturnOrderLinesInput = {
@@ -296276,6 +301208,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ReturnOrderUpsertWithoutLinesInput = {
@@ -296451,6 +301385,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockCountsInput = {
@@ -296585,6 +301521,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockCountsInput = {
@@ -296761,6 +301699,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockCountsInput = {
@@ -296895,6 +301835,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type StockCountLineUpsertWithWhereUniqueWithoutCountInput = {
@@ -297045,6 +301987,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockCountLinesInput = {
@@ -297179,6 +302123,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockCountLinesInput = {
@@ -297362,6 +302308,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockCountLinesInput = {
@@ -297496,6 +302444,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type StockCountUpsertWithoutLinesInput = {
@@ -297669,6 +302619,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkCentersInput = {
@@ -297803,6 +302755,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkCentersInput = {
@@ -297985,6 +302939,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkCentersInput = {
@@ -298119,6 +303075,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type DowntimeEventUpsertWithWhereUniqueWithoutWorkCenterInput = {
@@ -298269,6 +303227,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDowntimeEventsInput = {
@@ -298403,6 +303363,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDowntimeEventsInput = {
@@ -298576,6 +303538,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDowntimeEventsInput = {
@@ -298710,6 +303674,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkCenterUpsertWithoutDowntimesInput = {
@@ -298873,6 +303839,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPromotionsInput = {
@@ -299007,6 +303975,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPromotionsInput = {
@@ -299183,6 +304153,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPromotionsInput = {
@@ -299317,6 +304289,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PromotionRedemptionUpsertWithWhereUniqueWithoutPromotionInput = {
@@ -299931,6 +304905,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBreakGlassGrantsInput = {
@@ -300065,6 +305041,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBreakGlassGrantsInput = {
@@ -300246,6 +305224,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBreakGlassGrantsInput = {
@@ -300380,6 +305360,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserUpsertWithoutBreakGlassGrantsInput = {
@@ -300551,6 +305533,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutMasterDataRequestsInput = {
@@ -300685,6 +305669,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutMasterDataRequestsInput = {
@@ -300835,6 +305821,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutMasterDataRequestsInput = {
@@ -300969,6 +305957,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutLoyaltyAccountsInput = {
@@ -301103,6 +306093,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLoyaltyAccountsInput = {
@@ -301237,6 +306229,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLoyaltyAccountsInput = {
@@ -301417,6 +306411,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLoyaltyAccountsInput = {
@@ -301551,6 +306547,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type LoyaltyTransactionUpsertWithWhereUniqueWithoutLoyaltyAccountInput = {
@@ -301767,6 +306765,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSupportCasesInput = {
@@ -301901,6 +306901,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSupportCasesInput = {
@@ -302051,6 +307053,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSupportCasesInput = {
@@ -302185,6 +307189,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutContractsInput = {
@@ -302319,6 +307325,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutContractsInput = {
@@ -302453,6 +307461,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutContractsInput = {
@@ -302642,6 +307652,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutContractsInput = {
@@ -302776,6 +307788,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PartyUpsertWithoutContractsInput = {
@@ -302955,6 +307969,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutEmployeesInput = {
@@ -303089,6 +308105,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutEmployeesInput = {
@@ -303239,6 +308257,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutEmployeesInput = {
@@ -303373,6 +308393,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutAssetsInput = {
@@ -303507,6 +308529,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAssetsInput = {
@@ -303641,6 +308665,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAssetsInput = {
@@ -303791,6 +308817,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAssetsInput = {
@@ -303925,6 +308953,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutQuarantineHoldsInput = {
@@ -304059,6 +309089,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQuarantineHoldsInput = {
@@ -304193,6 +309225,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQuarantineHoldsInput = {
@@ -304343,6 +309377,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQuarantineHoldsInput = {
@@ -304477,6 +309513,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutRfqsInput = {
@@ -304611,6 +309649,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRfqsInput = {
@@ -304745,6 +309785,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRfqsInput = {
@@ -304925,6 +309967,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRfqsInput = {
@@ -305059,6 +310103,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RfqQuoteUpsertWithWhereUniqueWithoutRfqInput = {
@@ -305295,6 +310341,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPackagesInput = {
@@ -305429,6 +310477,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPackagesInput = {
@@ -305648,6 +310698,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPackagesInput = {
@@ -305782,6 +310834,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesOrderUpsertWithoutPackagesInput = {
@@ -306062,6 +311116,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLandedCostsInput = {
@@ -306196,6 +311252,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLandedCostsInput = {
@@ -306387,6 +311445,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLandedCostsInput = {
@@ -306521,6 +311581,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseOrderUpsertWithoutLandedCostsInput = {
@@ -306702,6 +311764,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCustomObjectDefinitionsInput = {
@@ -306836,6 +311900,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCustomObjectDefinitionsInput = {
@@ -307014,6 +312080,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCustomObjectDefinitionsInput = {
@@ -307148,6 +312216,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type CustomObjectRecordUpsertWithWhereUniqueWithoutDefinitionInput = {
@@ -307375,6 +312445,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutFrameworkAgreementsInput = {
@@ -307509,6 +312581,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutFrameworkAgreementsInput = {
@@ -307659,6 +312733,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutFrameworkAgreementsInput = {
@@ -307793,6 +312869,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSkuChannelContentsInput = {
@@ -307927,6 +313005,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSkuChannelContentsInput = {
@@ -308061,6 +313141,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSkuChannelContentsInput = {
@@ -308270,6 +313352,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSkuChannelContentsInput = {
@@ -308404,6 +313488,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SkuUpsertWithoutChannelContentsInput = {
@@ -308603,6 +313689,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutContainersInput = {
@@ -308737,6 +313825,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutContainersInput = {
@@ -308928,6 +314018,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutContainersInput = {
@@ -309062,6 +314154,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseOrderUpsertWithoutContainersInput = {
@@ -309243,6 +314337,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPosSessionsInput = {
@@ -309377,6 +314473,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPosSessionsInput = {
@@ -309527,6 +314625,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPosSessionsInput = {
@@ -309661,6 +314761,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutVehiclesInput = {
@@ -309795,6 +314897,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutVehiclesInput = {
@@ -309929,6 +315033,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutVehiclesInput = {
@@ -310129,6 +315235,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutVehiclesInput = {
@@ -310263,6 +315371,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ShipmentUpsertWithWhereUniqueWithoutVehicleInput = {
@@ -310413,6 +315523,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDriversInput = {
@@ -310547,6 +315659,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDriversInput = {
@@ -310747,6 +315861,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDriversInput = {
@@ -310881,6 +315997,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ShipmentUpsertWithWhereUniqueWithoutDriverInput = {
@@ -311031,6 +316149,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutShipmentsInput = {
@@ -311165,6 +316285,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutShipmentsInput = {
@@ -311403,6 +316525,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutShipmentsInput = {
@@ -311537,6 +316661,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type VehicleUpsertWithoutShipmentsInput = {
@@ -311751,6 +316877,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutShipmentStopsInput = {
@@ -311885,6 +317013,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutShipmentStopsInput = {
@@ -312080,6 +317210,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutShipmentStopsInput = {
@@ -312214,6 +317346,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ShipmentUpsertWithoutStopsInput = {
@@ -312399,6 +317533,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDockAppointmentsInput = {
@@ -312533,6 +317669,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDockAppointmentsInput = {
@@ -312704,6 +317842,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDockAppointmentsInput = {
@@ -312838,6 +317978,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WarehouseUpsertWithoutDockAppointmentsInput = {
@@ -312999,6 +318141,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutInstalledAssetsInput = {
@@ -313133,6 +318277,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutInstalledAssetsInput = {
@@ -313371,6 +318517,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutInstalledAssetsInput = {
@@ -313505,6 +318653,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ServiceRequestUpsertWithWhereUniqueWithoutInstalledAssetInput = {
@@ -313671,6 +318821,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutServiceRequestsInput = {
@@ -313805,6 +318957,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutServiceRequestsInput = {
@@ -314040,6 +319194,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutServiceRequestsInput = {
@@ -314174,6 +319330,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type InstalledAssetUpsertWithoutServiceRequestsInput = {
@@ -314367,6 +319525,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutServiceOrdersInput = {
@@ -314501,6 +319661,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutServiceOrdersInput = {
@@ -314749,6 +319911,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutServiceOrdersInput = {
@@ -314883,6 +320047,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ServiceRequestUpsertWithoutServiceOrdersInput = {
@@ -315117,6 +320283,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutServiceOrderPartsInput = {
@@ -315251,6 +320419,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutServiceOrderPartsInput = {
@@ -315444,6 +320614,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutServiceOrderPartsInput = {
@@ -315578,6 +320750,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ServiceOrderUpsertWithoutPartsInput = {
@@ -315761,6 +320935,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRmasInput = {
@@ -315895,6 +321071,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRmasInput = {
@@ -316045,6 +321223,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRmasInput = {
@@ -316179,6 +321359,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutGlAccountsInput = {
@@ -316313,6 +321495,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutGlAccountsInput = {
@@ -316447,6 +321631,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutGlAccountsInput = {
@@ -316627,6 +321813,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutGlAccountsInput = {
@@ -316761,6 +321949,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type GlJournalLineUpsertWithWhereUniqueWithoutAccountInput = {
@@ -316911,6 +322101,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutGlJournalEntriesInput = {
@@ -317045,6 +322237,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutGlJournalEntriesInput = {
@@ -317225,6 +322419,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutGlJournalEntriesInput = {
@@ -317359,6 +322555,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type GlJournalLineUpsertWithWhereUniqueWithoutEntryInput = {
@@ -317509,6 +322707,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutGlJournalLinesInput = {
@@ -317643,6 +322843,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutGlJournalLinesInput = {
@@ -317863,6 +323065,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutGlJournalLinesInput = {
@@ -317997,6 +323201,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type GlJournalEntryUpsertWithoutLinesInput = {
@@ -318213,6 +323419,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutGlSystemAccountsInput = {
@@ -318347,6 +323555,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutGlSystemAccountsInput = {
@@ -318497,6 +323707,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutGlSystemAccountsInput = {
@@ -318631,6 +323843,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutGlOpeningBalanceDatesInput = {
@@ -318765,6 +323979,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutGlOpeningBalanceDatesInput = {
@@ -318899,6 +324115,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutGlOpeningBalanceDatesInput = {
@@ -319049,6 +324267,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutGlOpeningBalanceDatesInput = {
@@ -319183,6 +324403,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutGlPeriodLocksInput = {
@@ -319317,6 +324539,8 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutGlPeriodLocksInput = {
@@ -319451,6 +324675,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutGlPeriodLocksInput = {
@@ -319601,6 +324827,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutGlPeriodLocksInput = {
@@ -319735,6 +324963,8 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutBankStatementsInput = {
@@ -319869,6 +325099,8 @@ export namespace Prisma {
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBankStatementsInput = {
@@ -320003,6 +325235,8 @@ export namespace Prisma {
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBankStatementsInput = {
@@ -320193,6 +325427,8 @@ export namespace Prisma {
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBankStatementsInput = {
@@ -320327,6 +325563,8 @@ export namespace Prisma {
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BankStatementLineUpsertWithWhereUniqueWithoutStatementInput = {
@@ -320477,6 +325715,8 @@ export namespace Prisma {
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBankStatementLinesInput = {
@@ -320611,6 +325851,8 @@ export namespace Prisma {
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBankStatementLinesInput = {
@@ -320838,6 +326080,8 @@ export namespace Prisma {
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBankStatementLinesInput = {
@@ -320972,6 +326216,8 @@ export namespace Prisma {
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BankStatementUpsertWithoutLinesInput = {
@@ -321173,6 +326419,8 @@ export namespace Prisma {
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPaymentAllocationsInput = {
@@ -321307,6 +326555,8 @@ export namespace Prisma {
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPaymentAllocationsInput = {
@@ -321368,6 +326618,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     tenant: TenantCreateNestedOneWithoutInvoicesInput
     payments?: PaymentCreateNestedManyWithoutInvoiceInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutInvoiceInput
   }
 
   export type InvoiceUncheckedCreateWithoutAllocationsInput = {
@@ -321389,6 +326640,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     payments?: PaymentUncheckedCreateNestedManyWithoutInvoiceInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutInvoiceInput
   }
 
   export type InvoiceCreateOrConnectWithoutAllocationsInput = {
@@ -321539,6 +326791,8 @@ export namespace Prisma {
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPaymentAllocationsInput = {
@@ -321673,6 +326927,8 @@ export namespace Prisma {
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BankStatementLineUpsertWithoutAllocationsInput = {
@@ -321746,6 +327002,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: TenantUpdateOneRequiredWithoutInvoicesNestedInput
     payments?: PaymentUpdateManyWithoutInvoiceNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutInvoiceNestedInput
   }
 
   export type InvoiceUncheckedUpdateWithoutAllocationsInput = {
@@ -321767,6 +327024,1375 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     payments?: PaymentUncheckedUpdateManyWithoutInvoiceNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutInvoiceNestedInput
+  }
+
+  export type TenantCreateWithoutCompensationsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    factories?: FactoryCreateNestedManyWithoutTenantInput
+    users?: UserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionCreateNestedManyWithoutTenantInput
+    tasks?: TaskCreateNestedManyWithoutTenantInput
+    notifications?: NotificationCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    products?: ProductCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountCreateNestedManyWithoutTenantInput
+    leads?: LeadCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryCreateNestedManyWithoutTenantInput
+    quotes?: QuoteCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
+    comments?: CommentCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
+    exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
+    breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
+    masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
+    supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
+    employees?: EmployeeCreateNestedManyWithoutTenantInput
+    assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
+    rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
+    containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
+    installedAssets?: InstalledAssetCreateNestedManyWithoutTenantInput
+    serviceRequests?: ServiceRequestCreateNestedManyWithoutTenantInput
+    serviceOrders?: ServiceOrderCreateNestedManyWithoutTenantInput
+    serviceOrderParts?: ServiceOrderPartCreateNestedManyWithoutTenantInput
+    rmas?: RmaCreateNestedManyWithoutTenantInput
+    glAccounts?: GlAccountCreateNestedManyWithoutTenantInput
+    glJournalEntries?: GlJournalEntryCreateNestedManyWithoutTenantInput
+    glJournalLines?: GlJournalLineCreateNestedManyWithoutTenantInput
+    glSystemAccounts?: GlSystemAccountCreateNestedManyWithoutTenantInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
+    glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutCompensationsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityUncheckedCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    factories?: FactoryUncheckedCreateNestedManyWithoutTenantInput
+    users?: UserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventUncheckedCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventUncheckedCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryUncheckedCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationUncheckedCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutTenantInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalUncheckedCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventUncheckedCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    products?: ProductUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountUncheckedCreateNestedManyWithoutTenantInput
+    leads?: LeadUncheckedCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityUncheckedCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityUncheckedCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListUncheckedCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryUncheckedCreateNestedManyWithoutTenantInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineUncheckedCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderUncheckedCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventUncheckedCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierUncheckedCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
+    comments?: CommentUncheckedCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderUncheckedCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
+    exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
+    breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
+    masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
+    supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
+    employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
+    assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
+    rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
+    containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
+    installedAssets?: InstalledAssetUncheckedCreateNestedManyWithoutTenantInput
+    serviceRequests?: ServiceRequestUncheckedCreateNestedManyWithoutTenantInput
+    serviceOrders?: ServiceOrderUncheckedCreateNestedManyWithoutTenantInput
+    serviceOrderParts?: ServiceOrderPartUncheckedCreateNestedManyWithoutTenantInput
+    rmas?: RmaUncheckedCreateNestedManyWithoutTenantInput
+    glAccounts?: GlAccountUncheckedCreateNestedManyWithoutTenantInput
+    glJournalEntries?: GlJournalEntryUncheckedCreateNestedManyWithoutTenantInput
+    glJournalLines?: GlJournalLineUncheckedCreateNestedManyWithoutTenantInput
+    glSystemAccounts?: GlSystemAccountUncheckedCreateNestedManyWithoutTenantInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
+    glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutCompensationsInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutCompensationsInput, TenantUncheckedCreateWithoutCompensationsInput>
+  }
+
+  export type CompensationLineCreateWithoutCompensationInput = {
+    id?: string
+    side: $Enums.CompensationSide
+    amount: Decimal | DecimalJsLike | number | string
+    paymentId?: string | null
+    tenant: TenantCreateNestedOneWithoutCompensationLinesInput
+    invoice: InvoiceCreateNestedOneWithoutCompensationLinesInput
+  }
+
+  export type CompensationLineUncheckedCreateWithoutCompensationInput = {
+    id?: string
+    tenantId: string
+    invoiceId: string
+    side: $Enums.CompensationSide
+    amount: Decimal | DecimalJsLike | number | string
+    paymentId?: string | null
+  }
+
+  export type CompensationLineCreateOrConnectWithoutCompensationInput = {
+    where: CompensationLineWhereUniqueInput
+    create: XOR<CompensationLineCreateWithoutCompensationInput, CompensationLineUncheckedCreateWithoutCompensationInput>
+  }
+
+  export type CompensationLineCreateManyCompensationInputEnvelope = {
+    data: CompensationLineCreateManyCompensationInput | CompensationLineCreateManyCompensationInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TenantUpsertWithoutCompensationsInput = {
+    update: XOR<TenantUpdateWithoutCompensationsInput, TenantUncheckedUpdateWithoutCompensationsInput>
+    create: XOR<TenantCreateWithoutCompensationsInput, TenantUncheckedCreateWithoutCompensationsInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutCompensationsInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutCompensationsInput, TenantUncheckedUpdateWithoutCompensationsInput>
+  }
+
+  export type TenantUpdateWithoutCompensationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUpdateManyWithoutTenantNestedInput
+    users?: UserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    products?: ProductUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUpdateManyWithoutTenantNestedInput
+    leads?: LeadUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
+    comments?: CommentUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
+    exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
+    breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
+    masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
+    supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
+    employees?: EmployeeUpdateManyWithoutTenantNestedInput
+    assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
+    rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
+    containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
+    installedAssets?: InstalledAssetUpdateManyWithoutTenantNestedInput
+    serviceRequests?: ServiceRequestUpdateManyWithoutTenantNestedInput
+    serviceOrders?: ServiceOrderUpdateManyWithoutTenantNestedInput
+    serviceOrderParts?: ServiceOrderPartUpdateManyWithoutTenantNestedInput
+    rmas?: RmaUpdateManyWithoutTenantNestedInput
+    glAccounts?: GlAccountUpdateManyWithoutTenantNestedInput
+    glJournalEntries?: GlJournalEntryUpdateManyWithoutTenantNestedInput
+    glJournalLines?: GlJournalLineUpdateManyWithoutTenantNestedInput
+    glSystemAccounts?: GlSystemAccountUpdateManyWithoutTenantNestedInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
+    glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutCompensationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUncheckedUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUncheckedUpdateManyWithoutTenantNestedInput
+    users?: UserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUncheckedUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUncheckedUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUncheckedUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUncheckedUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUncheckedUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUncheckedUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    products?: ProductUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUncheckedUpdateManyWithoutTenantNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUncheckedUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUncheckedUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUncheckedUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUncheckedUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUncheckedUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
+    exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
+    breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
+    masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
+    supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
+    employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
+    assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
+    rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
+    containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
+    installedAssets?: InstalledAssetUncheckedUpdateManyWithoutTenantNestedInput
+    serviceRequests?: ServiceRequestUncheckedUpdateManyWithoutTenantNestedInput
+    serviceOrders?: ServiceOrderUncheckedUpdateManyWithoutTenantNestedInput
+    serviceOrderParts?: ServiceOrderPartUncheckedUpdateManyWithoutTenantNestedInput
+    rmas?: RmaUncheckedUpdateManyWithoutTenantNestedInput
+    glAccounts?: GlAccountUncheckedUpdateManyWithoutTenantNestedInput
+    glJournalEntries?: GlJournalEntryUncheckedUpdateManyWithoutTenantNestedInput
+    glJournalLines?: GlJournalLineUncheckedUpdateManyWithoutTenantNestedInput
+    glSystemAccounts?: GlSystemAccountUncheckedUpdateManyWithoutTenantNestedInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
+    glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type CompensationLineUpsertWithWhereUniqueWithoutCompensationInput = {
+    where: CompensationLineWhereUniqueInput
+    update: XOR<CompensationLineUpdateWithoutCompensationInput, CompensationLineUncheckedUpdateWithoutCompensationInput>
+    create: XOR<CompensationLineCreateWithoutCompensationInput, CompensationLineUncheckedCreateWithoutCompensationInput>
+  }
+
+  export type CompensationLineUpdateWithWhereUniqueWithoutCompensationInput = {
+    where: CompensationLineWhereUniqueInput
+    data: XOR<CompensationLineUpdateWithoutCompensationInput, CompensationLineUncheckedUpdateWithoutCompensationInput>
+  }
+
+  export type CompensationLineUpdateManyWithWhereWithoutCompensationInput = {
+    where: CompensationLineScalarWhereInput
+    data: XOR<CompensationLineUpdateManyMutationInput, CompensationLineUncheckedUpdateManyWithoutCompensationInput>
+  }
+
+  export type TenantCreateWithoutCompensationLinesInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    factories?: FactoryCreateNestedManyWithoutTenantInput
+    users?: UserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionCreateNestedManyWithoutTenantInput
+    tasks?: TaskCreateNestedManyWithoutTenantInput
+    notifications?: NotificationCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    products?: ProductCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountCreateNestedManyWithoutTenantInput
+    leads?: LeadCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryCreateNestedManyWithoutTenantInput
+    quotes?: QuoteCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
+    comments?: CommentCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
+    exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
+    breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
+    masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
+    supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
+    employees?: EmployeeCreateNestedManyWithoutTenantInput
+    assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
+    rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
+    containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
+    installedAssets?: InstalledAssetCreateNestedManyWithoutTenantInput
+    serviceRequests?: ServiceRequestCreateNestedManyWithoutTenantInput
+    serviceOrders?: ServiceOrderCreateNestedManyWithoutTenantInput
+    serviceOrderParts?: ServiceOrderPartCreateNestedManyWithoutTenantInput
+    rmas?: RmaCreateNestedManyWithoutTenantInput
+    glAccounts?: GlAccountCreateNestedManyWithoutTenantInput
+    glJournalEntries?: GlJournalEntryCreateNestedManyWithoutTenantInput
+    glJournalLines?: GlJournalLineCreateNestedManyWithoutTenantInput
+    glSystemAccounts?: GlSystemAccountCreateNestedManyWithoutTenantInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
+    glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutCompensationLinesInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityUncheckedCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    factories?: FactoryUncheckedCreateNestedManyWithoutTenantInput
+    users?: UserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventUncheckedCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventUncheckedCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryUncheckedCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationUncheckedCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutTenantInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalUncheckedCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventUncheckedCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    products?: ProductUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountUncheckedCreateNestedManyWithoutTenantInput
+    leads?: LeadUncheckedCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityUncheckedCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityUncheckedCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListUncheckedCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryUncheckedCreateNestedManyWithoutTenantInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineUncheckedCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderUncheckedCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventUncheckedCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierUncheckedCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
+    comments?: CommentUncheckedCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderUncheckedCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
+    exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
+    breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
+    masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
+    supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
+    employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
+    assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
+    rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
+    containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
+    installedAssets?: InstalledAssetUncheckedCreateNestedManyWithoutTenantInput
+    serviceRequests?: ServiceRequestUncheckedCreateNestedManyWithoutTenantInput
+    serviceOrders?: ServiceOrderUncheckedCreateNestedManyWithoutTenantInput
+    serviceOrderParts?: ServiceOrderPartUncheckedCreateNestedManyWithoutTenantInput
+    rmas?: RmaUncheckedCreateNestedManyWithoutTenantInput
+    glAccounts?: GlAccountUncheckedCreateNestedManyWithoutTenantInput
+    glJournalEntries?: GlJournalEntryUncheckedCreateNestedManyWithoutTenantInput
+    glJournalLines?: GlJournalLineUncheckedCreateNestedManyWithoutTenantInput
+    glSystemAccounts?: GlSystemAccountUncheckedCreateNestedManyWithoutTenantInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
+    glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutCompensationLinesInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutCompensationLinesInput, TenantUncheckedCreateWithoutCompensationLinesInput>
+  }
+
+  export type CompensationCreateWithoutLinesInput = {
+    id?: string
+    legalEntityId: string
+    compensationNumber: string
+    partnerId: string
+    currency: string
+    totalAmount: Decimal | DecimalJsLike | number | string
+    bookingDate: Date | string
+    status?: $Enums.CompensationStatus
+    glEntryId?: string | null
+    confirmedAt?: Date | string | null
+    confirmedBy?: string | null
+    cancelledAt?: Date | string | null
+    cancelledBy?: string | null
+    cancelReason?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutCompensationsInput
+  }
+
+  export type CompensationUncheckedCreateWithoutLinesInput = {
+    id?: string
+    tenantId: string
+    legalEntityId: string
+    compensationNumber: string
+    partnerId: string
+    currency: string
+    totalAmount: Decimal | DecimalJsLike | number | string
+    bookingDate: Date | string
+    status?: $Enums.CompensationStatus
+    glEntryId?: string | null
+    confirmedAt?: Date | string | null
+    confirmedBy?: string | null
+    cancelledAt?: Date | string | null
+    cancelledBy?: string | null
+    cancelReason?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CompensationCreateOrConnectWithoutLinesInput = {
+    where: CompensationWhereUniqueInput
+    create: XOR<CompensationCreateWithoutLinesInput, CompensationUncheckedCreateWithoutLinesInput>
+  }
+
+  export type InvoiceCreateWithoutCompensationLinesInput = {
+    id?: string
+    invoiceNumber: string
+    invoiceType: $Enums.InvoiceType
+    partyRefId: string
+    orderRefId: string
+    currency: string
+    total: Decimal | DecimalJsLike | number | string
+    paidAmount?: Decimal | DecimalJsLike | number | string
+    status?: $Enums.InvoiceStatus
+    issuedAt?: Date | string
+    dueAt?: Date | string | null
+    costCenterId?: string | null
+    dimensions?: NullableJsonNullValueInput | InputJsonValue
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutInvoicesInput
+    payments?: PaymentCreateNestedManyWithoutInvoiceInput
+    allocations?: PaymentAllocationCreateNestedManyWithoutInvoiceInput
+  }
+
+  export type InvoiceUncheckedCreateWithoutCompensationLinesInput = {
+    id?: string
+    tenantId: string
+    invoiceNumber: string
+    invoiceType: $Enums.InvoiceType
+    partyRefId: string
+    orderRefId: string
+    currency: string
+    total: Decimal | DecimalJsLike | number | string
+    paidAmount?: Decimal | DecimalJsLike | number | string
+    status?: $Enums.InvoiceStatus
+    issuedAt?: Date | string
+    dueAt?: Date | string | null
+    costCenterId?: string | null
+    dimensions?: NullableJsonNullValueInput | InputJsonValue
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    payments?: PaymentUncheckedCreateNestedManyWithoutInvoiceInput
+    allocations?: PaymentAllocationUncheckedCreateNestedManyWithoutInvoiceInput
+  }
+
+  export type InvoiceCreateOrConnectWithoutCompensationLinesInput = {
+    where: InvoiceWhereUniqueInput
+    create: XOR<InvoiceCreateWithoutCompensationLinesInput, InvoiceUncheckedCreateWithoutCompensationLinesInput>
+  }
+
+  export type TenantUpsertWithoutCompensationLinesInput = {
+    update: XOR<TenantUpdateWithoutCompensationLinesInput, TenantUncheckedUpdateWithoutCompensationLinesInput>
+    create: XOR<TenantCreateWithoutCompensationLinesInput, TenantUncheckedCreateWithoutCompensationLinesInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutCompensationLinesInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutCompensationLinesInput, TenantUncheckedUpdateWithoutCompensationLinesInput>
+  }
+
+  export type TenantUpdateWithoutCompensationLinesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUpdateManyWithoutTenantNestedInput
+    users?: UserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    products?: ProductUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUpdateManyWithoutTenantNestedInput
+    leads?: LeadUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
+    comments?: CommentUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
+    exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
+    breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
+    masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
+    supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
+    employees?: EmployeeUpdateManyWithoutTenantNestedInput
+    assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
+    rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
+    containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
+    installedAssets?: InstalledAssetUpdateManyWithoutTenantNestedInput
+    serviceRequests?: ServiceRequestUpdateManyWithoutTenantNestedInput
+    serviceOrders?: ServiceOrderUpdateManyWithoutTenantNestedInput
+    serviceOrderParts?: ServiceOrderPartUpdateManyWithoutTenantNestedInput
+    rmas?: RmaUpdateManyWithoutTenantNestedInput
+    glAccounts?: GlAccountUpdateManyWithoutTenantNestedInput
+    glJournalEntries?: GlJournalEntryUpdateManyWithoutTenantNestedInput
+    glJournalLines?: GlJournalLineUpdateManyWithoutTenantNestedInput
+    glSystemAccounts?: GlSystemAccountUpdateManyWithoutTenantNestedInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
+    glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutCompensationLinesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUncheckedUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUncheckedUpdateManyWithoutTenantNestedInput
+    users?: UserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUncheckedUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUncheckedUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUncheckedUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUncheckedUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUncheckedUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUncheckedUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    products?: ProductUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUncheckedUpdateManyWithoutTenantNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUncheckedUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUncheckedUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUncheckedUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUncheckedUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUncheckedUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
+    exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
+    breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
+    masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
+    supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
+    employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
+    assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
+    rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
+    containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
+    installedAssets?: InstalledAssetUncheckedUpdateManyWithoutTenantNestedInput
+    serviceRequests?: ServiceRequestUncheckedUpdateManyWithoutTenantNestedInput
+    serviceOrders?: ServiceOrderUncheckedUpdateManyWithoutTenantNestedInput
+    serviceOrderParts?: ServiceOrderPartUncheckedUpdateManyWithoutTenantNestedInput
+    rmas?: RmaUncheckedUpdateManyWithoutTenantNestedInput
+    glAccounts?: GlAccountUncheckedUpdateManyWithoutTenantNestedInput
+    glJournalEntries?: GlJournalEntryUncheckedUpdateManyWithoutTenantNestedInput
+    glJournalLines?: GlJournalLineUncheckedUpdateManyWithoutTenantNestedInput
+    glSystemAccounts?: GlSystemAccountUncheckedUpdateManyWithoutTenantNestedInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
+    glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type CompensationUpsertWithoutLinesInput = {
+    update: XOR<CompensationUpdateWithoutLinesInput, CompensationUncheckedUpdateWithoutLinesInput>
+    create: XOR<CompensationCreateWithoutLinesInput, CompensationUncheckedCreateWithoutLinesInput>
+    where?: CompensationWhereInput
+  }
+
+  export type CompensationUpdateToOneWithWhereWithoutLinesInput = {
+    where?: CompensationWhereInput
+    data: XOR<CompensationUpdateWithoutLinesInput, CompensationUncheckedUpdateWithoutLinesInput>
+  }
+
+  export type CompensationUpdateWithoutLinesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    legalEntityId?: StringFieldUpdateOperationsInput | string
+    compensationNumber?: StringFieldUpdateOperationsInput | string
+    partnerId?: StringFieldUpdateOperationsInput | string
+    currency?: StringFieldUpdateOperationsInput | string
+    totalAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    bookingDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumCompensationStatusFieldUpdateOperationsInput | $Enums.CompensationStatus
+    glEntryId?: NullableStringFieldUpdateOperationsInput | string | null
+    confirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    confirmedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cancelledBy?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelReason?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutCompensationsNestedInput
+  }
+
+  export type CompensationUncheckedUpdateWithoutLinesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    legalEntityId?: StringFieldUpdateOperationsInput | string
+    compensationNumber?: StringFieldUpdateOperationsInput | string
+    partnerId?: StringFieldUpdateOperationsInput | string
+    currency?: StringFieldUpdateOperationsInput | string
+    totalAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    bookingDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumCompensationStatusFieldUpdateOperationsInput | $Enums.CompensationStatus
+    glEntryId?: NullableStringFieldUpdateOperationsInput | string | null
+    confirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    confirmedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cancelledBy?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelReason?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InvoiceUpsertWithoutCompensationLinesInput = {
+    update: XOR<InvoiceUpdateWithoutCompensationLinesInput, InvoiceUncheckedUpdateWithoutCompensationLinesInput>
+    create: XOR<InvoiceCreateWithoutCompensationLinesInput, InvoiceUncheckedCreateWithoutCompensationLinesInput>
+    where?: InvoiceWhereInput
+  }
+
+  export type InvoiceUpdateToOneWithWhereWithoutCompensationLinesInput = {
+    where?: InvoiceWhereInput
+    data: XOR<InvoiceUpdateWithoutCompensationLinesInput, InvoiceUncheckedUpdateWithoutCompensationLinesInput>
+  }
+
+  export type InvoiceUpdateWithoutCompensationLinesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    invoiceNumber?: StringFieldUpdateOperationsInput | string
+    invoiceType?: EnumInvoiceTypeFieldUpdateOperationsInput | $Enums.InvoiceType
+    partyRefId?: StringFieldUpdateOperationsInput | string
+    orderRefId?: StringFieldUpdateOperationsInput | string
+    currency?: StringFieldUpdateOperationsInput | string
+    total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    paidAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
+    issuedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    dueAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    costCenterId?: NullableStringFieldUpdateOperationsInput | string | null
+    dimensions?: NullableJsonNullValueInput | InputJsonValue
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutInvoicesNestedInput
+    payments?: PaymentUpdateManyWithoutInvoiceNestedInput
+    allocations?: PaymentAllocationUpdateManyWithoutInvoiceNestedInput
+  }
+
+  export type InvoiceUncheckedUpdateWithoutCompensationLinesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    invoiceNumber?: StringFieldUpdateOperationsInput | string
+    invoiceType?: EnumInvoiceTypeFieldUpdateOperationsInput | $Enums.InvoiceType
+    partyRefId?: StringFieldUpdateOperationsInput | string
+    orderRefId?: StringFieldUpdateOperationsInput | string
+    currency?: StringFieldUpdateOperationsInput | string
+    total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    paidAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
+    issuedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    dueAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    costCenterId?: NullableStringFieldUpdateOperationsInput | string | null
+    dimensions?: NullableJsonNullValueInput | InputJsonValue
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    payments?: PaymentUncheckedUpdateManyWithoutInvoiceNestedInput
+    allocations?: PaymentAllocationUncheckedUpdateManyWithoutInvoiceNestedInput
   }
 
   export type TenantConfigurationVersionCreateManyTenantInput = {
@@ -322479,6 +329105,7 @@ export namespace Prisma {
     reference?: string | null
     receivedAt?: Date | string
     createdBy?: string | null
+    reversesPaymentId?: string | null
   }
 
   export type PortalUserCreateManyTenantInput = {
@@ -323205,6 +329832,35 @@ export namespace Prisma {
     amount: Decimal | DecimalJsLike | number | string
     createdBy?: string | null
     createdAt?: Date | string
+  }
+
+  export type CompensationCreateManyTenantInput = {
+    id?: string
+    legalEntityId: string
+    compensationNumber: string
+    partnerId: string
+    currency: string
+    totalAmount: Decimal | DecimalJsLike | number | string
+    bookingDate: Date | string
+    status?: $Enums.CompensationStatus
+    glEntryId?: string | null
+    confirmedAt?: Date | string | null
+    confirmedBy?: string | null
+    cancelledAt?: Date | string | null
+    cancelledBy?: string | null
+    cancelReason?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CompensationLineCreateManyTenantInput = {
+    id?: string
+    compensationId: string
+    invoiceId: string
+    side: $Enums.CompensationSide
+    amount: Decimal | DecimalJsLike | number | string
+    paymentId?: string | null
   }
 
   export type TenantConfigurationVersionUpdateWithoutTenantInput = {
@@ -325342,6 +331998,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     payments?: PaymentUpdateManyWithoutInvoiceNestedInput
     allocations?: PaymentAllocationUpdateManyWithoutInvoiceNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutInvoiceNestedInput
   }
 
   export type InvoiceUncheckedUpdateWithoutTenantInput = {
@@ -325363,6 +332020,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     payments?: PaymentUncheckedUpdateManyWithoutInvoiceNestedInput
     allocations?: PaymentAllocationUncheckedUpdateManyWithoutInvoiceNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutInvoiceNestedInput
   }
 
   export type InvoiceUncheckedUpdateManyWithoutTenantInput = {
@@ -325393,6 +332051,8 @@ export namespace Prisma {
     receivedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     invoice?: InvoiceUpdateOneRequiredWithoutPaymentsNestedInput
+    reverses?: PaymentUpdateOneWithoutReversedByNestedInput
+    reversedBy?: PaymentUpdateManyWithoutReversesNestedInput
   }
 
   export type PaymentUncheckedUpdateWithoutTenantInput = {
@@ -325404,6 +332064,8 @@ export namespace Prisma {
     reference?: NullableStringFieldUpdateOperationsInput | string | null
     receivedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    reversesPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    reversedBy?: PaymentUncheckedUpdateManyWithoutReversesNestedInput
   }
 
   export type PaymentUncheckedUpdateManyWithoutTenantInput = {
@@ -325415,6 +332077,7 @@ export namespace Prisma {
     reference?: NullableStringFieldUpdateOperationsInput | string | null
     receivedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    reversesPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type PortalUserUpdateWithoutTenantInput = {
@@ -327643,6 +334306,95 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type CompensationUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    legalEntityId?: StringFieldUpdateOperationsInput | string
+    compensationNumber?: StringFieldUpdateOperationsInput | string
+    partnerId?: StringFieldUpdateOperationsInput | string
+    currency?: StringFieldUpdateOperationsInput | string
+    totalAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    bookingDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumCompensationStatusFieldUpdateOperationsInput | $Enums.CompensationStatus
+    glEntryId?: NullableStringFieldUpdateOperationsInput | string | null
+    confirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    confirmedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cancelledBy?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelReason?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lines?: CompensationLineUpdateManyWithoutCompensationNestedInput
+  }
+
+  export type CompensationUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    legalEntityId?: StringFieldUpdateOperationsInput | string
+    compensationNumber?: StringFieldUpdateOperationsInput | string
+    partnerId?: StringFieldUpdateOperationsInput | string
+    currency?: StringFieldUpdateOperationsInput | string
+    totalAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    bookingDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumCompensationStatusFieldUpdateOperationsInput | $Enums.CompensationStatus
+    glEntryId?: NullableStringFieldUpdateOperationsInput | string | null
+    confirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    confirmedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cancelledBy?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelReason?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lines?: CompensationLineUncheckedUpdateManyWithoutCompensationNestedInput
+  }
+
+  export type CompensationUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    legalEntityId?: StringFieldUpdateOperationsInput | string
+    compensationNumber?: StringFieldUpdateOperationsInput | string
+    partnerId?: StringFieldUpdateOperationsInput | string
+    currency?: StringFieldUpdateOperationsInput | string
+    totalAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    bookingDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumCompensationStatusFieldUpdateOperationsInput | $Enums.CompensationStatus
+    glEntryId?: NullableStringFieldUpdateOperationsInput | string | null
+    confirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    confirmedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cancelledBy?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelReason?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CompensationLineUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    side?: EnumCompensationSideFieldUpdateOperationsInput | $Enums.CompensationSide
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    paymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    compensation?: CompensationUpdateOneRequiredWithoutLinesNestedInput
+    invoice?: InvoiceUpdateOneRequiredWithoutCompensationLinesNestedInput
+  }
+
+  export type CompensationLineUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    compensationId?: StringFieldUpdateOperationsInput | string
+    invoiceId?: StringFieldUpdateOperationsInput | string
+    side?: EnumCompensationSideFieldUpdateOperationsInput | $Enums.CompensationSide
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    paymentId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type CompensationLineUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    compensationId?: StringFieldUpdateOperationsInput | string
+    invoiceId?: StringFieldUpdateOperationsInput | string
+    side?: EnumCompensationSideFieldUpdateOperationsInput | $Enums.CompensationSide
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    paymentId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
   export type BusinessUnitCreateManyLegalEntityInput = {
     id?: string
     tenantId: string
@@ -329418,6 +336170,7 @@ export namespace Prisma {
     reference?: string | null
     receivedAt?: Date | string
     createdBy?: string | null
+    reversesPaymentId?: string | null
   }
 
   export type PaymentAllocationCreateManyInvoiceInput = {
@@ -329431,6 +336184,15 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
+  export type CompensationLineCreateManyInvoiceInput = {
+    id?: string
+    tenantId: string
+    compensationId: string
+    side: $Enums.CompensationSide
+    amount: Decimal | DecimalJsLike | number | string
+    paymentId?: string | null
+  }
+
   export type PaymentUpdateWithoutInvoiceInput = {
     id?: StringFieldUpdateOperationsInput | string
     paymentNumber?: StringFieldUpdateOperationsInput | string
@@ -329440,6 +336202,8 @@ export namespace Prisma {
     receivedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     tenant?: TenantUpdateOneRequiredWithoutPaymentsNestedInput
+    reverses?: PaymentUpdateOneWithoutReversedByNestedInput
+    reversedBy?: PaymentUpdateManyWithoutReversesNestedInput
   }
 
   export type PaymentUncheckedUpdateWithoutInvoiceInput = {
@@ -329451,6 +336215,8 @@ export namespace Prisma {
     reference?: NullableStringFieldUpdateOperationsInput | string | null
     receivedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    reversesPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    reversedBy?: PaymentUncheckedUpdateManyWithoutReversesNestedInput
   }
 
   export type PaymentUncheckedUpdateManyWithoutInvoiceInput = {
@@ -329462,6 +336228,7 @@ export namespace Prisma {
     reference?: NullableStringFieldUpdateOperationsInput | string | null
     receivedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    reversesPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type PaymentAllocationUpdateWithoutInvoiceInput = {
@@ -329495,6 +336262,83 @@ export namespace Prisma {
     amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CompensationLineUpdateWithoutInvoiceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    side?: EnumCompensationSideFieldUpdateOperationsInput | $Enums.CompensationSide
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    paymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    tenant?: TenantUpdateOneRequiredWithoutCompensationLinesNestedInput
+    compensation?: CompensationUpdateOneRequiredWithoutLinesNestedInput
+  }
+
+  export type CompensationLineUncheckedUpdateWithoutInvoiceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    compensationId?: StringFieldUpdateOperationsInput | string
+    side?: EnumCompensationSideFieldUpdateOperationsInput | $Enums.CompensationSide
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    paymentId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type CompensationLineUncheckedUpdateManyWithoutInvoiceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    compensationId?: StringFieldUpdateOperationsInput | string
+    side?: EnumCompensationSideFieldUpdateOperationsInput | $Enums.CompensationSide
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    paymentId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type PaymentCreateManyReversesInput = {
+    id?: string
+    tenantId: string
+    paymentNumber: string
+    invoiceId: string
+    amount: Decimal | DecimalJsLike | number | string
+    currency: string
+    reference?: string | null
+    receivedAt?: Date | string
+    createdBy?: string | null
+  }
+
+  export type PaymentUpdateWithoutReversesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    paymentNumber?: StringFieldUpdateOperationsInput | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    reference?: NullableStringFieldUpdateOperationsInput | string | null
+    receivedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    tenant?: TenantUpdateOneRequiredWithoutPaymentsNestedInput
+    invoice?: InvoiceUpdateOneRequiredWithoutPaymentsNestedInput
+    reversedBy?: PaymentUpdateManyWithoutReversesNestedInput
+  }
+
+  export type PaymentUncheckedUpdateWithoutReversesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    paymentNumber?: StringFieldUpdateOperationsInput | string
+    invoiceId?: StringFieldUpdateOperationsInput | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    reference?: NullableStringFieldUpdateOperationsInput | string | null
+    receivedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    reversedBy?: PaymentUncheckedUpdateManyWithoutReversesNestedInput
+  }
+
+  export type PaymentUncheckedUpdateManyWithoutReversesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    paymentNumber?: StringFieldUpdateOperationsInput | string
+    invoiceId?: StringFieldUpdateOperationsInput | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    reference?: NullableStringFieldUpdateOperationsInput | string | null
+    receivedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type BudgetCreateManyCostCenterInput = {
@@ -330537,6 +337381,42 @@ export namespace Prisma {
     amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CompensationLineCreateManyCompensationInput = {
+    id?: string
+    tenantId: string
+    invoiceId: string
+    side: $Enums.CompensationSide
+    amount: Decimal | DecimalJsLike | number | string
+    paymentId?: string | null
+  }
+
+  export type CompensationLineUpdateWithoutCompensationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    side?: EnumCompensationSideFieldUpdateOperationsInput | $Enums.CompensationSide
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    paymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    tenant?: TenantUpdateOneRequiredWithoutCompensationLinesNestedInput
+    invoice?: InvoiceUpdateOneRequiredWithoutCompensationLinesNestedInput
+  }
+
+  export type CompensationLineUncheckedUpdateWithoutCompensationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    invoiceId?: StringFieldUpdateOperationsInput | string
+    side?: EnumCompensationSideFieldUpdateOperationsInput | $Enums.CompensationSide
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    paymentId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type CompensationLineUncheckedUpdateManyWithoutCompensationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    invoiceId?: StringFieldUpdateOperationsInput | string
+    side?: EnumCompensationSideFieldUpdateOperationsInput | $Enums.CompensationSide
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    paymentId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
 

@@ -1,9 +1,9 @@
-# HANDOFF — 17.09.2026 (Sprint 213)
+# HANDOFF — 17.09.2026 (Sprint 214)
 
-Stanje: Sprint 213 završen na grani `docs/software-factory-md-v1`. FIN-030 bankovni izvodi (uvoz s kontrolnim zbirovima, duplikat 409, izričita potvrda, period-lock guard, odbacivanje), FIN-031 zatvaranje (alokacija stavke na fakturu kroz FIN-014 paidAmount, bez GL knjiženja, djelimično, idempotentan allocationKey, smjer/valuta/prekomjerno), AI-016 VisionPort + dev adapter (samo prijedlog, AI_VISION_DEV=1). UI: /bank. Ispravljen i cross-period storno u karticama (par se skriva samo kad su obje polovine unutar perioda) + 3 regresiona testa.
+Stanje: Sprint 214 (FIN-032 kompenzacije) završen na `docs/software-factory-md-v1`. Tok: otvorene stavke → nacrt (djelimični iznosi, jednake strane) → izričita potvrda (FIN-014 uplate + jedan COMPENSATION nalog) → štampani dokument → kontrolisano poništenje (releasePayment negativna ogledala + storno + audit). Novi zajednički mehanizam: FinanceService.releasePayment (unique reversesPaymentId). Period-lock pre-check prije efekata; step-idempotentnost; konkurentna potvrda ne duplira. Matrica: FIN-032 DONE (loan settlements ne), AI-016 vraćen na PARTIAL (samo dev). Sprint212 testovi datumski deterministički.
 
-Provjere: sprint211 9/9, sprint212 9/9, sprint213 10/10 (INTEGRATION=1); turbo typecheck ✓; lint 0 errors; web build ✓. Migracija 20260917000213 primijenjena samo lokalno.
+Provjere: 38/38 (211:9, 212:9, 213:10, 214:10) uz INTEGRATION=1; turbo typecheck ✓; lint 0 errors; web build ✓ (/compensations). Migracija 20260917000214 samo lokalno.
 
-Blokada: Mac veza pala tokom sesije — restart `com.nexora.autodev` (korak 2) nije potvrđen s uređaja; sigurna skripta je u commitu ae0741a i u Mac radnom stablu. Uputa: `bash scripts/mac-auto.sh stop` pa ponovo install s grane; provjera u /tmp/nexora-auto.log.
+Blokada: LaunchAgent com.nexora.autodev i dalje NEPOTVRĐEN (čeka read-only provjeru korisnika na macOS hostu); ne blokira razvoj.
 
-Sljedeće: prenos grane na Mac (bundle), potvrda restarta agenta, pa BACKLOG_DOPUNA faza 1 uz odobrenje.
+Sljedeće: FIN-028 KUF/KIF + PDV ("accounting-bih" config paket) — pripremljen prijedlog u CURRENT_SPRINT, čeka odobrenje.

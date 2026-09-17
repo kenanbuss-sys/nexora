@@ -29,6 +29,15 @@ export {
   type PaymentGate,
 } from './bank-statement.service';
 export {
+  CompensationService,
+  type CompensationDraftInput,
+  type CompensationLedgerGate,
+  type CompensationLineInput,
+  type CompensationLineView,
+  type CompensationPaymentGate,
+  type CompensationView,
+} from './compensation.service';
+export {
   GL_ENTRY_TYPES,
   LedgerService,
   type GlEntryType,

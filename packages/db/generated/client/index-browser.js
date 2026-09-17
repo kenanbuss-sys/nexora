@@ -1091,7 +1091,8 @@ exports.Prisma.PaymentScalarFieldEnum = {
   currency: 'currency',
   reference: 'reference',
   receivedAt: 'receivedAt',
-  createdBy: 'createdBy'
+  createdBy: 'createdBy',
+  reversesPaymentId: 'reversesPaymentId'
 };
 
 exports.Prisma.PortalUserScalarFieldEnum = {
@@ -1866,6 +1867,37 @@ exports.Prisma.PaymentAllocationScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.CompensationScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  legalEntityId: 'legalEntityId',
+  compensationNumber: 'compensationNumber',
+  partnerId: 'partnerId',
+  currency: 'currency',
+  totalAmount: 'totalAmount',
+  bookingDate: 'bookingDate',
+  status: 'status',
+  glEntryId: 'glEntryId',
+  confirmedAt: 'confirmedAt',
+  confirmedBy: 'confirmedBy',
+  cancelledAt: 'cancelledAt',
+  cancelledBy: 'cancelledBy',
+  cancelReason: 'cancelReason',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.CompensationLineScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  compensationId: 'compensationId',
+  invoiceId: 'invoiceId',
+  side: 'side',
+  amount: 'amount',
+  paymentId: 'paymentId'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -2312,6 +2344,17 @@ exports.BankStatementLineStatus = exports.$Enums.BankStatementLineStatus = {
   ALLOCATED: 'ALLOCATED'
 };
 
+exports.CompensationStatus = exports.$Enums.CompensationStatus = {
+  DRAFT: 'DRAFT',
+  CONFIRMED: 'CONFIRMED',
+  CANCELLED: 'CANCELLED'
+};
+
+exports.CompensationSide = exports.$Enums.CompensationSide = {
+  RECEIVABLE: 'RECEIVABLE',
+  PAYABLE: 'PAYABLE'
+};
+
 exports.Prisma.ModelName = {
   Tenant: 'Tenant',
   TenantConfigurationVersion: 'TenantConfigurationVersion',
@@ -2455,7 +2498,9 @@ exports.Prisma.ModelName = {
   GlPeriodLock: 'GlPeriodLock',
   BankStatement: 'BankStatement',
   BankStatementLine: 'BankStatementLine',
-  PaymentAllocation: 'PaymentAllocation'
+  PaymentAllocation: 'PaymentAllocation',
+  Compensation: 'Compensation',
+  CompensationLine: 'CompensationLine'
 };
 
 /**

@@ -12,6 +12,13 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 const integration = process.env.INTEGRATION === '1' ? describe : describe.skip;
 
 const DB_URL = process.env.DATABASE_URL ?? 'postgresql://app:app@localhost:5432/enterprise_os';
+
+// Deterministic period bounds: the storno mirror is always dated
+// "today", so in-period ranges end at TODAY and the strictly-after
+// range starts at TODAY+1 — stable regardless of the run date.
+const TODAY = new Date().toISOString().slice(0, 10);
+const addDays = (iso: string, days: number) =>
+  new Date(new Date(iso).getTime() + days * 86_400_000).toISOString().slice(0, 10);
 const SECRET = process.env.DEV_AUTH_SECRET ?? 'dev-secret-change-me';
 
 integration('Sprint 212 — ledger cards & trial balance', () => {
@@ -166,7 +173,7 @@ integration('Sprint 212 — ledger cards & trial balance', () => {
   it('FIN-027: the account card shows opening, turnover and closing per entry', async () => {
     const card = await api(
       'GET',
-      `/api/v1/ledger/reports/account-card?legalEntityId=${le}&accountId=${accKupci}&from=2026-09-01&to=2026-09-30`,
+      `/api/v1/ledger/reports/account-card?legalEntityId=${le}&accountId=${accKupci}&from=2026-09-01&to=${TODAY}`,
       tokenA,
     );
     expect(card.status).toBe(200);
@@ -179,7 +186,7 @@ integration('Sprint 212 — ledger cards & trial balance', () => {
   it('FIN-027: includeStorno reveals the pair without changing the closing balance', async () => {
     const card = await api(
       'GET',
-      `/api/v1/ledger/reports/account-card?legalEntityId=${le}&accountId=${accKupci}&from=2026-09-01&to=2026-09-30&includeStorno=true`,
+      `/api/v1/ledger/reports/account-card?legalEntityId=${le}&accountId=${accKupci}&from=2026-09-01&to=${TODAY}&includeStorno=true`,
       tokenA,
     );
     const rows = card.body.rows as Array<{ entryType: string; debit: string; credit: string }>;
@@ -203,7 +210,7 @@ integration('Sprint 212 — ledger cards & trial balance', () => {
   it('FIN-029: the trial balance balances and reconciles with the cards', async () => {
     const tb = await api(
       'GET',
-      `/api/v1/ledger/reports/trial-balance?legalEntityId=${le}&from=2026-09-01&to=2026-09-30`,
+      `/api/v1/ledger/reports/trial-balance?legalEntityId=${le}&from=2026-09-01&to=${TODAY}`,
       tokenA,
     );
     expect(tb.status).toBe(200);
@@ -227,7 +234,7 @@ integration('Sprint 212 — ledger cards & trial balance', () => {
     // stay visible so the card closes at 0, matching the trial balance.
     const card = await api(
       'GET',
-      `/api/v1/ledger/reports/account-card?legalEntityId=${le}&accountId=${accGama}&from=2026-09-01&to=2026-09-30`,
+      `/api/v1/ledger/reports/account-card?legalEntityId=${le}&accountId=${accGama}&from=2026-09-01&to=${TODAY}`,
       tokenA,
     );
     expect(card.status).toBe(200);
@@ -241,7 +248,7 @@ integration('Sprint 212 — ledger cards & trial balance', () => {
     // Reconciliation: card closing == trial balance closing for the account.
     const tb = await api(
       'GET',
-      `/api/v1/ledger/reports/trial-balance?legalEntityId=${le}&from=2026-09-01&to=2026-09-30`,
+      `/api/v1/ledger/reports/trial-balance?legalEntityId=${le}&from=2026-09-01&to=${TODAY}`,
       tokenA,
     );
     const tbRows = tb.body.rows as Array<{ code: string; closing: string }>;
@@ -274,11 +281,11 @@ integration('Sprint 212 — ledger cards & trial balance', () => {
   });
 
   it('REGRESIJA: par u cijelosti prije `from` ne dodaje redove i PS ostaje tačan', async () => {
-    // Viewing October: both halves of the Gama pair are before `from`
+    // Viewing strictly after today: both halves of the Gama pair are before `from`
     // — they net to zero in the opening balance and add no rows.
     const card = await api(
       'GET',
-      `/api/v1/ledger/reports/account-card?legalEntityId=${le}&accountId=${accGama}&from=2026-10-01&to=2026-10-31`,
+      `/api/v1/ledger/reports/account-card?legalEntityId=${le}&accountId=${accGama}&from=${addDays(TODAY, 1)}&to=${addDays(TODAY, 30)}`,
       tokenA,
     );
     expect(card.body.openingBalance).toBe('0.00');
@@ -306,14 +313,14 @@ integration('Sprint 212 — ledger cards & trial balance', () => {
     const stranger = identity.signToken({ tenantSlug: 'test-s212a', subject: 'idp|s212-nobody' });
     const denied = await api(
       'GET',
-      `/api/v1/ledger/reports/trial-balance?legalEntityId=${le}&from=2026-09-01&to=2026-09-30`,
+      `/api/v1/ledger/reports/trial-balance?legalEntityId=${le}&from=2026-09-01&to=${TODAY}`,
       stranger,
     );
     expect([401, 403]).toContain(denied.status);
 
     const cross = await api(
       'GET',
-      `/api/v1/ledger/reports/trial-balance?legalEntityId=${le}&from=2026-09-01&to=2026-09-30`,
+      `/api/v1/ledger/reports/trial-balance?legalEntityId=${le}&from=2026-09-01&to=${TODAY}`,
       tokenB,
     );
     expect([403, 404]).toContain(cross.status);

@@ -165,6 +165,8 @@ model Tenant {
   bankStatements        BankStatement[]
   bankStatementLines    BankStatementLine[]
   paymentAllocations    PaymentAllocation[]
+  compensations         Compensation[]
+  compensationLines     CompensationLine[]
 
   @@map("tenant")
 }
@@ -2072,9 +2074,10 @@ model Invoice {
   createdAt     DateTime      @default(now()) @map("created_at")
   updatedAt     DateTime      @updatedAt @map("updated_at")
 
-  tenant      Tenant              @relation(fields: [tenantId], references: [id])
-  payments    Payment[]
-  allocations PaymentAllocation[]
+  tenant            Tenant              @relation(fields: [tenantId], references: [id])
+  payments          Payment[]
+  allocations       PaymentAllocation[]
+  compensationLines CompensationLine[]
 
   @@unique([tenantId, invoiceNumber])
   @@unique([tenantId, invoiceType, orderRefId])
@@ -2093,11 +2096,18 @@ model Payment {
   reference     String?
   receivedAt    DateTime @default(now()) @map("received_at")
   createdBy     String?  @map("created_by")
+  /// Sprint 214 (FIN-032): a controlled release is a NEGATIVE mirror
+  /// payment pointing at the payment it reverses — append-only, at
+  /// most one release per payment (unique below).
+  reversesPaymentId String? @map("reverses_payment_id") @db.Uuid
 
-  tenant  Tenant  @relation(fields: [tenantId], references: [id])
-  invoice Invoice @relation(fields: [invoiceId], references: [id])
+  tenant     Tenant    @relation(fields: [tenantId], references: [id])
+  invoice    Invoice   @relation(fields: [invoiceId], references: [id])
+  reverses   Payment?  @relation("PaymentReversal", fields: [reversesPaymentId], references: [id])
+  reversedBy Payment[] @relation("PaymentReversal")
 
   @@unique([tenantId, paymentNumber])
+  @@unique([tenantId, reversesPaymentId])
   @@index([tenantId, invoiceId])
   @@map("payment")
 }
@@ -3585,4 +3595,70 @@ model PaymentAllocation {
   @@index([tenantId, statementLineId])
   @@index([tenantId, invoiceId])
   @@map("payment_allocation")
+}
+
+// ---------------------------------------------------------------------------
+// Sprint 214 — FIN-032: compensation (offsetting a partner's open
+// receivables against payables). Draft -> review -> EXPLICIT confirm
+// (closes both sides through the FIN-014 payment flow and posts ONE
+// linked COMPENSATION ledger entry) -> optional controlled cancel
+// (payment releases + ledger storno), everything audited.
+// ---------------------------------------------------------------------------
+
+enum CompensationStatus {
+  DRAFT
+  CONFIRMED
+  CANCELLED
+}
+
+enum CompensationSide {
+  RECEIVABLE
+  PAYABLE
+}
+
+model Compensation {
+  id                 String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId           String             @map("tenant_id") @db.Uuid
+  legalEntityId      String             @map("legal_entity_id") @db.Uuid
+  compensationNumber String             @map("compensation_number")
+  partnerId          String             @map("partner_id") @db.Uuid
+  currency           String             @db.Char(3)
+  totalAmount        Decimal            @map("total_amount") @db.Decimal(18, 2)
+  bookingDate        DateTime           @map("booking_date") @db.Date
+  status             CompensationStatus @default(DRAFT)
+  glEntryId          String?            @map("gl_entry_id") @db.Uuid
+  confirmedAt        DateTime?          @map("confirmed_at")
+  confirmedBy        String?            @map("confirmed_by")
+  cancelledAt        DateTime?          @map("cancelled_at")
+  cancelledBy        String?            @map("cancelled_by")
+  cancelReason       String?            @map("cancel_reason")
+  createdBy          String?            @map("created_by")
+  createdAt          DateTime           @default(now()) @map("created_at")
+  updatedAt          DateTime           @updatedAt @map("updated_at")
+
+  tenant Tenant             @relation(fields: [tenantId], references: [id])
+  lines  CompensationLine[]
+
+  @@unique([tenantId, legalEntityId, compensationNumber])
+  @@index([tenantId, legalEntityId, status])
+  @@map("compensation")
+}
+
+model CompensationLine {
+  id             String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId       String           @map("tenant_id") @db.Uuid
+  compensationId String           @map("compensation_id") @db.Uuid
+  invoiceId      String           @map("invoice_id") @db.Uuid
+  side           CompensationSide
+  amount         Decimal          @db.Decimal(18, 2)
+  /// Set on confirm: the payment that closed this line (its release on cancel).
+  paymentId      String?          @map("payment_id") @db.Uuid
+
+  tenant       Tenant       @relation(fields: [tenantId], references: [id])
+  compensation Compensation @relation(fields: [compensationId], references: [id])
+  invoice      Invoice      @relation(fields: [invoiceId], references: [id])
+
+  @@unique([tenantId, compensationId, invoiceId])
+  @@index([tenantId, compensationId])
+  @@map("compensation_line")
 }
