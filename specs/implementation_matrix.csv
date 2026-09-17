@@ -511,3 +511,33 @@ ESG-007,ESG,Compliance evidence,P3,DONE,R4+,,,Sprint 207: compliance evidence as
 ESG-008,ESG,Sustainability targets,P3,DONE,R4+,,,Sprint 207: sustainability targets — caps and floors evaluated against measured actuals.
 ESG-009,ESG,ESG reporting hooks,P3,DONE,R4+,,,Sprint 207: ESG report export through connectors, exactly once per period.
 ESG-010,ESG,Operational sustainability analytics,P3,DONE,R4+,,,Sprint 207: operational analytics — energy, waste, recycling rate and CO2 per period.
+FIN-023,FIN,General ledger (journal entries, posting workflow),P1,PLANNED,R5,,,Audit 17.09.2026: FinTrack paritet — dvojno knjigovodstvo; ADR ODL-001.
+FIN-024,FIN,Chart of accounts per legal entity + system account mapping,P1,PLANNED,R5,,,FinTrack paritet: 8-cifrena konta, uloga->konto, partner analitika.
+FIN-025,FIN,Opening balances + period/ledger lock,P1,PLANNED,R5,,,FinTrack paritet: guard datumi po pravnom licu.
+FIN-026,FIN,Reversal/storno engine for posted entries,P1,PLANNED,R5,,,FinTrack paritet: zrcalni storno, posted nepromjenjiv.
+FIN-027,FIN,Account/partner cards + IOS + external client card,P1,PLANNED,R5,,,FinTrack paritet: kartice s PS kumulativom, kontrola salda prije printa.
+FIN-028,FIN,KUF/KIF + VAT ledger (BiH localization pack),P1,PLANNED,R5,,,FinTrack paritet: PDV period status, prijava.
+FIN-029,FIN,Trial balance + GL reports + profit years,P2,PLANNED,R5,,,FinTrack paritet: bruto bilans, glavna knjiga.
+FIN-030,FIN,Bank statement import + matching (vision via AI port),P1,PLANNED,R5,,,FinTrack paritet: dedup, kontrola sume, arhiva PDF-a.
+FIN-031,FIN,Payment allocation / open-item clearing,P1,PLANNED,R5,,,FinTrack paritet: zatvaranje potrazivanja, izvedeni paid/remaining.
+FIN-032,FIN,Compensations + loan settlements with printed statement,P2,PLANNED,R5,,,FinTrack paritet.
+FIN-033,FIN,AI posting proposals (precedent-based, draft-only),P2,PLANNED,R5,,,FinTrack paritet: sigurnost racuna KOD, nikad auto-post.
+HCM-013,HCM,Payroll calculation + payslips,P1,PLANNED,R5,,,FinTrack paritet: fond dana, bonusi, draft->confirmed, listici PDF.
+HCM-014,HCM,Salary data + field-level salary permissions,P1,PLANNED,R5,,,FinTrack paritet: salary krug, contract-scope, management lock; FieldPolicy.
+HCM-015,HCM,Attendance status matrix + change audit + hours digest,P1,PLANNED,R5,,,FinTrack paritet: koegzistira s HCM-003 clock modelom (ODL-002).
+HCM-016,HCM,Employment contract generation + expiry alerts,P2,PLANNED,R5,,,FinTrack paritet: sabloni, iznos slovima, istek <30d.
+HCM-017,HCM,Incentives: bonuses, leagues, agent checklists + coaching,P2,PLANNED,R5,,,FinTrack paritet: trener-scope server-side, rekontrole.
+HCM-018,HCM,Employee self-service portal (own data only),P2,PLANNED,R5,,,FinTrack paritet: plata zabranjena po dizajnu, rate-limit.
+HCM-019,HCM,Worker QR ID + limited public view,P3,PLANNED,R5,,,FinTrack paritet: workers_qr_data.
+HCM-020,HCM,HR platform parity (evaluations, DISC/Big5, competencies),P1,BLOCKED,R5,,,BLOKIRANO (ODL-005): izvor kenanbuss-sys/xcalltech-hr nedostupan.
+WF-013,WF,Multi-assignee tasks: per-person status + recurring logs,P1,PLANNED,R5,,,FinTrack paritet: zavrsen tek kad svi zavrse; dnevni log periodicnih.
+WF-014,WF,Meetings: agenda, minutes, decisions, carry-over (safe AI agenda),P2,PLANNED,R5,,,FinTrack paritet: whitelist izvora + code filter + review queue.
+EAM-015,EAM,Equipment custody: assignments, group receipts, returns,P1,PLANNED,R5,,,FinTrack paritet: zaduzenje_token, reversi, audit printa.
+EAM-016,EAM,Asset QR labels + limited public lookup,P2,PLANNED,R5,,,FinTrack paritet: server-side funkcija, samo neosjetljiva polja.
+EAM-017,EAM,Fleet management (fuel, services, vehicle custody, alerts),P2,PLANNED,R5,,,FinTrack paritet: total_km semantiku razjasniti (ne prenositi slijepo).
+BI-016,BI,Operational control center (multi-screen realtime),P3,PLANNED,R5,,,FinTrack paritet: povjerljivi mod iza permisije.
+AI-015,AI,Voice assistant over user-scoped tools,P3,PLANNED,R5,,,FinTrack paritet: alati pod korisnikovim pravima; STT/TTS adapteri.
+AI-016,AI,Document vision extraction port (invoices, statements),P1,PLANNED,R5,,,FinTrack paritet: provider-neutral; potvrda korisnika obavezna.
+IAM-015,IAM,Passkey (WebAuthn) authentication,P3,PLANNED,R5,,,FinTrack paritet: uz postojeci step-up/TOTP tok.
+OPS-019,OPS,Per-tenant data export bundles + restore drill,P2,PLANNED,R5,,,FinTrack paritet: lista tabela iz seme, ne rucno.
+DOC-013,DOC,In-app manuals with per-permission visibility,P3,PLANNED,R5,,,FinTrack paritet: Uputstva tab.

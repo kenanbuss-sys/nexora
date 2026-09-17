@@ -5,7 +5,7 @@ Authoritative specification pack for building a premium, modular, multi-tenant, 
 This pack is intentionally customer-neutral. Tenant-specific names, branding, workflows and legacy-system details belong only in implementation configuration, never in the generic core.
 
 ## Included
-- product vision and 475-capability master catalog
+- product vision and master capability catalog (542 capabilities across 34 domains — see docs/02_MASTER_CAPABILITY_CATALOG.md)
 - bounded contexts and data ownership
 - canonical data model and ERD
 - event catalog and state machines

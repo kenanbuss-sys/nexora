@@ -1,6 +1,6 @@
 # Master Capability Catalog
 
-**34 domains · 512 capabilities**
+**34 domains · 542 capabilities** (512 original + 30 added by FinTrack/HR coverage audit 2026-09-17 — see specs/fintrack_hr_coverage_matrix.csv)
 
 P0 foundation · P1 core enterprise · P2 advanced enterprise · P3 strategic/optional
 
@@ -47,6 +47,7 @@ P0 foundation · P1 core enterprise · P2 advanced enterprise · P3 strategic/op
 | IAM-012 | Step-up authentication |
 | IAM-013 | Security event logging |
 | IAM-014 | Break-glass access |
+| IAM-015 | Passkey (WebAuthn) authentication |
 
 ## MDM [P0]
 
@@ -360,6 +361,9 @@ P0 foundation · P1 core enterprise · P2 advanced enterprise · P3 strategic/op
 | EAM-012 | Asset warranty/contracts |
 | EAM-013 | Asset costs |
 | EAM-014 | Condition-monitoring hooks |
+| EAM-015 | Equipment custody: assignments, group receipts, returns |
+| EAM-016 | Asset QR labels + limited public lookup |
+| EAM-017 | Fleet management (fuel, services, vehicle custody, alerts) |
 
 ## SVC [P2]
 
@@ -434,6 +438,14 @@ P0 foundation · P1 core enterprise · P2 advanced enterprise · P3 strategic/op
 | HCM-010 | Onboarding/offboarding |
 | HCM-011 | Safety/EHS hooks |
 | HCM-012 | Payroll integration |
+| HCM-013 | Payroll calculation + payslips |
+| HCM-014 | Salary data + field-level salary permissions |
+| HCM-015 | Attendance status matrix + change audit + hours digest |
+| HCM-016 | Employment contract generation + expiry alerts |
+| HCM-017 | Incentives: bonuses, leagues, agent checklists + coaching |
+| HCM-018 | Employee self-service portal (own data only) |
+| HCM-019 | Worker QR ID + limited public view |
+| HCM-020 | HR platform parity (evaluations, DISC/Big5, competencies) |
 
 ## DOC [P1]
 
@@ -451,6 +463,7 @@ P0 foundation · P1 core enterprise · P2 advanced enterprise · P3 strategic/op
 | DOC-010 | OCR capture hooks |
 | DOC-011 | Retention |
 | DOC-012 | Document access policy |
+| DOC-013 | In-app manuals with per-permission visibility |
 
 ## FIN [P1]
 
@@ -478,6 +491,17 @@ P0 foundation · P1 core enterprise · P2 advanced enterprise · P3 strategic/op
 | FIN-020 | Accounting integration |
 | FIN-021 | Tax/fiscal/eInvoice adapters |
 | FIN-022 | Invoice matching |
+| FIN-023 | General ledger (journal entries, posting workflow) |
+| FIN-024 | Chart of accounts per legal entity + system account mapping |
+| FIN-025 | Opening balances + period/ledger lock |
+| FIN-026 | Reversal/storno engine for posted entries |
+| FIN-027 | Account/partner cards + IOS + external client card |
+| FIN-028 | KUF/KIF + VAT ledger (BiH localization pack) |
+| FIN-029 | Trial balance + GL reports + profit years |
+| FIN-030 | Bank statement import + matching (vision via AI port) |
+| FIN-031 | Payment allocation / open-item clearing |
+| FIN-032 | Compensations + loan settlements with printed statement |
+| FIN-033 | AI posting proposals (precedent-based, draft-only) |
 
 ## BI [P1]
 
@@ -498,6 +522,7 @@ P0 foundation · P1 core enterprise · P2 advanced enterprise · P3 strategic/op
 | BI-013 | Process analytics |
 | BI-014 | Control Center |
 | BI-015 | Governed data export |
+| BI-016 | Operational control center (multi-screen realtime) |
 
 ## AI [P3]
 
@@ -517,6 +542,8 @@ P0 foundation · P1 core enterprise · P2 advanced enterprise · P3 strategic/op
 | AI-012 | Controlled agents |
 | AI-013 | Knowledge assistant |
 | AI-014 | AI explanation/audit |
+| AI-015 | Voice assistant over user-scoped tools |
+| AI-016 | Document vision extraction port (invoices, statements) |
 
 ## INT [P0]
 
@@ -578,6 +605,8 @@ P0 foundation · P1 core enterprise · P2 advanced enterprise · P3 strategic/op
 | WF-010 | Audit/explanation |
 | WF-011 | Reusable templates |
 | WF-012 | Override governance |
+| WF-013 | Multi-assignee tasks: per-person status + recurring logs |
+| WF-014 | Meetings: agenda, minutes, decisions, carry-over (safe AI agenda) |
 
 ## OPS [P0]
 
@@ -601,6 +630,7 @@ P0 foundation · P1 core enterprise · P2 advanced enterprise · P3 strategic/op
 | OPS-016 | Status-page hooks |
 | OPS-017 | Tenant data export/offboarding |
 | OPS-018 | Cost observability |
+| OPS-019 | Per-tenant data export bundles + restore drill |
 
 ## GRC [P3]
 
