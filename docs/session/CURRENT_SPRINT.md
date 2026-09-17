@@ -206,3 +206,20 @@ Otvoreno (master backlog): vizuelni pregled 215–223 (vlasnik); LaunchAgent NEP
 - [x] **Startup skripte razjašnjene**: `scripts/mac-dev.sh` = macOS (brew servisi, aditivne migracije, build, API health-check s jasnom greškom, web na :3000; ne resetuje bazu, ne seeduje) — TO je naredba za lokalni Mac stack; `scripts/dev-up.sh` = isključivo Linux cloud sandbox (service/redis-server; ne postoji na macOS-u).
 - [x] **Mac checkout (kroz VM most)**: sačuvano prije izmjena — HEAD ref, reflog, status i tar 35 untracked fajlova u `NEXORA 2026/bundles/mac-backup-174929/`; reflog pregledan: **nema izgubljenih lokalnih commitova** (log --branches --not --remotes prazan); reflog dokazuje da je stari agent radio `reset: moving to origin/main` (zadnji u 17:34, poslije gašenja nema novih). Stale git lockovi preimenovani (ne obrisani). **FF na 0fca290 kroz VM mount NIJE uspio** — mount ovoj sesiji ne dozvoljava zamjenu/brisanje fajlova (rename-over ORIG_HEAD/index odbijen), pa usklađivanje ostaje za macOS Terminal (naredba u HANDOFF-u). LaunchAgent potvrđeno ugašen (korisnik: bootout "No such process", launchctl print prazan, pgrep prazan).
 - Lokalno pokretanje localhost:3000: iz sesije NEPOTVRĐENO (nema macOS host pristupa; VM localhost ≠ Mac localhost).
+
+# Sprint 225 — 17.09.2026: Demo tenant „Make Consulting d.o.o. Srebrenik (DEMO)"
+
+- [x] **scripts/seed-make-demo.mjs** — ponovljiv, ADITIVAN demo generator (tenant `make`): provjera postojanja po stabilnim šiframa u svakom bloku; 2 uzastopna pokretanja = identični brojevi (acc=13, par=15, ord=10, quo=3, inv=3, po=3, wo=2, emp=6, mov=21, task=4) ✓; bez resetovanja baze; postojeći tenanti netaknuti (demo: orders=2 prije/poslije) ✓
+- [x] Firma/brending isključivo u konfiguraciji tenanta (white-label: naziv „Make Consulting (DEMO)", teal/amber) — ništa u kodu; svi identifikatori jasno testni (taxId TEST-…, *.example, serijski TEST-…); fiksni referentni datum 2026-09-15
+- [x] Scenario arhitektonsko-projektantske firme: 6 klijenata + 2 dobavljača, katalog 10 SKU (oprema enterijera), početne zalihe kroz ledger, cjenovnik MAKE-STD; CRM (računi, leadovi, 1 konverzija), 3 ponude (nacrt/poslana/prihvaćena→narudžba), 10 narudžbi kroz statuse s fakturama (plaćena/djelimična/otvorena — dashboard: 24.500 fakturisano, 10.675 potraživanja iz stvarnih zapisa), nabavka (primljena/djelimična/otvorena NBN), 4 projekta (PRJ custom-objects: troškovi/prihodi/change-order), 6 zaposlenih + odobreno odsustvo (SoD), 4 zadatka, 3 sredstva, B2B portal klijent (ugovorni cjenovnik + idempotentna portal narudžba)
+- [x] Proizvodnja = OZNAČEN dodatni demo scenario („Recepcijski pult (DEMO proizvodnja)"): BOM+rutiranje+QC plan; 1 nalog završen kroz PUNI tok (MES potvrde operacija → QC inspekcija PASS uz SoD finalizaciju → complete), 1 aktivan — bez zaobilaženja validacija
+- [x] Backdating: jasno označen korak, mijenja SAMO created_at/occurred_at (narudžbe/kretanja/ponude kroz ~6 mjeseci); statusi/iznosi/veze netaknuti; preskače se bez DATABASE_URL
+- [x] UI provjere (13 snimaka, cloud preview): dashboard s KPI-jevima, narudžbe kroz statuse, CRM, ponude, nabavka, zalihe, proizvodnja, zaposleni, finansije, zadaci, projekti (kroz /objects), portal kao klijent; tenant izolacija (demo netaknut)
+- Popravke tokom razvoja (u generatoru): idempotencija partija/računa po imenu/partyId; requisition approval kroz SoD odobravatelja; MES operacije confirm+complete; QC finalize drugim korisnikom; resumable proizvodni blok
+- Jednokratna sanacija mojih ranijih duplikata u make tenantu (spajanje računa po imenu + renumeracija AC brojeva) — dokumentovano, bez diranja drugih tenanta
+
+Prioritizovani backlog (dopuna, postojeće stavke sačuvane):
+1. Namjenski /projects UI na standardu 215+ (sad se projekti gledaju kroz /objects) — VISOK za demo
+2. make: GL nalozi/banka/kompenzacije demo zapisi (ledger sekcija prazna za make) — SREDNJI
+3. Backdating proširiti na datume faktura/uplata — NIZAK
+4. CRM računi za PERSON partije (portal/narudžbe za fizička lica) — NIZAK
