@@ -1753,6 +1753,72 @@ exports.Prisma.RmaScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.GlAccountScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  legalEntityId: 'legalEntityId',
+  code: 'code',
+  name: 'name',
+  active: 'active',
+  partnerId: 'partnerId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.GlJournalEntryScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  legalEntityId: 'legalEntityId',
+  entryNo: 'entryNo',
+  entryType: 'entryType',
+  status: 'status',
+  bookingDate: 'bookingDate',
+  description: 'description',
+  stornoOfId: 'stornoOfId',
+  stornoedById: 'stornoedById',
+  postedAt: 'postedAt',
+  postedBy: 'postedBy',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.GlJournalLineScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  entryId: 'entryId',
+  accountId: 'accountId',
+  partnerId: 'partnerId',
+  debit: 'debit',
+  credit: 'credit',
+  seq: 'seq'
+};
+
+exports.Prisma.GlSystemAccountScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  legalEntityId: 'legalEntityId',
+  roleKey: 'roleKey',
+  accountId: 'accountId',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.GlOpeningBalanceDateScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  legalEntityId: 'legalEntityId',
+  openingDate: 'openingDate',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.GlPeriodLockScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  legalEntityId: 'legalEntityId',
+  lockedThrough: 'lockedThrough',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -2322,7 +2388,13 @@ exports.Prisma.ModelName = {
   ServiceRequest: 'ServiceRequest',
   ServiceOrder: 'ServiceOrder',
   ServiceOrderPart: 'ServiceOrderPart',
-  Rma: 'Rma'
+  Rma: 'Rma',
+  GlAccount: 'GlAccount',
+  GlJournalEntry: 'GlJournalEntry',
+  GlJournalLine: 'GlJournalLine',
+  GlSystemAccount: 'GlSystemAccount',
+  GlOpeningBalanceDate: 'GlOpeningBalanceDate',
+  GlPeriodLock: 'GlPeriodLock'
 };
 
 /**

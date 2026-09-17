@@ -60,11 +60,13 @@ import { FieldServiceService } from '@nexora/domain-svc';
 import { MarketingService } from '@nexora/domain-mkt';
 import { ProjectService } from '@nexora/domain-prj';
 import { QualityService } from '@nexora/domain-qc';
+import { LEDGER_SERVICE, LedgerController } from './fin/ledger.controller';
 import {
   DevBankFeedAdapter,
   ValuationService,
   ExchangeRateService,
   FinanceService,
+  LedgerService,
   TreasuryService,
 } from '@nexora/domain-fin';
 import { AnalyticsService } from '@nexora/domain-bi';
@@ -449,6 +451,7 @@ export const REDIS = 'REDIS';
     QcInspectionsController,
     NcrsController,
     FinanceController,
+    LedgerController,
     TreasuryController,
     ExchangeRatesController,
     ValuationController,
@@ -828,6 +831,11 @@ export const REDIS = 'REDIS';
           { postMovement: (input, ctx) => inventory.postMovement(input, ctx) },
         ),
       inject: [PRISMA, CUSTOM_OBJECT_SERVICE, TENANT_SERVICE, INVENTORY_SERVICE],
+    },
+    {
+      provide: LEDGER_SERVICE,
+      useFactory: (prisma: PrismaClient) => new LedgerService(prisma),
+      inject: [PRISMA],
     },
     {
       provide: GRC_SERVICE,

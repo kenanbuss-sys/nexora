@@ -155,6 +155,12 @@ model Tenant {
   serviceOrders         ServiceOrder[]
   serviceOrderParts     ServiceOrderPart[]
   rmas                  Rma[]
+  glAccounts            GlAccount[]
+  glJournalEntries      GlJournalEntry[]
+  glJournalLines        GlJournalLine[]
+  glSystemAccounts      GlSystemAccount[]
+  glOpeningBalanceDates GlOpeningBalanceDate[]
+  glPeriodLocks         GlPeriodLock[]
   frameworkAgreements   FrameworkAgreement[]
 
   @@map("tenant")
@@ -3371,4 +3377,114 @@ model Rma {
   @@unique([tenantId, rmaNumber])
   @@index([tenantId, status])
   @@map("rma")
+}
+
+/// Sprint 211 (FIN-023/024): general-ledger chart of accounts per
+/// legal entity — 8-digit codes, optional partner analytics link.
+model GlAccount {
+  id            String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId      String   @map("tenant_id") @db.Uuid
+  legalEntityId String   @map("legal_entity_id") @db.Uuid
+  code          String
+  name          String
+  active        Boolean  @default(true)
+  partnerId     String?  @map("partner_id") @db.Uuid
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  tenant Tenant          @relation(fields: [tenantId], references: [id])
+  lines  GlJournalLine[]
+
+  @@unique([tenantId, legalEntityId, code])
+  @@index([tenantId, legalEntityId, partnerId])
+  @@map("gl_account")
+}
+
+/// Sprint 211 (FIN-023/026): journal entries — DRAFT until reviewed,
+/// POSTED immutable, corrected only by a linked storno mirror.
+model GlJournalEntry {
+  id            String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId      String    @map("tenant_id") @db.Uuid
+  legalEntityId String    @map("legal_entity_id") @db.Uuid
+  entryNo       Int?      @map("entry_no")
+  entryType     String    @map("entry_type")
+  status        String    @default("DRAFT")
+  bookingDate   DateTime  @map("booking_date") @db.Date
+  description   String
+  stornoOfId    String?   @map("storno_of_id") @db.Uuid
+  stornoedById  String?   @map("stornoed_by_id") @db.Uuid
+  postedAt      DateTime? @map("posted_at")
+  postedBy      String?   @map("posted_by")
+  createdBy     String?   @map("created_by")
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+
+  tenant Tenant          @relation(fields: [tenantId], references: [id])
+  lines  GlJournalLine[]
+
+  @@unique([tenantId, legalEntityId, entryNo])
+  @@index([tenantId, legalEntityId, status])
+  @@map("gl_journal_entry")
+}
+
+model GlJournalLine {
+  id        String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId  String  @map("tenant_id") @db.Uuid
+  entryId   String  @map("entry_id") @db.Uuid
+  accountId String  @map("account_id") @db.Uuid
+  partnerId String? @map("partner_id") @db.Uuid
+  debit     Decimal @default(0) @db.Decimal(18, 2)
+  credit    Decimal @default(0) @db.Decimal(18, 2)
+  seq       Int
+
+  tenant  Tenant         @relation(fields: [tenantId], references: [id])
+  entry   GlJournalEntry @relation(fields: [entryId], references: [id], onDelete: Cascade)
+  account GlAccount      @relation(fields: [accountId], references: [id])
+
+  @@unique([tenantId, entryId, seq])
+  @@index([tenantId, accountId])
+  @@map("gl_journal_line")
+}
+
+/// Sprint 211 (FIN-024): role -> account mapping per legal entity.
+model GlSystemAccount {
+  id            String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId      String   @map("tenant_id") @db.Uuid
+  legalEntityId String   @map("legal_entity_id") @db.Uuid
+  roleKey       String   @map("role_key")
+  accountId     String   @map("account_id") @db.Uuid
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@unique([tenantId, legalEntityId, roleKey])
+  @@map("gl_system_account")
+}
+
+/// Sprint 211 (FIN-025): opening-balance cut date per legal entity.
+model GlOpeningBalanceDate {
+  id            String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId      String   @map("tenant_id") @db.Uuid
+  legalEntityId String   @map("legal_entity_id") @db.Uuid
+  openingDate   DateTime @map("opening_date") @db.Date
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@unique([tenantId, legalEntityId])
+  @@map("gl_opening_balance_date")
+}
+
+/// Sprint 211 (FIN-025): period lock per legal entity.
+model GlPeriodLock {
+  id            String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId      String   @map("tenant_id") @db.Uuid
+  legalEntityId String   @map("legal_entity_id") @db.Uuid
+  lockedThrough DateTime @map("locked_through") @db.Date
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@unique([tenantId, legalEntityId])
+  @@map("gl_period_lock")
 }

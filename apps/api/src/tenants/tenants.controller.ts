@@ -111,6 +111,9 @@ export const TENANT_ADMIN_PERMISSIONS = [
   'project.manage',
   'service.read',
   'service.manage',
+  'finance.ledger.read',
+  'finance.ledger.post',
+  'finance.ledger.manage',
 ];
 
 const createTenantSchema = z.object({
