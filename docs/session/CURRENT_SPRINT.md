@@ -259,3 +259,11 @@ Backlog ažuriran: /projects UI ✓ ZATVOREN; NOVO — polja klijent/odgovorna o
 - [x] Tok iz projekta: /projects detalj → "Novi zadatak za projekat" (ConfirmDialog s naslovom/rokom; relatedObjectType=prj_project, relatedObjectId=record) + link na /tasks
 - [x] Browser (make): zadatak kreiran iz projekta vidljiv u /tasks s vezom "Projekat" i rokom; Završi + filter Završeni radi; admin (podnosilac) NE vidi vlastiti zahtjev odsustva; vodja ga odobrio kroz dijalog; mobilno; typecheck/build ✓
 - Evidentirano: lista zadataka po projektu (server filter po relatedObjectId) → backlog (nisko)
+
+# Sprint 229 — 17.09.2026: Oprema i održavanje (EAM) na standardu 226
+
+- [x] /assets preuređen: DataTable (broj/naziv/kategorija/serijski/vrijednost/status + filter), detalj sa servisnom historijom iz STVARNIH zapisa (kvarovi, završena održavanja, ukupni trošak, garancija ako postoji); radnje kroz ConfirmDialog: Prijavi kvar (danger; → održavanje + zadatak + zastoj), Završi održavanje (sati×cijena, idempotentni ključ), Zaduži/Razduži alat (ime, auditirano), Rashoduj (danger), Pokreni preventivni ciklus (created/skipped)
+- [x] Ispravka: maintenance rute su pod /api/v1/maintenance/assets/... (bug u generatoru i novoj stranici otklonjen prije isporuke)
+- [x] **Pošteno označeno**: model NEMA lokaciju ni FK odgovorne osobe (zaduženje je auditirani upis imena); FinTrack QR/zaduženja NISU pokriveni — ostaje u backlogu (HCM/EAM paritet)
+- [x] Browser (make): historija plotera (1 kvar, trošak 70 EUR iz stvarnog završetka), tok kvar→održavanje→završetak→u upotrebi na daljinomjeru, bez asset.read → jasna poruka, mobilno; typecheck/build ✓
+- [x] Demo generator: servisna historija plotera + zaduženje kombija (idempotentno po completionKey/report stanju)

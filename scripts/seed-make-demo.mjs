@@ -708,6 +708,30 @@ try {
     await call('POST', '/api/v1/assets', admin, { name: 'Laserski daljinomjer (TEST)', category: 'Mjerna oprema', serialNumber: 'TEST-LSR-007', value: 450 });
     console.log('- 3 sredstva (imovina)');
   }
+  // Sprint 229: servisna historija plotera + zaduženje kombija (idempotentno)
+  const assetsNow = await call('GET', '/api/v1/assets', admin);
+  const ploter = (assetsNow.body.assets ?? []).find((a) => a.name.includes('Ploter'));
+  const kombi = (assetsNow.body.assets ?? []).find((a) => a.name.includes('Kombi'));
+  if (ploter) {
+    const rep = await call('GET', `/api/v1/maintenance/assets/${ploter.id}/report`, admin);
+    if ((rep.body.completions ?? 0) === 0) {
+      if (ploter.status === 'IN_SERVICE') {
+        await call('POST', `/api/v1/maintenance/assets/${ploter.id}/breakdown`, admin, {
+          description: 'Ploter ne uvlači papir — servis valjaka (demo)',
+        });
+      }
+      await call('POST', `/api/v1/maintenance/assets/${ploter.id}/complete`, admin, {
+        completionKey: 'make-ploter-servis-1',
+        laborHours: 2,
+        laborRate: 35,
+      });
+      await call('POST', `/api/v1/maintenance/assets/${kombi?.id ?? ploter.id}/checkout`, admin, {
+        event: 'OUT',
+        holder: 'Jasmin Testović',
+      });
+      console.log('- servisna historija plotera (kvar→završetak 70 EUR) + kombi zadužen');
+    }
+  }
 } catch (e) {
   console.log(`- (imovina preskočena: ${e.message})`);
 }
