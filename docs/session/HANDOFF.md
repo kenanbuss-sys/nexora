@@ -4,5 +4,10 @@ Stanje: na `docs/software-factory-md-v1`. Istraga PG padova (cloud dev): ekstern
 
 macOS host nedostupan iz sesije (samo Linux VM most) → LaunchAgent i lokalno osvježavanje localhost:3000 NEPOTVRĐENI. Dijagnostika: `launchctl list | grep com.nexora.autodev`. Ručno osvježenje na Macu: `cd <nexora> && git pull --ff-only && bash scripts/mac-dev.sh`.
 
-Mac intervencija (ručno): 1) `launchctl unload ~/Library/LaunchAgents/com.nexora.autodev.plist` (gasi stari agent koji resetuje checkout na origin/main — potvrđeno reflogom); 2) u nexora folderu: `git checkout docs/software-factory-md-v1 && git pull --ff-only && bash scripts/mac-dev.sh` (build + start, čuva bazu; bez reseeda). Lokalno osvježavanje localhost:3000 NEPOTVRĐENO iz sesije (macOS host nedostupan; VM ne vidi Mac localhost).
+Mac intervencija (ručno, macOS Terminal — JEDNA naredba, staje na prvoj grešci):
+```
+cd ~/nexora && rm -f .git/index.lock .git/ORIG_HEAD.lock && git stash push -u -m "backup-$(date +%H%M%S)"; git checkout docs/software-factory-md-v1 && git pull --ff-only origin docs/software-factory-md-v1 && bash scripts/mac-dev.sh
+```
+(stash čuva sve lokalne izmjene/untracked — ništa se ne odbacuje; dodatni backup već postoji u "NEXORA 2026/bundles/mac-backup-174929"; mac-dev.sh ne resetuje bazu i ne seeduje, API grešku prijavljuje iz /tmp/nexora-api.log, web ostaje u prednjem planu na http://localhost:3000). `dev-up.sh` je SAMO za Linux cloud sandbox — ne koristiti na Macu.
+Staro uputstvo: 1) `launchctl unload ~/Library/LaunchAgents/com.nexora.autodev.plist` (gasi stari agent koji resetuje checkout na origin/main — potvrđeno reflogom); 2) u nexora folderu: `git checkout docs/software-factory-md-v1 && git pull --ff-only && bash scripts/mac-dev.sh` (build + start, čuva bazu; bez reseeda). Lokalno osvježavanje localhost:3000 NEPOTVRĐENO iz sesije (macOS host nedostupan; VM ne vidi Mac localhost).
 Otvoreno: vizuelni pregled 215–223, FIN-028, HR inventar, stvarni adapteri, EN stranice.
