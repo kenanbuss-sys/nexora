@@ -315,8 +315,8 @@ PRJ-011,PRJ,Change orders,P2,DONE,R4+,,,Sprint 204: change orders with mandatory
 PRJ-012,PRJ,Project profitability,P2,DONE,R4+,,,Sprint 204: profitability — latest revenue vs total job cost with margin percent.
 HCM-001,HCM,Employee master,P2,DONE,R4+,,,"Sprint 072: numbered employee master with lifecycle, audited; People page."
 HCM-002,HCM,Shift planning,P2,DONE,R4+,,,Sprint 203: leave requests through the approvals domain, duplicate-safe per employee+range.
-HCM-003,HCM,Attendance,P2,DONE,R4+,,,Sprint 203: time & attendance — idempotent, sequence-guarded clock events with paired-hours report.
-HCM-004,HCM,Leave,P2,DONE,R4+,,,Sprint 203: shift planning from hcm.shifts config with per-date roster (latest assignment wins).
+HCM-003,HCM,Attendance,P2,DONE,R4+,,,"Sprint 203: time & attendance — idempotent Sprint 223: HCM UI on shared standard (attendance records, leave request/approval with SoD).", sequence-guarded clock events with paired-hours report.
+HCM-004,HCM,Leave,P2,DONE,R4+,,,"Sprint 203: shift planning from hcm.shifts config with per-date roster (latest assignment wins). Sprint 223: HCM UI on shared standard (attendance records, leave request/approval with SoD)."
 HCM-005,HCM,Skills matrix,P2,DONE,R4+,,,"Sprint 072: validated, deduplicated skills list per employee, audited."
 HCM-006,HCM,Certifications,P2,DONE,R4+,,,Sprint 203: certifications with expiry flags, latest-set-wins audit history.
 HCM-007,HCM,Training/LMS,P2,DONE,R4+,,,Sprint 203: trainings tracked as certifications with validity dates (renewal visible via expiry).

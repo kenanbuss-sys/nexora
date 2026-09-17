@@ -201,16 +201,23 @@ const NAV_GROUPS: Array<{ section: string; items: NavItem[] }> = [
     ],
   },
   {
-    section: 'Prodaja',
+    section: 'Prodaja i kupci',
     items: [
       { href: '/crm', label: 'CRM', icon: 'sales', permission: 'crm.read' },
       { href: '/quotes', label: 'Ponude', icon: 'quotes', permission: 'quote.read' },
       { href: '/orders', label: 'Narudžbe', icon: 'orders', permission: 'order.read' },
       { href: '/portal', label: 'B2B portal', icon: 'portal', permission: 'portal.manage' },
+      { href: '/parties', label: 'Partneri', icon: 'parties', permission: 'mdm.read' },
     ],
   },
   {
-    section: 'Roba i skladište',
+    section: 'Nabavka',
+    items: [
+      { href: '/procurement', label: 'Nabavka', icon: 'procurement', permission: 'purchase.read' },
+    ],
+  },
+  {
+    section: 'Skladište i logistika',
     items: [
       { href: '/catalog', label: 'Artikli', icon: 'catalog', permission: 'product.read' },
       { href: '/inventory', label: 'Zalihe', icon: 'inventory', permission: 'inventory.read' },
@@ -221,12 +228,11 @@ const NAV_GROUPS: Array<{ section: string; items: NavItem[] }> = [
         permission: 'inventory.read',
       },
       { href: '/flow', label: 'Tok robe', icon: 'planning', permission: 'inventory.read' },
-      { href: '/procurement', label: 'Nabavka', icon: 'procurement', permission: 'purchase.read' },
       { href: '/data', label: 'Uvoz/izvoz', icon: 'data', permission: 'product.read' },
     ],
   },
   {
-    section: 'Proizvodnja',
+    section: 'Proizvodnja i kvalitet',
     items: [
       { href: '/engineering', label: 'Inženjering', icon: 'engineering', permission: 'bom.read' },
       { href: '/planning', label: 'Planiranje', icon: 'planning', permission: 'plan.read' },
@@ -260,10 +266,14 @@ const NAV_GROUPS: Array<{ section: string; items: NavItem[] }> = [
     ],
   },
   {
-    section: 'Partneri i ljudi',
+    section: 'Ljudi i HR',
+    items: [{ href: '/hr', label: 'Zaposleni', icon: 'users', permission: 'hcm.read' }],
+  },
+  {
+    section: 'Servis i imovina',
     items: [
-      { href: '/parties', label: 'Partneri', icon: 'parties', permission: 'mdm.read' },
-      { href: '/hr', label: 'Ljudi', icon: 'users', permission: 'hcm.read' },
+      { href: '/assets', label: 'Imovina', icon: 'devices', permission: 'asset.read' },
+      { href: '/devices', label: 'Uređaji', icon: 'devices', permission: 'device.read' },
     ],
   },
   {
@@ -273,10 +283,8 @@ const NAV_GROUPS: Array<{ section: string; items: NavItem[] }> = [
     ],
   },
   {
-    section: 'Sistem',
+    section: 'Administracija',
     items: [
-      { href: '/assets', label: 'Imovina', icon: 'devices', permission: 'asset.read' },
-      { href: '/devices', label: 'Uređaji', icon: 'devices', permission: 'device.read' },
       {
         href: '/integrations',
         label: 'Integracije',
@@ -302,6 +310,11 @@ export function AppShell({ children }: { children: ReactNode }) {
   const [entities, setEntities] = useState<LegalEntityOption[]>([]);
   const [legalEntityId, setLegalEntityId] = useState('');
   const [navOpen, setNavOpen] = useState(false);
+  // Sprint 223: collapsible business areas + favorites + quick menu
+  // search. Choices persist per user/tenant in this browser only.
+  const [openSections, setOpenSections] = useState<string[] | null>(null);
+  const [favorites, setFavorites] = useState<string[]>([]);
+  const [navQuery, setNavQuery] = useState('');
 
   useEffect(() => {
     const s = getSession();
@@ -354,7 +367,27 @@ export function AppShell({ children }: { children: ReactNode }) {
   // Close the mobile navigation whenever the route changes.
   useEffect(() => {
     setNavOpen(false);
+    setNavQuery('');
   }, [pathname]);
+
+  // Load the persisted sidebar state for THIS user in THIS tenant;
+  // switching user or tenant swaps the whole state.
+  useEffect(() => {
+    if (!session) return;
+    try {
+      const raw = localStorage.getItem(`nexora.nav.${session.tenantSlug}.${session.subject}`);
+      if (raw) {
+        const parsed = JSON.parse(raw) as { open?: unknown; favs?: unknown };
+        setOpenSections(Array.isArray(parsed.open) ? (parsed.open as string[]) : null);
+        setFavorites(Array.isArray(parsed.favs) ? (parsed.favs as string[]) : []);
+        return;
+      }
+    } catch {
+      // Blocked or cleared storage: fall back to defaults quietly.
+    }
+    setOpenSections(null);
+    setFavorites([]);
+  }, [session]);
 
   if (!session || grants === null) {
     return <div className="loading page">Učitavanje radnog prostora…</div>;
@@ -416,31 +449,135 @@ export function AppShell({ children }: { children: ReactNode }) {
     router.replace('/login');
   }
 
+  // ----- Sprint 223 sidebar: areas, favorites, quick search -----
+  const activeSection = current?.section ?? null;
+  const effectiveOpen = openSections ?? (activeSection ? [activeSection] : []);
+  const persistNav = (open: string[] | null, favs: string[]) => {
+    if (!session) return;
+    try {
+      localStorage.setItem(
+        `nexora.nav.${session.tenantSlug}.${session.subject}`,
+        JSON.stringify({ open, favs }),
+      );
+    } catch {
+      // Per-viewer convenience only; losing it is harmless.
+    }
+  };
+  const toggleSection = (name: string) => {
+    const next = effectiveOpen.includes(name)
+      ? effectiveOpen.filter((s) => s !== name)
+      : [...effectiveOpen, name];
+    setOpenSections(next);
+    persistNav(next, favorites);
+  };
+  const toggleFavorite = (href: string) => {
+    const next = favorites.includes(href)
+      ? favorites.filter((f) => f !== href)
+      : [...favorites, href];
+    setFavorites(next);
+    persistNav(openSections, next);
+  };
+  const allVisible = groups.flatMap((g) => g.items);
+  const favoriteItems = favorites
+    .map((href) => allVisible.find((i) => i.href === href))
+    .filter((i): i is NavItem => i !== undefined);
+  const matches = navQuery.trim()
+    ? allVisible.filter((i) => label(i).toLowerCase().includes(navQuery.trim().toLowerCase()))
+    : [];
+  const homeGroup = groups.find((g) => g.section === 'Početna');
+  const areaGroups = groups.filter((g) => g.section !== 'Početna');
+  const isActive = (item: NavItem) =>
+    item.href === '/' ? pathname === '/' : pathname.startsWith(item.href);
+
+  const navRow = (item: NavItem) => (
+    <div key={item.href} className="nav-row">
+      <Link href={item.href} className={`nav-item ${isActive(item) ? 'active' : ''}`}>
+        <NavIcon name={item.icon} />
+        {label(item)}
+      </Link>
+      <button
+        type="button"
+        className={`nav-fav ${favorites.includes(item.href) ? 'on' : ''}`}
+        aria-label={
+          favorites.includes(item.href)
+            ? `Ukloni ${label(item)} iz favorita`
+            : `Dodaj ${label(item)} u favorite`
+        }
+        title={favorites.includes(item.href) ? 'Ukloni iz favorita' : 'Dodaj u favorite'}
+        onClick={() => toggleFavorite(item.href)}
+      >
+        ★
+      </button>
+    </div>
+  );
+
   return (
     <AppContext.Provider value={{ session, grants, can, entities, legalEntityId, setLegalEntity }}>
       <div className={`shell ${navOpen ? 'nav-open' : ''}`}>
         <aside className="sidebar">
           <div className="sidebar-brand">{brandName ?? 'NexoraOS'}</div>
           {can('search.read') ? <GlobalSearch /> : null}
-          {groups.map((g) => (
-            <div key={g.section} className="nav-group">
-              <div className="nav-section">{g.section}</div>
-              {g.items.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={`nav-item ${
-                    (item.href === '/' ? pathname === '/' : pathname.startsWith(item.href))
-                      ? 'active'
-                      : ''
-                  }`}
-                >
-                  <NavIcon name={item.icon} />
-                  {label(item)}
-                </Link>
-              ))}
+          <input
+            className="nav-search"
+            type="search"
+            placeholder="Pretraga menija…"
+            aria-label="Pretraga stavki menija"
+            value={navQuery}
+            onChange={(e) => setNavQuery(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && matches[0]) {
+                router.push(matches[0].href);
+                setNavQuery('');
+              } else if (e.key === 'Escape') {
+                setNavQuery('');
+              }
+            }}
+          />
+          {navQuery.trim() ? (
+            <div className="nav-group">
+              <div className="nav-section">Rezultati</div>
+              {matches.length === 0 ? (
+                <div className="nav-empty">Nema stavki za “{navQuery.trim()}”.</div>
+              ) : (
+                matches.map(navRow)
+              )}
             </div>
-          ))}
+          ) : (
+            <>
+              {homeGroup ? (
+                <div className="nav-group">
+                  <div className="nav-section">{homeGroup.section}</div>
+                  {homeGroup.items.map(navRow)}
+                </div>
+              ) : null}
+              {favoriteItems.length > 0 ? (
+                <div className="nav-group">
+                  <div className="nav-section">Favoriti</div>
+                  {favoriteItems.map(navRow)}
+                </div>
+              ) : null}
+              {areaGroups.map((g) => {
+                const open = effectiveOpen.includes(g.section);
+                const holdsActive = g.section === activeSection;
+                return (
+                  <div key={g.section} className="nav-group">
+                    <button
+                      type="button"
+                      className={`nav-toggle ${holdsActive ? 'holds-active' : ''}`}
+                      aria-expanded={open}
+                      onClick={() => toggleSection(g.section)}
+                    >
+                      <span className={`nav-caret ${open ? 'open' : ''}`} aria-hidden>
+                        ▸
+                      </span>
+                      {g.section}
+                    </button>
+                    {open ? g.items.map(navRow) : null}
+                  </div>
+                );
+              })}
+            </>
+          )}
           {session.platformAdmin ? (
             <Link
               href="/platform"

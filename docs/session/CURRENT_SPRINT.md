@@ -173,3 +173,19 @@ Otvoreno (master backlog, nepromijenjeno): vizuelni pregled 215–222 (vlasnik);
 - [x] Server: P2002 bez vidljivog pobjednika (konkurentna predaja još u transakciji) → 409 CONFLICT „retry with the same key" umjesto sirove greške — klijent bezbedno nastavlja istim ključem
 - [x] Ciljani test za nepokriven slučaj: konflikt različitog sadržaja NE truje ključ — identičan retry poslije 409 replayuje originalnu narudžbu (isti id, sadržaj netaknut, i dalje 1 narudžba); sprint222 6/6 ✓; typecheck ✓; web build ✓; lint 0 errors
 - Status isporuke: implementacija i provjere ZAVRŠENE prema dokazima; push na origin čeka dostupnost Maca (cloud proxy odbija repo). Nepushani lanac čuva se u verifikovanom bundleu `nexora-s222-unpushed.bundle` (izvan _to_delete); preduslov za import: repo mora sadržavati commit `0a678b2` (origin tip) — `git bundle verify` to potvrđuje.
+
+# Sprint 223 — ZAVRŠEN 17.09.2026: HCM frontend + pregledni sidebar
+
+## HCM (/hr) na standardu 215–221
+- [x] Bosanski; lista zaposlenih kroz DataTable (Broj/Ime/Pozicija/Vještine/Status, filter statusa, pretraga), profil (fakti; **e-mail vidljiv samo uz hcm.manage** — PII van listi), prisustvo iz postojeće evidencije (zaključene smjene, sati, trenutno stanje) + dolazak/odlazak s idempotentnim eventId (dugmad onemogućena prema stanju), zahtjev za odsustvo (vrsta/period) kroz ConfirmDialog, statusi zahtjeva sesije sa servera po ključu, odobravanje (approval.act) kroz ConfirmDialog; samo dozvoljene radnje se prikazuju, server ostaje autoritet; bez pristupa → jasna poruka
+- [x] Backend NIJE mijenjan; CSS `.fact` poopćen (bio ograničen na dijalog); seed: role hr-manager/hr-approver, korisnici hr1/hr2/radnik, EMP-00001/2
+- [x] Provjere (Playwright 11 snimaka + API): zahtjev→odobrenje→**leaveStatus GRANTED**; ponovljeni zahtjev istog perioda → 409 CONFLICT; ponovljena odluka → 409 INVALID_STATE; **SoD: hr1 ne vidi vlastiti zahtjev u pending listi, direktni approve → 403 FORBIDDEN**; radnik bez hcm.read: UI poruka + API 403 (lista i prisustvo); tenant opseg: demo2 → tuđe prisustvo 404, lista bez tuđih zaposlenih; mobilno
+- Evidentirano: HR repo i dalje nedostupan — inventar (ODL-005) ostaje blokiran; ovaj sprint NE označava potpuno pokriće HR platforme (bez obračuna plata/coachinga)
+- Napomena: postgres se dva puta srušio u dev okruženju (recovery izgubio demo seed) — demo ponovo seedovan; nije povezano s kodom
+
+## Sidebar — sklopive poslovne oblasti (isti sprint, UI zadatak)
+- [x] NAV pregrupisan: Početna + **Favoriti na vrhu**, zatim Prodaja i kupci / Nabavka / Skladište i logistika / Proizvodnja i kvalitet / Finansije / Ljudi i HR / Servis i imovina / Analitika / Administracija; svaki postojeći tab ima mjesto (provjera pokrića ruta: samo /platform ostaje zaseban za platform admina); rute/prava/logika netaknuti
+- [x] Sklopive oblasti (aria-expanded, tastatura), aktivna oblast podrazumijevano proširena i obojena, aktivni tab označen; više otvorenih oblasti; **izbor + favoriti pamte se po korisniku/tenant-u** (localStorage, try/catch); brza pretraga menija (Enter → prva stavka, Escape briše); zvjezdica za favorite na svakoj stavci; prikazuju se samo dozvoljeni tabovi, prazne oblasti skrivene (pretraga i favoriti filtrirani istim pravima); sidebar skrola; mobilni off-canvas zadržan
+- [x] Provjere kroz browser: /ledger direktno → samo Finansije otvorene; toggle + favorit → poslije reloada obje oblasti otvorene i Favoriti prisutni; pretraga "glav" → Glavna knjiga, Enter → /ledger; **promjena korisnika (hr2): čist state, vidljiva samo Ljudi i HR**; mobilni meni; snimci sklopljenog i proširenog menija; typecheck/build ✓; lint 0 errors
+
+Otvoreno (master backlog): vizuelni pregled 215–223 (vlasnik); LaunchAgent NEPOTVRĐEN; FIN-028; HR inventar (ODL-005); stvarni adapteri; preostale EN stranice; enterprise grid.
