@@ -25,7 +25,7 @@ IAM-003,IAM,Scoped permissions,P0,Implemented (Sprint 001),R0,,,"Org-scoped role
 IAM-004,IAM,Field-level permissions,P0,Implemented (Sprint 113),R0,,,
 IAM-005,IAM,Record-level access,P0,Implemented (Sprint 114),R0,,,
 IAM-006,IAM,MFA,P0,DONE,R0,,,"TOTP 2FA: self-service enroll/confirm-to-arm/disable (password-verified), MFA-gated login with ±1 step drift, security events + audit; Users/login UI (Sprint 044)"
-IAM-007,IAM,SSO/OIDC/SAML,P0,Implemented (Sprint 120),R0,,,"OIDC RS256/JWKS adapter behind IdentityPort; SAML via IdP bridge"
+IAM-007,IAM,SSO/OIDC/SAML,P0,Implemented (Sprint 120),R0,,,OIDC RS256/JWKS adapter behind IdentityPort; SAML via IdP bridge
 IAM-008,IAM,Session management,P0,DONE,R0,,,"Local password auth: scrypt hashes, admin set/reset, self-service change, 5-attempt lockout, security events, public login issuing bearer tokens (Sprint 034)"
 IAM-009,IAM,Service accounts,P0,DONE,R0,,,API-key service accounts with explicit allowlists (Sprint 021)
 IAM-010,IAM,Approval authority matrix,P0,DONE,R0,,,"Requisition approval threshold from versioned tenant configuration (safe fallback to default, per-tenant, effective value in approval title); Settings editor (Sprint 038)"
@@ -86,7 +86,7 @@ CPQ-012,CPQ,Quote versioning,P1,Implemented (Sprint 006),R1,,,New version supers
 CPQ-013,CPQ,Promise-date calculation,P1,DONE,R1,,,Sprint 058: per-line promise dates from live availability + planning lead times; order promise = latest line.
 CPQ-014,CPQ,Contract pricing,P1,DONE,R1,,,Sprint 061: contract lists with validity windows feed quote prices; auto-selected on quote creation.
 COM-001,COM,B2C channel integration,P1,Implemented (Sprint 116),R1,,,
-COM-002,COM,B2B commerce portal,P1,Implemented (Sprint 095),R1,,,
+COM-002,COM,B2B commerce portal,P1,DONE,R1,,,"Sprint 095 backend; Sprint 221: portal UI on shared standard — contract catalog, cart, confirm dialog, own orders; no server idempotency key on placeOrder (noted)."
 COM-003,COM,POS,P1,Implemented (Sprint 159),R1,,,Register sessions + pos-channel sales + cash reconciliation
 COM-004,COM,Sales-rep ordering,P1,DONE,R1,,,Sprint 079: quick order by SKU-code lines with honest unknown-code reporting; Orders page sales-rep card.
 COM-005,COM,Marketplace adapters,P1,Implemented (Sprint 117),R1,,,
@@ -445,7 +445,7 @@ OPS-008,OPS,Error tracking,P0,Implemented (Sprint 186),R0,,,Unhandled errors int
 OPS-009,OPS,Integration monitoring,P0,Implemented (Sprint 186),R0,,,Webhook delivery health per tenant
 OPS-010,OPS,Device monitoring,P0,Implemented (Sprint 186),R0,,,Fleet health + stale device flags
 OPS-011,OPS,Backups,P0,DONE,R0,,,Documented volume/pg_dump backup procedure (Sprint 026)
-OPS-012,OPS,PITR,P0,Implemented (Sprint 123),R0,,,"WAL archiving + nightly base backups + restore runbook"
+OPS-012,OPS,PITR,P0,Implemented (Sprint 123),R0,,,WAL archiving + nightly base backups + restore runbook
 OPS-013,OPS,Disaster recovery,P0,Implemented (Sprint 188),R0,,,DR drill script + runbook + off-host guidance
 OPS-014,OPS,Usage analytics,P0,DONE,R0,,,"Per-tenant usage analytics, operator-only (Sprint 021)"
 OPS-015,OPS,Support portal,P0,Implemented (Sprint 188),R0,,,Cross-tenant open-case view for platform ops

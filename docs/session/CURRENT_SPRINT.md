@@ -134,3 +134,12 @@ Otvoreno (master backlog, nepromijenjeno): vizuelni pregled 215–219 (vlasnik);
 - Evidentirano (nije rađeno): ponuda zahtijeva objavljeni cjenovnik — bez njega forma jasno traži izbor; seed cjenovnika nije dio UI toka
 
 Otvoreno (master backlog, nepromijenjeno): vizuelni pregled 215–220 (vlasnik); LaunchAgent NEPOTVRĐEN; FIN-028; HR inventar (ODL-005); stvarni adapteri; preostale EN stranice (analytics, operations, hr, ostalo); enterprise grid.
+
+# Sprint 221 — ZAVRŠEN 17.09.2026: B2B portal na standardu 215–220
+
+- [x] /portal: bosanski + mape statusa (narudžbe/fakture/reklamacije); katalog kroz DataTable — **isključivo ugovorni cjenovnik kupca (accountId-vezan), cijene samo sa servera**; bez ugovorne cijene → "Na upit" + onemogućeno dugme (bez izmišljenih cijena); bez ugovornog cjenovnika → pošten fallback (sve "Na upit"); korpa (količina, Ukloni, zbir = jedina lokalna aritmetika količina×server-cijena), predaja kroz ConfirmDialog (kupac, stavke, ukupno; POST tek iz onConfirm, busy blokira dvoklik); vlastite narudžbe + tok; back-office vezivanje portal korisnika (portal.manage); **bez pristupa → jasna poruka** (dopunjeno); dev prijava jasno označena naspram OIDC produkcije
+- [x] Backend NIJE mijenjan (portal.service već account-scoped); seed za provjere: ugovorni PL-K1 (FG-219 @110 EUR, accountId AC-00001), rola portal-customer (portal.access), kupac1/kupac2 (drugi račun bez cjenovnika)
+- [x] Provjere (Playwright 8 snimaka + API): katalog FG-219 110 EUR → korpa ×3 → dijalog (3×110=330) → **SO-000010 total 330 EUR — server obračun tačan**; **dvoklik na potvrdu blokiran (busy), broj narudžbi +1 bez duplikata**; nedozvoljen artikl (KOMP-219 van ugovora) → 409 INVALID_STATE "not in your contract catalog"; **izolacija dva kupca istog tenanta**: kupac2 vidi 0 narudžbi, tuđi timeline → 404, katalog bez ugovornih cijena; cross-tenant (demo2) → 403 + poruka u UI; mobilno; typecheck/build ✓; lint 0 errors
+- Evidentirano (nije rađeno): placeOrder nema server-side idempotency ključ — dvostruka predaja spriječena je UI-jem (busy+dijalog); preporuka za budući sprint: Idempotency-Key na POST /portal/orders
+
+Otvoreno (master backlog, nepromijenjeno): vizuelni pregled 215–221 (vlasnik); LaunchAgent NEPOTVRĐEN; FIN-028; HR inventar (ODL-005); stvarni adapteri; preostale EN stranice; enterprise grid.

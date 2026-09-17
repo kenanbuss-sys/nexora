@@ -1,7 +1,9 @@
-# HANDOFF — 17.09.2026 (Sprint 220)
+# HANDOFF — 17.09.2026 (Sprint 221)
 
-Stanje: Sprint 220 završen na `docs/software-factory-md-v1`. CRM (leadovi/kupci/prilike, 360° s linkovima) i Ponude/CPQ (DataTable, statusi, stavke s iznosima ISKLJUČIVO sa servera) na standardu 215–219; ConfirmDialog za konverziju leada, kreditni profil, slanje/prihvatanje/odbijanje ponude i konverziju u narudžbu (skladište + fakti; ponovna konverzija 409). Kupci nad postojećim partnerima; konfigurator u postojećem obimu. Backend netaknut.
+Stanje: Sprint 221 završen na `docs/software-factory-md-v1`. B2B portal (/portal) na standardu 215–220: katalog isključivo iz ugovornog cjenovnika kupca (accountId-vezan, cijene samo sa servera; bez cijene → "Na upit", bez cjenovnika → pošten fallback), korpa, predaja kroz ConfirmDialog (POST tek iz onConfirm, busy blokira dvoklik), vlastite narudžbe + tok, back-office vezivanje portal korisnika, jasna poruka bez pristupa, dev prijava označena naspram OIDC-a. Backend netaknut; seed: PL-K1 (FG-219 @110, AC-00001), rola portal-customer, kupac1/kupac2.
 
-Provjere: kompletan tok kroz browser — ponuda 2×120=240 EUR (cjenovnik) → prihvaćena → SO-000009 240 EUR (stavke prenesene tačno); ponovna konverzija 409 bez duplikata; accept nacrta odbijen (INVALID_STATE); zabranjen pristup; tenant izolacija; mobilno; typecheck/build ✓; lint 0 errors.
+Provjere: korpa 3×110 → SO-000010 330 EUR (server obračun); dvoklik bez duplikata (+1); KOMP-219 van ugovora → 409; izolacija kupaca istog tenanta (kupac2: 0 narudžbi, tuđi timeline 404); cross-tenant 403 + poruka; mobilno; typecheck/build ✓; lint 0 errors.
 
-Otvoreno: vizuelni pregled 215–220, LaunchAgent, FIN-028, HR inventar, stvarni adapteri, preostale EN stranice.
+Evidentirano: placeOrder bez server idempotency ključa (samo UI zaštita) — kandidat za sljedeći sprint.
+
+Otvoreno: vizuelni pregled 215–221, LaunchAgent, FIN-028, HR inventar, stvarni adapteri, preostale EN stranice.
