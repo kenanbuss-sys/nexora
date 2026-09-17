@@ -695,6 +695,39 @@ try {
     if (!titles.has(title)) await call('POST', '/api/v1/tasks', admin, { title });
   }
   console.log('- 4 zadatka');
+  // Sprint 230: rokovi (kasni / ove sedmice / bez roka), 1 završen, veze na projekat
+  const recsAll = await call('GET', '/api/v1/custom-objects/prj_project/records', admin);
+  const recBy = new Map((recsAll.body.records ?? []).map((r) => [(r.data ?? {}).code, r.id]));
+  const tasksNow = await call('GET', '/api/v1/tasks?status=ALL', admin);
+  const titlesNow = new Set((tasksNow.body.tasks ?? []).map((t) => t.title));
+  const EXTRA_TASKS = [
+    ['HITNO: Izmjena statike — Tehno Park sprat 2', '2026-09-10', 'PRJ-2026-01', false],
+    ['Uskladiti troškovnik s change orderom CO-1', '2026-09-19', 'PRJ-2026-01', false],
+    ['Prezentacija koncepta — Market Lipa', '2026-09-26', 'PRJ-2026-03', false],
+    ['Arhivirati projektnu dokumentaciju lobbyja', null, 'PRJ-2025-07', true],
+  ];
+  for (const [ttl, due, prj, done] of EXTRA_TASKS) {
+    if (titlesNow.has(ttl)) continue;
+    const t = await call('POST', '/api/v1/tasks', admin, {
+      title: ttl,
+      ...(due ? { dueAt: new Date(due + 'T09:00:00Z').toISOString() } : {}),
+      ...(prj && recBy.get(prj)
+        ? { relatedObjectType: 'prj_project', relatedObjectId: recBy.get(prj) }
+        : {}),
+    });
+    if (done && t.body.id) await call('POST', `/api/v1/tasks/${t.body.id}/complete`, admin, {});
+  }
+  // jedno odobrenje koje ČEKA vodju (odsustvo trećeg zaposlenog)
+  try {
+    const emps3 = await call('GET', '/api/v1/employees', admin);
+    const emp3 = (emps3.body.employees ?? [])[2];
+    if (emp3) {
+      await call('POST', '/api/v1/workforce/leave', admin, {
+        employeeId: emp3.id, from: '2026-12-28', to: '2026-12-31', type: 'Godišnji odmor',
+      });
+    }
+  } catch { /* CONFLICT = već postoji */ }
+  console.log('- zadaci s rokovima (kasni/sedmica/bez) + 1 završen + 1 odobrenje na čekanju');
 } catch (e) {
   console.log(`- (zadaci preskočeni: ${e.message})`);
 }

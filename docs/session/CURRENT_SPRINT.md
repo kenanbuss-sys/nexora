@@ -267,3 +267,11 @@ Backlog ažuriran: /projects UI ✓ ZATVOREN; NOVO — polja klijent/odgovorna o
 - [x] **Pošteno označeno**: model NEMA lokaciju ni FK odgovorne osobe (zaduženje je auditirani upis imena); FinTrack QR/zaduženja NISU pokriveni — ostaje u backlogu (HCM/EAM paritet)
 - [x] Browser (make): historija plotera (1 kvar, trošak 70 EUR iz stvarnog završetka), tok kvar→održavanje→završetak→u upotrebi na daljinomjeru, bez asset.read → jasna poruka, mobilno; typecheck/build ✓
 - [x] Demo generator: servisna historija plotera + zaduženje kombija (idempotentno po completionKey/report stanju)
+
+# Sprint 230 — 17.09.2026: Make demo dopuna (zadaci, odobrenja, održavanje)
+
+- [x] Kroz POSTOJEĆI generator (scripts/seed-make-demo.mjs), aditivno: 4 dodatna zadatka raznih rokova — kasni (10.09.), unutar sedmice (19.09.), naredne sedmice (26.09.), bez roka — povezani na stvarne prj_project zapise (PRJ-2026-01/03, PRJ-2025-07); jedan odmah završen (DONE za filter); guard po naslovu (bez duplikata)
+- [x] 1 dodatni zahtjev odsustva (treći zaposleni, 28–31.12.) ostaje NA ČEKANJU → vodja (approval.act) ima šta odlučiti u /tasks; SoD: podnosilac ga ne vidi
+- [x] Historija održavanja već iz Sprint 229 bloka (ploter kvar→završetak 70 EUR, kombi zaduženje) — bez dupliranja
+- [x] Idempotentnost DOKAZANA: 2 uzastopna pokretanja → tasks=12, approvals_req=2 oba puta (0 novih zapisa u drugom)
+- [x] Sve TEST vrijednosti, domenski servisi (bez direktnog SQL upisa poslovnih zapisa), REF_DATE 15.09.2026 zadržan
