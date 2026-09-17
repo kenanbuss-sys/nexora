@@ -3,6 +3,31 @@
 import { useCallback, useEffect, useState } from 'react';
 import { api, errorText } from '../../../lib/api';
 import { useApp } from '../app-shell';
+import {
+  DataTable,
+  EmptyState,
+  ErrorState,
+  LoadingState,
+  type Column,
+} from '../../../components/ui';
+
+const PARTY_TYPE_LABELS: Record<string, string> = {
+  ORGANIZATION: 'Organizacija',
+  PERSON: 'Fizičko lice',
+};
+
+const CONTRACT_STATUS_LABELS: Record<string, string> = {
+  DRAFT: 'Nacrt',
+  ACTIVE: 'Aktivan',
+  EXPIRED: 'Istekao',
+  TERMINATED: 'Raskinut',
+};
+
+const CR_STATUS_LABELS: Record<string, string> = {
+  PENDING: 'Na čekanju',
+  APPROVED: 'Odobren',
+  REJECTED: 'Odbijen',
+};
 
 interface PartyView {
   id: string;
@@ -153,7 +178,7 @@ export default function PartiesPage() {
         ...(email ? { email } : {}),
         ...(taxId ? { taxId } : {}),
       });
-      setNotice(`Party "${created.name}" created.`);
+      setNotice(`Partner "${created.name}" je kreiran.`);
       setName('');
       setEmail('');
       setTaxId('');
@@ -170,7 +195,7 @@ export default function PartiesPage() {
     setNotice(null);
     try {
       await api('POST', '/api/v1/parties/merge', { winnerId, loserId });
-      setNotice('Parties merged.');
+      setNotice('Partneri su spojeni.');
       load(query);
       api<{ duplicates: DuplicateGroup[] }>('GET', '/api/v1/parties/duplicates')
         .then((r) => setDuplicates(r.duplicates))
@@ -180,21 +205,91 @@ export default function PartiesPage() {
     }
   }
 
+  const partyColumns: Array<Column<PartyView>> = [
+    {
+      key: 'name',
+      header: 'Naziv',
+      render: (p) => p.name,
+      text: (p) => p.name,
+    },
+    {
+      key: 'type',
+      header: 'Tip',
+      render: (p) => <span className="badge">{PARTY_TYPE_LABELS[p.partyType] ?? p.partyType}</span>,
+      text: (p) => PARTY_TYPE_LABELS[p.partyType] ?? p.partyType,
+    },
+    {
+      key: 'email',
+      header: 'E-mail',
+      render: (p) => p.email ?? '—',
+      text: (p) => p.email ?? '',
+    },
+    {
+      key: 'taxId',
+      header: 'Porezni broj',
+      render: (p) => <span className="mono">{p.taxId ?? '—'}</span>,
+      text: (p) => p.taxId ?? '',
+    },
+    {
+      key: 'actions',
+      header: '',
+      align: 'right',
+      render: (p) => (
+        <>
+          <button
+            className="btn btn-sm"
+            type="button"
+            onClick={() => {
+              if (consentParty === p.id) {
+                setConsentParty(null);
+                setConsents(null);
+              } else {
+                setConsentParty(p.id);
+                setConsents(null);
+                loadConsents(p.id);
+              }
+            }}
+          >
+            Saglasnosti
+          </button>{' '}
+          {can('mdm.steward') && p.partyType === 'PERSON' ? (
+            <button
+              className="btn btn-sm"
+              type="button"
+              disabled={busy}
+              title="GDPR brisanje — nepovratna anonimizacija"
+              onClick={() => {
+                if (window.confirm(`GDPR brisanje za ${p.name}? Ova radnja je nepovratna.`)) {
+                  void run(
+                    () => api('POST', `/api/v1/parties/${p.id}/anonymize`),
+                    'Partner je anonimiziran (GDPR brisanje).',
+                  );
+                }
+              }}
+            >
+              GDPR
+            </button>
+          ) : null}
+        </>
+      ),
+    },
+  ];
+
   return (
     <main className="page">
-      <h1>Parties</h1>
-      <p className="page-sub">Customers, suppliers and other business partners (master data).</p>
-      {error ? <div className="alert alert-error">{error}</div> : null}
+      <h1>Partneri</h1>
+      <p className="page-sub">Kupci, dobavljači i drugi poslovni partneri (matični podaci).</p>
+      {error ? <ErrorState text={error} /> : null}
       {notice ? <div className="alert alert-ok">{notice}</div> : null}
 
       <div className="grid-2">
         <div className="card">
           <div className="spread" style={{ marginBottom: 10 }}>
-            <h2 style={{ margin: 0 }}>Directory</h2>
+            <h2 style={{ margin: 0 }}>Imenik</h2>
             <input
               className="input"
               style={{ maxWidth: 220 }}
-              placeholder="Search by name…"
+              placeholder="Pretraga po nazivu…"
               value={query}
               onChange={(e) => {
                 setQuery(e.target.value);
@@ -202,79 +297,24 @@ export default function PartiesPage() {
               }}
             />
           </div>
-          {parties === null ? <div className="loading">Loading parties…</div> : null}
-          {parties && parties.length === 0 ? (
-            <div className="empty">No parties yet. Create the first one.</div>
-          ) : null}
-          {parties && parties.length > 0 ? (
-            <table className="table">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Type</th>
-                  <th>Email</th>
-                  <th>Tax ID</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                {parties.map((p) => (
-                  <tr key={p.id}>
-                    <td>{p.name}</td>
-                    <td>
-                      <span className="badge">{p.partyType}</span>
-                    </td>
-                    <td>{p.email ?? '—'}</td>
-                    <td className="mono">{p.taxId ?? '—'}</td>
-                    <td style={{ textAlign: 'right' }}>
-                      <button
-                        className="btn btn-sm"
-                        type="button"
-                        onClick={() => {
-                          if (consentParty === p.id) {
-                            setConsentParty(null);
-                            setConsents(null);
-                          } else {
-                            setConsentParty(p.id);
-                            setConsents(null);
-                            loadConsents(p.id);
-                          }
-                        }}
-                      >
-                        Consents
-                      </button>{' '}
-                      {can('mdm.steward') && p.partyType === 'PERSON' ? (
-                        <button
-                          className="btn btn-sm"
-                          type="button"
-                          disabled={busy}
-                          title="GDPR erasure — irreversible anonymization"
-                          onClick={() => {
-                            if (
-                              window.confirm(`GDPR erasure for ${p.name}? This is irreversible.`)
-                            ) {
-                              void run(
-                                () => api('POST', `/api/v1/parties/${p.id}/anonymize`),
-                                'Party anonymized (GDPR erasure).',
-                              );
-                            }
-                          }}
-                        >
-                          GDPR
-                        </button>
-                      ) : null}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          {parties === null ? <LoadingState text="Učitavanje partnera…" /> : null}
+          {parties ? (
+            <DataTable
+              columns={partyColumns}
+              rows={parties}
+              rowKey={(p) => p.id}
+              searchPlaceholder="Filtriraj po nazivu, tipu, broju…"
+              pageSize={10}
+              emptyText="Još nema partnera. Kreirajte prvog."
+            />
           ) : null}
 
           {consentParty && consents ? (
             <div
               style={{ marginTop: 12, borderTop: '1px solid var(--color-border)', paddingTop: 12 }}
             >
-              <strong>Consents (GDPR)</strong>
+              <strong>Saglasnosti (GDPR)</strong>
+              {consents.length === 0 ? <EmptyState text="Nema evidentiranih saglasnosti." /> : null}
               <div className="row" style={{ marginTop: 8, flexWrap: 'wrap', gap: 10 }}>
                 {consents.map((c) => (
                   <div key={c.channel} className="row" style={{ gap: 6 }}>
@@ -286,7 +326,7 @@ export default function PartiesPage() {
                         c.granted === null ? '' : c.granted ? 'badge-ok' : 'badge-danger'
                       }`}
                     >
-                      {c.granted === null ? 'not asked' : c.granted ? 'granted' : 'revoked'}
+                      {c.granted === null ? 'nije upitano' : c.granted ? 'data' : 'povučena'}
                     </span>
                     {can('mdm.steward') ? (
                       <>
@@ -301,7 +341,7 @@ export default function PartiesPage() {
                                 granted: true,
                               });
                               loadConsents(consentParty);
-                            }, 'Consent recorded.')
+                            }, 'Saglasnost je evidentirana.')
                           }
                         >
                           ✓
@@ -317,7 +357,7 @@ export default function PartiesPage() {
                                 granted: false,
                               });
                               loadConsents(consentParty);
-                            }, 'Revocation recorded.')
+                            }, 'Povlačenje je evidentirano.')
                           }
                         >
                           ×
@@ -334,31 +374,31 @@ export default function PartiesPage() {
         <div>
           {can('mdm.create') ? (
             <form className="card" onSubmit={createParty}>
-              <h2>New party</h2>
-              <label className="label">Name</label>
+              <h2>Novi partner</h2>
+              <label className="label">Naziv</label>
               <input
                 className="input"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required
               />
-              <label className="label">Type</label>
+              <label className="label">Tip</label>
               <select
                 className="select"
                 value={partyType}
                 onChange={(e) => setPartyType(e.target.value)}
               >
-                <option value="ORGANIZATION">Organization</option>
-                <option value="PERSON">Person</option>
+                <option value="ORGANIZATION">Organizacija</option>
+                <option value="PERSON">Fizičko lice</option>
               </select>
-              <label className="label">Email (optional)</label>
+              <label className="label">E-mail (opciono)</label>
               <input
                 className="input"
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
-              <label className="label">Tax ID (optional)</label>
+              <label className="label">Porezni broj (opciono)</label>
               <input className="input" value={taxId} onChange={(e) => setTaxId(e.target.value)} />
               <button
                 className="btn btn-primary"
@@ -366,16 +406,16 @@ export default function PartiesPage() {
                 disabled={busy}
                 type="submit"
               >
-                {busy ? 'Creating…' : 'Create party'}
+                {busy ? 'Kreiranje…' : 'Kreiraj partnera'}
               </button>
             </form>
           ) : null}
 
           {can('mdm.steward') && quality ? (
             <div className="card">
-              <h2>Data quality</h2>
+              <h2>Kvalitet podataka</h2>
               {quality.totalIssues === 0 ? (
-                <div className="empty">Master data is clean — no open issues.</div>
+                <EmptyState text="Matični podaci su uredni — nema otvorenih problema." />
               ) : (
                 quality.checks
                   .filter((c) => c.count > 0)
@@ -400,23 +440,24 @@ export default function PartiesPage() {
           ) : null}
 
           <div className="card">
-            <h2>Contracts</h2>
+            <h2>Ugovori</h2>
             <p className="muted">
-              Contract repository with lifecycle and renewal reminders derived from end dates.
+              Registar ugovora sa životnim ciklusom i podsjetnicima za obnovu na osnovu datuma
+              isteka.
             </p>
             {renewals.length > 0 ? (
               <div className="alert alert-warn" style={{ marginBottom: 8 }}>
-                Renewal due: {renewals.map((r) => r.contractNumber).join(', ')}
+                Obnova dospijeva: {renewals.map((r) => r.contractNumber).join(', ')}
               </div>
             ) : null}
-            {contracts.length === 0 ? <div className="empty">No contracts.</div> : null}
+            {contracts.length === 0 ? <EmptyState text="Nema ugovora." /> : null}
             {contracts.slice(0, 8).map((c) => (
               <div key={c.id} className="row spread" style={{ marginBottom: 6 }}>
                 <span>
                   <strong className="mono">{c.contractNumber}</strong> {c.title}{' '}
                   <span className="muted" style={{ fontSize: 12 }}>
                     {c.partyName}
-                    {c.endsAt ? ` · until ${new Date(c.endsAt).toLocaleDateString()}` : ''}
+                    {c.endsAt ? ` · do ${new Date(c.endsAt).toLocaleDateString()}` : ''}
                   </span>
                 </span>
                 <span>
@@ -425,7 +466,7 @@ export default function PartiesPage() {
                       c.status === 'ACTIVE' ? 'badge-ok' : c.status === 'DRAFT' ? 'badge-warn' : ''
                     }`}
                   >
-                    {c.status}
+                    {CONTRACT_STATUS_LABELS[c.status] ?? c.status}
                   </span>{' '}
                   {c.status === 'DRAFT' ? (
                     <button
@@ -438,10 +479,10 @@ export default function PartiesPage() {
                             status: 'ACTIVE',
                           });
                           loadContracts();
-                        }, 'Contract activated.')
+                        }, 'Ugovor je aktiviran.')
                       }
                     >
-                      Activate
+                      Aktiviraj
                     </button>
                   ) : null}
                 </span>
@@ -461,13 +502,13 @@ export default function PartiesPage() {
                   });
                   setCtTitle('');
                   loadContracts();
-                }, 'Contract created (draft).');
+                }, 'Ugovor je kreiran (nacrt).');
               }}
             >
               <input
                 className="input"
                 style={{ maxWidth: 180 }}
-                placeholder="Title"
+                placeholder="Naslov"
                 value={ctTitle}
                 onChange={(e) => setCtTitle(e.target.value)}
                 required
@@ -479,7 +520,7 @@ export default function PartiesPage() {
                 onChange={(e) => setCtParty(e.target.value)}
                 required
               >
-                <option value="">Party…</option>
+                <option value="">Partner…</option>
                 {(parties ?? []).map((p) => (
                   <option key={p.id} value={p.id}>
                     {p.name}
@@ -490,30 +531,30 @@ export default function PartiesPage() {
                 className="input"
                 style={{ maxWidth: 150 }}
                 type="date"
-                title="End date (optional)"
+                title="Datum isteka (opciono)"
                 value={ctEnds}
                 onChange={(e) => setCtEnds(e.target.value)}
               />
               <button className="btn btn-sm btn-primary" disabled={busy} type="submit">
-                Add contract
+                Dodaj ugovor
               </button>
             </form>
           </div>
 
           {can('mdm.read') ? (
             <div className="card">
-              <h2>Change requests</h2>
+              <h2>Zahtjevi za izmjenu</h2>
               <p className="muted">
-                Governed master data edits — a steward other than the requester approves; only
-                approval applies the change.
+                Kontrolisane izmjene matičnih podataka — odobrava steward koji nije podnosilac;
+                izmjena se primjenjuje tek nakon odobrenja.
               </p>
-              {crList.length === 0 ? <div className="empty">No change requests.</div> : null}
+              {crList.length === 0 ? <EmptyState text="Nema zahtjeva za izmjenu." /> : null}
               {crList.slice(0, 8).map((cr) => (
                 <div key={cr.id} className="row spread" style={{ marginBottom: 6 }}>
                   <span className="mono" style={{ fontSize: 12 }}>
                     {cr.entityType} · {JSON.stringify(cr.payload)} ·{' '}
                     <span className={`badge ${cr.status === 'PENDING' ? 'badge-warn' : ''}`}>
-                      {cr.status}
+                      {CR_STATUS_LABELS[cr.status] ?? cr.status}
                     </span>
                   </span>
                   {cr.status === 'PENDING' && can('mdm.steward') ? (
@@ -528,10 +569,10 @@ export default function PartiesPage() {
                               approve: true,
                             });
                             loadChangeRequests();
-                          }, 'Change approved and applied.')
+                          }, 'Izmjena je odobrena i primijenjena.')
                         }
                       >
-                        Approve
+                        Odobri
                       </button>{' '}
                       <button
                         className="btn btn-sm"
@@ -543,10 +584,10 @@ export default function PartiesPage() {
                               approve: false,
                             });
                             loadChangeRequests();
-                          }, 'Change rejected.')
+                          }, 'Izmjena je odbijena.')
                         }
                       >
-                        Reject
+                        Odbij
                       </button>
                     </span>
                   ) : null}
@@ -570,7 +611,7 @@ export default function PartiesPage() {
                       setCrName('');
                       setCrEmail('');
                       loadChangeRequests();
-                    }, 'Change request submitted.');
+                    }, 'Zahtjev za izmjenu je podnesen.');
                   }}
                 >
                   <select
@@ -580,7 +621,7 @@ export default function PartiesPage() {
                     onChange={(e) => setCrParty(e.target.value)}
                     required
                   >
-                    <option value="">Party…</option>
+                    <option value="">Partner…</option>
                     {(parties ?? []).map((p) => (
                       <option key={p.id} value={p.id}>
                         {p.name}
@@ -590,14 +631,14 @@ export default function PartiesPage() {
                   <input
                     className="input"
                     style={{ maxWidth: 150 }}
-                    placeholder="New name"
+                    placeholder="Novi naziv"
                     value={crName}
                     onChange={(e) => setCrName(e.target.value)}
                   />
                   <input
                     className="input"
                     style={{ maxWidth: 170 }}
-                    placeholder="New e-mail"
+                    placeholder="Novi e-mail"
                     value={crEmail}
                     onChange={(e) => setCrEmail(e.target.value)}
                   />
@@ -606,7 +647,7 @@ export default function PartiesPage() {
                     disabled={busy || !crParty || (!crName.trim() && !crEmail.trim())}
                     type="submit"
                   >
-                    Request change
+                    Zatraži izmjenu
                   </button>
                 </form>
               ) : null}
@@ -614,12 +655,12 @@ export default function PartiesPage() {
           ) : null}
           {can('mdm.steward') && duplicates && duplicates.length > 0 ? (
             <div className="card">
-              <h2>Possible duplicates</h2>
+              <h2>Mogući duplikati</h2>
               {duplicates.map((group) => (
                 <div key={group.name} style={{ marginBottom: 10 }}>
                   <strong>{group.name}</strong>
                   <div className="muted mono" style={{ fontSize: 12 }}>
-                    {group.partyIds.length} records
+                    {group.partyIds.length} zapisa
                   </div>
                   {can('mdm.merge') && group.partyIds.length >= 2 ? (
                     <button
@@ -631,7 +672,7 @@ export default function PartiesPage() {
                       }}
                       type="button"
                     >
-                      Merge first two (keep oldest)
+                      Spoji prva dva (zadrži najstariji)
                     </button>
                   ) : null}
                 </div>

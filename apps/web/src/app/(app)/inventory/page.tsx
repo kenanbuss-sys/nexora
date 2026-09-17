@@ -1,7 +1,9 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
+import Link from 'next/link';
 import { api, errorText } from '../../../lib/api';
+import { DataTable, EmptyState, ErrorState, LoadingState } from '../../../components/ui';
 import { useApp } from '../app-shell';
 
 interface WarehouseView {
@@ -71,6 +73,39 @@ const MOVEMENT_TYPES = [
   'TRANSFER_IN',
   'TRANSFER_OUT',
 ] as const;
+
+const MOVEMENT_TYPE_LABELS: Record<string, string> = {
+  RECEIPT: 'Prijem',
+  ISSUE: 'Izdavanje',
+  ADJUSTMENT_IN: 'Korekcija ulaz',
+  ADJUSTMENT_OUT: 'Korekcija izlaz',
+  TRANSFER_IN: 'Prenos ulaz',
+  TRANSFER_OUT: 'Prenos izlaz',
+};
+
+const RESERVATION_STATUS_LABELS: Record<string, string> = {
+  ACTIVE: 'Aktivna',
+  RELEASED: 'Otpuštena',
+  CONSUMED: 'Iskorištena',
+  CANCELLED: 'Otkazana',
+};
+
+const COUNT_STATUS_LABELS: Record<CountView['status'], string> = {
+  OPEN: 'Otvoren',
+  POSTED: 'Proknjižen',
+  CANCELLED: 'Otkazan',
+};
+
+const HOLD_STATUS_LABELS: Record<string, string> = {
+  ACTIVE: 'Aktivan',
+  RELEASED: 'Otpušten',
+  SCRAPPED: 'Otpisan',
+};
+
+function typeLabel(code: string, map: Record<string, string>): string {
+  const label = map[code];
+  return label ? `${code} · ${label}` : code;
+}
 
 function randomKey(): string {
   return `ui-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
@@ -223,23 +258,30 @@ export default function InventoryPage() {
 
   return (
     <main className="page">
-      <h1>Inventory</h1>
+      <div className="spread">
+        <h1>Skladište i zalihe</h1>
+        <Link className="btn btn-sm" href="/flow">
+          Vođeni tok robe →
+        </Link>
+      </div>
       <p className="page-sub">
-        Ledger-driven stock: every change is an immutable movement; positions are derived.
+        Zalihe vođene knjigom kretanja: svaka promjena je nepromjenjivo kretanje; stanja se izvode
+        iz knjige.
       </p>
-      {error ? <div className="alert alert-error">{error}</div> : null}
+      {error ? <ErrorState text={error} /> : null}
       {notice ? <div className="alert alert-ok">{notice}</div> : null}
+      {warehouses === null && !error ? <LoadingState text="Učitavanje skladišta…" /> : null}
 
       <div className="card">
         <div className="row">
           <div style={{ minWidth: 220 }}>
-            <label className="label">Warehouse</label>
+            <label className="label">Skladište</label>
             <select
               className="select"
               value={warehouseId}
               onChange={(e) => setWarehouseId(e.target.value)}
             >
-              <option value="">Select warehouse…</option>
+              <option value="">Odaberi skladište…</option>
               {(warehouses ?? []).map((w) => (
                 <option key={w.id} value={w.id}>
                   {w.code} — {w.name}
@@ -250,7 +292,7 @@ export default function InventoryPage() {
           <div style={{ minWidth: 220 }}>
             <label className="label">SKU</label>
             <select className="select" value={skuId} onChange={(e) => setSkuId(e.target.value)}>
-              <option value="">Select SKU…</option>
+              <option value="">Odaberi SKU…</option>
               {skus.map((s) => (
                 <option key={s.id} value={s.id}>
                   {s.code} {s.status !== 'ACTIVE' ? `(${s.status})` : ''}
@@ -262,28 +304,28 @@ export default function InventoryPage() {
             <div className="row" style={{ gap: 24, marginLeft: 'auto' }}>
               <div>
                 <div className="kpi">{position.onHand}</div>
-                <div className="kpi-label">On hand</div>
+                <div className="kpi-label">Na stanju</div>
               </div>
               <div>
                 <div className="kpi">{position.reserved}</div>
-                <div className="kpi-label">Reserved</div>
+                <div className="kpi-label">Rezervisano</div>
               </div>
               <div>
                 <div className="kpi" style={{ color: 'var(--color-accent)' }}>
                   {position.available}
                 </div>
-                <div className="kpi-label">Available</div>
+                <div className="kpi-label">Dostupno</div>
               </div>
             </div>
           ) : null}
         </div>
         {warehouses !== null && warehouses.length === 0 ? (
-          <div className="empty">No warehouses yet — create one below.</div>
+          <EmptyState text="Još nema skladišta — kreiraj jedno ispod." />
         ) : null}
         {lots.length > 0 ? (
           <div style={{ marginTop: 10, borderTop: '1px solid var(--color-border)', paddingTop: 8 }}>
             <div className="muted" style={{ fontSize: 12, marginBottom: 4 }}>
-              Lots (FEFO — issues consume the earliest expiry first)
+              Lotovi (FEFO — izdavanja prvo troše najraniji rok trajanja)
             </div>
             <div className="row" style={{ flexWrap: 'wrap' }}>
               {lots.map((l) => (
@@ -292,13 +334,13 @@ export default function InventoryPage() {
                   className={`badge ${l.expired ? 'badge-danger' : l.expiringSoon ? 'badge-warn' : 'badge-ok'}`}
                   title={
                     l.expiresAt
-                      ? `Expires ${new Date(l.expiresAt).toLocaleDateString()}`
-                      : 'No expiry'
+                      ? `Ističe ${new Date(l.expiresAt).toLocaleDateString()}`
+                      : 'Bez roka trajanja'
                   }
                 >
                   {l.lotNumber}: {l.onHand}
                   {l.expiresAt ? ` · ${new Date(l.expiresAt).toLocaleDateString()}` : ''}
-                  {l.expired ? ' · EXPIRED' : ''}
+                  {l.expired ? ' · ISTEKAO' : ''}
                 </span>
               ))}
             </div>
@@ -324,12 +366,12 @@ export default function InventoryPage() {
                       ...(reason ? { reason } : {}),
                       ...(lotNumber ? { lotNumber } : {}),
                     }),
-                  'Movement posted to the ledger.',
+                  'Kretanje proknjiženo u knjigu zaliha.',
                 );
               }}
             >
-              <h2>Post movement</h2>
-              <label className="label">Type</label>
+              <h2>Knjiži kretanje</h2>
+              <label className="label">Tip</label>
               <select
                 className="select"
                 value={movementType}
@@ -337,11 +379,11 @@ export default function InventoryPage() {
               >
                 {MOVEMENT_TYPES.map((t) => (
                   <option key={t} value={t}>
-                    {t}
+                    {typeLabel(t, MOVEMENT_TYPE_LABELS)}
                   </option>
                 ))}
               </select>
-              <label className="label">Quantity</label>
+              <label className="label">Količina</label>
               <input
                 className="input"
                 type="number"
@@ -351,14 +393,14 @@ export default function InventoryPage() {
                 onChange={(e) => setQuantity(e.target.value)}
                 required
               />
-              <label className="label">Lot (required for lot-tracked SKUs on receipt)</label>
+              <label className="label">Lot (obavezan pri prijemu lot-praćenih SKU-ova)</label>
               <input
                 className="input mono"
-                placeholder="e.g. LOT-2026-091"
+                placeholder="npr. LOT-2026-091"
                 value={lotNumber}
                 onChange={(e) => setLotNumber(e.target.value)}
               />
-              <label className="label">Reason (optional)</label>
+              <label className="label">Razlog (opciono)</label>
               <input className="input" value={reason} onChange={(e) => setReason(e.target.value)} />
               <button
                 className="btn btn-primary"
@@ -366,7 +408,7 @@ export default function InventoryPage() {
                 disabled={busy || !warehouseId || !skuId}
                 type="submit"
               >
-                Post movement
+                Proknjiži kretanje
               </button>
             </form>
           ) : null}
@@ -384,12 +426,12 @@ export default function InventoryPage() {
                       quantity: Number(reserveQty),
                       ...(reference ? { reference } : {}),
                     }),
-                  'Stock reserved.',
+                  'Zalihe rezervisane.',
                 );
               }}
             >
-              <h2>Reserve stock</h2>
-              <label className="label">Quantity</label>
+              <h2>Rezerviši zalihe</h2>
+              <label className="label">Količina</label>
               <input
                 className="input"
                 type="number"
@@ -399,7 +441,7 @@ export default function InventoryPage() {
                 onChange={(e) => setReserveQty(e.target.value)}
                 required
               />
-              <label className="label">Reference (optional)</label>
+              <label className="label">Referenca (opciono)</label>
               <input
                 className="input"
                 value={reference}
@@ -411,7 +453,7 @@ export default function InventoryPage() {
                 disabled={busy || !warehouseId || !skuId}
                 type="submit"
               >
-                Reserve
+                Rezerviši
               </button>
             </form>
           ) : null}
@@ -423,7 +465,7 @@ export default function InventoryPage() {
                 e.preventDefault();
                 void run(
                   () => api('POST', '/api/v1/warehouses', { code: whCode, name: whName }),
-                  `Warehouse ${whCode} created.`,
+                  `Skladište ${whCode} kreirano.`,
                 ).then(() => {
                   setWhCode('');
                   setWhName('');
@@ -433,15 +475,15 @@ export default function InventoryPage() {
                 });
               }}
             >
-              <h2>New warehouse</h2>
-              <label className="label">Code</label>
+              <h2>Novo skladište</h2>
+              <label className="label">Šifra</label>
               <input
                 className="input mono"
                 value={whCode}
                 onChange={(e) => setWhCode(e.target.value)}
                 required
               />
-              <label className="label">Name</label>
+              <label className="label">Naziv</label>
               <input
                 className="input"
                 value={whName}
@@ -454,7 +496,7 @@ export default function InventoryPage() {
                 disabled={busy}
                 type="submit"
               >
-                Create warehouse
+                Kreiraj skladište
               </button>
             </form>
           ) : null}
@@ -462,122 +504,141 @@ export default function InventoryPage() {
 
         <div>
           <div className="card">
-            <h2>Recent movements</h2>
-            {movements.length === 0 ? (
-              <div className="empty">No movements for this selection.</div>
-            ) : (
-              <table className="table">
-                <thead>
-                  <tr>
-                    <th>Type</th>
-                    <th>Qty</th>
-                    <th>When</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {movements.map((m) => (
-                    <tr key={m.id}>
-                      <td>
-                        <span
-                          className={`badge ${
-                            m.movementType.includes('IN') || m.movementType === 'RECEIPT'
-                              ? 'badge-ok'
-                              : 'badge-warn'
-                          }`}
-                        >
-                          {m.movementType}
-                        </span>
-                        {m.reason ? (
-                          <div className="muted" style={{ fontSize: 12 }}>
-                            {m.reason}
-                          </div>
-                        ) : null}
-                      </td>
-                      <td>{m.quantity}</td>
-                      <td className="muted">{new Date(m.occurredAt).toLocaleString()}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            )}
+            <h2>Nedavna kretanja</h2>
+            <DataTable
+              columns={[
+                {
+                  key: 'type',
+                  header: 'Tip',
+                  render: (m: Movement) => (
+                    <>
+                      <span
+                        className={`badge ${
+                          m.movementType.includes('IN') || m.movementType === 'RECEIPT'
+                            ? 'badge-ok'
+                            : 'badge-warn'
+                        }`}
+                      >
+                        {typeLabel(m.movementType, MOVEMENT_TYPE_LABELS)}
+                      </span>
+                      {m.reason ? (
+                        <div className="muted" style={{ fontSize: 12 }}>
+                          {m.reason}
+                        </div>
+                      ) : null}
+                    </>
+                  ),
+                  text: (m: Movement) =>
+                    `${typeLabel(m.movementType, MOVEMENT_TYPE_LABELS)} ${m.reason ?? ''}`,
+                },
+                {
+                  key: 'qty',
+                  header: 'Količina',
+                  render: (m: Movement) => m.quantity,
+                  text: (m: Movement) => m.quantity,
+                  align: 'right',
+                },
+                {
+                  key: 'when',
+                  header: 'Vrijeme',
+                  render: (m: Movement) => (
+                    <span className="muted">{new Date(m.occurredAt).toLocaleString()}</span>
+                  ),
+                  text: (m: Movement) => new Date(m.occurredAt).toLocaleString(),
+                },
+              ]}
+              rows={movements}
+              rowKey={(m) => m.id}
+              searchPlaceholder="Pretraži kretanja…"
+              pageSize={10}
+              emptyText="Nema kretanja za odabrano skladište i SKU."
+            />
           </div>
 
           <div className="card">
-            <h2>Reservations</h2>
-            {reservations.length === 0 ? (
-              <div className="empty">No reservations for this selection.</div>
-            ) : (
-              <table className="table">
-                <thead>
-                  <tr>
-                    <th>Qty</th>
-                    <th>Status</th>
-                    <th>Reference</th>
-                    <th />
-                  </tr>
-                </thead>
-                <tbody>
-                  {reservations.map((r) => (
-                    <tr key={r.id}>
-                      <td>{r.quantity}</td>
-                      <td>
-                        <span className={`badge ${r.status === 'ACTIVE' ? 'badge-accent' : ''}`}>
-                          {r.status}
-                        </span>
-                      </td>
-                      <td>{r.reference ?? '—'}</td>
-                      <td style={{ textAlign: 'right' }}>
-                        {r.status === 'ACTIVE' && can('inventory.pick') ? (
-                          <button
-                            className="btn btn-sm"
-                            disabled={busy}
-                            onClick={() =>
-                              run(
-                                () =>
-                                  api('POST', '/api/v1/stock/reservations/release', {
-                                    reservationId: r.id,
-                                  }),
-                                'Reservation released.',
-                              )
-                            }
-                            type="button"
-                          >
-                            Release
-                          </button>
-                        ) : null}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            )}
+            <h2>Rezervacije</h2>
+            <DataTable
+              columns={[
+                {
+                  key: 'qty',
+                  header: 'Količina',
+                  render: (r: Reservation) => r.quantity,
+                  text: (r: Reservation) => r.quantity,
+                },
+                {
+                  key: 'status',
+                  header: 'Status',
+                  render: (r: Reservation) => (
+                    <span className={`badge ${r.status === 'ACTIVE' ? 'badge-accent' : ''}`}>
+                      {typeLabel(r.status, RESERVATION_STATUS_LABELS)}
+                    </span>
+                  ),
+                  text: (r: Reservation) => typeLabel(r.status, RESERVATION_STATUS_LABELS),
+                },
+                {
+                  key: 'reference',
+                  header: 'Referenca',
+                  render: (r: Reservation) => r.reference ?? '—',
+                  text: (r: Reservation) => r.reference ?? '',
+                },
+                {
+                  key: 'actions',
+                  header: '',
+                  align: 'right',
+                  render: (r: Reservation) =>
+                    r.status === 'ACTIVE' && can('inventory.pick') ? (
+                      <button
+                        className="btn btn-sm"
+                        disabled={busy}
+                        onClick={() =>
+                          run(
+                            () =>
+                              api('POST', '/api/v1/stock/reservations/release', {
+                                reservationId: r.id,
+                              }),
+                            'Rezervacija otpuštena.',
+                          )
+                        }
+                        type="button"
+                      >
+                        Otpusti
+                      </button>
+                    ) : null,
+                },
+              ]}
+              rows={reservations}
+              rowKey={(r) => r.id}
+              searchPlaceholder="Pretraži rezervacije…"
+              pageSize={10}
+              emptyText="Nema rezervacija za odabrano skladište i SKU."
+            />
           </div>
 
           <p className="muted" style={{ fontSize: 12 }}>
-            Selected SKU: <span className="mono">{skuId ? skuLabel(skuId) : '—'}</span>. Stock can
-            never be edited directly — corrections are reversal movements.
+            Odabrani SKU: <span className="mono">{skuId ? skuLabel(skuId) : '—'}</span>. Zalihe se
+            nikada ne uređuju direktno — korekcije se rade storno kretanjima.
           </p>
         </div>
       </div>
       {can('inventory.count') ? (
         <div className="card" style={{ marginTop: 16 }}>
           <div className="spread">
-            <h2>Stock counts</h2>
+            <h2>Popisi zaliha</h2>
             <button
               className="btn btn-sm"
               disabled={busy || !warehouseId}
               onClick={() =>
                 run(
                   () => api('POST', '/api/v1/stock/counts', { warehouseId }),
-                  'Stock count opened for the selected warehouse.',
+                  'Popis otvoren za odabrano skladište.',
                 )
               }
               type="button"
             >
-              New count
+              Novi popis
             </button>
           </div>
-          {counts.length === 0 ? <div className="empty">No stock counts yet.</div> : null}
+          {counts.length === 0 ? <EmptyState text="Još nema popisa zaliha." /> : null}
           {counts.map((c) => (
             <div
               key={c.id}
@@ -600,7 +661,7 @@ export default function InventoryPage() {
                           : 'badge-warn'
                     }`}
                   >
-                    {c.status}
+                    {typeLabel(c.status, COUNT_STATUS_LABELS)}
                   </span>
                   {c.status === 'OPEN' && can('inventory.adjust.approve') ? (
                     <button
@@ -609,12 +670,12 @@ export default function InventoryPage() {
                       onClick={() =>
                         run(
                           () => api('POST', `/api/v1/stock/counts/${c.id}/post`),
-                          'Count posted — variances adjusted in the ledger.',
+                          'Popis proknjižen — razlike korigovane u knjizi zaliha.',
                         )
                       }
                       type="button"
                     >
-                      Post variances
+                      Proknjiži razlike
                     </button>
                   ) : null}
                   {c.status === 'OPEN' ? (
@@ -624,12 +685,12 @@ export default function InventoryPage() {
                       onClick={() =>
                         run(
                           () => api('POST', `/api/v1/stock/counts/${c.id}/cancel`),
-                          'Count cancelled.',
+                          'Popis otkazan.',
                         )
                       }
                       type="button"
                     >
-                      Cancel
+                      Otkaži
                     </button>
                   ) : null}
                 </span>
@@ -641,7 +702,7 @@ export default function InventoryPage() {
                       <tr key={l.id}>
                         <td className="mono">{skuLabel(l.skuId)}</td>
                         <td>
-                          expected {l.expectedQty} · counted {l.countedQty}
+                          očekivano {l.expectedQty} · popisano {l.countedQty}
                         </td>
                         <td style={{ textAlign: 'right' }}>
                           <span
@@ -670,7 +731,7 @@ export default function InventoryPage() {
                     type="number"
                     min="0"
                     step="any"
-                    placeholder="Counted qty"
+                    placeholder="Popisana količina"
                     value={countQty}
                     onChange={(e) => setCountQty(e.target.value)}
                   />
@@ -684,12 +745,12 @@ export default function InventoryPage() {
                             skuId,
                             countedQty: Number(countQty),
                           }),
-                        'Counted quantity recorded for the selected SKU.',
+                        'Popisana količina zabilježena za odabrani SKU.',
                       ).then(() => setCountQty(''))
                     }
                     type="button"
                   >
-                    Record selected SKU
+                    Zabilježi odabrani SKU
                   </button>
                 </div>
               ) : null}
@@ -700,7 +761,7 @@ export default function InventoryPage() {
       {can('inventory.read') ? (
         <div className="card" style={{ marginTop: 16 }}>
           <div className="spread">
-            <h2>Quarantine</h2>
+            <h2>Karantin</h2>
             <button
               className="btn btn-sm"
               type="button"
@@ -710,11 +771,12 @@ export default function InventoryPage() {
                   .catch(() => setHolds([]));
               }}
             >
-              Load holds
+              Učitaj zadržavanja
             </button>
           </div>
           <p className="muted" style={{ marginTop: 0 }}>
-            Held quantities cannot be reserved until quality releases or scraps them.
+            Zadržane količine ne mogu se rezervisati dok ih kontrola kvaliteta ne otpusti ili
+            otpiše.
           </p>
           {holds.map((h) => (
             <div key={h.id} className="row spread" style={{ marginBottom: 6 }}>
@@ -730,7 +792,7 @@ export default function InventoryPage() {
                     h.status === 'ACTIVE' ? 'badge-warn' : h.status === 'RELEASED' ? 'badge-ok' : ''
                   }`}
                 >
-                  {h.status}
+                  {typeLabel(h.status, HOLD_STATUS_LABELS)}
                 </span>{' '}
                 {h.status === 'ACTIVE' && can('qc.approve') ? (
                   <>
@@ -745,10 +807,10 @@ export default function InventoryPage() {
                           });
                           const r = await api<{ holds: typeof holds }>('GET', '/api/v1/quarantine');
                           setHolds(r.holds);
-                        }, 'Hold released.')
+                        }, 'Zadržavanje otpušteno.')
                       }
                     >
-                      Release
+                      Otpusti
                     </button>{' '}
                     <button
                       className="btn btn-sm btn-danger"
@@ -761,10 +823,10 @@ export default function InventoryPage() {
                           });
                           const r = await api<{ holds: typeof holds }>('GET', '/api/v1/quarantine');
                           setHolds(r.holds);
-                        }, 'Hold scrapped — stock adjusted.')
+                        }, 'Zadržavanje otpisano — zalihe korigovane.')
                       }
                     >
-                      Scrap
+                      Otpiši
                     </button>
                   </>
                 ) : null}
@@ -787,7 +849,7 @@ export default function InventoryPage() {
                   setHoldReason('');
                   const r = await api<{ holds: typeof holds }>('GET', '/api/v1/quarantine');
                   setHolds(r.holds);
-                }, 'Quarantine hold placed.');
+                }, 'Karantinsko zadržavanje postavljeno.');
               }}
             >
               <select
@@ -797,7 +859,7 @@ export default function InventoryPage() {
                 onChange={(e) => setHoldWarehouse(e.target.value)}
                 required
               >
-                <option value="">Warehouse…</option>
+                <option value="">Skladište…</option>
                 {(warehouses ?? []).map((w) => (
                   <option key={w.id} value={w.id}>
                     {w.code}
@@ -830,13 +892,13 @@ export default function InventoryPage() {
               <input
                 className="input"
                 style={{ maxWidth: 200 }}
-                placeholder="Reason"
+                placeholder="Razlog"
                 value={holdReason}
                 onChange={(e) => setHoldReason(e.target.value)}
                 required
               />
               <button className="btn btn-sm btn-primary" disabled={busy} type="submit">
-                Place hold
+                Postavi zadržavanje
               </button>
             </form>
           ) : null}
@@ -846,7 +908,7 @@ export default function InventoryPage() {
       {can('inventory.read') ? (
         <div className="card" style={{ marginTop: 16 }}>
           <div className="spread">
-            <h2>Channel availability</h2>
+            <h2>Dostupnost po kanalima</h2>
             <button
               className="btn btn-sm"
               type="button"
@@ -859,19 +921,19 @@ export default function InventoryPage() {
                   .catch(() => setChannel([]));
               }}
             >
-              Refresh feed
+              Osvježi feed
             </button>
           </div>
           <p className="muted" style={{ marginTop: 0 }}>
-            The sellable-quantity feed storefronts and marketplaces consume (also available to API
-            keys at <span className="mono">/api/v1/stock/channel-availability</span>).
+            Feed prodajnih količina koji koriste web-prodavnice i marketplace-i (dostupan i API
+            ključevima na <span className="mono">/api/v1/stock/channel-availability</span>).
           </p>
           {channel === null ? null : channel.length === 0 ? (
-            <div className="empty">No active SKUs.</div>
+            <EmptyState text="Nema aktivnih SKU-ova." />
           ) : (
             <div className="row" style={{ flexWrap: 'wrap' }}>
               {channel.slice(0, 24).map((row) => (
-                <span key={row.skuId} className="badge mono" title={`on hand ${row.onHand}`}>
+                <span key={row.skuId} className="badge mono" title={`na stanju ${row.onHand}`}>
                   {row.code}: {row.available}
                 </span>
               ))}
@@ -882,11 +944,11 @@ export default function InventoryPage() {
 
       {warehouseId && can('inventory.read') ? (
         <div className="card" style={{ marginTop: 16 }}>
-          <h2>Bins &amp; putaway</h2>
+          <h2>Bin lokacije i odlaganje</h2>
           <p className="muted" style={{ marginTop: 0 }}>
-            Per-bin stock derived live from location-tagged ledger movements.
+            Zalihe po binu izvode se uživo iz kretanja u knjizi označenih lokacijom.
           </p>
-          {bins.length === 0 ? <div className="empty">Nothing put away yet.</div> : null}
+          {bins.length === 0 ? <EmptyState text="Još ništa nije odloženo u binove." /> : null}
           {bins.slice(0, 20).map((b) => (
             <div
               key={`${b.locationId}-${b.skuId}`}
@@ -914,20 +976,20 @@ export default function InventoryPage() {
                         warehouseId,
                         code: newBinCode,
                       }),
-                    `Bin ${newBinCode} created.`,
+                    `Bin ${newBinCode} kreiran.`,
                   ).then(() => setNewBinCode(''));
                 }}
               >
                 <input
                   className="input mono"
                   style={{ width: 140 }}
-                  placeholder="New bin code"
+                  placeholder="Šifra novog bina"
                   value={newBinCode}
                   onChange={(e) => setNewBinCode(e.target.value)}
                   required
                 />
                 <button className="btn btn-sm" disabled={busy} type="submit">
-                  Add bin
+                  Dodaj bin
                 </button>
               </form>
               {locations.length > 0 && skuId ? (
@@ -945,7 +1007,7 @@ export default function InventoryPage() {
                           toLocationId: putawayLocation,
                           putawayKey: `ui-${Date.now()}`,
                         }),
-                      'Stock put away.',
+                      'Zalihe odložene u bin.',
                     );
                   }}
                 >
@@ -970,7 +1032,7 @@ export default function InventoryPage() {
                     required
                   />
                   <button className="btn btn-sm" disabled={busy} type="submit">
-                    Put away
+                    Odloži
                   </button>
                 </form>
               ) : null}

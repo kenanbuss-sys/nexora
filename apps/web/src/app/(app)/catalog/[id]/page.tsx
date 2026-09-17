@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 import { api, errorText } from '../../../../lib/api';
+import { EmptyState, ErrorState, LoadingState } from '../../../../components/ui';
 import { useApp } from '../../app-shell';
 
 interface SkuView {
@@ -35,6 +36,18 @@ const SKU_BADGE: Record<SkuView['status'], string> = {
   DRAFT: 'badge-warn',
   ACTIVE: 'badge-ok',
   DISCONTINUED: 'badge-danger',
+};
+
+const SKU_LABEL: Record<SkuView['status'], string> = {
+  DRAFT: 'Nacrt',
+  ACTIVE: 'Aktivan',
+  DISCONTINUED: 'Ukinut',
+};
+
+const PRODUCT_LABEL: Record<ProductDetail['status'], string> = {
+  DRAFT: 'Nacrt',
+  PUBLISHED: 'Objavljen',
+  ARCHIVED: 'Arhiviran',
 };
 
 export default function ProductDetailPage() {
@@ -125,7 +138,7 @@ export default function ProductDetailPage() {
   async function uploadImage(file: File | undefined) {
     if (!file) return;
     if (!file.type.startsWith('image/')) {
-      setError('Only image files can be product media');
+      setError('Samo slike mogu biti medijski zapisi artikla.');
       return;
     }
     const buffer = await file.arrayBuffer();
@@ -143,7 +156,7 @@ export default function ProductDetailPage() {
         dataBase64: btoa(binary),
       });
       loadImages();
-    }, 'Image uploaded.');
+    }, 'Slika je dodana.');
   }
 
   const [axis1, setAxis1] = useState('color');
@@ -189,14 +202,19 @@ export default function ProductDetailPage() {
     }
   }
 
-  if (!product && !error) return <div className="loading page">Loading product…</div>;
+  if (!product && !error)
+    return (
+      <div className="page">
+        <LoadingState text="Učitavanje artikla…" />
+      </div>
+    );
 
   return (
     <main className="page">
       <p style={{ margin: '0 0 8px' }}>
-        <Link href="/catalog">← Catalog</Link>
+        <Link href="/catalog">← Artikli</Link>
       </p>
-      {error ? <div className="alert alert-error">{error}</div> : null}
+      {error ? <ErrorState text={error} /> : null}
       {notice ? <div className="alert alert-ok">{notice}</div> : null}
 
       {product ? (
@@ -209,19 +227,22 @@ export default function ProductDetailPage() {
               <span
                 className={`badge ${product.status === 'PUBLISHED' ? 'badge-ok' : 'badge-warn'}`}
               >
-                {product.status}
-              </span>
+                {PRODUCT_LABEL[product.status]}
+              </span>{' '}
+              {product.skus.length > 0 ? (
+                <Link href="/inventory">Zalihe ovog artikla →</Link>
+              ) : null}
             </div>
             {product.status === 'DRAFT' && can('product.publish') ? (
               <button
                 className="btn btn-primary"
                 disabled={busy}
                 onClick={() =>
-                  run(() => api('POST', `/api/v1/products/${product.id}/publish`), 'Published.')
+                  run(() => api('POST', `/api/v1/products/${product.id}/publish`), 'Objavljeno.')
                 }
                 type="button"
               >
-                Publish product
+                Objavi artikal
               </button>
             ) : null}
             {product.status !== 'ARCHIVED' && can('product.publish') ? (
@@ -229,28 +250,28 @@ export default function ProductDetailPage() {
                 className="btn"
                 style={{ marginLeft: 8 }}
                 disabled={busy}
-                title="All SKUs must be discontinued first"
+                title="Sve SKU jedinice moraju prvo biti ukinute"
                 onClick={() =>
-                  run(() => api('POST', `/api/v1/products/${product.id}/archive`), 'Archived.')
+                  run(() => api('POST', `/api/v1/products/${product.id}/archive`), 'Arhivirano.')
                 }
                 type="button"
               >
-                Archive product
+                Arhiviraj artikal
               </button>
             ) : null}
           </div>
 
           <div className="card" style={{ marginTop: 16 }}>
-            <h2>SKUs</h2>
+            <h2>SKU jedinice</h2>
             {product.skus.length === 0 ? (
-              <div className="empty">No SKUs yet — add the first sellable unit.</div>
+              <EmptyState text="Još nema SKU jedinica — dodajte prvu prodajnu jedinicu." />
             ) : (
               <table className="table">
                 <thead>
                   <tr>
-                    <th>Code</th>
-                    <th>Name</th>
-                    <th>Base UoM</th>
+                    <th>Šifra</th>
+                    <th>Naziv</th>
+                    <th>Osnovna JM</th>
                     <th>Status</th>
                     <th />
                   </tr>
@@ -262,7 +283,9 @@ export default function ProductDetailPage() {
                       <td>{s.name}</td>
                       <td>{s.baseUom}</td>
                       <td>
-                        <span className={`badge ${SKU_BADGE[s.status]}`}>{s.status}</span>
+                        <span className={`badge ${SKU_BADGE[s.status]}`}>
+                          {SKU_LABEL[s.status]}
+                        </span>
                       </td>
                       <td style={{ textAlign: 'right' }}>
                         {s.status === 'DRAFT' && can('product.publish') ? (
@@ -272,22 +295,22 @@ export default function ProductDetailPage() {
                             onClick={() =>
                               run(
                                 () => api('POST', `/api/v1/skus/${s.id}/activate`),
-                                `SKU ${s.code} activated.`,
+                                `SKU ${s.code} je aktiviran.`,
                               )
                             }
                             type="button"
                           >
-                            Activate
+                            Aktiviraj
                           </button>
                         ) : null}
                         {can('product.manage') ? (
                           <button
                             className="btn btn-sm"
                             disabled={busy}
-                            title="Lot tracking & shelf life (FEFO)"
+                            title="Praćenje lotova i rok trajanja (FEFO)"
                             onClick={() => {
                               const answer = window.prompt(
-                                'Shelf life in days for lot tracking (empty disables lot tracking)',
+                                'Rok trajanja u danima za praćenje lotova (prazno isključuje praćenje)',
                                 '365',
                               );
                               if (answer === null) return;
@@ -299,13 +322,13 @@ export default function ProductDetailPage() {
                                     shelfLifeDays: days,
                                   }),
                                 days !== null
-                                  ? `SKU ${s.code} is lot-tracked (shelf life ${days} days).`
-                                  : `Lot tracking disabled for ${s.code}.`,
+                                  ? `SKU ${s.code} se prati po lotovima (rok trajanja ${days} dana).`
+                                  : `Praćenje lotova je isključeno za ${s.code}.`,
                               );
                             }}
                             type="button"
                           >
-                            Lot policy
+                            Politika lotova
                           </button>
                         ) : null}{' '}
                         {s.status === 'ACTIVE' && can('product.manage') ? (
@@ -315,12 +338,12 @@ export default function ProductDetailPage() {
                             onClick={() =>
                               run(
                                 () => api('POST', `/api/v1/skus/${s.id}/discontinue`),
-                                `SKU ${s.code} discontinued.`,
+                                `SKU ${s.code} je ukinut.`,
                               )
                             }
                             type="button"
                           >
-                            Discontinue
+                            Ukini
                           </button>
                         ) : null}
                       </td>
@@ -345,29 +368,29 @@ export default function ProductDetailPage() {
                         name: skuName,
                         baseUom,
                       }),
-                    `SKU ${skuCode} created (draft).`,
+                    `SKU ${skuCode} je kreiran (nacrt).`,
                   ).then(() => {
                     setSkuCode('');
                     setSkuName('');
                   });
                 }}
               >
-                <h2>New SKU</h2>
-                <label className="label">Code</label>
+                <h2>Nova SKU jedinica</h2>
+                <label className="label">Šifra</label>
                 <input
                   className="input mono"
                   value={skuCode}
                   onChange={(e) => setSkuCode(e.target.value)}
                   required
                 />
-                <label className="label">Name</label>
+                <label className="label">Naziv</label>
                 <input
                   className="input"
                   value={skuName}
                   onChange={(e) => setSkuName(e.target.value)}
                   required
                 />
-                <label className="label">Base unit of measure</label>
+                <label className="label">Osnovna jedinica mjere</label>
                 {uoms.length > 0 ? (
                   <select
                     className="input"
@@ -395,7 +418,7 @@ export default function ProductDetailPage() {
                   disabled={busy}
                   type="submit"
                 >
-                  Add SKU
+                  Dodaj SKU
                 </button>
               </form>
             ) : null}
@@ -408,11 +431,11 @@ export default function ProductDetailPage() {
                   void run(
                     () =>
                       api('POST', '/api/v1/barcodes', { skuId: barcodeSku, value: barcodeValue }),
-                    'Barcode assigned.',
+                    'Barkod je dodijeljen.',
                   ).then(() => setBarcodeValue(''));
                 }}
               >
-                <h2>Assign barcode</h2>
+                <h2>Dodijeli barkod</h2>
                 <label className="label">SKU</label>
                 <select
                   className="select"
@@ -420,14 +443,14 @@ export default function ProductDetailPage() {
                   onChange={(e) => setBarcodeSku(e.target.value)}
                   required
                 >
-                  <option value="">Select SKU…</option>
+                  <option value="">Odaberite SKU…</option>
                   {product.skus.map((s) => (
                     <option key={s.id} value={s.id}>
                       {s.code}
                     </option>
                   ))}
                 </select>
-                <label className="label">Barcode value</label>
+                <label className="label">Vrijednost barkoda</label>
                 <input
                   className="input mono"
                   value={barcodeValue}
@@ -440,7 +463,7 @@ export default function ProductDetailPage() {
                   disabled={busy}
                   type="submit"
                 >
-                  Assign
+                  Dodijeli
                 </button>
               </form>
             ) : null}
@@ -448,8 +471,10 @@ export default function ProductDetailPage() {
 
           {can('collab.use') ? (
             <div className="card" style={{ marginTop: 16 }}>
-              <h2>Media</h2>
-              <p className="muted">Product photos — shown here and stored with the product.</p>
+              <h2>Mediji</h2>
+              <p className="muted">
+                Fotografije artikla — prikazane ovdje i pohranjene uz artikal.
+              </p>
               {images.length > 0 ? (
                 <div className="row" style={{ flexWrap: 'wrap', gap: 10 }}>
                   {images.map((img) => (
@@ -470,7 +495,7 @@ export default function ProductDetailPage() {
                   ))}
                 </div>
               ) : (
-                <div className="empty">No photos yet.</div>
+                <EmptyState text="Još nema fotografija." />
               )}
               <div className="row" style={{ marginTop: 10 }}>
                 <input
@@ -489,9 +514,10 @@ export default function ProductDetailPage() {
 
           {can('product.manage') ? (
             <div className="card" style={{ marginTop: 16 }}>
-              <h2>Logistics</h2>
+              <h2>Logistika</h2>
               <p className="muted">
-                Weight and dimensions per base unit — order totals derive from this.
+                Težina i dimenzije po osnovnoj jedinici — ukupne vrijednosti narudžbi se računaju iz
+                ovoga.
               </p>
               <div className="row" style={{ flexWrap: 'wrap' }}>
                 <select
@@ -523,7 +549,7 @@ export default function ProductDetailPage() {
                   type="number"
                   step="any"
                   min="0"
-                  placeholder="L cm"
+                  placeholder="D cm"
                   value={logL}
                   onChange={(e) => setLogL(e.target.value)}
                 />
@@ -533,7 +559,7 @@ export default function ProductDetailPage() {
                   type="number"
                   step="any"
                   min="0"
-                  placeholder="W cm"
+                  placeholder="Š cm"
                   value={logW}
                   onChange={(e) => setLogW(e.target.value)}
                 />
@@ -543,7 +569,7 @@ export default function ProductDetailPage() {
                   type="number"
                   step="any"
                   min="0"
-                  placeholder="H cm"
+                  placeholder="V cm"
                   value={logH}
                   onChange={(e) => setLogH(e.target.value)}
                 />
@@ -560,11 +586,11 @@ export default function ProductDetailPage() {
                           ...(logW ? { widthCm: Number(logW) } : {}),
                           ...(logH ? { heightCm: Number(logH) } : {}),
                         }),
-                      'Logistics saved.',
+                      'Logistika je sačuvana.',
                     )
                   }
                 >
-                  Save
+                  Sačuvaj
                 </button>
               </div>
             </div>
@@ -572,10 +598,10 @@ export default function ProductDetailPage() {
 
           {can('product.manage') ? (
             <div className="card" style={{ marginTop: 16 }}>
-              <h2>Packaging</h2>
+              <h2>Pakovanje</h2>
               <p className="muted">
-                Pack levels above the base unit — a pack barcode scans straight to the SKU with its
-                multiplier.
+                Nivoi pakovanja iznad osnovne jedinice — barkod pakovanja se skenira direktno na SKU
+                sa svojim množiteljem.
               </p>
               <div className="row" style={{ flexWrap: 'wrap' }}>
                 <select
@@ -610,7 +636,7 @@ export default function ProductDetailPage() {
                 <input
                   className="input"
                   style={{ maxWidth: 110 }}
-                  placeholder="Pack name"
+                  placeholder="Naziv pakovanja"
                   value={packName}
                   onChange={(e) => setPackName(e.target.value)}
                 />
@@ -620,14 +646,14 @@ export default function ProductDetailPage() {
                   type="number"
                   min="2"
                   step="any"
-                  placeholder="Units"
+                  placeholder="Jedinice"
                   value={packUnits}
                   onChange={(e) => setPackUnits(e.target.value)}
                 />
                 <input
                   className="input mono"
                   style={{ maxWidth: 140 }}
-                  placeholder="Barcode (optional)"
+                  placeholder="Barkod (opciono)"
                   value={packBarcode}
                   onChange={(e) => setPackBarcode(e.target.value)}
                 />
@@ -654,10 +680,10 @@ export default function ProductDetailPage() {
                         }>;
                       }>('GET', `/api/v1/skus/${packSku}/packaging`);
                       setPacks(r.levels);
-                    }, 'Pack level added.')
+                    }, 'Nivo pakovanja je dodan.')
                   }
                 >
-                  Add pack
+                  Dodaj pakovanje
                 </button>
               </div>
               {packs.length > 0 ? (
@@ -675,7 +701,7 @@ export default function ProductDetailPage() {
                           run(async () => {
                             await api('POST', `/api/v1/skus/${packSku}/packaging/${pk.id}/remove`);
                             setPacks((prev) => prev.filter((x) => x.id !== pk.id));
-                          }, 'Pack level removed.')
+                          }, 'Nivo pakovanja je uklonjen.')
                         }
                       >
                         ×
@@ -689,9 +715,10 @@ export default function ProductDetailPage() {
 
           {can('product.manage') ? (
             <div className="card" style={{ marginTop: 16 }}>
-              <h2>Substitutions</h2>
+              <h2>Zamjene</h2>
               <p className="muted">
-                Alternatives offered when a SKU cannot be served (shown on backordered lines).
+                Alternative koje se nude kada SKU nije dostupan (prikazuju se na linijama u
+                čekanju).
               </p>
               <div className="row" style={{ flexWrap: 'wrap' }}>
                 <select
@@ -715,7 +742,7 @@ export default function ProductDetailPage() {
                     }
                   }}
                 >
-                  <option value="">Primary SKU…</option>
+                  <option value="">Primarni SKU…</option>
                   {product.skus.map((s) => (
                     <option key={s.id} value={s.id}>
                       {s.code}
@@ -728,7 +755,7 @@ export default function ProductDetailPage() {
                   value={subAlt}
                   onChange={(e) => setSubAlt(e.target.value)}
                 >
-                  <option value="">Substitute…</option>
+                  <option value="">Zamjena…</option>
                   {product.skus
                     .filter((s) => s.id !== subPrimary)
                     .map((s) => (
@@ -754,10 +781,10 @@ export default function ProductDetailPage() {
                         }>;
                       }>('GET', `/api/v1/skus/${subPrimary}/substitutions`);
                       setSubs(r.substitutions);
-                    }, 'Substitution added.')
+                    }, 'Zamjena je dodana.')
                   }
                 >
-                  Add substitution
+                  Dodaj zamjenu
                 </button>
               </div>
               {subs.length > 0 ? (
@@ -777,7 +804,7 @@ export default function ProductDetailPage() {
                               `/api/v1/skus/${subPrimary}/substitutions/${sub.id}/remove`,
                             );
                             setSubs((prev) => prev.filter((x) => x.id !== sub.id));
-                          }, 'Substitution removed.')
+                          }, 'Zamjena je uklonjena.')
                         }
                       >
                         ×
@@ -791,10 +818,10 @@ export default function ProductDetailPage() {
 
           {can('product.manage') ? (
             <div className="card" style={{ marginTop: 16 }}>
-              <h2>Bundle / kit</h2>
+              <h2>Komplet (bundle)</h2>
               <p className="muted">
-                A bundle SKU sells as one line but is built from component SKUs — buildable quantity
-                derives live from component stock.
+                Komplet SKU se prodaje kao jedna stavka, a sastavlja se od komponentnih SKU jedinica
+                — sastavljiva količina se računa iz zaliha komponenti.
               </p>
               <div className="row" style={{ flexWrap: 'wrap' }}>
                 <select
@@ -820,7 +847,7 @@ export default function ProductDetailPage() {
                     }
                   }}
                 >
-                  <option value="">Bundle SKU…</option>
+                  <option value="">SKU kompleta…</option>
                   {product.skus.map((s) => (
                     <option key={s.id} value={s.id}>
                       {s.code}
@@ -833,7 +860,7 @@ export default function ProductDetailPage() {
                   value={bundleComp}
                   onChange={(e) => setBundleComp(e.target.value)}
                 >
-                  <option value="">Component…</option>
+                  <option value="">Komponenta…</option>
                   {product.skus
                     .filter((s) => s.id !== bundleSku)
                     .map((s) => (
@@ -848,7 +875,7 @@ export default function ProductDetailPage() {
                   type="number"
                   min="0.000001"
                   step="any"
-                  title="Quantity per bundle"
+                  title="Količina po kompletu"
                   value={bundleQty}
                   onChange={(e) => setBundleQty(e.target.value)}
                 />
@@ -872,16 +899,16 @@ export default function ProductDetailPage() {
                         buildable: number;
                       }>('GET', `/api/v1/skus/${bundleSku}/bundle`);
                       setBundle(r);
-                    }, 'Component added.')
+                    }, 'Komponenta je dodana.')
                   }
                 >
-                  Add component
+                  Dodaj komponentu
                 </button>
               </div>
               {bundle && bundle.components.length > 0 ? (
                 <div style={{ marginTop: 8 }}>
                   <p className="muted" style={{ marginBottom: 6 }}>
-                    Buildable now: <strong>{bundle.buildable}</strong>{' '}
+                    Moguće sastaviti sada: <strong>{bundle.buildable}</strong>{' '}
                     {bundle.buildable > 0 ? (
                       <button
                         className="btn btn-sm"
@@ -889,14 +916,14 @@ export default function ProductDetailPage() {
                         disabled={busy}
                         type="button"
                         onClick={() => {
-                          const qty = window.prompt('How many bundles to assemble?', '1');
+                          const qty = window.prompt('Koliko kompleta sastaviti?', '1');
                           if (!qty) return;
                           void run(async () => {
                             const warehouses = await api<{
                               warehouses: Array<{ id: string }>;
                             }>('GET', '/api/v1/warehouses');
                             const warehouseId = warehouses.warehouses[0]?.id;
-                            if (!warehouseId) throw new Error('No warehouse');
+                            if (!warehouseId) throw new Error('Nema skladišta');
                             await api('POST', `/api/v1/skus/${bundleSku}/bundle/assemble`, {
                               warehouseId,
                               quantity: Number(qty),
@@ -904,17 +931,17 @@ export default function ProductDetailPage() {
                                 .toString(36)
                                 .slice(2, 8)}`,
                             });
-                          }, 'Bundles assembled — stock moved.');
+                          }, 'Kompleti su sastavljeni — zaliha je premještena.');
                         }}
                       >
-                        Assemble
+                        Sastavi
                       </button>
                     ) : null}
                   </p>
                   <div className="row" style={{ flexWrap: 'wrap' }}>
                     {bundle.components.map((c) => (
                       <span key={c.id} className="badge mono">
-                        {c.quantity} × {c.componentCode} (avail {c.available}){' '}
+                        {c.quantity} × {c.componentCode} (dost. {c.available}){' '}
                         <button
                           className="btn btn-sm"
                           style={{ marginLeft: 4, padding: '0 6px' }}
@@ -931,7 +958,7 @@ export default function ProductDetailPage() {
                                     }
                                   : prev,
                               );
-                            }, 'Component removed.')
+                            }, 'Komponenta je uklonjena.')
                           }
                         >
                           ×
@@ -946,10 +973,10 @@ export default function ProductDetailPage() {
 
           {can('product.manage') ? (
             <div className="card" style={{ marginTop: 16 }}>
-              <h2>Serial numbers</h2>
+              <h2>Serijski brojevi</h2>
               <p className="muted">
-                Serial-tracked SKUs keep one registry row per physical unit with a full lifecycle
-                (in stock, shipped, returned, scrapped).
+                Serijski praćene SKU jedinice vode po jedan zapis za svaku fizičku jedinicu, s punim
+                životnim ciklusom (na zalihi, poslano, vraćeno, otpisano).
               </p>
               <div className="row" style={{ flexWrap: 'wrap' }}>
                 <select
@@ -992,12 +1019,12 @@ export default function ProductDetailPage() {
                           serials: Array<{ id: string; serial: string; status: string }>;
                         }>('GET', `/api/v1/skus/${serialSku}/serials`);
                         setSerialData(r);
-                      }, 'Serial policy updated.')
+                      }, 'Politika serijskih brojeva je ažurirana.')
                     }
                   >
-                    <option value="NONE">No serials</option>
-                    <option value="OPTIONAL">Optional</option>
-                    <option value="REQUIRED">Required</option>
+                    <option value="NONE">Bez serijskih brojeva</option>
+                    <option value="OPTIONAL">Opcionalno</option>
+                    <option value="REQUIRED">Obavezno</option>
                   </select>
                 ) : null}
                 {serialData && serialData.policy !== 'NONE' ? (
@@ -1005,7 +1032,7 @@ export default function ProductDetailPage() {
                     <input
                       className="input"
                       style={{ maxWidth: 220 }}
-                      placeholder="Serials, comma-separated"
+                      placeholder="Serijski brojevi, odvojeni zarezom"
                       value={serialInput}
                       onChange={(e) => setSerialInput(e.target.value)}
                     />
@@ -1027,10 +1054,10 @@ export default function ProductDetailPage() {
                             serials: Array<{ id: string; serial: string; status: string }>;
                           }>('GET', `/api/v1/skus/${serialSku}/serials`);
                           setSerialData(r);
-                        }, 'Serials registered.')
+                        }, 'Serijski brojevi su registrovani.')
                       }
                     >
-                      Register
+                      Registruj
                     </button>
                   </>
                 ) : null}
@@ -1046,7 +1073,7 @@ export default function ProductDetailPage() {
                           style={{ marginLeft: 4, padding: '0 6px' }}
                           type="button"
                           disabled={busy}
-                          title="Mark shipped"
+                          title="Označi kao poslano"
                           onClick={() =>
                             run(async () => {
                               await api('POST', `/api/v1/skus/serials/${sn.id}/status`, {
@@ -1057,7 +1084,7 @@ export default function ProductDetailPage() {
                                 serials: Array<{ id: string; serial: string; status: string }>;
                               }>('GET', `/api/v1/skus/${serialSku}/serials`);
                               setSerialData(r);
-                            }, 'Serial shipped.')
+                            }, 'Serijski broj je označen kao poslan.')
                           }
                         >
                           →
@@ -1072,10 +1099,10 @@ export default function ProductDetailPage() {
 
           {can('product.manage') ? (
             <div className="card" style={{ marginTop: 16 }}>
-              <h2>Merchandising</h2>
+              <h2>Kategorije i varijante</h2>
               <div className="row" style={{ alignItems: 'flex-end', flexWrap: 'wrap' }}>
                 <div>
-                  <label className="label">Category</label>
+                  <label className="label">Kategorija</label>
                   <select
                     className="select"
                     style={{ minWidth: 200 }}
@@ -1087,12 +1114,12 @@ export default function ProductDetailPage() {
                             api('POST', `/api/v1/catalog/products/${productId}/category`, {
                               categoryId: e.target.value,
                             }),
-                          'Product assigned to the category.',
+                          'Artikal je dodijeljen kategoriji.',
                         );
                       }
                     }}
                   >
-                    <option value="">Assign to category…</option>
+                    <option value="">Dodijeli kategoriju…</option>
                     {categories.map((c) => (
                       <option key={c.id} value={c.id}>
                         {c.code} — {c.name}
@@ -1104,17 +1131,17 @@ export default function ProductDetailPage() {
                   className="btn btn-sm"
                   disabled={busy}
                   onClick={() => {
-                    const code = window.prompt('New category code (e.g. LIGHTING)');
+                    const code = window.prompt('Šifra nove kategorije (npr. LIGHTING)');
                     if (!code) return;
-                    const name = window.prompt('Category name') ?? code;
+                    const name = window.prompt('Naziv kategorije') ?? code;
                     void run(
                       () => api('POST', '/api/v1/catalog/categories', { code, name }),
-                      'Category created.',
+                      'Kategorija je kreirana.',
                     );
                   }}
                   type="button"
                 >
-                  New category
+                  Nova kategorija
                 </button>
               </div>
 
@@ -1126,7 +1153,7 @@ export default function ProductDetailPage() {
                 }}
               >
                 <div className="muted" style={{ fontSize: 13, marginBottom: 6 }}>
-                  Variant generator — one SKU per combination (e.g. color × size).
+                  Generator varijanti — jedan SKU po kombinaciji (npr. boja × veličina).
                 </div>
                 <div className="row" style={{ flexWrap: 'wrap' }}>
                   <input
@@ -1134,21 +1161,21 @@ export default function ProductDetailPage() {
                     style={{ maxWidth: 100 }}
                     value={axis1}
                     onChange={(e) => setAxis1(e.target.value)}
-                    placeholder="axis 1"
+                    placeholder="osa 1"
                   />
                   <input
                     className="input"
                     style={{ maxWidth: 200 }}
                     value={values1}
                     onChange={(e) => setValues1(e.target.value)}
-                    placeholder="red, blue, black"
+                    placeholder="crvena, plava, crna"
                   />
                   <input
                     className="input mono"
                     style={{ maxWidth: 100 }}
                     value={axis2}
                     onChange={(e) => setAxis2(e.target.value)}
-                    placeholder="axis 2 (optional)"
+                    placeholder="osa 2 (opciono)"
                   />
                   <input
                     className="input"
@@ -1179,12 +1206,12 @@ export default function ProductDetailPage() {
                             axes,
                             baseUom: 'pcs',
                           }),
-                        'Variants generated.',
+                        'Varijante su generisane.',
                       );
                     }}
                     type="button"
                   >
-                    Generate variants
+                    Generiši varijante
                   </button>
                 </div>
               </div>
@@ -1193,10 +1220,10 @@ export default function ProductDetailPage() {
 
           {can('product.manage') ? (
             <div className="card" style={{ marginTop: 16 }}>
-              <h2>Channel content</h2>
+              <h2>Sadržaj po kanalu</h2>
               <p className="muted">
-                Per-channel commercial copy over one canonical SKU (PIM-009) — webshop, POS and
-                marketplace listings can differ without forking the product.
+                Komercijalni tekst po kanalu nad jednim kanonskim SKU (PIM-009) — webshop, POS i
+                marketplace oglasi mogu se razlikovati bez dupliranja artikla.
               </p>
               <div className="row" style={{ flexWrap: 'wrap' }}>
                 <select
@@ -1232,21 +1259,21 @@ export default function ProductDetailPage() {
                   style={{ maxWidth: 130 }}
                   value={ccChannel}
                   onChange={(e) => setCcChannel(e.target.value)}
-                  placeholder="channel"
+                  placeholder="kanal"
                 />
                 <input
                   className="input"
                   style={{ maxWidth: 220 }}
                   value={ccTitle}
                   onChange={(e) => setCcTitle(e.target.value)}
-                  placeholder="Channel title"
+                  placeholder="Naslov za kanal"
                 />
                 <input
                   className="input"
                   style={{ maxWidth: 260 }}
                   value={ccDesc}
                   onChange={(e) => setCcDesc(e.target.value)}
-                  placeholder="Description (optional)"
+                  placeholder="Opis (opciono)"
                 />
                 <button
                   className="btn btn-sm btn-primary"
@@ -1267,20 +1294,20 @@ export default function ProductDetailPage() {
                       setCcList(r.content);
                       setCcTitle('');
                       setCcDesc('');
-                    }, 'Channel content saved.')
+                    }, 'Sadržaj kanala je sačuvan.')
                   }
                   type="button"
                 >
-                  Save content
+                  Sačuvaj sadržaj
                 </button>
               </div>
               {ccList.length > 0 ? (
                 <table className="table" style={{ marginTop: 10 }}>
                   <thead>
                     <tr>
-                      <th>Channel</th>
-                      <th>Title</th>
-                      <th>Description</th>
+                      <th>Kanal</th>
+                      <th>Naslov</th>
+                      <th>Opis</th>
                     </tr>
                   </thead>
                   <tbody>

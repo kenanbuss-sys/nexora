@@ -1,9 +1,9 @@
-# HANDOFF — 17.09.2026 (Sprint 215)
+# HANDOFF — 17.09.2026 (Sprint 216)
 
-Stanje: Sprint 215 (user-friendly frontend) završen na `docs/software-factory-md-v1`. Grupisana bosanska navigacija + topbar (putanja, tenant, globalno pravno lice), lokalizovana kontrolna tabla s "Brzim akcijama", zajedničke komponente (DataTable + stanja), nova stranica **/flow** — kompletan tok robe stvarnim API-jima (artikl→prijem→stanje→narudžba→rezervacija→otprema; idempotentni receiptKey/shipKey; paket status ≠ izlaz robe), mobilni off-canvas meni. Backend NIJE mijenjan.
+Stanje: Sprint 216 završen na `docs/software-factory-md-v1`. Artikli, Partneri, Skladište i Narudžbe potpuno upotrebljivi kroz okvir Sprinta 215: bosanski UI, DataTable s pretragom/paginacijom, mape labela za statuse, loading/empty/error stanja, povezana navigacija samo na stvarne rute, paket-status jasno razdvojen od fulfilmenta. Backend netaknut; bez novih biblioteka.
 
-Provjere: cijeli tok izvršen kroz browser (Playwright, 15 screenshota: uklj. nedovoljnu zalihu, zabranjen pristup, tenant izolaciju, mobilni prikaz); web build/typecheck ✓; lint 0 errors. Detalji i otvorene stavke: docs/session/CURRENT_SPRINT.md (Sprint 215).
+Provjere: browser (Playwright, 11 snimaka) — 4 stranice desktop+mobilno, detalj klikom, promjena pravnog lica perzistira preko stranica, zabranjen pristup, regresija /flow kompletna; web typecheck/build ✓; lint 0 errors.
 
-Blokada: LaunchAgent com.nexora.autodev NEPOTVRĐEN (read-only provjera korisnika); ne blokira.
+Otvoreno: Sprint 215 čeka vizuelni pregled vlasnika (upute u CURRENT_SPRINT); preostale EN stranice, enterprise grid, server-side paginacija — u master backlogu; LaunchAgent NEPOTVRĐEN.
 
-Sljedeće: FIN-028 ostaje u backlogu; otvorene UI stavke (lokalizacija ostalih stranica, enterprise grid) u master backlogu.
+Sljedeće: po pregledu vlasnika — nastavak lokalizacije modula ili FIN-028 iz backloga.

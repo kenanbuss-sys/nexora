@@ -1,8 +1,10 @@
 'use client';
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 import { api, errorText } from '../../../lib/api';
+import { DataTable, ErrorState, LoadingState } from '../../../components/ui';
 import { useApp } from '../app-shell';
 
 interface ProductView {
@@ -18,8 +20,15 @@ const STATUS_BADGE: Record<ProductView['status'], string> = {
   ARCHIVED: '',
 };
 
+const STATUS_LABEL: Record<ProductView['status'], string> = {
+  DRAFT: 'Nacrt',
+  PUBLISHED: 'Objavljen',
+  ARCHIVED: 'Arhiviran',
+};
+
 export default function CatalogPage() {
   const { can } = useApp();
+  const router = useRouter();
   const [query, setQuery] = useState('');
   const [products, setProducts] = useState<ProductView[] | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -49,7 +58,7 @@ export default function CatalogPage() {
     setNotice(null);
     try {
       const created = await api<ProductView>('POST', '/api/v1/products', { code, name });
-      setNotice(`Product ${created.code} created (draft).`);
+      setNotice(`Artikal ${created.code} je kreiran (nacrt).`);
       setCode('');
       setName('');
       load(query);
@@ -62,19 +71,19 @@ export default function CatalogPage() {
 
   return (
     <main className="page">
-      <h1>Catalog</h1>
-      <p className="page-sub">Products and sellable SKUs (product information management).</p>
-      {error ? <div className="alert alert-error">{error}</div> : null}
+      <h1>Artikli</h1>
+      <p className="page-sub">Artikli i prodajne jedinice (SKU) — upravljanje matičnim podacima.</p>
+      {error ? <ErrorState text={error} /> : null}
       {notice ? <div className="alert alert-ok">{notice}</div> : null}
 
       <div className="grid-2">
         <div className="card">
           <div className="spread" style={{ marginBottom: 10 }}>
-            <h2 style={{ margin: 0 }}>Products</h2>
+            <h2 style={{ margin: 0 }}>Artikli</h2>
             <input
               className="input"
               style={{ maxWidth: 220 }}
-              placeholder="Search…"
+              placeholder="Serverska pretraga…"
               value={query}
               onChange={(e) => {
                 setQuery(e.target.value);
@@ -82,48 +91,59 @@ export default function CatalogPage() {
               }}
             />
           </div>
-          {products === null ? <div className="loading">Loading catalog…</div> : null}
-          {products && products.length === 0 ? (
-            <div className="empty">No products found.</div>
-          ) : null}
-          {products && products.length > 0 ? (
-            <table className="table">
-              <thead>
-                <tr>
-                  <th>Code</th>
-                  <th>Name</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                {products.map((p) => (
-                  <tr key={p.id}>
-                    <td className="mono">
+          {products === null ? <LoadingState text="Učitavanje artikala…" /> : null}
+          {products ? (
+            <DataTable<ProductView>
+              columns={[
+                {
+                  key: 'code',
+                  header: 'Šifra',
+                  render: (p) => (
+                    <span className="mono">
                       <Link href={`/catalog/${p.id}`}>{p.code}</Link>
-                    </td>
-                    <td>{p.name}</td>
-                    <td>
-                      <span className={`badge ${STATUS_BADGE[p.status]}`}>{p.status}</span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+                    </span>
+                  ),
+                  text: (p) => p.code,
+                },
+                {
+                  key: 'name',
+                  header: 'Naziv',
+                  render: (p) => p.name,
+                  text: (p) => p.name,
+                },
+                {
+                  key: 'status',
+                  header: 'Status',
+                  render: (p) => (
+                    <span className={`badge ${STATUS_BADGE[p.status]}`}>
+                      {STATUS_LABEL[p.status]}
+                    </span>
+                  ),
+                  text: (p) => STATUS_LABEL[p.status],
+                },
+              ]}
+              rows={products}
+              rowKey={(p) => p.id}
+              onRowClick={(p) => router.push(`/catalog/${p.id}`)}
+              searchPlaceholder="Brza pretraga u listi…"
+              pageSize={10}
+              emptyText="Nijedan artikal nije pronađen."
+            />
           ) : null}
         </div>
 
         {can('product.manage') ? (
           <form className="card" onSubmit={createProduct}>
-            <h2>New product</h2>
-            <label className="label">Code</label>
+            <h2>Novi artikal</h2>
+            <label className="label">Šifra</label>
             <input
               className="input mono"
-              placeholder="e.g. WIDGET-01"
+              placeholder="npr. WIDGET-01"
               value={code}
               onChange={(e) => setCode(e.target.value)}
               required
             />
-            <label className="label">Name</label>
+            <label className="label">Naziv</label>
             <input
               className="input"
               value={name}
@@ -136,7 +156,7 @@ export default function CatalogPage() {
               disabled={busy}
               type="submit"
             >
-              {busy ? 'Creating…' : 'Create product'}
+              {busy ? 'Kreiranje…' : 'Kreiraj artikal'}
             </button>
           </form>
         ) : null}

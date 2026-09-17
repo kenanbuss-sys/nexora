@@ -68,3 +68,19 @@ Sljedeći prijedlog: BACKLOG_DOPUNA faza 1 — čeka potvrdu vlasnika.
 - Server-side paginacija/pretraga tamo gdje liste narastu (API danas vraća ograničene liste)
 
 **Lokalni preview (Mac):** `cd ~/nexora && git checkout docs/software-factory-md-v1 && pnpm install`; API: `DATABASE_URL=… REDIS_URL=… PORT=3001 pnpm --filter @nexora/api dev`; web: `API_URL=http://localhost:3001 pnpm --filter web dev` → http://localhost:3000 (login: Advanced sign in, tenant + subjekt). Cloud preview radi u sandboxu i nije dostupan s Maca.
+
+# Sprint 216 — ZAVRŠEN 17.09.2026: moduli Artikli/Partneri/Skladište/Narudžbe kroz zajednički okvir
+
+- [x] /catalog + /catalog/[id]: bosanski UI, lista kroz DataTable (pretraga/paginacija), klik na red → detalj, statusi kroz mape labela, stanja učitavanja/prazno/greška, link na zalihe
+- [x] /parties: bosanski UI (uklj. GDPR/saglasnosti/ugovori/zahtjevi za izmjenu/duplikati), imenik kroz DataTable, mape labela za tipove/statuse
+- [x] /inventory: bosanski UI, kretanja i rezervacije kroz DataTable (uz zadržane filtere skladište/SKU), tipovi kretanja "KOD · Naziv", link na /flow
+- [x] /orders: bosanski UI (svi tokovi zadržani: quick, from-quote, amend, hold/cancel, povrati, promocije, backorderi), lista kroz DataTable + status filter u toolbaru, **jasno razdvojen status paketa od fulfilmenta** (opisi/title uz dugmad)
+- [x] Bez backend izmjena; postojeći API-ji i server-side dozvole; bez novih biblioteka/grid sistema; bez fiktivnih podataka i nefunkcionalnih kontrola
+- [x] Provjere kroz browser (Playwright, 11 snimaka): sve četiri stranice desktop + mobilno (390px), otvaranje detalja klikom, **promjena pravnog lica u topbaru perzistira preko stranica**, zabranjen pristup (korisnik bez uloga), **regresija /flow kompletna** (prijem 10 → otprema 3); web typecheck/build ✓; lint 0 errors
+- Matrica: pogođene backend stavke nepromijenjene (backend nije diran) — izmjene su isključivo UI sloj postojećih DONE sposobnosti (PIM/MDM/WMS/OMS); bez novih capability redova
+
+**Otvorene stavke (master backlog):**
+- **Sprint 215 čeka vizuelni pregled vlasnika na Macu — OTVORENO** (upute u sekciji Sprinta 215)
+- Preostale stranice još na engleskom: finance, ledger (djelimično), quotes, crm, procurement, operations, ostali moduli — postepeno kroz isti obrazac
+- Enterprise grid (saved views, kolone, virtualizacija, bulk) i server-side paginacija — ostaju u backlogu
+- LaunchAgent com.nexora.autodev i dalje NEPOTVRĐEN
