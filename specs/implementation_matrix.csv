@@ -257,10 +257,10 @@ QMS-012,QMS,Certificates,P2,DONE,R2,,,Sprint 129: quality certificates as genera
 QMS-013,QMS,Calibration linkage,P2,DONE,R2,,,Sprint 201: calibration report from ver.tools config — due/overdue instruments per tenant.
 QMS-014,QMS,Quality audits,P2,DONE,R2,,,Sprint 200: quality audits run as GRC internal-audit register records.
 QMS-015,QMS,Quality analytics,P2,DONE,R2,,,Sprint 201: quality analytics — first-pass yield, NCRs by severity, top defect codes.
-EAM-001,EAM,Asset registry,P2,DONE,R4+,,,"Sprint 073: numbered asset registry with categories, serials, values; Assets page."
+EAM-001,EAM,Asset registry,P2,DONE,R4+,,,"Sprint 073: numbered asset registry with categories, serials, values; Assets page. Sprint 229: /assets rebuilt on the shared standard — detail with real service history, dialog actions."
 EAM-002,EAM,Asset hierarchy/history,P2,Partially implemented (Sprint 073),R4+,,,Lifecycle transitions audited (history in audit ledger); hierarchy pending.
 EAM-003,EAM,Preventive maintenance,P2,DONE,R4+,,,Sprint 202: preventive maintenance from eam.preventive config, idempotent per asset+period, tasks with checklists.
-EAM-004,EAM,Corrective maintenance,P2,DONE,R4+,,,Sprint 202: breakdown reporting moves the asset UNDER_MAINTENANCE and opens a corrective task.
+EAM-004,EAM,Corrective maintenance,P2,DONE,R4+,,,Sprint 202: breakdown reporting moves the asset UNDER_MAINTENANCE and opens a corrective task. Sprint 229: breakdown/complete flow surfaced in the assets UI.
 EAM-005,EAM,Downtime,P2,DONE,R4+,,,Sprint 202: downtime measured between breakdown and completion audit events per asset.
 EAM-006,EAM,Spare parts,P2,DONE,R4+,,,Sprint 202: spare parts issued through the stock ledger (idempotent ISSUE per completion+SKU).
 EAM-007,EAM,Maintenance labor,P2,DONE,R4+,,,Sprint 202: labor hours captured on completion; cost = hours x configured labor rate.
@@ -306,7 +306,7 @@ PRJ-002,PRJ,Sites,P2,DONE,R4+,,,Sprint 204: sites register linked to projects by
 PRJ-003,PRJ,Milestones,P2,DONE,R4+,,,Sprint 204: milestone register with due dates; idempotent completion on the audit trail.
 PRJ-004,PRJ,Budgets,P2,DONE,R4+,,,"Sprint 204: budgets on the project record; effective budget = budget + change orders. Sprint 226: dedicated /projects UI (list+detail, milestones complete, real-record financials, projectRef-linked orders)."
 PRJ-005,PRJ,Job costing,P2,DONE,R4+,,,"Sprint 204: job-cost ledger on audit events — labor/material/subcontract/other Sprint 226: dedicated /projects UI (list+detail, milestones complete, real-record financials, projectRef-linked orders).", idempotent per entry.
-PRJ-006,PRJ,Project procurement,P2,DONE,R4+,,,Sprint 204: purchase orders linked read-only; PO totals join the job cost.
+PRJ-006,PRJ,Project procurement,P2,DONE,R4+,,,"Sprint 204: purchase orders linked read-only; PO totals join the job cost. Sprint 227: linked-PO list endpoint (audited links, purchase.read) + UI section."
 PRJ-007,PRJ,Project inventory,P2,DONE,R4+,,,Sprint 204: material issues to projects through the stock ledger (idempotent ISSUE), costed.
 PRJ-008,PRJ,Subcontractors,P2,DONE,R4+,,,Sprint 204: subcontractor costs as first-class job-cost entries per supplier engagement.
 PRJ-009,PRJ,Timesheets,P2,DONE,R4+,,,Sprint 204: timesheets — one line per employee/project/day, costed at prj.laborRate.
