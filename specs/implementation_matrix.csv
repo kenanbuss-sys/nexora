@@ -515,9 +515,9 @@ FIN-023,FIN,General ledger (journal entries, posting workflow),DONE,PLANNED,R5,,
 FIN-024,FIN,Chart of accounts per legal entity + system account mapping,P1,DONE,R5,,,Sprint 211: 8-digit COA per legal entity with copy, system-account map and lazy partner analytics from MDM.
 FIN-025,FIN,Opening balances + period/ledger lock,P1,DONE,R5,,,Sprint 211: opening-balance date guard + period lock per legal entity.
 FIN-026,FIN,Reversal/storno engine for posted entries,P1,DONE,R5,,,Sprint 211: mirrored storno as the only correction; posted entries immutable.
-FIN-027,FIN,Account/partner cards + IOS + external client card,P1,PLANNED,R5,,,FinTrack paritet: kartice s PS kumulativom, kontrola salda prije printa.
+FIN-027,FIN,Account/partner cards + IOS + external client card,P1,DONE,R5,,,Sprint 212: account/partner cards — opening cumulative, one row per posted entry, closing; storno pairs hidden by default (net zero); read-only.
 FIN-028,FIN,KUF/KIF + VAT ledger (BiH localization pack),P1,PLANNED,R5,,,FinTrack paritet: PDV period status, prijava.
-FIN-029,FIN,Trial balance + GL reports + profit years,P2,PLANNED,R5,,,FinTrack paritet: bruto bilans, glavna knjiga.
+FIN-029,FIN,Trial balance + GL reports + profit years,P2,DONE,R5,,,Sprint 212: trial balance per legal entity and period — opening/turnover/closing per account with balanced totals; reconciles with cards.
 FIN-030,FIN,Bank statement import + matching (vision via AI port),P1,PLANNED,R5,,,FinTrack paritet: dedup, kontrola sume, arhiva PDF-a.
 FIN-031,FIN,Payment allocation / open-item clearing,P1,PLANNED,R5,,,FinTrack paritet: zatvaranje potrazivanja, izvedeni paid/remaining.
 FIN-032,FIN,Compensations + loan settlements with printed statement,P2,PLANNED,R5,,,FinTrack paritet.

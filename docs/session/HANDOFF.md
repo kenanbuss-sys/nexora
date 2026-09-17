@@ -1,10 +1,10 @@
 # Session handoff
-Datum: 17.09.2026 · commiti bez pusha/deploya.
+Datum: 17.09.2026 · grana docs/software-factory-md-v1 (na GitHubu, bez merge u main).
 
-Stanje: Sprint 211 (GL jezgro, ADR-0001) implementiran i zatvoren — FIN-023..026: kontni plan po pravnom licu, nalozi draft→posted (D=P, numeracija po firmi), početno stanje + lock perioda, zrcalni storno; permisije finance.ledger.*; UI ekran /ledger. AGENTS.md dopunjen sekcijom "Work economy". Matrica: FIN-023..026 DONE. FINANCE_BOUNDARY usklađen.
+Stanje: Sprint 212 završen — FIN-027 kartice (konto+partner, PS/promet/saldo, storno parovi sakriveni po defaultu bez uticaja na saldo) i FIN-029 bruto bilans (u ravnoteži, usklađen s karticama); read-only nad POSTED nalozima. UI /ledger dobio tabove Kartica i Bruto bilans. mac-auto.sh više NIKAD ne radi reset --hard: update samo na main + čisto stablo + fast-forward (LaunchAgent na Macu treba restart da pokupi novu verziju: `bash scripts/mac-auto.sh stop` pa ponovo install s grane).
 
-Commiti (cloud clone = izvor istine ove sesije): sprint 211 kod, MD paket, audit docs, ovaj closure. U Mac checkoutu isti lanac je na granama `docs/software-factory-md-v1` i `audit/2026-09-17`; OPREZ: auto-pull na ~/nexora radi `reset --hard origin/main` na aktivnoj grani — zato je aktivni checkout vraćen na main, a rad živi na imenovanim granama.
+Commiti na grani: sprint 211, MD paket, audit docs, closure, mac-auto fix, sprint 212 (+matrica/handoff). Push: fast-forward na origin/docs/software-factory-md-v1; main netaknut.
 
-Provjere: sprint211 testovi 9/9; puna API suita zelena poslije sprinta (izolovana baza); build + lint (0 errors) + typecheck zeleni.
+Provjere: sprint211+212 15/15; puna API suita zelena (197 fajlova/781 test prije s212; svježe pokretanje u toku zabilježeno u sesiji); build/lint 0 errors/typecheck zeleni.
 
-Blokada: HR repo nedostupan (ODL-005). Sljedeći korak: potvrda obima Sprinta 212 (FIN-027 kartice + FIN-029 bruto bilans).
+Blokada: HR repo nedostupan (ODL-005). Sljedeće: potvrda Sprinta 213 (FIN-030/031 izvodi+zatvaranje, AI-016 vision port).

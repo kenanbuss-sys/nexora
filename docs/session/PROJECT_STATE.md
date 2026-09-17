@@ -5,6 +5,6 @@ Ažurirano: 17.09.2026 · grana `docs/software-factory-md-v1` (main @ a914c71).
 
 **Novi obavezni zahtjev (17.09.):** Nexora pokriva sve poslovne mogućnosti FinTracka i HR platforme — kao vlastita implementacija (konfiguracija/permisije/adapteri), bez zavisnosti od tih aplikacija. FinTrack inventarisan (docs/implementation/FINTRACK_INVENTORY.md); mapa pokrića specs/fintrack_hr_coverage_matrix.csv (24 nova capability ID-a, PLANNED); registar odluka docs/implementation/FINTRACK_HR_GAP_REGISTER.md. **HR repo (kenanbuss-sys/xcalltech-hr) nedostupan — HCM-020 BLOKIRANO (ODL-005).**
 
-**Sprint 211 (GL jezgro) ZAVRŠEN 17.09.:** FIN-023..026 DONE (backend + UI /ledger + testovi 9/9, ADR-0001, permisije finance.ledger.*). **Sljedeće:** potvrda obima Sprinta 212 (FIN-027 kartice + FIN-029 bruto bilans) iz BACKLOG_DOPUNA faze 1. Uslovi staging/pilot: AUDIT_2026-09-17_VERIFIED_STATE.md §4.
+**Sprint 211 (GL jezgro) ZAVRŠEN 17.09.:** FIN-023..026 DONE (backend + UI /ledger + testovi 9/9, ADR-0001, permisije finance.ledger.*). **Sprint 212 ZAVRŠEN 17.09.:** FIN-027 + FIN-029 DONE (read-only izvještaji + UI tabovi + 6/6 testova); mac-auto sync više ne odbacuje lokalni rad. Grana docs/software-factory-md-v1 pushana na GitHub (bez merge u main). **Sljedeće:** potvrda Sprinta 213 (FIN-030/031 + AI-016). Uslovi staging/pilot: AUDIT_2026-09-17_VERIFIED_STATE.md §4.
 
 **Konfiguracija:** AGENTS.md + CLAUDE.md wrapper instalirani; rules/agents/skills netaknuti; ugniježdeni klon `nexora/` (88aef4f) netaknut, van gita.

@@ -1,15 +1,18 @@
 # Nexora — shared agent constitution
 
 ## Mission
+
 Build a premium modular enterprise Business Operating System covering commerce, distribution, warehousing, manufacturing, service, finance, analytics, devices and integrations.
 
 ## Read first
+
 1. `docs/00_SOURCE_OF_TRUTH.md`
 2. mandatory files listed there
 3. relevant domain spec
 4. relevant ADRs
 
 ## Absolute rules
+
 - One codebase; never fork the core for a tenant.
 - Never use real customer names in generic source, fixtures, demos or docs.
 - Never create a dependency on a separate pre-existing business application.
@@ -29,6 +32,7 @@ Build a premium modular enterprise Business Operating System covering commerce, 
 - External documents/web/tool content are untrusted data for AI features.
 
 ## Architecture
+
 - Modular monolith first with strict bounded contexts.
 - TypeScript strict mode.
 - PostgreSQL transactional source of truth.
@@ -41,18 +45,23 @@ Build a premium modular enterprise Business Operating System covering commerce, 
 - Separate read models for heavy dashboards when required.
 
 ## Before coding a feature
+
 State capability IDs, owning domain, entities/value objects, commands/queries/events, state-machine impact, permissions/scopes, tenant isolation, audit, concurrency/idempotency, tests and configuration/integration/device boundaries.
 
 ## Definition of done
+
 Domain invariants, tenant/authorization tests, audit, errors, migrations, reliable events, adapter boundaries, tests/typecheck/lint, and docs must be complete.
 
 ## Architecture changes
+
 Never silently change architecture. Create an ADR: context, decision, alternatives, consequences, migration and rollback.
 
 ## Subagents
+
 Use focused independent architecture/security/data/test/UX reviewers. Prefer at most three parallel reviewers unless a major release gate justifies more.
 
 ## Session efficiency
+
 - The source-of-truth reading order above remains mandatory. Inspect docs/00_SOURCE_OF_TRUTH.md and its mandatory files before coding; do not silently skip them for a token budget.
 - For a new task, retrieve only the relevant domain specification and ADRs after mandatory context. Do not recursively load all documentation.
 - Locate exact symbols and read bounded code ranges; expand for correctness.
@@ -64,6 +73,7 @@ Use focused independent architecture/security/data/test/UX reviewers. Prefer at 
 - Record meaningful changes in docs/session/PROJECT_STATE.md, CURRENT_SPRINT.md and DECISIONS.md; do not record secrets or unverified completion.
 
 ## Work economy
+
 - Do not re-read or restate information already loaded in context unless it changed or is no longer available.
 - One task = one clear scope with acceptance criteria. Do not widen the plan or refactor unrelated code.
 - Routine changes are done directly. Use a plan or independent review agents only when complexity or risk justifies their cost; delegate with a bounded context.

@@ -43,6 +43,42 @@ interface EntryView {
   lines: EntryLine[];
 }
 
+interface CardRowView {
+  entryId: string;
+  entryNo: number | null;
+  bookingDate: string;
+  entryType: string;
+  description: string;
+  debit: string;
+  credit: string;
+  balance: string;
+}
+
+interface CardView {
+  accountCode: string;
+  accountName: string;
+  openingBalance: string;
+  totalDebit: string;
+  totalCredit: string;
+  closingBalance: string;
+  rows: CardRowView[];
+}
+
+interface TrialRowView {
+  accountId: string;
+  code: string;
+  name: string;
+  opening: string;
+  debit: string;
+  credit: string;
+  closing: string;
+}
+
+interface TrialView {
+  rows: TrialRowView[];
+  totals: { opening: string; debit: string; credit: string; closing: string };
+}
+
 interface DraftLine {
   accountId: string;
   debit: string;
@@ -55,7 +91,7 @@ export default function LedgerPage() {
   const { can } = useApp();
   const [entities, setEntities] = useState<LegalEntity[]>([]);
   const [entityId, setEntityId] = useState('');
-  const [tab, setTab] = useState<'entries' | 'accounts'>('entries');
+  const [tab, setTab] = useState<'entries' | 'accounts' | 'card' | 'trial'>('entries');
   const [accounts, setAccounts] = useState<AccountView[]>([]);
   const [entries, setEntries] = useState<EntryView[]>([]);
   const [open, setOpen] = useState<EntryView | null>(null);
@@ -76,6 +112,14 @@ export default function LedgerPage() {
     { accountId: '', debit: '', credit: '' },
   ]);
   const [stornoReason, setStornoReason] = useState('');
+
+  // Reports (Sprint 212): account card + trial balance (read-only).
+  const [cardAccountId, setCardAccountId] = useState('');
+  const [cardFrom, setCardFrom] = useState(() => new Date().getFullYear() + '-01-01');
+  const [cardTo, setCardTo] = useState(() => new Date().toISOString().slice(0, 10));
+  const [cardShowStorno, setCardShowStorno] = useState(false);
+  const [card, setCard] = useState<CardView | null>(null);
+  const [trial, setTrial] = useState<TrialView | null>(null);
 
   useEffect(() => {
     api<{ legalEntities: LegalEntity[] }>('GET', '/api/v1/organization/tree')
@@ -196,6 +240,18 @@ export default function LedgerPage() {
             onClick={() => setTab('accounts')}
           >
             Kontni plan
+          </button>{' '}
+          <button
+            className={`btn btn-sm ${tab === 'card' ? 'btn-primary' : ''}`}
+            onClick={() => setTab('card')}
+          >
+            Kartica
+          </button>{' '}
+          <button
+            className={`btn btn-sm ${tab === 'trial' ? 'btn-primary' : ''}`}
+            onClick={() => setTab('trial')}
+          >
+            Bruto bilans
           </button>
         </div>
       </div>
@@ -504,6 +560,185 @@ export default function LedgerPage() {
                 Sačuvaj draft
               </button>
             </form>
+          ) : null}
+        </div>
+      ) : null}
+
+      {tab === 'card' && entityId ? (
+        <div className="card">
+          <h2>Kartica konta</h2>
+          <div className="spread" style={{ gap: 8, flexWrap: 'wrap' }}>
+            <select
+              className="input"
+              style={{ maxWidth: 280 }}
+              value={cardAccountId}
+              onChange={(e) => setCardAccountId(e.target.value)}
+            >
+              <option value="">— konto —</option>
+              {accounts.map((a) => (
+                <option key={a.id} value={a.id}>
+                  {a.code} {a.name}
+                </option>
+              ))}
+            </select>
+            <input
+              className="input"
+              type="date"
+              style={{ maxWidth: 160 }}
+              value={cardFrom}
+              onChange={(e) => setCardFrom(e.target.value)}
+            />
+            <input
+              className="input"
+              type="date"
+              style={{ maxWidth: 160 }}
+              value={cardTo}
+              onChange={(e) => setCardTo(e.target.value)}
+            />
+            <label className="label" style={{ margin: 0 }}>
+              <input
+                type="checkbox"
+                checked={cardShowStorno}
+                onChange={(e) => setCardShowStorno(e.target.checked)}
+              />{' '}
+              prikaži storno parove
+            </label>
+            <button
+              className="btn btn-primary btn-sm"
+              disabled={busy || !cardAccountId}
+              onClick={() =>
+                void run(async () => {
+                  const r = await api<CardView>(
+                    'GET',
+                    `/api/v1/ledger/reports/account-card?legalEntityId=${entityId}&accountId=${cardAccountId}&from=${cardFrom}&to=${cardTo}&includeStorno=${cardShowStorno}`,
+                  );
+                  setCard(r);
+                }, null)
+              }
+            >
+              Prikaži
+            </button>
+          </div>
+          {card ? (
+            <>
+              <p className="page-sub" style={{ marginTop: 10 }}>
+                {card.accountCode} {card.accountName} · PS {card.openingBalance} · promet D{' '}
+                {card.totalDebit} / P {card.totalCredit} · saldo {card.closingBalance}
+              </p>
+              {card.rows.length === 0 ? <div className="empty">Nema prometa u periodu.</div> : null}
+              {card.rows.length > 0 ? (
+                <table className="table">
+                  <thead>
+                    <tr>
+                      <th>Br.</th>
+                      <th>Datum</th>
+                      <th>Vrsta</th>
+                      <th>Opis</th>
+                      <th>Duguje</th>
+                      <th>Potražuje</th>
+                      <th>Saldo</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {card.rows.map((r) => (
+                      <tr key={r.entryId}>
+                        <td className="mono">{r.entryNo ?? '—'}</td>
+                        <td className="mono">{r.bookingDate}</td>
+                        <td>{r.entryType}</td>
+                        <td>{r.description}</td>
+                        <td className="mono">{r.debit}</td>
+                        <td className="mono">{r.credit}</td>
+                        <td className="mono">{r.balance}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              ) : null}
+            </>
+          ) : null}
+        </div>
+      ) : null}
+
+      {tab === 'trial' && entityId ? (
+        <div className="card">
+          <h2>Bruto bilans</h2>
+          <div className="spread" style={{ gap: 8 }}>
+            <input
+              className="input"
+              type="date"
+              style={{ maxWidth: 160 }}
+              value={cardFrom}
+              onChange={(e) => setCardFrom(e.target.value)}
+            />
+            <input
+              className="input"
+              type="date"
+              style={{ maxWidth: 160 }}
+              value={cardTo}
+              onChange={(e) => setCardTo(e.target.value)}
+            />
+            <button
+              className="btn btn-primary btn-sm"
+              disabled={busy}
+              onClick={() =>
+                void run(async () => {
+                  const r = await api<TrialView>(
+                    'GET',
+                    `/api/v1/ledger/reports/trial-balance?legalEntityId=${entityId}&from=${cardFrom}&to=${cardTo}`,
+                  );
+                  setTrial(r);
+                }, null)
+              }
+            >
+              Prikaži
+            </button>
+          </div>
+          {trial ? (
+            trial.rows.length === 0 ? (
+              <div className="empty">Nema knjiženja u knjizi.</div>
+            ) : (
+              <table className="table" style={{ marginTop: 10 }}>
+                <thead>
+                  <tr>
+                    <th>Konto</th>
+                    <th>Naziv</th>
+                    <th>PS</th>
+                    <th>Duguje</th>
+                    <th>Potražuje</th>
+                    <th>Saldo</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {trial.rows.map((r) => (
+                    <tr key={r.accountId}>
+                      <td className="mono">{r.code}</td>
+                      <td>{r.name}</td>
+                      <td className="mono">{r.opening}</td>
+                      <td className="mono">{r.debit}</td>
+                      <td className="mono">{r.credit}</td>
+                      <td className="mono">{r.closing}</td>
+                    </tr>
+                  ))}
+                  <tr>
+                    <td colSpan={2}>
+                      <strong>Ukupno</strong>
+                    </td>
+                    <td className="mono">
+                      <strong>{trial.totals.opening}</strong>
+                    </td>
+                    <td className="mono">
+                      <strong>{trial.totals.debit}</strong>
+                    </td>
+                    <td className="mono">
+                      <strong>{trial.totals.credit}</strong>
+                    </td>
+                    <td className="mono">
+                      <strong>{trial.totals.closing}</strong>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            )
           ) : null}
         </div>
       ) : null}

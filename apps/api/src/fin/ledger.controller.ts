@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, Inject, Param, Post, Query } from '@nestjs/common';
-import { GL_ENTRY_TYPES, type LedgerService } from '@nexora/domain-fin';
+import { GL_ENTRY_TYPES, type LedgerReportService, type LedgerService } from '@nexora/domain-fin';
 import type { RequestContext } from '@nexora/tenancy';
 import { z } from 'zod';
 import { Ctx } from '../auth/ctx.decorator';
@@ -7,6 +7,7 @@ import { RequirePermission } from '../auth/permissions.guard';
 import { parseBody } from '../common/validate';
 
 export const LEDGER_SERVICE = 'LEDGER_SERVICE';
+export const LEDGER_REPORT_SERVICE = 'LEDGER_REPORT_SERVICE';
 
 const DATE = z.string().regex(/^\d{4}-\d{2}-\d{2}$/);
 const accountSchema = z.object({
@@ -169,5 +170,74 @@ export class LedgerController {
   async storno(@Param('id') id: string, @Body() body: unknown, @Ctx() ctx: RequestContext) {
     const input = parseBody(stornoSchema, body);
     return this.ledger.storno(id, input.reason, ctx);
+  }
+}
+
+/**
+ * FIN-027/029 (Sprint 212) — read-only ledger reports: account and
+ * partner cards, trial balance. Reports never mutate the ledger.
+ */
+@Controller('api/v1/ledger/reports')
+export class LedgerReportsController {
+  constructor(@Inject(LEDGER_REPORT_SERVICE) private readonly reports: LedgerReportService) {}
+
+  @Get('account-card')
+  @RequirePermission('finance.ledger.read')
+  async accountCard(
+    @Ctx() ctx: RequestContext,
+    @Query('legalEntityId') legalEntityId: string,
+    @Query('accountId') accountId: string,
+    @Query('from') from: string,
+    @Query('to') to: string,
+    @Query('includeStorno') includeStorno?: string,
+  ) {
+    const q = parseBody(
+      z.object({
+        legalEntityId: z.string().uuid(),
+        accountId: z.string().uuid(),
+        from: DATE,
+        to: DATE,
+      }),
+      { legalEntityId, accountId, from, to },
+    );
+    return this.reports.accountCard({ ...q, includeStorno: includeStorno === 'true' }, ctx);
+  }
+
+  @Get('partner-card')
+  @RequirePermission('finance.ledger.read')
+  async partnerCard(
+    @Ctx() ctx: RequestContext,
+    @Query('legalEntityId') legalEntityId: string,
+    @Query('partnerId') partnerId: string,
+    @Query('from') from: string,
+    @Query('to') to: string,
+    @Query('includeStorno') includeStorno?: string,
+  ) {
+    const q = parseBody(
+      z.object({
+        legalEntityId: z.string().uuid(),
+        partnerId: z.string().uuid(),
+        from: DATE,
+        to: DATE,
+      }),
+      { legalEntityId, partnerId, from, to },
+    );
+    return this.reports.partnerCard({ ...q, includeStorno: includeStorno === 'true' }, ctx);
+  }
+
+  @Get('trial-balance')
+  @RequirePermission('finance.ledger.read')
+  async trialBalance(
+    @Ctx() ctx: RequestContext,
+    @Query('legalEntityId') legalEntityId: string,
+    @Query('from') from: string,
+    @Query('to') to: string,
+  ) {
+    const q = parseBody(z.object({ legalEntityId: z.string().uuid(), from: DATE, to: DATE }), {
+      legalEntityId,
+      from,
+      to,
+    });
+    return this.reports.trialBalance(q, ctx);
   }
 }

@@ -660,3 +660,314 @@ export class LedgerService {
     });
   }
 }
+
+// ---------------------------------------------------------------------------
+// Sprint 212 — FIN-027 account/partner cards + FIN-029 trial balance.
+// Read-only reports over POSTED entries; they never mutate the ledger.
+// A stornoed original and its STORNO mirror net to zero, so hiding the
+// pair on a card (the default) never changes the closing balance and
+// the card always reconciles with the trial balance.
+// ---------------------------------------------------------------------------
+
+export interface CardRow {
+  entryId: string;
+  entryNo: number | null;
+  bookingDate: string;
+  entryType: string;
+  description: string;
+  debit: string;
+  credit: string;
+  balance: string;
+}
+
+export interface AccountCardView {
+  accountId: string;
+  accountCode: string;
+  accountName: string;
+  from: string;
+  to: string;
+  openingBalance: string;
+  totalDebit: string;
+  totalCredit: string;
+  closingBalance: string;
+  rows: CardRow[];
+}
+
+export interface TrialBalanceRow {
+  accountId: string;
+  code: string;
+  name: string;
+  class: string;
+  opening: string;
+  debit: string;
+  credit: string;
+  closing: string;
+}
+
+interface CardQuery {
+  legalEntityId: string;
+  from: string;
+  to: string;
+}
+
+export class LedgerReportService {
+  constructor(private readonly prisma: PrismaClient) {}
+
+  private parseRange(from: string, to: string): { from: Date; to: Date } {
+    if (!DATE_RE.test(from) || !DATE_RE.test(to)) {
+      throw new DomainError('VALIDATION_FAILED', 'Period dates must be YYYY-MM-DD');
+    }
+    const f = new Date(from);
+    const t = new Date(to);
+    if (t < f) throw new DomainError('VALIDATION_FAILED', 'The period cannot end before it starts');
+    return { from: f, to: t };
+  }
+
+  /** Is this entry half of a storno pair (original or mirror)? */
+  private isStornoPair(entry: {
+    entryType: string;
+    stornoOfId: string | null;
+    stornoedById: string | null;
+  }): boolean {
+    return (
+      (entry.entryType === 'STORNO' && entry.stornoOfId !== null) || entry.stornoedById !== null
+    );
+  }
+
+  private async postedLines(where: Prisma.GlJournalLineWhereInput, ctx: RequestContext) {
+    return this.prisma.glJournalLine.findMany({
+      where: { ...where, tenantId: ctx.tenantId, entry: { is: { status: 'POSTED' } } },
+      include: {
+        entry: {
+          select: {
+            id: true,
+            entryNo: true,
+            entryType: true,
+            bookingDate: true,
+            description: true,
+            stornoOfId: true,
+            stornoedById: true,
+          },
+        },
+      },
+      take: 20000,
+    });
+  }
+
+  private buildCard(
+    meta: { accountId: string; accountCode: string; accountName: string; from: string; to: string },
+    lines: Array<{
+      debit: Prisma.Decimal;
+      credit: Prisma.Decimal;
+      entry: {
+        id: string;
+        entryNo: number | null;
+        entryType: string;
+        bookingDate: Date;
+        description: string;
+        stornoOfId: string | null;
+        stornoedById: string | null;
+      };
+    }>,
+    range: { from: Date; to: Date },
+    includeStorno: boolean,
+  ): AccountCardView {
+    const visible = includeStorno ? lines : lines.filter((l) => !this.isStornoPair(l.entry));
+    let opening = 0;
+    // One card row per journal entry (FIN-027), aggregated over its lines.
+    const perEntry = new Map<
+      string,
+      { debit: number; credit: number; entry: (typeof lines)[number]['entry'] }
+    >();
+    for (const line of visible) {
+      const d = Number(line.debit);
+      const c = Number(line.credit);
+      if (line.entry.bookingDate < range.from) {
+        opening += d - c;
+        continue;
+      }
+      if (line.entry.bookingDate > range.to) continue;
+      const agg = perEntry.get(line.entry.id) ?? { debit: 0, credit: 0, entry: line.entry };
+      agg.debit += d;
+      agg.credit += c;
+      perEntry.set(line.entry.id, agg);
+    }
+    const ordered = [...perEntry.values()].sort(
+      (a, b) =>
+        a.entry.bookingDate.getTime() - b.entry.bookingDate.getTime() ||
+        (a.entry.entryNo ?? 0) - (b.entry.entryNo ?? 0),
+    );
+    let balance = opening;
+    let totalDebit = 0;
+    let totalCredit = 0;
+    const rows: CardRow[] = ordered.map((r) => {
+      balance += r.debit - r.credit;
+      totalDebit += r.debit;
+      totalCredit += r.credit;
+      return {
+        entryId: r.entry.id,
+        entryNo: r.entry.entryNo,
+        bookingDate: r.entry.bookingDate.toISOString().slice(0, 10),
+        entryType: r.entry.entryType,
+        description: r.entry.description,
+        debit: r.debit.toFixed(2),
+        credit: r.credit.toFixed(2),
+        balance: balance.toFixed(2),
+      };
+    });
+    return {
+      ...meta,
+      openingBalance: opening.toFixed(2),
+      totalDebit: totalDebit.toFixed(2),
+      totalCredit: totalCredit.toFixed(2),
+      closingBalance: balance.toFixed(2),
+      rows,
+    };
+  }
+
+  /** FIN-027: analytic card of one account. Read-only. */
+  async accountCard(
+    input: CardQuery & { accountId: string; includeStorno?: boolean | undefined },
+    ctx: RequestContext,
+  ): Promise<AccountCardView> {
+    const range = this.parseRange(input.from, input.to);
+    const account = await this.prisma.glAccount.findFirst({
+      where: {
+        id: input.accountId,
+        tenantId: ctx.tenantId,
+        legalEntityId: input.legalEntityId,
+      },
+    });
+    if (!account) throw notFound('GlAccount', input.accountId);
+    const lines = await this.postedLines({ accountId: account.id }, ctx);
+    return this.buildCard(
+      {
+        accountId: account.id,
+        accountCode: account.code,
+        accountName: account.name,
+        from: input.from,
+        to: input.to,
+      },
+      lines,
+      range,
+      input.includeStorno === true,
+    );
+  }
+
+  /** FIN-027: partner card across the partner's analytic accounts. */
+  async partnerCard(
+    input: CardQuery & { partnerId: string; includeStorno?: boolean | undefined },
+    ctx: RequestContext,
+  ): Promise<AccountCardView> {
+    const range = this.parseRange(input.from, input.to);
+    const party = await this.prisma.party.findFirst({
+      where: { id: input.partnerId, tenantId: ctx.tenantId },
+    });
+    if (!party) throw notFound('Party', input.partnerId);
+    const accounts = await this.prisma.glAccount.findMany({
+      where: {
+        tenantId: ctx.tenantId,
+        legalEntityId: input.legalEntityId,
+        partnerId: input.partnerId,
+      },
+      select: { id: true },
+    });
+    const lines = await this.postedLines(
+      {
+        entry: { is: { status: 'POSTED', legalEntityId: input.legalEntityId } },
+        OR: [{ partnerId: input.partnerId }, { accountId: { in: accounts.map((a) => a.id) } }],
+      },
+      ctx,
+    );
+    return this.buildCard(
+      {
+        accountId: input.partnerId,
+        accountCode: 'PARTNER',
+        accountName: party.name,
+        from: input.from,
+        to: input.to,
+      },
+      lines,
+      range,
+      input.includeStorno === true,
+    );
+  }
+
+  /**
+   * FIN-029: trial balance (bruto bilans) of one legal entity and
+   * period — opening, period turnover and closing per account, with
+   * balanced totals. Storno pairs are INCLUDED here (they net to
+   * zero), so the report always reconciles with the ledger.
+   */
+  async trialBalance(
+    input: CardQuery,
+    ctx: RequestContext,
+  ): Promise<{
+    legalEntityId: string;
+    from: string;
+    to: string;
+    rows: TrialBalanceRow[];
+    totals: { opening: string; debit: string; credit: string; closing: string };
+  }> {
+    const range = this.parseRange(input.from, input.to);
+    const entity = await this.prisma.legalEntity.findFirst({
+      where: { id: input.legalEntityId, tenantId: ctx.tenantId },
+    });
+    if (!entity) throw notFound('LegalEntity', input.legalEntityId);
+    const accounts = await this.prisma.glAccount.findMany({
+      where: { tenantId: ctx.tenantId, legalEntityId: input.legalEntityId },
+      orderBy: { code: 'asc' },
+      take: 5000,
+    });
+    const lines = await this.postedLines(
+      { entry: { is: { status: 'POSTED', legalEntityId: input.legalEntityId } } },
+      ctx,
+    );
+    const byAccount = new Map<string, { opening: number; debit: number; credit: number }>();
+    for (const line of lines) {
+      const agg = byAccount.get(line.accountId) ?? { opening: 0, debit: 0, credit: 0 };
+      const d = Number(line.debit);
+      const c = Number(line.credit);
+      if (line.entry.bookingDate < range.from) {
+        agg.opening += d - c;
+      } else if (line.entry.bookingDate <= range.to) {
+        agg.debit += d;
+        agg.credit += c;
+      }
+      byAccount.set(line.accountId, agg);
+    }
+    const totals = { opening: 0, debit: 0, credit: 0, closing: 0 };
+    const rows: TrialBalanceRow[] = [];
+    for (const account of accounts) {
+      const agg = byAccount.get(account.id) ?? { opening: 0, debit: 0, credit: 0 };
+      const closing = agg.opening + agg.debit - agg.credit;
+      if (agg.opening === 0 && agg.debit === 0 && agg.credit === 0) continue;
+      totals.opening += agg.opening;
+      totals.debit += agg.debit;
+      totals.credit += agg.credit;
+      totals.closing += closing;
+      rows.push({
+        accountId: account.id,
+        code: account.code,
+        name: account.name,
+        class: account.code.charAt(0),
+        opening: agg.opening.toFixed(2),
+        debit: agg.debit.toFixed(2),
+        credit: agg.credit.toFixed(2),
+        closing: closing.toFixed(2),
+      });
+    }
+    return {
+      legalEntityId: input.legalEntityId,
+      from: input.from,
+      to: input.to,
+      rows,
+      totals: {
+        opening: totals.opening.toFixed(2),
+        debit: totals.debit.toFixed(2),
+        credit: totals.credit.toFixed(2),
+        closing: totals.closing.toFixed(2),
+      },
+    };
+  }
+}
