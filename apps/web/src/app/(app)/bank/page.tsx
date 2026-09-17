@@ -3,19 +3,23 @@
 import { useCallback, useEffect, useState } from 'react';
 import { api, errorText } from '../../../lib/api';
 import { useApp } from '../app-shell';
-import { getStoredLegalEntity } from '../../../lib/entity';
+import {
+  DataTable,
+  ConfirmDialog,
+  LoadingState,
+  EmptyState,
+  ErrorState,
+  type Column,
+} from '../../../components/ui';
 
 /**
  * FIN-030/031 (Sprint 213) — bank statements & closure. Import with
  * control sums, review, explicit confirmation, partial allocation of
  * lines to invoices (no ledger posting). AI-016: optional vision
  * extraction returns a proposal that the person reviews before import.
+ * Sprint 217: UI aligned with the 215–216 standard (DataTable,
+ * ConfirmDialog, loading/empty/error states, status label maps).
  */
-
-interface LegalEntity {
-  id: string;
-  name: string;
-}
 
 interface StatementRow {
   id: string;
@@ -85,10 +89,32 @@ interface ExtractResult {
   } | null;
 }
 
+// API status values stay untouched; only display labels are mapped.
+const STATEMENT_STATUS_LABELS: Record<string, string> = {
+  IMPORTED: 'Na pregledu',
+  CONFIRMED: 'Potvrđen',
+};
+
+const STATEMENT_BADGE: Record<string, string> = {
+  IMPORTED: 'badge-warn',
+  CONFIRMED: 'badge-ok',
+};
+
+const LINE_STATUS_LABELS: Record<string, string> = {
+  OPEN: 'Otvorena',
+  PARTIALLY_ALLOCATED: 'Djelimično raspoređena',
+  ALLOCATED: 'Raspoređena',
+};
+
 const LINE_BADGE: Record<string, string> = {
   OPEN: 'badge-warn',
   PARTIALLY_ALLOCATED: 'badge-accent',
   ALLOCATED: 'badge-ok',
+};
+
+const SOURCE_LABELS: Record<string, string> = {
+  MANUAL: 'Ručni unos',
+  AI_PROPOSAL: 'AI prijedlog',
 };
 
 const emptyLine = (): DraftLine => ({
@@ -100,16 +126,20 @@ const emptyLine = (): DraftLine => ({
 });
 
 export default function BankPage() {
-  const { can } = useApp();
-  const [entities, setEntities] = useState<LegalEntity[]>([]);
-  const [entityId, setEntityId] = useState('');
+  const { can, entities, legalEntityId: entityId } = useApp();
+
   const [tab, setTab] = useState<'statements' | 'import'>('statements');
-  const [statements, setStatements] = useState<StatementRow[]>([]);
+  const [statements, setStatements] = useState<StatementRow[] | null>(null);
   const [open, setOpen] = useState<StatementView | null>(null);
   const [invoices, setInvoices] = useState<InvoiceOption[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+
+  // Critical-action confirmation dialogs (Sprint 217 UI standard).
+  const [confirmStatementOpen, setConfirmStatementOpen] = useState(false);
+  const [discardStatementOpen, setDiscardStatementOpen] = useState(false);
+  const [allocationConfirmOpen, setAllocationConfirmOpen] = useState(false);
 
   // Import form.
   const [stmtNumber, setStmtNumber] = useState('');
@@ -131,14 +161,6 @@ export default function BankPage() {
   const [allocAmount, setAllocAmount] = useState('');
 
   useEffect(() => {
-    api<{ legalEntities: LegalEntity[] }>('GET', '/api/v1/organization/tree')
-      .then((r) => {
-        setEntities(r.legalEntities);
-        const stored = getStoredLegalEntity();
-        const preferred = r.legalEntities.find((le) => le.id === stored) ?? r.legalEntities[0];
-        if (preferred) setEntityId((prev) => prev || preferred.id);
-      })
-      .catch((e: unknown) => setError(errorText(e)));
     api<{ invoices: InvoiceOption[] }>('GET', '/api/v1/finance/invoices')
       .then((r) => setInvoices(r.invoices))
       .catch(() => setInvoices([]));
@@ -247,8 +269,25 @@ export default function BankPage() {
     }, 'Prijedlog učitan — provjerite podatke prije uvoza.');
   }
 
-  async function allocate(e: React.FormEvent) {
-    e.preventDefault();
+  async function confirmStatement() {
+    if (!open) return;
+    await run(async () => {
+      await api('POST', `/api/v1/bank/statements/${open.id}/confirm`);
+      await openStatement(open.id);
+      setConfirmStatementOpen(false);
+    }, 'Izvod potvrđen.');
+  }
+
+  async function discardStatement() {
+    if (!open) return;
+    await run(async () => {
+      await api('DELETE', `/api/v1/bank/statements/${open.id}`);
+      setOpen(null);
+      setDiscardStatementOpen(false);
+    }, 'Izvod odbačen.');
+  }
+
+  async function allocate() {
     if (!open) return;
     const key = `alloc-${allocLineId.slice(0, 8)}-${allocInvoiceId.slice(0, 8)}-${allocAmount}`;
     await run(async () => {
@@ -260,31 +299,69 @@ export default function BankPage() {
       });
       await openStatement(open.id);
       setAllocAmount('');
-    }, 'Stavka rasporedjena na fakturu (bez knjiženja u glavnu knjigu).');
+      setAllocationConfirmOpen(false);
+    }, 'Stavka raspoređena na fakturu (bez knjiženja u glavnu knjigu).');
   }
 
   const openInvoices = invoices.filter((i) => i.status === 'OPEN' || i.status === 'PARTIALLY_PAID');
+  const entityName = entities.find((le) => le.id === entityId)?.name ?? '—';
+  const allocLine = open?.lines.find((l) => l.id === allocLineId) ?? null;
+  const allocInvoice = openInvoices.find((i) => i.id === allocInvoiceId) ?? null;
+  const allocRemaining = allocLine
+    ? (Number(allocLine.amount) - Number(allocLine.allocatedAmount)).toFixed(2)
+    : null;
+  const invoiceOpenAmount = allocInvoice
+    ? (Number(allocInvoice.total) - Number(allocInvoice.paidAmount)).toFixed(2)
+    : null;
+
+  const statementColumns: Array<Column<StatementRow>> = [
+    {
+      key: 'number',
+      header: 'Broj',
+      render: (s) => (
+        <>
+          {s.statementNumber}
+          {s.source === 'AI_PROPOSAL' ? ` (${SOURCE_LABELS.AI_PROPOSAL})` : ''}
+        </>
+      ),
+      text: (s) =>
+        `${s.statementNumber}${s.source === 'AI_PROPOSAL' ? ` ${SOURCE_LABELS.AI_PROPOSAL}` : ''}`,
+    },
+    {
+      key: 'date',
+      header: 'Datum',
+      render: (s) => s.statementDate,
+      text: (s) => s.statementDate,
+    },
+    {
+      key: 'balance',
+      header: 'Saldo',
+      render: (s) => `${s.openingBalance} → ${s.closingBalance} ${s.currency}`,
+      align: 'right',
+    },
+    {
+      key: 'status',
+      header: 'Status',
+      render: (s) => (
+        <span className={`badge ${STATEMENT_BADGE[s.status] ?? ''}`}>
+          {STATEMENT_STATUS_LABELS[s.status] ?? s.status}
+        </span>
+      ),
+      text: (s) => STATEMENT_STATUS_LABELS[s.status] ?? s.status,
+    },
+  ];
 
   return (
     <div>
       <div className="spread">
         <h1>Banka — izvodi i zatvaranje</h1>
-        <select
-          className="input"
-          value={entityId}
-          onChange={(e) => {
-            setEntityId(e.target.value);
-            setOpen(null);
-          }}
-        >
-          {entities.map((le) => (
-            <option key={le.id} value={le.id}>
-              {le.name}
-            </option>
-          ))}
-        </select>
+        <span className="muted" style={{ fontSize: 12.5 }}>
+          Aktivno pravno lice:{' '}
+          <strong>{entities.find((le) => le.id === entityId)?.name ?? '—'}</strong> (mijenja se u
+          traci iznad)
+        </span>
       </div>
-      {error ? <p className="alert alert-error">{error}</p> : null}
+      {error ? <ErrorState text={error} /> : null}
       {notice ? <p className="alert alert-ok">{notice}</p> : null}
 
       <div className="tabs">
@@ -308,43 +385,21 @@ export default function BankPage() {
         <div className="grid-2">
           <div className="card">
             <h2>Izvodi</h2>
-            {statements.length === 0 ? <p>Nema uvezenih izvoda.</p> : null}
-            {statements.length > 0 ? (
-              <table className="table">
-                <thead>
-                  <tr>
-                    <th>Broj</th>
-                    <th>Datum</th>
-                    <th>Saldo</th>
-                    <th>Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {statements.map((s) => (
-                    <tr key={s.id} onClick={() => void openStatement(s.id)}>
-                      <td>
-                        {s.statementNumber}
-                        {s.source === 'AI_PROPOSAL' ? ' (AI prijedlog)' : ''}
-                      </td>
-                      <td>{s.statementDate}</td>
-                      <td>
-                        {s.openingBalance} → {s.closingBalance} {s.currency}
-                      </td>
-                      <td>
-                        <span
-                          className={`badge ${s.status === 'CONFIRMED' ? 'badge-ok' : 'badge-warn'}`}
-                        >
-                          {s.status === 'CONFIRMED' ? 'POTVRĐEN' : 'NA PREGLEDU'}
-                        </span>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+            {statements === null && !error ? <LoadingState text="Učitavanje izvoda…" /> : null}
+            {statements !== null ? (
+              <DataTable
+                columns={statementColumns}
+                rows={statements}
+                rowKey={(s) => s.id}
+                onRowClick={(s) => void openStatement(s.id)}
+                searchPlaceholder="Pretraga izvoda…"
+                pageSize={10}
+                emptyText="Nema uvezenih izvoda."
+              />
             ) : null}
           </div>
           <div className="card">
-            {!open ? <p>Odaberite izvod za pregled i zatvaranje.</p> : null}
+            {!open ? <EmptyState text="Odaberite izvod za pregled i zatvaranje." /> : null}
             {open ? (
               <div>
                 <div className="spread">
@@ -356,24 +411,14 @@ export default function BankPage() {
                       <button
                         className="btn btn-primary"
                         disabled={busy}
-                        onClick={() =>
-                          void run(async () => {
-                            await api('POST', `/api/v1/bank/statements/${open.id}/confirm`);
-                            await openStatement(open.id);
-                          }, 'Izvod potvrđen.')
-                        }
+                        onClick={() => setConfirmStatementOpen(true)}
                       >
                         Potvrdi izvod
                       </button>{' '}
                       <button
                         className="btn"
                         disabled={busy}
-                        onClick={() =>
-                          void run(async () => {
-                            await api('DELETE', `/api/v1/bank/statements/${open.id}`);
-                            setOpen(null);
-                          }, 'Izvod odbačen.')
-                        }
+                        onClick={() => setDiscardStatementOpen(true)}
                       >
                         Odbaci
                       </button>
@@ -382,44 +427,55 @@ export default function BankPage() {
                 </div>
                 <p>
                   Račun {open.bankAccount} · {open.openingBalance} → {open.closingBalance}{' '}
-                  {open.currency}
+                  {open.currency} · Izvor: {SOURCE_LABELS[open.source] ?? open.source}
                 </p>
-                <table className="table">
-                  <thead>
-                    <tr>
-                      <th>#</th>
-                      <th>Datum</th>
-                      <th>Opis</th>
-                      <th>Iznos</th>
-                      <th>Raspoređeno</th>
-                      <th>Status</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {open.lines.map((l) => (
-                      <tr key={l.id}>
-                        <td>{l.seq}</td>
-                        <td>{l.bookingDate}</td>
-                        <td>
-                          {l.description}
-                          {l.reference ? ` (${l.reference})` : ''}
-                        </td>
-                        <td>{l.amount}</td>
-                        <td>{l.allocatedAmount}</td>
-                        <td>
-                          <span className={`badge ${LINE_BADGE[l.status] ?? ''}`}>{l.status}</span>
-                        </td>
+                {open.lines.length === 0 ? (
+                  <EmptyState text="Izvod nema stavki." />
+                ) : (
+                  <table className="table">
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Datum</th>
+                        <th>Opis</th>
+                        <th>Iznos</th>
+                        <th>Raspoređeno</th>
+                        <th>Status</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody>
+                      {open.lines.map((l) => (
+                        <tr key={l.id}>
+                          <td>{l.seq}</td>
+                          <td>{l.bookingDate}</td>
+                          <td>
+                            {l.description}
+                            {l.reference ? ` (${l.reference})` : ''}
+                          </td>
+                          <td>{l.amount}</td>
+                          <td>{l.allocatedAmount}</td>
+                          <td>
+                            <span className={`badge ${LINE_BADGE[l.status] ?? ''}`}>
+                              {LINE_STATUS_LABELS[l.status] ?? l.status}
+                            </span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                )}
                 {open.status === 'IMPORTED' ? (
                   <p className="alert alert-warn">
                     Izvod je na pregledu — zatvaranje je moguće tek nakon izričite potvrde.
                   </p>
                 ) : null}
                 {can('finance.pay') && open.status === 'CONFIRMED' ? (
-                  <form onSubmit={allocate}>
+                  <form
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      setAllocationConfirmOpen(true);
+                    }}
+                  >
                     <h3>Zatvaranje stavke (bez knjiženja)</h3>
                     <p>
                       Raspoređivanje povezuje uplatu s fakturom kroz postojeći tok plaćanja; ne
@@ -430,6 +486,7 @@ export default function BankPage() {
                       value={allocLineId}
                       onChange={(e) => setAllocLineId(e.target.value)}
                       required
+                      aria-label="Stavka izvoda"
                     >
                       <option value="">Stavka izvoda…</option>
                       {open.lines
@@ -445,6 +502,7 @@ export default function BankPage() {
                       value={allocInvoiceId}
                       onChange={(e) => setAllocInvoiceId(e.target.value)}
                       required
+                      aria-label="Faktura"
                     >
                       <option value="">Faktura…</option>
                       {openInvoices.map((i) => (
@@ -463,6 +521,7 @@ export default function BankPage() {
                       value={allocAmount}
                       onChange={(e) => setAllocAmount(e.target.value)}
                       required
+                      aria-label="Iznos alokacije"
                     />
                     <button className="btn btn-primary" disabled={busy} type="submit">
                       Rasporedi
@@ -610,6 +669,106 @@ export default function BankPage() {
             ) : null}
           </div>
         </div>
+      ) : null}
+
+      {open ? (
+        <ConfirmDialog
+          open={confirmStatementOpen}
+          title="Potvrdi izvod"
+          consequence="Nakon potvrde izvod je potvrđen i stavke se mogu raspoređivati; potvrda u zaključanom periodu je odbijena."
+          confirmLabel="Potvrdi izvod"
+          busy={busy}
+          onConfirm={() => void confirmStatement()}
+          onCancel={() => setConfirmStatementOpen(false)}
+        >
+          <div className="fact">
+            <span>Pravno lice</span>
+            <span>{entityName}</span>
+          </div>
+          <div className="fact">
+            <span>Broj izvoda</span>
+            <span>{open.statementNumber}</span>
+          </div>
+          <div className="fact">
+            <span>Datum</span>
+            <span>{open.statementDate}</span>
+          </div>
+          <div className="fact">
+            <span>Stanje</span>
+            <span>
+              {open.openingBalance} → {open.closingBalance} {open.currency}
+            </span>
+          </div>
+          <div className="fact">
+            <span>Broj stavki</span>
+            <span>{open.lines.length}</span>
+          </div>
+          <div className="fact">
+            <span>Izvor</span>
+            <span>{SOURCE_LABELS[open.source] ?? open.source}</span>
+          </div>
+        </ConfirmDialog>
+      ) : null}
+
+      {open ? (
+        <ConfirmDialog
+          open={discardStatementOpen}
+          title="Odbaci izvod"
+          consequence="Nepotvrđeni izvod i njegove stavke se trajno uklanjaju iz pregleda."
+          confirmLabel="Odbaci izvod"
+          danger
+          busy={busy}
+          onConfirm={() => void discardStatement()}
+          onCancel={() => setDiscardStatementOpen(false)}
+        >
+          <div className="fact">
+            <span>Broj izvoda</span>
+            <span>{open.statementNumber}</span>
+          </div>
+          <div className="fact">
+            <span>Datum</span>
+            <span>{open.statementDate}</span>
+          </div>
+        </ConfirmDialog>
+      ) : null}
+
+      {open ? (
+        <ConfirmDialog
+          open={allocationConfirmOpen}
+          title="Rasporedi stavku na fakturu"
+          consequence="Povezuje uplatu s fakturom kroz tok plaćanja — NE knjiži novi nalog u glavnoj knjizi."
+          confirmLabel="Rasporedi"
+          busy={busy}
+          onConfirm={() => void allocate()}
+          onCancel={() => setAllocationConfirmOpen(false)}
+        >
+          <div className="fact">
+            <span>Stavka</span>
+            <span>{allocLine ? `#${allocLine.seq} ${allocLine.description}` : '—'}</span>
+          </div>
+          <div className="fact">
+            <span>Iznos stavke</span>
+            <span>{allocLine ? allocLine.amount : '—'}</span>
+          </div>
+          <div className="fact">
+            <span>Preostalo na stavci</span>
+            <span>{allocRemaining ?? '—'}</span>
+          </div>
+          <div className="fact">
+            <span>Faktura</span>
+            <span>{allocInvoice ? allocInvoice.invoiceNumber : '—'}</span>
+          </div>
+          <div className="fact">
+            <span>Otvoreno na fakturi</span>
+            <span>{allocInvoice ? `${invoiceOpenAmount} ${allocInvoice.currency}` : '—'}</span>
+          </div>
+          <div className="fact">
+            <span>Iznos alokacije</span>
+            <span>
+              {allocAmount || '—'} {open.currency}
+            </span>
+          </div>
+        </ConfirmDialog>
       ) : null}
     </div>
   );

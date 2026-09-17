@@ -3,17 +3,21 @@
 import { useCallback, useEffect, useState } from 'react';
 import { api, errorText } from '../../../lib/api';
 import { useApp } from '../app-shell';
-import { getStoredLegalEntity } from '../../../lib/entity';
+import {
+  ConfirmDialog,
+  DataTable,
+  EmptyState,
+  ErrorState,
+  LoadingState,
+  type Column,
+} from '../../../components/ui';
 
 /**
  * FIN-023..026 (Sprint 211) — general ledger: chart of accounts and
  * journal entries (draft → review balance → post; storno for posted).
+ * Sprint 217 — UI aligned with the shared standard (DataTable,
+ * ConfirmDialog, Bosnian labels, loading/empty/error states).
  */
-
-interface LegalEntity {
-  id: string;
-  name: string;
-}
 
 interface AccountView {
   id: string;
@@ -88,17 +92,51 @@ interface DraftLine {
 
 const ENTRY_TYPES = ['MANUAL', 'OPENING_BALANCE', 'KUF', 'KIF', 'BANK_STATEMENT', 'COMPENSATION'];
 
+/** Display labels for API entry types (API values stay untouched). */
+const ENTRY_TYPE_LABELS: Record<string, string> = {
+  MANUAL: 'Ručni nalog',
+  OPENING_BALANCE: 'Početno stanje',
+  KUF: 'KUF',
+  KIF: 'KIF',
+  BANK_STATEMENT: 'Izvod banke',
+  COMPENSATION: 'Kompenzacija',
+  STORNO: 'Storno',
+};
+
+/** Display labels for API entry statuses (API values stay untouched). */
+const STATUS_LABELS: Record<string, string> = {
+  DRAFT: 'Nacrt',
+  POSTED: 'Proknjižen',
+};
+
+function entryTypeLabel(t: string) {
+  return ENTRY_TYPE_LABELS[t] ?? t;
+}
+
+function statusBadge(en: EntryView) {
+  const stornoed = en.status === 'POSTED' && en.stornoedById;
+  return (
+    <span
+      className={`badge ${en.status === 'POSTED' ? (stornoed ? 'badge-warn' : 'badge-ok') : 'badge-accent'}`}
+    >
+      {stornoed ? 'Storniran' : (STATUS_LABELS[en.status] ?? en.status)}
+    </span>
+  );
+}
+
 export default function LedgerPage() {
-  const { can } = useApp();
-  const [entities, setEntities] = useState<LegalEntity[]>([]);
-  const [entityId, setEntityId] = useState('');
+  const { can, entities, legalEntityId: entityId } = useApp();
   const [tab, setTab] = useState<'entries' | 'accounts' | 'card' | 'trial'>('entries');
-  const [accounts, setAccounts] = useState<AccountView[]>([]);
-  const [entries, setEntries] = useState<EntryView[]>([]);
+  const [accounts, setAccounts] = useState<AccountView[] | null>(null);
+  const [entries, setEntries] = useState<EntryView[] | null>(null);
   const [open, setOpen] = useState<EntryView | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+
+  // Confirmation dialogs for critical actions (Sprint 217).
+  const [confirmPost, setConfirmPost] = useState(false);
+  const [confirmStorno, setConfirmStorno] = useState(false);
 
   // New account form.
   const [accCode, setAccCode] = useState('');
@@ -121,17 +159,6 @@ export default function LedgerPage() {
   const [cardShowStorno, setCardShowStorno] = useState(false);
   const [card, setCard] = useState<CardView | null>(null);
   const [trial, setTrial] = useState<TrialView | null>(null);
-
-  useEffect(() => {
-    api<{ legalEntities: LegalEntity[] }>('GET', '/api/v1/organization/tree')
-      .then((r) => {
-        setEntities(r.legalEntities);
-        const stored = getStoredLegalEntity();
-        const preferred = r.legalEntities.find((le) => le.id === stored) ?? r.legalEntities[0];
-        if (preferred) setEntityId((prev) => prev || preferred.id);
-      })
-      .catch((e: unknown) => setError(errorText(e)));
-  }, []);
 
   const load = useCallback(() => {
     if (!entityId) return;
@@ -192,44 +219,96 @@ export default function LedgerPage() {
         { accountId: '', debit: '', credit: '' },
         { accountId: '', debit: '', credit: '' },
       ]);
-    }, 'Draft naloga je kreiran.');
+    }, 'Nacrt naloga je kreiran.');
+  }
+
+  /** Opens an entry (from the card report) in the "Nalozi" tab. */
+  function openEntryById(entryId: string) {
+    const en = (entries ?? []).find((e) => e.id === entryId);
+    if (!en) return;
+    setOpen(en);
+    setTab('entries');
   }
 
   if (!can('finance.ledger.read')) {
     return (
       <main className="page">
-        <h1>Ledger</h1>
-        <div className="alert alert-error">
-          Pristup glavnoj knjizi zahtijeva finansijsku permisiju (finance.ledger.read).
-        </div>
+        <h1>Glavna knjiga</h1>
+        <ErrorState text="Pristup glavnoj knjizi zahtijeva finansijsku permisiju (finance.ledger.read)." />
       </main>
     );
   }
+
+  const entityName = entities.find((le) => le.id === entityId)?.name ?? '—';
+
+  const accountColumns: Array<Column<AccountView>> = [
+    {
+      key: 'code',
+      header: 'Konto',
+      render: (a) => <span className="mono">{a.code}</span>,
+      text: (a) => a.code,
+    },
+    { key: 'name', header: 'Naziv', render: (a) => a.name, text: (a) => a.name },
+    { key: 'class', header: 'Klasa', render: (a) => a.class, text: (a) => a.class },
+    {
+      key: 'status',
+      header: 'Status',
+      render: (a) => (
+        <span className={`badge ${a.active ? 'badge-ok' : ''}`}>
+          {a.active ? 'aktivno' : 'neaktivno'}
+        </span>
+      ),
+    },
+  ];
+
+  const entryColumns: Array<Column<EntryView>> = [
+    {
+      key: 'no',
+      header: 'Br.',
+      render: (en) => <span className="mono">{en.entryNo ?? '—'}</span>,
+      text: (en) => String(en.entryNo ?? ''),
+    },
+    {
+      key: 'date',
+      header: 'Datum',
+      render: (en) => <span className="mono">{en.bookingDate}</span>,
+      text: (en) => en.bookingDate,
+    },
+    {
+      key: 'type',
+      header: 'Vrsta',
+      render: (en) => entryTypeLabel(en.entryType),
+      text: (en) => entryTypeLabel(en.entryType),
+    },
+    {
+      key: 'description',
+      header: 'Opis',
+      render: (en) => en.description,
+      text: (en) => en.description,
+    },
+    {
+      key: 'amount',
+      header: 'Iznos',
+      align: 'right',
+      render: (en) => <span className="mono">{en.totalDebit}</span>,
+    },
+    { key: 'status', header: 'Status', render: (en) => statusBadge(en) },
+  ];
 
   return (
     <main className="page">
       <h1>Glavna knjiga</h1>
       <p className="page-sub">
-        Dvojno knjigovodstvo po pravnom licu — nalozi (draft → proknjiženo) i kontni plan.
+        Dvojno knjigovodstvo po pravnom licu — nalozi (nacrt → proknjiženo) i kontni plan.
       </p>
-      {error ? <div className="alert alert-error">{error}</div> : null}
+      {error ? <ErrorState text={error} /> : null}
       {notice ? <div className="alert alert-ok">{notice}</div> : null}
 
       <div className="spread" style={{ marginBottom: 12 }}>
         <div>
-          <label className="label">Pravno lice</label>
-          <select
-            className="input"
-            value={entityId}
-            onChange={(e) => setEntityId(e.target.value)}
-            style={{ maxWidth: 320 }}
-          >
-            {entities.map((le) => (
-              <option key={le.id} value={le.id}>
-                {le.name}
-              </option>
-            ))}
-          </select>
+          <p className="muted" style={{ fontSize: 12.5, margin: 0 }}>
+            Aktivno pravno lice: <strong>{entityName}</strong> (mijenja se u traci iznad)
+          </p>
         </div>
         <div>
           <button
@@ -260,42 +339,25 @@ export default function LedgerPage() {
       </div>
 
       {entities.length === 0 ? (
-        <div className="empty">
-          Nema pravnih lica. Kreirajte pravno lice u organizaciji prije rada s knjigom.
-        </div>
+        <EmptyState text="Nema pravnih lica. Kreirajte pravno lice u organizaciji prije rada s knjigom." />
       ) : null}
 
       {tab === 'accounts' && entityId ? (
         <div className="grid-2">
           <div className="card">
             <h2>Kontni plan</h2>
-            {accounts.length === 0 ? <div className="empty">Nema konta.</div> : null}
-            {accounts.length > 0 ? (
-              <table className="table">
-                <thead>
-                  <tr>
-                    <th>Konto</th>
-                    <th>Naziv</th>
-                    <th>Klasa</th>
-                    <th>Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {accounts.map((a) => (
-                    <tr key={a.id}>
-                      <td className="mono">{a.code}</td>
-                      <td>{a.name}</td>
-                      <td>{a.class}</td>
-                      <td>
-                        <span className={`badge ${a.active ? 'badge-ok' : ''}`}>
-                          {a.active ? 'aktivno' : 'neaktivno'}
-                        </span>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            ) : null}
+            {accounts === null ? (
+              <LoadingState text="Učitavanje kontnog plana…" />
+            ) : (
+              <DataTable
+                columns={accountColumns}
+                rows={accounts}
+                rowKey={(a) => a.id}
+                searchPlaceholder="Pretraga konta…"
+                pageSize={15}
+                emptyText="Nema konta. Dodajte prvo konto putem forme."
+              />
+            )}
           </div>
           {can('finance.ledger.manage') ? (
             <form
@@ -341,51 +403,25 @@ export default function LedgerPage() {
         <div className="grid-2">
           <div className="card">
             <h2>Nalozi</h2>
-            {entries.length === 0 ? <div className="empty">Nema naloga.</div> : null}
-            {entries.length > 0 ? (
-              <table className="table">
-                <thead>
-                  <tr>
-                    <th>Br.</th>
-                    <th>Datum</th>
-                    <th>Vrsta</th>
-                    <th>Opis</th>
-                    <th>Iznos</th>
-                    <th>Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {entries.map((en) => (
-                    <tr key={en.id} onClick={() => setOpen(en)} style={{ cursor: 'pointer' }}>
-                      <td className="mono">{en.entryNo ?? '—'}</td>
-                      <td className="mono">{en.bookingDate}</td>
-                      <td>{en.entryType}</td>
-                      <td>{en.description}</td>
-                      <td className="mono">{en.totalDebit}</td>
-                      <td>
-                        <span
-                          className={`badge ${
-                            en.status === 'POSTED'
-                              ? en.stornoedById
-                                ? 'badge-warn'
-                                : 'badge-ok'
-                              : 'badge-accent'
-                          }`}
-                        >
-                          {en.status === 'POSTED' && en.stornoedById ? 'STORNIRAN' : en.status}
-                        </span>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            ) : null}
+            {entries === null ? (
+              <LoadingState text="Učitavanje naloga…" />
+            ) : (
+              <DataTable
+                columns={entryColumns}
+                rows={entries}
+                rowKey={(en) => en.id}
+                onRowClick={(en) => setOpen(en)}
+                searchPlaceholder="Pretraga naloga…"
+                pageSize={10}
+                emptyText="Nema naloga. Kreirajte prvi nalog putem forme."
+              />
+            )}
 
             {open ? (
               <div className="card" style={{ marginTop: 12 }}>
                 <div className="spread">
                   <h2 style={{ margin: 0 }}>
-                    Nalog {open.entryNo ?? '(draft)'} — {open.entryType}
+                    Nalog {open.entryNo ?? '(nacrt)'} — {entryTypeLabel(open.entryType)}
                   </h2>
                   <button className="btn btn-sm" onClick={() => setOpen(null)}>
                     Zatvori
@@ -429,12 +465,7 @@ export default function LedgerPage() {
                     <button
                       className="btn btn-primary"
                       disabled={busy || open.totalDebit !== open.totalCredit}
-                      onClick={() =>
-                        void run(async () => {
-                          await api('POST', `/api/v1/ledger/entries/${open.id}/post`);
-                          setOpen(null);
-                        }, 'Nalog je proknjižen.')
-                      }
+                      onClick={() => setConfirmPost(true)}
                     >
                       Proknjiži
                     </button>
@@ -450,27 +481,7 @@ export default function LedgerPage() {
                 !open.stornoedById &&
                 open.entryType !== 'STORNO' ? (
                   <div style={{ marginTop: 10 }}>
-                    <label className="label">Razlog storna</label>
-                    <input
-                      className="input"
-                      value={stornoReason}
-                      onChange={(e) => setStornoReason(e.target.value)}
-                      placeholder="min. 5 znakova"
-                    />
-                    <button
-                      className="btn btn-danger"
-                      disabled={busy || stornoReason.trim().length < 5}
-                      style={{ marginTop: 8 }}
-                      onClick={() =>
-                        void run(async () => {
-                          await api('POST', `/api/v1/ledger/entries/${open.id}/storno`, {
-                            reason: stornoReason,
-                          });
-                          setStornoReason('');
-                          setOpen(null);
-                        }, 'Storno nalog je kreiran i proknjižen.')
-                      }
-                    >
+                    <button className="btn btn-danger" onClick={() => setConfirmStorno(true)}>
                       Storniraj
                     </button>
                   </div>
@@ -481,7 +492,7 @@ export default function LedgerPage() {
 
           {can('finance.ledger.post') ? (
             <form className="card" onSubmit={(e) => void createDraft(e)}>
-              <h2>Novi nalog (draft)</h2>
+              <h2>Novi nalog (nacrt)</h2>
               <label className="label">Vrsta</label>
               <select
                 className="input"
@@ -489,7 +500,9 @@ export default function LedgerPage() {
                 onChange={(e) => setEntryType(e.target.value)}
               >
                 {ENTRY_TYPES.map((t) => (
-                  <option key={t}>{t}</option>
+                  <option key={t} value={t}>
+                    {entryTypeLabel(t)}
+                  </option>
                 ))}
               </select>
               <label className="label">Datum knjiženja</label>
@@ -516,7 +529,7 @@ export default function LedgerPage() {
                     onChange={(e) => setLine(i, { accountId: e.target.value })}
                   >
                     <option value="">— konto —</option>
-                    {accounts
+                    {(accounts ?? [])
                       .filter((a) => a.active)
                       .map((a) => (
                         <option key={a.id} value={a.id}>
@@ -560,7 +573,7 @@ export default function LedgerPage() {
                 disabled={busy || !balanced}
                 style={{ marginTop: 10 }}
               >
-                Sačuvaj draft
+                Sačuvaj nacrt
               </button>
             </form>
           ) : null}
@@ -570,6 +583,9 @@ export default function LedgerPage() {
       {tab === 'card' && entityId ? (
         <div className="card">
           <h2>Kartica konta</h2>
+          <p className="page-sub" style={{ marginTop: 0 }}>
+            Izvještaj — ne mijenja knjigu.
+          </p>
           <div className="spread" style={{ gap: 8, flexWrap: 'wrap' }}>
             <select
               className="input"
@@ -578,7 +594,7 @@ export default function LedgerPage() {
               onChange={(e) => setCardAccountId(e.target.value)}
             >
               <option value="">— konto —</option>
-              {accounts.map((a) => (
+              {(accounts ?? []).map((a) => (
                 <option key={a.id} value={a.id}>
                   {a.code} {a.name}
                 </option>
@@ -622,40 +638,53 @@ export default function LedgerPage() {
               Prikaži
             </button>
           </div>
+          {busy && !card ? <LoadingState text="Učitavanje kartice…" /> : null}
+          {!card && !busy ? (
+            <EmptyState text="Odaberite konto i period pa kliknite „Prikaži“." />
+          ) : null}
           {card ? (
             <>
               <p className="page-sub" style={{ marginTop: 10 }}>
                 {card.accountCode} {card.accountName} · PS {card.openingBalance} · promet D{' '}
                 {card.totalDebit} / P {card.totalCredit} · saldo {card.closingBalance}
               </p>
-              {card.rows.length === 0 ? <div className="empty">Nema prometa u periodu.</div> : null}
+              {card.rows.length === 0 ? <EmptyState text="Nema prometa u periodu." /> : null}
               {card.rows.length > 0 ? (
-                <table className="table">
-                  <thead>
-                    <tr>
-                      <th>Br.</th>
-                      <th>Datum</th>
-                      <th>Vrsta</th>
-                      <th>Opis</th>
-                      <th>Duguje</th>
-                      <th>Potražuje</th>
-                      <th>Saldo</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {card.rows.map((r) => (
-                      <tr key={r.entryId}>
-                        <td className="mono">{r.entryNo ?? '—'}</td>
-                        <td className="mono">{r.bookingDate}</td>
-                        <td>{r.entryType}</td>
-                        <td>{r.description}</td>
-                        <td className="mono">{r.debit}</td>
-                        <td className="mono">{r.credit}</td>
-                        <td className="mono">{r.balance}</td>
+                <>
+                  <p className="muted" style={{ fontSize: 12.5 }}>
+                    Klik na red otvara nalog u tabu „Nalozi“.
+                  </p>
+                  <table className="table">
+                    <thead>
+                      <tr>
+                        <th>Br.</th>
+                        <th>Datum</th>
+                        <th>Vrsta</th>
+                        <th>Opis</th>
+                        <th>Duguje</th>
+                        <th>Potražuje</th>
+                        <th>Saldo</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody>
+                      {card.rows.map((r) => (
+                        <tr
+                          key={r.entryId}
+                          onClick={() => openEntryById(r.entryId)}
+                          style={{ cursor: 'pointer' }}
+                        >
+                          <td className="mono">{r.entryNo ?? '—'}</td>
+                          <td className="mono">{r.bookingDate}</td>
+                          <td>{entryTypeLabel(r.entryType)}</td>
+                          <td>{r.description}</td>
+                          <td className="mono">{r.debit}</td>
+                          <td className="mono">{r.credit}</td>
+                          <td className="mono">{r.balance}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </>
               ) : null}
             </>
           ) : null}
@@ -665,6 +694,9 @@ export default function LedgerPage() {
       {tab === 'trial' && entityId ? (
         <div className="card">
           <h2>Bruto bilans</h2>
+          <p className="page-sub" style={{ marginTop: 0 }}>
+            Izvještaj — ne mijenja knjigu.
+          </p>
           <div className="spread" style={{ gap: 8 }}>
             <input
               className="input"
@@ -696,54 +728,175 @@ export default function LedgerPage() {
               Prikaži
             </button>
           </div>
+          {busy && !trial ? <LoadingState text="Učitavanje bruto bilansa…" /> : null}
+          {!trial && !busy ? <EmptyState text="Odaberite period pa kliknite „Prikaži“." /> : null}
           {trial ? (
             trial.rows.length === 0 ? (
-              <div className="empty">Nema knjiženja u knjizi.</div>
+              <EmptyState text="Nema knjiženja u knjizi." />
             ) : (
-              <table className="table" style={{ marginTop: 10 }}>
-                <thead>
-                  <tr>
-                    <th>Konto</th>
-                    <th>Naziv</th>
-                    <th>PS</th>
-                    <th>Duguje</th>
-                    <th>Potražuje</th>
-                    <th>Saldo</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {trial.rows.map((r) => (
-                    <tr key={r.accountId}>
-                      <td className="mono">{r.code}</td>
-                      <td>{r.name}</td>
-                      <td className="mono">{r.opening}</td>
-                      <td className="mono">{r.debit}</td>
-                      <td className="mono">{r.credit}</td>
-                      <td className="mono">{r.closing}</td>
+              <>
+                <p className="muted" style={{ fontSize: 12.5, marginTop: 10 }}>
+                  Klik na konto otvara njegovu karticu.
+                </p>
+                <table className="table">
+                  <thead>
+                    <tr>
+                      <th>Konto</th>
+                      <th>Naziv</th>
+                      <th>PS</th>
+                      <th>Duguje</th>
+                      <th>Potražuje</th>
+                      <th>Saldo</th>
                     </tr>
-                  ))}
-                  <tr>
-                    <td colSpan={2}>
-                      <strong>Ukupno</strong>
-                    </td>
-                    <td className="mono">
-                      <strong>{trial.totals.opening}</strong>
-                    </td>
-                    <td className="mono">
-                      <strong>{trial.totals.debit}</strong>
-                    </td>
-                    <td className="mono">
-                      <strong>{trial.totals.credit}</strong>
-                    </td>
-                    <td className="mono">
-                      <strong>{trial.totals.closing}</strong>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {trial.rows.map((r) => (
+                      <tr
+                        key={r.accountId}
+                        onClick={() => {
+                          setCardAccountId(r.accountId);
+                          setCard(null);
+                          setTab('card');
+                        }}
+                        style={{ cursor: 'pointer' }}
+                      >
+                        <td className="mono">{r.code}</td>
+                        <td>{r.name}</td>
+                        <td className="mono">{r.opening}</td>
+                        <td className="mono">{r.debit}</td>
+                        <td className="mono">{r.credit}</td>
+                        <td className="mono">{r.closing}</td>
+                      </tr>
+                    ))}
+                    <tr>
+                      <td colSpan={2}>
+                        <strong>Ukupno</strong>
+                      </td>
+                      <td className="mono">
+                        <strong>{trial.totals.opening}</strong>
+                      </td>
+                      <td className="mono">
+                        <strong>{trial.totals.debit}</strong>
+                      </td>
+                      <td className="mono">
+                        <strong>{trial.totals.credit}</strong>
+                      </td>
+                      <td className="mono">
+                        <strong>{trial.totals.closing}</strong>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </>
             )
           ) : null}
         </div>
+      ) : null}
+
+      {open ? (
+        <ConfirmDialog
+          open={confirmPost}
+          title="Proknjiži nalog"
+          consequence="Proknjižen nalog je nepromjenjiv — jedina ispravka je zrcalni storno."
+          confirmLabel="Proknjiži"
+          busy={busy}
+          onCancel={() => setConfirmPost(false)}
+          onConfirm={() =>
+            void run(async () => {
+              await api('POST', `/api/v1/ledger/entries/${open.id}/post`);
+              setOpen(null);
+            }, 'Nalog je proknjižen.').then(() => setConfirmPost(false))
+          }
+        >
+          <div className="fact">
+            <span>Pravno lice</span>
+            <span>{entityName}</span>
+          </div>
+          <div className="fact">
+            <span>Datum knjiženja</span>
+            <span>{open.bookingDate}</span>
+          </div>
+          <div className="fact">
+            <span>Tip naloga</span>
+            <span>{entryTypeLabel(open.entryType)}</span>
+          </div>
+          <div className="fact">
+            <span>Opis</span>
+            <span>{open.description}</span>
+          </div>
+          <div className="fact">
+            <span>Ukupno duguje</span>
+            <span className="mono">{open.totalDebit}</span>
+          </div>
+          <div className="fact">
+            <span>Ukupno potražuje</span>
+            <span className="mono">{open.totalCredit}</span>
+          </div>
+        </ConfirmDialog>
+      ) : null}
+
+      {open ? (
+        <ConfirmDialog
+          open={confirmStorno}
+          title="Storniraj nalog"
+          consequence="Kreira se i knjiži zrcalni STORNO nalog; original ostaje u knjizi."
+          confirmLabel="Storniraj"
+          danger
+          busy={busy}
+          onCancel={() => {
+            setConfirmStorno(false);
+            setStornoReason('');
+          }}
+          onConfirm={() => {
+            if (stornoReason.trim().length < 5) return;
+            void run(async () => {
+              await api('POST', `/api/v1/ledger/entries/${open.id}/storno`, {
+                reason: stornoReason,
+              });
+              setStornoReason('');
+              setOpen(null);
+            }, 'Storno nalog je kreiran i proknjižen.').then(() => setConfirmStorno(false));
+          }}
+        >
+          <div className="fact">
+            <span>Nalog br.</span>
+            <span className="mono">{open.entryNo ?? '—'}</span>
+          </div>
+          <div className="fact">
+            <span>Pravno lice</span>
+            <span>{entityName}</span>
+          </div>
+          <div className="fact">
+            <span>Datum knjiženja</span>
+            <span>{open.bookingDate}</span>
+          </div>
+          <div className="fact">
+            <span>Tip naloga</span>
+            <span>{entryTypeLabel(open.entryType)}</span>
+          </div>
+          <div className="fact">
+            <span>Opis</span>
+            <span>{open.description}</span>
+          </div>
+          <div className="fact">
+            <span>Ukupno duguje / potražuje</span>
+            <span className="mono">
+              {open.totalDebit} / {open.totalCredit}
+            </span>
+          </div>
+          <label className="label">Razlog storna (obavezno)</label>
+          <input
+            className="input"
+            value={stornoReason}
+            onChange={(e) => setStornoReason(e.target.value)}
+            placeholder="min. 5 znakova"
+          />
+          {stornoReason.trim().length < 5 ? (
+            <p className="muted" style={{ fontSize: 12.5, marginTop: 4 }}>
+              Razlog je obavezan — najmanje 5 znakova.
+            </p>
+          ) : null}
+        </ConfirmDialog>
       ) : null}
     </main>
   );

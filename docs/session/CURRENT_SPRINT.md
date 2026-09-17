@@ -84,3 +84,15 @@ Sljedeći prijedlog: BACKLOG_DOPUNA faza 1 — čeka potvrdu vlasnika.
 - Preostale stranice još na engleskom: finance, ledger (djelimično), quotes, crm, procurement, operations, ostali moduli — postepeno kroz isti obrazac
 - Enterprise grid (saved views, kolone, virtualizacija, bulk) i server-side paginacija — ostaju u backlogu
 - LaunchAgent com.nexora.autodev i dalje NEPOTVRĐEN
+
+# Sprint 217 — ZAVRŠEN 17.09.2026: finansijski ekrani na UI standardu 215–216
+
+- [x] Zajednička komponenta **ConfirmDialog** (components/ui.tsx): fakti (pravno lice, period/datum, iznosi) + jasna posljedica prije potvrde; busy blokira dvostruki klik; danger varijanta
+- [x] /ledger: bosanski (mape labela za vrste/statuse naloga), Kontni plan i Nalozi kroz DataTable, **Proknjiži** i **Storniraj** kroz dijalog (posljedice: nepromjenjivost / zrcalni storno; razlog min. 5 znakova validiran klijentski), izvještaji označeni "ne mijenja knjigu", kartica→nalog i bilans→kartica klikom (čisto klijentski)
+- [x] /bank: statusi kroz labele, lista izvoda kroz DataTable, **Potvrdi/Odbaci izvod** i **Rasporedi** kroz dijalog (posljedica: povezivanje uplate BEZ GL knjiženja; period lock naveden)
+- [x] /compensations: lista kroz DataTable, **Potvrdi** (fakti: pravno lice, partner, datum, iznos, stavke; posljedica: tačno jedan COMPENSATION nalog) i **Poništi** (danger; razlog obavezan) kroz dijalog; Nalog GK prikazan
+- [x] Sve tri stranice vezane na **globalni izbor pravnog lica u topbaru** (lokalni selecti uklonjeni — jedan kontekst, bez zaostalih podataka pri promjeni)
+- [x] Bez backend izmjena; server-side dozvole i računovodstvena pravila netaknuti; bez novih biblioteka; FIN-028 ostaje u backlogu
+- [x] Browser provjere (Playwright, 16 snimaka): kompletan tok knjiženja (konta → nacrt → dijalog → POSTED → storno kroz danger dijalog), kompletan tok kompenzacije (nacrt 80/80 → potvrda kroz dijalog → CONFIRMED → poništenje s razlogom → Poništena, otvorene stavke vraćene), kartica i bruto bilans, promjena pravnog lica bez zaostalih podataka, zabranjen pristup, mobilni prikaz; web typecheck/build ✓; lint 0 errors
+
+Otvoreno (master backlog, nepromijenjeno): vizuelni pregled Sprintova 215–217 od vlasnika; LaunchAgent NEPOTVRĐEN; preostale EN stranice; enterprise grid; FIN-028.

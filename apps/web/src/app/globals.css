@@ -819,3 +819,51 @@ a.stat:hover {
     overflow-x: auto;
   }
 }
+
+/* ------------------------------------------- Confirm dialog (Sprint 217) */
+.dialog-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  background: rgba(10, 15, 30, 0.5);
+  display: grid;
+  place-items: center;
+  padding: 16px;
+}
+
+.dialog {
+  background: var(--color-surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  padding: 22px;
+  width: min(520px, 100%);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.dialog-body {
+  margin-bottom: 12px;
+}
+
+.dialog-body .fact {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 5px 0;
+  border-bottom: 1px dashed var(--color-border);
+  font-size: 13.5px;
+}
+
+.dialog-body .fact span:first-child {
+  color: var(--color-muted-solid);
+}
+
+.btn-danger {
+  background: var(--color-danger);
+  color: #fff;
+  border-color: var(--color-danger);
+}
+
+.btn-danger:hover {
+  filter: brightness(0.94);
+}

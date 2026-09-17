@@ -3,7 +3,14 @@
 import { useCallback, useEffect, useState } from 'react';
 import { api, errorText } from '../../../lib/api';
 import { useApp } from '../app-shell';
-import { getStoredLegalEntity } from '../../../lib/entity';
+import {
+  ConfirmDialog,
+  DataTable,
+  EmptyState,
+  ErrorState,
+  LoadingState,
+  type Column,
+} from '../../../components/ui';
 
 /**
  * FIN-032 (Sprint 214) — compensation: offset a partner's open
@@ -11,11 +18,6 @@ import { getStoredLegalEntity } from '../../../lib/entity';
  * (payments + one COMPENSATION ledger entry) → printable document →
  * controlled cancel with a reason.
  */
-
-interface LegalEntity {
-  id: string;
-  name: string;
-}
 
 interface PartyOption {
   id: string;
@@ -63,31 +65,38 @@ const STATUS_BADGE: Record<string, string> = {
   CANCELLED: '',
 };
 
+const STATUS_LABELS: Record<string, string> = {
+  DRAFT: 'Nacrt',
+  CONFIRMED: 'Potvrđena',
+  CANCELLED: 'Poništena',
+};
+
+const SIDE_LABELS: Record<'RECEIVABLE' | 'PAYABLE', string> = {
+  RECEIVABLE: 'Potraživanje',
+  PAYABLE: 'Obaveza',
+};
+
+const statusLabel = (s: string) => STATUS_LABELS[s] ?? s;
+const shortId = (id: string) => (id.length > 10 ? `${id.slice(0, 10)}…` : id);
+
 export default function CompensationsPage() {
-  const { can } = useApp();
-  const [entities, setEntities] = useState<LegalEntity[]>([]);
-  const [entityId, setEntityId] = useState('');
+  const { can, entities, legalEntityId: entityId } = useApp();
+
   const [parties, setParties] = useState<PartyOption[]>([]);
   const [partnerId, setPartnerId] = useState('');
   const [items, setItems] = useState<OpenItem[]>([]);
   const [amounts, setAmounts] = useState<Record<string, string>>({});
   const [bookingDate, setBookingDate] = useState(() => new Date().toISOString().slice(0, 10));
-  const [rows, setRows] = useState<CompRow[]>([]);
+  const [rows, setRows] = useState<CompRow[] | null>(null);
   const [open, setOpen] = useState<CompView | null>(null);
   const [cancelReason, setCancelReason] = useState('');
+  const [confirmDialog, setConfirmDialog] = useState(false);
+  const [cancelDialog, setCancelDialog] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
 
   useEffect(() => {
-    api<{ legalEntities: LegalEntity[] }>('GET', '/api/v1/organization/tree')
-      .then((r) => {
-        setEntities(r.legalEntities);
-        const stored = getStoredLegalEntity();
-        const preferred = r.legalEntities.find((le) => le.id === stored) ?? r.legalEntities[0];
-        if (preferred) setEntityId((prev) => prev || preferred.id);
-      })
-      .catch((e: unknown) => setError(errorText(e)));
     api<{ parties: PartyOption[] }>('GET', '/api/v1/parties')
       .then((r) => setParties(r.parties))
       .catch(() => setParties([]));
@@ -140,6 +149,8 @@ export default function CompensationsPage() {
     try {
       setOpen(await api<CompView>('GET', `/api/v1/compensations/${id}`));
       setCancelReason('');
+      setConfirmDialog(false);
+      setCancelDialog(false);
     } catch (e: unknown) {
       setError(errorText(e));
     }
@@ -182,7 +193,7 @@ export default function CompensationsPage() {
       <style>body{font-family:system-ui;margin:40px;color:#111}h1{font-size:20px}table{border-collapse:collapse;width:100%;margin:12px 0}td,th{border:1px solid #999;padding:6px;font-size:14px}
       .sig{margin-top:60px;display:flex;justify-content:space-between}.sig div{border-top:1px solid #111;width:40%;padding-top:6px;text-align:center}</style></head><body>
       <h1>IZJAVA O KOMPENZACIJI ${view.compensationNumber}</h1>
-      <p>Datum: ${view.bookingDate} · Partner: ${view.partnerName} · Status: ${view.status}</p>
+      <p>Datum: ${view.bookingDate} · Partner: ${view.partnerName} · Status: ${statusLabel(view.status)}</p>
       <h3>Potraživanja (kupac)</h3><table><tr><th>Faktura</th><th>Iznos</th></tr>${rowsHtml('RECEIVABLE')}</table>
       <h3>Obaveze (dobavljač)</h3><table><tr><th>Faktura</th><th>Iznos</th></tr>${rowsHtml('PAYABLE')}</table>
       <p><strong>Ukupno kompenzirano: ${view.totalAmount} ${view.currency}</strong></p>
@@ -191,57 +202,61 @@ export default function CompensationsPage() {
     w.document.close();
   }
 
+  const columns: Array<Column<CompRow>> = [
+    {
+      key: 'number',
+      header: 'Broj',
+      render: (c) => c.compensationNumber,
+      text: (c) => c.compensationNumber,
+    },
+    { key: 'date', header: 'Datum', render: (c) => c.bookingDate, text: (c) => c.bookingDate },
+    {
+      key: 'amount',
+      header: 'Iznos',
+      align: 'right',
+      render: (c) => `${c.totalAmount} ${c.currency}`,
+      text: (c) => `${c.totalAmount} ${c.currency}`,
+    },
+    {
+      key: 'status',
+      header: 'Status',
+      render: (c) => (
+        <span className={`badge ${STATUS_BADGE[c.status] ?? ''}`}>{statusLabel(c.status)}</span>
+      ),
+      text: (c) => statusLabel(c.status),
+    },
+  ];
+
+  const entityName = entities.find((le) => le.id === entityId)?.name ?? '—';
+  const linesBySide = (side: 'RECEIVABLE' | 'PAYABLE') =>
+    open ? open.lines.filter((l) => l.side === side).length : 0;
+
   return (
     <div>
       <div className="spread">
         <h1>Kompenzacije</h1>
-        <select
-          className="input"
-          value={entityId}
-          onChange={(e) => {
-            setEntityId(e.target.value);
-            setOpen(null);
-          }}
-        >
-          {entities.map((le) => (
-            <option key={le.id} value={le.id}>
-              {le.name}
-            </option>
-          ))}
-        </select>
+        <span className="muted" style={{ fontSize: 12.5 }}>
+          Aktivno pravno lice:{' '}
+          <strong>{entities.find((le) => le.id === entityId)?.name ?? '—'}</strong> (mijenja se u
+          traci iznad)
+        </span>
       </div>
-      {error ? <p className="alert alert-error">{error}</p> : null}
+      {error ? <ErrorState text={error} /> : null}
       {notice ? <p className="alert alert-ok">{notice}</p> : null}
 
       <div className="grid-2">
         <div className="card">
           <h2>Kompenzacije</h2>
-          {rows.length === 0 ? <p>Nema kompenzacija.</p> : null}
-          {rows.length > 0 ? (
-            <table className="table">
-              <thead>
-                <tr>
-                  <th>Broj</th>
-                  <th>Datum</th>
-                  <th>Iznos</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                {rows.map((c) => (
-                  <tr key={c.id} onClick={() => void openView(c.id)}>
-                    <td>{c.compensationNumber}</td>
-                    <td>{c.bookingDate}</td>
-                    <td>
-                      {c.totalAmount} {c.currency}
-                    </td>
-                    <td>
-                      <span className={`badge ${STATUS_BADGE[c.status] ?? ''}`}>{c.status}</span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          {rows === null && !error ? <LoadingState text="Učitavanje kompenzacija…" /> : null}
+          {rows !== null ? (
+            <DataTable
+              columns={columns}
+              rows={rows}
+              rowKey={(c) => c.id}
+              onRowClick={(c) => void openView(c.id)}
+              pageSize={10}
+              emptyText="Nema kompenzacija za odabrano pravno lice."
+            />
           ) : null}
 
           {open ? (
@@ -258,12 +273,7 @@ export default function CompensationsPage() {
                     <button
                       className="btn btn-primary"
                       disabled={busy}
-                      onClick={() =>
-                        void run(async () => {
-                          await api('POST', `/api/v1/compensations/${open.id}/confirm`);
-                          await openView(open.id);
-                        }, 'Kompenzacija potvrđena i proknjižena (jedan COMPENSATION nalog).')
-                      }
+                      onClick={() => setConfirmDialog(true)}
                     >
                       Potvrdi
                     </button>
@@ -281,7 +291,7 @@ export default function CompensationsPage() {
                 <tbody>
                   {open.lines.map((l) => (
                     <tr key={l.id}>
-                      <td>{l.side === 'RECEIVABLE' ? 'Potraživanje' : 'Obaveza'}</td>
+                      <td>{SIDE_LABELS[l.side]}</td>
                       <td>{l.invoiceNumber}</td>
                       <td>
                         {l.amount} {open.currency}
@@ -290,6 +300,10 @@ export default function CompensationsPage() {
                   ))}
                 </tbody>
               </table>
+              {open.lines.length === 0 ? <EmptyState text="Kompenzacija nema stavki." /> : null}
+              {open.glEntryId ? (
+                <p className="muted mono">Nalog GK: {shortId(open.glEntryId)}</p>
+              ) : null}
               {open.status === 'CANCELLED' ? (
                 <p className="alert alert-warn">Poništena: {open.cancelReason}</p>
               ) : null}
@@ -297,17 +311,17 @@ export default function CompensationsPage() {
                 <form
                   onSubmit={(e) => {
                     e.preventDefault();
-                    void run(async () => {
-                      await api('POST', `/api/v1/compensations/${open.id}/cancel`, {
-                        reason: cancelReason,
-                      });
-                      await openView(open.id);
-                    }, 'Kompenzacija poništena: uplate oslobođene, nalog storniran.');
+                    if (cancelReason.trim().length < 5) {
+                      setError('Razlog poništenja je obavezan (najmanje 5 znakova).');
+                      return;
+                    }
+                    setError(null);
+                    setCancelDialog(true);
                   }}
                 >
                   <input
                     className="input"
-                    placeholder="Razlog poništenja (obavezan)"
+                    placeholder="Razlog poništenja (obavezan, najmanje 5 znakova)"
                     value={cancelReason}
                     onChange={(e) => setCancelReason(e.target.value)}
                     required
@@ -318,6 +332,79 @@ export default function CompensationsPage() {
                   </button>
                 </form>
               ) : null}
+              <ConfirmDialog
+                open={confirmDialog}
+                title={`Potvrda kompenzacije ${open.compensationNumber}`}
+                consequence="Zatvara obje strane kroz tok plaćanja i knjiži TAČNO JEDAN nalog kompenzacije; potvrda u zaključanom periodu je odbijena."
+                confirmLabel="Potvrdi kompenzaciju"
+                busy={busy}
+                onCancel={() => setConfirmDialog(false)}
+                onConfirm={() =>
+                  void run(async () => {
+                    await api('POST', `/api/v1/compensations/${open.id}/confirm`);
+                    setConfirmDialog(false);
+                    await openView(open.id);
+                  }, 'Kompenzacija potvrđena i proknjižena (jedan COMPENSATION nalog).')
+                }
+              >
+                <div className="fact">
+                  <span>Pravno lice</span>
+                  <span>{entityName}</span>
+                </div>
+                <div className="fact">
+                  <span>Partner</span>
+                  <span>{open.partnerName}</span>
+                </div>
+                <div className="fact">
+                  <span>Datum knjiženja</span>
+                  <span>{open.bookingDate}</span>
+                </div>
+                <div className="fact">
+                  <span>Ukupan iznos</span>
+                  <span>
+                    {open.totalAmount} {open.currency}
+                  </span>
+                </div>
+                <div className="fact">
+                  <span>Stavki (potraživanja / obaveze)</span>
+                  <span>
+                    {linesBySide('RECEIVABLE')} / {linesBySide('PAYABLE')}
+                  </span>
+                </div>
+              </ConfirmDialog>
+              <ConfirmDialog
+                open={cancelDialog}
+                title={`Poništenje kompenzacije ${open.compensationNumber}`}
+                consequence="Oslobađa uplate negativnim ogledalima i stornira povezani nalog; historija se ne briše."
+                confirmLabel="Poništi kompenzaciju"
+                danger
+                busy={busy}
+                onCancel={() => setCancelDialog(false)}
+                onConfirm={() =>
+                  void run(async () => {
+                    await api('POST', `/api/v1/compensations/${open.id}/cancel`, {
+                      reason: cancelReason,
+                    });
+                    setCancelDialog(false);
+                    await openView(open.id);
+                  }, 'Kompenzacija poništena: uplate oslobođene, nalog storniran.')
+                }
+              >
+                <div className="fact">
+                  <span>Broj</span>
+                  <span>{open.compensationNumber}</span>
+                </div>
+                <div className="fact">
+                  <span>Iznos</span>
+                  <span>
+                    {open.totalAmount} {open.currency}
+                  </span>
+                </div>
+                <div className="fact">
+                  <span>Razlog</span>
+                  <span>{cancelReason}</span>
+                </div>
+              </ConfirmDialog>
             </div>
           ) : null}
         </div>
@@ -343,7 +430,12 @@ export default function CompensationsPage() {
               value={bookingDate}
               onChange={(e) => setBookingDate(e.target.value)}
             />
-            {partnerId && items.length === 0 ? <p>Partner nema otvorenih stavki.</p> : null}
+            {!partnerId ? (
+              <EmptyState text="Odaberite partnera za pregled otvorenih stavki." />
+            ) : null}
+            {partnerId && items.length === 0 ? (
+              <EmptyState text="Partner nema otvorenih stavki za kompenzaciju." />
+            ) : null}
             {items.length > 0 ? (
               <form onSubmit={createDraft}>
                 <table className="table">
@@ -358,7 +450,7 @@ export default function CompensationsPage() {
                   <tbody>
                     {items.map((i) => (
                       <tr key={i.invoiceId}>
-                        <td>{i.side === 'RECEIVABLE' ? 'Potraživanje' : 'Obaveza'}</td>
+                        <td>{SIDE_LABELS[i.side]}</td>
                         <td>{i.invoiceNumber}</td>
                         <td>
                           {i.open} {i.currency}

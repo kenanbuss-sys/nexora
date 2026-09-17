@@ -157,3 +157,65 @@ export function DataTable<T>({
     </div>
   );
 }
+
+interface ConfirmDialogProps {
+  open: boolean;
+  title: string;
+  /** Facts the person must see before committing: entity, period, amounts. */
+  children: ReactNode;
+  /** One sentence naming the consequence of confirming. */
+  consequence: string;
+  confirmLabel: string;
+  danger?: boolean;
+  busy?: boolean;
+  onConfirm: () => void;
+  onCancel: () => void;
+}
+
+/**
+ * Confirmation dialog for CRITICAL actions (posting, storno, statement
+ * confirmation, compensation confirm/cancel). Shows the facts and the
+ * consequence before anything is sent; the confirm button is disabled
+ * while busy, so a double click cannot submit twice.
+ */
+export function ConfirmDialog({
+  open,
+  title,
+  children,
+  consequence,
+  confirmLabel,
+  danger,
+  busy,
+  onConfirm,
+  onCancel,
+}: ConfirmDialogProps) {
+  if (!open) return null;
+  return (
+    <div className="dialog-scrim" role="presentation" onClick={busy ? undefined : onCancel}>
+      <div
+        className="dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-label={title}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <h2>{title}</h2>
+        <div className="dialog-body">{children}</div>
+        <p className={`alert ${danger ? 'alert-error' : 'alert-warn'}`}>{consequence}</p>
+        <div className="row" style={{ justifyContent: 'flex-end' }}>
+          <button type="button" className="btn" onClick={onCancel} disabled={busy}>
+            Odustani
+          </button>
+          <button
+            type="button"
+            className={`btn ${danger ? 'btn-danger' : 'btn-primary'}`}
+            onClick={onConfirm}
+            disabled={busy}
+          >
+            {busy ? 'Izvršavam…' : confirmLabel}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
