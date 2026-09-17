@@ -1493,11 +1493,13 @@ export const REDIS = 'REDIS';
         new PortalService(
           prisma,
           {
-            createOrder: async (input, ctx) => {
-              const view = await orders.createOrder(input, ctx);
-              return { id: view.id, orderNumber: view.orderNumber };
+            // Sprint 222: the whole order (header, idempotency
+            // evidence, lines, amounts, events) commits atomically in
+            // the owning domain.
+            createOrderWithLines: async (input, ctx, extraAudits) => {
+              const view = await orders.createOrderWithLines(input, ctx, extraAudits);
+              return { id: view.id, orderNumber: view.orderNumber, lines: view.lines };
             },
-            addLine: (input, ctx) => orders.addLine(input, ctx),
           },
           {
             createCase: async (input, ctx) => {

@@ -191,24 +191,125 @@ integration('Sprint 222 — idempotent portal ordering', () => {
     await prisma?.$disconnect();
   });
 
-  it('replay after success returns the same order without new effects', async () => {
+  it('replay after a lost response returns the same COMPLETE order', async () => {
     const payload = { requestKey: 'kljuc-ponovi-01', lines: [{ skuId, quantity: 2 }] };
     const first = await api('POST', '/api/v1/portal/orders', customer1, payload);
     expect(first.status).toBe(201);
+    // Lost response after commit: the client retries the identical call.
     const replay = await api('POST', '/api/v1/portal/orders', customer1, payload);
     expect(replay.status).toBe(201);
     expect(replay.body.id).toBe(first.body.id);
     expect(replay.body.orderNumber).toBe(first.body.orderNumber);
     expect(replay.body.lines).toBe(1);
 
-    const orders = await prisma.salesOrder.count({
+    const orders = await prisma.salesOrder.findMany({
       where: { requestKey: { contains: 'kljuc-ponovi-01' } },
+      include: { lines: true },
     });
-    expect(orders).toBe(1);
+    expect(orders).toHaveLength(1);
+    // Complete result: exact lines and amounts, not just the header.
+    expect(orders[0]!.lines).toHaveLength(1);
+    expect(Number(orders[0]!.lines[0]!.quantity)).toBe(2);
+    expect(Number(orders[0]!.lines[0]!.unitPrice)).toBe(50);
+    expect(Number(orders[0]!.lines[0]!.lineTotal)).toBe(100);
+    expect(Number(orders[0]!.total)).toBe(100);
     const events = await prisma.orderEvent.count({
       where: { orderId: first.body.id as string },
     });
     expect(events).toBe(1); // ORDER_CREATED once — no repeated business effects
+    const outbox = await prisma.outboxEvent.count({
+      where: { aggregateId: first.body.id as string, eventType: 'order.created' },
+    });
+    expect(outbox).toBe(1); // one reliable external-effect trigger
+    const audits = await prisma.auditEvent.count({
+      where: { objectId: first.body.id as string, action: 'b2b.portal.order' },
+    });
+    expect(audits).toBe(1); // caller's audit recorded atomically, once
+  });
+
+  it('a failure after the header / mid-lines rolls back the whole operation; retry creates one complete order', async () => {
+    const { OrderService } = await import('@nexora/domain-oms');
+    // Real prisma, permissive gates: validation passes, then the second
+    // line's malformed id fails INSIDE the transaction — after the
+    // header and the first line were already written.
+    const tenant = await prisma.tenant.findFirstOrThrow({ where: { slug: 'test-s222a' } });
+    const account = await prisma.crmAccount.findFirstOrThrow({
+      where: { tenantId: tenant.id },
+    });
+    const warehouse = await prisma.warehouse.findFirstOrThrow({
+      where: { tenantId: tenant.id },
+    });
+    const svc = new OrderService(
+      prisma,
+      { getAccountState: async () => ({ exists: true, active: true }) },
+      { getSkuInfo: async () => ({ exists: true, active: true, code: 'X', name: 'X' }) },
+      {
+        reserveStock: async () => ({ reservationId: 'r' }),
+        releaseReservation: async () => undefined,
+        postMovement: async () => undefined,
+      } as never,
+    );
+    const ctx = {
+      tenantId: tenant.id,
+      userId: null,
+      actorType: 'SERVICE',
+      permissions: [],
+    } as never;
+    const key = 'portal:test:kljuc-pad-nakon-zaglavlja';
+    const before = await prisma.salesOrder.count({ where: { tenantId: tenant.id } });
+    await expect(
+      svc.createOrderWithLines(
+        {
+          accountId: account.id,
+          warehouseId: warehouse.id,
+          currency: 'EUR',
+          channel: 'portal',
+          requestKey: key,
+          requestHash: 'h',
+          lines: [
+            { skuId, quantity: 1, unitPrice: 50 },
+            { skuId: 'not-a-uuid-so-the-line-insert-fails', quantity: 1, unitPrice: 50 },
+          ],
+        },
+        ctx,
+      ),
+    ).rejects.toThrow();
+    // No partial order, no key, no events, no outbox — full rollback.
+    expect(await prisma.salesOrder.count({ where: { tenantId: tenant.id } })).toBe(before);
+    expect(
+      await prisma.salesOrder.findFirst({ where: { tenantId: tenant.id, requestKey: key } }),
+    ).toBeNull();
+    const danglingLines = await prisma.salesOrderLine.count({
+      where: { tenantId: tenant.id, order: { requestKey: key } },
+    });
+    expect(danglingLines).toBe(0);
+
+    // Safe retry with corrected content: exactly one complete order.
+    const retried = await svc.createOrderWithLines(
+      {
+        accountId: account.id,
+        warehouseId: warehouse.id,
+        currency: 'EUR',
+        channel: 'portal',
+        requestKey: key,
+        requestHash: 'h',
+        lines: [
+          { skuId, quantity: 1, unitPrice: 50 },
+          { skuId, quantity: 2, unitPrice: 50 },
+        ],
+      },
+      ctx,
+    );
+    expect(retried.lines).toHaveLength(2);
+    const stored = await prisma.salesOrder.findFirstOrThrow({
+      where: { tenantId: tenant.id, requestKey: key },
+      include: { lines: true },
+    });
+    expect(stored.lines).toHaveLength(2);
+    expect(Number(stored.total)).toBe(150);
+    expect(
+      await prisma.orderEvent.count({ where: { orderId: stored.id } }),
+    ).toBe(1);
   });
 
   it('same key with different content is a conflict', async () => {
@@ -236,10 +337,16 @@ integration('Sprint 222 — idempotent portal ordering', () => {
     for (const r of results) expect(r.status).toBe(201);
     const ids = new Set(results.map((r) => r.body.id));
     expect(ids.size).toBe(1);
-    const orders = await prisma.salesOrder.count({
+    const orders = await prisma.salesOrder.findMany({
       where: { requestKey: { contains: 'kljuc-paralela-1' } },
+      include: { lines: true },
     });
-    expect(orders).toBe(1);
+    expect(orders).toHaveLength(1);
+    // The surviving winner is complete: exact lines and amounts.
+    expect(orders[0]!.lines).toHaveLength(1);
+    expect(Number(orders[0]!.lines[0]!.quantity)).toBe(4);
+    expect(Number(orders[0]!.lines[0]!.lineTotal)).toBe(200);
+    expect(Number(orders[0]!.total)).toBe(200);
   });
 
   it('the same key is independent per account and per tenant', async () => {

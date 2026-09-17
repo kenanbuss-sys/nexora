@@ -1,4 +1,4 @@
-import { writeAudit } from '@nexora/audit';
+import { writeAudit, type AuditEntry } from '@nexora/audit';
 import type { PrismaClient, SalesOrderStatus } from '@nexora/db';
 import { EVENT_TYPES, publishToOutbox } from '@nexora/events';
 import { DomainError, notFound } from '@nexora/kernel';
@@ -855,6 +855,152 @@ export class OrderService {
         payload: { orderId: order.id, orderNumber: order.orderNumber },
       });
       return toView(order);
+    });
+  }
+
+  /**
+   * Sprint 222: one atomic transaction for an idempotent, complete
+   * order — header (with idempotency evidence), every line with its
+   * amounts, the recomputed total, the ORDER_CREATED timeline event,
+   * the audit trail (including the caller's extra entries) and the
+   * outbox event all commit or roll back together. Any failure after
+   * the header insert aborts the whole operation, so a stored request
+   * key can only ever point at a complete order and a retry is safe.
+   * External effects belong AFTER commit, driven by the outbox event
+   * (the project's reliable pattern).
+   */
+  async createOrderWithLines(
+    input: {
+      accountId: string;
+      warehouseId: string;
+      currency: string;
+      channel?: string | undefined;
+      requestKey?: string | undefined;
+      requestHash?: string | undefined;
+      /** Draft hold applied atomically with the header (e.g. B2B-007). */
+      holdReason?: string | undefined;
+      lines: Array<{ skuId: string; quantity: number; unitPrice: number }>;
+    },
+    ctx: RequestContext,
+    /** Caller's audit entries, recorded in the same transaction. */
+    extraAudits?: AuditEntry[],
+  ): Promise<OrderView> {
+    if (input.lines.length === 0) {
+      throw new DomainError('VALIDATION_FAILED', 'An order needs at least one line');
+    }
+    if (input.channel !== undefined && !/^[a-z][a-z0-9_-]{1,31}$/.test(input.channel)) {
+      throw new DomainError('VALIDATION_FAILED', 'Invalid channel code');
+    }
+    if (input.requestKey !== undefined && !/^[A-Za-z0-9:|_-]{8,160}$/.test(input.requestKey)) {
+      throw new DomainError('VALIDATION_FAILED', 'requestKey must be 8-160 safe characters');
+    }
+    if (!/^[A-Z]{3}$/.test(input.currency)) {
+      throw new DomainError('VALIDATION_FAILED', 'Currency must be a 3-letter ISO code');
+    }
+    const account = await this.accounts.getAccountState(ctx.tenantId, input.accountId);
+    if (!account.exists) throw notFound('CrmAccount', input.accountId);
+    if (!account.active) throw new DomainError('INVALID_STATE', 'Account is blocked');
+    const warehouse = await this.prisma.warehouse.findFirst({
+      where: { id: input.warehouseId, tenantId: ctx.tenantId },
+    });
+    if (!warehouse) throw notFound('Warehouse', input.warehouseId);
+    const lines: Array<{
+      skuId: string;
+      description: string;
+      quantity: number;
+      unitPrice: number;
+      lineTotal: number;
+    }> = [];
+    for (const line of input.lines) {
+      if (!(line.quantity > 0)) {
+        throw new DomainError('VALIDATION_FAILED', 'Quantity must be positive');
+      }
+      if (!(line.unitPrice >= 0)) {
+        throw new DomainError('VALIDATION_FAILED', 'Unit price must be zero or positive');
+      }
+      const sku = await this.skus.getSkuInfo(ctx.tenantId, line.skuId);
+      if (!sku || !sku.exists) throw notFound('Sku', line.skuId);
+      if (!sku.active) throw new DomainError('INVALID_STATE', 'SKU is not active');
+      lines.push({
+        skuId: line.skuId,
+        description: `${sku.code} — ${sku.name}`,
+        quantity: line.quantity,
+        unitPrice: line.unitPrice,
+        lineTotal: Math.round(line.unitPrice * line.quantity * 100) / 100,
+      });
+    }
+    const total = Math.round(lines.reduce((sum, l) => sum + l.lineTotal, 0) * 100) / 100;
+
+    return this.prisma.$transaction(async (tx) => {
+      const count = await tx.salesOrder.count({ where: { tenantId: ctx.tenantId } });
+      const order = await tx.salesOrder.create({
+        data: {
+          tenantId: ctx.tenantId,
+          orderNumber: `SO-${String(count + 1).padStart(6, '0')}`,
+          accountId: input.accountId,
+          warehouseId: input.warehouseId,
+          currency: input.currency,
+          total,
+          ...(input.channel !== undefined ? { channel: input.channel } : {}),
+          ...(input.requestKey !== undefined
+            ? { requestKey: input.requestKey, requestHash: input.requestHash ?? null }
+            : {}),
+          ...(input.holdReason !== undefined ? { holdReason: input.holdReason } : {}),
+          createdBy: ctx.userId ?? null,
+        },
+      });
+      for (const line of lines) {
+        await tx.salesOrderLine.create({
+          data: {
+            tenantId: ctx.tenantId,
+            orderId: order.id,
+            skuId: line.skuId,
+            description: line.description,
+            quantity: line.quantity,
+            unitPrice: line.unitPrice,
+            lineTotal: line.lineTotal,
+          },
+        });
+      }
+      await tx.orderEvent.create({
+        data: {
+          tenantId: ctx.tenantId,
+          orderId: order.id,
+          eventType: EVENT_TYPES.ORDER_CREATED,
+          createdBy: ctx.userId ?? null,
+        },
+      });
+      await writeAudit(tx, {
+        tenantId: ctx.tenantId,
+        actorType: ctx.actorType,
+        actorId: ctx.userId,
+        action: 'oms.order.create',
+        objectType: 'SalesOrder',
+        objectId: order.id,
+        source: 'api',
+        newValues: {
+          orderNumber: order.orderNumber,
+          accountId: order.accountId,
+          lines: lines.length,
+        },
+      });
+      for (const entry of extraAudits ?? []) {
+        await writeAudit(tx, { ...entry, objectId: entry.objectId || order.id });
+      }
+      await publishToOutbox(tx, {
+        tenantId: ctx.tenantId,
+        eventType: EVENT_TYPES.ORDER_CREATED,
+        aggregateType: 'SalesOrder',
+        aggregateId: order.id,
+        actorType: ctx.actorType,
+        actorId: ctx.userId,
+        payload: { orderId: order.id, orderNumber: order.orderNumber },
+      });
+      const complete = await tx.salesOrder.findUniqueOrThrow({
+        where: { id: order.id },
+        include: { lines: true },
+      });
+      return toView(complete);
     });
   }
 

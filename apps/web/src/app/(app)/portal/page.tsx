@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { api, errorText } from '../../../lib/api';
+import { api, ApiRequestError, errorText } from '../../../lib/api';
 import { useApp } from '../app-shell';
 import {
   ConfirmDialog,
@@ -130,14 +130,15 @@ export default function PortalPage() {
   const [busy, setBusy] = useState(false);
 
   const [cart, setCart] = useState<Record<string, string>>({});
-  // Sprint 222: one idempotency key per intended order — kept across
-  // retries and uncertain outcomes; any cart change is a new intent
-  // with a new key. The server dedupes on it (same key + same content
-  // replays the same order).
-  const orderKeyRef = useRef<string | null>(null);
-  useEffect(() => {
-    orderKeyRef.current = null;
-  }, [cart]);
+  // Sprint 222: one idempotency key per intended order. After an
+  // uncertain outcome the key AND the submitted content are kept until
+  // the submission resolves — a later cart edit can never silently
+  // turn the retry into a new order (the retry resends the pending
+  // content; the edited cart becomes a new order afterwards).
+  const pendingOrderRef = useRef<{
+    key: string;
+    lines: Array<{ skuId: string; quantity: number }>;
+  } | null>(null);
   const [confirmOrder, setConfirmOrder] = useState(false);
   const [claims, setClaims] = useState<PortalClaim[]>([]);
   const [claimOrder, setClaimOrder] = useState('');
@@ -696,21 +697,44 @@ export default function PortalPage() {
       {confirmOrder && me ? (
         <ConfirmDialog
           open
-          title="Predaja narudžbe"
-          consequence="Narudžba se predaje vašem dobavljaču na obradu; server ponovo obračunava cijene iz vašeg ugovorenog cjenovnika."
+          title={pendingOrderRef.current ? 'Ponovna predaja narudžbe' : 'Predaja narudžbe'}
+          consequence={
+            pendingOrderRef.current
+              ? 'Prethodna predaja nije potvrđena — šalje se RANIJE PREDANI sadržaj pod istim ključem (bez duplikata). Izmjene korpe idu u novu narudžbu nakon razrješenja.'
+              : 'Narudžba se predaje vašem dobavljaču na obradu; server ponovo obračunava cijene iz vašeg ugovorenog cjenovnika.'
+          }
           confirmLabel="Potvrdi narudžbu"
           busy={busy}
           onConfirm={() =>
             void run(async () => {
-              const lines = cartLines.map((l) => ({ skuId: l.skuId, quantity: l.quantity }));
-              if (!orderKeyRef.current) {
-                orderKeyRef.current = crypto.randomUUID().replace(/-/g, '');
+              // An unresolved earlier submission is retried verbatim
+              // (same key, same content); otherwise this cart becomes
+              // the pending submission under a fresh key.
+              if (!pendingOrderRef.current) {
+                pendingOrderRef.current = {
+                  key: crypto.randomUUID().replace(/-/g, ''),
+                  lines: cartLines.map((l) => ({ skuId: l.skuId, quantity: l.quantity })),
+                };
               }
-              const r = await api<{ id: string; orderNumber: string }>(
-                'POST',
-                '/api/v1/portal/orders',
-                { lines, requestKey: orderKeyRef.current },
-              );
+              const pending = pendingOrderRef.current;
+              let r: { id: string; orderNumber: string };
+              try {
+                r = await api<{ id: string; orderNumber: string }>(
+                  'POST',
+                  '/api/v1/portal/orders',
+                  { lines: pending.lines, requestKey: pending.key },
+                );
+              } catch (e) {
+                // A definitive rejection (4xx) means no order was
+                // created — the submission is resolved and a corrected
+                // cart may start fresh. An uncertain outcome (network,
+                // 5xx) keeps key and content for a safe retry.
+                if (e instanceof ApiRequestError && e.status < 500) {
+                  pendingOrderRef.current = null;
+                }
+                throw e;
+              }
+              pendingOrderRef.current = null;
               setCart({});
               setConfirmOrder(false);
               setNotice(`Narudžba ${r.orderNumber} je predata — hvala.`);
@@ -722,7 +746,20 @@ export default function PortalPage() {
             <span>Kupac</span>
             <span>{me.accountName}</span>
           </div>
-          {cartLines.map((l) => (
+          {(pendingOrderRef.current
+            ? pendingOrderRef.current.lines.map((p) => {
+                const c = (catalog ?? []).find((x) => x.skuId === p.skuId);
+                const price = c?.unitPrice !== null && c !== undefined ? Number(c.unitPrice) : 0;
+                return {
+                  skuId: p.skuId,
+                  code: c?.code ?? p.skuId,
+                  quantity: p.quantity,
+                  unitPrice: price,
+                  lineTotal: Math.round(price * p.quantity * 100) / 100,
+                };
+              })
+            : cartLines
+          ).map((l) => (
             <div key={l.skuId} className="fact">
               <span className="mono">{l.code}</span>
               <span className="mono">
@@ -730,12 +767,14 @@ export default function PortalPage() {
               </span>
             </div>
           ))}
-          <div className="fact">
-            <span>Ukupno</span>
-            <span className="mono">
-              {cartTotal.toFixed(2)} {PORTAL_CURRENCY}
-            </span>
-          </div>
+          {pendingOrderRef.current ? null : (
+            <div className="fact">
+              <span>Ukupno</span>
+              <span className="mono">
+                {cartTotal.toFixed(2)} {PORTAL_CURRENCY}
+              </span>
+            </div>
+          )}
         </ConfirmDialog>
       ) : null}
     </main>

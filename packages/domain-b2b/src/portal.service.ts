@@ -71,14 +71,34 @@ export interface PortalCaseGate {
 
 /** Cross-domain contract: order lifecycle is owned by OMS (COM-002). */
 export interface PortalOrderGate {
-  createOrder(
-    input: { accountId: string; warehouseId: string; currency: string; channel?: string },
+  /**
+   * Sprint 222: one atomic transaction for header, idempotency
+   * evidence, all lines and amounts, timeline/audit/outbox — the
+   * owning domain's public interface for a complete order write.
+   */
+  createOrderWithLines(
+    input: {
+      accountId: string;
+      warehouseId: string;
+      currency: string;
+      channel?: string;
+      requestKey?: string;
+      requestHash?: string;
+      holdReason?: string;
+      lines: Array<{ skuId: string; quantity: number; unitPrice: number }>;
+    },
     ctx: RequestContext,
-  ): Promise<{ id: string; orderNumber: string }>;
-  addLine(
-    input: { orderId: string; skuId: string; quantity: number; unitPrice: number },
-    ctx: RequestContext,
-  ): Promise<unknown>;
+    extraAudits?: Array<{
+      tenantId: string;
+      actorType: 'USER' | 'SERVICE' | 'SYSTEM';
+      actorId?: string | undefined;
+      action: string;
+      objectType: string;
+      objectId: string;
+      source: string;
+      newValues?: object | undefined;
+    }>,
+  ): Promise<{ id: string; orderNumber: string; lines: unknown[] }>;
 }
 
 export class PortalService {
@@ -289,12 +309,18 @@ export class PortalService {
     return createHash('sha256').update(canonical).digest('hex');
   }
 
-  /** Replays a stored idempotent order, or refuses a mismatched retry. */
+  /**
+   * Replays a stored idempotent order, or refuses a mismatched retry.
+   * Only a complete order may replay: since Sprint 222 the whole write
+   * is one transaction, so a keyed order without lines can only be a
+   * legacy pre-fix record — refused with a clear message, never
+   * silently returned (and never auto-deleted).
+   */
   private replayOrder(
     existing: {
       id: string;
       orderNumber: string;
-      status: string;
+      holdReason: string | null;
       requestHash: string | null;
       _count: { lines: number };
     },
@@ -306,11 +332,17 @@ export class PortalService {
         'This request key was already used with different content — a new order needs a new key',
       );
     }
+    if (existing._count.lines === 0) {
+      throw new DomainError(
+        'INVALID_STATE',
+        `Order ${existing.orderNumber} was recorded incompletely — contact your supplier before retrying`,
+      );
+    }
     return {
       id: existing.id,
       orderNumber: existing.orderNumber,
       lines: existing._count.lines,
-      needsApproval: existing.status === 'ON_HOLD',
+      needsApproval: existing.holdReason !== null,
     };
   }
 
@@ -379,17 +411,51 @@ export class PortalService {
       if (!warehouse) throw new DomainError('INVALID_STATE', 'No warehouse is configured');
       warehouseId = warehouse.id;
     }
+    // Customer-side approvals (B2B-007): decided up front so the hold
+    // lands atomically with the header — a crash can never leave an
+    // above-threshold order confirmable without approval.
+    const total = input.lines.reduce(
+      (sum, line) => sum + line.quantity * (priced.get(line.skuId) ?? 0),
+      0,
+    );
+    const threshold = await this.approvalThreshold(ctx.tenantId);
+    const needsApproval =
+      threshold !== null && this.approvals !== undefined && total >= threshold;
+
+    // One atomic transaction in the owning domain: header + idempotency
+    // evidence + all lines/amounts + timeline/audit/outbox. Any failure
+    // rolls the whole operation back, so a retry is always safe.
     let order;
     try {
-      order = await this.orders.createOrder(
+      order = await this.orders.createOrderWithLines(
         {
           accountId: portal.accountId,
           warehouseId,
           currency: input.currency ?? 'EUR',
           channel: 'portal',
-          ...(requestKey !== undefined ? { requestKey, requestHash } : {}),
+          ...(requestKey !== undefined && requestHash !== undefined
+            ? { requestKey, requestHash }
+            : {}),
+          ...(needsApproval ? { holdReason: 'Customer approval pending' } : {}),
+          lines: input.lines.map((line) => ({
+            skuId: line.skuId,
+            quantity: line.quantity,
+            unitPrice: priced.get(line.skuId) ?? 0,
+          })),
         },
         ctx,
+        [
+          {
+            tenantId: ctx.tenantId,
+            actorType: ctx.actorType,
+            actorId: ctx.userId,
+            action: 'b2b.portal.order',
+            objectType: 'SalesOrder',
+            objectId: '',
+            source: 'api',
+            newValues: { accountId: portal.accountId, lines: input.lines.length },
+          },
+        ],
       );
     } catch (e) {
       // Concurrent duplicate: the unique (tenantId, requestKey) insert
@@ -408,49 +474,18 @@ export class PortalService {
       }
       throw e;
     }
-    for (const line of input.lines) {
-      await this.orders.addLine(
+    // External/cross-domain effect AFTER commit: the approval request
+    // lives in the WF domain. If it fails here the order is already
+    // safely held (atomically) and cannot be confirmed.
+    if (needsApproval && this.approvals) {
+      await this.approvals.requestApproval(
         {
-          orderId: order.id,
-          skuId: line.skuId,
-          quantity: line.quantity,
-          unitPrice: priced.get(line.skuId) ?? 0,
+          title: `Portal order ${order.orderNumber} (${total.toFixed(2)})`,
+          subjectObjectType: 'portal_order',
+          subjectObjectId: order.id,
         },
         ctx,
       );
-    }
-    await writeAudit(this.prisma, {
-      tenantId: ctx.tenantId,
-      actorType: ctx.actorType,
-      actorId: ctx.userId,
-      action: 'b2b.portal.order',
-      objectType: 'SalesOrder',
-      objectId: order.id,
-      source: 'api',
-      newValues: { accountId: portal.accountId, lines: input.lines.length },
-    });
-    // Customer-side approvals (B2B-007): above the configured
-    // threshold the draft is held until an approver from the same
-    // account clears it — SoD enforced by the approval domain.
-    let needsApproval = false;
-    const threshold = await this.approvalThreshold(ctx.tenantId);
-    if (threshold !== null && this.approvals && this.orderHolds) {
-      const total = input.lines.reduce(
-        (sum, line) => sum + line.quantity * (priced.get(line.skuId) ?? 0),
-        0,
-      );
-      if (total >= threshold) {
-        await this.orderHolds.setDraftHold(order.id, 'Customer approval pending', ctx);
-        await this.approvals.requestApproval(
-          {
-            title: `Portal order ${order.orderNumber} (${total.toFixed(2)})`,
-            subjectObjectType: 'portal_order',
-            subjectObjectId: order.id,
-          },
-          ctx,
-        );
-        needsApproval = true;
-      }
     }
     return {
       id: order.id,

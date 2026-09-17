@@ -157,3 +157,12 @@ Otvoreno (master backlog, nepromijenjeno): vizuelni pregled 215–221 (vlasnik);
 - Napomena: integracijski testovi TRUNCATE-uju dev bazu — demo tenant ponovo seedovan (scripts/seed-demo.mjs + portal kupci)
 
 Otvoreno (master backlog, nepromijenjeno): vizuelni pregled 215–222 (vlasnik); LaunchAgent NEPOTVRĐEN; FIN-028; HR inventar (ODL-005); stvarni adapteri; preostale EN stranice; enterprise grid.
+
+# Sprint 222 — DOPUNA 17.09.2026: atomska predaja (nema replay-a nepotpunog DRAFT-a)
+
+- [x] Ograničenje iz prvog dijela uklonjeno: novi OMS public metod `createOrderWithLines` — **jedna DB transakcija za zaglavlje + idempotency evidenciju + SVE stavke i iznose + ORDER_CREATED timeline event + audite (uklj. pozivaočev `b2b.portal.order` kroz `extraAudits`) + outbox event**; validacije (račun, skladište, SKU, količine/cijene) prije transakcije; greška poslije zaglavlja poništava cijelu operaciju → siguran retry
+- [x] Portal placeOrder koristi novi metod; B2B-007 hold se upisuje **atomski sa zaglavljem** (prag izračunat unaprijed), a zahtjev za odobrenje (WF domen) ide POSLIJE commita — pad tu ostavlja narudžbu sigurno zadržanom; eksterni efekti idu preko postojećeg outbox obrasca (order.created objavljen atomski)
+- [x] Replay vraća samo kompletan rezultat: keyed narudžba bez stavki (moguća samo kao legacy zapis prije dopune) → INVALID_STATE s jasnom porukom, bez tihe isporuke i **bez automatskog brisanja**; provjera dev baze: **0 ranijih nepotpunih keyed zapisa**
+- [x] Frontend: nakon neizvjesnog ishoda čuvaju se **ključ I poslani sadržaj** (pendingOrderRef) do razrješenja — retry šalje ranije predani sadržaj pod istim ključem; dijalog to eksplicitno prikazuje (naslov "Ponovna predaja", stavke iz pending sadržaja), pa izmjena korpe ne može tiho postati nova narudžba; definitivno odbijanje (4xx) razrješava pending, neizvjestan ishod (mreža/5xx) ga čuva; busy ostaje
+- [x] Testovi (sprint222, 6/6 ✓): pad nakon zaglavlja/usred stavki (nevalidan id 2. stavke unutar tx) → **potpun rollback: bez narudžbe, ključa, stavki, eventa** + retry kreira jednu kompletnu narudžbu (2 stavke, total 150); izgubljen odgovor poslije commita → replay identičan + **tačne stavke/iznosi (2×50=100), 1 event, 1 outbox, 1 audit**; 3 paralelna → 1 kompletna narudžba (4×50=200); konflikt sadržaja; izolacija; bez ključa; regresija sprint 080/095/122 (9/9 ✓)
+- [x] Browser regresija: 2×110 → SO-000003 220 EUR (dvoklik blokiran, +1); nova namjera → novi ključ → SO-000004 110 EUR; DB: obje narudžbe kompletne (stavke + outbox 1/1); typecheck ✓; build ✓; lint 0 errors
