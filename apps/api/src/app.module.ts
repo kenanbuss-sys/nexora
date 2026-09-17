@@ -54,7 +54,7 @@ import { EngOpsService, EngineeringService } from '@nexora/domain-eng';
 import { AdvancedPlanningService, PlanningService } from '@nexora/domain-plan';
 import { ShopFloorService, MesService } from '@nexora/domain-mes';
 import { LogisticsService } from '@nexora/domain-log';
-import { CopilotService, devAiAdapter, InsightsService } from '@nexora/domain-ai';
+import { CopilotService, devAiAdapter, DevVisionAdapter, InsightsService } from '@nexora/domain-ai';
 import { EsgService } from '@nexora/domain-esg';
 import { FieldServiceService } from '@nexora/domain-svc';
 import { MarketingService } from '@nexora/domain-mkt';
@@ -66,7 +66,9 @@ import {
   LedgerController,
   LedgerReportsController,
 } from './fin/ledger.controller';
+import { BANK_STATEMENT_SERVICE, BankController, VISION_PORT } from './fin/bank.controller';
 import {
+  BankStatementService,
   DevBankFeedAdapter,
   ValuationService,
   ExchangeRateService,
@@ -459,6 +461,7 @@ export const REDIS = 'REDIS';
     FinanceController,
     LedgerController,
     LedgerReportsController,
+    BankController,
     TreasuryController,
     ExchangeRatesController,
     ValuationController,
@@ -843,6 +846,21 @@ export const REDIS = 'REDIS';
       provide: LEDGER_REPORT_SERVICE,
       useFactory: (prisma: PrismaClient) => new LedgerReportService(prisma),
       inject: [PRISMA],
+    },
+    {
+      provide: BANK_STATEMENT_SERVICE,
+      useFactory: (prisma: PrismaClient, finance: FinanceService) =>
+        new BankStatementService(prisma, {
+          recordPayment: (input, ctx) => finance.recordPayment(input, ctx),
+        }),
+      inject: [PRISMA, FINANCE_SERVICE],
+    },
+    {
+      // AI-016: the vision provider is OPTIONAL. The dev stand-in is
+      // wired only when AI_VISION_DEV=1 and is marked 'dev' in every
+      // result; without a provider the manual flow works unchanged.
+      provide: VISION_PORT,
+      useFactory: () => (process.env.AI_VISION_DEV === '1' ? new DevVisionAdapter() : null),
     },
     {
       provide: LEDGER_SERVICE,

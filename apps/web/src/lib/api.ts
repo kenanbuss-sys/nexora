@@ -24,7 +24,7 @@ export class ApiRequestError extends Error {
  * Bearer token; a 401 clears the session and sends the person to sign in.
  */
 export async function api<T>(
-  method: 'GET' | 'POST' | 'PUT',
+  method: 'GET' | 'POST' | 'PUT' | 'DELETE',
   path: string,
   body?: unknown,
 ): Promise<T> {

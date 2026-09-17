@@ -20,6 +20,15 @@ export { ExchangeRateService, type ExchangeRateView } from './rates.service';
 export { ValuationService, type ValuationRow } from './valuation.service';
 export { DevBankFeedAdapter, type BankFeedPort, type BankTransaction } from './bankfeed';
 export {
+  BankStatementService,
+  type AllocationView,
+  type BankStatementImportInput,
+  type BankStatementLineInput,
+  type BankStatementLineView,
+  type BankStatementView,
+  type PaymentGate,
+} from './bank-statement.service';
+export {
   GL_ENTRY_TYPES,
   LedgerService,
   type GlEntryType,

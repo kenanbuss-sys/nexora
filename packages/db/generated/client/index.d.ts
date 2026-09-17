@@ -811,6 +811,23 @@ export type GlOpeningBalanceDate = $Result.DefaultSelection<Prisma.$GlOpeningBal
  * Sprint 211 (FIN-025): period lock per legal entity.
  */
 export type GlPeriodLock = $Result.DefaultSelection<Prisma.$GlPeriodLockPayload>
+/**
+ * Model BankStatement
+ * 
+ */
+export type BankStatement = $Result.DefaultSelection<Prisma.$BankStatementPayload>
+/**
+ * Model BankStatementLine
+ * 
+ */
+export type BankStatementLine = $Result.DefaultSelection<Prisma.$BankStatementLinePayload>
+/**
+ * Model PaymentAllocation
+ * FIN-031: allocation of a bank-statement line to an invoice. It moves
+ * invoice.paidAmount through the append-only payment flow (FIN-014);
+ * it does NOT create a ledger entry. Idempotent via allocationKey.
+ */
+export type PaymentAllocation = $Result.DefaultSelection<Prisma.$PaymentAllocationPayload>
 
 /**
  * Enums
@@ -1407,6 +1424,23 @@ export const FrameworkStatus: {
 
 export type FrameworkStatus = (typeof FrameworkStatus)[keyof typeof FrameworkStatus]
 
+
+export const BankStatementStatus: {
+  IMPORTED: 'IMPORTED',
+  CONFIRMED: 'CONFIRMED'
+};
+
+export type BankStatementStatus = (typeof BankStatementStatus)[keyof typeof BankStatementStatus]
+
+
+export const BankStatementLineStatus: {
+  OPEN: 'OPEN',
+  PARTIALLY_ALLOCATED: 'PARTIALLY_ALLOCATED',
+  ALLOCATED: 'ALLOCATED'
+};
+
+export type BankStatementLineStatus = (typeof BankStatementLineStatus)[keyof typeof BankStatementLineStatus]
+
 }
 
 export type TenantStatus = $Enums.TenantStatus
@@ -1656,6 +1690,14 @@ export const CustomObjectStatus: typeof $Enums.CustomObjectStatus
 export type FrameworkStatus = $Enums.FrameworkStatus
 
 export const FrameworkStatus: typeof $Enums.FrameworkStatus
+
+export type BankStatementStatus = $Enums.BankStatementStatus
+
+export const BankStatementStatus: typeof $Enums.BankStatementStatus
+
+export type BankStatementLineStatus = $Enums.BankStatementLineStatus
+
+export const BankStatementLineStatus: typeof $Enums.BankStatementLineStatus
 
 /**
  * ##  Prisma Client ʲˢ
@@ -3174,6 +3216,36 @@ export class PrismaClient<
     * ```
     */
   get glPeriodLock(): Prisma.GlPeriodLockDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.bankStatement`: Exposes CRUD operations for the **BankStatement** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more BankStatements
+    * const bankStatements = await prisma.bankStatement.findMany()
+    * ```
+    */
+  get bankStatement(): Prisma.BankStatementDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.bankStatementLine`: Exposes CRUD operations for the **BankStatementLine** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more BankStatementLines
+    * const bankStatementLines = await prisma.bankStatementLine.findMany()
+    * ```
+    */
+  get bankStatementLine(): Prisma.BankStatementLineDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.paymentAllocation`: Exposes CRUD operations for the **PaymentAllocation** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PaymentAllocations
+    * const paymentAllocations = await prisma.paymentAllocation.findMany()
+    * ```
+    */
+  get paymentAllocation(): Prisma.PaymentAllocationDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -3754,7 +3826,10 @@ export namespace Prisma {
     GlJournalLine: 'GlJournalLine',
     GlSystemAccount: 'GlSystemAccount',
     GlOpeningBalanceDate: 'GlOpeningBalanceDate',
-    GlPeriodLock: 'GlPeriodLock'
+    GlPeriodLock: 'GlPeriodLock',
+    BankStatement: 'BankStatement',
+    BankStatementLine: 'BankStatementLine',
+    PaymentAllocation: 'PaymentAllocation'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -3773,7 +3848,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "tenant" | "tenantConfigurationVersion" | "legalEntity" | "businessUnit" | "branch" | "factory" | "user" | "userCredential" | "role" | "rolePermission" | "userRoleAssignment" | "auditEvent" | "outboxEvent" | "terminologyEntry" | "moduleActivation" | "customFieldDefinition" | "task" | "notification" | "workflowDefinition" | "workflowVersion" | "workflowInstance" | "ruleDefinition" | "ruleVersion" | "approval" | "processedEvent" | "documentTemplate" | "documentTemplateVersion" | "party" | "consentRecord" | "partyExternalIdentity" | "product" | "sku" | "barcode" | "uomConversion" | "warehouse" | "warehouseLocation" | "stockMovement" | "stockReservation" | "device" | "scanEvent" | "wmsOrder" | "wmsOrderLine" | "territory" | "salesTeam" | "salesTeamMember" | "crmAccount" | "lead" | "opportunity" | "crmActivity" | "priceList" | "priceListEntry" | "quote" | "packagingLevel" | "skuSubstitution" | "discountRule" | "quoteLine" | "salesOrder" | "salesOrderLine" | "orderEvent" | "supplier" | "purchaseRequisition" | "purchaseRequisitionLine" | "purchaseOrder" | "purchaseOrderLine" | "bom" | "bomLine" | "routing" | "routingOperation" | "engineeringChange" | "planningPolicy" | "mrpRun" | "mrpSuggestion" | "workOrder" | "workOrderOperation" | "qcPlan" | "qcPlanItem" | "qcInspection" | "qcInspectionItem" | "ncr" | "invoice" | "payment" | "portalUser" | "comment" | "attachment" | "attachmentBlob" | "numberSequence" | "exchangeRate" | "costCenter" | "budget" | "webhookSubscription" | "webhookDelivery" | "apiKey" | "securityEvent" | "productCategory" | "returnOrder" | "returnOrderLine" | "stockCount" | "stockCountLine" | "workCenter" | "downtimeEvent" | "promotion" | "promotionRedemption" | "bundleComponent" | "serialNumber" | "breakGlassGrant" | "masterDataRequest" | "loyaltyAccount" | "loyaltyTransaction" | "supportCase" | "contract" | "employee" | "asset" | "quarantineHold" | "rfq" | "rfqQuote" | "package" | "packageLine" | "landedCost" | "customObjectDefinition" | "customObjectRecord" | "frameworkAgreement" | "skuChannelContent" | "container" | "posSession" | "vehicle" | "driver" | "shipment" | "shipmentStop" | "dockAppointment" | "installedAsset" | "serviceRequest" | "serviceOrder" | "serviceOrderPart" | "rma" | "glAccount" | "glJournalEntry" | "glJournalLine" | "glSystemAccount" | "glOpeningBalanceDate" | "glPeriodLock"
+      modelProps: "tenant" | "tenantConfigurationVersion" | "legalEntity" | "businessUnit" | "branch" | "factory" | "user" | "userCredential" | "role" | "rolePermission" | "userRoleAssignment" | "auditEvent" | "outboxEvent" | "terminologyEntry" | "moduleActivation" | "customFieldDefinition" | "task" | "notification" | "workflowDefinition" | "workflowVersion" | "workflowInstance" | "ruleDefinition" | "ruleVersion" | "approval" | "processedEvent" | "documentTemplate" | "documentTemplateVersion" | "party" | "consentRecord" | "partyExternalIdentity" | "product" | "sku" | "barcode" | "uomConversion" | "warehouse" | "warehouseLocation" | "stockMovement" | "stockReservation" | "device" | "scanEvent" | "wmsOrder" | "wmsOrderLine" | "territory" | "salesTeam" | "salesTeamMember" | "crmAccount" | "lead" | "opportunity" | "crmActivity" | "priceList" | "priceListEntry" | "quote" | "packagingLevel" | "skuSubstitution" | "discountRule" | "quoteLine" | "salesOrder" | "salesOrderLine" | "orderEvent" | "supplier" | "purchaseRequisition" | "purchaseRequisitionLine" | "purchaseOrder" | "purchaseOrderLine" | "bom" | "bomLine" | "routing" | "routingOperation" | "engineeringChange" | "planningPolicy" | "mrpRun" | "mrpSuggestion" | "workOrder" | "workOrderOperation" | "qcPlan" | "qcPlanItem" | "qcInspection" | "qcInspectionItem" | "ncr" | "invoice" | "payment" | "portalUser" | "comment" | "attachment" | "attachmentBlob" | "numberSequence" | "exchangeRate" | "costCenter" | "budget" | "webhookSubscription" | "webhookDelivery" | "apiKey" | "securityEvent" | "productCategory" | "returnOrder" | "returnOrderLine" | "stockCount" | "stockCountLine" | "workCenter" | "downtimeEvent" | "promotion" | "promotionRedemption" | "bundleComponent" | "serialNumber" | "breakGlassGrant" | "masterDataRequest" | "loyaltyAccount" | "loyaltyTransaction" | "supportCase" | "contract" | "employee" | "asset" | "quarantineHold" | "rfq" | "rfqQuote" | "package" | "packageLine" | "landedCost" | "customObjectDefinition" | "customObjectRecord" | "frameworkAgreement" | "skuChannelContent" | "container" | "posSession" | "vehicle" | "driver" | "shipment" | "shipmentStop" | "dockAppointment" | "installedAsset" | "serviceRequest" | "serviceOrder" | "serviceOrderPart" | "rma" | "glAccount" | "glJournalEntry" | "glJournalLine" | "glSystemAccount" | "glOpeningBalanceDate" | "glPeriodLock" | "bankStatement" | "bankStatementLine" | "paymentAllocation"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -14137,6 +14212,228 @@ export namespace Prisma {
           }
         }
       }
+      BankStatement: {
+        payload: Prisma.$BankStatementPayload<ExtArgs>
+        fields: Prisma.BankStatementFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.BankStatementFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BankStatementPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.BankStatementFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BankStatementPayload>
+          }
+          findFirst: {
+            args: Prisma.BankStatementFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BankStatementPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.BankStatementFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BankStatementPayload>
+          }
+          findMany: {
+            args: Prisma.BankStatementFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BankStatementPayload>[]
+          }
+          create: {
+            args: Prisma.BankStatementCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BankStatementPayload>
+          }
+          createMany: {
+            args: Prisma.BankStatementCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.BankStatementCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BankStatementPayload>[]
+          }
+          delete: {
+            args: Prisma.BankStatementDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BankStatementPayload>
+          }
+          update: {
+            args: Prisma.BankStatementUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BankStatementPayload>
+          }
+          deleteMany: {
+            args: Prisma.BankStatementDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.BankStatementUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.BankStatementUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BankStatementPayload>[]
+          }
+          upsert: {
+            args: Prisma.BankStatementUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BankStatementPayload>
+          }
+          aggregate: {
+            args: Prisma.BankStatementAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateBankStatement>
+          }
+          groupBy: {
+            args: Prisma.BankStatementGroupByArgs<ExtArgs>
+            result: $Utils.Optional<BankStatementGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.BankStatementCountArgs<ExtArgs>
+            result: $Utils.Optional<BankStatementCountAggregateOutputType> | number
+          }
+        }
+      }
+      BankStatementLine: {
+        payload: Prisma.$BankStatementLinePayload<ExtArgs>
+        fields: Prisma.BankStatementLineFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.BankStatementLineFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BankStatementLinePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.BankStatementLineFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BankStatementLinePayload>
+          }
+          findFirst: {
+            args: Prisma.BankStatementLineFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BankStatementLinePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.BankStatementLineFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BankStatementLinePayload>
+          }
+          findMany: {
+            args: Prisma.BankStatementLineFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BankStatementLinePayload>[]
+          }
+          create: {
+            args: Prisma.BankStatementLineCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BankStatementLinePayload>
+          }
+          createMany: {
+            args: Prisma.BankStatementLineCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.BankStatementLineCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BankStatementLinePayload>[]
+          }
+          delete: {
+            args: Prisma.BankStatementLineDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BankStatementLinePayload>
+          }
+          update: {
+            args: Prisma.BankStatementLineUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BankStatementLinePayload>
+          }
+          deleteMany: {
+            args: Prisma.BankStatementLineDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.BankStatementLineUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.BankStatementLineUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BankStatementLinePayload>[]
+          }
+          upsert: {
+            args: Prisma.BankStatementLineUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BankStatementLinePayload>
+          }
+          aggregate: {
+            args: Prisma.BankStatementLineAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateBankStatementLine>
+          }
+          groupBy: {
+            args: Prisma.BankStatementLineGroupByArgs<ExtArgs>
+            result: $Utils.Optional<BankStatementLineGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.BankStatementLineCountArgs<ExtArgs>
+            result: $Utils.Optional<BankStatementLineCountAggregateOutputType> | number
+          }
+        }
+      }
+      PaymentAllocation: {
+        payload: Prisma.$PaymentAllocationPayload<ExtArgs>
+        fields: Prisma.PaymentAllocationFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PaymentAllocationFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentAllocationPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PaymentAllocationFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentAllocationPayload>
+          }
+          findFirst: {
+            args: Prisma.PaymentAllocationFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentAllocationPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PaymentAllocationFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentAllocationPayload>
+          }
+          findMany: {
+            args: Prisma.PaymentAllocationFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentAllocationPayload>[]
+          }
+          create: {
+            args: Prisma.PaymentAllocationCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentAllocationPayload>
+          }
+          createMany: {
+            args: Prisma.PaymentAllocationCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PaymentAllocationCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentAllocationPayload>[]
+          }
+          delete: {
+            args: Prisma.PaymentAllocationDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentAllocationPayload>
+          }
+          update: {
+            args: Prisma.PaymentAllocationUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentAllocationPayload>
+          }
+          deleteMany: {
+            args: Prisma.PaymentAllocationDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PaymentAllocationUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.PaymentAllocationUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentAllocationPayload>[]
+          }
+          upsert: {
+            args: Prisma.PaymentAllocationUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentAllocationPayload>
+          }
+          aggregate: {
+            args: Prisma.PaymentAllocationAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePaymentAllocation>
+          }
+          groupBy: {
+            args: Prisma.PaymentAllocationGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PaymentAllocationGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PaymentAllocationCountArgs<ExtArgs>
+            result: $Utils.Optional<PaymentAllocationCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -14373,6 +14670,9 @@ export namespace Prisma {
     glSystemAccount?: GlSystemAccountOmit
     glOpeningBalanceDate?: GlOpeningBalanceDateOmit
     glPeriodLock?: GlPeriodLockOmit
+    bankStatement?: BankStatementOmit
+    bankStatementLine?: BankStatementLineOmit
+    paymentAllocation?: PaymentAllocationOmit
   }
 
   /* Types for Logging */
@@ -14575,6 +14875,9 @@ export namespace Prisma {
     glOpeningBalanceDates: number
     glPeriodLocks: number
     frameworkAgreements: number
+    bankStatements: number
+    bankStatementLines: number
+    paymentAllocations: number
   }
 
   export type TenantCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -14700,6 +15003,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: boolean | TenantCountOutputTypeCountGlOpeningBalanceDatesArgs
     glPeriodLocks?: boolean | TenantCountOutputTypeCountGlPeriodLocksArgs
     frameworkAgreements?: boolean | TenantCountOutputTypeCountFrameworkAgreementsArgs
+    bankStatements?: boolean | TenantCountOutputTypeCountBankStatementsArgs
+    bankStatementLines?: boolean | TenantCountOutputTypeCountBankStatementLinesArgs
+    paymentAllocations?: boolean | TenantCountOutputTypeCountPaymentAllocationsArgs
   }
 
   // Custom InputTypes
@@ -15565,6 +15871,27 @@ export namespace Prisma {
    */
   export type TenantCountOutputTypeCountFrameworkAgreementsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: FrameworkAgreementWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountBankStatementsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BankStatementWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountBankStatementLinesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BankStatementLineWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountPaymentAllocationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PaymentAllocationWhereInput
   }
 
 
@@ -16511,10 +16838,12 @@ export namespace Prisma {
 
   export type InvoiceCountOutputType = {
     payments: number
+    allocations: number
   }
 
   export type InvoiceCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     payments?: boolean | InvoiceCountOutputTypeCountPaymentsArgs
+    allocations?: boolean | InvoiceCountOutputTypeCountAllocationsArgs
   }
 
   // Custom InputTypes
@@ -16533,6 +16862,13 @@ export namespace Prisma {
    */
   export type InvoiceCountOutputTypeCountPaymentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: PaymentWhereInput
+  }
+
+  /**
+   * InvoiceCountOutputType without action
+   */
+  export type InvoiceCountOutputTypeCountAllocationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PaymentAllocationWhereInput
   }
 
 
@@ -17135,6 +17471,68 @@ export namespace Prisma {
 
 
   /**
+   * Count Type BankStatementCountOutputType
+   */
+
+  export type BankStatementCountOutputType = {
+    lines: number
+  }
+
+  export type BankStatementCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    lines?: boolean | BankStatementCountOutputTypeCountLinesArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * BankStatementCountOutputType without action
+   */
+  export type BankStatementCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BankStatementCountOutputType
+     */
+    select?: BankStatementCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * BankStatementCountOutputType without action
+   */
+  export type BankStatementCountOutputTypeCountLinesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BankStatementLineWhereInput
+  }
+
+
+  /**
+   * Count Type BankStatementLineCountOutputType
+   */
+
+  export type BankStatementLineCountOutputType = {
+    allocations: number
+  }
+
+  export type BankStatementLineCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    allocations?: boolean | BankStatementLineCountOutputTypeCountAllocationsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * BankStatementLineCountOutputType without action
+   */
+  export type BankStatementLineCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BankStatementLineCountOutputType
+     */
+    select?: BankStatementLineCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * BankStatementLineCountOutputType without action
+   */
+  export type BankStatementLineCountOutputTypeCountAllocationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PaymentAllocationWhereInput
+  }
+
+
+  /**
    * Models
    */
 
@@ -17474,6 +17872,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: boolean | Tenant$glOpeningBalanceDatesArgs<ExtArgs>
     glPeriodLocks?: boolean | Tenant$glPeriodLocksArgs<ExtArgs>
     frameworkAgreements?: boolean | Tenant$frameworkAgreementsArgs<ExtArgs>
+    bankStatements?: boolean | Tenant$bankStatementsArgs<ExtArgs>
+    bankStatementLines?: boolean | Tenant$bankStatementLinesArgs<ExtArgs>
+    paymentAllocations?: boolean | Tenant$paymentAllocationsArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["tenant"]>
 
@@ -17631,6 +18032,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: boolean | Tenant$glOpeningBalanceDatesArgs<ExtArgs>
     glPeriodLocks?: boolean | Tenant$glPeriodLocksArgs<ExtArgs>
     frameworkAgreements?: boolean | Tenant$frameworkAgreementsArgs<ExtArgs>
+    bankStatements?: boolean | Tenant$bankStatementsArgs<ExtArgs>
+    bankStatementLines?: boolean | Tenant$bankStatementLinesArgs<ExtArgs>
+    paymentAllocations?: boolean | Tenant$paymentAllocationsArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type TenantIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -17761,6 +18165,9 @@ export namespace Prisma {
       glOpeningBalanceDates: Prisma.$GlOpeningBalanceDatePayload<ExtArgs>[]
       glPeriodLocks: Prisma.$GlPeriodLockPayload<ExtArgs>[]
       frameworkAgreements: Prisma.$FrameworkAgreementPayload<ExtArgs>[]
+      bankStatements: Prisma.$BankStatementPayload<ExtArgs>[]
+      bankStatementLines: Prisma.$BankStatementLinePayload<ExtArgs>[]
+      paymentAllocations: Prisma.$PaymentAllocationPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -18286,6 +18693,9 @@ export namespace Prisma {
     glOpeningBalanceDates<T extends Tenant$glOpeningBalanceDatesArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$glOpeningBalanceDatesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GlOpeningBalanceDatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     glPeriodLocks<T extends Tenant$glPeriodLocksArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$glPeriodLocksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GlPeriodLockPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     frameworkAgreements<T extends Tenant$frameworkAgreementsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$frameworkAgreementsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FrameworkAgreementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    bankStatements<T extends Tenant$bankStatementsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$bankStatementsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BankStatementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    bankStatementLines<T extends Tenant$bankStatementLinesArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$bankStatementLinesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BankStatementLinePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    paymentAllocations<T extends Tenant$paymentAllocationsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$paymentAllocationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentAllocationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -21635,6 +22045,78 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: FrameworkAgreementScalarFieldEnum | FrameworkAgreementScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.bankStatements
+   */
+  export type Tenant$bankStatementsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BankStatement
+     */
+    select?: BankStatementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BankStatement
+     */
+    omit?: BankStatementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BankStatementInclude<ExtArgs> | null
+    where?: BankStatementWhereInput
+    orderBy?: BankStatementOrderByWithRelationInput | BankStatementOrderByWithRelationInput[]
+    cursor?: BankStatementWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: BankStatementScalarFieldEnum | BankStatementScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.bankStatementLines
+   */
+  export type Tenant$bankStatementLinesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BankStatementLine
+     */
+    select?: BankStatementLineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BankStatementLine
+     */
+    omit?: BankStatementLineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BankStatementLineInclude<ExtArgs> | null
+    where?: BankStatementLineWhereInput
+    orderBy?: BankStatementLineOrderByWithRelationInput | BankStatementLineOrderByWithRelationInput[]
+    cursor?: BankStatementLineWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: BankStatementLineScalarFieldEnum | BankStatementLineScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.paymentAllocations
+   */
+  export type Tenant$paymentAllocationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentAllocation
+     */
+    select?: PaymentAllocationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PaymentAllocation
+     */
+    omit?: PaymentAllocationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentAllocationInclude<ExtArgs> | null
+    where?: PaymentAllocationWhereInput
+    orderBy?: PaymentAllocationOrderByWithRelationInput | PaymentAllocationOrderByWithRelationInput[]
+    cursor?: PaymentAllocationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PaymentAllocationScalarFieldEnum | PaymentAllocationScalarFieldEnum[]
   }
 
   /**
@@ -111438,6 +111920,7 @@ export namespace Prisma {
     updatedAt?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     payments?: boolean | Invoice$paymentsArgs<ExtArgs>
+    allocations?: boolean | Invoice$allocationsArgs<ExtArgs>
     _count?: boolean | InvoiceCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["invoice"]>
 
@@ -111507,6 +111990,7 @@ export namespace Prisma {
   export type InvoiceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     payments?: boolean | Invoice$paymentsArgs<ExtArgs>
+    allocations?: boolean | Invoice$allocationsArgs<ExtArgs>
     _count?: boolean | InvoiceCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type InvoiceIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -111521,6 +112005,7 @@ export namespace Prisma {
     objects: {
       tenant: Prisma.$TenantPayload<ExtArgs>
       payments: Prisma.$PaymentPayload<ExtArgs>[]
+      allocations: Prisma.$PaymentAllocationPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -111942,6 +112427,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     payments<T extends Invoice$paymentsArgs<ExtArgs> = {}>(args?: Subset<T, Invoice$paymentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    allocations<T extends Invoice$allocationsArgs<ExtArgs> = {}>(args?: Subset<T, Invoice$allocationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentAllocationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -112405,6 +112891,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: PaymentScalarFieldEnum | PaymentScalarFieldEnum[]
+  }
+
+  /**
+   * Invoice.allocations
+   */
+  export type Invoice$allocationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentAllocation
+     */
+    select?: PaymentAllocationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PaymentAllocation
+     */
+    omit?: PaymentAllocationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentAllocationInclude<ExtArgs> | null
+    where?: PaymentAllocationWhereInput
+    orderBy?: PaymentAllocationOrderByWithRelationInput | PaymentAllocationOrderByWithRelationInput[]
+    cursor?: PaymentAllocationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PaymentAllocationScalarFieldEnum | PaymentAllocationScalarFieldEnum[]
   }
 
   /**
@@ -181336,6 +181846,3687 @@ export namespace Prisma {
 
 
   /**
+   * Model BankStatement
+   */
+
+  export type AggregateBankStatement = {
+    _count: BankStatementCountAggregateOutputType | null
+    _avg: BankStatementAvgAggregateOutputType | null
+    _sum: BankStatementSumAggregateOutputType | null
+    _min: BankStatementMinAggregateOutputType | null
+    _max: BankStatementMaxAggregateOutputType | null
+  }
+
+  export type BankStatementAvgAggregateOutputType = {
+    openingBalance: Decimal | null
+    closingBalance: Decimal | null
+    lineCount: number | null
+  }
+
+  export type BankStatementSumAggregateOutputType = {
+    openingBalance: Decimal | null
+    closingBalance: Decimal | null
+    lineCount: number | null
+  }
+
+  export type BankStatementMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    legalEntityId: string | null
+    statementNumber: string | null
+    bankAccount: string | null
+    statementDate: Date | null
+    currency: string | null
+    openingBalance: Decimal | null
+    closingBalance: Decimal | null
+    lineCount: number | null
+    status: $Enums.BankStatementStatus | null
+    source: string | null
+    confirmedAt: Date | null
+    confirmedBy: string | null
+    createdBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type BankStatementMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    legalEntityId: string | null
+    statementNumber: string | null
+    bankAccount: string | null
+    statementDate: Date | null
+    currency: string | null
+    openingBalance: Decimal | null
+    closingBalance: Decimal | null
+    lineCount: number | null
+    status: $Enums.BankStatementStatus | null
+    source: string | null
+    confirmedAt: Date | null
+    confirmedBy: string | null
+    createdBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type BankStatementCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    legalEntityId: number
+    statementNumber: number
+    bankAccount: number
+    statementDate: number
+    currency: number
+    openingBalance: number
+    closingBalance: number
+    lineCount: number
+    status: number
+    source: number
+    confirmedAt: number
+    confirmedBy: number
+    createdBy: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type BankStatementAvgAggregateInputType = {
+    openingBalance?: true
+    closingBalance?: true
+    lineCount?: true
+  }
+
+  export type BankStatementSumAggregateInputType = {
+    openingBalance?: true
+    closingBalance?: true
+    lineCount?: true
+  }
+
+  export type BankStatementMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    legalEntityId?: true
+    statementNumber?: true
+    bankAccount?: true
+    statementDate?: true
+    currency?: true
+    openingBalance?: true
+    closingBalance?: true
+    lineCount?: true
+    status?: true
+    source?: true
+    confirmedAt?: true
+    confirmedBy?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type BankStatementMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    legalEntityId?: true
+    statementNumber?: true
+    bankAccount?: true
+    statementDate?: true
+    currency?: true
+    openingBalance?: true
+    closingBalance?: true
+    lineCount?: true
+    status?: true
+    source?: true
+    confirmedAt?: true
+    confirmedBy?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type BankStatementCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    legalEntityId?: true
+    statementNumber?: true
+    bankAccount?: true
+    statementDate?: true
+    currency?: true
+    openingBalance?: true
+    closingBalance?: true
+    lineCount?: true
+    status?: true
+    source?: true
+    confirmedAt?: true
+    confirmedBy?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type BankStatementAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BankStatement to aggregate.
+     */
+    where?: BankStatementWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BankStatements to fetch.
+     */
+    orderBy?: BankStatementOrderByWithRelationInput | BankStatementOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: BankStatementWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BankStatements from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BankStatements.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned BankStatements
+    **/
+    _count?: true | BankStatementCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: BankStatementAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: BankStatementSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: BankStatementMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: BankStatementMaxAggregateInputType
+  }
+
+  export type GetBankStatementAggregateType<T extends BankStatementAggregateArgs> = {
+        [P in keyof T & keyof AggregateBankStatement]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateBankStatement[P]>
+      : GetScalarType<T[P], AggregateBankStatement[P]>
+  }
+
+
+
+
+  export type BankStatementGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BankStatementWhereInput
+    orderBy?: BankStatementOrderByWithAggregationInput | BankStatementOrderByWithAggregationInput[]
+    by: BankStatementScalarFieldEnum[] | BankStatementScalarFieldEnum
+    having?: BankStatementScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: BankStatementCountAggregateInputType | true
+    _avg?: BankStatementAvgAggregateInputType
+    _sum?: BankStatementSumAggregateInputType
+    _min?: BankStatementMinAggregateInputType
+    _max?: BankStatementMaxAggregateInputType
+  }
+
+  export type BankStatementGroupByOutputType = {
+    id: string
+    tenantId: string
+    legalEntityId: string
+    statementNumber: string
+    bankAccount: string
+    statementDate: Date
+    currency: string
+    openingBalance: Decimal
+    closingBalance: Decimal
+    lineCount: number
+    status: $Enums.BankStatementStatus
+    source: string
+    confirmedAt: Date | null
+    confirmedBy: string | null
+    createdBy: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: BankStatementCountAggregateOutputType | null
+    _avg: BankStatementAvgAggregateOutputType | null
+    _sum: BankStatementSumAggregateOutputType | null
+    _min: BankStatementMinAggregateOutputType | null
+    _max: BankStatementMaxAggregateOutputType | null
+  }
+
+  type GetBankStatementGroupByPayload<T extends BankStatementGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<BankStatementGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof BankStatementGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], BankStatementGroupByOutputType[P]>
+            : GetScalarType<T[P], BankStatementGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type BankStatementSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    legalEntityId?: boolean
+    statementNumber?: boolean
+    bankAccount?: boolean
+    statementDate?: boolean
+    currency?: boolean
+    openingBalance?: boolean
+    closingBalance?: boolean
+    lineCount?: boolean
+    status?: boolean
+    source?: boolean
+    confirmedAt?: boolean
+    confirmedBy?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    lines?: boolean | BankStatement$linesArgs<ExtArgs>
+    _count?: boolean | BankStatementCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["bankStatement"]>
+
+  export type BankStatementSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    legalEntityId?: boolean
+    statementNumber?: boolean
+    bankAccount?: boolean
+    statementDate?: boolean
+    currency?: boolean
+    openingBalance?: boolean
+    closingBalance?: boolean
+    lineCount?: boolean
+    status?: boolean
+    source?: boolean
+    confirmedAt?: boolean
+    confirmedBy?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["bankStatement"]>
+
+  export type BankStatementSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    legalEntityId?: boolean
+    statementNumber?: boolean
+    bankAccount?: boolean
+    statementDate?: boolean
+    currency?: boolean
+    openingBalance?: boolean
+    closingBalance?: boolean
+    lineCount?: boolean
+    status?: boolean
+    source?: boolean
+    confirmedAt?: boolean
+    confirmedBy?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["bankStatement"]>
+
+  export type BankStatementSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    legalEntityId?: boolean
+    statementNumber?: boolean
+    bankAccount?: boolean
+    statementDate?: boolean
+    currency?: boolean
+    openingBalance?: boolean
+    closingBalance?: boolean
+    lineCount?: boolean
+    status?: boolean
+    source?: boolean
+    confirmedAt?: boolean
+    confirmedBy?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type BankStatementOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "legalEntityId" | "statementNumber" | "bankAccount" | "statementDate" | "currency" | "openingBalance" | "closingBalance" | "lineCount" | "status" | "source" | "confirmedAt" | "confirmedBy" | "createdBy" | "createdAt" | "updatedAt", ExtArgs["result"]["bankStatement"]>
+  export type BankStatementInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    lines?: boolean | BankStatement$linesArgs<ExtArgs>
+    _count?: boolean | BankStatementCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type BankStatementIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type BankStatementIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+
+  export type $BankStatementPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "BankStatement"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+      lines: Prisma.$BankStatementLinePayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      legalEntityId: string
+      statementNumber: string
+      bankAccount: string
+      statementDate: Date
+      currency: string
+      openingBalance: Prisma.Decimal
+      closingBalance: Prisma.Decimal
+      lineCount: number
+      status: $Enums.BankStatementStatus
+      /**
+       * MANUAL import or AI_PROPOSAL reviewed by a person (AI-016).
+       */
+      source: string
+      confirmedAt: Date | null
+      confirmedBy: string | null
+      createdBy: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["bankStatement"]>
+    composites: {}
+  }
+
+  type BankStatementGetPayload<S extends boolean | null | undefined | BankStatementDefaultArgs> = $Result.GetResult<Prisma.$BankStatementPayload, S>
+
+  type BankStatementCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<BankStatementFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: BankStatementCountAggregateInputType | true
+    }
+
+  export interface BankStatementDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['BankStatement'], meta: { name: 'BankStatement' } }
+    /**
+     * Find zero or one BankStatement that matches the filter.
+     * @param {BankStatementFindUniqueArgs} args - Arguments to find a BankStatement
+     * @example
+     * // Get one BankStatement
+     * const bankStatement = await prisma.bankStatement.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends BankStatementFindUniqueArgs>(args: SelectSubset<T, BankStatementFindUniqueArgs<ExtArgs>>): Prisma__BankStatementClient<$Result.GetResult<Prisma.$BankStatementPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one BankStatement that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {BankStatementFindUniqueOrThrowArgs} args - Arguments to find a BankStatement
+     * @example
+     * // Get one BankStatement
+     * const bankStatement = await prisma.bankStatement.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends BankStatementFindUniqueOrThrowArgs>(args: SelectSubset<T, BankStatementFindUniqueOrThrowArgs<ExtArgs>>): Prisma__BankStatementClient<$Result.GetResult<Prisma.$BankStatementPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first BankStatement that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BankStatementFindFirstArgs} args - Arguments to find a BankStatement
+     * @example
+     * // Get one BankStatement
+     * const bankStatement = await prisma.bankStatement.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends BankStatementFindFirstArgs>(args?: SelectSubset<T, BankStatementFindFirstArgs<ExtArgs>>): Prisma__BankStatementClient<$Result.GetResult<Prisma.$BankStatementPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first BankStatement that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BankStatementFindFirstOrThrowArgs} args - Arguments to find a BankStatement
+     * @example
+     * // Get one BankStatement
+     * const bankStatement = await prisma.bankStatement.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends BankStatementFindFirstOrThrowArgs>(args?: SelectSubset<T, BankStatementFindFirstOrThrowArgs<ExtArgs>>): Prisma__BankStatementClient<$Result.GetResult<Prisma.$BankStatementPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more BankStatements that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BankStatementFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all BankStatements
+     * const bankStatements = await prisma.bankStatement.findMany()
+     * 
+     * // Get first 10 BankStatements
+     * const bankStatements = await prisma.bankStatement.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const bankStatementWithIdOnly = await prisma.bankStatement.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends BankStatementFindManyArgs>(args?: SelectSubset<T, BankStatementFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BankStatementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a BankStatement.
+     * @param {BankStatementCreateArgs} args - Arguments to create a BankStatement.
+     * @example
+     * // Create one BankStatement
+     * const BankStatement = await prisma.bankStatement.create({
+     *   data: {
+     *     // ... data to create a BankStatement
+     *   }
+     * })
+     * 
+     */
+    create<T extends BankStatementCreateArgs>(args: SelectSubset<T, BankStatementCreateArgs<ExtArgs>>): Prisma__BankStatementClient<$Result.GetResult<Prisma.$BankStatementPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many BankStatements.
+     * @param {BankStatementCreateManyArgs} args - Arguments to create many BankStatements.
+     * @example
+     * // Create many BankStatements
+     * const bankStatement = await prisma.bankStatement.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends BankStatementCreateManyArgs>(args?: SelectSubset<T, BankStatementCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many BankStatements and returns the data saved in the database.
+     * @param {BankStatementCreateManyAndReturnArgs} args - Arguments to create many BankStatements.
+     * @example
+     * // Create many BankStatements
+     * const bankStatement = await prisma.bankStatement.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many BankStatements and only return the `id`
+     * const bankStatementWithIdOnly = await prisma.bankStatement.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends BankStatementCreateManyAndReturnArgs>(args?: SelectSubset<T, BankStatementCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BankStatementPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a BankStatement.
+     * @param {BankStatementDeleteArgs} args - Arguments to delete one BankStatement.
+     * @example
+     * // Delete one BankStatement
+     * const BankStatement = await prisma.bankStatement.delete({
+     *   where: {
+     *     // ... filter to delete one BankStatement
+     *   }
+     * })
+     * 
+     */
+    delete<T extends BankStatementDeleteArgs>(args: SelectSubset<T, BankStatementDeleteArgs<ExtArgs>>): Prisma__BankStatementClient<$Result.GetResult<Prisma.$BankStatementPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one BankStatement.
+     * @param {BankStatementUpdateArgs} args - Arguments to update one BankStatement.
+     * @example
+     * // Update one BankStatement
+     * const bankStatement = await prisma.bankStatement.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends BankStatementUpdateArgs>(args: SelectSubset<T, BankStatementUpdateArgs<ExtArgs>>): Prisma__BankStatementClient<$Result.GetResult<Prisma.$BankStatementPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more BankStatements.
+     * @param {BankStatementDeleteManyArgs} args - Arguments to filter BankStatements to delete.
+     * @example
+     * // Delete a few BankStatements
+     * const { count } = await prisma.bankStatement.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends BankStatementDeleteManyArgs>(args?: SelectSubset<T, BankStatementDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more BankStatements.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BankStatementUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many BankStatements
+     * const bankStatement = await prisma.bankStatement.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends BankStatementUpdateManyArgs>(args: SelectSubset<T, BankStatementUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more BankStatements and returns the data updated in the database.
+     * @param {BankStatementUpdateManyAndReturnArgs} args - Arguments to update many BankStatements.
+     * @example
+     * // Update many BankStatements
+     * const bankStatement = await prisma.bankStatement.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more BankStatements and only return the `id`
+     * const bankStatementWithIdOnly = await prisma.bankStatement.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends BankStatementUpdateManyAndReturnArgs>(args: SelectSubset<T, BankStatementUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BankStatementPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one BankStatement.
+     * @param {BankStatementUpsertArgs} args - Arguments to update or create a BankStatement.
+     * @example
+     * // Update or create a BankStatement
+     * const bankStatement = await prisma.bankStatement.upsert({
+     *   create: {
+     *     // ... data to create a BankStatement
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the BankStatement we want to update
+     *   }
+     * })
+     */
+    upsert<T extends BankStatementUpsertArgs>(args: SelectSubset<T, BankStatementUpsertArgs<ExtArgs>>): Prisma__BankStatementClient<$Result.GetResult<Prisma.$BankStatementPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of BankStatements.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BankStatementCountArgs} args - Arguments to filter BankStatements to count.
+     * @example
+     * // Count the number of BankStatements
+     * const count = await prisma.bankStatement.count({
+     *   where: {
+     *     // ... the filter for the BankStatements we want to count
+     *   }
+     * })
+    **/
+    count<T extends BankStatementCountArgs>(
+      args?: Subset<T, BankStatementCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], BankStatementCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a BankStatement.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BankStatementAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends BankStatementAggregateArgs>(args: Subset<T, BankStatementAggregateArgs>): Prisma.PrismaPromise<GetBankStatementAggregateType<T>>
+
+    /**
+     * Group by BankStatement.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BankStatementGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends BankStatementGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: BankStatementGroupByArgs['orderBy'] }
+        : { orderBy?: BankStatementGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, BankStatementGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBankStatementGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the BankStatement model
+   */
+  readonly fields: BankStatementFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for BankStatement.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__BankStatementClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    lines<T extends BankStatement$linesArgs<ExtArgs> = {}>(args?: Subset<T, BankStatement$linesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BankStatementLinePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the BankStatement model
+   */
+  interface BankStatementFieldRefs {
+    readonly id: FieldRef<"BankStatement", 'String'>
+    readonly tenantId: FieldRef<"BankStatement", 'String'>
+    readonly legalEntityId: FieldRef<"BankStatement", 'String'>
+    readonly statementNumber: FieldRef<"BankStatement", 'String'>
+    readonly bankAccount: FieldRef<"BankStatement", 'String'>
+    readonly statementDate: FieldRef<"BankStatement", 'DateTime'>
+    readonly currency: FieldRef<"BankStatement", 'String'>
+    readonly openingBalance: FieldRef<"BankStatement", 'Decimal'>
+    readonly closingBalance: FieldRef<"BankStatement", 'Decimal'>
+    readonly lineCount: FieldRef<"BankStatement", 'Int'>
+    readonly status: FieldRef<"BankStatement", 'BankStatementStatus'>
+    readonly source: FieldRef<"BankStatement", 'String'>
+    readonly confirmedAt: FieldRef<"BankStatement", 'DateTime'>
+    readonly confirmedBy: FieldRef<"BankStatement", 'String'>
+    readonly createdBy: FieldRef<"BankStatement", 'String'>
+    readonly createdAt: FieldRef<"BankStatement", 'DateTime'>
+    readonly updatedAt: FieldRef<"BankStatement", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * BankStatement findUnique
+   */
+  export type BankStatementFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BankStatement
+     */
+    select?: BankStatementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BankStatement
+     */
+    omit?: BankStatementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BankStatementInclude<ExtArgs> | null
+    /**
+     * Filter, which BankStatement to fetch.
+     */
+    where: BankStatementWhereUniqueInput
+  }
+
+  /**
+   * BankStatement findUniqueOrThrow
+   */
+  export type BankStatementFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BankStatement
+     */
+    select?: BankStatementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BankStatement
+     */
+    omit?: BankStatementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BankStatementInclude<ExtArgs> | null
+    /**
+     * Filter, which BankStatement to fetch.
+     */
+    where: BankStatementWhereUniqueInput
+  }
+
+  /**
+   * BankStatement findFirst
+   */
+  export type BankStatementFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BankStatement
+     */
+    select?: BankStatementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BankStatement
+     */
+    omit?: BankStatementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BankStatementInclude<ExtArgs> | null
+    /**
+     * Filter, which BankStatement to fetch.
+     */
+    where?: BankStatementWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BankStatements to fetch.
+     */
+    orderBy?: BankStatementOrderByWithRelationInput | BankStatementOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BankStatements.
+     */
+    cursor?: BankStatementWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BankStatements from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BankStatements.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BankStatements.
+     */
+    distinct?: BankStatementScalarFieldEnum | BankStatementScalarFieldEnum[]
+  }
+
+  /**
+   * BankStatement findFirstOrThrow
+   */
+  export type BankStatementFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BankStatement
+     */
+    select?: BankStatementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BankStatement
+     */
+    omit?: BankStatementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BankStatementInclude<ExtArgs> | null
+    /**
+     * Filter, which BankStatement to fetch.
+     */
+    where?: BankStatementWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BankStatements to fetch.
+     */
+    orderBy?: BankStatementOrderByWithRelationInput | BankStatementOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BankStatements.
+     */
+    cursor?: BankStatementWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BankStatements from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BankStatements.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BankStatements.
+     */
+    distinct?: BankStatementScalarFieldEnum | BankStatementScalarFieldEnum[]
+  }
+
+  /**
+   * BankStatement findMany
+   */
+  export type BankStatementFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BankStatement
+     */
+    select?: BankStatementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BankStatement
+     */
+    omit?: BankStatementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BankStatementInclude<ExtArgs> | null
+    /**
+     * Filter, which BankStatements to fetch.
+     */
+    where?: BankStatementWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BankStatements to fetch.
+     */
+    orderBy?: BankStatementOrderByWithRelationInput | BankStatementOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing BankStatements.
+     */
+    cursor?: BankStatementWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BankStatements from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BankStatements.
+     */
+    skip?: number
+    distinct?: BankStatementScalarFieldEnum | BankStatementScalarFieldEnum[]
+  }
+
+  /**
+   * BankStatement create
+   */
+  export type BankStatementCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BankStatement
+     */
+    select?: BankStatementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BankStatement
+     */
+    omit?: BankStatementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BankStatementInclude<ExtArgs> | null
+    /**
+     * The data needed to create a BankStatement.
+     */
+    data: XOR<BankStatementCreateInput, BankStatementUncheckedCreateInput>
+  }
+
+  /**
+   * BankStatement createMany
+   */
+  export type BankStatementCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many BankStatements.
+     */
+    data: BankStatementCreateManyInput | BankStatementCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * BankStatement createManyAndReturn
+   */
+  export type BankStatementCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BankStatement
+     */
+    select?: BankStatementSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the BankStatement
+     */
+    omit?: BankStatementOmit<ExtArgs> | null
+    /**
+     * The data used to create many BankStatements.
+     */
+    data: BankStatementCreateManyInput | BankStatementCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BankStatementIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * BankStatement update
+   */
+  export type BankStatementUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BankStatement
+     */
+    select?: BankStatementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BankStatement
+     */
+    omit?: BankStatementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BankStatementInclude<ExtArgs> | null
+    /**
+     * The data needed to update a BankStatement.
+     */
+    data: XOR<BankStatementUpdateInput, BankStatementUncheckedUpdateInput>
+    /**
+     * Choose, which BankStatement to update.
+     */
+    where: BankStatementWhereUniqueInput
+  }
+
+  /**
+   * BankStatement updateMany
+   */
+  export type BankStatementUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update BankStatements.
+     */
+    data: XOR<BankStatementUpdateManyMutationInput, BankStatementUncheckedUpdateManyInput>
+    /**
+     * Filter which BankStatements to update
+     */
+    where?: BankStatementWhereInput
+    /**
+     * Limit how many BankStatements to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * BankStatement updateManyAndReturn
+   */
+  export type BankStatementUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BankStatement
+     */
+    select?: BankStatementSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the BankStatement
+     */
+    omit?: BankStatementOmit<ExtArgs> | null
+    /**
+     * The data used to update BankStatements.
+     */
+    data: XOR<BankStatementUpdateManyMutationInput, BankStatementUncheckedUpdateManyInput>
+    /**
+     * Filter which BankStatements to update
+     */
+    where?: BankStatementWhereInput
+    /**
+     * Limit how many BankStatements to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BankStatementIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * BankStatement upsert
+   */
+  export type BankStatementUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BankStatement
+     */
+    select?: BankStatementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BankStatement
+     */
+    omit?: BankStatementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BankStatementInclude<ExtArgs> | null
+    /**
+     * The filter to search for the BankStatement to update in case it exists.
+     */
+    where: BankStatementWhereUniqueInput
+    /**
+     * In case the BankStatement found by the `where` argument doesn't exist, create a new BankStatement with this data.
+     */
+    create: XOR<BankStatementCreateInput, BankStatementUncheckedCreateInput>
+    /**
+     * In case the BankStatement was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<BankStatementUpdateInput, BankStatementUncheckedUpdateInput>
+  }
+
+  /**
+   * BankStatement delete
+   */
+  export type BankStatementDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BankStatement
+     */
+    select?: BankStatementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BankStatement
+     */
+    omit?: BankStatementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BankStatementInclude<ExtArgs> | null
+    /**
+     * Filter which BankStatement to delete.
+     */
+    where: BankStatementWhereUniqueInput
+  }
+
+  /**
+   * BankStatement deleteMany
+   */
+  export type BankStatementDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BankStatements to delete
+     */
+    where?: BankStatementWhereInput
+    /**
+     * Limit how many BankStatements to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * BankStatement.lines
+   */
+  export type BankStatement$linesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BankStatementLine
+     */
+    select?: BankStatementLineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BankStatementLine
+     */
+    omit?: BankStatementLineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BankStatementLineInclude<ExtArgs> | null
+    where?: BankStatementLineWhereInput
+    orderBy?: BankStatementLineOrderByWithRelationInput | BankStatementLineOrderByWithRelationInput[]
+    cursor?: BankStatementLineWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: BankStatementLineScalarFieldEnum | BankStatementLineScalarFieldEnum[]
+  }
+
+  /**
+   * BankStatement without action
+   */
+  export type BankStatementDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BankStatement
+     */
+    select?: BankStatementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BankStatement
+     */
+    omit?: BankStatementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BankStatementInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model BankStatementLine
+   */
+
+  export type AggregateBankStatementLine = {
+    _count: BankStatementLineCountAggregateOutputType | null
+    _avg: BankStatementLineAvgAggregateOutputType | null
+    _sum: BankStatementLineSumAggregateOutputType | null
+    _min: BankStatementLineMinAggregateOutputType | null
+    _max: BankStatementLineMaxAggregateOutputType | null
+  }
+
+  export type BankStatementLineAvgAggregateOutputType = {
+    seq: number | null
+    amount: Decimal | null
+    allocatedAmount: Decimal | null
+  }
+
+  export type BankStatementLineSumAggregateOutputType = {
+    seq: number | null
+    amount: Decimal | null
+    allocatedAmount: Decimal | null
+  }
+
+  export type BankStatementLineMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    statementId: string | null
+    seq: number | null
+    bookingDate: Date | null
+    description: string | null
+    reference: string | null
+    counterpartyName: string | null
+    counterpartyAccount: string | null
+    amount: Decimal | null
+    allocatedAmount: Decimal | null
+    status: $Enums.BankStatementLineStatus | null
+  }
+
+  export type BankStatementLineMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    statementId: string | null
+    seq: number | null
+    bookingDate: Date | null
+    description: string | null
+    reference: string | null
+    counterpartyName: string | null
+    counterpartyAccount: string | null
+    amount: Decimal | null
+    allocatedAmount: Decimal | null
+    status: $Enums.BankStatementLineStatus | null
+  }
+
+  export type BankStatementLineCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    statementId: number
+    seq: number
+    bookingDate: number
+    description: number
+    reference: number
+    counterpartyName: number
+    counterpartyAccount: number
+    amount: number
+    allocatedAmount: number
+    status: number
+    _all: number
+  }
+
+
+  export type BankStatementLineAvgAggregateInputType = {
+    seq?: true
+    amount?: true
+    allocatedAmount?: true
+  }
+
+  export type BankStatementLineSumAggregateInputType = {
+    seq?: true
+    amount?: true
+    allocatedAmount?: true
+  }
+
+  export type BankStatementLineMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    statementId?: true
+    seq?: true
+    bookingDate?: true
+    description?: true
+    reference?: true
+    counterpartyName?: true
+    counterpartyAccount?: true
+    amount?: true
+    allocatedAmount?: true
+    status?: true
+  }
+
+  export type BankStatementLineMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    statementId?: true
+    seq?: true
+    bookingDate?: true
+    description?: true
+    reference?: true
+    counterpartyName?: true
+    counterpartyAccount?: true
+    amount?: true
+    allocatedAmount?: true
+    status?: true
+  }
+
+  export type BankStatementLineCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    statementId?: true
+    seq?: true
+    bookingDate?: true
+    description?: true
+    reference?: true
+    counterpartyName?: true
+    counterpartyAccount?: true
+    amount?: true
+    allocatedAmount?: true
+    status?: true
+    _all?: true
+  }
+
+  export type BankStatementLineAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BankStatementLine to aggregate.
+     */
+    where?: BankStatementLineWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BankStatementLines to fetch.
+     */
+    orderBy?: BankStatementLineOrderByWithRelationInput | BankStatementLineOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: BankStatementLineWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BankStatementLines from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BankStatementLines.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned BankStatementLines
+    **/
+    _count?: true | BankStatementLineCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: BankStatementLineAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: BankStatementLineSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: BankStatementLineMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: BankStatementLineMaxAggregateInputType
+  }
+
+  export type GetBankStatementLineAggregateType<T extends BankStatementLineAggregateArgs> = {
+        [P in keyof T & keyof AggregateBankStatementLine]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateBankStatementLine[P]>
+      : GetScalarType<T[P], AggregateBankStatementLine[P]>
+  }
+
+
+
+
+  export type BankStatementLineGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BankStatementLineWhereInput
+    orderBy?: BankStatementLineOrderByWithAggregationInput | BankStatementLineOrderByWithAggregationInput[]
+    by: BankStatementLineScalarFieldEnum[] | BankStatementLineScalarFieldEnum
+    having?: BankStatementLineScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: BankStatementLineCountAggregateInputType | true
+    _avg?: BankStatementLineAvgAggregateInputType
+    _sum?: BankStatementLineSumAggregateInputType
+    _min?: BankStatementLineMinAggregateInputType
+    _max?: BankStatementLineMaxAggregateInputType
+  }
+
+  export type BankStatementLineGroupByOutputType = {
+    id: string
+    tenantId: string
+    statementId: string
+    seq: number
+    bookingDate: Date
+    description: string
+    reference: string | null
+    counterpartyName: string | null
+    counterpartyAccount: string | null
+    amount: Decimal
+    allocatedAmount: Decimal
+    status: $Enums.BankStatementLineStatus
+    _count: BankStatementLineCountAggregateOutputType | null
+    _avg: BankStatementLineAvgAggregateOutputType | null
+    _sum: BankStatementLineSumAggregateOutputType | null
+    _min: BankStatementLineMinAggregateOutputType | null
+    _max: BankStatementLineMaxAggregateOutputType | null
+  }
+
+  type GetBankStatementLineGroupByPayload<T extends BankStatementLineGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<BankStatementLineGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof BankStatementLineGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], BankStatementLineGroupByOutputType[P]>
+            : GetScalarType<T[P], BankStatementLineGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type BankStatementLineSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    statementId?: boolean
+    seq?: boolean
+    bookingDate?: boolean
+    description?: boolean
+    reference?: boolean
+    counterpartyName?: boolean
+    counterpartyAccount?: boolean
+    amount?: boolean
+    allocatedAmount?: boolean
+    status?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    statement?: boolean | BankStatementDefaultArgs<ExtArgs>
+    allocations?: boolean | BankStatementLine$allocationsArgs<ExtArgs>
+    _count?: boolean | BankStatementLineCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["bankStatementLine"]>
+
+  export type BankStatementLineSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    statementId?: boolean
+    seq?: boolean
+    bookingDate?: boolean
+    description?: boolean
+    reference?: boolean
+    counterpartyName?: boolean
+    counterpartyAccount?: boolean
+    amount?: boolean
+    allocatedAmount?: boolean
+    status?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    statement?: boolean | BankStatementDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["bankStatementLine"]>
+
+  export type BankStatementLineSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    statementId?: boolean
+    seq?: boolean
+    bookingDate?: boolean
+    description?: boolean
+    reference?: boolean
+    counterpartyName?: boolean
+    counterpartyAccount?: boolean
+    amount?: boolean
+    allocatedAmount?: boolean
+    status?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    statement?: boolean | BankStatementDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["bankStatementLine"]>
+
+  export type BankStatementLineSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    statementId?: boolean
+    seq?: boolean
+    bookingDate?: boolean
+    description?: boolean
+    reference?: boolean
+    counterpartyName?: boolean
+    counterpartyAccount?: boolean
+    amount?: boolean
+    allocatedAmount?: boolean
+    status?: boolean
+  }
+
+  export type BankStatementLineOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "statementId" | "seq" | "bookingDate" | "description" | "reference" | "counterpartyName" | "counterpartyAccount" | "amount" | "allocatedAmount" | "status", ExtArgs["result"]["bankStatementLine"]>
+  export type BankStatementLineInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    statement?: boolean | BankStatementDefaultArgs<ExtArgs>
+    allocations?: boolean | BankStatementLine$allocationsArgs<ExtArgs>
+    _count?: boolean | BankStatementLineCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type BankStatementLineIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    statement?: boolean | BankStatementDefaultArgs<ExtArgs>
+  }
+  export type BankStatementLineIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    statement?: boolean | BankStatementDefaultArgs<ExtArgs>
+  }
+
+  export type $BankStatementLinePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "BankStatementLine"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+      statement: Prisma.$BankStatementPayload<ExtArgs>
+      allocations: Prisma.$PaymentAllocationPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      statementId: string
+      seq: number
+      bookingDate: Date
+      description: string
+      reference: string | null
+      counterpartyName: string | null
+      counterpartyAccount: string | null
+      /**
+       * Signed: > 0 inflow (customer collection), < 0 outflow (supplier payment).
+       */
+      amount: Prisma.Decimal
+      allocatedAmount: Prisma.Decimal
+      status: $Enums.BankStatementLineStatus
+    }, ExtArgs["result"]["bankStatementLine"]>
+    composites: {}
+  }
+
+  type BankStatementLineGetPayload<S extends boolean | null | undefined | BankStatementLineDefaultArgs> = $Result.GetResult<Prisma.$BankStatementLinePayload, S>
+
+  type BankStatementLineCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<BankStatementLineFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: BankStatementLineCountAggregateInputType | true
+    }
+
+  export interface BankStatementLineDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['BankStatementLine'], meta: { name: 'BankStatementLine' } }
+    /**
+     * Find zero or one BankStatementLine that matches the filter.
+     * @param {BankStatementLineFindUniqueArgs} args - Arguments to find a BankStatementLine
+     * @example
+     * // Get one BankStatementLine
+     * const bankStatementLine = await prisma.bankStatementLine.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends BankStatementLineFindUniqueArgs>(args: SelectSubset<T, BankStatementLineFindUniqueArgs<ExtArgs>>): Prisma__BankStatementLineClient<$Result.GetResult<Prisma.$BankStatementLinePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one BankStatementLine that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {BankStatementLineFindUniqueOrThrowArgs} args - Arguments to find a BankStatementLine
+     * @example
+     * // Get one BankStatementLine
+     * const bankStatementLine = await prisma.bankStatementLine.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends BankStatementLineFindUniqueOrThrowArgs>(args: SelectSubset<T, BankStatementLineFindUniqueOrThrowArgs<ExtArgs>>): Prisma__BankStatementLineClient<$Result.GetResult<Prisma.$BankStatementLinePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first BankStatementLine that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BankStatementLineFindFirstArgs} args - Arguments to find a BankStatementLine
+     * @example
+     * // Get one BankStatementLine
+     * const bankStatementLine = await prisma.bankStatementLine.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends BankStatementLineFindFirstArgs>(args?: SelectSubset<T, BankStatementLineFindFirstArgs<ExtArgs>>): Prisma__BankStatementLineClient<$Result.GetResult<Prisma.$BankStatementLinePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first BankStatementLine that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BankStatementLineFindFirstOrThrowArgs} args - Arguments to find a BankStatementLine
+     * @example
+     * // Get one BankStatementLine
+     * const bankStatementLine = await prisma.bankStatementLine.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends BankStatementLineFindFirstOrThrowArgs>(args?: SelectSubset<T, BankStatementLineFindFirstOrThrowArgs<ExtArgs>>): Prisma__BankStatementLineClient<$Result.GetResult<Prisma.$BankStatementLinePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more BankStatementLines that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BankStatementLineFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all BankStatementLines
+     * const bankStatementLines = await prisma.bankStatementLine.findMany()
+     * 
+     * // Get first 10 BankStatementLines
+     * const bankStatementLines = await prisma.bankStatementLine.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const bankStatementLineWithIdOnly = await prisma.bankStatementLine.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends BankStatementLineFindManyArgs>(args?: SelectSubset<T, BankStatementLineFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BankStatementLinePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a BankStatementLine.
+     * @param {BankStatementLineCreateArgs} args - Arguments to create a BankStatementLine.
+     * @example
+     * // Create one BankStatementLine
+     * const BankStatementLine = await prisma.bankStatementLine.create({
+     *   data: {
+     *     // ... data to create a BankStatementLine
+     *   }
+     * })
+     * 
+     */
+    create<T extends BankStatementLineCreateArgs>(args: SelectSubset<T, BankStatementLineCreateArgs<ExtArgs>>): Prisma__BankStatementLineClient<$Result.GetResult<Prisma.$BankStatementLinePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many BankStatementLines.
+     * @param {BankStatementLineCreateManyArgs} args - Arguments to create many BankStatementLines.
+     * @example
+     * // Create many BankStatementLines
+     * const bankStatementLine = await prisma.bankStatementLine.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends BankStatementLineCreateManyArgs>(args?: SelectSubset<T, BankStatementLineCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many BankStatementLines and returns the data saved in the database.
+     * @param {BankStatementLineCreateManyAndReturnArgs} args - Arguments to create many BankStatementLines.
+     * @example
+     * // Create many BankStatementLines
+     * const bankStatementLine = await prisma.bankStatementLine.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many BankStatementLines and only return the `id`
+     * const bankStatementLineWithIdOnly = await prisma.bankStatementLine.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends BankStatementLineCreateManyAndReturnArgs>(args?: SelectSubset<T, BankStatementLineCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BankStatementLinePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a BankStatementLine.
+     * @param {BankStatementLineDeleteArgs} args - Arguments to delete one BankStatementLine.
+     * @example
+     * // Delete one BankStatementLine
+     * const BankStatementLine = await prisma.bankStatementLine.delete({
+     *   where: {
+     *     // ... filter to delete one BankStatementLine
+     *   }
+     * })
+     * 
+     */
+    delete<T extends BankStatementLineDeleteArgs>(args: SelectSubset<T, BankStatementLineDeleteArgs<ExtArgs>>): Prisma__BankStatementLineClient<$Result.GetResult<Prisma.$BankStatementLinePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one BankStatementLine.
+     * @param {BankStatementLineUpdateArgs} args - Arguments to update one BankStatementLine.
+     * @example
+     * // Update one BankStatementLine
+     * const bankStatementLine = await prisma.bankStatementLine.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends BankStatementLineUpdateArgs>(args: SelectSubset<T, BankStatementLineUpdateArgs<ExtArgs>>): Prisma__BankStatementLineClient<$Result.GetResult<Prisma.$BankStatementLinePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more BankStatementLines.
+     * @param {BankStatementLineDeleteManyArgs} args - Arguments to filter BankStatementLines to delete.
+     * @example
+     * // Delete a few BankStatementLines
+     * const { count } = await prisma.bankStatementLine.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends BankStatementLineDeleteManyArgs>(args?: SelectSubset<T, BankStatementLineDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more BankStatementLines.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BankStatementLineUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many BankStatementLines
+     * const bankStatementLine = await prisma.bankStatementLine.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends BankStatementLineUpdateManyArgs>(args: SelectSubset<T, BankStatementLineUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more BankStatementLines and returns the data updated in the database.
+     * @param {BankStatementLineUpdateManyAndReturnArgs} args - Arguments to update many BankStatementLines.
+     * @example
+     * // Update many BankStatementLines
+     * const bankStatementLine = await prisma.bankStatementLine.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more BankStatementLines and only return the `id`
+     * const bankStatementLineWithIdOnly = await prisma.bankStatementLine.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends BankStatementLineUpdateManyAndReturnArgs>(args: SelectSubset<T, BankStatementLineUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BankStatementLinePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one BankStatementLine.
+     * @param {BankStatementLineUpsertArgs} args - Arguments to update or create a BankStatementLine.
+     * @example
+     * // Update or create a BankStatementLine
+     * const bankStatementLine = await prisma.bankStatementLine.upsert({
+     *   create: {
+     *     // ... data to create a BankStatementLine
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the BankStatementLine we want to update
+     *   }
+     * })
+     */
+    upsert<T extends BankStatementLineUpsertArgs>(args: SelectSubset<T, BankStatementLineUpsertArgs<ExtArgs>>): Prisma__BankStatementLineClient<$Result.GetResult<Prisma.$BankStatementLinePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of BankStatementLines.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BankStatementLineCountArgs} args - Arguments to filter BankStatementLines to count.
+     * @example
+     * // Count the number of BankStatementLines
+     * const count = await prisma.bankStatementLine.count({
+     *   where: {
+     *     // ... the filter for the BankStatementLines we want to count
+     *   }
+     * })
+    **/
+    count<T extends BankStatementLineCountArgs>(
+      args?: Subset<T, BankStatementLineCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], BankStatementLineCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a BankStatementLine.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BankStatementLineAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends BankStatementLineAggregateArgs>(args: Subset<T, BankStatementLineAggregateArgs>): Prisma.PrismaPromise<GetBankStatementLineAggregateType<T>>
+
+    /**
+     * Group by BankStatementLine.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BankStatementLineGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends BankStatementLineGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: BankStatementLineGroupByArgs['orderBy'] }
+        : { orderBy?: BankStatementLineGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, BankStatementLineGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBankStatementLineGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the BankStatementLine model
+   */
+  readonly fields: BankStatementLineFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for BankStatementLine.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__BankStatementLineClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    statement<T extends BankStatementDefaultArgs<ExtArgs> = {}>(args?: Subset<T, BankStatementDefaultArgs<ExtArgs>>): Prisma__BankStatementClient<$Result.GetResult<Prisma.$BankStatementPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    allocations<T extends BankStatementLine$allocationsArgs<ExtArgs> = {}>(args?: Subset<T, BankStatementLine$allocationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentAllocationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the BankStatementLine model
+   */
+  interface BankStatementLineFieldRefs {
+    readonly id: FieldRef<"BankStatementLine", 'String'>
+    readonly tenantId: FieldRef<"BankStatementLine", 'String'>
+    readonly statementId: FieldRef<"BankStatementLine", 'String'>
+    readonly seq: FieldRef<"BankStatementLine", 'Int'>
+    readonly bookingDate: FieldRef<"BankStatementLine", 'DateTime'>
+    readonly description: FieldRef<"BankStatementLine", 'String'>
+    readonly reference: FieldRef<"BankStatementLine", 'String'>
+    readonly counterpartyName: FieldRef<"BankStatementLine", 'String'>
+    readonly counterpartyAccount: FieldRef<"BankStatementLine", 'String'>
+    readonly amount: FieldRef<"BankStatementLine", 'Decimal'>
+    readonly allocatedAmount: FieldRef<"BankStatementLine", 'Decimal'>
+    readonly status: FieldRef<"BankStatementLine", 'BankStatementLineStatus'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * BankStatementLine findUnique
+   */
+  export type BankStatementLineFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BankStatementLine
+     */
+    select?: BankStatementLineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BankStatementLine
+     */
+    omit?: BankStatementLineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BankStatementLineInclude<ExtArgs> | null
+    /**
+     * Filter, which BankStatementLine to fetch.
+     */
+    where: BankStatementLineWhereUniqueInput
+  }
+
+  /**
+   * BankStatementLine findUniqueOrThrow
+   */
+  export type BankStatementLineFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BankStatementLine
+     */
+    select?: BankStatementLineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BankStatementLine
+     */
+    omit?: BankStatementLineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BankStatementLineInclude<ExtArgs> | null
+    /**
+     * Filter, which BankStatementLine to fetch.
+     */
+    where: BankStatementLineWhereUniqueInput
+  }
+
+  /**
+   * BankStatementLine findFirst
+   */
+  export type BankStatementLineFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BankStatementLine
+     */
+    select?: BankStatementLineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BankStatementLine
+     */
+    omit?: BankStatementLineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BankStatementLineInclude<ExtArgs> | null
+    /**
+     * Filter, which BankStatementLine to fetch.
+     */
+    where?: BankStatementLineWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BankStatementLines to fetch.
+     */
+    orderBy?: BankStatementLineOrderByWithRelationInput | BankStatementLineOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BankStatementLines.
+     */
+    cursor?: BankStatementLineWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BankStatementLines from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BankStatementLines.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BankStatementLines.
+     */
+    distinct?: BankStatementLineScalarFieldEnum | BankStatementLineScalarFieldEnum[]
+  }
+
+  /**
+   * BankStatementLine findFirstOrThrow
+   */
+  export type BankStatementLineFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BankStatementLine
+     */
+    select?: BankStatementLineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BankStatementLine
+     */
+    omit?: BankStatementLineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BankStatementLineInclude<ExtArgs> | null
+    /**
+     * Filter, which BankStatementLine to fetch.
+     */
+    where?: BankStatementLineWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BankStatementLines to fetch.
+     */
+    orderBy?: BankStatementLineOrderByWithRelationInput | BankStatementLineOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BankStatementLines.
+     */
+    cursor?: BankStatementLineWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BankStatementLines from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BankStatementLines.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BankStatementLines.
+     */
+    distinct?: BankStatementLineScalarFieldEnum | BankStatementLineScalarFieldEnum[]
+  }
+
+  /**
+   * BankStatementLine findMany
+   */
+  export type BankStatementLineFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BankStatementLine
+     */
+    select?: BankStatementLineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BankStatementLine
+     */
+    omit?: BankStatementLineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BankStatementLineInclude<ExtArgs> | null
+    /**
+     * Filter, which BankStatementLines to fetch.
+     */
+    where?: BankStatementLineWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BankStatementLines to fetch.
+     */
+    orderBy?: BankStatementLineOrderByWithRelationInput | BankStatementLineOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing BankStatementLines.
+     */
+    cursor?: BankStatementLineWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BankStatementLines from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BankStatementLines.
+     */
+    skip?: number
+    distinct?: BankStatementLineScalarFieldEnum | BankStatementLineScalarFieldEnum[]
+  }
+
+  /**
+   * BankStatementLine create
+   */
+  export type BankStatementLineCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BankStatementLine
+     */
+    select?: BankStatementLineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BankStatementLine
+     */
+    omit?: BankStatementLineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BankStatementLineInclude<ExtArgs> | null
+    /**
+     * The data needed to create a BankStatementLine.
+     */
+    data: XOR<BankStatementLineCreateInput, BankStatementLineUncheckedCreateInput>
+  }
+
+  /**
+   * BankStatementLine createMany
+   */
+  export type BankStatementLineCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many BankStatementLines.
+     */
+    data: BankStatementLineCreateManyInput | BankStatementLineCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * BankStatementLine createManyAndReturn
+   */
+  export type BankStatementLineCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BankStatementLine
+     */
+    select?: BankStatementLineSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the BankStatementLine
+     */
+    omit?: BankStatementLineOmit<ExtArgs> | null
+    /**
+     * The data used to create many BankStatementLines.
+     */
+    data: BankStatementLineCreateManyInput | BankStatementLineCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BankStatementLineIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * BankStatementLine update
+   */
+  export type BankStatementLineUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BankStatementLine
+     */
+    select?: BankStatementLineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BankStatementLine
+     */
+    omit?: BankStatementLineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BankStatementLineInclude<ExtArgs> | null
+    /**
+     * The data needed to update a BankStatementLine.
+     */
+    data: XOR<BankStatementLineUpdateInput, BankStatementLineUncheckedUpdateInput>
+    /**
+     * Choose, which BankStatementLine to update.
+     */
+    where: BankStatementLineWhereUniqueInput
+  }
+
+  /**
+   * BankStatementLine updateMany
+   */
+  export type BankStatementLineUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update BankStatementLines.
+     */
+    data: XOR<BankStatementLineUpdateManyMutationInput, BankStatementLineUncheckedUpdateManyInput>
+    /**
+     * Filter which BankStatementLines to update
+     */
+    where?: BankStatementLineWhereInput
+    /**
+     * Limit how many BankStatementLines to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * BankStatementLine updateManyAndReturn
+   */
+  export type BankStatementLineUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BankStatementLine
+     */
+    select?: BankStatementLineSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the BankStatementLine
+     */
+    omit?: BankStatementLineOmit<ExtArgs> | null
+    /**
+     * The data used to update BankStatementLines.
+     */
+    data: XOR<BankStatementLineUpdateManyMutationInput, BankStatementLineUncheckedUpdateManyInput>
+    /**
+     * Filter which BankStatementLines to update
+     */
+    where?: BankStatementLineWhereInput
+    /**
+     * Limit how many BankStatementLines to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BankStatementLineIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * BankStatementLine upsert
+   */
+  export type BankStatementLineUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BankStatementLine
+     */
+    select?: BankStatementLineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BankStatementLine
+     */
+    omit?: BankStatementLineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BankStatementLineInclude<ExtArgs> | null
+    /**
+     * The filter to search for the BankStatementLine to update in case it exists.
+     */
+    where: BankStatementLineWhereUniqueInput
+    /**
+     * In case the BankStatementLine found by the `where` argument doesn't exist, create a new BankStatementLine with this data.
+     */
+    create: XOR<BankStatementLineCreateInput, BankStatementLineUncheckedCreateInput>
+    /**
+     * In case the BankStatementLine was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<BankStatementLineUpdateInput, BankStatementLineUncheckedUpdateInput>
+  }
+
+  /**
+   * BankStatementLine delete
+   */
+  export type BankStatementLineDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BankStatementLine
+     */
+    select?: BankStatementLineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BankStatementLine
+     */
+    omit?: BankStatementLineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BankStatementLineInclude<ExtArgs> | null
+    /**
+     * Filter which BankStatementLine to delete.
+     */
+    where: BankStatementLineWhereUniqueInput
+  }
+
+  /**
+   * BankStatementLine deleteMany
+   */
+  export type BankStatementLineDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BankStatementLines to delete
+     */
+    where?: BankStatementLineWhereInput
+    /**
+     * Limit how many BankStatementLines to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * BankStatementLine.allocations
+   */
+  export type BankStatementLine$allocationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentAllocation
+     */
+    select?: PaymentAllocationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PaymentAllocation
+     */
+    omit?: PaymentAllocationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentAllocationInclude<ExtArgs> | null
+    where?: PaymentAllocationWhereInput
+    orderBy?: PaymentAllocationOrderByWithRelationInput | PaymentAllocationOrderByWithRelationInput[]
+    cursor?: PaymentAllocationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PaymentAllocationScalarFieldEnum | PaymentAllocationScalarFieldEnum[]
+  }
+
+  /**
+   * BankStatementLine without action
+   */
+  export type BankStatementLineDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BankStatementLine
+     */
+    select?: BankStatementLineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BankStatementLine
+     */
+    omit?: BankStatementLineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BankStatementLineInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model PaymentAllocation
+   */
+
+  export type AggregatePaymentAllocation = {
+    _count: PaymentAllocationCountAggregateOutputType | null
+    _avg: PaymentAllocationAvgAggregateOutputType | null
+    _sum: PaymentAllocationSumAggregateOutputType | null
+    _min: PaymentAllocationMinAggregateOutputType | null
+    _max: PaymentAllocationMaxAggregateOutputType | null
+  }
+
+  export type PaymentAllocationAvgAggregateOutputType = {
+    amount: Decimal | null
+  }
+
+  export type PaymentAllocationSumAggregateOutputType = {
+    amount: Decimal | null
+  }
+
+  export type PaymentAllocationMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    allocationKey: string | null
+    statementLineId: string | null
+    invoiceId: string | null
+    paymentId: string | null
+    amount: Decimal | null
+    createdBy: string | null
+    createdAt: Date | null
+  }
+
+  export type PaymentAllocationMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    allocationKey: string | null
+    statementLineId: string | null
+    invoiceId: string | null
+    paymentId: string | null
+    amount: Decimal | null
+    createdBy: string | null
+    createdAt: Date | null
+  }
+
+  export type PaymentAllocationCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    allocationKey: number
+    statementLineId: number
+    invoiceId: number
+    paymentId: number
+    amount: number
+    createdBy: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type PaymentAllocationAvgAggregateInputType = {
+    amount?: true
+  }
+
+  export type PaymentAllocationSumAggregateInputType = {
+    amount?: true
+  }
+
+  export type PaymentAllocationMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    allocationKey?: true
+    statementLineId?: true
+    invoiceId?: true
+    paymentId?: true
+    amount?: true
+    createdBy?: true
+    createdAt?: true
+  }
+
+  export type PaymentAllocationMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    allocationKey?: true
+    statementLineId?: true
+    invoiceId?: true
+    paymentId?: true
+    amount?: true
+    createdBy?: true
+    createdAt?: true
+  }
+
+  export type PaymentAllocationCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    allocationKey?: true
+    statementLineId?: true
+    invoiceId?: true
+    paymentId?: true
+    amount?: true
+    createdBy?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type PaymentAllocationAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PaymentAllocation to aggregate.
+     */
+    where?: PaymentAllocationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PaymentAllocations to fetch.
+     */
+    orderBy?: PaymentAllocationOrderByWithRelationInput | PaymentAllocationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PaymentAllocationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PaymentAllocations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PaymentAllocations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PaymentAllocations
+    **/
+    _count?: true | PaymentAllocationCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: PaymentAllocationAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: PaymentAllocationSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PaymentAllocationMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PaymentAllocationMaxAggregateInputType
+  }
+
+  export type GetPaymentAllocationAggregateType<T extends PaymentAllocationAggregateArgs> = {
+        [P in keyof T & keyof AggregatePaymentAllocation]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePaymentAllocation[P]>
+      : GetScalarType<T[P], AggregatePaymentAllocation[P]>
+  }
+
+
+
+
+  export type PaymentAllocationGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PaymentAllocationWhereInput
+    orderBy?: PaymentAllocationOrderByWithAggregationInput | PaymentAllocationOrderByWithAggregationInput[]
+    by: PaymentAllocationScalarFieldEnum[] | PaymentAllocationScalarFieldEnum
+    having?: PaymentAllocationScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PaymentAllocationCountAggregateInputType | true
+    _avg?: PaymentAllocationAvgAggregateInputType
+    _sum?: PaymentAllocationSumAggregateInputType
+    _min?: PaymentAllocationMinAggregateInputType
+    _max?: PaymentAllocationMaxAggregateInputType
+  }
+
+  export type PaymentAllocationGroupByOutputType = {
+    id: string
+    tenantId: string
+    allocationKey: string
+    statementLineId: string
+    invoiceId: string
+    paymentId: string | null
+    amount: Decimal
+    createdBy: string | null
+    createdAt: Date
+    _count: PaymentAllocationCountAggregateOutputType | null
+    _avg: PaymentAllocationAvgAggregateOutputType | null
+    _sum: PaymentAllocationSumAggregateOutputType | null
+    _min: PaymentAllocationMinAggregateOutputType | null
+    _max: PaymentAllocationMaxAggregateOutputType | null
+  }
+
+  type GetPaymentAllocationGroupByPayload<T extends PaymentAllocationGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PaymentAllocationGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PaymentAllocationGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PaymentAllocationGroupByOutputType[P]>
+            : GetScalarType<T[P], PaymentAllocationGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PaymentAllocationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    allocationKey?: boolean
+    statementLineId?: boolean
+    invoiceId?: boolean
+    paymentId?: boolean
+    amount?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    line?: boolean | BankStatementLineDefaultArgs<ExtArgs>
+    invoice?: boolean | InvoiceDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["paymentAllocation"]>
+
+  export type PaymentAllocationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    allocationKey?: boolean
+    statementLineId?: boolean
+    invoiceId?: boolean
+    paymentId?: boolean
+    amount?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    line?: boolean | BankStatementLineDefaultArgs<ExtArgs>
+    invoice?: boolean | InvoiceDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["paymentAllocation"]>
+
+  export type PaymentAllocationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    allocationKey?: boolean
+    statementLineId?: boolean
+    invoiceId?: boolean
+    paymentId?: boolean
+    amount?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    line?: boolean | BankStatementLineDefaultArgs<ExtArgs>
+    invoice?: boolean | InvoiceDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["paymentAllocation"]>
+
+  export type PaymentAllocationSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    allocationKey?: boolean
+    statementLineId?: boolean
+    invoiceId?: boolean
+    paymentId?: boolean
+    amount?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+  }
+
+  export type PaymentAllocationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "allocationKey" | "statementLineId" | "invoiceId" | "paymentId" | "amount" | "createdBy" | "createdAt", ExtArgs["result"]["paymentAllocation"]>
+  export type PaymentAllocationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    line?: boolean | BankStatementLineDefaultArgs<ExtArgs>
+    invoice?: boolean | InvoiceDefaultArgs<ExtArgs>
+  }
+  export type PaymentAllocationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    line?: boolean | BankStatementLineDefaultArgs<ExtArgs>
+    invoice?: boolean | InvoiceDefaultArgs<ExtArgs>
+  }
+  export type PaymentAllocationIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    line?: boolean | BankStatementLineDefaultArgs<ExtArgs>
+    invoice?: boolean | InvoiceDefaultArgs<ExtArgs>
+  }
+
+  export type $PaymentAllocationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PaymentAllocation"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+      line: Prisma.$BankStatementLinePayload<ExtArgs>
+      invoice: Prisma.$InvoicePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      allocationKey: string
+      statementLineId: string
+      invoiceId: string
+      paymentId: string | null
+      amount: Prisma.Decimal
+      createdBy: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["paymentAllocation"]>
+    composites: {}
+  }
+
+  type PaymentAllocationGetPayload<S extends boolean | null | undefined | PaymentAllocationDefaultArgs> = $Result.GetResult<Prisma.$PaymentAllocationPayload, S>
+
+  type PaymentAllocationCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PaymentAllocationFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PaymentAllocationCountAggregateInputType | true
+    }
+
+  export interface PaymentAllocationDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PaymentAllocation'], meta: { name: 'PaymentAllocation' } }
+    /**
+     * Find zero or one PaymentAllocation that matches the filter.
+     * @param {PaymentAllocationFindUniqueArgs} args - Arguments to find a PaymentAllocation
+     * @example
+     * // Get one PaymentAllocation
+     * const paymentAllocation = await prisma.paymentAllocation.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PaymentAllocationFindUniqueArgs>(args: SelectSubset<T, PaymentAllocationFindUniqueArgs<ExtArgs>>): Prisma__PaymentAllocationClient<$Result.GetResult<Prisma.$PaymentAllocationPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one PaymentAllocation that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PaymentAllocationFindUniqueOrThrowArgs} args - Arguments to find a PaymentAllocation
+     * @example
+     * // Get one PaymentAllocation
+     * const paymentAllocation = await prisma.paymentAllocation.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PaymentAllocationFindUniqueOrThrowArgs>(args: SelectSubset<T, PaymentAllocationFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PaymentAllocationClient<$Result.GetResult<Prisma.$PaymentAllocationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PaymentAllocation that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentAllocationFindFirstArgs} args - Arguments to find a PaymentAllocation
+     * @example
+     * // Get one PaymentAllocation
+     * const paymentAllocation = await prisma.paymentAllocation.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PaymentAllocationFindFirstArgs>(args?: SelectSubset<T, PaymentAllocationFindFirstArgs<ExtArgs>>): Prisma__PaymentAllocationClient<$Result.GetResult<Prisma.$PaymentAllocationPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PaymentAllocation that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentAllocationFindFirstOrThrowArgs} args - Arguments to find a PaymentAllocation
+     * @example
+     * // Get one PaymentAllocation
+     * const paymentAllocation = await prisma.paymentAllocation.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PaymentAllocationFindFirstOrThrowArgs>(args?: SelectSubset<T, PaymentAllocationFindFirstOrThrowArgs<ExtArgs>>): Prisma__PaymentAllocationClient<$Result.GetResult<Prisma.$PaymentAllocationPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more PaymentAllocations that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentAllocationFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PaymentAllocations
+     * const paymentAllocations = await prisma.paymentAllocation.findMany()
+     * 
+     * // Get first 10 PaymentAllocations
+     * const paymentAllocations = await prisma.paymentAllocation.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const paymentAllocationWithIdOnly = await prisma.paymentAllocation.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PaymentAllocationFindManyArgs>(args?: SelectSubset<T, PaymentAllocationFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentAllocationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a PaymentAllocation.
+     * @param {PaymentAllocationCreateArgs} args - Arguments to create a PaymentAllocation.
+     * @example
+     * // Create one PaymentAllocation
+     * const PaymentAllocation = await prisma.paymentAllocation.create({
+     *   data: {
+     *     // ... data to create a PaymentAllocation
+     *   }
+     * })
+     * 
+     */
+    create<T extends PaymentAllocationCreateArgs>(args: SelectSubset<T, PaymentAllocationCreateArgs<ExtArgs>>): Prisma__PaymentAllocationClient<$Result.GetResult<Prisma.$PaymentAllocationPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many PaymentAllocations.
+     * @param {PaymentAllocationCreateManyArgs} args - Arguments to create many PaymentAllocations.
+     * @example
+     * // Create many PaymentAllocations
+     * const paymentAllocation = await prisma.paymentAllocation.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PaymentAllocationCreateManyArgs>(args?: SelectSubset<T, PaymentAllocationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many PaymentAllocations and returns the data saved in the database.
+     * @param {PaymentAllocationCreateManyAndReturnArgs} args - Arguments to create many PaymentAllocations.
+     * @example
+     * // Create many PaymentAllocations
+     * const paymentAllocation = await prisma.paymentAllocation.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many PaymentAllocations and only return the `id`
+     * const paymentAllocationWithIdOnly = await prisma.paymentAllocation.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PaymentAllocationCreateManyAndReturnArgs>(args?: SelectSubset<T, PaymentAllocationCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentAllocationPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a PaymentAllocation.
+     * @param {PaymentAllocationDeleteArgs} args - Arguments to delete one PaymentAllocation.
+     * @example
+     * // Delete one PaymentAllocation
+     * const PaymentAllocation = await prisma.paymentAllocation.delete({
+     *   where: {
+     *     // ... filter to delete one PaymentAllocation
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PaymentAllocationDeleteArgs>(args: SelectSubset<T, PaymentAllocationDeleteArgs<ExtArgs>>): Prisma__PaymentAllocationClient<$Result.GetResult<Prisma.$PaymentAllocationPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one PaymentAllocation.
+     * @param {PaymentAllocationUpdateArgs} args - Arguments to update one PaymentAllocation.
+     * @example
+     * // Update one PaymentAllocation
+     * const paymentAllocation = await prisma.paymentAllocation.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PaymentAllocationUpdateArgs>(args: SelectSubset<T, PaymentAllocationUpdateArgs<ExtArgs>>): Prisma__PaymentAllocationClient<$Result.GetResult<Prisma.$PaymentAllocationPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more PaymentAllocations.
+     * @param {PaymentAllocationDeleteManyArgs} args - Arguments to filter PaymentAllocations to delete.
+     * @example
+     * // Delete a few PaymentAllocations
+     * const { count } = await prisma.paymentAllocation.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PaymentAllocationDeleteManyArgs>(args?: SelectSubset<T, PaymentAllocationDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PaymentAllocations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentAllocationUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PaymentAllocations
+     * const paymentAllocation = await prisma.paymentAllocation.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PaymentAllocationUpdateManyArgs>(args: SelectSubset<T, PaymentAllocationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PaymentAllocations and returns the data updated in the database.
+     * @param {PaymentAllocationUpdateManyAndReturnArgs} args - Arguments to update many PaymentAllocations.
+     * @example
+     * // Update many PaymentAllocations
+     * const paymentAllocation = await prisma.paymentAllocation.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more PaymentAllocations and only return the `id`
+     * const paymentAllocationWithIdOnly = await prisma.paymentAllocation.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PaymentAllocationUpdateManyAndReturnArgs>(args: SelectSubset<T, PaymentAllocationUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentAllocationPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one PaymentAllocation.
+     * @param {PaymentAllocationUpsertArgs} args - Arguments to update or create a PaymentAllocation.
+     * @example
+     * // Update or create a PaymentAllocation
+     * const paymentAllocation = await prisma.paymentAllocation.upsert({
+     *   create: {
+     *     // ... data to create a PaymentAllocation
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PaymentAllocation we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PaymentAllocationUpsertArgs>(args: SelectSubset<T, PaymentAllocationUpsertArgs<ExtArgs>>): Prisma__PaymentAllocationClient<$Result.GetResult<Prisma.$PaymentAllocationPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of PaymentAllocations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentAllocationCountArgs} args - Arguments to filter PaymentAllocations to count.
+     * @example
+     * // Count the number of PaymentAllocations
+     * const count = await prisma.paymentAllocation.count({
+     *   where: {
+     *     // ... the filter for the PaymentAllocations we want to count
+     *   }
+     * })
+    **/
+    count<T extends PaymentAllocationCountArgs>(
+      args?: Subset<T, PaymentAllocationCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PaymentAllocationCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PaymentAllocation.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentAllocationAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PaymentAllocationAggregateArgs>(args: Subset<T, PaymentAllocationAggregateArgs>): Prisma.PrismaPromise<GetPaymentAllocationAggregateType<T>>
+
+    /**
+     * Group by PaymentAllocation.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentAllocationGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PaymentAllocationGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PaymentAllocationGroupByArgs['orderBy'] }
+        : { orderBy?: PaymentAllocationGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PaymentAllocationGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPaymentAllocationGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PaymentAllocation model
+   */
+  readonly fields: PaymentAllocationFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PaymentAllocation.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PaymentAllocationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    line<T extends BankStatementLineDefaultArgs<ExtArgs> = {}>(args?: Subset<T, BankStatementLineDefaultArgs<ExtArgs>>): Prisma__BankStatementLineClient<$Result.GetResult<Prisma.$BankStatementLinePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    invoice<T extends InvoiceDefaultArgs<ExtArgs> = {}>(args?: Subset<T, InvoiceDefaultArgs<ExtArgs>>): Prisma__InvoiceClient<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PaymentAllocation model
+   */
+  interface PaymentAllocationFieldRefs {
+    readonly id: FieldRef<"PaymentAllocation", 'String'>
+    readonly tenantId: FieldRef<"PaymentAllocation", 'String'>
+    readonly allocationKey: FieldRef<"PaymentAllocation", 'String'>
+    readonly statementLineId: FieldRef<"PaymentAllocation", 'String'>
+    readonly invoiceId: FieldRef<"PaymentAllocation", 'String'>
+    readonly paymentId: FieldRef<"PaymentAllocation", 'String'>
+    readonly amount: FieldRef<"PaymentAllocation", 'Decimal'>
+    readonly createdBy: FieldRef<"PaymentAllocation", 'String'>
+    readonly createdAt: FieldRef<"PaymentAllocation", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PaymentAllocation findUnique
+   */
+  export type PaymentAllocationFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentAllocation
+     */
+    select?: PaymentAllocationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PaymentAllocation
+     */
+    omit?: PaymentAllocationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentAllocationInclude<ExtArgs> | null
+    /**
+     * Filter, which PaymentAllocation to fetch.
+     */
+    where: PaymentAllocationWhereUniqueInput
+  }
+
+  /**
+   * PaymentAllocation findUniqueOrThrow
+   */
+  export type PaymentAllocationFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentAllocation
+     */
+    select?: PaymentAllocationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PaymentAllocation
+     */
+    omit?: PaymentAllocationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentAllocationInclude<ExtArgs> | null
+    /**
+     * Filter, which PaymentAllocation to fetch.
+     */
+    where: PaymentAllocationWhereUniqueInput
+  }
+
+  /**
+   * PaymentAllocation findFirst
+   */
+  export type PaymentAllocationFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentAllocation
+     */
+    select?: PaymentAllocationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PaymentAllocation
+     */
+    omit?: PaymentAllocationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentAllocationInclude<ExtArgs> | null
+    /**
+     * Filter, which PaymentAllocation to fetch.
+     */
+    where?: PaymentAllocationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PaymentAllocations to fetch.
+     */
+    orderBy?: PaymentAllocationOrderByWithRelationInput | PaymentAllocationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PaymentAllocations.
+     */
+    cursor?: PaymentAllocationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PaymentAllocations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PaymentAllocations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PaymentAllocations.
+     */
+    distinct?: PaymentAllocationScalarFieldEnum | PaymentAllocationScalarFieldEnum[]
+  }
+
+  /**
+   * PaymentAllocation findFirstOrThrow
+   */
+  export type PaymentAllocationFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentAllocation
+     */
+    select?: PaymentAllocationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PaymentAllocation
+     */
+    omit?: PaymentAllocationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentAllocationInclude<ExtArgs> | null
+    /**
+     * Filter, which PaymentAllocation to fetch.
+     */
+    where?: PaymentAllocationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PaymentAllocations to fetch.
+     */
+    orderBy?: PaymentAllocationOrderByWithRelationInput | PaymentAllocationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PaymentAllocations.
+     */
+    cursor?: PaymentAllocationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PaymentAllocations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PaymentAllocations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PaymentAllocations.
+     */
+    distinct?: PaymentAllocationScalarFieldEnum | PaymentAllocationScalarFieldEnum[]
+  }
+
+  /**
+   * PaymentAllocation findMany
+   */
+  export type PaymentAllocationFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentAllocation
+     */
+    select?: PaymentAllocationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PaymentAllocation
+     */
+    omit?: PaymentAllocationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentAllocationInclude<ExtArgs> | null
+    /**
+     * Filter, which PaymentAllocations to fetch.
+     */
+    where?: PaymentAllocationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PaymentAllocations to fetch.
+     */
+    orderBy?: PaymentAllocationOrderByWithRelationInput | PaymentAllocationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PaymentAllocations.
+     */
+    cursor?: PaymentAllocationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PaymentAllocations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PaymentAllocations.
+     */
+    skip?: number
+    distinct?: PaymentAllocationScalarFieldEnum | PaymentAllocationScalarFieldEnum[]
+  }
+
+  /**
+   * PaymentAllocation create
+   */
+  export type PaymentAllocationCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentAllocation
+     */
+    select?: PaymentAllocationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PaymentAllocation
+     */
+    omit?: PaymentAllocationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentAllocationInclude<ExtArgs> | null
+    /**
+     * The data needed to create a PaymentAllocation.
+     */
+    data: XOR<PaymentAllocationCreateInput, PaymentAllocationUncheckedCreateInput>
+  }
+
+  /**
+   * PaymentAllocation createMany
+   */
+  export type PaymentAllocationCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PaymentAllocations.
+     */
+    data: PaymentAllocationCreateManyInput | PaymentAllocationCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PaymentAllocation createManyAndReturn
+   */
+  export type PaymentAllocationCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentAllocation
+     */
+    select?: PaymentAllocationSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PaymentAllocation
+     */
+    omit?: PaymentAllocationOmit<ExtArgs> | null
+    /**
+     * The data used to create many PaymentAllocations.
+     */
+    data: PaymentAllocationCreateManyInput | PaymentAllocationCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentAllocationIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PaymentAllocation update
+   */
+  export type PaymentAllocationUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentAllocation
+     */
+    select?: PaymentAllocationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PaymentAllocation
+     */
+    omit?: PaymentAllocationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentAllocationInclude<ExtArgs> | null
+    /**
+     * The data needed to update a PaymentAllocation.
+     */
+    data: XOR<PaymentAllocationUpdateInput, PaymentAllocationUncheckedUpdateInput>
+    /**
+     * Choose, which PaymentAllocation to update.
+     */
+    where: PaymentAllocationWhereUniqueInput
+  }
+
+  /**
+   * PaymentAllocation updateMany
+   */
+  export type PaymentAllocationUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PaymentAllocations.
+     */
+    data: XOR<PaymentAllocationUpdateManyMutationInput, PaymentAllocationUncheckedUpdateManyInput>
+    /**
+     * Filter which PaymentAllocations to update
+     */
+    where?: PaymentAllocationWhereInput
+    /**
+     * Limit how many PaymentAllocations to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PaymentAllocation updateManyAndReturn
+   */
+  export type PaymentAllocationUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentAllocation
+     */
+    select?: PaymentAllocationSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PaymentAllocation
+     */
+    omit?: PaymentAllocationOmit<ExtArgs> | null
+    /**
+     * The data used to update PaymentAllocations.
+     */
+    data: XOR<PaymentAllocationUpdateManyMutationInput, PaymentAllocationUncheckedUpdateManyInput>
+    /**
+     * Filter which PaymentAllocations to update
+     */
+    where?: PaymentAllocationWhereInput
+    /**
+     * Limit how many PaymentAllocations to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentAllocationIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PaymentAllocation upsert
+   */
+  export type PaymentAllocationUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentAllocation
+     */
+    select?: PaymentAllocationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PaymentAllocation
+     */
+    omit?: PaymentAllocationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentAllocationInclude<ExtArgs> | null
+    /**
+     * The filter to search for the PaymentAllocation to update in case it exists.
+     */
+    where: PaymentAllocationWhereUniqueInput
+    /**
+     * In case the PaymentAllocation found by the `where` argument doesn't exist, create a new PaymentAllocation with this data.
+     */
+    create: XOR<PaymentAllocationCreateInput, PaymentAllocationUncheckedCreateInput>
+    /**
+     * In case the PaymentAllocation was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PaymentAllocationUpdateInput, PaymentAllocationUncheckedUpdateInput>
+  }
+
+  /**
+   * PaymentAllocation delete
+   */
+  export type PaymentAllocationDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentAllocation
+     */
+    select?: PaymentAllocationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PaymentAllocation
+     */
+    omit?: PaymentAllocationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentAllocationInclude<ExtArgs> | null
+    /**
+     * Filter which PaymentAllocation to delete.
+     */
+    where: PaymentAllocationWhereUniqueInput
+  }
+
+  /**
+   * PaymentAllocation deleteMany
+   */
+  export type PaymentAllocationDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PaymentAllocations to delete
+     */
+    where?: PaymentAllocationWhereInput
+    /**
+     * Limit how many PaymentAllocations to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * PaymentAllocation without action
+   */
+  export type PaymentAllocationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentAllocation
+     */
+    select?: PaymentAllocationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PaymentAllocation
+     */
+    omit?: PaymentAllocationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentAllocationInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -183467,6 +187658,62 @@ export namespace Prisma {
   export type GlPeriodLockScalarFieldEnum = (typeof GlPeriodLockScalarFieldEnum)[keyof typeof GlPeriodLockScalarFieldEnum]
 
 
+  export const BankStatementScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    legalEntityId: 'legalEntityId',
+    statementNumber: 'statementNumber',
+    bankAccount: 'bankAccount',
+    statementDate: 'statementDate',
+    currency: 'currency',
+    openingBalance: 'openingBalance',
+    closingBalance: 'closingBalance',
+    lineCount: 'lineCount',
+    status: 'status',
+    source: 'source',
+    confirmedAt: 'confirmedAt',
+    confirmedBy: 'confirmedBy',
+    createdBy: 'createdBy',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type BankStatementScalarFieldEnum = (typeof BankStatementScalarFieldEnum)[keyof typeof BankStatementScalarFieldEnum]
+
+
+  export const BankStatementLineScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    statementId: 'statementId',
+    seq: 'seq',
+    bookingDate: 'bookingDate',
+    description: 'description',
+    reference: 'reference',
+    counterpartyName: 'counterpartyName',
+    counterpartyAccount: 'counterpartyAccount',
+    amount: 'amount',
+    allocatedAmount: 'allocatedAmount',
+    status: 'status'
+  };
+
+  export type BankStatementLineScalarFieldEnum = (typeof BankStatementLineScalarFieldEnum)[keyof typeof BankStatementLineScalarFieldEnum]
+
+
+  export const PaymentAllocationScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    allocationKey: 'allocationKey',
+    statementLineId: 'statementLineId',
+    invoiceId: 'invoiceId',
+    paymentId: 'paymentId',
+    amount: 'amount',
+    createdBy: 'createdBy',
+    createdAt: 'createdAt'
+  };
+
+  export type PaymentAllocationScalarFieldEnum = (typeof PaymentAllocationScalarFieldEnum)[keyof typeof PaymentAllocationScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -184480,6 +188727,34 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'BankStatementStatus'
+   */
+  export type EnumBankStatementStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BankStatementStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'BankStatementStatus[]'
+   */
+  export type ListEnumBankStatementStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BankStatementStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'BankStatementLineStatus'
+   */
+  export type EnumBankStatementLineStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BankStatementLineStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'BankStatementLineStatus[]'
+   */
+  export type ListEnumBankStatementLineStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BankStatementLineStatus[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -184629,6 +188904,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateListRelationFilter
     glPeriodLocks?: GlPeriodLockListRelationFilter
     frameworkAgreements?: FrameworkAgreementListRelationFilter
+    bankStatements?: BankStatementListRelationFilter
+    bankStatementLines?: BankStatementLineListRelationFilter
+    paymentAllocations?: PaymentAllocationListRelationFilter
   }
 
   export type TenantOrderByWithRelationInput = {
@@ -184761,6 +189039,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateOrderByRelationAggregateInput
     glPeriodLocks?: GlPeriodLockOrderByRelationAggregateInput
     frameworkAgreements?: FrameworkAgreementOrderByRelationAggregateInput
+    bankStatements?: BankStatementOrderByRelationAggregateInput
+    bankStatementLines?: BankStatementLineOrderByRelationAggregateInput
+    paymentAllocations?: PaymentAllocationOrderByRelationAggregateInput
   }
 
   export type TenantWhereUniqueInput = Prisma.AtLeast<{
@@ -184896,6 +189177,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateListRelationFilter
     glPeriodLocks?: GlPeriodLockListRelationFilter
     frameworkAgreements?: FrameworkAgreementListRelationFilter
+    bankStatements?: BankStatementListRelationFilter
+    bankStatementLines?: BankStatementLineListRelationFilter
+    paymentAllocations?: PaymentAllocationListRelationFilter
   }, "id" | "slug">
 
   export type TenantOrderByWithAggregationInput = {
@@ -191110,6 +195394,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Invoice"> | Date | string
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
     payments?: PaymentListRelationFilter
+    allocations?: PaymentAllocationListRelationFilter
   }
 
   export type InvoiceOrderByWithRelationInput = {
@@ -191132,6 +195417,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     tenant?: TenantOrderByWithRelationInput
     payments?: PaymentOrderByRelationAggregateInput
+    allocations?: PaymentAllocationOrderByRelationAggregateInput
   }
 
   export type InvoiceWhereUniqueInput = Prisma.AtLeast<{
@@ -191159,6 +195445,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Invoice"> | Date | string
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
     payments?: PaymentListRelationFilter
+    allocations?: PaymentAllocationListRelationFilter
   }, "id" | "tenantId_invoiceNumber" | "tenantId_invoiceType_orderRefId">
 
   export type InvoiceOrderByWithAggregationInput = {
@@ -196040,6 +200327,310 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"GlPeriodLock"> | Date | string
   }
 
+  export type BankStatementWhereInput = {
+    AND?: BankStatementWhereInput | BankStatementWhereInput[]
+    OR?: BankStatementWhereInput[]
+    NOT?: BankStatementWhereInput | BankStatementWhereInput[]
+    id?: UuidFilter<"BankStatement"> | string
+    tenantId?: UuidFilter<"BankStatement"> | string
+    legalEntityId?: UuidFilter<"BankStatement"> | string
+    statementNumber?: StringFilter<"BankStatement"> | string
+    bankAccount?: StringFilter<"BankStatement"> | string
+    statementDate?: DateTimeFilter<"BankStatement"> | Date | string
+    currency?: StringFilter<"BankStatement"> | string
+    openingBalance?: DecimalFilter<"BankStatement"> | Decimal | DecimalJsLike | number | string
+    closingBalance?: DecimalFilter<"BankStatement"> | Decimal | DecimalJsLike | number | string
+    lineCount?: IntFilter<"BankStatement"> | number
+    status?: EnumBankStatementStatusFilter<"BankStatement"> | $Enums.BankStatementStatus
+    source?: StringFilter<"BankStatement"> | string
+    confirmedAt?: DateTimeNullableFilter<"BankStatement"> | Date | string | null
+    confirmedBy?: StringNullableFilter<"BankStatement"> | string | null
+    createdBy?: StringNullableFilter<"BankStatement"> | string | null
+    createdAt?: DateTimeFilter<"BankStatement"> | Date | string
+    updatedAt?: DateTimeFilter<"BankStatement"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    lines?: BankStatementLineListRelationFilter
+  }
+
+  export type BankStatementOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    legalEntityId?: SortOrder
+    statementNumber?: SortOrder
+    bankAccount?: SortOrder
+    statementDate?: SortOrder
+    currency?: SortOrder
+    openingBalance?: SortOrder
+    closingBalance?: SortOrder
+    lineCount?: SortOrder
+    status?: SortOrder
+    source?: SortOrder
+    confirmedAt?: SortOrderInput | SortOrder
+    confirmedBy?: SortOrderInput | SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+    lines?: BankStatementLineOrderByRelationAggregateInput
+  }
+
+  export type BankStatementWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    tenantId_legalEntityId_statementNumber?: BankStatementTenantIdLegalEntityIdStatementNumberCompoundUniqueInput
+    AND?: BankStatementWhereInput | BankStatementWhereInput[]
+    OR?: BankStatementWhereInput[]
+    NOT?: BankStatementWhereInput | BankStatementWhereInput[]
+    tenantId?: UuidFilter<"BankStatement"> | string
+    legalEntityId?: UuidFilter<"BankStatement"> | string
+    statementNumber?: StringFilter<"BankStatement"> | string
+    bankAccount?: StringFilter<"BankStatement"> | string
+    statementDate?: DateTimeFilter<"BankStatement"> | Date | string
+    currency?: StringFilter<"BankStatement"> | string
+    openingBalance?: DecimalFilter<"BankStatement"> | Decimal | DecimalJsLike | number | string
+    closingBalance?: DecimalFilter<"BankStatement"> | Decimal | DecimalJsLike | number | string
+    lineCount?: IntFilter<"BankStatement"> | number
+    status?: EnumBankStatementStatusFilter<"BankStatement"> | $Enums.BankStatementStatus
+    source?: StringFilter<"BankStatement"> | string
+    confirmedAt?: DateTimeNullableFilter<"BankStatement"> | Date | string | null
+    confirmedBy?: StringNullableFilter<"BankStatement"> | string | null
+    createdBy?: StringNullableFilter<"BankStatement"> | string | null
+    createdAt?: DateTimeFilter<"BankStatement"> | Date | string
+    updatedAt?: DateTimeFilter<"BankStatement"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    lines?: BankStatementLineListRelationFilter
+  }, "id" | "tenantId_legalEntityId_statementNumber">
+
+  export type BankStatementOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    legalEntityId?: SortOrder
+    statementNumber?: SortOrder
+    bankAccount?: SortOrder
+    statementDate?: SortOrder
+    currency?: SortOrder
+    openingBalance?: SortOrder
+    closingBalance?: SortOrder
+    lineCount?: SortOrder
+    status?: SortOrder
+    source?: SortOrder
+    confirmedAt?: SortOrderInput | SortOrder
+    confirmedBy?: SortOrderInput | SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: BankStatementCountOrderByAggregateInput
+    _avg?: BankStatementAvgOrderByAggregateInput
+    _max?: BankStatementMaxOrderByAggregateInput
+    _min?: BankStatementMinOrderByAggregateInput
+    _sum?: BankStatementSumOrderByAggregateInput
+  }
+
+  export type BankStatementScalarWhereWithAggregatesInput = {
+    AND?: BankStatementScalarWhereWithAggregatesInput | BankStatementScalarWhereWithAggregatesInput[]
+    OR?: BankStatementScalarWhereWithAggregatesInput[]
+    NOT?: BankStatementScalarWhereWithAggregatesInput | BankStatementScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"BankStatement"> | string
+    tenantId?: UuidWithAggregatesFilter<"BankStatement"> | string
+    legalEntityId?: UuidWithAggregatesFilter<"BankStatement"> | string
+    statementNumber?: StringWithAggregatesFilter<"BankStatement"> | string
+    bankAccount?: StringWithAggregatesFilter<"BankStatement"> | string
+    statementDate?: DateTimeWithAggregatesFilter<"BankStatement"> | Date | string
+    currency?: StringWithAggregatesFilter<"BankStatement"> | string
+    openingBalance?: DecimalWithAggregatesFilter<"BankStatement"> | Decimal | DecimalJsLike | number | string
+    closingBalance?: DecimalWithAggregatesFilter<"BankStatement"> | Decimal | DecimalJsLike | number | string
+    lineCount?: IntWithAggregatesFilter<"BankStatement"> | number
+    status?: EnumBankStatementStatusWithAggregatesFilter<"BankStatement"> | $Enums.BankStatementStatus
+    source?: StringWithAggregatesFilter<"BankStatement"> | string
+    confirmedAt?: DateTimeNullableWithAggregatesFilter<"BankStatement"> | Date | string | null
+    confirmedBy?: StringNullableWithAggregatesFilter<"BankStatement"> | string | null
+    createdBy?: StringNullableWithAggregatesFilter<"BankStatement"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"BankStatement"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"BankStatement"> | Date | string
+  }
+
+  export type BankStatementLineWhereInput = {
+    AND?: BankStatementLineWhereInput | BankStatementLineWhereInput[]
+    OR?: BankStatementLineWhereInput[]
+    NOT?: BankStatementLineWhereInput | BankStatementLineWhereInput[]
+    id?: UuidFilter<"BankStatementLine"> | string
+    tenantId?: UuidFilter<"BankStatementLine"> | string
+    statementId?: UuidFilter<"BankStatementLine"> | string
+    seq?: IntFilter<"BankStatementLine"> | number
+    bookingDate?: DateTimeFilter<"BankStatementLine"> | Date | string
+    description?: StringFilter<"BankStatementLine"> | string
+    reference?: StringNullableFilter<"BankStatementLine"> | string | null
+    counterpartyName?: StringNullableFilter<"BankStatementLine"> | string | null
+    counterpartyAccount?: StringNullableFilter<"BankStatementLine"> | string | null
+    amount?: DecimalFilter<"BankStatementLine"> | Decimal | DecimalJsLike | number | string
+    allocatedAmount?: DecimalFilter<"BankStatementLine"> | Decimal | DecimalJsLike | number | string
+    status?: EnumBankStatementLineStatusFilter<"BankStatementLine"> | $Enums.BankStatementLineStatus
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    statement?: XOR<BankStatementScalarRelationFilter, BankStatementWhereInput>
+    allocations?: PaymentAllocationListRelationFilter
+  }
+
+  export type BankStatementLineOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    statementId?: SortOrder
+    seq?: SortOrder
+    bookingDate?: SortOrder
+    description?: SortOrder
+    reference?: SortOrderInput | SortOrder
+    counterpartyName?: SortOrderInput | SortOrder
+    counterpartyAccount?: SortOrderInput | SortOrder
+    amount?: SortOrder
+    allocatedAmount?: SortOrder
+    status?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+    statement?: BankStatementOrderByWithRelationInput
+    allocations?: PaymentAllocationOrderByRelationAggregateInput
+  }
+
+  export type BankStatementLineWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    tenantId_statementId_seq?: BankStatementLineTenantIdStatementIdSeqCompoundUniqueInput
+    AND?: BankStatementLineWhereInput | BankStatementLineWhereInput[]
+    OR?: BankStatementLineWhereInput[]
+    NOT?: BankStatementLineWhereInput | BankStatementLineWhereInput[]
+    tenantId?: UuidFilter<"BankStatementLine"> | string
+    statementId?: UuidFilter<"BankStatementLine"> | string
+    seq?: IntFilter<"BankStatementLine"> | number
+    bookingDate?: DateTimeFilter<"BankStatementLine"> | Date | string
+    description?: StringFilter<"BankStatementLine"> | string
+    reference?: StringNullableFilter<"BankStatementLine"> | string | null
+    counterpartyName?: StringNullableFilter<"BankStatementLine"> | string | null
+    counterpartyAccount?: StringNullableFilter<"BankStatementLine"> | string | null
+    amount?: DecimalFilter<"BankStatementLine"> | Decimal | DecimalJsLike | number | string
+    allocatedAmount?: DecimalFilter<"BankStatementLine"> | Decimal | DecimalJsLike | number | string
+    status?: EnumBankStatementLineStatusFilter<"BankStatementLine"> | $Enums.BankStatementLineStatus
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    statement?: XOR<BankStatementScalarRelationFilter, BankStatementWhereInput>
+    allocations?: PaymentAllocationListRelationFilter
+  }, "id" | "tenantId_statementId_seq">
+
+  export type BankStatementLineOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    statementId?: SortOrder
+    seq?: SortOrder
+    bookingDate?: SortOrder
+    description?: SortOrder
+    reference?: SortOrderInput | SortOrder
+    counterpartyName?: SortOrderInput | SortOrder
+    counterpartyAccount?: SortOrderInput | SortOrder
+    amount?: SortOrder
+    allocatedAmount?: SortOrder
+    status?: SortOrder
+    _count?: BankStatementLineCountOrderByAggregateInput
+    _avg?: BankStatementLineAvgOrderByAggregateInput
+    _max?: BankStatementLineMaxOrderByAggregateInput
+    _min?: BankStatementLineMinOrderByAggregateInput
+    _sum?: BankStatementLineSumOrderByAggregateInput
+  }
+
+  export type BankStatementLineScalarWhereWithAggregatesInput = {
+    AND?: BankStatementLineScalarWhereWithAggregatesInput | BankStatementLineScalarWhereWithAggregatesInput[]
+    OR?: BankStatementLineScalarWhereWithAggregatesInput[]
+    NOT?: BankStatementLineScalarWhereWithAggregatesInput | BankStatementLineScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"BankStatementLine"> | string
+    tenantId?: UuidWithAggregatesFilter<"BankStatementLine"> | string
+    statementId?: UuidWithAggregatesFilter<"BankStatementLine"> | string
+    seq?: IntWithAggregatesFilter<"BankStatementLine"> | number
+    bookingDate?: DateTimeWithAggregatesFilter<"BankStatementLine"> | Date | string
+    description?: StringWithAggregatesFilter<"BankStatementLine"> | string
+    reference?: StringNullableWithAggregatesFilter<"BankStatementLine"> | string | null
+    counterpartyName?: StringNullableWithAggregatesFilter<"BankStatementLine"> | string | null
+    counterpartyAccount?: StringNullableWithAggregatesFilter<"BankStatementLine"> | string | null
+    amount?: DecimalWithAggregatesFilter<"BankStatementLine"> | Decimal | DecimalJsLike | number | string
+    allocatedAmount?: DecimalWithAggregatesFilter<"BankStatementLine"> | Decimal | DecimalJsLike | number | string
+    status?: EnumBankStatementLineStatusWithAggregatesFilter<"BankStatementLine"> | $Enums.BankStatementLineStatus
+  }
+
+  export type PaymentAllocationWhereInput = {
+    AND?: PaymentAllocationWhereInput | PaymentAllocationWhereInput[]
+    OR?: PaymentAllocationWhereInput[]
+    NOT?: PaymentAllocationWhereInput | PaymentAllocationWhereInput[]
+    id?: UuidFilter<"PaymentAllocation"> | string
+    tenantId?: UuidFilter<"PaymentAllocation"> | string
+    allocationKey?: StringFilter<"PaymentAllocation"> | string
+    statementLineId?: UuidFilter<"PaymentAllocation"> | string
+    invoiceId?: UuidFilter<"PaymentAllocation"> | string
+    paymentId?: UuidNullableFilter<"PaymentAllocation"> | string | null
+    amount?: DecimalFilter<"PaymentAllocation"> | Decimal | DecimalJsLike | number | string
+    createdBy?: StringNullableFilter<"PaymentAllocation"> | string | null
+    createdAt?: DateTimeFilter<"PaymentAllocation"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    line?: XOR<BankStatementLineScalarRelationFilter, BankStatementLineWhereInput>
+    invoice?: XOR<InvoiceScalarRelationFilter, InvoiceWhereInput>
+  }
+
+  export type PaymentAllocationOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    allocationKey?: SortOrder
+    statementLineId?: SortOrder
+    invoiceId?: SortOrder
+    paymentId?: SortOrderInput | SortOrder
+    amount?: SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+    line?: BankStatementLineOrderByWithRelationInput
+    invoice?: InvoiceOrderByWithRelationInput
+  }
+
+  export type PaymentAllocationWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    tenantId_allocationKey?: PaymentAllocationTenantIdAllocationKeyCompoundUniqueInput
+    AND?: PaymentAllocationWhereInput | PaymentAllocationWhereInput[]
+    OR?: PaymentAllocationWhereInput[]
+    NOT?: PaymentAllocationWhereInput | PaymentAllocationWhereInput[]
+    tenantId?: UuidFilter<"PaymentAllocation"> | string
+    allocationKey?: StringFilter<"PaymentAllocation"> | string
+    statementLineId?: UuidFilter<"PaymentAllocation"> | string
+    invoiceId?: UuidFilter<"PaymentAllocation"> | string
+    paymentId?: UuidNullableFilter<"PaymentAllocation"> | string | null
+    amount?: DecimalFilter<"PaymentAllocation"> | Decimal | DecimalJsLike | number | string
+    createdBy?: StringNullableFilter<"PaymentAllocation"> | string | null
+    createdAt?: DateTimeFilter<"PaymentAllocation"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    line?: XOR<BankStatementLineScalarRelationFilter, BankStatementLineWhereInput>
+    invoice?: XOR<InvoiceScalarRelationFilter, InvoiceWhereInput>
+  }, "id" | "tenantId_allocationKey">
+
+  export type PaymentAllocationOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    allocationKey?: SortOrder
+    statementLineId?: SortOrder
+    invoiceId?: SortOrder
+    paymentId?: SortOrderInput | SortOrder
+    amount?: SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: PaymentAllocationCountOrderByAggregateInput
+    _avg?: PaymentAllocationAvgOrderByAggregateInput
+    _max?: PaymentAllocationMaxOrderByAggregateInput
+    _min?: PaymentAllocationMinOrderByAggregateInput
+    _sum?: PaymentAllocationSumOrderByAggregateInput
+  }
+
+  export type PaymentAllocationScalarWhereWithAggregatesInput = {
+    AND?: PaymentAllocationScalarWhereWithAggregatesInput | PaymentAllocationScalarWhereWithAggregatesInput[]
+    OR?: PaymentAllocationScalarWhereWithAggregatesInput[]
+    NOT?: PaymentAllocationScalarWhereWithAggregatesInput | PaymentAllocationScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"PaymentAllocation"> | string
+    tenantId?: UuidWithAggregatesFilter<"PaymentAllocation"> | string
+    allocationKey?: StringWithAggregatesFilter<"PaymentAllocation"> | string
+    statementLineId?: UuidWithAggregatesFilter<"PaymentAllocation"> | string
+    invoiceId?: UuidWithAggregatesFilter<"PaymentAllocation"> | string
+    paymentId?: UuidNullableWithAggregatesFilter<"PaymentAllocation"> | string | null
+    amount?: DecimalWithAggregatesFilter<"PaymentAllocation"> | Decimal | DecimalJsLike | number | string
+    createdBy?: StringNullableWithAggregatesFilter<"PaymentAllocation"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"PaymentAllocation"> | Date | string
+  }
+
   export type TenantCreateInput = {
     id?: string
     slug: string
@@ -196170,6 +200761,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateInput = {
@@ -196302,6 +200896,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUpdateInput = {
@@ -196434,6 +201031,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateInput = {
@@ -196566,6 +201166,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateManyInput = {
@@ -203208,6 +207811,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     tenant: TenantCreateNestedOneWithoutInvoicesInput
     payments?: PaymentCreateNestedManyWithoutInvoiceInput
+    allocations?: PaymentAllocationCreateNestedManyWithoutInvoiceInput
   }
 
   export type InvoiceUncheckedCreateInput = {
@@ -203229,6 +207833,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     payments?: PaymentUncheckedCreateNestedManyWithoutInvoiceInput
+    allocations?: PaymentAllocationUncheckedCreateNestedManyWithoutInvoiceInput
   }
 
   export type InvoiceUpdateInput = {
@@ -203250,6 +207855,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: TenantUpdateOneRequiredWithoutInvoicesNestedInput
     payments?: PaymentUpdateManyWithoutInvoiceNestedInput
+    allocations?: PaymentAllocationUpdateManyWithoutInvoiceNestedInput
   }
 
   export type InvoiceUncheckedUpdateInput = {
@@ -203271,6 +207877,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     payments?: PaymentUncheckedUpdateManyWithoutInvoiceNestedInput
+    allocations?: PaymentAllocationUncheckedUpdateManyWithoutInvoiceNestedInput
   }
 
   export type InvoiceCreateManyInput = {
@@ -208490,6 +213097,337 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type BankStatementCreateInput = {
+    id?: string
+    legalEntityId: string
+    statementNumber: string
+    bankAccount: string
+    statementDate: Date | string
+    currency: string
+    openingBalance: Decimal | DecimalJsLike | number | string
+    closingBalance: Decimal | DecimalJsLike | number | string
+    lineCount: number
+    status?: $Enums.BankStatementStatus
+    source?: string
+    confirmedAt?: Date | string | null
+    confirmedBy?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutBankStatementsInput
+    lines?: BankStatementLineCreateNestedManyWithoutStatementInput
+  }
+
+  export type BankStatementUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    legalEntityId: string
+    statementNumber: string
+    bankAccount: string
+    statementDate: Date | string
+    currency: string
+    openingBalance: Decimal | DecimalJsLike | number | string
+    closingBalance: Decimal | DecimalJsLike | number | string
+    lineCount: number
+    status?: $Enums.BankStatementStatus
+    source?: string
+    confirmedAt?: Date | string | null
+    confirmedBy?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lines?: BankStatementLineUncheckedCreateNestedManyWithoutStatementInput
+  }
+
+  export type BankStatementUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    legalEntityId?: StringFieldUpdateOperationsInput | string
+    statementNumber?: StringFieldUpdateOperationsInput | string
+    bankAccount?: StringFieldUpdateOperationsInput | string
+    statementDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    currency?: StringFieldUpdateOperationsInput | string
+    openingBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    closingBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    lineCount?: IntFieldUpdateOperationsInput | number
+    status?: EnumBankStatementStatusFieldUpdateOperationsInput | $Enums.BankStatementStatus
+    source?: StringFieldUpdateOperationsInput | string
+    confirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    confirmedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutBankStatementsNestedInput
+    lines?: BankStatementLineUpdateManyWithoutStatementNestedInput
+  }
+
+  export type BankStatementUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    legalEntityId?: StringFieldUpdateOperationsInput | string
+    statementNumber?: StringFieldUpdateOperationsInput | string
+    bankAccount?: StringFieldUpdateOperationsInput | string
+    statementDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    currency?: StringFieldUpdateOperationsInput | string
+    openingBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    closingBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    lineCount?: IntFieldUpdateOperationsInput | number
+    status?: EnumBankStatementStatusFieldUpdateOperationsInput | $Enums.BankStatementStatus
+    source?: StringFieldUpdateOperationsInput | string
+    confirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    confirmedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lines?: BankStatementLineUncheckedUpdateManyWithoutStatementNestedInput
+  }
+
+  export type BankStatementCreateManyInput = {
+    id?: string
+    tenantId: string
+    legalEntityId: string
+    statementNumber: string
+    bankAccount: string
+    statementDate: Date | string
+    currency: string
+    openingBalance: Decimal | DecimalJsLike | number | string
+    closingBalance: Decimal | DecimalJsLike | number | string
+    lineCount: number
+    status?: $Enums.BankStatementStatus
+    source?: string
+    confirmedAt?: Date | string | null
+    confirmedBy?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BankStatementUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    legalEntityId?: StringFieldUpdateOperationsInput | string
+    statementNumber?: StringFieldUpdateOperationsInput | string
+    bankAccount?: StringFieldUpdateOperationsInput | string
+    statementDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    currency?: StringFieldUpdateOperationsInput | string
+    openingBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    closingBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    lineCount?: IntFieldUpdateOperationsInput | number
+    status?: EnumBankStatementStatusFieldUpdateOperationsInput | $Enums.BankStatementStatus
+    source?: StringFieldUpdateOperationsInput | string
+    confirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    confirmedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BankStatementUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    legalEntityId?: StringFieldUpdateOperationsInput | string
+    statementNumber?: StringFieldUpdateOperationsInput | string
+    bankAccount?: StringFieldUpdateOperationsInput | string
+    statementDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    currency?: StringFieldUpdateOperationsInput | string
+    openingBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    closingBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    lineCount?: IntFieldUpdateOperationsInput | number
+    status?: EnumBankStatementStatusFieldUpdateOperationsInput | $Enums.BankStatementStatus
+    source?: StringFieldUpdateOperationsInput | string
+    confirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    confirmedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BankStatementLineCreateInput = {
+    id?: string
+    seq: number
+    bookingDate: Date | string
+    description: string
+    reference?: string | null
+    counterpartyName?: string | null
+    counterpartyAccount?: string | null
+    amount: Decimal | DecimalJsLike | number | string
+    allocatedAmount?: Decimal | DecimalJsLike | number | string
+    status?: $Enums.BankStatementLineStatus
+    tenant: TenantCreateNestedOneWithoutBankStatementLinesInput
+    statement: BankStatementCreateNestedOneWithoutLinesInput
+    allocations?: PaymentAllocationCreateNestedManyWithoutLineInput
+  }
+
+  export type BankStatementLineUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    statementId: string
+    seq: number
+    bookingDate: Date | string
+    description: string
+    reference?: string | null
+    counterpartyName?: string | null
+    counterpartyAccount?: string | null
+    amount: Decimal | DecimalJsLike | number | string
+    allocatedAmount?: Decimal | DecimalJsLike | number | string
+    status?: $Enums.BankStatementLineStatus
+    allocations?: PaymentAllocationUncheckedCreateNestedManyWithoutLineInput
+  }
+
+  export type BankStatementLineUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    seq?: IntFieldUpdateOperationsInput | number
+    bookingDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    description?: StringFieldUpdateOperationsInput | string
+    reference?: NullableStringFieldUpdateOperationsInput | string | null
+    counterpartyName?: NullableStringFieldUpdateOperationsInput | string | null
+    counterpartyAccount?: NullableStringFieldUpdateOperationsInput | string | null
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    allocatedAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: EnumBankStatementLineStatusFieldUpdateOperationsInput | $Enums.BankStatementLineStatus
+    tenant?: TenantUpdateOneRequiredWithoutBankStatementLinesNestedInput
+    statement?: BankStatementUpdateOneRequiredWithoutLinesNestedInput
+    allocations?: PaymentAllocationUpdateManyWithoutLineNestedInput
+  }
+
+  export type BankStatementLineUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    statementId?: StringFieldUpdateOperationsInput | string
+    seq?: IntFieldUpdateOperationsInput | number
+    bookingDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    description?: StringFieldUpdateOperationsInput | string
+    reference?: NullableStringFieldUpdateOperationsInput | string | null
+    counterpartyName?: NullableStringFieldUpdateOperationsInput | string | null
+    counterpartyAccount?: NullableStringFieldUpdateOperationsInput | string | null
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    allocatedAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: EnumBankStatementLineStatusFieldUpdateOperationsInput | $Enums.BankStatementLineStatus
+    allocations?: PaymentAllocationUncheckedUpdateManyWithoutLineNestedInput
+  }
+
+  export type BankStatementLineCreateManyInput = {
+    id?: string
+    tenantId: string
+    statementId: string
+    seq: number
+    bookingDate: Date | string
+    description: string
+    reference?: string | null
+    counterpartyName?: string | null
+    counterpartyAccount?: string | null
+    amount: Decimal | DecimalJsLike | number | string
+    allocatedAmount?: Decimal | DecimalJsLike | number | string
+    status?: $Enums.BankStatementLineStatus
+  }
+
+  export type BankStatementLineUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    seq?: IntFieldUpdateOperationsInput | number
+    bookingDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    description?: StringFieldUpdateOperationsInput | string
+    reference?: NullableStringFieldUpdateOperationsInput | string | null
+    counterpartyName?: NullableStringFieldUpdateOperationsInput | string | null
+    counterpartyAccount?: NullableStringFieldUpdateOperationsInput | string | null
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    allocatedAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: EnumBankStatementLineStatusFieldUpdateOperationsInput | $Enums.BankStatementLineStatus
+  }
+
+  export type BankStatementLineUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    statementId?: StringFieldUpdateOperationsInput | string
+    seq?: IntFieldUpdateOperationsInput | number
+    bookingDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    description?: StringFieldUpdateOperationsInput | string
+    reference?: NullableStringFieldUpdateOperationsInput | string | null
+    counterpartyName?: NullableStringFieldUpdateOperationsInput | string | null
+    counterpartyAccount?: NullableStringFieldUpdateOperationsInput | string | null
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    allocatedAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: EnumBankStatementLineStatusFieldUpdateOperationsInput | $Enums.BankStatementLineStatus
+  }
+
+  export type PaymentAllocationCreateInput = {
+    id?: string
+    allocationKey: string
+    paymentId?: string | null
+    amount: Decimal | DecimalJsLike | number | string
+    createdBy?: string | null
+    createdAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutPaymentAllocationsInput
+    line: BankStatementLineCreateNestedOneWithoutAllocationsInput
+    invoice: InvoiceCreateNestedOneWithoutAllocationsInput
+  }
+
+  export type PaymentAllocationUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    allocationKey: string
+    statementLineId: string
+    invoiceId: string
+    paymentId?: string | null
+    amount: Decimal | DecimalJsLike | number | string
+    createdBy?: string | null
+    createdAt?: Date | string
+  }
+
+  export type PaymentAllocationUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    allocationKey?: StringFieldUpdateOperationsInput | string
+    paymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutPaymentAllocationsNestedInput
+    line?: BankStatementLineUpdateOneRequiredWithoutAllocationsNestedInput
+    invoice?: InvoiceUpdateOneRequiredWithoutAllocationsNestedInput
+  }
+
+  export type PaymentAllocationUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    allocationKey?: StringFieldUpdateOperationsInput | string
+    statementLineId?: StringFieldUpdateOperationsInput | string
+    invoiceId?: StringFieldUpdateOperationsInput | string
+    paymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PaymentAllocationCreateManyInput = {
+    id?: string
+    tenantId: string
+    allocationKey: string
+    statementLineId: string
+    invoiceId: string
+    paymentId?: string | null
+    amount: Decimal | DecimalJsLike | number | string
+    createdBy?: string | null
+    createdAt?: Date | string
+  }
+
+  export type PaymentAllocationUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    allocationKey?: StringFieldUpdateOperationsInput | string
+    paymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PaymentAllocationUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    allocationKey?: StringFieldUpdateOperationsInput | string
+    statementLineId?: StringFieldUpdateOperationsInput | string
+    invoiceId?: StringFieldUpdateOperationsInput | string
+    paymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type UuidFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -209278,6 +214216,24 @@ export namespace Prisma {
     none?: FrameworkAgreementWhereInput
   }
 
+  export type BankStatementListRelationFilter = {
+    every?: BankStatementWhereInput
+    some?: BankStatementWhereInput
+    none?: BankStatementWhereInput
+  }
+
+  export type BankStatementLineListRelationFilter = {
+    every?: BankStatementLineWhereInput
+    some?: BankStatementLineWhereInput
+    none?: BankStatementLineWhereInput
+  }
+
+  export type PaymentAllocationListRelationFilter = {
+    every?: PaymentAllocationWhereInput
+    some?: PaymentAllocationWhereInput
+    none?: PaymentAllocationWhereInput
+  }
+
   export type TenantConfigurationVersionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -209763,6 +214719,18 @@ export namespace Prisma {
   }
 
   export type FrameworkAgreementOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type BankStatementOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type BankStatementLineOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type PaymentAllocationOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -217904,6 +222872,240 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
+  export type EnumBankStatementStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.BankStatementStatus | EnumBankStatementStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.BankStatementStatus[] | ListEnumBankStatementStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.BankStatementStatus[] | ListEnumBankStatementStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumBankStatementStatusFilter<$PrismaModel> | $Enums.BankStatementStatus
+  }
+
+  export type BankStatementTenantIdLegalEntityIdStatementNumberCompoundUniqueInput = {
+    tenantId: string
+    legalEntityId: string
+    statementNumber: string
+  }
+
+  export type BankStatementCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    legalEntityId?: SortOrder
+    statementNumber?: SortOrder
+    bankAccount?: SortOrder
+    statementDate?: SortOrder
+    currency?: SortOrder
+    openingBalance?: SortOrder
+    closingBalance?: SortOrder
+    lineCount?: SortOrder
+    status?: SortOrder
+    source?: SortOrder
+    confirmedAt?: SortOrder
+    confirmedBy?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BankStatementAvgOrderByAggregateInput = {
+    openingBalance?: SortOrder
+    closingBalance?: SortOrder
+    lineCount?: SortOrder
+  }
+
+  export type BankStatementMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    legalEntityId?: SortOrder
+    statementNumber?: SortOrder
+    bankAccount?: SortOrder
+    statementDate?: SortOrder
+    currency?: SortOrder
+    openingBalance?: SortOrder
+    closingBalance?: SortOrder
+    lineCount?: SortOrder
+    status?: SortOrder
+    source?: SortOrder
+    confirmedAt?: SortOrder
+    confirmedBy?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BankStatementMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    legalEntityId?: SortOrder
+    statementNumber?: SortOrder
+    bankAccount?: SortOrder
+    statementDate?: SortOrder
+    currency?: SortOrder
+    openingBalance?: SortOrder
+    closingBalance?: SortOrder
+    lineCount?: SortOrder
+    status?: SortOrder
+    source?: SortOrder
+    confirmedAt?: SortOrder
+    confirmedBy?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BankStatementSumOrderByAggregateInput = {
+    openingBalance?: SortOrder
+    closingBalance?: SortOrder
+    lineCount?: SortOrder
+  }
+
+  export type EnumBankStatementStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.BankStatementStatus | EnumBankStatementStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.BankStatementStatus[] | ListEnumBankStatementStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.BankStatementStatus[] | ListEnumBankStatementStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumBankStatementStatusWithAggregatesFilter<$PrismaModel> | $Enums.BankStatementStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumBankStatementStatusFilter<$PrismaModel>
+    _max?: NestedEnumBankStatementStatusFilter<$PrismaModel>
+  }
+
+  export type EnumBankStatementLineStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.BankStatementLineStatus | EnumBankStatementLineStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.BankStatementLineStatus[] | ListEnumBankStatementLineStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.BankStatementLineStatus[] | ListEnumBankStatementLineStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumBankStatementLineStatusFilter<$PrismaModel> | $Enums.BankStatementLineStatus
+  }
+
+  export type BankStatementScalarRelationFilter = {
+    is?: BankStatementWhereInput
+    isNot?: BankStatementWhereInput
+  }
+
+  export type BankStatementLineTenantIdStatementIdSeqCompoundUniqueInput = {
+    tenantId: string
+    statementId: string
+    seq: number
+  }
+
+  export type BankStatementLineCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    statementId?: SortOrder
+    seq?: SortOrder
+    bookingDate?: SortOrder
+    description?: SortOrder
+    reference?: SortOrder
+    counterpartyName?: SortOrder
+    counterpartyAccount?: SortOrder
+    amount?: SortOrder
+    allocatedAmount?: SortOrder
+    status?: SortOrder
+  }
+
+  export type BankStatementLineAvgOrderByAggregateInput = {
+    seq?: SortOrder
+    amount?: SortOrder
+    allocatedAmount?: SortOrder
+  }
+
+  export type BankStatementLineMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    statementId?: SortOrder
+    seq?: SortOrder
+    bookingDate?: SortOrder
+    description?: SortOrder
+    reference?: SortOrder
+    counterpartyName?: SortOrder
+    counterpartyAccount?: SortOrder
+    amount?: SortOrder
+    allocatedAmount?: SortOrder
+    status?: SortOrder
+  }
+
+  export type BankStatementLineMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    statementId?: SortOrder
+    seq?: SortOrder
+    bookingDate?: SortOrder
+    description?: SortOrder
+    reference?: SortOrder
+    counterpartyName?: SortOrder
+    counterpartyAccount?: SortOrder
+    amount?: SortOrder
+    allocatedAmount?: SortOrder
+    status?: SortOrder
+  }
+
+  export type BankStatementLineSumOrderByAggregateInput = {
+    seq?: SortOrder
+    amount?: SortOrder
+    allocatedAmount?: SortOrder
+  }
+
+  export type EnumBankStatementLineStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.BankStatementLineStatus | EnumBankStatementLineStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.BankStatementLineStatus[] | ListEnumBankStatementLineStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.BankStatementLineStatus[] | ListEnumBankStatementLineStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumBankStatementLineStatusWithAggregatesFilter<$PrismaModel> | $Enums.BankStatementLineStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumBankStatementLineStatusFilter<$PrismaModel>
+    _max?: NestedEnumBankStatementLineStatusFilter<$PrismaModel>
+  }
+
+  export type BankStatementLineScalarRelationFilter = {
+    is?: BankStatementLineWhereInput
+    isNot?: BankStatementLineWhereInput
+  }
+
+  export type PaymentAllocationTenantIdAllocationKeyCompoundUniqueInput = {
+    tenantId: string
+    allocationKey: string
+  }
+
+  export type PaymentAllocationCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    allocationKey?: SortOrder
+    statementLineId?: SortOrder
+    invoiceId?: SortOrder
+    paymentId?: SortOrder
+    amount?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type PaymentAllocationAvgOrderByAggregateInput = {
+    amount?: SortOrder
+  }
+
+  export type PaymentAllocationMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    allocationKey?: SortOrder
+    statementLineId?: SortOrder
+    invoiceId?: SortOrder
+    paymentId?: SortOrder
+    amount?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type PaymentAllocationMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    allocationKey?: SortOrder
+    statementLineId?: SortOrder
+    invoiceId?: SortOrder
+    paymentId?: SortOrder
+    amount?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type PaymentAllocationSumOrderByAggregateInput = {
+    amount?: SortOrder
+  }
+
   export type TenantConfigurationVersionCreateNestedManyWithoutTenantInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -218758,6 +223960,27 @@ export namespace Prisma {
     connect?: FrameworkAgreementWhereUniqueInput | FrameworkAgreementWhereUniqueInput[]
   }
 
+  export type BankStatementCreateNestedManyWithoutTenantInput = {
+    create?: XOR<BankStatementCreateWithoutTenantInput, BankStatementUncheckedCreateWithoutTenantInput> | BankStatementCreateWithoutTenantInput[] | BankStatementUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: BankStatementCreateOrConnectWithoutTenantInput | BankStatementCreateOrConnectWithoutTenantInput[]
+    createMany?: BankStatementCreateManyTenantInputEnvelope
+    connect?: BankStatementWhereUniqueInput | BankStatementWhereUniqueInput[]
+  }
+
+  export type BankStatementLineCreateNestedManyWithoutTenantInput = {
+    create?: XOR<BankStatementLineCreateWithoutTenantInput, BankStatementLineUncheckedCreateWithoutTenantInput> | BankStatementLineCreateWithoutTenantInput[] | BankStatementLineUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: BankStatementLineCreateOrConnectWithoutTenantInput | BankStatementLineCreateOrConnectWithoutTenantInput[]
+    createMany?: BankStatementLineCreateManyTenantInputEnvelope
+    connect?: BankStatementLineWhereUniqueInput | BankStatementLineWhereUniqueInput[]
+  }
+
+  export type PaymentAllocationCreateNestedManyWithoutTenantInput = {
+    create?: XOR<PaymentAllocationCreateWithoutTenantInput, PaymentAllocationUncheckedCreateWithoutTenantInput> | PaymentAllocationCreateWithoutTenantInput[] | PaymentAllocationUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: PaymentAllocationCreateOrConnectWithoutTenantInput | PaymentAllocationCreateOrConnectWithoutTenantInput[]
+    createMany?: PaymentAllocationCreateManyTenantInputEnvelope
+    connect?: PaymentAllocationWhereUniqueInput | PaymentAllocationWhereUniqueInput[]
+  }
+
   export type TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -219610,6 +224833,27 @@ export namespace Prisma {
     connectOrCreate?: FrameworkAgreementCreateOrConnectWithoutTenantInput | FrameworkAgreementCreateOrConnectWithoutTenantInput[]
     createMany?: FrameworkAgreementCreateManyTenantInputEnvelope
     connect?: FrameworkAgreementWhereUniqueInput | FrameworkAgreementWhereUniqueInput[]
+  }
+
+  export type BankStatementUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<BankStatementCreateWithoutTenantInput, BankStatementUncheckedCreateWithoutTenantInput> | BankStatementCreateWithoutTenantInput[] | BankStatementUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: BankStatementCreateOrConnectWithoutTenantInput | BankStatementCreateOrConnectWithoutTenantInput[]
+    createMany?: BankStatementCreateManyTenantInputEnvelope
+    connect?: BankStatementWhereUniqueInput | BankStatementWhereUniqueInput[]
+  }
+
+  export type BankStatementLineUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<BankStatementLineCreateWithoutTenantInput, BankStatementLineUncheckedCreateWithoutTenantInput> | BankStatementLineCreateWithoutTenantInput[] | BankStatementLineUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: BankStatementLineCreateOrConnectWithoutTenantInput | BankStatementLineCreateOrConnectWithoutTenantInput[]
+    createMany?: BankStatementLineCreateManyTenantInputEnvelope
+    connect?: BankStatementLineWhereUniqueInput | BankStatementLineWhereUniqueInput[]
+  }
+
+  export type PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<PaymentAllocationCreateWithoutTenantInput, PaymentAllocationUncheckedCreateWithoutTenantInput> | PaymentAllocationCreateWithoutTenantInput[] | PaymentAllocationUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: PaymentAllocationCreateOrConnectWithoutTenantInput | PaymentAllocationCreateOrConnectWithoutTenantInput[]
+    createMany?: PaymentAllocationCreateManyTenantInputEnvelope
+    connect?: PaymentAllocationWhereUniqueInput | PaymentAllocationWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -221340,6 +226584,48 @@ export namespace Prisma {
     deleteMany?: FrameworkAgreementScalarWhereInput | FrameworkAgreementScalarWhereInput[]
   }
 
+  export type BankStatementUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<BankStatementCreateWithoutTenantInput, BankStatementUncheckedCreateWithoutTenantInput> | BankStatementCreateWithoutTenantInput[] | BankStatementUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: BankStatementCreateOrConnectWithoutTenantInput | BankStatementCreateOrConnectWithoutTenantInput[]
+    upsert?: BankStatementUpsertWithWhereUniqueWithoutTenantInput | BankStatementUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: BankStatementCreateManyTenantInputEnvelope
+    set?: BankStatementWhereUniqueInput | BankStatementWhereUniqueInput[]
+    disconnect?: BankStatementWhereUniqueInput | BankStatementWhereUniqueInput[]
+    delete?: BankStatementWhereUniqueInput | BankStatementWhereUniqueInput[]
+    connect?: BankStatementWhereUniqueInput | BankStatementWhereUniqueInput[]
+    update?: BankStatementUpdateWithWhereUniqueWithoutTenantInput | BankStatementUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: BankStatementUpdateManyWithWhereWithoutTenantInput | BankStatementUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: BankStatementScalarWhereInput | BankStatementScalarWhereInput[]
+  }
+
+  export type BankStatementLineUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<BankStatementLineCreateWithoutTenantInput, BankStatementLineUncheckedCreateWithoutTenantInput> | BankStatementLineCreateWithoutTenantInput[] | BankStatementLineUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: BankStatementLineCreateOrConnectWithoutTenantInput | BankStatementLineCreateOrConnectWithoutTenantInput[]
+    upsert?: BankStatementLineUpsertWithWhereUniqueWithoutTenantInput | BankStatementLineUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: BankStatementLineCreateManyTenantInputEnvelope
+    set?: BankStatementLineWhereUniqueInput | BankStatementLineWhereUniqueInput[]
+    disconnect?: BankStatementLineWhereUniqueInput | BankStatementLineWhereUniqueInput[]
+    delete?: BankStatementLineWhereUniqueInput | BankStatementLineWhereUniqueInput[]
+    connect?: BankStatementLineWhereUniqueInput | BankStatementLineWhereUniqueInput[]
+    update?: BankStatementLineUpdateWithWhereUniqueWithoutTenantInput | BankStatementLineUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: BankStatementLineUpdateManyWithWhereWithoutTenantInput | BankStatementLineUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: BankStatementLineScalarWhereInput | BankStatementLineScalarWhereInput[]
+  }
+
+  export type PaymentAllocationUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<PaymentAllocationCreateWithoutTenantInput, PaymentAllocationUncheckedCreateWithoutTenantInput> | PaymentAllocationCreateWithoutTenantInput[] | PaymentAllocationUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: PaymentAllocationCreateOrConnectWithoutTenantInput | PaymentAllocationCreateOrConnectWithoutTenantInput[]
+    upsert?: PaymentAllocationUpsertWithWhereUniqueWithoutTenantInput | PaymentAllocationUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: PaymentAllocationCreateManyTenantInputEnvelope
+    set?: PaymentAllocationWhereUniqueInput | PaymentAllocationWhereUniqueInput[]
+    disconnect?: PaymentAllocationWhereUniqueInput | PaymentAllocationWhereUniqueInput[]
+    delete?: PaymentAllocationWhereUniqueInput | PaymentAllocationWhereUniqueInput[]
+    connect?: PaymentAllocationWhereUniqueInput | PaymentAllocationWhereUniqueInput[]
+    update?: PaymentAllocationUpdateWithWhereUniqueWithoutTenantInput | PaymentAllocationUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: PaymentAllocationUpdateManyWithWhereWithoutTenantInput | PaymentAllocationUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: PaymentAllocationScalarWhereInput | PaymentAllocationScalarWhereInput[]
+  }
+
   export type TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -223046,6 +228332,48 @@ export namespace Prisma {
     update?: FrameworkAgreementUpdateWithWhereUniqueWithoutTenantInput | FrameworkAgreementUpdateWithWhereUniqueWithoutTenantInput[]
     updateMany?: FrameworkAgreementUpdateManyWithWhereWithoutTenantInput | FrameworkAgreementUpdateManyWithWhereWithoutTenantInput[]
     deleteMany?: FrameworkAgreementScalarWhereInput | FrameworkAgreementScalarWhereInput[]
+  }
+
+  export type BankStatementUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<BankStatementCreateWithoutTenantInput, BankStatementUncheckedCreateWithoutTenantInput> | BankStatementCreateWithoutTenantInput[] | BankStatementUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: BankStatementCreateOrConnectWithoutTenantInput | BankStatementCreateOrConnectWithoutTenantInput[]
+    upsert?: BankStatementUpsertWithWhereUniqueWithoutTenantInput | BankStatementUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: BankStatementCreateManyTenantInputEnvelope
+    set?: BankStatementWhereUniqueInput | BankStatementWhereUniqueInput[]
+    disconnect?: BankStatementWhereUniqueInput | BankStatementWhereUniqueInput[]
+    delete?: BankStatementWhereUniqueInput | BankStatementWhereUniqueInput[]
+    connect?: BankStatementWhereUniqueInput | BankStatementWhereUniqueInput[]
+    update?: BankStatementUpdateWithWhereUniqueWithoutTenantInput | BankStatementUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: BankStatementUpdateManyWithWhereWithoutTenantInput | BankStatementUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: BankStatementScalarWhereInput | BankStatementScalarWhereInput[]
+  }
+
+  export type BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<BankStatementLineCreateWithoutTenantInput, BankStatementLineUncheckedCreateWithoutTenantInput> | BankStatementLineCreateWithoutTenantInput[] | BankStatementLineUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: BankStatementLineCreateOrConnectWithoutTenantInput | BankStatementLineCreateOrConnectWithoutTenantInput[]
+    upsert?: BankStatementLineUpsertWithWhereUniqueWithoutTenantInput | BankStatementLineUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: BankStatementLineCreateManyTenantInputEnvelope
+    set?: BankStatementLineWhereUniqueInput | BankStatementLineWhereUniqueInput[]
+    disconnect?: BankStatementLineWhereUniqueInput | BankStatementLineWhereUniqueInput[]
+    delete?: BankStatementLineWhereUniqueInput | BankStatementLineWhereUniqueInput[]
+    connect?: BankStatementLineWhereUniqueInput | BankStatementLineWhereUniqueInput[]
+    update?: BankStatementLineUpdateWithWhereUniqueWithoutTenantInput | BankStatementLineUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: BankStatementLineUpdateManyWithWhereWithoutTenantInput | BankStatementLineUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: BankStatementLineScalarWhereInput | BankStatementLineScalarWhereInput[]
+  }
+
+  export type PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<PaymentAllocationCreateWithoutTenantInput, PaymentAllocationUncheckedCreateWithoutTenantInput> | PaymentAllocationCreateWithoutTenantInput[] | PaymentAllocationUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: PaymentAllocationCreateOrConnectWithoutTenantInput | PaymentAllocationCreateOrConnectWithoutTenantInput[]
+    upsert?: PaymentAllocationUpsertWithWhereUniqueWithoutTenantInput | PaymentAllocationUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: PaymentAllocationCreateManyTenantInputEnvelope
+    set?: PaymentAllocationWhereUniqueInput | PaymentAllocationWhereUniqueInput[]
+    disconnect?: PaymentAllocationWhereUniqueInput | PaymentAllocationWhereUniqueInput[]
+    delete?: PaymentAllocationWhereUniqueInput | PaymentAllocationWhereUniqueInput[]
+    connect?: PaymentAllocationWhereUniqueInput | PaymentAllocationWhereUniqueInput[]
+    update?: PaymentAllocationUpdateWithWhereUniqueWithoutTenantInput | PaymentAllocationUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: PaymentAllocationUpdateManyWithWhereWithoutTenantInput | PaymentAllocationUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: PaymentAllocationScalarWhereInput | PaymentAllocationScalarWhereInput[]
   }
 
   export type TenantCreateNestedOneWithoutConfigurationVersionsInput = {
@@ -226553,11 +231881,25 @@ export namespace Prisma {
     connect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
   }
 
+  export type PaymentAllocationCreateNestedManyWithoutInvoiceInput = {
+    create?: XOR<PaymentAllocationCreateWithoutInvoiceInput, PaymentAllocationUncheckedCreateWithoutInvoiceInput> | PaymentAllocationCreateWithoutInvoiceInput[] | PaymentAllocationUncheckedCreateWithoutInvoiceInput[]
+    connectOrCreate?: PaymentAllocationCreateOrConnectWithoutInvoiceInput | PaymentAllocationCreateOrConnectWithoutInvoiceInput[]
+    createMany?: PaymentAllocationCreateManyInvoiceInputEnvelope
+    connect?: PaymentAllocationWhereUniqueInput | PaymentAllocationWhereUniqueInput[]
+  }
+
   export type PaymentUncheckedCreateNestedManyWithoutInvoiceInput = {
     create?: XOR<PaymentCreateWithoutInvoiceInput, PaymentUncheckedCreateWithoutInvoiceInput> | PaymentCreateWithoutInvoiceInput[] | PaymentUncheckedCreateWithoutInvoiceInput[]
     connectOrCreate?: PaymentCreateOrConnectWithoutInvoiceInput | PaymentCreateOrConnectWithoutInvoiceInput[]
     createMany?: PaymentCreateManyInvoiceInputEnvelope
     connect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+  }
+
+  export type PaymentAllocationUncheckedCreateNestedManyWithoutInvoiceInput = {
+    create?: XOR<PaymentAllocationCreateWithoutInvoiceInput, PaymentAllocationUncheckedCreateWithoutInvoiceInput> | PaymentAllocationCreateWithoutInvoiceInput[] | PaymentAllocationUncheckedCreateWithoutInvoiceInput[]
+    connectOrCreate?: PaymentAllocationCreateOrConnectWithoutInvoiceInput | PaymentAllocationCreateOrConnectWithoutInvoiceInput[]
+    createMany?: PaymentAllocationCreateManyInvoiceInputEnvelope
+    connect?: PaymentAllocationWhereUniqueInput | PaymentAllocationWhereUniqueInput[]
   }
 
   export type EnumInvoiceTypeFieldUpdateOperationsInput = {
@@ -226590,6 +231932,20 @@ export namespace Prisma {
     deleteMany?: PaymentScalarWhereInput | PaymentScalarWhereInput[]
   }
 
+  export type PaymentAllocationUpdateManyWithoutInvoiceNestedInput = {
+    create?: XOR<PaymentAllocationCreateWithoutInvoiceInput, PaymentAllocationUncheckedCreateWithoutInvoiceInput> | PaymentAllocationCreateWithoutInvoiceInput[] | PaymentAllocationUncheckedCreateWithoutInvoiceInput[]
+    connectOrCreate?: PaymentAllocationCreateOrConnectWithoutInvoiceInput | PaymentAllocationCreateOrConnectWithoutInvoiceInput[]
+    upsert?: PaymentAllocationUpsertWithWhereUniqueWithoutInvoiceInput | PaymentAllocationUpsertWithWhereUniqueWithoutInvoiceInput[]
+    createMany?: PaymentAllocationCreateManyInvoiceInputEnvelope
+    set?: PaymentAllocationWhereUniqueInput | PaymentAllocationWhereUniqueInput[]
+    disconnect?: PaymentAllocationWhereUniqueInput | PaymentAllocationWhereUniqueInput[]
+    delete?: PaymentAllocationWhereUniqueInput | PaymentAllocationWhereUniqueInput[]
+    connect?: PaymentAllocationWhereUniqueInput | PaymentAllocationWhereUniqueInput[]
+    update?: PaymentAllocationUpdateWithWhereUniqueWithoutInvoiceInput | PaymentAllocationUpdateWithWhereUniqueWithoutInvoiceInput[]
+    updateMany?: PaymentAllocationUpdateManyWithWhereWithoutInvoiceInput | PaymentAllocationUpdateManyWithWhereWithoutInvoiceInput[]
+    deleteMany?: PaymentAllocationScalarWhereInput | PaymentAllocationScalarWhereInput[]
+  }
+
   export type PaymentUncheckedUpdateManyWithoutInvoiceNestedInput = {
     create?: XOR<PaymentCreateWithoutInvoiceInput, PaymentUncheckedCreateWithoutInvoiceInput> | PaymentCreateWithoutInvoiceInput[] | PaymentUncheckedCreateWithoutInvoiceInput[]
     connectOrCreate?: PaymentCreateOrConnectWithoutInvoiceInput | PaymentCreateOrConnectWithoutInvoiceInput[]
@@ -226602,6 +231958,20 @@ export namespace Prisma {
     update?: PaymentUpdateWithWhereUniqueWithoutInvoiceInput | PaymentUpdateWithWhereUniqueWithoutInvoiceInput[]
     updateMany?: PaymentUpdateManyWithWhereWithoutInvoiceInput | PaymentUpdateManyWithWhereWithoutInvoiceInput[]
     deleteMany?: PaymentScalarWhereInput | PaymentScalarWhereInput[]
+  }
+
+  export type PaymentAllocationUncheckedUpdateManyWithoutInvoiceNestedInput = {
+    create?: XOR<PaymentAllocationCreateWithoutInvoiceInput, PaymentAllocationUncheckedCreateWithoutInvoiceInput> | PaymentAllocationCreateWithoutInvoiceInput[] | PaymentAllocationUncheckedCreateWithoutInvoiceInput[]
+    connectOrCreate?: PaymentAllocationCreateOrConnectWithoutInvoiceInput | PaymentAllocationCreateOrConnectWithoutInvoiceInput[]
+    upsert?: PaymentAllocationUpsertWithWhereUniqueWithoutInvoiceInput | PaymentAllocationUpsertWithWhereUniqueWithoutInvoiceInput[]
+    createMany?: PaymentAllocationCreateManyInvoiceInputEnvelope
+    set?: PaymentAllocationWhereUniqueInput | PaymentAllocationWhereUniqueInput[]
+    disconnect?: PaymentAllocationWhereUniqueInput | PaymentAllocationWhereUniqueInput[]
+    delete?: PaymentAllocationWhereUniqueInput | PaymentAllocationWhereUniqueInput[]
+    connect?: PaymentAllocationWhereUniqueInput | PaymentAllocationWhereUniqueInput[]
+    update?: PaymentAllocationUpdateWithWhereUniqueWithoutInvoiceInput | PaymentAllocationUpdateWithWhereUniqueWithoutInvoiceInput[]
+    updateMany?: PaymentAllocationUpdateManyWithWhereWithoutInvoiceInput | PaymentAllocationUpdateManyWithWhereWithoutInvoiceInput[]
+    deleteMany?: PaymentAllocationScalarWhereInput | PaymentAllocationScalarWhereInput[]
   }
 
   export type TenantCreateNestedOneWithoutPaymentsInput = {
@@ -228785,6 +234155,182 @@ export namespace Prisma {
     update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutGlPeriodLocksInput, TenantUpdateWithoutGlPeriodLocksInput>, TenantUncheckedUpdateWithoutGlPeriodLocksInput>
   }
 
+  export type TenantCreateNestedOneWithoutBankStatementsInput = {
+    create?: XOR<TenantCreateWithoutBankStatementsInput, TenantUncheckedCreateWithoutBankStatementsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutBankStatementsInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type BankStatementLineCreateNestedManyWithoutStatementInput = {
+    create?: XOR<BankStatementLineCreateWithoutStatementInput, BankStatementLineUncheckedCreateWithoutStatementInput> | BankStatementLineCreateWithoutStatementInput[] | BankStatementLineUncheckedCreateWithoutStatementInput[]
+    connectOrCreate?: BankStatementLineCreateOrConnectWithoutStatementInput | BankStatementLineCreateOrConnectWithoutStatementInput[]
+    createMany?: BankStatementLineCreateManyStatementInputEnvelope
+    connect?: BankStatementLineWhereUniqueInput | BankStatementLineWhereUniqueInput[]
+  }
+
+  export type BankStatementLineUncheckedCreateNestedManyWithoutStatementInput = {
+    create?: XOR<BankStatementLineCreateWithoutStatementInput, BankStatementLineUncheckedCreateWithoutStatementInput> | BankStatementLineCreateWithoutStatementInput[] | BankStatementLineUncheckedCreateWithoutStatementInput[]
+    connectOrCreate?: BankStatementLineCreateOrConnectWithoutStatementInput | BankStatementLineCreateOrConnectWithoutStatementInput[]
+    createMany?: BankStatementLineCreateManyStatementInputEnvelope
+    connect?: BankStatementLineWhereUniqueInput | BankStatementLineWhereUniqueInput[]
+  }
+
+  export type EnumBankStatementStatusFieldUpdateOperationsInput = {
+    set?: $Enums.BankStatementStatus
+  }
+
+  export type TenantUpdateOneRequiredWithoutBankStatementsNestedInput = {
+    create?: XOR<TenantCreateWithoutBankStatementsInput, TenantUncheckedCreateWithoutBankStatementsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutBankStatementsInput
+    upsert?: TenantUpsertWithoutBankStatementsInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutBankStatementsInput, TenantUpdateWithoutBankStatementsInput>, TenantUncheckedUpdateWithoutBankStatementsInput>
+  }
+
+  export type BankStatementLineUpdateManyWithoutStatementNestedInput = {
+    create?: XOR<BankStatementLineCreateWithoutStatementInput, BankStatementLineUncheckedCreateWithoutStatementInput> | BankStatementLineCreateWithoutStatementInput[] | BankStatementLineUncheckedCreateWithoutStatementInput[]
+    connectOrCreate?: BankStatementLineCreateOrConnectWithoutStatementInput | BankStatementLineCreateOrConnectWithoutStatementInput[]
+    upsert?: BankStatementLineUpsertWithWhereUniqueWithoutStatementInput | BankStatementLineUpsertWithWhereUniqueWithoutStatementInput[]
+    createMany?: BankStatementLineCreateManyStatementInputEnvelope
+    set?: BankStatementLineWhereUniqueInput | BankStatementLineWhereUniqueInput[]
+    disconnect?: BankStatementLineWhereUniqueInput | BankStatementLineWhereUniqueInput[]
+    delete?: BankStatementLineWhereUniqueInput | BankStatementLineWhereUniqueInput[]
+    connect?: BankStatementLineWhereUniqueInput | BankStatementLineWhereUniqueInput[]
+    update?: BankStatementLineUpdateWithWhereUniqueWithoutStatementInput | BankStatementLineUpdateWithWhereUniqueWithoutStatementInput[]
+    updateMany?: BankStatementLineUpdateManyWithWhereWithoutStatementInput | BankStatementLineUpdateManyWithWhereWithoutStatementInput[]
+    deleteMany?: BankStatementLineScalarWhereInput | BankStatementLineScalarWhereInput[]
+  }
+
+  export type BankStatementLineUncheckedUpdateManyWithoutStatementNestedInput = {
+    create?: XOR<BankStatementLineCreateWithoutStatementInput, BankStatementLineUncheckedCreateWithoutStatementInput> | BankStatementLineCreateWithoutStatementInput[] | BankStatementLineUncheckedCreateWithoutStatementInput[]
+    connectOrCreate?: BankStatementLineCreateOrConnectWithoutStatementInput | BankStatementLineCreateOrConnectWithoutStatementInput[]
+    upsert?: BankStatementLineUpsertWithWhereUniqueWithoutStatementInput | BankStatementLineUpsertWithWhereUniqueWithoutStatementInput[]
+    createMany?: BankStatementLineCreateManyStatementInputEnvelope
+    set?: BankStatementLineWhereUniqueInput | BankStatementLineWhereUniqueInput[]
+    disconnect?: BankStatementLineWhereUniqueInput | BankStatementLineWhereUniqueInput[]
+    delete?: BankStatementLineWhereUniqueInput | BankStatementLineWhereUniqueInput[]
+    connect?: BankStatementLineWhereUniqueInput | BankStatementLineWhereUniqueInput[]
+    update?: BankStatementLineUpdateWithWhereUniqueWithoutStatementInput | BankStatementLineUpdateWithWhereUniqueWithoutStatementInput[]
+    updateMany?: BankStatementLineUpdateManyWithWhereWithoutStatementInput | BankStatementLineUpdateManyWithWhereWithoutStatementInput[]
+    deleteMany?: BankStatementLineScalarWhereInput | BankStatementLineScalarWhereInput[]
+  }
+
+  export type TenantCreateNestedOneWithoutBankStatementLinesInput = {
+    create?: XOR<TenantCreateWithoutBankStatementLinesInput, TenantUncheckedCreateWithoutBankStatementLinesInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutBankStatementLinesInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type BankStatementCreateNestedOneWithoutLinesInput = {
+    create?: XOR<BankStatementCreateWithoutLinesInput, BankStatementUncheckedCreateWithoutLinesInput>
+    connectOrCreate?: BankStatementCreateOrConnectWithoutLinesInput
+    connect?: BankStatementWhereUniqueInput
+  }
+
+  export type PaymentAllocationCreateNestedManyWithoutLineInput = {
+    create?: XOR<PaymentAllocationCreateWithoutLineInput, PaymentAllocationUncheckedCreateWithoutLineInput> | PaymentAllocationCreateWithoutLineInput[] | PaymentAllocationUncheckedCreateWithoutLineInput[]
+    connectOrCreate?: PaymentAllocationCreateOrConnectWithoutLineInput | PaymentAllocationCreateOrConnectWithoutLineInput[]
+    createMany?: PaymentAllocationCreateManyLineInputEnvelope
+    connect?: PaymentAllocationWhereUniqueInput | PaymentAllocationWhereUniqueInput[]
+  }
+
+  export type PaymentAllocationUncheckedCreateNestedManyWithoutLineInput = {
+    create?: XOR<PaymentAllocationCreateWithoutLineInput, PaymentAllocationUncheckedCreateWithoutLineInput> | PaymentAllocationCreateWithoutLineInput[] | PaymentAllocationUncheckedCreateWithoutLineInput[]
+    connectOrCreate?: PaymentAllocationCreateOrConnectWithoutLineInput | PaymentAllocationCreateOrConnectWithoutLineInput[]
+    createMany?: PaymentAllocationCreateManyLineInputEnvelope
+    connect?: PaymentAllocationWhereUniqueInput | PaymentAllocationWhereUniqueInput[]
+  }
+
+  export type EnumBankStatementLineStatusFieldUpdateOperationsInput = {
+    set?: $Enums.BankStatementLineStatus
+  }
+
+  export type TenantUpdateOneRequiredWithoutBankStatementLinesNestedInput = {
+    create?: XOR<TenantCreateWithoutBankStatementLinesInput, TenantUncheckedCreateWithoutBankStatementLinesInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutBankStatementLinesInput
+    upsert?: TenantUpsertWithoutBankStatementLinesInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutBankStatementLinesInput, TenantUpdateWithoutBankStatementLinesInput>, TenantUncheckedUpdateWithoutBankStatementLinesInput>
+  }
+
+  export type BankStatementUpdateOneRequiredWithoutLinesNestedInput = {
+    create?: XOR<BankStatementCreateWithoutLinesInput, BankStatementUncheckedCreateWithoutLinesInput>
+    connectOrCreate?: BankStatementCreateOrConnectWithoutLinesInput
+    upsert?: BankStatementUpsertWithoutLinesInput
+    connect?: BankStatementWhereUniqueInput
+    update?: XOR<XOR<BankStatementUpdateToOneWithWhereWithoutLinesInput, BankStatementUpdateWithoutLinesInput>, BankStatementUncheckedUpdateWithoutLinesInput>
+  }
+
+  export type PaymentAllocationUpdateManyWithoutLineNestedInput = {
+    create?: XOR<PaymentAllocationCreateWithoutLineInput, PaymentAllocationUncheckedCreateWithoutLineInput> | PaymentAllocationCreateWithoutLineInput[] | PaymentAllocationUncheckedCreateWithoutLineInput[]
+    connectOrCreate?: PaymentAllocationCreateOrConnectWithoutLineInput | PaymentAllocationCreateOrConnectWithoutLineInput[]
+    upsert?: PaymentAllocationUpsertWithWhereUniqueWithoutLineInput | PaymentAllocationUpsertWithWhereUniqueWithoutLineInput[]
+    createMany?: PaymentAllocationCreateManyLineInputEnvelope
+    set?: PaymentAllocationWhereUniqueInput | PaymentAllocationWhereUniqueInput[]
+    disconnect?: PaymentAllocationWhereUniqueInput | PaymentAllocationWhereUniqueInput[]
+    delete?: PaymentAllocationWhereUniqueInput | PaymentAllocationWhereUniqueInput[]
+    connect?: PaymentAllocationWhereUniqueInput | PaymentAllocationWhereUniqueInput[]
+    update?: PaymentAllocationUpdateWithWhereUniqueWithoutLineInput | PaymentAllocationUpdateWithWhereUniqueWithoutLineInput[]
+    updateMany?: PaymentAllocationUpdateManyWithWhereWithoutLineInput | PaymentAllocationUpdateManyWithWhereWithoutLineInput[]
+    deleteMany?: PaymentAllocationScalarWhereInput | PaymentAllocationScalarWhereInput[]
+  }
+
+  export type PaymentAllocationUncheckedUpdateManyWithoutLineNestedInput = {
+    create?: XOR<PaymentAllocationCreateWithoutLineInput, PaymentAllocationUncheckedCreateWithoutLineInput> | PaymentAllocationCreateWithoutLineInput[] | PaymentAllocationUncheckedCreateWithoutLineInput[]
+    connectOrCreate?: PaymentAllocationCreateOrConnectWithoutLineInput | PaymentAllocationCreateOrConnectWithoutLineInput[]
+    upsert?: PaymentAllocationUpsertWithWhereUniqueWithoutLineInput | PaymentAllocationUpsertWithWhereUniqueWithoutLineInput[]
+    createMany?: PaymentAllocationCreateManyLineInputEnvelope
+    set?: PaymentAllocationWhereUniqueInput | PaymentAllocationWhereUniqueInput[]
+    disconnect?: PaymentAllocationWhereUniqueInput | PaymentAllocationWhereUniqueInput[]
+    delete?: PaymentAllocationWhereUniqueInput | PaymentAllocationWhereUniqueInput[]
+    connect?: PaymentAllocationWhereUniqueInput | PaymentAllocationWhereUniqueInput[]
+    update?: PaymentAllocationUpdateWithWhereUniqueWithoutLineInput | PaymentAllocationUpdateWithWhereUniqueWithoutLineInput[]
+    updateMany?: PaymentAllocationUpdateManyWithWhereWithoutLineInput | PaymentAllocationUpdateManyWithWhereWithoutLineInput[]
+    deleteMany?: PaymentAllocationScalarWhereInput | PaymentAllocationScalarWhereInput[]
+  }
+
+  export type TenantCreateNestedOneWithoutPaymentAllocationsInput = {
+    create?: XOR<TenantCreateWithoutPaymentAllocationsInput, TenantUncheckedCreateWithoutPaymentAllocationsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutPaymentAllocationsInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type BankStatementLineCreateNestedOneWithoutAllocationsInput = {
+    create?: XOR<BankStatementLineCreateWithoutAllocationsInput, BankStatementLineUncheckedCreateWithoutAllocationsInput>
+    connectOrCreate?: BankStatementLineCreateOrConnectWithoutAllocationsInput
+    connect?: BankStatementLineWhereUniqueInput
+  }
+
+  export type InvoiceCreateNestedOneWithoutAllocationsInput = {
+    create?: XOR<InvoiceCreateWithoutAllocationsInput, InvoiceUncheckedCreateWithoutAllocationsInput>
+    connectOrCreate?: InvoiceCreateOrConnectWithoutAllocationsInput
+    connect?: InvoiceWhereUniqueInput
+  }
+
+  export type TenantUpdateOneRequiredWithoutPaymentAllocationsNestedInput = {
+    create?: XOR<TenantCreateWithoutPaymentAllocationsInput, TenantUncheckedCreateWithoutPaymentAllocationsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutPaymentAllocationsInput
+    upsert?: TenantUpsertWithoutPaymentAllocationsInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutPaymentAllocationsInput, TenantUpdateWithoutPaymentAllocationsInput>, TenantUncheckedUpdateWithoutPaymentAllocationsInput>
+  }
+
+  export type BankStatementLineUpdateOneRequiredWithoutAllocationsNestedInput = {
+    create?: XOR<BankStatementLineCreateWithoutAllocationsInput, BankStatementLineUncheckedCreateWithoutAllocationsInput>
+    connectOrCreate?: BankStatementLineCreateOrConnectWithoutAllocationsInput
+    upsert?: BankStatementLineUpsertWithoutAllocationsInput
+    connect?: BankStatementLineWhereUniqueInput
+    update?: XOR<XOR<BankStatementLineUpdateToOneWithWhereWithoutAllocationsInput, BankStatementLineUpdateWithoutAllocationsInput>, BankStatementLineUncheckedUpdateWithoutAllocationsInput>
+  }
+
+  export type InvoiceUpdateOneRequiredWithoutAllocationsNestedInput = {
+    create?: XOR<InvoiceCreateWithoutAllocationsInput, InvoiceUncheckedCreateWithoutAllocationsInput>
+    connectOrCreate?: InvoiceCreateOrConnectWithoutAllocationsInput
+    upsert?: InvoiceUpsertWithoutAllocationsInput
+    connect?: InvoiceWhereUniqueInput
+    update?: XOR<XOR<InvoiceUpdateToOneWithWhereWithoutAllocationsInput, InvoiceUpdateWithoutAllocationsInput>, InvoiceUncheckedUpdateWithoutAllocationsInput>
+  }
+
   export type NestedUuidFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -230218,6 +235764,40 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumFrameworkStatusFilter<$PrismaModel>
     _max?: NestedEnumFrameworkStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumBankStatementStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.BankStatementStatus | EnumBankStatementStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.BankStatementStatus[] | ListEnumBankStatementStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.BankStatementStatus[] | ListEnumBankStatementStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumBankStatementStatusFilter<$PrismaModel> | $Enums.BankStatementStatus
+  }
+
+  export type NestedEnumBankStatementStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.BankStatementStatus | EnumBankStatementStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.BankStatementStatus[] | ListEnumBankStatementStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.BankStatementStatus[] | ListEnumBankStatementStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumBankStatementStatusWithAggregatesFilter<$PrismaModel> | $Enums.BankStatementStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumBankStatementStatusFilter<$PrismaModel>
+    _max?: NestedEnumBankStatementStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumBankStatementLineStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.BankStatementLineStatus | EnumBankStatementLineStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.BankStatementLineStatus[] | ListEnumBankStatementLineStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.BankStatementLineStatus[] | ListEnumBankStatementLineStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumBankStatementLineStatusFilter<$PrismaModel> | $Enums.BankStatementLineStatus
+  }
+
+  export type NestedEnumBankStatementLineStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.BankStatementLineStatus | EnumBankStatementLineStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.BankStatementLineStatus[] | ListEnumBankStatementLineStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.BankStatementLineStatus[] | ListEnumBankStatementLineStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumBankStatementLineStatusWithAggregatesFilter<$PrismaModel> | $Enums.BankStatementLineStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumBankStatementLineStatusFilter<$PrismaModel>
+    _max?: NestedEnumBankStatementLineStatusFilter<$PrismaModel>
   }
 
   export type TenantConfigurationVersionCreateWithoutTenantInput = {
@@ -232272,6 +237852,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     payments?: PaymentCreateNestedManyWithoutInvoiceInput
+    allocations?: PaymentAllocationCreateNestedManyWithoutInvoiceInput
   }
 
   export type InvoiceUncheckedCreateWithoutTenantInput = {
@@ -232292,6 +237873,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     payments?: PaymentUncheckedCreateNestedManyWithoutInvoiceInput
+    allocations?: PaymentAllocationUncheckedCreateNestedManyWithoutInvoiceInput
   }
 
   export type InvoiceCreateOrConnectWithoutTenantInput = {
@@ -234341,6 +239923,128 @@ export namespace Prisma {
 
   export type FrameworkAgreementCreateManyTenantInputEnvelope = {
     data: FrameworkAgreementCreateManyTenantInput | FrameworkAgreementCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type BankStatementCreateWithoutTenantInput = {
+    id?: string
+    legalEntityId: string
+    statementNumber: string
+    bankAccount: string
+    statementDate: Date | string
+    currency: string
+    openingBalance: Decimal | DecimalJsLike | number | string
+    closingBalance: Decimal | DecimalJsLike | number | string
+    lineCount: number
+    status?: $Enums.BankStatementStatus
+    source?: string
+    confirmedAt?: Date | string | null
+    confirmedBy?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lines?: BankStatementLineCreateNestedManyWithoutStatementInput
+  }
+
+  export type BankStatementUncheckedCreateWithoutTenantInput = {
+    id?: string
+    legalEntityId: string
+    statementNumber: string
+    bankAccount: string
+    statementDate: Date | string
+    currency: string
+    openingBalance: Decimal | DecimalJsLike | number | string
+    closingBalance: Decimal | DecimalJsLike | number | string
+    lineCount: number
+    status?: $Enums.BankStatementStatus
+    source?: string
+    confirmedAt?: Date | string | null
+    confirmedBy?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lines?: BankStatementLineUncheckedCreateNestedManyWithoutStatementInput
+  }
+
+  export type BankStatementCreateOrConnectWithoutTenantInput = {
+    where: BankStatementWhereUniqueInput
+    create: XOR<BankStatementCreateWithoutTenantInput, BankStatementUncheckedCreateWithoutTenantInput>
+  }
+
+  export type BankStatementCreateManyTenantInputEnvelope = {
+    data: BankStatementCreateManyTenantInput | BankStatementCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type BankStatementLineCreateWithoutTenantInput = {
+    id?: string
+    seq: number
+    bookingDate: Date | string
+    description: string
+    reference?: string | null
+    counterpartyName?: string | null
+    counterpartyAccount?: string | null
+    amount: Decimal | DecimalJsLike | number | string
+    allocatedAmount?: Decimal | DecimalJsLike | number | string
+    status?: $Enums.BankStatementLineStatus
+    statement: BankStatementCreateNestedOneWithoutLinesInput
+    allocations?: PaymentAllocationCreateNestedManyWithoutLineInput
+  }
+
+  export type BankStatementLineUncheckedCreateWithoutTenantInput = {
+    id?: string
+    statementId: string
+    seq: number
+    bookingDate: Date | string
+    description: string
+    reference?: string | null
+    counterpartyName?: string | null
+    counterpartyAccount?: string | null
+    amount: Decimal | DecimalJsLike | number | string
+    allocatedAmount?: Decimal | DecimalJsLike | number | string
+    status?: $Enums.BankStatementLineStatus
+    allocations?: PaymentAllocationUncheckedCreateNestedManyWithoutLineInput
+  }
+
+  export type BankStatementLineCreateOrConnectWithoutTenantInput = {
+    where: BankStatementLineWhereUniqueInput
+    create: XOR<BankStatementLineCreateWithoutTenantInput, BankStatementLineUncheckedCreateWithoutTenantInput>
+  }
+
+  export type BankStatementLineCreateManyTenantInputEnvelope = {
+    data: BankStatementLineCreateManyTenantInput | BankStatementLineCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type PaymentAllocationCreateWithoutTenantInput = {
+    id?: string
+    allocationKey: string
+    paymentId?: string | null
+    amount: Decimal | DecimalJsLike | number | string
+    createdBy?: string | null
+    createdAt?: Date | string
+    line: BankStatementLineCreateNestedOneWithoutAllocationsInput
+    invoice: InvoiceCreateNestedOneWithoutAllocationsInput
+  }
+
+  export type PaymentAllocationUncheckedCreateWithoutTenantInput = {
+    id?: string
+    allocationKey: string
+    statementLineId: string
+    invoiceId: string
+    paymentId?: string | null
+    amount: Decimal | DecimalJsLike | number | string
+    createdBy?: string | null
+    createdAt?: Date | string
+  }
+
+  export type PaymentAllocationCreateOrConnectWithoutTenantInput = {
+    where: PaymentAllocationWhereUniqueInput
+    create: XOR<PaymentAllocationCreateWithoutTenantInput, PaymentAllocationUncheckedCreateWithoutTenantInput>
+  }
+
+  export type PaymentAllocationCreateManyTenantInputEnvelope = {
+    data: PaymentAllocationCreateManyTenantInput | PaymentAllocationCreateManyTenantInput[]
     skipDuplicates?: boolean
   }
 
@@ -238178,6 +243882,110 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"FrameworkAgreement"> | Date | string
   }
 
+  export type BankStatementUpsertWithWhereUniqueWithoutTenantInput = {
+    where: BankStatementWhereUniqueInput
+    update: XOR<BankStatementUpdateWithoutTenantInput, BankStatementUncheckedUpdateWithoutTenantInput>
+    create: XOR<BankStatementCreateWithoutTenantInput, BankStatementUncheckedCreateWithoutTenantInput>
+  }
+
+  export type BankStatementUpdateWithWhereUniqueWithoutTenantInput = {
+    where: BankStatementWhereUniqueInput
+    data: XOR<BankStatementUpdateWithoutTenantInput, BankStatementUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type BankStatementUpdateManyWithWhereWithoutTenantInput = {
+    where: BankStatementScalarWhereInput
+    data: XOR<BankStatementUpdateManyMutationInput, BankStatementUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type BankStatementScalarWhereInput = {
+    AND?: BankStatementScalarWhereInput | BankStatementScalarWhereInput[]
+    OR?: BankStatementScalarWhereInput[]
+    NOT?: BankStatementScalarWhereInput | BankStatementScalarWhereInput[]
+    id?: UuidFilter<"BankStatement"> | string
+    tenantId?: UuidFilter<"BankStatement"> | string
+    legalEntityId?: UuidFilter<"BankStatement"> | string
+    statementNumber?: StringFilter<"BankStatement"> | string
+    bankAccount?: StringFilter<"BankStatement"> | string
+    statementDate?: DateTimeFilter<"BankStatement"> | Date | string
+    currency?: StringFilter<"BankStatement"> | string
+    openingBalance?: DecimalFilter<"BankStatement"> | Decimal | DecimalJsLike | number | string
+    closingBalance?: DecimalFilter<"BankStatement"> | Decimal | DecimalJsLike | number | string
+    lineCount?: IntFilter<"BankStatement"> | number
+    status?: EnumBankStatementStatusFilter<"BankStatement"> | $Enums.BankStatementStatus
+    source?: StringFilter<"BankStatement"> | string
+    confirmedAt?: DateTimeNullableFilter<"BankStatement"> | Date | string | null
+    confirmedBy?: StringNullableFilter<"BankStatement"> | string | null
+    createdBy?: StringNullableFilter<"BankStatement"> | string | null
+    createdAt?: DateTimeFilter<"BankStatement"> | Date | string
+    updatedAt?: DateTimeFilter<"BankStatement"> | Date | string
+  }
+
+  export type BankStatementLineUpsertWithWhereUniqueWithoutTenantInput = {
+    where: BankStatementLineWhereUniqueInput
+    update: XOR<BankStatementLineUpdateWithoutTenantInput, BankStatementLineUncheckedUpdateWithoutTenantInput>
+    create: XOR<BankStatementLineCreateWithoutTenantInput, BankStatementLineUncheckedCreateWithoutTenantInput>
+  }
+
+  export type BankStatementLineUpdateWithWhereUniqueWithoutTenantInput = {
+    where: BankStatementLineWhereUniqueInput
+    data: XOR<BankStatementLineUpdateWithoutTenantInput, BankStatementLineUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type BankStatementLineUpdateManyWithWhereWithoutTenantInput = {
+    where: BankStatementLineScalarWhereInput
+    data: XOR<BankStatementLineUpdateManyMutationInput, BankStatementLineUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type BankStatementLineScalarWhereInput = {
+    AND?: BankStatementLineScalarWhereInput | BankStatementLineScalarWhereInput[]
+    OR?: BankStatementLineScalarWhereInput[]
+    NOT?: BankStatementLineScalarWhereInput | BankStatementLineScalarWhereInput[]
+    id?: UuidFilter<"BankStatementLine"> | string
+    tenantId?: UuidFilter<"BankStatementLine"> | string
+    statementId?: UuidFilter<"BankStatementLine"> | string
+    seq?: IntFilter<"BankStatementLine"> | number
+    bookingDate?: DateTimeFilter<"BankStatementLine"> | Date | string
+    description?: StringFilter<"BankStatementLine"> | string
+    reference?: StringNullableFilter<"BankStatementLine"> | string | null
+    counterpartyName?: StringNullableFilter<"BankStatementLine"> | string | null
+    counterpartyAccount?: StringNullableFilter<"BankStatementLine"> | string | null
+    amount?: DecimalFilter<"BankStatementLine"> | Decimal | DecimalJsLike | number | string
+    allocatedAmount?: DecimalFilter<"BankStatementLine"> | Decimal | DecimalJsLike | number | string
+    status?: EnumBankStatementLineStatusFilter<"BankStatementLine"> | $Enums.BankStatementLineStatus
+  }
+
+  export type PaymentAllocationUpsertWithWhereUniqueWithoutTenantInput = {
+    where: PaymentAllocationWhereUniqueInput
+    update: XOR<PaymentAllocationUpdateWithoutTenantInput, PaymentAllocationUncheckedUpdateWithoutTenantInput>
+    create: XOR<PaymentAllocationCreateWithoutTenantInput, PaymentAllocationUncheckedCreateWithoutTenantInput>
+  }
+
+  export type PaymentAllocationUpdateWithWhereUniqueWithoutTenantInput = {
+    where: PaymentAllocationWhereUniqueInput
+    data: XOR<PaymentAllocationUpdateWithoutTenantInput, PaymentAllocationUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type PaymentAllocationUpdateManyWithWhereWithoutTenantInput = {
+    where: PaymentAllocationScalarWhereInput
+    data: XOR<PaymentAllocationUpdateManyMutationInput, PaymentAllocationUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type PaymentAllocationScalarWhereInput = {
+    AND?: PaymentAllocationScalarWhereInput | PaymentAllocationScalarWhereInput[]
+    OR?: PaymentAllocationScalarWhereInput[]
+    NOT?: PaymentAllocationScalarWhereInput | PaymentAllocationScalarWhereInput[]
+    id?: UuidFilter<"PaymentAllocation"> | string
+    tenantId?: UuidFilter<"PaymentAllocation"> | string
+    allocationKey?: StringFilter<"PaymentAllocation"> | string
+    statementLineId?: UuidFilter<"PaymentAllocation"> | string
+    invoiceId?: UuidFilter<"PaymentAllocation"> | string
+    paymentId?: UuidNullableFilter<"PaymentAllocation"> | string | null
+    amount?: DecimalFilter<"PaymentAllocation"> | Decimal | DecimalJsLike | number | string
+    createdBy?: StringNullableFilter<"PaymentAllocation"> | string | null
+    createdAt?: DateTimeFilter<"PaymentAllocation"> | Date | string
+  }
+
   export type TenantCreateWithoutConfigurationVersionsInput = {
     id?: string
     slug: string
@@ -238307,6 +244115,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutConfigurationVersionsInput = {
@@ -238438,6 +244249,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutConfigurationVersionsInput = {
@@ -238585,6 +244399,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutConfigurationVersionsInput = {
@@ -238716,6 +244533,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutLegalEntitiesInput = {
@@ -238847,6 +244667,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLegalEntitiesInput = {
@@ -238978,6 +244801,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLegalEntitiesInput = {
@@ -239159,6 +244985,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLegalEntitiesInput = {
@@ -239290,6 +245119,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithWhereUniqueWithoutLegalEntityInput = {
@@ -239437,6 +245269,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBusinessUnitsInput = {
@@ -239568,6 +245403,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBusinessUnitsInput = {
@@ -239853,6 +245691,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBusinessUnitsInput = {
@@ -239984,6 +245825,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type LegalEntityUpsertWithoutBusinessUnitsInput = {
@@ -240227,6 +246071,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBranchesInput = {
@@ -240358,6 +246205,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBranchesInput = {
@@ -240534,6 +246384,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBranchesInput = {
@@ -240665,6 +246518,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithoutBranchesInput = {
@@ -240831,6 +246687,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutFactoriesInput = {
@@ -240962,6 +246821,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutFactoriesInput = {
@@ -241138,6 +247000,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutFactoriesInput = {
@@ -241269,6 +247134,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithoutFactoriesInput = {
@@ -241435,6 +247303,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutUsersInput = {
@@ -241566,6 +247437,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutUsersInput = {
@@ -241802,6 +247676,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutUsersInput = {
@@ -241933,6 +247810,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserRoleAssignmentUpsertWithWhereUniqueWithoutUserInput = {
@@ -242133,6 +248013,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutUserCredentialsInput = {
@@ -242264,6 +248147,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutUserCredentialsInput = {
@@ -242442,6 +248328,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutUserCredentialsInput = {
@@ -242573,6 +248462,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserUpsertWithoutCredentialInput = {
@@ -242741,6 +248633,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRolesInput = {
@@ -242872,6 +248767,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRolesInput = {
@@ -243069,6 +248967,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRolesInput = {
@@ -243200,6 +249101,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RolePermissionUpsertWithWhereUniqueWithoutRoleInput = {
@@ -243429,6 +249333,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoleAssignmentsInput = {
@@ -243560,6 +249467,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoleAssignmentsInput = {
@@ -243763,6 +249673,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoleAssignmentsInput = {
@@ -243894,6 +249807,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserUpsertWithoutRoleAssignmentsInput = {
@@ -244093,6 +250009,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAuditEventsInput = {
@@ -244224,6 +250143,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAuditEventsInput = {
@@ -244371,6 +250293,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAuditEventsInput = {
@@ -244502,6 +250427,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutOutboxEventsInput = {
@@ -244633,6 +250561,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOutboxEventsInput = {
@@ -244764,6 +250695,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOutboxEventsInput = {
@@ -244911,6 +250845,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOutboxEventsInput = {
@@ -245042,6 +250979,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutTerminologyEntriesInput = {
@@ -245173,6 +251113,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTerminologyEntriesInput = {
@@ -245304,6 +251247,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTerminologyEntriesInput = {
@@ -245451,6 +251397,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTerminologyEntriesInput = {
@@ -245582,6 +251531,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutModuleActivationsInput = {
@@ -245713,6 +251665,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutModuleActivationsInput = {
@@ -245844,6 +251799,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutModuleActivationsInput = {
@@ -245991,6 +251949,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutModuleActivationsInput = {
@@ -246122,6 +252083,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCustomFieldDefsInput = {
@@ -246253,6 +252217,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCustomFieldDefsInput = {
@@ -246384,6 +252351,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCustomFieldDefsInput = {
@@ -246531,6 +252501,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCustomFieldDefsInput = {
@@ -246662,6 +252635,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutTasksInput = {
@@ -246793,6 +252769,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTasksInput = {
@@ -246924,6 +252903,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTasksInput = {
@@ -247071,6 +253053,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTasksInput = {
@@ -247202,6 +253187,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutNotificationsInput = {
@@ -247333,6 +253321,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNotificationsInput = {
@@ -247464,6 +253455,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNotificationsInput = {
@@ -247611,6 +253605,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNotificationsInput = {
@@ -247742,6 +253739,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutWorkflowDefinitionsInput = {
@@ -247873,6 +253873,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkflowDefinitionsInput = {
@@ -248004,6 +254007,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkflowDefinitionsInput = {
@@ -248213,6 +254219,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkflowDefinitionsInput = {
@@ -248344,6 +254353,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkflowVersionUpsertWithWhereUniqueWithoutDefinitionInput = {
@@ -248733,6 +254745,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRuleDefinitionsInput = {
@@ -248864,6 +254879,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRuleDefinitionsInput = {
@@ -249039,6 +255057,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRuleDefinitionsInput = {
@@ -249170,6 +255191,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RuleVersionUpsertWithWhereUniqueWithoutRuleInput = {
@@ -249374,6 +255398,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutApprovalsInput = {
@@ -249505,6 +255532,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutApprovalsInput = {
@@ -249652,6 +255682,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutApprovalsInput = {
@@ -249783,6 +255816,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutProcessedEventsInput = {
@@ -249914,6 +255950,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProcessedEventsInput = {
@@ -250045,6 +256084,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProcessedEventsInput = {
@@ -250192,6 +256234,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProcessedEventsInput = {
@@ -250323,6 +256368,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutDocumentTemplatesInput = {
@@ -250454,6 +256502,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDocumentTemplatesInput = {
@@ -250585,6 +256636,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDocumentTemplatesInput = {
@@ -250758,6 +256812,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDocumentTemplatesInput = {
@@ -250889,6 +256946,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type DocumentTemplateVersionUpsertWithWhereUniqueWithoutTemplateInput = {
@@ -251096,6 +257156,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPartiesInput = {
@@ -251227,6 +257290,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPartiesInput = {
@@ -251555,6 +257621,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPartiesInput = {
@@ -251686,6 +257755,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PartyUpsertWithoutMergedPartiesInput = {
@@ -251938,6 +258010,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutConsentRecordsInput = {
@@ -252069,6 +258144,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutConsentRecordsInput = {
@@ -252255,6 +258333,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutConsentRecordsInput = {
@@ -252386,6 +258467,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PartyUpsertWithoutConsentRecordsInput = {
@@ -252646,6 +258730,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProductsInput = {
@@ -252777,6 +258864,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProductsInput = {
@@ -252988,6 +259078,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProductsInput = {
@@ -253119,6 +259212,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SkuUpsertWithWhereUniqueWithoutProductInput = {
@@ -253968,6 +260064,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWarehousesInput = {
@@ -254099,6 +260198,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWarehousesInput = {
@@ -254304,6 +260406,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWarehousesInput = {
@@ -254435,6 +260540,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WarehouseLocationUpsertWithWhereUniqueWithoutWarehouseInput = {
@@ -254656,6 +260764,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockMovementsInput = {
@@ -254787,6 +260898,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockMovementsInput = {
@@ -254934,6 +261048,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockMovementsInput = {
@@ -255065,6 +261182,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutStockReservationsInput = {
@@ -255196,6 +261316,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockReservationsInput = {
@@ -255327,6 +261450,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockReservationsInput = {
@@ -255474,6 +261600,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockReservationsInput = {
@@ -255605,6 +261734,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutDevicesInput = {
@@ -255736,6 +261868,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDevicesInput = {
@@ -255867,6 +262002,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDevicesInput = {
@@ -256014,6 +262152,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDevicesInput = {
@@ -256145,6 +262286,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutScanEventsInput = {
@@ -256276,6 +262420,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutScanEventsInput = {
@@ -256407,6 +262554,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutScanEventsInput = {
@@ -256554,6 +262704,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutScanEventsInput = {
@@ -256685,6 +262838,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutWmsOrdersInput = {
@@ -256816,6 +262972,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWmsOrdersInput = {
@@ -256947,6 +263106,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWmsOrdersInput = {
@@ -257120,6 +263282,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWmsOrdersInput = {
@@ -257251,6 +263416,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WmsOrderLineUpsertWithWhereUniqueWithoutOrderInput = {
@@ -257398,6 +263566,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWmsOrderLinesInput = {
@@ -257529,6 +263700,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWmsOrderLinesInput = {
@@ -257709,6 +263883,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWmsOrderLinesInput = {
@@ -257840,6 +264017,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WmsOrderUpsertWithoutLinesInput = {
@@ -258010,6 +264190,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTerritoriesInput = {
@@ -258141,6 +264324,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTerritoriesInput = {
@@ -258288,6 +264474,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTerritoriesInput = {
@@ -258419,6 +264608,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSalesTeamsInput = {
@@ -258550,6 +264742,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesTeamsInput = {
@@ -258681,6 +264876,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesTeamsInput = {
@@ -258852,6 +265050,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesTeamsInput = {
@@ -258983,6 +265184,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesTeamMemberUpsertWithWhereUniqueWithoutTeamInput = {
@@ -259130,6 +265334,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesTeamMembersInput = {
@@ -259261,6 +265468,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesTeamMembersInput = {
@@ -259429,6 +265639,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesTeamMembersInput = {
@@ -259560,6 +265773,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesTeamUpsertWithoutMembersInput = {
@@ -259718,6 +265934,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCrmAccountsInput = {
@@ -259849,6 +266068,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCrmAccountsInput = {
@@ -259996,6 +266218,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCrmAccountsInput = {
@@ -260127,6 +266352,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutLeadsInput = {
@@ -260258,6 +266486,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLeadsInput = {
@@ -260389,6 +266620,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLeadsInput = {
@@ -260536,6 +266770,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLeadsInput = {
@@ -260667,6 +266904,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutOpportunitiesInput = {
@@ -260798,6 +267038,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOpportunitiesInput = {
@@ -260929,6 +267172,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOpportunitiesInput = {
@@ -261076,6 +267322,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOpportunitiesInput = {
@@ -261207,6 +267456,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCrmActivitiesInput = {
@@ -261338,6 +267590,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCrmActivitiesInput = {
@@ -261469,6 +267724,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCrmActivitiesInput = {
@@ -261616,6 +267874,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCrmActivitiesInput = {
@@ -261747,6 +268008,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPriceListsInput = {
@@ -261878,6 +268142,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPriceListsInput = {
@@ -262009,6 +268276,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPriceListsInput = {
@@ -262182,6 +268452,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPriceListsInput = {
@@ -262313,6 +268586,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PriceListEntryUpsertWithWhereUniqueWithoutPriceListInput = {
@@ -262460,6 +268736,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPriceListEntriesInput = {
@@ -262591,6 +268870,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPriceListEntriesInput = {
@@ -262771,6 +269053,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPriceListEntriesInput = {
@@ -262902,6 +269187,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PriceListUpsertWithoutEntriesInput = {
@@ -263072,6 +269360,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQuotesInput = {
@@ -263203,6 +269494,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQuotesInput = {
@@ -263384,6 +269678,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQuotesInput = {
@@ -263515,6 +269812,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QuoteLineUpsertWithWhereUniqueWithoutQuoteInput = {
@@ -263662,6 +269962,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPackagingLevelsInput = {
@@ -263793,6 +270096,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPackagingLevelsInput = {
@@ -263999,6 +270305,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPackagingLevelsInput = {
@@ -264130,6 +270439,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SkuUpsertWithoutPackagingLevelsInput = {
@@ -264326,6 +270638,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSkuSubstitutionsInput = {
@@ -264457,6 +270772,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSkuSubstitutionsInput = {
@@ -264604,6 +270922,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSkuSubstitutionsInput = {
@@ -264735,6 +271056,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutDiscountRulesInput = {
@@ -264866,6 +271190,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDiscountRulesInput = {
@@ -264997,6 +271324,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDiscountRulesInput = {
@@ -265144,6 +271474,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDiscountRulesInput = {
@@ -265275,6 +271608,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutQuoteLinesInput = {
@@ -265406,6 +271742,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQuoteLinesInput = {
@@ -265537,6 +271876,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQuoteLinesInput = {
@@ -265731,6 +272073,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQuoteLinesInput = {
@@ -265862,6 +272207,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QuoteUpsertWithoutLinesInput = {
@@ -266046,6 +272394,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesOrdersInput = {
@@ -266177,6 +272528,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesOrdersInput = {
@@ -266396,6 +272750,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesOrdersInput = {
@@ -266527,6 +272884,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesOrderLineUpsertWithWhereUniqueWithoutOrderInput = {
@@ -266690,6 +273050,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesOrderLinesInput = {
@@ -266821,6 +273184,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesOrderLinesInput = {
@@ -267013,6 +273379,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesOrderLinesInput = {
@@ -267144,6 +273513,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesOrderUpsertWithoutLinesInput = {
@@ -267326,6 +273698,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOrderEventsInput = {
@@ -267457,6 +273832,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOrderEventsInput = {
@@ -267604,6 +273982,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOrderEventsInput = {
@@ -267735,6 +274116,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSuppliersInput = {
@@ -267866,6 +274250,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSuppliersInput = {
@@ -267997,6 +274384,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSuppliersInput = {
@@ -268144,6 +274534,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSuppliersInput = {
@@ -268275,6 +274668,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPurchaseRequisitionsInput = {
@@ -268406,6 +274802,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseRequisitionsInput = {
@@ -268537,6 +274936,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseRequisitionsInput = {
@@ -268714,6 +275116,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseRequisitionsInput = {
@@ -268845,6 +275250,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseRequisitionLineUpsertWithWhereUniqueWithoutRequisitionInput = {
@@ -268992,6 +275400,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseReqLinesInput = {
@@ -269123,6 +275534,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseReqLinesInput = {
@@ -269303,6 +275717,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseReqLinesInput = {
@@ -269434,6 +275851,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseRequisitionUpsertWithoutLinesInput = {
@@ -269604,6 +276024,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseOrdersInput = {
@@ -269735,6 +276158,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseOrdersInput = {
@@ -269980,6 +276406,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseOrdersInput = {
@@ -270111,6 +276540,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseOrderLineUpsertWithWhereUniqueWithoutPoInput = {
@@ -270290,6 +276722,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseOrderLinesInput = {
@@ -270421,6 +276856,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseOrderLinesInput = {
@@ -270609,6 +277047,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseOrderLinesInput = {
@@ -270740,6 +277181,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseOrderUpsertWithoutLinesInput = {
@@ -270918,6 +277362,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBomsInput = {
@@ -271049,6 +277496,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBomsInput = {
@@ -271226,6 +277676,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBomsInput = {
@@ -271357,6 +277810,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BomLineUpsertWithWhereUniqueWithoutBomInput = {
@@ -271504,6 +277960,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBomLinesInput = {
@@ -271635,6 +278094,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBomLinesInput = {
@@ -271813,6 +278275,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBomLinesInput = {
@@ -271944,6 +278409,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BomUpsertWithoutLinesInput = {
@@ -272112,6 +278580,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoutingsInput = {
@@ -272243,6 +278714,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoutingsInput = {
@@ -272422,6 +278896,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoutingsInput = {
@@ -272553,6 +279030,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RoutingOperationUpsertWithWhereUniqueWithoutRoutingInput = {
@@ -272700,6 +279180,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoutingOperationsInput = {
@@ -272831,6 +279314,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoutingOperationsInput = {
@@ -273005,6 +279491,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoutingOperationsInput = {
@@ -273136,6 +279625,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RoutingUpsertWithoutOperationsInput = {
@@ -273300,6 +279792,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutEngineeringChangesInput = {
@@ -273431,6 +279926,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutEngineeringChangesInput = {
@@ -273578,6 +280076,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutEngineeringChangesInput = {
@@ -273709,6 +280210,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPlanningPoliciesInput = {
@@ -273840,6 +280344,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPlanningPoliciesInput = {
@@ -273971,6 +280478,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPlanningPoliciesInput = {
@@ -274118,6 +280628,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPlanningPoliciesInput = {
@@ -274249,6 +280762,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutMrpRunsInput = {
@@ -274380,6 +280896,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutMrpRunsInput = {
@@ -274511,6 +281030,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutMrpRunsInput = {
@@ -274688,6 +281210,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutMrpRunsInput = {
@@ -274819,6 +281344,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type MrpSuggestionUpsertWithWhereUniqueWithoutRunInput = {
@@ -274966,6 +281494,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutMrpSuggestionsInput = {
@@ -275097,6 +281628,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutMrpSuggestionsInput = {
@@ -275269,6 +281803,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutMrpSuggestionsInput = {
@@ -275400,6 +281937,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type MrpRunUpsertWithoutSuggestionsInput = {
@@ -275562,6 +282102,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkOrdersInput = {
@@ -275693,6 +282236,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkOrdersInput = {
@@ -275876,6 +282422,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkOrdersInput = {
@@ -276007,6 +282556,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkOrderOperationUpsertWithWhereUniqueWithoutWorkOrderInput = {
@@ -276154,6 +282706,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkOrderOperationsInput = {
@@ -276285,6 +282840,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkOrderOperationsInput = {
@@ -276475,6 +283033,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkOrderOperationsInput = {
@@ -276606,6 +283167,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkOrderUpsertWithoutOperationsInput = {
@@ -276786,6 +283350,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcPlansInput = {
@@ -276917,6 +283484,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcPlansInput = {
@@ -277090,6 +283660,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcPlansInput = {
@@ -277221,6 +283794,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcPlanItemUpsertWithWhereUniqueWithoutPlanInput = {
@@ -277368,6 +283944,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcPlanItemsInput = {
@@ -277499,6 +284078,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcPlanItemsInput = {
@@ -277673,6 +284255,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcPlanItemsInput = {
@@ -277804,6 +284389,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcPlanUpsertWithoutItemsInput = {
@@ -277968,6 +284556,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcInspectionsInput = {
@@ -278099,6 +284690,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcInspectionsInput = {
@@ -278276,6 +284870,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcInspectionsInput = {
@@ -278407,6 +285004,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcInspectionItemUpsertWithWhereUniqueWithoutInspectionInput = {
@@ -278554,6 +285154,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcInspectionItemsInput = {
@@ -278685,6 +285288,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcInspectionItemsInput = {
@@ -278867,6 +285473,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcInspectionItemsInput = {
@@ -278998,6 +285607,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcInspectionUpsertWithoutItemsInput = {
@@ -279170,6 +285782,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNcrsInput = {
@@ -279301,6 +285916,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNcrsInput = {
@@ -279448,6 +286066,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNcrsInput = {
@@ -279579,6 +286200,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutInvoicesInput = {
@@ -279710,6 +286334,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutInvoicesInput = {
@@ -279841,6 +286468,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutInvoicesInput = {
@@ -279877,6 +286507,38 @@ export namespace Prisma {
 
   export type PaymentCreateManyInvoiceInputEnvelope = {
     data: PaymentCreateManyInvoiceInput | PaymentCreateManyInvoiceInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type PaymentAllocationCreateWithoutInvoiceInput = {
+    id?: string
+    allocationKey: string
+    paymentId?: string | null
+    amount: Decimal | DecimalJsLike | number | string
+    createdBy?: string | null
+    createdAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutPaymentAllocationsInput
+    line: BankStatementLineCreateNestedOneWithoutAllocationsInput
+  }
+
+  export type PaymentAllocationUncheckedCreateWithoutInvoiceInput = {
+    id?: string
+    tenantId: string
+    allocationKey: string
+    statementLineId: string
+    paymentId?: string | null
+    amount: Decimal | DecimalJsLike | number | string
+    createdBy?: string | null
+    createdAt?: Date | string
+  }
+
+  export type PaymentAllocationCreateOrConnectWithoutInvoiceInput = {
+    where: PaymentAllocationWhereUniqueInput
+    create: XOR<PaymentAllocationCreateWithoutInvoiceInput, PaymentAllocationUncheckedCreateWithoutInvoiceInput>
+  }
+
+  export type PaymentAllocationCreateManyInvoiceInputEnvelope = {
+    data: PaymentAllocationCreateManyInvoiceInput | PaymentAllocationCreateManyInvoiceInput[]
     skipDuplicates?: boolean
   }
 
@@ -280020,6 +286682,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutInvoicesInput = {
@@ -280151,6 +286816,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PaymentUpsertWithWhereUniqueWithoutInvoiceInput = {
@@ -280167,6 +286835,22 @@ export namespace Prisma {
   export type PaymentUpdateManyWithWhereWithoutInvoiceInput = {
     where: PaymentScalarWhereInput
     data: XOR<PaymentUpdateManyMutationInput, PaymentUncheckedUpdateManyWithoutInvoiceInput>
+  }
+
+  export type PaymentAllocationUpsertWithWhereUniqueWithoutInvoiceInput = {
+    where: PaymentAllocationWhereUniqueInput
+    update: XOR<PaymentAllocationUpdateWithoutInvoiceInput, PaymentAllocationUncheckedUpdateWithoutInvoiceInput>
+    create: XOR<PaymentAllocationCreateWithoutInvoiceInput, PaymentAllocationUncheckedCreateWithoutInvoiceInput>
+  }
+
+  export type PaymentAllocationUpdateWithWhereUniqueWithoutInvoiceInput = {
+    where: PaymentAllocationWhereUniqueInput
+    data: XOR<PaymentAllocationUpdateWithoutInvoiceInput, PaymentAllocationUncheckedUpdateWithoutInvoiceInput>
+  }
+
+  export type PaymentAllocationUpdateManyWithWhereWithoutInvoiceInput = {
+    where: PaymentAllocationScalarWhereInput
+    data: XOR<PaymentAllocationUpdateManyMutationInput, PaymentAllocationUncheckedUpdateManyWithoutInvoiceInput>
   }
 
   export type TenantCreateWithoutPaymentsInput = {
@@ -280298,6 +286982,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPaymentsInput = {
@@ -280429,6 +287116,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPaymentsInput = {
@@ -280454,6 +287144,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     tenant: TenantCreateNestedOneWithoutInvoicesInput
+    allocations?: PaymentAllocationCreateNestedManyWithoutInvoiceInput
   }
 
   export type InvoiceUncheckedCreateWithoutPaymentsInput = {
@@ -280474,6 +287165,7 @@ export namespace Prisma {
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    allocations?: PaymentAllocationUncheckedCreateNestedManyWithoutInvoiceInput
   }
 
   export type InvoiceCreateOrConnectWithoutPaymentsInput = {
@@ -280621,6 +287313,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPaymentsInput = {
@@ -280752,6 +287447,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type InvoiceUpsertWithoutPaymentsInput = {
@@ -280783,6 +287481,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: TenantUpdateOneRequiredWithoutInvoicesNestedInput
+    allocations?: PaymentAllocationUpdateManyWithoutInvoiceNestedInput
   }
 
   export type InvoiceUncheckedUpdateWithoutPaymentsInput = {
@@ -280803,6 +287502,7 @@ export namespace Prisma {
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    allocations?: PaymentAllocationUncheckedUpdateManyWithoutInvoiceNestedInput
   }
 
   export type TenantCreateWithoutPortalUsersInput = {
@@ -280934,6 +287634,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPortalUsersInput = {
@@ -281065,6 +287768,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPortalUsersInput = {
@@ -281212,6 +287918,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPortalUsersInput = {
@@ -281343,6 +288052,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCommentsInput = {
@@ -281474,6 +288186,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCommentsInput = {
@@ -281605,6 +288320,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCommentsInput = {
@@ -281752,6 +288470,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCommentsInput = {
@@ -281883,6 +288604,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutAttachmentsInput = {
@@ -282014,6 +288738,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAttachmentsInput = {
@@ -282145,6 +288872,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAttachmentsInput = {
@@ -282309,6 +289039,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAttachmentsInput = {
@@ -282440,6 +289173,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type AttachmentBlobUpsertWithoutAttachmentInput = {
@@ -282594,6 +289330,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAttachmentBlobsInput = {
@@ -282725,6 +289464,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAttachmentBlobsInput = {
@@ -282903,6 +289645,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAttachmentBlobsInput = {
@@ -283034,6 +289779,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type AttachmentUpsertWithoutBlobInput = {
@@ -283202,6 +289950,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNumberSequencesInput = {
@@ -283333,6 +290084,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNumberSequencesInput = {
@@ -283480,6 +290234,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNumberSequencesInput = {
@@ -283611,6 +290368,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutExchangeRatesInput = {
@@ -283742,6 +290502,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutExchangeRatesInput = {
@@ -283873,6 +290636,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutExchangeRatesInput = {
@@ -284020,6 +290786,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutExchangeRatesInput = {
@@ -284151,6 +290920,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCostCentersInput = {
@@ -284282,6 +291054,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCostCentersInput = {
@@ -284413,6 +291188,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCostCentersInput = {
@@ -284588,6 +291366,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCostCentersInput = {
@@ -284719,6 +291500,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BudgetUpsertWithWhereUniqueWithoutCostCenterInput = {
@@ -284866,6 +291650,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBudgetsInput = {
@@ -284997,6 +291784,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBudgetsInput = {
@@ -285167,6 +291957,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBudgetsInput = {
@@ -285298,6 +292091,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type CostCenterUpsertWithoutBudgetsInput = {
@@ -285458,6 +292254,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWebhookSubscriptionsInput = {
@@ -285589,6 +292388,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWebhookSubscriptionsInput = {
@@ -285774,6 +292576,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWebhookSubscriptionsInput = {
@@ -285905,6 +292710,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WebhookDeliveryUpsertWithWhereUniqueWithoutSubscriptionInput = {
@@ -286052,6 +292860,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWebhookDeliveriesInput = {
@@ -286183,6 +292994,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWebhookDeliveriesInput = {
@@ -286357,6 +293171,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWebhookDeliveriesInput = {
@@ -286488,6 +293305,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WebhookSubscriptionUpsertWithoutDeliveriesInput = {
@@ -286652,6 +293472,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutApiKeysInput = {
@@ -286783,6 +293606,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutApiKeysInput = {
@@ -286930,6 +293756,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutApiKeysInput = {
@@ -287061,6 +293890,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSecurityEventsInput = {
@@ -287192,6 +294024,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSecurityEventsInput = {
@@ -287323,6 +294158,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSecurityEventsInput = {
@@ -287470,6 +294308,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSecurityEventsInput = {
@@ -287601,6 +294442,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutProductCategoriesInput = {
@@ -287732,6 +294576,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProductCategoriesInput = {
@@ -287863,6 +294710,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProductCategoriesInput = {
@@ -288061,6 +294911,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProductCategoriesInput = {
@@ -288192,6 +295045,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ProductCategoryUpsertWithoutChildrenInput = {
@@ -288368,6 +295224,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutReturnOrdersInput = {
@@ -288499,6 +295358,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutReturnOrdersInput = {
@@ -288674,6 +295536,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutReturnOrdersInput = {
@@ -288805,6 +295670,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ReturnOrderLineUpsertWithWhereUniqueWithoutReturnOrderInput = {
@@ -288952,6 +295820,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutReturnOrderLinesInput = {
@@ -289083,6 +295954,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutReturnOrderLinesInput = {
@@ -289265,6 +296139,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutReturnOrderLinesInput = {
@@ -289396,6 +296273,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ReturnOrderUpsertWithoutLinesInput = {
@@ -289568,6 +296448,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockCountsInput = {
@@ -289699,6 +296582,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockCountsInput = {
@@ -289872,6 +296758,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockCountsInput = {
@@ -290003,6 +296892,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type StockCountLineUpsertWithWhereUniqueWithoutCountInput = {
@@ -290150,6 +297042,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockCountLinesInput = {
@@ -290281,6 +297176,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockCountLinesInput = {
@@ -290461,6 +297359,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockCountLinesInput = {
@@ -290592,6 +297493,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type StockCountUpsertWithoutLinesInput = {
@@ -290762,6 +297666,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkCentersInput = {
@@ -290893,6 +297800,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkCentersInput = {
@@ -291072,6 +297982,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkCentersInput = {
@@ -291203,6 +298116,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type DowntimeEventUpsertWithWhereUniqueWithoutWorkCenterInput = {
@@ -291350,6 +298266,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDowntimeEventsInput = {
@@ -291481,6 +298400,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDowntimeEventsInput = {
@@ -291651,6 +298573,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDowntimeEventsInput = {
@@ -291782,6 +298707,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkCenterUpsertWithoutDowntimesInput = {
@@ -291942,6 +298870,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPromotionsInput = {
@@ -292073,6 +299004,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPromotionsInput = {
@@ -292246,6 +299180,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPromotionsInput = {
@@ -292377,6 +299314,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PromotionRedemptionUpsertWithWhereUniqueWithoutPromotionInput = {
@@ -292988,6 +299928,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBreakGlassGrantsInput = {
@@ -293119,6 +300062,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBreakGlassGrantsInput = {
@@ -293297,6 +300243,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBreakGlassGrantsInput = {
@@ -293428,6 +300377,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserUpsertWithoutBreakGlassGrantsInput = {
@@ -293596,6 +300548,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutMasterDataRequestsInput = {
@@ -293727,6 +300682,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutMasterDataRequestsInput = {
@@ -293874,6 +300832,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutMasterDataRequestsInput = {
@@ -294005,6 +300966,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutLoyaltyAccountsInput = {
@@ -294136,6 +301100,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLoyaltyAccountsInput = {
@@ -294267,6 +301234,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLoyaltyAccountsInput = {
@@ -294444,6 +301414,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLoyaltyAccountsInput = {
@@ -294575,6 +301548,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type LoyaltyTransactionUpsertWithWhereUniqueWithoutLoyaltyAccountInput = {
@@ -294788,6 +301764,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSupportCasesInput = {
@@ -294919,6 +301898,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSupportCasesInput = {
@@ -295066,6 +302048,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSupportCasesInput = {
@@ -295197,6 +302182,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutContractsInput = {
@@ -295328,6 +302316,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutContractsInput = {
@@ -295459,6 +302450,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutContractsInput = {
@@ -295645,6 +302639,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutContractsInput = {
@@ -295776,6 +302773,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PartyUpsertWithoutContractsInput = {
@@ -295952,6 +302952,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutEmployeesInput = {
@@ -296083,6 +303086,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutEmployeesInput = {
@@ -296230,6 +303236,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutEmployeesInput = {
@@ -296361,6 +303370,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutAssetsInput = {
@@ -296492,6 +303504,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAssetsInput = {
@@ -296623,6 +303638,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAssetsInput = {
@@ -296770,6 +303788,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAssetsInput = {
@@ -296901,6 +303922,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutQuarantineHoldsInput = {
@@ -297032,6 +304056,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQuarantineHoldsInput = {
@@ -297163,6 +304190,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQuarantineHoldsInput = {
@@ -297310,6 +304340,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQuarantineHoldsInput = {
@@ -297441,6 +304474,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutRfqsInput = {
@@ -297572,6 +304608,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRfqsInput = {
@@ -297703,6 +304742,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRfqsInput = {
@@ -297880,6 +304922,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRfqsInput = {
@@ -298011,6 +305056,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RfqQuoteUpsertWithWhereUniqueWithoutRfqInput = {
@@ -298244,6 +305292,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPackagesInput = {
@@ -298375,6 +305426,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPackagesInput = {
@@ -298591,6 +305645,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPackagesInput = {
@@ -298722,6 +305779,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesOrderUpsertWithoutPackagesInput = {
@@ -298999,6 +306059,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLandedCostsInput = {
@@ -299130,6 +306193,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLandedCostsInput = {
@@ -299318,6 +306384,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLandedCostsInput = {
@@ -299449,6 +306518,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseOrderUpsertWithoutLandedCostsInput = {
@@ -299627,6 +306699,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCustomObjectDefinitionsInput = {
@@ -299758,6 +306833,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCustomObjectDefinitionsInput = {
@@ -299933,6 +307011,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCustomObjectDefinitionsInput = {
@@ -300064,6 +307145,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type CustomObjectRecordUpsertWithWhereUniqueWithoutDefinitionInput = {
@@ -300288,6 +307372,9 @@ export namespace Prisma {
     glSystemAccounts?: GlSystemAccountCreateNestedManyWithoutTenantInput
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutFrameworkAgreementsInput = {
@@ -300419,6 +307506,9 @@ export namespace Prisma {
     glSystemAccounts?: GlSystemAccountUncheckedCreateNestedManyWithoutTenantInput
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutFrameworkAgreementsInput = {
@@ -300566,6 +307656,9 @@ export namespace Prisma {
     glSystemAccounts?: GlSystemAccountUpdateManyWithoutTenantNestedInput
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutFrameworkAgreementsInput = {
@@ -300697,6 +307790,9 @@ export namespace Prisma {
     glSystemAccounts?: GlSystemAccountUncheckedUpdateManyWithoutTenantNestedInput
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSkuChannelContentsInput = {
@@ -300828,6 +307924,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSkuChannelContentsInput = {
@@ -300959,6 +308058,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSkuChannelContentsInput = {
@@ -301165,6 +308267,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSkuChannelContentsInput = {
@@ -301296,6 +308401,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SkuUpsertWithoutChannelContentsInput = {
@@ -301492,6 +308600,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutContainersInput = {
@@ -301623,6 +308734,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutContainersInput = {
@@ -301811,6 +308925,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutContainersInput = {
@@ -301942,6 +309059,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseOrderUpsertWithoutContainersInput = {
@@ -302120,6 +309240,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPosSessionsInput = {
@@ -302251,6 +309374,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPosSessionsInput = {
@@ -302398,6 +309524,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPosSessionsInput = {
@@ -302529,6 +309658,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutVehiclesInput = {
@@ -302660,6 +309792,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutVehiclesInput = {
@@ -302791,6 +309926,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutVehiclesInput = {
@@ -302988,6 +310126,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutVehiclesInput = {
@@ -303119,6 +310260,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ShipmentUpsertWithWhereUniqueWithoutVehicleInput = {
@@ -303266,6 +310410,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDriversInput = {
@@ -303397,6 +310544,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDriversInput = {
@@ -303594,6 +310744,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDriversInput = {
@@ -303725,6 +310878,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ShipmentUpsertWithWhereUniqueWithoutDriverInput = {
@@ -303872,6 +311028,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutShipmentsInput = {
@@ -304003,6 +311162,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutShipmentsInput = {
@@ -304238,6 +311400,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutShipmentsInput = {
@@ -304369,6 +311534,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type VehicleUpsertWithoutShipmentsInput = {
@@ -304580,6 +311748,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutShipmentStopsInput = {
@@ -304711,6 +311882,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutShipmentStopsInput = {
@@ -304903,6 +312077,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutShipmentStopsInput = {
@@ -305034,6 +312211,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ShipmentUpsertWithoutStopsInput = {
@@ -305216,6 +312396,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDockAppointmentsInput = {
@@ -305347,6 +312530,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDockAppointmentsInput = {
@@ -305515,6 +312701,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDockAppointmentsInput = {
@@ -305646,6 +312835,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WarehouseUpsertWithoutDockAppointmentsInput = {
@@ -305804,6 +312996,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutInstalledAssetsInput = {
@@ -305935,6 +313130,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutInstalledAssetsInput = {
@@ -306170,6 +313368,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutInstalledAssetsInput = {
@@ -306301,6 +313502,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ServiceRequestUpsertWithWhereUniqueWithoutInstalledAssetInput = {
@@ -306464,6 +313668,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutServiceRequestsInput = {
@@ -306595,6 +313802,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutServiceRequestsInput = {
@@ -306827,6 +314037,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutServiceRequestsInput = {
@@ -306958,6 +314171,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type InstalledAssetUpsertWithoutServiceRequestsInput = {
@@ -307148,6 +314364,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutServiceOrdersInput = {
@@ -307279,6 +314498,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutServiceOrdersInput = {
@@ -307524,6 +314746,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutServiceOrdersInput = {
@@ -307655,6 +314880,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ServiceRequestUpsertWithoutServiceOrdersInput = {
@@ -307886,6 +315114,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutServiceOrderPartsInput = {
@@ -308017,6 +315248,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutServiceOrderPartsInput = {
@@ -308207,6 +315441,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutServiceOrderPartsInput = {
@@ -308338,6 +315575,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ServiceOrderUpsertWithoutPartsInput = {
@@ -308518,6 +315758,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRmasInput = {
@@ -308649,6 +315892,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRmasInput = {
@@ -308796,6 +316042,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRmasInput = {
@@ -308927,6 +316176,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutGlAccountsInput = {
@@ -309058,6 +316310,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutGlAccountsInput = {
@@ -309189,6 +316444,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutGlAccountsInput = {
@@ -309366,6 +316624,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutGlAccountsInput = {
@@ -309497,6 +316758,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type GlJournalLineUpsertWithWhereUniqueWithoutAccountInput = {
@@ -309644,6 +316908,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutGlJournalEntriesInput = {
@@ -309775,6 +317042,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutGlJournalEntriesInput = {
@@ -309952,6 +317222,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutGlJournalEntriesInput = {
@@ -310083,6 +317356,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type GlJournalLineUpsertWithWhereUniqueWithoutEntryInput = {
@@ -310230,6 +317506,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutGlJournalLinesInput = {
@@ -310361,6 +317640,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutGlJournalLinesInput = {
@@ -310578,6 +317860,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutGlJournalLinesInput = {
@@ -310709,6 +317994,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type GlJournalEntryUpsertWithoutLinesInput = {
@@ -310922,6 +318210,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutGlSystemAccountsInput = {
@@ -311053,6 +318344,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutGlSystemAccountsInput = {
@@ -311200,6 +318494,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutGlSystemAccountsInput = {
@@ -311331,6 +318628,9 @@ export namespace Prisma {
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutGlOpeningBalanceDatesInput = {
@@ -311462,6 +318762,9 @@ export namespace Prisma {
     glSystemAccounts?: GlSystemAccountCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutGlOpeningBalanceDatesInput = {
@@ -311593,6 +318896,9 @@ export namespace Prisma {
     glSystemAccounts?: GlSystemAccountUncheckedCreateNestedManyWithoutTenantInput
     glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutGlOpeningBalanceDatesInput = {
@@ -311740,6 +319046,9 @@ export namespace Prisma {
     glSystemAccounts?: GlSystemAccountUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutGlOpeningBalanceDatesInput = {
@@ -311871,6 +319180,9 @@ export namespace Prisma {
     glSystemAccounts?: GlSystemAccountUncheckedUpdateManyWithoutTenantNestedInput
     glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutGlPeriodLocksInput = {
@@ -312002,6 +319314,9 @@ export namespace Prisma {
     glSystemAccounts?: GlSystemAccountCreateNestedManyWithoutTenantInput
     glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutGlPeriodLocksInput = {
@@ -312133,6 +319448,9 @@ export namespace Prisma {
     glSystemAccounts?: GlSystemAccountUncheckedCreateNestedManyWithoutTenantInput
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
     frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutGlPeriodLocksInput = {
@@ -312280,6 +319598,9 @@ export namespace Prisma {
     glSystemAccounts?: GlSystemAccountUpdateManyWithoutTenantNestedInput
     glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutGlPeriodLocksInput = {
@@ -312411,6 +319732,2041 @@ export namespace Prisma {
     glSystemAccounts?: GlSystemAccountUncheckedUpdateManyWithoutTenantNestedInput
     glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
     frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantCreateWithoutBankStatementsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    factories?: FactoryCreateNestedManyWithoutTenantInput
+    users?: UserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionCreateNestedManyWithoutTenantInput
+    tasks?: TaskCreateNestedManyWithoutTenantInput
+    notifications?: NotificationCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    products?: ProductCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountCreateNestedManyWithoutTenantInput
+    leads?: LeadCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryCreateNestedManyWithoutTenantInput
+    quotes?: QuoteCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
+    comments?: CommentCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
+    exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
+    breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
+    masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
+    supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
+    employees?: EmployeeCreateNestedManyWithoutTenantInput
+    assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
+    rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
+    containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
+    installedAssets?: InstalledAssetCreateNestedManyWithoutTenantInput
+    serviceRequests?: ServiceRequestCreateNestedManyWithoutTenantInput
+    serviceOrders?: ServiceOrderCreateNestedManyWithoutTenantInput
+    serviceOrderParts?: ServiceOrderPartCreateNestedManyWithoutTenantInput
+    rmas?: RmaCreateNestedManyWithoutTenantInput
+    glAccounts?: GlAccountCreateNestedManyWithoutTenantInput
+    glJournalEntries?: GlJournalEntryCreateNestedManyWithoutTenantInput
+    glJournalLines?: GlJournalLineCreateNestedManyWithoutTenantInput
+    glSystemAccounts?: GlSystemAccountCreateNestedManyWithoutTenantInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
+    glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutBankStatementsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityUncheckedCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    factories?: FactoryUncheckedCreateNestedManyWithoutTenantInput
+    users?: UserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventUncheckedCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventUncheckedCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryUncheckedCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationUncheckedCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutTenantInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalUncheckedCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventUncheckedCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    products?: ProductUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountUncheckedCreateNestedManyWithoutTenantInput
+    leads?: LeadUncheckedCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityUncheckedCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityUncheckedCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListUncheckedCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryUncheckedCreateNestedManyWithoutTenantInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineUncheckedCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderUncheckedCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventUncheckedCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierUncheckedCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
+    comments?: CommentUncheckedCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderUncheckedCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
+    exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
+    breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
+    masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
+    supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
+    employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
+    assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
+    rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
+    containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
+    installedAssets?: InstalledAssetUncheckedCreateNestedManyWithoutTenantInput
+    serviceRequests?: ServiceRequestUncheckedCreateNestedManyWithoutTenantInput
+    serviceOrders?: ServiceOrderUncheckedCreateNestedManyWithoutTenantInput
+    serviceOrderParts?: ServiceOrderPartUncheckedCreateNestedManyWithoutTenantInput
+    rmas?: RmaUncheckedCreateNestedManyWithoutTenantInput
+    glAccounts?: GlAccountUncheckedCreateNestedManyWithoutTenantInput
+    glJournalEntries?: GlJournalEntryUncheckedCreateNestedManyWithoutTenantInput
+    glJournalLines?: GlJournalLineUncheckedCreateNestedManyWithoutTenantInput
+    glSystemAccounts?: GlSystemAccountUncheckedCreateNestedManyWithoutTenantInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
+    glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutBankStatementsInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutBankStatementsInput, TenantUncheckedCreateWithoutBankStatementsInput>
+  }
+
+  export type BankStatementLineCreateWithoutStatementInput = {
+    id?: string
+    seq: number
+    bookingDate: Date | string
+    description: string
+    reference?: string | null
+    counterpartyName?: string | null
+    counterpartyAccount?: string | null
+    amount: Decimal | DecimalJsLike | number | string
+    allocatedAmount?: Decimal | DecimalJsLike | number | string
+    status?: $Enums.BankStatementLineStatus
+    tenant: TenantCreateNestedOneWithoutBankStatementLinesInput
+    allocations?: PaymentAllocationCreateNestedManyWithoutLineInput
+  }
+
+  export type BankStatementLineUncheckedCreateWithoutStatementInput = {
+    id?: string
+    tenantId: string
+    seq: number
+    bookingDate: Date | string
+    description: string
+    reference?: string | null
+    counterpartyName?: string | null
+    counterpartyAccount?: string | null
+    amount: Decimal | DecimalJsLike | number | string
+    allocatedAmount?: Decimal | DecimalJsLike | number | string
+    status?: $Enums.BankStatementLineStatus
+    allocations?: PaymentAllocationUncheckedCreateNestedManyWithoutLineInput
+  }
+
+  export type BankStatementLineCreateOrConnectWithoutStatementInput = {
+    where: BankStatementLineWhereUniqueInput
+    create: XOR<BankStatementLineCreateWithoutStatementInput, BankStatementLineUncheckedCreateWithoutStatementInput>
+  }
+
+  export type BankStatementLineCreateManyStatementInputEnvelope = {
+    data: BankStatementLineCreateManyStatementInput | BankStatementLineCreateManyStatementInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TenantUpsertWithoutBankStatementsInput = {
+    update: XOR<TenantUpdateWithoutBankStatementsInput, TenantUncheckedUpdateWithoutBankStatementsInput>
+    create: XOR<TenantCreateWithoutBankStatementsInput, TenantUncheckedCreateWithoutBankStatementsInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutBankStatementsInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutBankStatementsInput, TenantUncheckedUpdateWithoutBankStatementsInput>
+  }
+
+  export type TenantUpdateWithoutBankStatementsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUpdateManyWithoutTenantNestedInput
+    users?: UserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    products?: ProductUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUpdateManyWithoutTenantNestedInput
+    leads?: LeadUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
+    comments?: CommentUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
+    exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
+    breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
+    masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
+    supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
+    employees?: EmployeeUpdateManyWithoutTenantNestedInput
+    assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
+    rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
+    containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
+    installedAssets?: InstalledAssetUpdateManyWithoutTenantNestedInput
+    serviceRequests?: ServiceRequestUpdateManyWithoutTenantNestedInput
+    serviceOrders?: ServiceOrderUpdateManyWithoutTenantNestedInput
+    serviceOrderParts?: ServiceOrderPartUpdateManyWithoutTenantNestedInput
+    rmas?: RmaUpdateManyWithoutTenantNestedInput
+    glAccounts?: GlAccountUpdateManyWithoutTenantNestedInput
+    glJournalEntries?: GlJournalEntryUpdateManyWithoutTenantNestedInput
+    glJournalLines?: GlJournalLineUpdateManyWithoutTenantNestedInput
+    glSystemAccounts?: GlSystemAccountUpdateManyWithoutTenantNestedInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
+    glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutBankStatementsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUncheckedUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUncheckedUpdateManyWithoutTenantNestedInput
+    users?: UserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUncheckedUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUncheckedUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUncheckedUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUncheckedUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUncheckedUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUncheckedUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    products?: ProductUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUncheckedUpdateManyWithoutTenantNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUncheckedUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUncheckedUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUncheckedUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUncheckedUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUncheckedUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
+    exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
+    breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
+    masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
+    supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
+    employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
+    assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
+    rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
+    containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
+    installedAssets?: InstalledAssetUncheckedUpdateManyWithoutTenantNestedInput
+    serviceRequests?: ServiceRequestUncheckedUpdateManyWithoutTenantNestedInput
+    serviceOrders?: ServiceOrderUncheckedUpdateManyWithoutTenantNestedInput
+    serviceOrderParts?: ServiceOrderPartUncheckedUpdateManyWithoutTenantNestedInput
+    rmas?: RmaUncheckedUpdateManyWithoutTenantNestedInput
+    glAccounts?: GlAccountUncheckedUpdateManyWithoutTenantNestedInput
+    glJournalEntries?: GlJournalEntryUncheckedUpdateManyWithoutTenantNestedInput
+    glJournalLines?: GlJournalLineUncheckedUpdateManyWithoutTenantNestedInput
+    glSystemAccounts?: GlSystemAccountUncheckedUpdateManyWithoutTenantNestedInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
+    glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type BankStatementLineUpsertWithWhereUniqueWithoutStatementInput = {
+    where: BankStatementLineWhereUniqueInput
+    update: XOR<BankStatementLineUpdateWithoutStatementInput, BankStatementLineUncheckedUpdateWithoutStatementInput>
+    create: XOR<BankStatementLineCreateWithoutStatementInput, BankStatementLineUncheckedCreateWithoutStatementInput>
+  }
+
+  export type BankStatementLineUpdateWithWhereUniqueWithoutStatementInput = {
+    where: BankStatementLineWhereUniqueInput
+    data: XOR<BankStatementLineUpdateWithoutStatementInput, BankStatementLineUncheckedUpdateWithoutStatementInput>
+  }
+
+  export type BankStatementLineUpdateManyWithWhereWithoutStatementInput = {
+    where: BankStatementLineScalarWhereInput
+    data: XOR<BankStatementLineUpdateManyMutationInput, BankStatementLineUncheckedUpdateManyWithoutStatementInput>
+  }
+
+  export type TenantCreateWithoutBankStatementLinesInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    factories?: FactoryCreateNestedManyWithoutTenantInput
+    users?: UserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionCreateNestedManyWithoutTenantInput
+    tasks?: TaskCreateNestedManyWithoutTenantInput
+    notifications?: NotificationCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    products?: ProductCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountCreateNestedManyWithoutTenantInput
+    leads?: LeadCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryCreateNestedManyWithoutTenantInput
+    quotes?: QuoteCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
+    comments?: CommentCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
+    exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
+    breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
+    masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
+    supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
+    employees?: EmployeeCreateNestedManyWithoutTenantInput
+    assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
+    rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
+    containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
+    installedAssets?: InstalledAssetCreateNestedManyWithoutTenantInput
+    serviceRequests?: ServiceRequestCreateNestedManyWithoutTenantInput
+    serviceOrders?: ServiceOrderCreateNestedManyWithoutTenantInput
+    serviceOrderParts?: ServiceOrderPartCreateNestedManyWithoutTenantInput
+    rmas?: RmaCreateNestedManyWithoutTenantInput
+    glAccounts?: GlAccountCreateNestedManyWithoutTenantInput
+    glJournalEntries?: GlJournalEntryCreateNestedManyWithoutTenantInput
+    glJournalLines?: GlJournalLineCreateNestedManyWithoutTenantInput
+    glSystemAccounts?: GlSystemAccountCreateNestedManyWithoutTenantInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
+    glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutBankStatementLinesInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityUncheckedCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    factories?: FactoryUncheckedCreateNestedManyWithoutTenantInput
+    users?: UserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventUncheckedCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventUncheckedCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryUncheckedCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationUncheckedCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutTenantInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalUncheckedCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventUncheckedCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    products?: ProductUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountUncheckedCreateNestedManyWithoutTenantInput
+    leads?: LeadUncheckedCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityUncheckedCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityUncheckedCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListUncheckedCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryUncheckedCreateNestedManyWithoutTenantInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineUncheckedCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderUncheckedCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventUncheckedCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierUncheckedCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
+    comments?: CommentUncheckedCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderUncheckedCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
+    exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
+    breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
+    masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
+    supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
+    employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
+    assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
+    rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
+    containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
+    installedAssets?: InstalledAssetUncheckedCreateNestedManyWithoutTenantInput
+    serviceRequests?: ServiceRequestUncheckedCreateNestedManyWithoutTenantInput
+    serviceOrders?: ServiceOrderUncheckedCreateNestedManyWithoutTenantInput
+    serviceOrderParts?: ServiceOrderPartUncheckedCreateNestedManyWithoutTenantInput
+    rmas?: RmaUncheckedCreateNestedManyWithoutTenantInput
+    glAccounts?: GlAccountUncheckedCreateNestedManyWithoutTenantInput
+    glJournalEntries?: GlJournalEntryUncheckedCreateNestedManyWithoutTenantInput
+    glJournalLines?: GlJournalLineUncheckedCreateNestedManyWithoutTenantInput
+    glSystemAccounts?: GlSystemAccountUncheckedCreateNestedManyWithoutTenantInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
+    glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutBankStatementLinesInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutBankStatementLinesInput, TenantUncheckedCreateWithoutBankStatementLinesInput>
+  }
+
+  export type BankStatementCreateWithoutLinesInput = {
+    id?: string
+    legalEntityId: string
+    statementNumber: string
+    bankAccount: string
+    statementDate: Date | string
+    currency: string
+    openingBalance: Decimal | DecimalJsLike | number | string
+    closingBalance: Decimal | DecimalJsLike | number | string
+    lineCount: number
+    status?: $Enums.BankStatementStatus
+    source?: string
+    confirmedAt?: Date | string | null
+    confirmedBy?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutBankStatementsInput
+  }
+
+  export type BankStatementUncheckedCreateWithoutLinesInput = {
+    id?: string
+    tenantId: string
+    legalEntityId: string
+    statementNumber: string
+    bankAccount: string
+    statementDate: Date | string
+    currency: string
+    openingBalance: Decimal | DecimalJsLike | number | string
+    closingBalance: Decimal | DecimalJsLike | number | string
+    lineCount: number
+    status?: $Enums.BankStatementStatus
+    source?: string
+    confirmedAt?: Date | string | null
+    confirmedBy?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BankStatementCreateOrConnectWithoutLinesInput = {
+    where: BankStatementWhereUniqueInput
+    create: XOR<BankStatementCreateWithoutLinesInput, BankStatementUncheckedCreateWithoutLinesInput>
+  }
+
+  export type PaymentAllocationCreateWithoutLineInput = {
+    id?: string
+    allocationKey: string
+    paymentId?: string | null
+    amount: Decimal | DecimalJsLike | number | string
+    createdBy?: string | null
+    createdAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutPaymentAllocationsInput
+    invoice: InvoiceCreateNestedOneWithoutAllocationsInput
+  }
+
+  export type PaymentAllocationUncheckedCreateWithoutLineInput = {
+    id?: string
+    tenantId: string
+    allocationKey: string
+    invoiceId: string
+    paymentId?: string | null
+    amount: Decimal | DecimalJsLike | number | string
+    createdBy?: string | null
+    createdAt?: Date | string
+  }
+
+  export type PaymentAllocationCreateOrConnectWithoutLineInput = {
+    where: PaymentAllocationWhereUniqueInput
+    create: XOR<PaymentAllocationCreateWithoutLineInput, PaymentAllocationUncheckedCreateWithoutLineInput>
+  }
+
+  export type PaymentAllocationCreateManyLineInputEnvelope = {
+    data: PaymentAllocationCreateManyLineInput | PaymentAllocationCreateManyLineInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TenantUpsertWithoutBankStatementLinesInput = {
+    update: XOR<TenantUpdateWithoutBankStatementLinesInput, TenantUncheckedUpdateWithoutBankStatementLinesInput>
+    create: XOR<TenantCreateWithoutBankStatementLinesInput, TenantUncheckedCreateWithoutBankStatementLinesInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutBankStatementLinesInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutBankStatementLinesInput, TenantUncheckedUpdateWithoutBankStatementLinesInput>
+  }
+
+  export type TenantUpdateWithoutBankStatementLinesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUpdateManyWithoutTenantNestedInput
+    users?: UserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    products?: ProductUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUpdateManyWithoutTenantNestedInput
+    leads?: LeadUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
+    comments?: CommentUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
+    exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
+    breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
+    masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
+    supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
+    employees?: EmployeeUpdateManyWithoutTenantNestedInput
+    assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
+    rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
+    containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
+    installedAssets?: InstalledAssetUpdateManyWithoutTenantNestedInput
+    serviceRequests?: ServiceRequestUpdateManyWithoutTenantNestedInput
+    serviceOrders?: ServiceOrderUpdateManyWithoutTenantNestedInput
+    serviceOrderParts?: ServiceOrderPartUpdateManyWithoutTenantNestedInput
+    rmas?: RmaUpdateManyWithoutTenantNestedInput
+    glAccounts?: GlAccountUpdateManyWithoutTenantNestedInput
+    glJournalEntries?: GlJournalEntryUpdateManyWithoutTenantNestedInput
+    glJournalLines?: GlJournalLineUpdateManyWithoutTenantNestedInput
+    glSystemAccounts?: GlSystemAccountUpdateManyWithoutTenantNestedInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
+    glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutBankStatementLinesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUncheckedUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUncheckedUpdateManyWithoutTenantNestedInput
+    users?: UserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUncheckedUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUncheckedUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUncheckedUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUncheckedUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUncheckedUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUncheckedUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    products?: ProductUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUncheckedUpdateManyWithoutTenantNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUncheckedUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUncheckedUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUncheckedUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUncheckedUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUncheckedUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
+    exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
+    breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
+    masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
+    supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
+    employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
+    assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
+    rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
+    containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
+    installedAssets?: InstalledAssetUncheckedUpdateManyWithoutTenantNestedInput
+    serviceRequests?: ServiceRequestUncheckedUpdateManyWithoutTenantNestedInput
+    serviceOrders?: ServiceOrderUncheckedUpdateManyWithoutTenantNestedInput
+    serviceOrderParts?: ServiceOrderPartUncheckedUpdateManyWithoutTenantNestedInput
+    rmas?: RmaUncheckedUpdateManyWithoutTenantNestedInput
+    glAccounts?: GlAccountUncheckedUpdateManyWithoutTenantNestedInput
+    glJournalEntries?: GlJournalEntryUncheckedUpdateManyWithoutTenantNestedInput
+    glJournalLines?: GlJournalLineUncheckedUpdateManyWithoutTenantNestedInput
+    glSystemAccounts?: GlSystemAccountUncheckedUpdateManyWithoutTenantNestedInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
+    glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type BankStatementUpsertWithoutLinesInput = {
+    update: XOR<BankStatementUpdateWithoutLinesInput, BankStatementUncheckedUpdateWithoutLinesInput>
+    create: XOR<BankStatementCreateWithoutLinesInput, BankStatementUncheckedCreateWithoutLinesInput>
+    where?: BankStatementWhereInput
+  }
+
+  export type BankStatementUpdateToOneWithWhereWithoutLinesInput = {
+    where?: BankStatementWhereInput
+    data: XOR<BankStatementUpdateWithoutLinesInput, BankStatementUncheckedUpdateWithoutLinesInput>
+  }
+
+  export type BankStatementUpdateWithoutLinesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    legalEntityId?: StringFieldUpdateOperationsInput | string
+    statementNumber?: StringFieldUpdateOperationsInput | string
+    bankAccount?: StringFieldUpdateOperationsInput | string
+    statementDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    currency?: StringFieldUpdateOperationsInput | string
+    openingBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    closingBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    lineCount?: IntFieldUpdateOperationsInput | number
+    status?: EnumBankStatementStatusFieldUpdateOperationsInput | $Enums.BankStatementStatus
+    source?: StringFieldUpdateOperationsInput | string
+    confirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    confirmedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutBankStatementsNestedInput
+  }
+
+  export type BankStatementUncheckedUpdateWithoutLinesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    legalEntityId?: StringFieldUpdateOperationsInput | string
+    statementNumber?: StringFieldUpdateOperationsInput | string
+    bankAccount?: StringFieldUpdateOperationsInput | string
+    statementDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    currency?: StringFieldUpdateOperationsInput | string
+    openingBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    closingBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    lineCount?: IntFieldUpdateOperationsInput | number
+    status?: EnumBankStatementStatusFieldUpdateOperationsInput | $Enums.BankStatementStatus
+    source?: StringFieldUpdateOperationsInput | string
+    confirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    confirmedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PaymentAllocationUpsertWithWhereUniqueWithoutLineInput = {
+    where: PaymentAllocationWhereUniqueInput
+    update: XOR<PaymentAllocationUpdateWithoutLineInput, PaymentAllocationUncheckedUpdateWithoutLineInput>
+    create: XOR<PaymentAllocationCreateWithoutLineInput, PaymentAllocationUncheckedCreateWithoutLineInput>
+  }
+
+  export type PaymentAllocationUpdateWithWhereUniqueWithoutLineInput = {
+    where: PaymentAllocationWhereUniqueInput
+    data: XOR<PaymentAllocationUpdateWithoutLineInput, PaymentAllocationUncheckedUpdateWithoutLineInput>
+  }
+
+  export type PaymentAllocationUpdateManyWithWhereWithoutLineInput = {
+    where: PaymentAllocationScalarWhereInput
+    data: XOR<PaymentAllocationUpdateManyMutationInput, PaymentAllocationUncheckedUpdateManyWithoutLineInput>
+  }
+
+  export type TenantCreateWithoutPaymentAllocationsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    factories?: FactoryCreateNestedManyWithoutTenantInput
+    users?: UserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionCreateNestedManyWithoutTenantInput
+    tasks?: TaskCreateNestedManyWithoutTenantInput
+    notifications?: NotificationCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    products?: ProductCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountCreateNestedManyWithoutTenantInput
+    leads?: LeadCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryCreateNestedManyWithoutTenantInput
+    quotes?: QuoteCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
+    comments?: CommentCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
+    exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
+    breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
+    masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
+    supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
+    employees?: EmployeeCreateNestedManyWithoutTenantInput
+    assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
+    rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
+    containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
+    installedAssets?: InstalledAssetCreateNestedManyWithoutTenantInput
+    serviceRequests?: ServiceRequestCreateNestedManyWithoutTenantInput
+    serviceOrders?: ServiceOrderCreateNestedManyWithoutTenantInput
+    serviceOrderParts?: ServiceOrderPartCreateNestedManyWithoutTenantInput
+    rmas?: RmaCreateNestedManyWithoutTenantInput
+    glAccounts?: GlAccountCreateNestedManyWithoutTenantInput
+    glJournalEntries?: GlJournalEntryCreateNestedManyWithoutTenantInput
+    glJournalLines?: GlJournalLineCreateNestedManyWithoutTenantInput
+    glSystemAccounts?: GlSystemAccountCreateNestedManyWithoutTenantInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
+    glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutPaymentAllocationsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityUncheckedCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    factories?: FactoryUncheckedCreateNestedManyWithoutTenantInput
+    users?: UserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventUncheckedCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventUncheckedCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryUncheckedCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationUncheckedCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutTenantInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalUncheckedCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventUncheckedCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    products?: ProductUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountUncheckedCreateNestedManyWithoutTenantInput
+    leads?: LeadUncheckedCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityUncheckedCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityUncheckedCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListUncheckedCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryUncheckedCreateNestedManyWithoutTenantInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineUncheckedCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderUncheckedCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventUncheckedCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierUncheckedCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
+    comments?: CommentUncheckedCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderUncheckedCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
+    exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
+    breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
+    masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
+    supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
+    employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
+    assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
+    rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
+    containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
+    installedAssets?: InstalledAssetUncheckedCreateNestedManyWithoutTenantInput
+    serviceRequests?: ServiceRequestUncheckedCreateNestedManyWithoutTenantInput
+    serviceOrders?: ServiceOrderUncheckedCreateNestedManyWithoutTenantInput
+    serviceOrderParts?: ServiceOrderPartUncheckedCreateNestedManyWithoutTenantInput
+    rmas?: RmaUncheckedCreateNestedManyWithoutTenantInput
+    glAccounts?: GlAccountUncheckedCreateNestedManyWithoutTenantInput
+    glJournalEntries?: GlJournalEntryUncheckedCreateNestedManyWithoutTenantInput
+    glJournalLines?: GlJournalLineUncheckedCreateNestedManyWithoutTenantInput
+    glSystemAccounts?: GlSystemAccountUncheckedCreateNestedManyWithoutTenantInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
+    glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutPaymentAllocationsInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutPaymentAllocationsInput, TenantUncheckedCreateWithoutPaymentAllocationsInput>
+  }
+
+  export type BankStatementLineCreateWithoutAllocationsInput = {
+    id?: string
+    seq: number
+    bookingDate: Date | string
+    description: string
+    reference?: string | null
+    counterpartyName?: string | null
+    counterpartyAccount?: string | null
+    amount: Decimal | DecimalJsLike | number | string
+    allocatedAmount?: Decimal | DecimalJsLike | number | string
+    status?: $Enums.BankStatementLineStatus
+    tenant: TenantCreateNestedOneWithoutBankStatementLinesInput
+    statement: BankStatementCreateNestedOneWithoutLinesInput
+  }
+
+  export type BankStatementLineUncheckedCreateWithoutAllocationsInput = {
+    id?: string
+    tenantId: string
+    statementId: string
+    seq: number
+    bookingDate: Date | string
+    description: string
+    reference?: string | null
+    counterpartyName?: string | null
+    counterpartyAccount?: string | null
+    amount: Decimal | DecimalJsLike | number | string
+    allocatedAmount?: Decimal | DecimalJsLike | number | string
+    status?: $Enums.BankStatementLineStatus
+  }
+
+  export type BankStatementLineCreateOrConnectWithoutAllocationsInput = {
+    where: BankStatementLineWhereUniqueInput
+    create: XOR<BankStatementLineCreateWithoutAllocationsInput, BankStatementLineUncheckedCreateWithoutAllocationsInput>
+  }
+
+  export type InvoiceCreateWithoutAllocationsInput = {
+    id?: string
+    invoiceNumber: string
+    invoiceType: $Enums.InvoiceType
+    partyRefId: string
+    orderRefId: string
+    currency: string
+    total: Decimal | DecimalJsLike | number | string
+    paidAmount?: Decimal | DecimalJsLike | number | string
+    status?: $Enums.InvoiceStatus
+    issuedAt?: Date | string
+    dueAt?: Date | string | null
+    costCenterId?: string | null
+    dimensions?: NullableJsonNullValueInput | InputJsonValue
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutInvoicesInput
+    payments?: PaymentCreateNestedManyWithoutInvoiceInput
+  }
+
+  export type InvoiceUncheckedCreateWithoutAllocationsInput = {
+    id?: string
+    tenantId: string
+    invoiceNumber: string
+    invoiceType: $Enums.InvoiceType
+    partyRefId: string
+    orderRefId: string
+    currency: string
+    total: Decimal | DecimalJsLike | number | string
+    paidAmount?: Decimal | DecimalJsLike | number | string
+    status?: $Enums.InvoiceStatus
+    issuedAt?: Date | string
+    dueAt?: Date | string | null
+    costCenterId?: string | null
+    dimensions?: NullableJsonNullValueInput | InputJsonValue
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    payments?: PaymentUncheckedCreateNestedManyWithoutInvoiceInput
+  }
+
+  export type InvoiceCreateOrConnectWithoutAllocationsInput = {
+    where: InvoiceWhereUniqueInput
+    create: XOR<InvoiceCreateWithoutAllocationsInput, InvoiceUncheckedCreateWithoutAllocationsInput>
+  }
+
+  export type TenantUpsertWithoutPaymentAllocationsInput = {
+    update: XOR<TenantUpdateWithoutPaymentAllocationsInput, TenantUncheckedUpdateWithoutPaymentAllocationsInput>
+    create: XOR<TenantCreateWithoutPaymentAllocationsInput, TenantUncheckedCreateWithoutPaymentAllocationsInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutPaymentAllocationsInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutPaymentAllocationsInput, TenantUncheckedUpdateWithoutPaymentAllocationsInput>
+  }
+
+  export type TenantUpdateWithoutPaymentAllocationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUpdateManyWithoutTenantNestedInput
+    users?: UserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    products?: ProductUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUpdateManyWithoutTenantNestedInput
+    leads?: LeadUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
+    comments?: CommentUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
+    exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
+    breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
+    masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
+    supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
+    employees?: EmployeeUpdateManyWithoutTenantNestedInput
+    assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
+    rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
+    containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
+    installedAssets?: InstalledAssetUpdateManyWithoutTenantNestedInput
+    serviceRequests?: ServiceRequestUpdateManyWithoutTenantNestedInput
+    serviceOrders?: ServiceOrderUpdateManyWithoutTenantNestedInput
+    serviceOrderParts?: ServiceOrderPartUpdateManyWithoutTenantNestedInput
+    rmas?: RmaUpdateManyWithoutTenantNestedInput
+    glAccounts?: GlAccountUpdateManyWithoutTenantNestedInput
+    glJournalEntries?: GlJournalEntryUpdateManyWithoutTenantNestedInput
+    glJournalLines?: GlJournalLineUpdateManyWithoutTenantNestedInput
+    glSystemAccounts?: GlSystemAccountUpdateManyWithoutTenantNestedInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
+    glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutPaymentAllocationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUncheckedUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUncheckedUpdateManyWithoutTenantNestedInput
+    users?: UserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUncheckedUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUncheckedUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUncheckedUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUncheckedUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUncheckedUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUncheckedUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    products?: ProductUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUncheckedUpdateManyWithoutTenantNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUncheckedUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUncheckedUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUncheckedUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUncheckedUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUncheckedUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
+    exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
+    breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
+    masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
+    supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
+    employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
+    assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
+    rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
+    containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
+    installedAssets?: InstalledAssetUncheckedUpdateManyWithoutTenantNestedInput
+    serviceRequests?: ServiceRequestUncheckedUpdateManyWithoutTenantNestedInput
+    serviceOrders?: ServiceOrderUncheckedUpdateManyWithoutTenantNestedInput
+    serviceOrderParts?: ServiceOrderPartUncheckedUpdateManyWithoutTenantNestedInput
+    rmas?: RmaUncheckedUpdateManyWithoutTenantNestedInput
+    glAccounts?: GlAccountUncheckedUpdateManyWithoutTenantNestedInput
+    glJournalEntries?: GlJournalEntryUncheckedUpdateManyWithoutTenantNestedInput
+    glJournalLines?: GlJournalLineUncheckedUpdateManyWithoutTenantNestedInput
+    glSystemAccounts?: GlSystemAccountUncheckedUpdateManyWithoutTenantNestedInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
+    glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type BankStatementLineUpsertWithoutAllocationsInput = {
+    update: XOR<BankStatementLineUpdateWithoutAllocationsInput, BankStatementLineUncheckedUpdateWithoutAllocationsInput>
+    create: XOR<BankStatementLineCreateWithoutAllocationsInput, BankStatementLineUncheckedCreateWithoutAllocationsInput>
+    where?: BankStatementLineWhereInput
+  }
+
+  export type BankStatementLineUpdateToOneWithWhereWithoutAllocationsInput = {
+    where?: BankStatementLineWhereInput
+    data: XOR<BankStatementLineUpdateWithoutAllocationsInput, BankStatementLineUncheckedUpdateWithoutAllocationsInput>
+  }
+
+  export type BankStatementLineUpdateWithoutAllocationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    seq?: IntFieldUpdateOperationsInput | number
+    bookingDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    description?: StringFieldUpdateOperationsInput | string
+    reference?: NullableStringFieldUpdateOperationsInput | string | null
+    counterpartyName?: NullableStringFieldUpdateOperationsInput | string | null
+    counterpartyAccount?: NullableStringFieldUpdateOperationsInput | string | null
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    allocatedAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: EnumBankStatementLineStatusFieldUpdateOperationsInput | $Enums.BankStatementLineStatus
+    tenant?: TenantUpdateOneRequiredWithoutBankStatementLinesNestedInput
+    statement?: BankStatementUpdateOneRequiredWithoutLinesNestedInput
+  }
+
+  export type BankStatementLineUncheckedUpdateWithoutAllocationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    statementId?: StringFieldUpdateOperationsInput | string
+    seq?: IntFieldUpdateOperationsInput | number
+    bookingDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    description?: StringFieldUpdateOperationsInput | string
+    reference?: NullableStringFieldUpdateOperationsInput | string | null
+    counterpartyName?: NullableStringFieldUpdateOperationsInput | string | null
+    counterpartyAccount?: NullableStringFieldUpdateOperationsInput | string | null
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    allocatedAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: EnumBankStatementLineStatusFieldUpdateOperationsInput | $Enums.BankStatementLineStatus
+  }
+
+  export type InvoiceUpsertWithoutAllocationsInput = {
+    update: XOR<InvoiceUpdateWithoutAllocationsInput, InvoiceUncheckedUpdateWithoutAllocationsInput>
+    create: XOR<InvoiceCreateWithoutAllocationsInput, InvoiceUncheckedCreateWithoutAllocationsInput>
+    where?: InvoiceWhereInput
+  }
+
+  export type InvoiceUpdateToOneWithWhereWithoutAllocationsInput = {
+    where?: InvoiceWhereInput
+    data: XOR<InvoiceUpdateWithoutAllocationsInput, InvoiceUncheckedUpdateWithoutAllocationsInput>
+  }
+
+  export type InvoiceUpdateWithoutAllocationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    invoiceNumber?: StringFieldUpdateOperationsInput | string
+    invoiceType?: EnumInvoiceTypeFieldUpdateOperationsInput | $Enums.InvoiceType
+    partyRefId?: StringFieldUpdateOperationsInput | string
+    orderRefId?: StringFieldUpdateOperationsInput | string
+    currency?: StringFieldUpdateOperationsInput | string
+    total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    paidAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
+    issuedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    dueAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    costCenterId?: NullableStringFieldUpdateOperationsInput | string | null
+    dimensions?: NullableJsonNullValueInput | InputJsonValue
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutInvoicesNestedInput
+    payments?: PaymentUpdateManyWithoutInvoiceNestedInput
+  }
+
+  export type InvoiceUncheckedUpdateWithoutAllocationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    invoiceNumber?: StringFieldUpdateOperationsInput | string
+    invoiceType?: EnumInvoiceTypeFieldUpdateOperationsInput | $Enums.InvoiceType
+    partyRefId?: StringFieldUpdateOperationsInput | string
+    orderRefId?: StringFieldUpdateOperationsInput | string
+    currency?: StringFieldUpdateOperationsInput | string
+    total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    paidAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
+    issuedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    dueAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    costCenterId?: NullableStringFieldUpdateOperationsInput | string | null
+    dimensions?: NullableJsonNullValueInput | InputJsonValue
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    payments?: PaymentUncheckedUpdateManyWithoutInvoiceNestedInput
   }
 
   export type TenantConfigurationVersionCreateManyTenantInput = {
@@ -313805,6 +323161,50 @@ export namespace Prisma {
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+  }
+
+  export type BankStatementCreateManyTenantInput = {
+    id?: string
+    legalEntityId: string
+    statementNumber: string
+    bankAccount: string
+    statementDate: Date | string
+    currency: string
+    openingBalance: Decimal | DecimalJsLike | number | string
+    closingBalance: Decimal | DecimalJsLike | number | string
+    lineCount: number
+    status?: $Enums.BankStatementStatus
+    source?: string
+    confirmedAt?: Date | string | null
+    confirmedBy?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BankStatementLineCreateManyTenantInput = {
+    id?: string
+    statementId: string
+    seq: number
+    bookingDate: Date | string
+    description: string
+    reference?: string | null
+    counterpartyName?: string | null
+    counterpartyAccount?: string | null
+    amount: Decimal | DecimalJsLike | number | string
+    allocatedAmount?: Decimal | DecimalJsLike | number | string
+    status?: $Enums.BankStatementLineStatus
+  }
+
+  export type PaymentAllocationCreateManyTenantInput = {
+    id?: string
+    allocationKey: string
+    statementLineId: string
+    invoiceId: string
+    paymentId?: string | null
+    amount: Decimal | DecimalJsLike | number | string
+    createdBy?: string | null
+    createdAt?: Date | string
   }
 
   export type TenantConfigurationVersionUpdateWithoutTenantInput = {
@@ -315941,6 +325341,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     payments?: PaymentUpdateManyWithoutInvoiceNestedInput
+    allocations?: PaymentAllocationUpdateManyWithoutInvoiceNestedInput
   }
 
   export type InvoiceUncheckedUpdateWithoutTenantInput = {
@@ -315961,6 +325362,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     payments?: PaymentUncheckedUpdateManyWithoutInvoiceNestedInput
+    allocations?: PaymentAllocationUncheckedUpdateManyWithoutInvoiceNestedInput
   }
 
   export type InvoiceUncheckedUpdateManyWithoutTenantInput = {
@@ -318105,6 +327507,142 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type BankStatementUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    legalEntityId?: StringFieldUpdateOperationsInput | string
+    statementNumber?: StringFieldUpdateOperationsInput | string
+    bankAccount?: StringFieldUpdateOperationsInput | string
+    statementDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    currency?: StringFieldUpdateOperationsInput | string
+    openingBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    closingBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    lineCount?: IntFieldUpdateOperationsInput | number
+    status?: EnumBankStatementStatusFieldUpdateOperationsInput | $Enums.BankStatementStatus
+    source?: StringFieldUpdateOperationsInput | string
+    confirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    confirmedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lines?: BankStatementLineUpdateManyWithoutStatementNestedInput
+  }
+
+  export type BankStatementUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    legalEntityId?: StringFieldUpdateOperationsInput | string
+    statementNumber?: StringFieldUpdateOperationsInput | string
+    bankAccount?: StringFieldUpdateOperationsInput | string
+    statementDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    currency?: StringFieldUpdateOperationsInput | string
+    openingBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    closingBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    lineCount?: IntFieldUpdateOperationsInput | number
+    status?: EnumBankStatementStatusFieldUpdateOperationsInput | $Enums.BankStatementStatus
+    source?: StringFieldUpdateOperationsInput | string
+    confirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    confirmedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lines?: BankStatementLineUncheckedUpdateManyWithoutStatementNestedInput
+  }
+
+  export type BankStatementUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    legalEntityId?: StringFieldUpdateOperationsInput | string
+    statementNumber?: StringFieldUpdateOperationsInput | string
+    bankAccount?: StringFieldUpdateOperationsInput | string
+    statementDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    currency?: StringFieldUpdateOperationsInput | string
+    openingBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    closingBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    lineCount?: IntFieldUpdateOperationsInput | number
+    status?: EnumBankStatementStatusFieldUpdateOperationsInput | $Enums.BankStatementStatus
+    source?: StringFieldUpdateOperationsInput | string
+    confirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    confirmedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BankStatementLineUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    seq?: IntFieldUpdateOperationsInput | number
+    bookingDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    description?: StringFieldUpdateOperationsInput | string
+    reference?: NullableStringFieldUpdateOperationsInput | string | null
+    counterpartyName?: NullableStringFieldUpdateOperationsInput | string | null
+    counterpartyAccount?: NullableStringFieldUpdateOperationsInput | string | null
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    allocatedAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: EnumBankStatementLineStatusFieldUpdateOperationsInput | $Enums.BankStatementLineStatus
+    statement?: BankStatementUpdateOneRequiredWithoutLinesNestedInput
+    allocations?: PaymentAllocationUpdateManyWithoutLineNestedInput
+  }
+
+  export type BankStatementLineUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    statementId?: StringFieldUpdateOperationsInput | string
+    seq?: IntFieldUpdateOperationsInput | number
+    bookingDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    description?: StringFieldUpdateOperationsInput | string
+    reference?: NullableStringFieldUpdateOperationsInput | string | null
+    counterpartyName?: NullableStringFieldUpdateOperationsInput | string | null
+    counterpartyAccount?: NullableStringFieldUpdateOperationsInput | string | null
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    allocatedAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: EnumBankStatementLineStatusFieldUpdateOperationsInput | $Enums.BankStatementLineStatus
+    allocations?: PaymentAllocationUncheckedUpdateManyWithoutLineNestedInput
+  }
+
+  export type BankStatementLineUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    statementId?: StringFieldUpdateOperationsInput | string
+    seq?: IntFieldUpdateOperationsInput | number
+    bookingDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    description?: StringFieldUpdateOperationsInput | string
+    reference?: NullableStringFieldUpdateOperationsInput | string | null
+    counterpartyName?: NullableStringFieldUpdateOperationsInput | string | null
+    counterpartyAccount?: NullableStringFieldUpdateOperationsInput | string | null
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    allocatedAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: EnumBankStatementLineStatusFieldUpdateOperationsInput | $Enums.BankStatementLineStatus
+  }
+
+  export type PaymentAllocationUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    allocationKey?: StringFieldUpdateOperationsInput | string
+    paymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    line?: BankStatementLineUpdateOneRequiredWithoutAllocationsNestedInput
+    invoice?: InvoiceUpdateOneRequiredWithoutAllocationsNestedInput
+  }
+
+  export type PaymentAllocationUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    allocationKey?: StringFieldUpdateOperationsInput | string
+    statementLineId?: StringFieldUpdateOperationsInput | string
+    invoiceId?: StringFieldUpdateOperationsInput | string
+    paymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PaymentAllocationUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    allocationKey?: StringFieldUpdateOperationsInput | string
+    statementLineId?: StringFieldUpdateOperationsInput | string
+    invoiceId?: StringFieldUpdateOperationsInput | string
+    paymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type BusinessUnitCreateManyLegalEntityInput = {
     id?: string
     tenantId: string
@@ -319882,6 +329420,17 @@ export namespace Prisma {
     createdBy?: string | null
   }
 
+  export type PaymentAllocationCreateManyInvoiceInput = {
+    id?: string
+    tenantId: string
+    allocationKey: string
+    statementLineId: string
+    paymentId?: string | null
+    amount: Decimal | DecimalJsLike | number | string
+    createdBy?: string | null
+    createdAt?: Date | string
+  }
+
   export type PaymentUpdateWithoutInvoiceInput = {
     id?: StringFieldUpdateOperationsInput | string
     paymentNumber?: StringFieldUpdateOperationsInput | string
@@ -319913,6 +329462,39 @@ export namespace Prisma {
     reference?: NullableStringFieldUpdateOperationsInput | string | null
     receivedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type PaymentAllocationUpdateWithoutInvoiceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    allocationKey?: StringFieldUpdateOperationsInput | string
+    paymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutPaymentAllocationsNestedInput
+    line?: BankStatementLineUpdateOneRequiredWithoutAllocationsNestedInput
+  }
+
+  export type PaymentAllocationUncheckedUpdateWithoutInvoiceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    allocationKey?: StringFieldUpdateOperationsInput | string
+    statementLineId?: StringFieldUpdateOperationsInput | string
+    paymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PaymentAllocationUncheckedUpdateManyWithoutInvoiceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    allocationKey?: StringFieldUpdateOperationsInput | string
+    statementLineId?: StringFieldUpdateOperationsInput | string
+    paymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type BudgetCreateManyCostCenterInput = {
@@ -320853,6 +330435,108 @@ export namespace Prisma {
     debit?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     credit?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     seq?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type BankStatementLineCreateManyStatementInput = {
+    id?: string
+    tenantId: string
+    seq: number
+    bookingDate: Date | string
+    description: string
+    reference?: string | null
+    counterpartyName?: string | null
+    counterpartyAccount?: string | null
+    amount: Decimal | DecimalJsLike | number | string
+    allocatedAmount?: Decimal | DecimalJsLike | number | string
+    status?: $Enums.BankStatementLineStatus
+  }
+
+  export type BankStatementLineUpdateWithoutStatementInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    seq?: IntFieldUpdateOperationsInput | number
+    bookingDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    description?: StringFieldUpdateOperationsInput | string
+    reference?: NullableStringFieldUpdateOperationsInput | string | null
+    counterpartyName?: NullableStringFieldUpdateOperationsInput | string | null
+    counterpartyAccount?: NullableStringFieldUpdateOperationsInput | string | null
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    allocatedAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: EnumBankStatementLineStatusFieldUpdateOperationsInput | $Enums.BankStatementLineStatus
+    tenant?: TenantUpdateOneRequiredWithoutBankStatementLinesNestedInput
+    allocations?: PaymentAllocationUpdateManyWithoutLineNestedInput
+  }
+
+  export type BankStatementLineUncheckedUpdateWithoutStatementInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    seq?: IntFieldUpdateOperationsInput | number
+    bookingDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    description?: StringFieldUpdateOperationsInput | string
+    reference?: NullableStringFieldUpdateOperationsInput | string | null
+    counterpartyName?: NullableStringFieldUpdateOperationsInput | string | null
+    counterpartyAccount?: NullableStringFieldUpdateOperationsInput | string | null
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    allocatedAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: EnumBankStatementLineStatusFieldUpdateOperationsInput | $Enums.BankStatementLineStatus
+    allocations?: PaymentAllocationUncheckedUpdateManyWithoutLineNestedInput
+  }
+
+  export type BankStatementLineUncheckedUpdateManyWithoutStatementInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    seq?: IntFieldUpdateOperationsInput | number
+    bookingDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    description?: StringFieldUpdateOperationsInput | string
+    reference?: NullableStringFieldUpdateOperationsInput | string | null
+    counterpartyName?: NullableStringFieldUpdateOperationsInput | string | null
+    counterpartyAccount?: NullableStringFieldUpdateOperationsInput | string | null
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    allocatedAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: EnumBankStatementLineStatusFieldUpdateOperationsInput | $Enums.BankStatementLineStatus
+  }
+
+  export type PaymentAllocationCreateManyLineInput = {
+    id?: string
+    tenantId: string
+    allocationKey: string
+    invoiceId: string
+    paymentId?: string | null
+    amount: Decimal | DecimalJsLike | number | string
+    createdBy?: string | null
+    createdAt?: Date | string
+  }
+
+  export type PaymentAllocationUpdateWithoutLineInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    allocationKey?: StringFieldUpdateOperationsInput | string
+    paymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutPaymentAllocationsNestedInput
+    invoice?: InvoiceUpdateOneRequiredWithoutAllocationsNestedInput
+  }
+
+  export type PaymentAllocationUncheckedUpdateWithoutLineInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    allocationKey?: StringFieldUpdateOperationsInput | string
+    invoiceId?: StringFieldUpdateOperationsInput | string
+    paymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PaymentAllocationUncheckedUpdateManyWithoutLineInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    allocationKey?: StringFieldUpdateOperationsInput | string
+    invoiceId?: StringFieldUpdateOperationsInput | string
+    paymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 

@@ -518,8 +518,8 @@ FIN-026,FIN,Reversal/storno engine for posted entries,P1,DONE,R5,,,Sprint 211: m
 FIN-027,FIN,Account/partner cards + IOS + external client card,P1,DONE,R5,,,Sprint 212: account/partner cards — opening cumulative, one row per posted entry, closing; storno pairs hidden by default (net zero); read-only.
 FIN-028,FIN,KUF/KIF + VAT ledger (BiH localization pack),P1,PLANNED,R5,,,FinTrack paritet: PDV period status, prijava.
 FIN-029,FIN,Trial balance + GL reports + profit years,P2,DONE,R5,,,Sprint 212: trial balance per legal entity and period — opening/turnover/closing per account with balanced totals; reconciles with cards.
-FIN-030,FIN,Bank statement import + matching (vision via AI port),P1,PLANNED,R5,,,FinTrack paritet: dedup, kontrola sume, arhiva PDF-a.
-FIN-031,FIN,Payment allocation / open-item clearing,P1,PLANNED,R5,,,FinTrack paritet: zatvaranje potrazivanja, izvedeni paid/remaining.
+FIN-030,FIN,Bank statement import + matching (vision via AI port),P1,DONE,R5,,,Sprint 213: import s kontrolnim zbirovima (saldo + broj stavki), duplikat 409, pregled pa izricita potvrda (period lock blokira), odbacivanje neproverenog; AI-016 vision port daje samo prijedlog.
+FIN-031,FIN,Payment allocation / open-item clearing,P1,DONE,R5,,,Sprint 213: alokacija stavke izvoda na fakturu kroz FIN-014 tok placanja (paidAmount), BEZ GL knjizenja; djelimicne alokacije, kontrola prekomjernog, idempotentan allocationKey, smjer priliv/odliv.
 FIN-032,FIN,Compensations + loan settlements with printed statement,P2,PLANNED,R5,,,FinTrack paritet.
 FIN-033,FIN,AI posting proposals (precedent-based, draft-only),P2,PLANNED,R5,,,FinTrack paritet: sigurnost racuna KOD, nikad auto-post.
 HCM-013,HCM,Payroll calculation + payslips,P1,PLANNED,R5,,,FinTrack paritet: fond dana, bonusi, draft->confirmed, listici PDF.
@@ -537,7 +537,7 @@ EAM-016,EAM,Asset QR labels + limited public lookup,P2,PLANNED,R5,,,FinTrack par
 EAM-017,EAM,Fleet management (fuel, services, vehicle custody, alerts),P2,PLANNED,R5,,,FinTrack paritet: total_km semantiku razjasniti (ne prenositi slijepo).
 BI-016,BI,Operational control center (multi-screen realtime),P3,PLANNED,R5,,,FinTrack paritet: povjerljivi mod iza permisije.
 AI-015,AI,Voice assistant over user-scoped tools,P3,PLANNED,R5,,,FinTrack paritet: alati pod korisnikovim pravima; STT/TTS adapteri.
-AI-016,AI,Document vision extraction port (invoices, statements),P1,PLANNED,R5,,,FinTrack paritet: provider-neutral; potvrda korisnika obavezna.
+AI-016,AI,Document vision extraction port (invoices, statements),P1,DONE,R5,,,Sprint 213: VisionPort + DevVisionAdapter (jasno dev, nikad produkcijski); extract vraca ISKLJUCIVO prijedlog za pregled; rucni tok radi bez providera.
 IAM-015,IAM,Passkey (WebAuthn) authentication,P3,PLANNED,R5,,,FinTrack paritet: uz postojeci step-up/TOTP tok.
 OPS-019,OPS,Per-tenant data export bundles + restore drill,P2,PLANNED,R5,,,FinTrack paritet: lista tabela iz seme, ne rucno.
 DOC-013,DOC,In-app manuals with per-permission visibility,P3,PLANNED,R5,,,FinTrack paritet: Uputstva tab.

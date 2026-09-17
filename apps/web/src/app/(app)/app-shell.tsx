@@ -187,6 +187,7 @@ const NAV: Array<{ href: string; label: string; icon: string; permission: string
   { href: '/kiosk', label: 'Shop floor', icon: 'kiosk', permission: 'production.execute' },
   { href: '/finance', label: 'Finance', icon: 'finance', permission: 'finance.read' },
   { href: '/ledger', label: 'Ledger', icon: 'finance', permission: 'finance.ledger.read' },
+  { href: '/bank', label: 'Banka', icon: 'finance', permission: 'finance.read' },
   { href: '/analytics', label: 'Analytics', icon: 'analytics', permission: 'analytics.read' },
   {
     href: '/integrations',
@@ -278,6 +279,7 @@ export function AppShell({ children }: { children: ReactNode }) {
     '/quality': 'quality',
     '/finance': 'finance',
     '/ledger': 'finance',
+    '/bank': 'finance',
     '/inventory': 'warehouse',
     '/operations': 'warehouse',
     '/devices': 'devices',

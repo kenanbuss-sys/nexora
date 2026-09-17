@@ -734,6 +734,16 @@ export class LedgerReportService {
     );
   }
 
+  /** The other half's entry id of a storno pair, or null. */
+  private stornoCounterpartId(entry: {
+    entryType: string;
+    stornoOfId: string | null;
+    stornoedById: string | null;
+  }): string | null {
+    if (entry.entryType === 'STORNO' && entry.stornoOfId !== null) return entry.stornoOfId;
+    return entry.stornoedById;
+  }
+
   private async postedLines(where: Prisma.GlJournalLineWhereInput, ctx: RequestContext) {
     return this.prisma.glJournalLine.findMany({
       where: { ...where, tenantId: ctx.tenantId, entry: { is: { status: 'POSTED' } } },
@@ -772,7 +782,21 @@ export class LedgerReportService {
     range: { from: Date; to: Date },
     includeStorno: boolean,
   ): AccountCardView {
-    const visible = includeStorno ? lines : lines.filter((l) => !this.isStornoPair(l.entry));
+    // Hide a storno pair only when BOTH halves fall inside [from..to].
+    // A pair crossing the period boundary must stay visible: hiding one
+    // half (or a pair contributing to the opening/closing balance) would
+    // make the displayed card diverge from the ledger (trial balance).
+    const dateByEntry = new Map<string, Date>();
+    for (const l of lines) dateByEntry.set(l.entry.id, l.entry.bookingDate);
+    const inPeriod = (d: Date | undefined): boolean =>
+      d !== undefined && d >= range.from && d <= range.to;
+    const hidden = (entry: (typeof lines)[number]['entry']): boolean => {
+      if (includeStorno || !this.isStornoPair(entry)) return false;
+      const counterpartId = this.stornoCounterpartId(entry);
+      const counterpartDate = counterpartId ? dateByEntry.get(counterpartId) : undefined;
+      return inPeriod(entry.bookingDate) && inPeriod(counterpartDate);
+    };
+    const visible = lines.filter((l) => !hidden(l.entry));
     let opening = 0;
     // One card row per journal entry (FIN-027), aggregated over its lines.
     const perEntry = new Map<

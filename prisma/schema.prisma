@@ -162,6 +162,9 @@ model Tenant {
   glOpeningBalanceDates GlOpeningBalanceDate[]
   glPeriodLocks         GlPeriodLock[]
   frameworkAgreements   FrameworkAgreement[]
+  bankStatements        BankStatement[]
+  bankStatementLines    BankStatementLine[]
+  paymentAllocations    PaymentAllocation[]
 
   @@map("tenant")
 }
@@ -2069,8 +2072,9 @@ model Invoice {
   createdAt     DateTime      @default(now()) @map("created_at")
   updatedAt     DateTime      @updatedAt @map("updated_at")
 
-  tenant   Tenant    @relation(fields: [tenantId], references: [id])
-  payments Payment[]
+  tenant      Tenant              @relation(fields: [tenantId], references: [id])
+  payments    Payment[]
+  allocations PaymentAllocation[]
 
   @@unique([tenantId, invoiceNumber])
   @@unique([tenantId, invoiceType, orderRefId])
@@ -3487,4 +3491,98 @@ model GlPeriodLock {
 
   @@unique([tenantId, legalEntityId])
   @@map("gl_period_lock")
+}
+
+// ---------------------------------------------------------------------------
+// Sprint 213 — FIN-030/031: bank statements and payment allocation
+// (closure). A statement is imported (with control sums), reviewed and
+// explicitly confirmed; allocation links a statement line to an invoice
+// through the existing payment flow — it never creates a GL posting.
+// ---------------------------------------------------------------------------
+
+enum BankStatementStatus {
+  IMPORTED
+  CONFIRMED
+}
+
+enum BankStatementLineStatus {
+  OPEN
+  PARTIALLY_ALLOCATED
+  ALLOCATED
+}
+
+model BankStatement {
+  id              String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId        String              @map("tenant_id") @db.Uuid
+  legalEntityId   String              @map("legal_entity_id") @db.Uuid
+  statementNumber String              @map("statement_number")
+  bankAccount     String              @map("bank_account")
+  statementDate   DateTime            @map("statement_date") @db.Date
+  currency        String              @db.Char(3)
+  openingBalance  Decimal             @map("opening_balance") @db.Decimal(18, 2)
+  closingBalance  Decimal             @map("closing_balance") @db.Decimal(18, 2)
+  lineCount       Int                 @map("line_count")
+  status          BankStatementStatus @default(IMPORTED)
+  /// MANUAL import or AI_PROPOSAL reviewed by a person (AI-016).
+  source          String              @default("MANUAL")
+  confirmedAt     DateTime?           @map("confirmed_at")
+  confirmedBy     String?             @map("confirmed_by")
+  createdBy       String?             @map("created_by")
+  createdAt       DateTime            @default(now()) @map("created_at")
+  updatedAt       DateTime            @updatedAt @map("updated_at")
+
+  tenant Tenant              @relation(fields: [tenantId], references: [id])
+  lines  BankStatementLine[]
+
+  @@unique([tenantId, legalEntityId, statementNumber])
+  @@index([tenantId, legalEntityId, status])
+  @@map("bank_statement")
+}
+
+model BankStatementLine {
+  id                  String                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId            String                  @map("tenant_id") @db.Uuid
+  statementId         String                  @map("statement_id") @db.Uuid
+  seq                 Int
+  bookingDate         DateTime                @map("booking_date") @db.Date
+  description         String
+  reference           String?
+  counterpartyName    String?                 @map("counterparty_name")
+  counterpartyAccount String?                 @map("counterparty_account")
+  /// Signed: > 0 inflow (customer collection), < 0 outflow (supplier payment).
+  amount              Decimal                 @db.Decimal(18, 2)
+  allocatedAmount     Decimal                 @default(0) @map("allocated_amount") @db.Decimal(18, 2)
+  status              BankStatementLineStatus @default(OPEN)
+
+  tenant      Tenant              @relation(fields: [tenantId], references: [id])
+  statement   BankStatement       @relation(fields: [statementId], references: [id])
+  allocations PaymentAllocation[]
+
+  @@unique([tenantId, statementId, seq])
+  @@index([tenantId, statementId])
+  @@map("bank_statement_line")
+}
+
+/// FIN-031: allocation of a bank-statement line to an invoice. It moves
+/// invoice.paidAmount through the append-only payment flow (FIN-014);
+/// it does NOT create a ledger entry. Idempotent via allocationKey.
+model PaymentAllocation {
+  id              String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId        String   @map("tenant_id") @db.Uuid
+  allocationKey   String   @map("allocation_key")
+  statementLineId String   @map("statement_line_id") @db.Uuid
+  invoiceId       String   @map("invoice_id") @db.Uuid
+  paymentId       String?  @map("payment_id") @db.Uuid
+  amount          Decimal  @db.Decimal(18, 2)
+  createdBy       String?  @map("created_by")
+  createdAt       DateTime @default(now()) @map("created_at")
+
+  tenant  Tenant            @relation(fields: [tenantId], references: [id])
+  line    BankStatementLine @relation(fields: [statementLineId], references: [id])
+  invoice Invoice           @relation(fields: [invoiceId], references: [id])
+
+  @@unique([tenantId, allocationKey])
+  @@index([tenantId, statementLineId])
+  @@index([tenantId, invoiceId])
+  @@map("payment_allocation")
 }

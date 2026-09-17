@@ -108,7 +108,7 @@ start_stack() {
   log "stack (re)started — http://localhost:3000"
 }
 
-log "auto-dev loop starting in $REPO"
+log "auto-dev loop starting in $REPO (sync policy v2: main-only, clean tree, ff-only — never discards work)"
 start_stack
 
 # Sync policy: NEVER discard local work. Updates apply only when the

@@ -1819,6 +1819,53 @@ exports.Prisma.GlPeriodLockScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.BankStatementScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  legalEntityId: 'legalEntityId',
+  statementNumber: 'statementNumber',
+  bankAccount: 'bankAccount',
+  statementDate: 'statementDate',
+  currency: 'currency',
+  openingBalance: 'openingBalance',
+  closingBalance: 'closingBalance',
+  lineCount: 'lineCount',
+  status: 'status',
+  source: 'source',
+  confirmedAt: 'confirmedAt',
+  confirmedBy: 'confirmedBy',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.BankStatementLineScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  statementId: 'statementId',
+  seq: 'seq',
+  bookingDate: 'bookingDate',
+  description: 'description',
+  reference: 'reference',
+  counterpartyName: 'counterpartyName',
+  counterpartyAccount: 'counterpartyAccount',
+  amount: 'amount',
+  allocatedAmount: 'allocatedAmount',
+  status: 'status'
+};
+
+exports.Prisma.PaymentAllocationScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  allocationKey: 'allocationKey',
+  statementLineId: 'statementLineId',
+  invoiceId: 'invoiceId',
+  paymentId: 'paymentId',
+  amount: 'amount',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -2254,6 +2301,17 @@ exports.FrameworkStatus = exports.$Enums.FrameworkStatus = {
   CANCELLED: 'CANCELLED'
 };
 
+exports.BankStatementStatus = exports.$Enums.BankStatementStatus = {
+  IMPORTED: 'IMPORTED',
+  CONFIRMED: 'CONFIRMED'
+};
+
+exports.BankStatementLineStatus = exports.$Enums.BankStatementLineStatus = {
+  OPEN: 'OPEN',
+  PARTIALLY_ALLOCATED: 'PARTIALLY_ALLOCATED',
+  ALLOCATED: 'ALLOCATED'
+};
+
 exports.Prisma.ModelName = {
   Tenant: 'Tenant',
   TenantConfigurationVersion: 'TenantConfigurationVersion',
@@ -2394,7 +2452,10 @@ exports.Prisma.ModelName = {
   GlJournalLine: 'GlJournalLine',
   GlSystemAccount: 'GlSystemAccount',
   GlOpeningBalanceDate: 'GlOpeningBalanceDate',
-  GlPeriodLock: 'GlPeriodLock'
+  GlPeriodLock: 'GlPeriodLock',
+  BankStatement: 'BankStatement',
+  BankStatementLine: 'BankStatementLine',
+  PaymentAllocation: 'PaymentAllocation'
 };
 
 /**

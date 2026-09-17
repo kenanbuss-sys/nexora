@@ -33,6 +33,7 @@ integration('Sprint 212 — ledger cards & trial balance', () => {
   let partnerId = '';
   let partnerAccId = '';
   let stornoTargetId = '';
+  let accGama = '';
 
   async function api(method: 'GET' | 'POST', url: string, token: string, payload?: unknown) {
     const response = await app.inject({
@@ -142,6 +143,19 @@ integration('Sprint 212 — ledger cards & trial balance', () => {
     await api('POST', `/api/v1/ledger/entries/${stornoTargetId}/storno`, tokenA, {
       reason: 'Pogrešan iznos',
     });
+
+    // Cross-period storno fixture: original in August, storno mirror is
+    // dated today (September) — the pair straddles the period boundary.
+    const gama = await api('POST', '/api/v1/ledger/accounts', tokenA, {
+      legalEntityId: le,
+      code: '21100009',
+      name: 'Kupci Gama',
+    });
+    accGama = gama.body.id as string;
+    const crossId = await postEntry('2026-08-20', 70, 'August Gama faktura', accGama, accPrihod);
+    await api('POST', `/api/v1/ledger/entries/${crossId}/storno`, tokenA, {
+      reason: 'Cross-period storno',
+    });
   }, 120_000);
 
   afterAll(async () => {
@@ -204,6 +218,72 @@ integration('Sprint 212 — ledger cards & trial balance', () => {
     expect(rows.find((r) => r.code === '21100002')?.closing).toBe('40.00');
     // Prihodi: -100 (PS) + storno par u prometu; closing = -(100+40)
     expect(rows.find((r) => r.code === '61000001')?.closing).toBe('-140.00');
+  });
+
+  it('REGRESIJA: storno par preko granice perioda ostaje vidljiv (original u PS)', async () => {
+    // Original (August) is before `from`; the mirror (today, September)
+    // is inside the period. Hiding the pair would make the opening
+    // balance (70) irreconcilable with the ledger — the mirror row must
+    // stay visible so the card closes at 0, matching the trial balance.
+    const card = await api(
+      'GET',
+      `/api/v1/ledger/reports/account-card?legalEntityId=${le}&accountId=${accGama}&from=2026-09-01&to=2026-09-30`,
+      tokenA,
+    );
+    expect(card.status).toBe(200);
+    expect(card.body.openingBalance).toBe('70.00'); // original in opening
+    const rows = card.body.rows as Array<{ entryType: string; credit: string }>;
+    expect(rows.length).toBe(1);
+    expect(rows[0]?.entryType).toBe('STORNO');
+    expect(rows[0]?.credit).toBe('70.00');
+    expect(card.body.closingBalance).toBe('0.00');
+
+    // Reconciliation: card closing == trial balance closing for the account.
+    const tb = await api(
+      'GET',
+      `/api/v1/ledger/reports/trial-balance?legalEntityId=${le}&from=2026-09-01&to=2026-09-30`,
+      tokenA,
+    );
+    const tbRows = tb.body.rows as Array<{ code: string; closing: string }>;
+    expect(tbRows.find((r) => r.code === '21100009')?.closing).toBe('0.00');
+  });
+
+  it('REGRESIJA: storno poslije `to` ne skriva original u periodu', async () => {
+    // Original 250 posted 2026-09-05; its mirror is dated today
+    // (after 2026-09-10). Viewing 01–10 September the original must be
+    // visible and included in the closing balance.
+    const card = await api(
+      'GET',
+      `/api/v1/ledger/reports/account-card?legalEntityId=${le}&accountId=${accKupci}&from=2026-09-01&to=2026-09-10`,
+      tokenA,
+    );
+    expect(card.status).toBe(200);
+    expect(card.body.openingBalance).toBe('100.00');
+    const rows = card.body.rows as Array<{ debit: string }>;
+    expect(rows.length).toBe(1);
+    expect(rows[0]?.debit).toBe('250.00');
+    expect(card.body.closingBalance).toBe('350.00');
+
+    const tb = await api(
+      'GET',
+      `/api/v1/ledger/reports/trial-balance?legalEntityId=${le}&from=2026-09-01&to=2026-09-10`,
+      tokenA,
+    );
+    const tbRows = tb.body.rows as Array<{ code: string; closing: string }>;
+    expect(tbRows.find((r) => r.code === '21100001')?.closing).toBe('350.00');
+  });
+
+  it('REGRESIJA: par u cijelosti prije `from` ne dodaje redove i PS ostaje tačan', async () => {
+    // Viewing October: both halves of the Gama pair are before `from`
+    // — they net to zero in the opening balance and add no rows.
+    const card = await api(
+      'GET',
+      `/api/v1/ledger/reports/account-card?legalEntityId=${le}&accountId=${accGama}&from=2026-10-01&to=2026-10-31`,
+      tokenA,
+    );
+    expect(card.body.openingBalance).toBe('0.00');
+    expect((card.body.rows as unknown[]).length).toBe(0);
+    expect(card.body.closingBalance).toBe('0.00');
   });
 
   it('READ-ONLY: reports never mutate the ledger', async () => {
