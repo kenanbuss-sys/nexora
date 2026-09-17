@@ -83,7 +83,7 @@ export default function DashboardPage() {
   return (
     <main className="page">
       <div className="spread">
-        <h1>Dashboard</h1>
+        <h1>Kontrolna tabla</h1>
         {health ? (
           <span className="row" style={{ gap: 6 }}>
             <span className={`badge ${health.status === 'ok' ? 'badge-ok' : 'badge-danger'}`}>
@@ -99,7 +99,7 @@ export default function DashboardPage() {
         ) : null}
       </div>
       <p className="page-sub">
-        Signed in as <span className="mono">{session.subject}</span> on tenant{' '}
+        Prijavljeni ste kao <span className="mono">{session.subject}</span> · tenant{' '}
         <strong>{session.tenantSlug}</strong>
       </p>
       {healthError ? <div className="alert alert-error">{healthError}</div> : null}
@@ -108,34 +108,34 @@ export default function DashboardPage() {
         <>
           <div className="grid-4" style={{ marginBottom: 12 }}>
             <Link href="/finance" className="card stat" style={{ textDecoration: 'none' }}>
-              <div className="stat-label">Revenue (invoiced)</div>
+              <div className="stat-label">Prihod (fakturisano)</div>
               <div className="stat-value">{summary.revenue}</div>
             </Link>
             <Link href="/finance" className="card stat" style={{ textDecoration: 'none' }}>
-              <div className="stat-label">Open receivables</div>
+              <div className="stat-label">Otvorena potraživanja</div>
               <div className="stat-value">{summary.openReceivables}</div>
               {overdue !== null && Number(overdue) > 0 ? (
                 <div style={{ fontSize: 12, color: 'var(--color-danger, #b91c1c)' }}>
-                  {overdue} overdue
+                  {overdue} dospjelo
                 </div>
               ) : null}
             </Link>
             <Link href="/orders" className="card stat" style={{ textDecoration: 'none' }}>
-              <div className="stat-label">Open orders</div>
+              <div className="stat-label">Otvorene narudžbe</div>
               <div className="stat-value">{summary.openOrders}</div>
             </Link>
             <Link href="/quotes" className="card stat" style={{ textDecoration: 'none' }}>
-              <div className="stat-label">Quote pipeline</div>
+              <div className="stat-label">Ponude u toku</div>
               <div className="stat-value">{summary.quotePipeline}</div>
             </Link>
           </div>
           <div className="grid-4" style={{ marginBottom: 16 }}>
             <Link href="/production" className="card stat" style={{ textDecoration: 'none' }}>
-              <div className="stat-label">Work in progress</div>
+              <div className="stat-label">Nalozi u proizvodnji</div>
               <div className="stat-value">{summary.wipOrders}</div>
             </Link>
             <Link href="/quality" className="card stat" style={{ textDecoration: 'none' }}>
-              <div className="stat-label">Open NCRs</div>
+              <div className="stat-label">Otvoreni NCR-ovi</div>
               <div
                 className="stat-value"
                 style={summary.openNcrs > 0 ? { color: 'var(--color-danger, #b91c1c)' } : {}}
@@ -144,21 +144,52 @@ export default function DashboardPage() {
               </div>
             </Link>
             <Link href="/quality" className="card stat" style={{ textDecoration: 'none' }}>
-              <div className="stat-label">Scrap rate</div>
+              <div className="stat-label">Stopa škarta</div>
               <div className="stat-value">{summary.scrapRatePct}%</div>
             </Link>
             <Link href="/finance" className="card stat" style={{ textDecoration: 'none' }}>
-              <div className="stat-label">Open payables</div>
+              <div className="stat-label">Otvorene obaveze</div>
               <div className="stat-value">{summary.openPayables}</div>
             </Link>
           </div>
         </>
       ) : null}
 
+      <div className="card" style={{ marginBottom: 16 }}>
+        <h2>Brze akcije</h2>
+        <div className="row">
+          {can('inventory.read') ? (
+            <Link href="/flow" className="btn btn-primary">
+              Tok robe: artikl → prijem → otprema
+            </Link>
+          ) : null}
+          {can('order.read') ? (
+            <Link href="/orders" className="btn">
+              Narudžbe
+            </Link>
+          ) : null}
+          {can('inventory.read') ? (
+            <Link href="/inventory" className="btn">
+              Zalihe
+            </Link>
+          ) : null}
+          {can('purchase.read') ? (
+            <Link href="/procurement" className="btn">
+              Nabavka
+            </Link>
+          ) : null}
+          {can('finance.ledger.read') ? (
+            <Link href="/ledger" className="btn">
+              Glavna knjiga
+            </Link>
+          ) : null}
+        </div>
+      </div>
+
       <div className="grid-2">
         <div className="card">
-          <h2>My tasks</h2>
-          {tasks.length === 0 ? <div className="empty">Nothing waiting on you.</div> : null}
+          <h2>Moji zadaci</h2>
+          {tasks.length === 0 ? <div className="empty">Ništa ne čeka na vas.</div> : null}
           {tasks.map((t) => (
             <div key={t.id} className="spread" style={{ padding: '5px 0', fontSize: 14 }}>
               <span>{t.title}</span>
@@ -170,12 +201,12 @@ export default function DashboardPage() {
             </div>
           ))}
           <Link href="/tasks" className="muted" style={{ fontSize: 13 }}>
-            All tasks →
+            Svi zadaci →
           </Link>
         </div>
         <div className="card">
-          <h2>Notifications</h2>
-          {notifications.length === 0 ? <div className="empty">All caught up.</div> : null}
+          <h2>Obavještenja</h2>
+          {notifications.length === 0 ? <div className="empty">Sve je pregledano.</div> : null}
           {notifications.map((n) => (
             <div key={n.id} className="spread" style={{ padding: '5px 0', fontSize: 14 }}>
               <span>{n.title}</span>

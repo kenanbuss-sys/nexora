@@ -6,6 +6,7 @@ import { createContext, useContext, useEffect, useState, type ReactNode } from '
 import { api } from '../../lib/api';
 import { getLanguage } from '../../lib/i18n';
 import { clearSession, getSession, type Session } from '../../lib/session';
+import { getStoredLegalEntity, storeLegalEntity } from '../../lib/entity';
 
 interface Grant {
   permissionKey: string;
@@ -13,10 +14,19 @@ interface Grant {
   scopeId: string | null;
 }
 
+interface LegalEntityOption {
+  id: string;
+  name: string;
+}
+
 interface AppContextValue {
   session: Session;
   grants: Grant[];
   can: (permissionKey: string) => boolean;
+  /** Legal entities of the tenant and the active one (shared context). */
+  entities: LegalEntityOption[];
+  legalEntityId: string;
+  setLegalEntity: (id: string) => void;
 }
 
 const AppContext = createContext<AppContextValue | null>(null);
@@ -173,42 +183,112 @@ function NavIcon({ name }: { name: string }) {
   );
 }
 
-const NAV: Array<{ href: string; label: string; icon: string; permission: string | null }> = [
-  { href: '/', label: 'Dashboard', icon: 'dashboard', permission: null },
-  { href: '/tasks', label: 'Tasks', icon: 'tasks', permission: null },
-  { href: '/crm', label: 'Sales', icon: 'sales', permission: 'crm.read' },
-  { href: '/quotes', label: 'Quotes', icon: 'quotes', permission: 'quote.read' },
-  { href: '/orders', label: 'Orders', icon: 'orders', permission: 'order.read' },
-  { href: '/procurement', label: 'Procurement', icon: 'procurement', permission: 'purchase.read' },
-  { href: '/engineering', label: 'Engineering', icon: 'engineering', permission: 'bom.read' },
-  { href: '/planning', label: 'Planning', icon: 'planning', permission: 'plan.read' },
-  { href: '/production', label: 'Production', icon: 'production', permission: 'production.read' },
-  { href: '/quality', label: 'Quality', icon: 'quality', permission: 'qc.read' },
-  { href: '/kiosk', label: 'Shop floor', icon: 'kiosk', permission: 'production.execute' },
-  { href: '/finance', label: 'Finance', icon: 'finance', permission: 'finance.read' },
-  { href: '/ledger', label: 'Ledger', icon: 'finance', permission: 'finance.ledger.read' },
-  { href: '/bank', label: 'Banka', icon: 'finance', permission: 'finance.read' },
-  { href: '/compensations', label: 'Kompenzacije', icon: 'finance', permission: 'finance.read' },
-  { href: '/analytics', label: 'Analytics', icon: 'analytics', permission: 'analytics.read' },
+interface NavItem {
+  href: string;
+  label: string;
+  icon: string;
+  permission: string | null;
+}
+
+/** Navigation grouped by business area (IA doc); Bosnian by default,
+ *  tenant vocabulary can override every label. */
+const NAV_GROUPS: Array<{ section: string; items: NavItem[] }> = [
   {
-    href: '/integrations',
-    label: 'Integrations',
-    icon: 'integrations',
-    permission: 'integration.read',
+    section: 'Početna',
+    items: [
+      { href: '/', label: 'Kontrolna tabla', icon: 'dashboard', permission: null },
+      { href: '/tasks', label: 'Zadaci', icon: 'tasks', permission: null },
+    ],
   },
-  { href: '/portal', label: 'Portal', icon: 'portal', permission: 'portal.manage' },
-  { href: '/parties', label: 'Parties', icon: 'parties', permission: 'mdm.read' },
-  { href: '/catalog', label: 'Catalog', icon: 'catalog', permission: 'product.read' },
-  { href: '/inventory', label: 'Inventory', icon: 'inventory', permission: 'inventory.read' },
-  { href: '/operations', label: 'Operations', icon: 'operations', permission: 'inventory.read' },
-  { href: '/hr', label: 'People', icon: 'users', permission: 'hcm.read' },
-  { href: '/assets', label: 'Assets', icon: 'devices', permission: 'asset.read' },
-  { href: '/devices', label: 'Devices', icon: 'devices', permission: 'device.read' },
-  { href: '/data', label: 'Import/export', icon: 'data', permission: 'product.read' },
-  { href: '/objects', label: 'Objects', icon: 'data', permission: 'configuration.read' },
-  { href: '/workflows', label: 'Workflows', icon: 'data', permission: 'workflow.read' },
-  { href: '/settings', label: 'Settings', icon: 'settings', permission: 'configuration.read' },
-  { href: '/users', label: 'Users & roles', icon: 'users', permission: 'iam.user.manage' },
+  {
+    section: 'Prodaja',
+    items: [
+      { href: '/crm', label: 'CRM', icon: 'sales', permission: 'crm.read' },
+      { href: '/quotes', label: 'Ponude', icon: 'quotes', permission: 'quote.read' },
+      { href: '/orders', label: 'Narudžbe', icon: 'orders', permission: 'order.read' },
+      { href: '/portal', label: 'B2B portal', icon: 'portal', permission: 'portal.manage' },
+    ],
+  },
+  {
+    section: 'Roba i skladište',
+    items: [
+      { href: '/catalog', label: 'Artikli', icon: 'catalog', permission: 'product.read' },
+      { href: '/inventory', label: 'Zalihe', icon: 'inventory', permission: 'inventory.read' },
+      {
+        href: '/operations',
+        label: 'Skladišne operacije',
+        icon: 'operations',
+        permission: 'inventory.read',
+      },
+      { href: '/flow', label: 'Tok robe', icon: 'planning', permission: 'inventory.read' },
+      { href: '/procurement', label: 'Nabavka', icon: 'procurement', permission: 'purchase.read' },
+      { href: '/data', label: 'Uvoz/izvoz', icon: 'data', permission: 'product.read' },
+    ],
+  },
+  {
+    section: 'Proizvodnja',
+    items: [
+      { href: '/engineering', label: 'Inženjering', icon: 'engineering', permission: 'bom.read' },
+      { href: '/planning', label: 'Planiranje', icon: 'planning', permission: 'plan.read' },
+      {
+        href: '/production',
+        label: 'Proizvodnja',
+        icon: 'production',
+        permission: 'production.read',
+      },
+      { href: '/quality', label: 'Kvalitet', icon: 'quality', permission: 'qc.read' },
+      { href: '/kiosk', label: 'Pogon', icon: 'kiosk', permission: 'production.execute' },
+    ],
+  },
+  {
+    section: 'Finansije',
+    items: [
+      { href: '/finance', label: 'Finansije', icon: 'finance', permission: 'finance.read' },
+      {
+        href: '/ledger',
+        label: 'Glavna knjiga',
+        icon: 'finance',
+        permission: 'finance.ledger.read',
+      },
+      { href: '/bank', label: 'Banka', icon: 'finance', permission: 'finance.read' },
+      {
+        href: '/compensations',
+        label: 'Kompenzacije',
+        icon: 'finance',
+        permission: 'finance.read',
+      },
+    ],
+  },
+  {
+    section: 'Partneri i ljudi',
+    items: [
+      { href: '/parties', label: 'Partneri', icon: 'parties', permission: 'mdm.read' },
+      { href: '/hr', label: 'Ljudi', icon: 'users', permission: 'hcm.read' },
+    ],
+  },
+  {
+    section: 'Analitika',
+    items: [
+      { href: '/analytics', label: 'Analitika', icon: 'analytics', permission: 'analytics.read' },
+    ],
+  },
+  {
+    section: 'Sistem',
+    items: [
+      { href: '/assets', label: 'Imovina', icon: 'devices', permission: 'asset.read' },
+      { href: '/devices', label: 'Uređaji', icon: 'devices', permission: 'device.read' },
+      {
+        href: '/integrations',
+        label: 'Integracije',
+        icon: 'integrations',
+        permission: 'integration.read',
+      },
+      { href: '/objects', label: 'Objekti', icon: 'data', permission: 'configuration.read' },
+      { href: '/workflows', label: 'Workflowi', icon: 'data', permission: 'workflow.read' },
+      { href: '/settings', label: 'Postavke', icon: 'settings', permission: 'configuration.read' },
+      { href: '/users', label: 'Korisnici i uloge', icon: 'users', permission: 'iam.user.manage' },
+    ],
+  },
 ];
 
 export function AppShell({ children }: { children: ReactNode }) {
@@ -219,6 +299,9 @@ export function AppShell({ children }: { children: ReactNode }) {
   const [brandName, setBrandName] = useState<string | null>(null);
   const [vocabulary, setVocabulary] = useState<Record<string, string>>({});
   const [modules, setModules] = useState<Record<string, boolean>>({});
+  const [entities, setEntities] = useState<LegalEntityOption[]>([]);
+  const [legalEntityId, setLegalEntityId] = useState('');
+  const [navOpen, setNavOpen] = useState(false);
 
   useEffect(() => {
     const s = getSession();
@@ -257,15 +340,34 @@ export function AppShell({ children }: { children: ReactNode }) {
     api<{ modules: Record<string, boolean> }>('GET', '/api/v1/tenant/modules')
       .then((r) => setModules(r.modules))
       .catch(() => setModules({}));
+    // Shared legal-entity context (active pravno lice in the top bar).
+    api<{ legalEntities: LegalEntityOption[] }>('GET', '/api/v1/organization/tree')
+      .then((r) => {
+        setEntities(r.legalEntities);
+        const stored = getStoredLegalEntity();
+        const valid = r.legalEntities.find((e) => e.id === stored);
+        setLegalEntityId(valid?.id ?? r.legalEntities[0]?.id ?? '');
+      })
+      .catch(() => setEntities([]));
   }, [router]);
 
+  // Close the mobile navigation whenever the route changes.
+  useEffect(() => {
+    setNavOpen(false);
+  }, [pathname]);
+
   if (!session || grants === null) {
-    return <div className="loading page">Loading workspace…</div>;
+    return <div className="loading page">Učitavanje radnog prostora…</div>;
   }
 
   const can = (permissionKey: string): boolean =>
     session.platformAdmin ||
     grants.some((g) => g.permissionKey === permissionKey && g.scopeType === 'TENANT');
+
+  const setLegalEntity = (id: string) => {
+    setLegalEntityId(id);
+    storeLegalEntity(id);
+  };
 
   // Feature flags: navigation entries for modules the tenant disabled.
   const NAV_MODULE: Record<string, string> = {
@@ -284,6 +386,7 @@ export function AppShell({ children }: { children: ReactNode }) {
     '/compensations': 'finance',
     '/inventory': 'warehouse',
     '/operations': 'warehouse',
+    '/flow': 'warehouse',
     '/devices': 'devices',
     '/integrations': 'integrations',
     '/portal': 'portal',
@@ -291,13 +394,22 @@ export function AppShell({ children }: { children: ReactNode }) {
 
   // UX rule: never render unauthorized modules. The portal entry is
   // visible to back-office managers and to portal customers alike.
-  const nav = NAV.filter(
-    (item) =>
-      (item.permission === null ||
-        can(item.permission) ||
-        (item.href === '/portal' && can('portal.access'))) &&
-      modules[NAV_MODULE[item.href] ?? ''] !== false,
+  const visible = (item: NavItem): boolean =>
+    (item.permission === null ||
+      can(item.permission) ||
+      (item.href === '/portal' && can('portal.access'))) &&
+    modules[NAV_MODULE[item.href] ?? ''] !== false;
+
+  const groups = NAV_GROUPS.map((g) => ({ ...g, items: g.items.filter(visible) })).filter(
+    (g) => g.items.length > 0,
   );
+
+  const label = (item: NavItem): string =>
+    vocabulary[`nav.${item.href === '/' ? 'dashboard' : item.href.slice(1)}`] ?? item.label;
+
+  const current = groups
+    .flatMap((g) => g.items.map((item) => ({ section: g.section, item })))
+    .find(({ item }) => (item.href === '/' ? pathname === '/' : pathname.startsWith(item.href)));
 
   function signOut() {
     clearSession();
@@ -305,21 +417,29 @@ export function AppShell({ children }: { children: ReactNode }) {
   }
 
   return (
-    <AppContext.Provider value={{ session, grants, can }}>
-      <div className="shell">
+    <AppContext.Provider value={{ session, grants, can, entities, legalEntityId, setLegalEntity }}>
+      <div className={`shell ${navOpen ? 'nav-open' : ''}`}>
         <aside className="sidebar">
           <div className="sidebar-brand">{brandName ?? 'NexoraOS'}</div>
           {can('search.read') ? <GlobalSearch /> : null}
-          {nav.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={`nav-item ${pathname === item.href ? 'active' : ''}`}
-            >
-              <NavIcon name={item.icon} />
-              {vocabulary[`nav.${item.href === '/' ? 'dashboard' : item.href.slice(1)}`] ??
-                item.label}
-            </Link>
+          {groups.map((g) => (
+            <div key={g.section} className="nav-group">
+              <div className="nav-section">{g.section}</div>
+              {g.items.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={`nav-item ${
+                    (item.href === '/' ? pathname === '/' : pathname.startsWith(item.href))
+                      ? 'active'
+                      : ''
+                  }`}
+                >
+                  <NavIcon name={item.icon} />
+                  {label(item)}
+                </Link>
+              ))}
+            </div>
           ))}
           {session.platformAdmin ? (
             <Link
@@ -327,7 +447,7 @@ export function AppShell({ children }: { children: ReactNode }) {
               className={`nav-item ${pathname === '/platform' ? 'active' : ''}`}
             >
               <NavIcon name="platform" />
-              Platform
+              Platforma
             </Link>
           ) : null}
           <div className="sidebar-footer">
@@ -339,11 +459,75 @@ export function AppShell({ children }: { children: ReactNode }) {
               onClick={signOut}
               type="button"
             >
-              Sign out
+              Odjava
             </button>
           </div>
         </aside>
-        <div>{children}</div>
+        <button
+          type="button"
+          className="nav-scrim"
+          aria-label="Zatvori meni"
+          onClick={() => setNavOpen(false)}
+        />
+        <div className="content">
+          <header className="topbar">
+            <button
+              type="button"
+              className="topbar-menu"
+              aria-label="Otvori meni"
+              onClick={() => setNavOpen((v) => !v)}
+            >
+              <svg
+                viewBox="0 0 24 24"
+                width="20"
+                height="20"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                aria-hidden
+              >
+                <path d="M3 6h18M3 12h18M3 18h18" />
+              </svg>
+            </button>
+            <nav className="topbar-crumb" aria-label="Putanja">
+              {current ? (
+                <>
+                  <span className="muted">{current.section}</span>
+                  <span className="crumb-sep" aria-hidden>
+                    /
+                  </span>
+                  <strong>{label(current.item)}</strong>
+                </>
+              ) : (
+                <strong>{brandName ?? 'NexoraOS'}</strong>
+              )}
+            </nav>
+            <div className="topbar-context">
+              {entities.length > 0 ? (
+                <label className="topbar-le">
+                  <span className="muted">Pravno lice</span>
+                  <select
+                    className="input"
+                    value={legalEntityId}
+                    onChange={(e) => setLegalEntity(e.target.value)}
+                    aria-label="Aktivno pravno lice"
+                  >
+                    {entities.map((e) => (
+                      <option key={e.id} value={e.id}>
+                        {e.name}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              ) : null}
+              <span className="badge badge-accent" title="Aktivni tenant">
+                {session.tenantSlug}
+              </span>
+            </div>
+          </header>
+          {children}
+        </div>
       </div>
     </AppContext.Provider>
   );

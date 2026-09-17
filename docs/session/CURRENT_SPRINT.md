@@ -47,3 +47,24 @@ Sljedeći prijedlog: BACKLOG_DOPUNA faza 1 — čeka potvrdu vlasnika.
 - Ograničenja: loan settlements (dio FIN-032 naslova) nisu pokriveni; poništenje kompenzacije u zaključanom periodu odbija storno kroz ledger guard; UI print koristi window.open (bez DOC šablona)
 
 **Sljedeći sprint — PRIJEDLOG (bez implementacije): FIN-028 KUF/KIF + PDV (BiH lokalizacioni paket)**: knjige ulaznih/izlaznih faktura nad postojećim Invoice + GL (entryType KUF/KIF postoje), PDV stope/period status/prijava kao config paket "accounting-bih" (tenant konfiguracija, ne kod), izvještaji read-only usklađeni s knjigom; zavisi od odobrenja vlasnika.
+
+# Sprint 215 — ZAVRŠEN 17.09.2026: user-friendly frontend (postojeća aplikacija, bez novog stacka)
+
+**UI (provjereno kroz browser, Playwright + screenshots):**
+- [x] Okvir: navigacija grupisana po poslovnim oblastima (Početna/Prodaja/Roba i skladište/Proizvodnja/Finansije/Partneri/Analitika/Sistem), bosanski nazivi (tenant vocabulary i dalje nadjačava); topbar s putanjom (oblast/stranica), aktivnim tenantom i globalnim izborom pravnog lica (dijeljeni kontekst + localStorage; ledger/bank/kompenzacije ga poštuju); mobilno: off-canvas meni + hamburger, responzivne tabele/kartice
+- [x] Kontrolna tabla: stvarni podaci (executive KPI, aging, zadaci, obavještenja) prevedeni + "Brze akcije"; bez izmišljenih KPI-jeva
+- [x] Zajedničke komponente (components/ui.tsx): DataTable (pretraga/paginacija/toolbar), Loading/Empty/Error stanja
+- [x] **/flow "Tok robe"**: vođeni tok STVARNIM servisima — artikl (product+SKU+publish+activate) → prijem (rekvizicija→auto-odobrenje→narudžbenica→prijem, idempotentan receiptKey) → skladišno stanje (ledger pozicija) → narudžba (quick+confirm) → rezervacija (po liniji) → otprema (fulfill-lines, idempotentan shipKey); paket stage/ship (samo status) jasno odvojen od fulfilmenta; demo podaci označeni DEMO
+- [x] Provjere kroz browser: cijeli tok bez terminala (10 prijem → 4 otprema → stanje 6/0/6); nedovoljna zaliha → jasna greška; korisnik bez dozvola → objašnjenje + skrivena navigacija; tenant izolacija (demo2 ne vidi ništa od demo); desktop 1440px i mobilni 390px screenshoti (15 snimaka)
+- **Backend izmjene: NEMA** (nijedna API/šema izmjena; postojeće server-side dozvole korištene). Popravke tokom provjere bile su isključivo u UI pozivima (receiptKey, publish/activate, oblik quick-order odgovora).
+- Provjere: web typecheck/build ✓; lint 0 errors; turbo typecheck ✓; integracioni testovi netaknuti (backend nepromijenjen)
+
+**Razlike statusa:** UI okvir/dashboard/tok = UI DONE + provjera kroz browser DONE; produkcijska spremnost NIJE tvrđena (bez deploya). Stvarni adapteri nepromijenjeni.
+
+**Otvorene povezane stavke (master backlog, ne nova lista):**
+- Preostale stranice još imaju engleske naslove/tekstove (postepena lokalizacija uz CORE-005 EN/BS sloj)
+- Enterprise grid iz design-system spec-a (saved views, kolone, virtualizacija, bulk akcije) — DataTable je osnovni; ostaje u backlogu uz UX spec
+- DataTable primijenjen ciljano; retrofit svih lista postepeno
+- Server-side paginacija/pretraga tamo gdje liste narastu (API danas vraća ograničene liste)
+
+**Lokalni preview (Mac):** `cd ~/nexora && git checkout docs/software-factory-md-v1 && pnpm install`; API: `DATABASE_URL=… REDIS_URL=… PORT=3001 pnpm --filter @nexora/api dev`; web: `API_URL=http://localhost:3001 pnpm --filter web dev` → http://localhost:3000 (login: Advanced sign in, tenant + subjekt). Cloud preview radi u sandboxu i nije dostupan s Maca.

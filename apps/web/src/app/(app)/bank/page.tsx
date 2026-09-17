@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { api, errorText } from '../../../lib/api';
 import { useApp } from '../app-shell';
+import { getStoredLegalEntity } from '../../../lib/entity';
 
 /**
  * FIN-030/031 (Sprint 213) — bank statements & closure. Import with
@@ -133,7 +134,9 @@ export default function BankPage() {
     api<{ legalEntities: LegalEntity[] }>('GET', '/api/v1/organization/tree')
       .then((r) => {
         setEntities(r.legalEntities);
-        if (r.legalEntities[0]) setEntityId((prev) => prev || r.legalEntities[0]!.id);
+        const stored = getStoredLegalEntity();
+        const preferred = r.legalEntities.find((le) => le.id === stored) ?? r.legalEntities[0];
+        if (preferred) setEntityId((prev) => prev || preferred.id);
       })
       .catch((e: unknown) => setError(errorText(e)));
     api<{ invoices: InvoiceOption[] }>('GET', '/api/v1/finance/invoices')

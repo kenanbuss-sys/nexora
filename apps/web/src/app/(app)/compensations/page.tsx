@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { api, errorText } from '../../../lib/api';
 import { useApp } from '../app-shell';
+import { getStoredLegalEntity } from '../../../lib/entity';
 
 /**
  * FIN-032 (Sprint 214) — compensation: offset a partner's open
@@ -82,7 +83,9 @@ export default function CompensationsPage() {
     api<{ legalEntities: LegalEntity[] }>('GET', '/api/v1/organization/tree')
       .then((r) => {
         setEntities(r.legalEntities);
-        if (r.legalEntities[0]) setEntityId((prev) => prev || r.legalEntities[0]!.id);
+        const stored = getStoredLegalEntity();
+        const preferred = r.legalEntities.find((le) => le.id === stored) ?? r.legalEntities[0];
+        if (preferred) setEntityId((prev) => prev || preferred.id);
       })
       .catch((e: unknown) => setError(errorText(e)));
     api<{ parties: PartyOption[] }>('GET', '/api/v1/parties')
