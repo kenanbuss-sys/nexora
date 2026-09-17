@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { api, ApiRequestError, errorText } from '../../../lib/api';
+import { submissionResolvedByError } from '../../../lib/idempotency';
 import { useApp } from '../app-shell';
 import {
   ConfirmDialog,
@@ -725,11 +726,15 @@ export default function PortalPage() {
                   { lines: pending.lines, requestKey: pending.key },
                 );
               } catch (e) {
-                // A definitive rejection (4xx) means no order was
-                // created — the submission is resolved and a corrected
-                // cart may start fresh. An uncertain outcome (network,
-                // 5xx) keeps key and content for a safe retry.
-                if (e instanceof ApiRequestError && e.status < 500) {
+                // Discard key+content only on a business-unambiguous
+                // rejection (no order exists under the key). CONFLICT,
+                // 401/403, 429, unknown codes, 5xx and network errors
+                // keep them for a safe continuation — never silently a
+                // new intent.
+                if (
+                  e instanceof ApiRequestError &&
+                  submissionResolvedByError(e.status, e.body.code)
+                ) {
                   pendingOrderRef.current = null;
                 }
                 throw e;

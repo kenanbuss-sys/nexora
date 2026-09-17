@@ -471,6 +471,13 @@ export class PortalService {
           include: { _count: { select: { lines: true } } },
         });
         if (winner) return this.replayOrder(winner, requestHash);
+        // The winning transaction has not committed yet: an unresolved
+        // concurrent submission. CONFLICT keeps the client's key and
+        // content alive for a safe retry — never a new intent.
+        throw new DomainError(
+          'CONFLICT',
+          'An identical submission is still being processed — retry with the same key',
+        );
       }
       throw e;
     }

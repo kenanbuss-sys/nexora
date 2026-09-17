@@ -312,7 +312,7 @@ integration('Sprint 222 — idempotent portal ordering', () => {
     ).toBe(1);
   });
 
-  it('same key with different content is a conflict', async () => {
+  it('same key with different content is a conflict that does NOT poison the key', async () => {
     const key = 'kljuc-izmjena-01';
     const first = await api('POST', '/api/v1/portal/orders', customer1, {
       requestKey: key,
@@ -325,6 +325,21 @@ integration('Sprint 222 — idempotent portal ordering', () => {
     });
     expect(changed.status).toBe(409);
     expect(changed.body.code).toBe('CONFLICT');
+    // Safe continuation after the conflict: the original submission is
+    // still resolvable under the same key — an identical retry replays
+    // the original order unchanged, and no second order appeared.
+    const retry = await api('POST', '/api/v1/portal/orders', customer1, {
+      requestKey: key,
+      lines: [{ skuId, quantity: 1 }],
+    });
+    expect(retry.status).toBe(201);
+    expect(retry.body.id).toBe(first.body.id);
+    const stored = await prisma.salesOrder.findMany({
+      where: { requestKey: { contains: key } },
+      include: { lines: true },
+    });
+    expect(stored).toHaveLength(1);
+    expect(Number(stored[0]!.lines[0]!.quantity)).toBe(1); // content untouched by the conflict
   });
 
   it('concurrent duplicates create exactly one order', async () => {
