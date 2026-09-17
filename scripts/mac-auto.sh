@@ -7,7 +7,8 @@
 #
 # After install, the machine keeps the platform at http://localhost:3000 and
 # automatically picks up every new commit on origin/main within ~60 seconds:
-# fetch -> reset -> apply new migrations -> build -> restart API and web.
+# fetch -> fast-forward (clean tree only; never discards local work) ->
+# apply new migrations -> build -> restart API and web.
 # Survives reboots (LaunchAgent, RunAtLoad + KeepAlive). Logs: /tmp/nexora-auto.log
 set -u
 
@@ -110,14 +111,31 @@ start_stack() {
 log "auto-dev loop starting in $REPO"
 start_stack
 
+# Sync policy: NEVER discard local work. Updates apply only when the
+# checkout is on main, the working tree is clean, and origin/main is a
+# fast-forward of HEAD. In every other case the loop pauses and says why.
 while true; do
   sleep 60
   git fetch -q origin main 2>/dev/null || continue
+  BRANCH="$(git symbolic-ref --short -q HEAD || echo detached)"
+  if [ "$BRANCH" != "main" ]; then
+    log "on branch '$BRANCH' — auto-update paused (checkout main to resume)"
+    continue
+  fi
+  if [ -n "$(git status --porcelain)" ]; then
+    log "working tree not clean — auto-update paused (commit or stash to resume)"
+    continue
+  fi
   LOCAL="$(git rev-parse HEAD)"
   REMOTE="$(git rev-parse origin/main)"
   if [ "$LOCAL" != "$REMOTE" ]; then
-    log "update found: ${LOCAL:0:7} -> ${REMOTE:0:7}"
-    git reset --hard origin/main >/dev/null
-    start_stack
+    if git merge-base --is-ancestor "$LOCAL" "$REMOTE"; then
+      log "update found: ${LOCAL:0:7} -> ${REMOTE:0:7} (fast-forward)"
+      git merge --ff-only origin/main >/dev/null || { log "fast-forward failed — paused"; continue; }
+      start_stack
+    else
+      log "local main diverged from origin/main — auto-update stopped WITHOUT discarding local commits"
+      continue
+    fi
   fi
 done
