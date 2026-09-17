@@ -1,6 +1,15 @@
 'use client';
 
+import Link from 'next/link';
 import { useCallback, useEffect, useState } from 'react';
+import {
+  ConfirmDialog,
+  DataTable,
+  EmptyState,
+  ErrorState,
+  LoadingState,
+  type Column,
+} from '../../../components/ui';
 import { api, errorText } from '../../../lib/api';
 import { useApp } from '../app-shell';
 
@@ -81,12 +90,42 @@ const LEAD_BADGE: Record<LeadView['status'], string> = {
   DISQUALIFIED: '',
 };
 
+const LEAD_STATUS_LABELS: Record<LeadView['status'], string> = {
+  NEW: 'Novi',
+  QUALIFIED: 'Kvalifikovan',
+  CONVERTED: 'Konvertovan',
+  DISQUALIFIED: 'Diskvalifikovan',
+};
+
 const STAGE_BADGE: Record<OpportunityView['stage'], string> = {
   NEW: 'badge-accent',
   QUALIFIED: 'badge-warn',
   PROPOSAL: 'badge-warn',
   WON: 'badge-ok',
   LOST: 'badge-danger',
+};
+
+const STAGE_LABELS: Record<OpportunityView['stage'], string> = {
+  NEW: 'Nova',
+  QUALIFIED: 'Kvalifikovana',
+  PROPOSAL: 'Ponuda',
+  WON: 'Dobijena',
+  LOST: 'Izgubljena',
+};
+
+const ACCOUNT_STATUS_LABELS: Record<string, string> = {
+  ACTIVE: 'Aktivan',
+  INACTIVE: 'Neaktivan',
+  SUSPENDED: 'Suspendovan',
+  CLOSED: 'Zatvoren',
+};
+
+const ORDER_STATUS_LABELS: Record<string, string> = {
+  DRAFT: 'Nacrt',
+  CONFIRMED: 'Potvrđena',
+  ON_HOLD: 'Na čekanju',
+  FULFILLED: 'Ispunjena',
+  CANCELLED: 'Otkazana',
 };
 
 const NEXT_STAGES: Record<OpportunityView['stage'], OpportunityView['stage'][]> = {
@@ -98,10 +137,20 @@ const NEXT_STAGES: Record<OpportunityView['stage'], OpportunityView['stage'][]> 
 };
 
 const CASE_NEXT: Record<string, { label: string; to: string } | undefined> = {
-  OPEN: { label: 'Start', to: 'IN_PROGRESS' },
-  IN_PROGRESS: { label: 'Resolve', to: 'RESOLVED' },
-  RESOLVED: { label: 'Close', to: 'CLOSED' },
+  OPEN: { label: 'Pokreni', to: 'IN_PROGRESS' },
+  IN_PROGRESS: { label: 'Riješi', to: 'RESOLVED' },
+  RESOLVED: { label: 'Zatvori', to: 'CLOSED' },
 };
+
+const CASE_STATUS_LABELS: Record<string, string> = {
+  OPEN: 'Otvoren',
+  IN_PROGRESS: 'U toku',
+  RESOLVED: 'Riješen',
+  CLOSED: 'Zatvoren',
+};
+
+type ConfirmState =
+  { kind: 'convert'; lead: LeadView } | { kind: 'disqualify'; lead: LeadView } | { kind: 'credit' };
 
 export default function CrmPage() {
   const { can } = useApp();
@@ -143,6 +192,7 @@ export default function CrmPage() {
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  const [confirm, setConfirm] = useState<ConfirmState | null>(null);
 
   const [leadName, setLeadName] = useState('');
   const [leadCompany, setLeadCompany] = useState('');
@@ -231,68 +281,277 @@ export default function CrmPage() {
   const accountName = (id: string) =>
     accounts?.find((a) => a.id === id)?.partyName ?? id.slice(0, 8);
 
+  const leadColumns: Array<Column<LeadView>> = [
+    {
+      key: 'name',
+      header: 'Lead',
+      text: (l) => `${l.name} ${l.company ?? ''}`,
+      render: (l) => (
+        <>
+          {l.name}
+          {l.company ? (
+            <div className="muted" style={{ fontSize: 12 }}>
+              {l.company}
+            </div>
+          ) : null}
+        </>
+      ),
+    },
+    {
+      key: 'status',
+      header: 'Status',
+      text: (l) => LEAD_STATUS_LABELS[l.status],
+      render: (l) => (
+        <span className={`badge ${LEAD_BADGE[l.status]}`}>{LEAD_STATUS_LABELS[l.status]}</span>
+      ),
+    },
+    {
+      key: 'actions',
+      header: '',
+      align: 'right',
+      render: (l) =>
+        ['NEW', 'QUALIFIED'].includes(l.status) && can('crm.manage') ? (
+          <span className="row" style={{ justifyContent: 'flex-end' }}>
+            <button
+              className="btn btn-sm btn-primary"
+              disabled={busy}
+              onClick={() => setConfirm({ kind: 'convert', lead: l })}
+              type="button"
+            >
+              Konvertuj
+            </button>
+            <button
+              className="btn btn-sm"
+              disabled={busy}
+              onClick={() => setConfirm({ kind: 'disqualify', lead: l })}
+              type="button"
+            >
+              Diskvalifikuj
+            </button>
+          </span>
+        ) : null,
+    },
+  ];
+
+  const accountColumns: Array<Column<AccountView>> = [
+    {
+      key: 'number',
+      header: 'Broj konta',
+      text: (a) => a.accountNumber,
+      render: (a) => <span className="mono">{a.accountNumber}</span>,
+    },
+    {
+      key: 'name',
+      header: 'Kupac',
+      text: (a) => a.partyName,
+      render: (a) => a.partyName,
+    },
+    {
+      key: 'status',
+      header: 'Status',
+      text: (a) => ACCOUNT_STATUS_LABELS[a.status] ?? a.status,
+      render: (a) => (
+        <span className={`badge ${a.status === 'ACTIVE' ? 'badge-ok' : 'badge-danger'}`}>
+          {ACCOUNT_STATUS_LABELS[a.status] ?? a.status}
+        </span>
+      ),
+    },
+    {
+      key: 'territory',
+      header: 'Teritorija',
+      render: (a) =>
+        can('crm.manage') ? (
+          <select
+            className="select"
+            style={{ maxWidth: 130, fontSize: 12 }}
+            value={a.territoryId ?? ''}
+            onClick={(e) => e.stopPropagation()}
+            onChange={(e) =>
+              void run(async () => {
+                await api('POST', `/api/v1/crm/accounts/${a.id}/territory`, {
+                  territoryId: e.target.value || null,
+                });
+              }, 'Teritorija je dodijeljena.')
+            }
+          >
+            <option value="">Bez teritorije</option>
+            {territories.map((t) => (
+              <option key={t.id} value={t.id}>
+                {t.code}
+              </option>
+            ))}
+          </select>
+        ) : (
+          <span className="muted mono" style={{ fontSize: 12 }}>
+            {territories.find((t) => t.id === a.territoryId)?.code ?? ''}
+          </span>
+        ),
+    },
+    {
+      key: 'actions',
+      header: '',
+      align: 'right',
+      render: (a) => (
+        <span onClick={(e) => e.stopPropagation()}>
+          <button className="btn btn-sm" onClick={() => void open360(a.id)} type="button">
+            {selected360 === a.id ? 'Zatvori 360°' : '360°'}
+          </button>{' '}
+          {onboarding[a.id] ? (
+            onboarding[a.id]!.started ? (
+              <span className="badge" title="Napredak uvođenja">
+                🚀 {onboarding[a.id]!.done}/{onboarding[a.id]!.total}
+              </span>
+            ) : can('crm.manage') ? (
+              <button
+                className="btn btn-sm"
+                type="button"
+                disabled={busy}
+                title="Pokreni listu uvođenja kupca"
+                onClick={() =>
+                  run(async () => {
+                    const r = await api<{ done: number; total: number }>(
+                      'POST',
+                      `/api/v1/crm/accounts/${a.id}/onboarding/start`,
+                    );
+                    setOnboarding((prev) => ({
+                      ...prev,
+                      [a.id]: { started: true, done: r.done, total: r.total },
+                    }));
+                  }, 'Uvođenje je pokrenuto — zadaci su kreirani.')
+                }
+              >
+                🚀
+              </button>
+            ) : null
+          ) : (
+            <button
+              className="btn btn-sm"
+              type="button"
+              title="Status uvođenja"
+              onClick={() => {
+                api<{ started: boolean; done: number; total: number }>(
+                  'GET',
+                  `/api/v1/crm/accounts/${a.id}/onboarding`,
+                )
+                  .then((r) =>
+                    setOnboarding((prev) => ({
+                      ...prev,
+                      [a.id]: { started: r.started, done: r.done, total: r.total },
+                    })),
+                  )
+                  .catch(() => undefined);
+              }}
+            >
+              🚀?
+            </button>
+          )}{' '}
+          {loyalty[a.id] ? (
+            <span className="badge badge-ok" title="Bodovi lojalnosti">
+              ★ {loyalty[a.id]!.points}
+            </span>
+          ) : (
+            <button
+              className="btn btn-sm"
+              type="button"
+              title="Bodovi lojalnosti"
+              onClick={() => {
+                api<{
+                  points: number;
+                  transactions: Array<{ delta: number; reason: string }>;
+                }>('GET', `/api/v1/crm/accounts/${a.id}/loyalty`)
+                  .then((r) =>
+                    setLoyalty((prev) => ({
+                      ...prev,
+                      [a.id]: { points: r.points, transactions: r.transactions },
+                    })),
+                  )
+                  .catch(() => undefined);
+              }}
+            >
+              ★
+            </button>
+          )}
+        </span>
+      ),
+    },
+  ];
+
+  const opportunityColumns: Array<Column<OpportunityView>> = [
+    {
+      key: 'title',
+      header: 'Prilika',
+      text: (o) => `${o.title} ${accountName(o.accountId)}`,
+      render: (o) => (
+        <>
+          <strong>{o.title}</strong>
+          <div className="muted" style={{ fontSize: 12 }}>
+            {accountName(o.accountId)}
+          </div>
+        </>
+      ),
+    },
+    {
+      key: 'amount',
+      header: 'Iznos',
+      render: (o) => (o.amount ? `${o.amount} ${o.currency ?? ''}` : '—'),
+    },
+    {
+      key: 'stage',
+      header: 'Faza',
+      text: (o) => STAGE_LABELS[o.stage],
+      render: (o) => (
+        <span className={`badge ${STAGE_BADGE[o.stage]}`}>{STAGE_LABELS[o.stage]}</span>
+      ),
+    },
+    {
+      key: 'actions',
+      header: '',
+      align: 'right',
+      render: (o) =>
+        can('crm.manage') && NEXT_STAGES[o.stage].length > 0 ? (
+          <span className="row" style={{ justifyContent: 'flex-end' }}>
+            {NEXT_STAGES[o.stage].map((next) => (
+              <button
+                key={next}
+                className={`btn btn-sm ${next === 'WON' ? 'btn-primary' : ''}`}
+                disabled={busy}
+                onClick={() =>
+                  run(
+                    () => api('POST', `/api/v1/crm/opportunities/${o.id}/move`, { stage: next }),
+                    null,
+                  )
+                }
+                type="button"
+              >
+                → {STAGE_LABELS[next]}
+              </button>
+            ))}
+          </span>
+        ) : null,
+    },
+  ];
+
   return (
     <main className="page">
-      <h1>Sales</h1>
-      <p className="page-sub">Leads, customer accounts and the opportunity pipeline.</p>
-      {error ? <div className="alert alert-error">{error}</div> : null}
+      <h1>Prodaja</h1>
+      <p className="page-sub">Leadovi, konta kupaca i prodajni lijevak prilika.</p>
+      {error ? <ErrorState text={error} /> : null}
       {notice ? <div className="alert alert-ok">{notice}</div> : null}
 
       <div className="grid-2">
         <div>
           <div className="card">
-            <h2>Leads</h2>
-            {leads === null ? <div className="loading">Loading leads…</div> : null}
-            {leads && leads.length === 0 ? <div className="empty">No leads yet.</div> : null}
-            {leads && leads.length > 0 ? (
-              <table className="table">
-                <tbody>
-                  {leads.map((l) => (
-                    <tr key={l.id}>
-                      <td>
-                        {l.name}
-                        {l.company ? (
-                          <div className="muted" style={{ fontSize: 12 }}>
-                            {l.company}
-                          </div>
-                        ) : null}
-                      </td>
-                      <td>
-                        <span className={`badge ${LEAD_BADGE[l.status]}`}>{l.status}</span>
-                      </td>
-                      <td style={{ textAlign: 'right' }}>
-                        {['NEW', 'QUALIFIED'].includes(l.status) && can('crm.manage') ? (
-                          <span className="row" style={{ justifyContent: 'flex-end' }}>
-                            <button
-                              className="btn btn-sm btn-primary"
-                              disabled={busy}
-                              onClick={() =>
-                                run(
-                                  () => api('POST', `/api/v1/crm/leads/${l.id}/convert`, {}),
-                                  'Lead converted to an account + opportunity.',
-                                )
-                              }
-                              type="button"
-                            >
-                              Convert
-                            </button>
-                            <button
-                              className="btn btn-sm"
-                              disabled={busy}
-                              onClick={() =>
-                                run(() => api('POST', `/api/v1/crm/leads/${l.id}/disqualify`), null)
-                              }
-                              type="button"
-                            >
-                              Drop
-                            </button>
-                          </span>
-                        ) : null}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+            <h2>Leadovi</h2>
+            {leads === null ? <LoadingState text="Učitavanje leadova…" /> : null}
+            {leads !== null ? (
+              <DataTable
+                columns={leadColumns}
+                rows={leads}
+                rowKey={(l) => l.id}
+                searchPlaceholder="Pretraga leadova…"
+                pageSize={10}
+                emptyText="Još nema leadova."
+              />
             ) : null}
           </div>
 
@@ -308,7 +567,7 @@ export default function CrmPage() {
                       ...(leadCompany ? { company: leadCompany } : {}),
                       ...(leadEmail ? { email: leadEmail } : {}),
                     }),
-                  'Lead created.',
+                  'Lead je kreiran.',
                 ).then(() => {
                   setLeadName('');
                   setLeadCompany('');
@@ -316,21 +575,21 @@ export default function CrmPage() {
                 });
               }}
             >
-              <h2>New lead</h2>
-              <label className="label">Contact name</label>
+              <h2>Novi lead</h2>
+              <label className="label">Ime kontakta</label>
               <input
                 className="input"
                 value={leadName}
                 onChange={(e) => setLeadName(e.target.value)}
                 required
               />
-              <label className="label">Company (optional)</label>
+              <label className="label">Firma (opcionalno)</label>
               <input
                 className="input"
                 value={leadCompany}
                 onChange={(e) => setLeadCompany(e.target.value)}
               />
-              <label className="label">Email (optional)</label>
+              <label className="label">Email (opcionalno)</label>
               <input
                 className="input"
                 type="email"
@@ -343,146 +602,24 @@ export default function CrmPage() {
                 disabled={busy}
                 type="submit"
               >
-                Create lead
+                Kreiraj lead
               </button>
             </form>
           ) : null}
 
           <div className="card">
-            <h2>Accounts</h2>
-            {accounts === null ? <div className="loading">Loading accounts…</div> : null}
-            {accounts && accounts.length === 0 ? (
-              <div className="empty">No customer accounts yet.</div>
-            ) : null}
-            {accounts && accounts.length > 0 ? (
-              <table className="table">
-                <tbody>
-                  {accounts.map((a) => (
-                    <tr key={a.id}>
-                      <td className="mono">{a.accountNumber}</td>
-                      <td>{a.partyName}</td>
-                      <td>
-                        <span
-                          className={`badge ${a.status === 'ACTIVE' ? 'badge-ok' : 'badge-danger'}`}
-                        >
-                          {a.status}
-                        </span>
-                      </td>
-                      <td>
-                        {can('crm.manage') ? (
-                          <select
-                            className="select"
-                            style={{ maxWidth: 130, fontSize: 12 }}
-                            value={a.territoryId ?? ''}
-                            onChange={(e) =>
-                              void run(async () => {
-                                await api('POST', `/api/v1/crm/accounts/${a.id}/territory`, {
-                                  territoryId: e.target.value || null,
-                                });
-                              }, 'Territory assigned.')
-                            }
-                          >
-                            <option value="">No territory</option>
-                            {territories.map((t) => (
-                              <option key={t.id} value={t.id}>
-                                {t.code}
-                              </option>
-                            ))}
-                          </select>
-                        ) : (
-                          <span className="muted mono" style={{ fontSize: 12 }}>
-                            {territories.find((t) => t.id === a.territoryId)?.code ?? ''}
-                          </span>
-                        )}
-                      </td>
-                      <td style={{ textAlign: 'right' }}>
-                        <button
-                          className="btn btn-sm"
-                          onClick={() => void open360(a.id)}
-                          type="button"
-                        >
-                          {selected360 === a.id ? 'Close 360°' : '360°'}
-                        </button>{' '}
-                        {onboarding[a.id] ? (
-                          onboarding[a.id]!.started ? (
-                            <span className="badge" title="Onboarding progress">
-                              🚀 {onboarding[a.id]!.done}/{onboarding[a.id]!.total}
-                            </span>
-                          ) : can('crm.manage') ? (
-                            <button
-                              className="btn btn-sm"
-                              type="button"
-                              disabled={busy}
-                              title="Start onboarding checklist"
-                              onClick={() =>
-                                run(async () => {
-                                  const r = await api<{ done: number; total: number }>(
-                                    'POST',
-                                    `/api/v1/crm/accounts/${a.id}/onboarding/start`,
-                                  );
-                                  setOnboarding((prev) => ({
-                                    ...prev,
-                                    [a.id]: { started: true, done: r.done, total: r.total },
-                                  }));
-                                }, 'Onboarding started — tasks created.')
-                              }
-                            >
-                              🚀
-                            </button>
-                          ) : null
-                        ) : (
-                          <button
-                            className="btn btn-sm"
-                            type="button"
-                            title="Onboarding status"
-                            onClick={() => {
-                              api<{ started: boolean; done: number; total: number }>(
-                                'GET',
-                                `/api/v1/crm/accounts/${a.id}/onboarding`,
-                              )
-                                .then((r) =>
-                                  setOnboarding((prev) => ({
-                                    ...prev,
-                                    [a.id]: { started: r.started, done: r.done, total: r.total },
-                                  })),
-                                )
-                                .catch(() => undefined);
-                            }}
-                          >
-                            🚀?
-                          </button>
-                        )}{' '}
-                        {loyalty[a.id] ? (
-                          <span className="badge badge-ok" title="Loyalty points">
-                            ★ {loyalty[a.id]!.points}
-                          </span>
-                        ) : (
-                          <button
-                            className="btn btn-sm"
-                            type="button"
-                            title="Loyalty points"
-                            onClick={() => {
-                              api<{
-                                points: number;
-                                transactions: Array<{ delta: number; reason: string }>;
-                              }>('GET', `/api/v1/crm/accounts/${a.id}/loyalty`)
-                                .then((r) =>
-                                  setLoyalty((prev) => ({
-                                    ...prev,
-                                    [a.id]: { points: r.points, transactions: r.transactions },
-                                  })),
-                                )
-                                .catch(() => undefined);
-                            }}
-                          >
-                            ★
-                          </button>
-                        )}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+            <h2>Kupci</h2>
+            {accounts === null ? <LoadingState text="Učitavanje kupaca…" /> : null}
+            {accounts !== null ? (
+              <DataTable
+                columns={accountColumns}
+                rows={accounts}
+                rowKey={(a) => a.id}
+                onRowClick={(a) => void open360(a.id)}
+                searchPlaceholder="Pretraga kupaca…"
+                pageSize={10}
+                emptyText="Još nema konta kupaca."
+              />
             ) : null}
 
             {selected360 && summary ? (
@@ -500,9 +637,17 @@ export default function CrmPage() {
                       {summary.accountNumber}
                     </span>
                   </strong>
-                  {summary.credit.creditHold ? (
-                    <span className="badge badge-danger">CREDIT HOLD</span>
-                  ) : null}
+                  <span className="row">
+                    {summary.credit.creditHold ? (
+                      <span className="badge badge-danger">KREDITNA BLOKADA</span>
+                    ) : null}
+                    <Link className="btn btn-sm" href="/quotes">
+                      Ponude →
+                    </Link>
+                    <Link className="btn btn-sm" href="/orders">
+                      Narudžbe →
+                    </Link>
+                  </span>
                 </div>
                 <div style={{ margin: '4px 0 8px' }}>
                   {summary.tags.map((t) => (
@@ -513,45 +658,47 @@ export default function CrmPage() {
                 </div>
                 <div className="grid-4" style={{ marginBottom: 10 }}>
                   <div className="card stat">
-                    <div className="stat-label">Revenue ({summary.orders.count} orders)</div>
+                    <div className="stat-label">Prihod ({summary.orders.count} narudžbi)</div>
                     <div className="stat-value">{summary.orders.revenue}</div>
                   </div>
                   <div className="card stat">
-                    <div className="stat-label">Open balance</div>
+                    <div className="stat-label">Otvoreni saldo</div>
                     <div className="stat-value">{summary.credit.openBalance}</div>
                   </div>
                   <div className="card stat">
-                    <div className="stat-label">Credit limit</div>
+                    <div className="stat-label">Kreditni limit</div>
                     <div className="stat-value">{summary.credit.creditLimit ?? '—'}</div>
                   </div>
                   <div className="card stat">
-                    <div className="stat-label">Available credit</div>
+                    <div className="stat-label">Raspoloživi kredit</div>
                     <div className="stat-value">{summary.credit.availableCredit ?? '—'}</div>
                   </div>
                 </div>
                 <div className="grid-2">
                   <div>
                     <div className="muted" style={{ fontSize: 12, marginBottom: 4 }}>
-                      Recent orders · open quotes: {summary.quotes.open} · opportunities:{' '}
-                      {summary.opportunities.open} open / {summary.opportunities.won} won
+                      Nedavne narudžbe · otvorene ponude: {summary.quotes.open} · prilike:{' '}
+                      {summary.opportunities.open} otvorenih / {summary.opportunities.won} dobijenih
                     </div>
                     {summary.orders.recent.length === 0 ? (
-                      <div className="empty">No orders yet.</div>
+                      <EmptyState text="Još nema narudžbi." />
                     ) : (
                       summary.orders.recent.map((o) => (
                         <div key={o.id} style={{ fontSize: 13, padding: '2px 0' }}>
                           <span className="mono">{o.orderNumber}</span> — {o.total}{' '}
-                          <span className="badge badge-accent">{o.status}</span>
+                          <span className="badge badge-accent">
+                            {ORDER_STATUS_LABELS[o.status] ?? o.status}
+                          </span>
                         </div>
                       ))
                     )}
                   </div>
                   <div>
                     <div className="muted" style={{ fontSize: 12, marginBottom: 4 }}>
-                      Latest activity
+                      Posljednje aktivnosti
                     </div>
                     {summary.activities.length === 0 ? (
-                      <div className="empty">No activities logged.</div>
+                      <EmptyState text="Nema zabilježenih aktivnosti." />
                     ) : (
                       summary.activities.map((act) => (
                         <div key={act.id} className="muted" style={{ fontSize: 12 }}>
@@ -570,25 +717,13 @@ export default function CrmPage() {
                     style={{ marginTop: 10 }}
                     onSubmit={(e) => {
                       e.preventDefault();
-                      void run(async () => {
-                        await api('POST', `/api/v1/crm/accounts/${selected360}/credit`, {
-                          creditLimit: creditLimitInput === '' ? null : Number(creditLimitInput),
-                          creditHold: creditHoldInput,
-                        });
-                        await api('POST', `/api/v1/crm/accounts/${selected360}/tags`, {
-                          tags: tagsInput
-                            .split(',')
-                            .map((t) => t.trim())
-                            .filter(Boolean),
-                        });
-                        await open360(selected360, true);
-                      }, 'Credit profile saved.');
+                      setConfirm({ kind: 'credit' });
                     }}
                   >
                     <input
                       className="input"
                       style={{ maxWidth: 130 }}
-                      placeholder="Credit limit"
+                      placeholder="Kreditni limit"
                       value={creditLimitInput}
                       onChange={(e) => setCreditLimitInput(e.target.value)}
                     />
@@ -598,17 +733,17 @@ export default function CrmPage() {
                         checked={creditHoldInput}
                         onChange={(e) => setCreditHoldInput(e.target.checked)}
                       />
-                      Credit hold
+                      Kreditna blokada
                     </label>
                     <input
                       className="input"
                       style={{ maxWidth: 220 }}
-                      placeholder="Tags (comma-separated)"
+                      placeholder="Oznake (odvojene zarezom)"
                       value={tagsInput}
                       onChange={(e) => setTagsInput(e.target.value)}
                     />
                     <button className="btn btn-sm btn-primary" disabled={busy} type="submit">
-                      Save profile
+                      Sačuvaj profil
                     </button>
                   </form>
                 ) : null}
@@ -622,7 +757,7 @@ export default function CrmPage() {
                   e.preventDefault();
                   void run(
                     () => api('POST', '/api/v1/crm/accounts', { partyId: accountParty }),
-                    'Account opened.',
+                    'Konto kupca je otvoren.',
                   );
                 }}
               >
@@ -633,7 +768,7 @@ export default function CrmPage() {
                   onChange={(e) => setAccountParty(e.target.value)}
                   required
                 >
-                  <option value="">Open account for existing party…</option>
+                  <option value="">Otvori konto za postojećeg partnera…</option>
                   {parties.map((p) => (
                     <option key={p.id} value={p.id}>
                       {p.name}
@@ -641,7 +776,7 @@ export default function CrmPage() {
                   ))}
                 </select>
                 <button className="btn btn-sm" disabled={busy} type="submit">
-                  Open account
+                  Otvori konto kupca
                 </button>
               </form>
             ) : null}
@@ -649,15 +784,15 @@ export default function CrmPage() {
         </div>
 
         <div className="card">
-          <h2>Territories</h2>
-          {territories.length === 0 ? <div className="empty">No territories yet.</div> : null}
+          <h2>Teritorije</h2>
+          {territories.length === 0 ? <EmptyState text="Još nema teritorija." /> : null}
           {territories.map((t) => (
             <div key={t.id} className="row spread" style={{ marginBottom: 4 }}>
               <span>
                 <span className="mono">{t.code}</span> — {t.name}
               </span>
               <span className="muted" style={{ fontSize: 12 }}>
-                {t.accountCount} accounts
+                {t.accountCount} kupaca
               </span>
             </div>
           ))}
@@ -679,13 +814,13 @@ export default function CrmPage() {
                     '/api/v1/crm/territories',
                   );
                   setTerritories(r.territories);
-                }, 'Territory created.');
+                }, 'Teritorija je kreirana.');
               }}
             >
               <input
                 className="input mono"
                 style={{ maxWidth: 90 }}
-                placeholder="Code"
+                placeholder="Šifra"
                 value={terrCode}
                 onChange={(e) => setTerrCode(e.target.value)}
                 required
@@ -693,21 +828,21 @@ export default function CrmPage() {
               <input
                 className="input"
                 style={{ maxWidth: 160 }}
-                placeholder="Name"
+                placeholder="Naziv"
                 value={terrName}
                 onChange={(e) => setTerrName(e.target.value)}
                 required
               />
               <button className="btn btn-sm btn-primary" disabled={busy} type="submit">
-                Add
+                Dodaj
               </button>
             </form>
           ) : null}
         </div>
 
         <div className="card">
-          <h2>Sales teams</h2>
-          {teams.length === 0 ? <div className="empty">No teams yet.</div> : null}
+          <h2>Prodajni timovi</h2>
+          {teams.length === 0 ? <EmptyState text="Još nema timova." /> : null}
           {teams.map((t) => (
             <div key={t.id} style={{ marginBottom: 10 }}>
               <div className="spread">
@@ -715,7 +850,7 @@ export default function CrmPage() {
                   <span className="mono">{t.code}</span> — {t.name}
                 </span>
                 <span className="muted" style={{ fontSize: 12 }}>
-                  {t.territoryCount} territories
+                  {t.territoryCount} teritorija
                 </span>
               </div>
               <div className="row" style={{ marginTop: 4, flexWrap: 'wrap', gap: 6 }}>
@@ -731,7 +866,7 @@ export default function CrmPage() {
                         onClick={() =>
                           void run(
                             () => api('POST', `/api/v1/crm/teams/${t.id}/members/${m.id}/remove`),
-                            'Member removed.',
+                            'Član je uklonjen.',
                           )
                         }
                       >
@@ -750,11 +885,11 @@ export default function CrmPage() {
                       if (!userId) return;
                       void run(
                         () => api('POST', `/api/v1/crm/teams/${t.id}/members`, { userId }),
-                        'Member added.',
+                        'Član je dodan.',
                       );
                     }}
                   >
-                    <option value="">+ member…</option>
+                    <option value="">+ član…</option>
                     {tenantUsers
                       .filter((u) => !t.members.some((m) => m.userId === u.id))
                       .map((u) => (
@@ -777,13 +912,13 @@ export default function CrmPage() {
                   await api('POST', '/api/v1/crm/teams', { code: teamCode, name: teamName });
                   setTeamCode('');
                   setTeamName('');
-                }, 'Team created.');
+                }, 'Tim je kreiran.');
               }}
             >
               <input
                 className="input mono"
                 style={{ maxWidth: 90 }}
-                placeholder="Code"
+                placeholder="Šifra"
                 value={teamCode}
                 onChange={(e) => setTeamCode(e.target.value)}
                 required
@@ -791,89 +926,53 @@ export default function CrmPage() {
               <input
                 className="input"
                 style={{ maxWidth: 160 }}
-                placeholder="Name"
+                placeholder="Naziv"
                 value={teamName}
                 onChange={(e) => setTeamName(e.target.value)}
                 required
               />
               <button className="btn btn-sm btn-primary" disabled={busy} type="submit">
-                Add
+                Dodaj
               </button>
             </form>
           ) : null}
         </div>
 
         <div className="card">
-          <h2>Opportunity pipeline</h2>
-          {opportunities.length === 0 ? (
-            <div className="empty">No opportunities — convert a lead to start the pipeline.</div>
-          ) : null}
-          {opportunities.map((o) => (
-            <div
-              key={o.id}
-              style={{
-                border: '1px solid var(--color-border)',
-                borderRadius: 8,
-                padding: 12,
-                marginBottom: 10,
-              }}
-            >
-              <div className="spread">
-                <div>
-                  <strong>{o.title}</strong>
-                  <div className="muted" style={{ fontSize: 12 }}>
-                    {accountName(o.accountId)}
-                    {o.amount ? ` · ${o.amount} ${o.currency ?? ''}` : ''}
-                  </div>
-                </div>
-                <span className={`badge ${STAGE_BADGE[o.stage]}`}>{o.stage}</span>
-              </div>
-              {can('crm.manage') && NEXT_STAGES[o.stage].length > 0 ? (
-                <div className="row" style={{ marginTop: 8 }}>
-                  {NEXT_STAGES[o.stage].map((next) => (
-                    <button
-                      key={next}
-                      className={`btn btn-sm ${next === 'WON' ? 'btn-primary' : ''}`}
-                      disabled={busy}
-                      onClick={() =>
-                        run(
-                          () =>
-                            api('POST', `/api/v1/crm/opportunities/${o.id}/move`, { stage: next }),
-                          null,
-                        )
-                      }
-                      type="button"
-                    >
-                      → {next}
-                    </button>
-                  ))}
-                </div>
-              ) : null}
-            </div>
-          ))}
+          <h2>Prilike (pipeline)</h2>
+          <DataTable
+            columns={opportunityColumns}
+            rows={opportunities}
+            rowKey={(o) => o.id}
+            searchPlaceholder="Pretraga prilika…"
+            pageSize={10}
+            emptyText="Nema prilika — konvertujte lead da pokrenete pipeline."
+          />
         </div>
       </div>
       {can('crm.read') ? (
         <div className="card" style={{ marginTop: 16 }}>
-          <h2>Support cases</h2>
+          <h2>Slučajevi podrške</h2>
           {caseStats ? (
             <div className="row" style={{ flexWrap: 'wrap', gap: 6, marginBottom: 8 }}>
-              <span className="badge">open: {caseStats.open}</span>
-              <span className="badge">in progress: {caseStats.inProgress}</span>
+              <span className="badge">otvoreni: {caseStats.open}</span>
+              <span className="badge">u toku: {caseStats.inProgress}</span>
               {caseStats.avgResolutionHours !== null ? (
-                <span className="badge badge-ok">avg resolve: {caseStats.avgResolutionHours}h</span>
+                <span className="badge badge-ok">
+                  prosjek rješavanja: {caseStats.avgResolutionHours}h
+                </span>
               ) : null}
               {caseStats.overdue.length > 0 ? (
                 <span className="badge badge-danger">
-                  SLA overdue: {caseStats.overdue.map((o) => o.caseNumber).join(', ')}
+                  SLA probijen: {caseStats.overdue.map((o) => o.caseNumber).join(', ')}
                 </span>
               ) : null}
             </div>
           ) : null}
           <p className="muted" style={{ marginTop: 0 }}>
-            Customer issues with a clear lifecycle — open, in progress, resolved, closed.
+            Prijave kupaca s jasnim životnim ciklusom — otvoren, u toku, riješen, zatvoren.
           </p>
-          {cases.length === 0 ? <div className="empty">No cases.</div> : null}
+          {cases.length === 0 ? <EmptyState text="Nema slučajeva." /> : null}
           {cases.slice(0, 10).map((c) => (
             <div key={c.id} className="row spread" style={{ marginBottom: 6 }}>
               <span>
@@ -889,7 +988,7 @@ export default function CrmPage() {
                           : 'badge-warn'
                   }`}
                 >
-                  {c.status}
+                  {CASE_STATUS_LABELS[c.status] ?? c.status}
                 </span>
               </span>
               {can('crm.manage') && CASE_NEXT[c.status] ? (
@@ -904,7 +1003,7 @@ export default function CrmPage() {
                       });
                       const r = await api<{ cases: typeof cases }>('GET', '/api/v1/support-cases');
                       setCases(r.cases);
-                    }, 'Case updated.')
+                    }, 'Slučaj je ažuriran.')
                   }
                 >
                   {CASE_NEXT[c.status]!.label}
@@ -927,13 +1026,13 @@ export default function CrmPage() {
                   setCaseSubject('');
                   const r = await api<{ cases: typeof cases }>('GET', '/api/v1/support-cases');
                   setCases(r.cases);
-                }, 'Case opened.');
+                }, 'Slučaj je otvoren.');
               }}
             >
               <input
                 className="input"
                 style={{ maxWidth: 240 }}
-                placeholder="Subject"
+                placeholder="Predmet"
                 value={caseSubject}
                 onChange={(e) => setCaseSubject(e.target.value)}
                 required
@@ -944,10 +1043,10 @@ export default function CrmPage() {
                 value={casePriority}
                 onChange={(e) => setCasePriority(e.target.value)}
               >
-                <option value="LOW">Low</option>
-                <option value="NORMAL">Normal</option>
-                <option value="HIGH">High</option>
-                <option value="URGENT">Urgent</option>
+                <option value="LOW">Nizak</option>
+                <option value="NORMAL">Normalan</option>
+                <option value="HIGH">Visok</option>
+                <option value="URGENT">Hitan</option>
               </select>
               <select
                 className="select"
@@ -955,7 +1054,7 @@ export default function CrmPage() {
                 value={caseAccount}
                 onChange={(e) => setCaseAccount(e.target.value)}
               >
-                <option value="">No account</option>
+                <option value="">Bez konta</option>
                 {(accounts ?? []).map((a) => (
                   <option key={a.id} value={a.id}>
                     {a.accountNumber}
@@ -963,11 +1062,111 @@ export default function CrmPage() {
                 ))}
               </select>
               <button className="btn btn-sm btn-primary" disabled={busy} type="submit">
-                Open case
+                Otvori slučaj
               </button>
             </form>
           ) : null}
         </div>
+      ) : null}
+
+      {confirm?.kind === 'convert' ? (
+        <ConfirmDialog
+          open
+          title="Konverzija leada"
+          consequence="Kreira kupca/priliku iz leada."
+          confirmLabel="Konvertuj lead"
+          busy={busy}
+          onCancel={() => setConfirm(null)}
+          onConfirm={() => {
+            const lead = confirm.lead;
+            void run(
+              () => api('POST', `/api/v1/crm/leads/${lead.id}/convert`, {}),
+              'Lead je konvertovan u kupca i priliku.',
+            ).then(() => setConfirm(null));
+          }}
+        >
+          <div className="fact">
+            <span>Lead</span>
+            <span>{confirm.lead.name}</span>
+          </div>
+          <div className="fact">
+            <span>Naziv</span>
+            <span>{confirm.lead.company ?? '—'}</span>
+          </div>
+        </ConfirmDialog>
+      ) : null}
+
+      {confirm?.kind === 'disqualify' ? (
+        <ConfirmDialog
+          open
+          title="Diskvalifikacija leada"
+          consequence="Lead se označava kao diskvalifikovan i izlazi iz dalje prodajne obrade."
+          confirmLabel="Diskvalifikuj lead"
+          danger
+          busy={busy}
+          onCancel={() => setConfirm(null)}
+          onConfirm={() => {
+            const lead = confirm.lead;
+            void run(
+              () => api('POST', `/api/v1/crm/leads/${lead.id}/disqualify`),
+              'Lead je diskvalifikovan.',
+            ).then(() => setConfirm(null));
+          }}
+        >
+          <div className="fact">
+            <span>Lead</span>
+            <span>{confirm.lead.name}</span>
+          </div>
+          <div className="fact">
+            <span>Naziv</span>
+            <span>{confirm.lead.company ?? '—'}</span>
+          </div>
+        </ConfirmDialog>
+      ) : null}
+
+      {confirm?.kind === 'credit' && selected360 && summary ? (
+        <ConfirmDialog
+          open
+          title="Promjena kreditnog profila"
+          consequence="Promjena kreditnog limita ili kreditne blokade direktno utiče na potvrdu i isporuku novih narudžbi ovog kupca."
+          confirmLabel="Sačuvaj profil"
+          danger={creditHoldInput && !summary.credit.creditHold}
+          busy={busy}
+          onCancel={() => setConfirm(null)}
+          onConfirm={() => {
+            const accountId = selected360;
+            void run(async () => {
+              await api('POST', `/api/v1/crm/accounts/${accountId}/credit`, {
+                creditLimit: creditLimitInput === '' ? null : Number(creditLimitInput),
+                creditHold: creditHoldInput,
+              });
+              await api('POST', `/api/v1/crm/accounts/${accountId}/tags`, {
+                tags: tagsInput
+                  .split(',')
+                  .map((t) => t.trim())
+                  .filter(Boolean),
+              });
+              await open360(accountId, true);
+            }, 'Kreditni profil je sačuvan.').then(() => setConfirm(null));
+          }}
+        >
+          <div className="fact">
+            <span>Kupac</span>
+            <span>{summary.partyName}</span>
+          </div>
+          <div className="fact">
+            <span>Konto</span>
+            <span className="mono">{summary.accountNumber}</span>
+          </div>
+          <div className="fact">
+            <span>Novi kreditni limit</span>
+            <span>{creditLimitInput === '' ? '—' : creditLimitInput}</span>
+          </div>
+          <div className="fact">
+            <span>Kreditna blokada</span>
+            <span>{creditHoldInput ? 'Da' : 'Ne'}</span>
+          </div>
+        </ConfirmDialog>
       ) : null}
     </main>
   );

@@ -122,3 +122,15 @@ Otvoreno (master backlog, nepromijenjeno): vizuelni pregled 215–218 (vlasnik);
 - [x] Provjere kroz browser + API (Playwright 10 snimaka): normativ FG-219 (komponenta 2×/jed) → radni nalog 5 kom → puštanje (dijalog) → pokretanje → završetak 4 dobro + 1 škart (dijalog) → **ledger potvrđen: komponenta 50−10−10=30, gotov proizvod +4**; ponovljeni complete → 409; nedozvoljen prelaz (complete iz PLANNED) → INVALID_STATE; tenant izolacija (demo2 prazno); zabranjen pristup; mobilni prikaz; regresija zajedničkih dijaloga (centriranje ✓); web typecheck/build ✓; lint 0 errors
 
 Otvoreno (master backlog, nepromijenjeno): vizuelni pregled 215–219 (vlasnik); LaunchAgent NEPOTVRĐEN; FIN-028; HR inventar (ODL-005); stvarni adapteri; preostale EN stranice; enterprise grid.
+
+# Sprint 220 — ZAVRŠEN 17.09.2026: CRM + ponude/CPQ na standardu 215–219
+
+- [x] /crm: bosanski + mape labela; leadovi/kupci/prilike kroz DataTable; 360° detalj kupca s linkovima na /quotes i /orders; kupac se otvara isključivo nad postojećim partnerom (partyId); ConfirmDialog za konverziju leada, diskvalifikaciju (danger) i kreditni profil (danger pri uključenju blokade)
+- [x] /quotes: bosanski + mape statusa (Nacrt/Čeka odobrenje/Odobrena/Poslana/Prihvaćena/Odbijena/Istekla); lista kroz DataTable + status filter; stavke s kolonama Količina/Cijena/Popust/Ukupno — **svi iznosi sa servera (cjenovnik/pravila popusta), bez formula u UI-ju**; ConfirmDialog za slanje, prihvatanje, odbijanje (danger)
+- [x] **Konverzija u narudžbu** na prihvaćenoj ponudi: izbor skladišta + ConfirmDialog (ponuda, kupac, ukupno, stavke, skladište); POST /orders/from-quote; nakon uspjeha broj narudžbe + link; ponovna konverzija server 409
+- [x] Konfigurator u postojećem obimu (cjenovnici s pragovima, pravila popusta, promocije, nova verzija, PDF) — samo prevedeno, ništa dodavano
+- [x] Backend NIJE mijenjan
+- [x] Provjere (Playwright 15 snimaka + API): lead → konverzija (dijalog); ponuda Q-000003 (kupac, cjenovnik) + stavka FG-219×2 → server total **240 EUR** → predaja → slanje → prihvatanje (dijalozi) → konverzija → **SO-000009 total 240 EUR, linija 2×120 — iznosi preneseni tačno**; **ponovna konverzija → 409 "already converted to order SO-000009", bez duplikata**; nedozvoljen status (accept nacrta) → INVALID_STATE "Quote is not sent"; zabranjen pristup; tenant izolacija (demo2 prazno); mobilno /quotes i /crm; web typecheck/build ✓; lint 0 errors
+- Evidentirano (nije rađeno): ponuda zahtijeva objavljeni cjenovnik — bez njega forma jasno traži izbor; seed cjenovnika nije dio UI toka
+
+Otvoreno (master backlog, nepromijenjeno): vizuelni pregled 215–220 (vlasnik); LaunchAgent NEPOTVRĐEN; FIN-028; HR inventar (ODL-005); stvarni adapteri; preostale EN stranice (analytics, operations, hr, ostalo); enterprise grid.
