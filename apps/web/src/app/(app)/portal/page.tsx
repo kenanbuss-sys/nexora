@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { api, errorText } from '../../../lib/api';
 import { useApp } from '../app-shell';
 import {
@@ -130,6 +130,14 @@ export default function PortalPage() {
   const [busy, setBusy] = useState(false);
 
   const [cart, setCart] = useState<Record<string, string>>({});
+  // Sprint 222: one idempotency key per intended order — kept across
+  // retries and uncertain outcomes; any cart change is a new intent
+  // with a new key. The server dedupes on it (same key + same content
+  // replays the same order).
+  const orderKeyRef = useRef<string | null>(null);
+  useEffect(() => {
+    orderKeyRef.current = null;
+  }, [cart]);
   const [confirmOrder, setConfirmOrder] = useState(false);
   const [claims, setClaims] = useState<PortalClaim[]>([]);
   const [claimOrder, setClaimOrder] = useState('');
@@ -695,10 +703,13 @@ export default function PortalPage() {
           onConfirm={() =>
             void run(async () => {
               const lines = cartLines.map((l) => ({ skuId: l.skuId, quantity: l.quantity }));
+              if (!orderKeyRef.current) {
+                orderKeyRef.current = crypto.randomUUID().replace(/-/g, '');
+              }
               const r = await api<{ id: string; orderNumber: string }>(
                 'POST',
                 '/api/v1/portal/orders',
-                { lines },
+                { lines, requestKey: orderKeyRef.current },
               );
               setCart({});
               setConfirmOrder(false);

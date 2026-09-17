@@ -1475,6 +1475,13 @@ model SalesOrder {
   projectRef      String?          @map("project_ref")
   /// Sprint 124 (COM-006): originating channel — one canonical order model.
   channel         String           @default("direct")
+  /// Sprint 222: idempotent portal ordering — namespaced client request
+  /// key; the order row itself is the idempotency record, so order and
+  /// evidence are written atomically. Key lives as long as the order.
+  requestKey      String?          @map("request_key")
+  /// Content hash of the original request: a replay with the same key
+  /// but different content is refused as a conflict.
+  requestHash     String?          @map("request_hash")
   createdBy       String?          @map("created_by")
   createdAt       DateTime         @default(now()) @map("created_at")
   updatedAt       DateTime         @updatedAt @map("updated_at")
@@ -1484,6 +1491,7 @@ model SalesOrder {
   packages Package[]
 
   @@unique([tenantId, orderNumber])
+  @@unique([tenantId, requestKey])
   @@index([tenantId, status])
   @@index([tenantId, accountId])
   @@map("sales_order")

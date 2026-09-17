@@ -781,6 +781,8 @@ exports.Prisma.SalesOrderScalarFieldEnum = {
   fulfillmentType: 'fulfillmentType',
   projectRef: 'projectRef',
   channel: 'channel',
+  requestKey: 'requestKey',
+  requestHash: 'requestHash',
   createdBy: 'createdBy',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'

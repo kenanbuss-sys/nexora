@@ -85104,6 +85104,8 @@ export namespace Prisma {
     fulfillmentType: $Enums.FulfillmentType | null
     projectRef: string | null
     channel: string | null
+    requestKey: string | null
+    requestHash: string | null
     createdBy: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -85123,6 +85125,8 @@ export namespace Prisma {
     fulfillmentType: $Enums.FulfillmentType | null
     projectRef: string | null
     channel: string | null
+    requestKey: string | null
+    requestHash: string | null
     createdBy: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -85142,6 +85146,8 @@ export namespace Prisma {
     fulfillmentType: number
     projectRef: number
     channel: number
+    requestKey: number
+    requestHash: number
     createdBy: number
     createdAt: number
     updatedAt: number
@@ -85171,6 +85177,8 @@ export namespace Prisma {
     fulfillmentType?: true
     projectRef?: true
     channel?: true
+    requestKey?: true
+    requestHash?: true
     createdBy?: true
     createdAt?: true
     updatedAt?: true
@@ -85190,6 +85198,8 @@ export namespace Prisma {
     fulfillmentType?: true
     projectRef?: true
     channel?: true
+    requestKey?: true
+    requestHash?: true
     createdBy?: true
     createdAt?: true
     updatedAt?: true
@@ -85209,6 +85219,8 @@ export namespace Prisma {
     fulfillmentType?: true
     projectRef?: true
     channel?: true
+    requestKey?: true
+    requestHash?: true
     createdBy?: true
     createdAt?: true
     updatedAt?: true
@@ -85315,6 +85327,8 @@ export namespace Prisma {
     fulfillmentType: $Enums.FulfillmentType
     projectRef: string | null
     channel: string
+    requestKey: string | null
+    requestHash: string | null
     createdBy: string | null
     createdAt: Date
     updatedAt: Date
@@ -85353,6 +85367,8 @@ export namespace Prisma {
     fulfillmentType?: boolean
     projectRef?: boolean
     channel?: boolean
+    requestKey?: boolean
+    requestHash?: boolean
     createdBy?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -85376,6 +85392,8 @@ export namespace Prisma {
     fulfillmentType?: boolean
     projectRef?: boolean
     channel?: boolean
+    requestKey?: boolean
+    requestHash?: boolean
     createdBy?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -85396,6 +85414,8 @@ export namespace Prisma {
     fulfillmentType?: boolean
     projectRef?: boolean
     channel?: boolean
+    requestKey?: boolean
+    requestHash?: boolean
     createdBy?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -85416,12 +85436,14 @@ export namespace Prisma {
     fulfillmentType?: boolean
     projectRef?: boolean
     channel?: boolean
+    requestKey?: boolean
+    requestHash?: boolean
     createdBy?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type SalesOrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "orderNumber" | "accountId" | "quoteId" | "warehouseId" | "status" | "currency" | "total" | "holdReason" | "fulfillmentType" | "projectRef" | "channel" | "createdBy" | "createdAt" | "updatedAt", ExtArgs["result"]["salesOrder"]>
+  export type SalesOrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "orderNumber" | "accountId" | "quoteId" | "warehouseId" | "status" | "currency" | "total" | "holdReason" | "fulfillmentType" | "projectRef" | "channel" | "requestKey" | "requestHash" | "createdBy" | "createdAt" | "updatedAt", ExtArgs["result"]["salesOrder"]>
   export type SalesOrderInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     lines?: boolean | SalesOrder$linesArgs<ExtArgs>
@@ -85465,6 +85487,17 @@ export namespace Prisma {
        * Sprint 124 (COM-006): originating channel — one canonical order model.
        */
       channel: string
+      /**
+       * Sprint 222: idempotent portal ordering — namespaced client request
+       * key; the order row itself is the idempotency record, so order and
+       * evidence are written atomically. Key lives as long as the order.
+       */
+      requestKey: string | null
+      /**
+       * Content hash of the original request: a replay with the same key
+       * but different content is refused as a conflict.
+       */
+      requestHash: string | null
       createdBy: string | null
       createdAt: Date
       updatedAt: Date
@@ -85907,6 +85940,8 @@ export namespace Prisma {
     readonly fulfillmentType: FieldRef<"SalesOrder", 'FulfillmentType'>
     readonly projectRef: FieldRef<"SalesOrder", 'String'>
     readonly channel: FieldRef<"SalesOrder", 'String'>
+    readonly requestKey: FieldRef<"SalesOrder", 'String'>
+    readonly requestHash: FieldRef<"SalesOrder", 'String'>
     readonly createdBy: FieldRef<"SalesOrder", 'String'>
     readonly createdAt: FieldRef<"SalesOrder", 'DateTime'>
     readonly updatedAt: FieldRef<"SalesOrder", 'DateTime'>
@@ -189251,6 +189286,8 @@ export namespace Prisma {
     fulfillmentType: 'fulfillmentType',
     projectRef: 'projectRef',
     channel: 'channel',
+    requestKey: 'requestKey',
+    requestHash: 'requestHash',
     createdBy: 'createdBy',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -196406,6 +196443,8 @@ export namespace Prisma {
     fulfillmentType?: EnumFulfillmentTypeFilter<"SalesOrder"> | $Enums.FulfillmentType
     projectRef?: StringNullableFilter<"SalesOrder"> | string | null
     channel?: StringFilter<"SalesOrder"> | string
+    requestKey?: StringNullableFilter<"SalesOrder"> | string | null
+    requestHash?: StringNullableFilter<"SalesOrder"> | string | null
     createdBy?: StringNullableFilter<"SalesOrder"> | string | null
     createdAt?: DateTimeFilter<"SalesOrder"> | Date | string
     updatedAt?: DateTimeFilter<"SalesOrder"> | Date | string
@@ -196428,6 +196467,8 @@ export namespace Prisma {
     fulfillmentType?: SortOrder
     projectRef?: SortOrderInput | SortOrder
     channel?: SortOrder
+    requestKey?: SortOrderInput | SortOrder
+    requestHash?: SortOrderInput | SortOrder
     createdBy?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -196439,6 +196480,7 @@ export namespace Prisma {
   export type SalesOrderWhereUniqueInput = Prisma.AtLeast<{
     id?: string
     tenantId_orderNumber?: SalesOrderTenantIdOrderNumberCompoundUniqueInput
+    tenantId_requestKey?: SalesOrderTenantIdRequestKeyCompoundUniqueInput
     AND?: SalesOrderWhereInput | SalesOrderWhereInput[]
     OR?: SalesOrderWhereInput[]
     NOT?: SalesOrderWhereInput | SalesOrderWhereInput[]
@@ -196454,13 +196496,15 @@ export namespace Prisma {
     fulfillmentType?: EnumFulfillmentTypeFilter<"SalesOrder"> | $Enums.FulfillmentType
     projectRef?: StringNullableFilter<"SalesOrder"> | string | null
     channel?: StringFilter<"SalesOrder"> | string
+    requestKey?: StringNullableFilter<"SalesOrder"> | string | null
+    requestHash?: StringNullableFilter<"SalesOrder"> | string | null
     createdBy?: StringNullableFilter<"SalesOrder"> | string | null
     createdAt?: DateTimeFilter<"SalesOrder"> | Date | string
     updatedAt?: DateTimeFilter<"SalesOrder"> | Date | string
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
     lines?: SalesOrderLineListRelationFilter
     packages?: PackageListRelationFilter
-  }, "id" | "tenantId_orderNumber">
+  }, "id" | "tenantId_orderNumber" | "tenantId_requestKey">
 
   export type SalesOrderOrderByWithAggregationInput = {
     id?: SortOrder
@@ -196476,6 +196520,8 @@ export namespace Prisma {
     fulfillmentType?: SortOrder
     projectRef?: SortOrderInput | SortOrder
     channel?: SortOrder
+    requestKey?: SortOrderInput | SortOrder
+    requestHash?: SortOrderInput | SortOrder
     createdBy?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -196503,6 +196549,8 @@ export namespace Prisma {
     fulfillmentType?: EnumFulfillmentTypeWithAggregatesFilter<"SalesOrder"> | $Enums.FulfillmentType
     projectRef?: StringNullableWithAggregatesFilter<"SalesOrder"> | string | null
     channel?: StringWithAggregatesFilter<"SalesOrder"> | string
+    requestKey?: StringNullableWithAggregatesFilter<"SalesOrder"> | string | null
+    requestHash?: StringNullableWithAggregatesFilter<"SalesOrder"> | string | null
     createdBy?: StringNullableWithAggregatesFilter<"SalesOrder"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"SalesOrder"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"SalesOrder"> | Date | string
@@ -208902,6 +208950,8 @@ export namespace Prisma {
     fulfillmentType?: $Enums.FulfillmentType
     projectRef?: string | null
     channel?: string
+    requestKey?: string | null
+    requestHash?: string | null
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -208924,6 +208974,8 @@ export namespace Prisma {
     fulfillmentType?: $Enums.FulfillmentType
     projectRef?: string | null
     channel?: string
+    requestKey?: string | null
+    requestHash?: string | null
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -208944,6 +208996,8 @@ export namespace Prisma {
     fulfillmentType?: EnumFulfillmentTypeFieldUpdateOperationsInput | $Enums.FulfillmentType
     projectRef?: NullableStringFieldUpdateOperationsInput | string | null
     channel?: StringFieldUpdateOperationsInput | string
+    requestKey?: NullableStringFieldUpdateOperationsInput | string | null
+    requestHash?: NullableStringFieldUpdateOperationsInput | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -208966,6 +209020,8 @@ export namespace Prisma {
     fulfillmentType?: EnumFulfillmentTypeFieldUpdateOperationsInput | $Enums.FulfillmentType
     projectRef?: NullableStringFieldUpdateOperationsInput | string | null
     channel?: StringFieldUpdateOperationsInput | string
+    requestKey?: NullableStringFieldUpdateOperationsInput | string | null
+    requestHash?: NullableStringFieldUpdateOperationsInput | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -208987,6 +209043,8 @@ export namespace Prisma {
     fulfillmentType?: $Enums.FulfillmentType
     projectRef?: string | null
     channel?: string
+    requestKey?: string | null
+    requestHash?: string | null
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -209005,6 +209063,8 @@ export namespace Prisma {
     fulfillmentType?: EnumFulfillmentTypeFieldUpdateOperationsInput | $Enums.FulfillmentType
     projectRef?: NullableStringFieldUpdateOperationsInput | string | null
     channel?: StringFieldUpdateOperationsInput | string
+    requestKey?: NullableStringFieldUpdateOperationsInput | string | null
+    requestHash?: NullableStringFieldUpdateOperationsInput | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -209024,6 +209084,8 @@ export namespace Prisma {
     fulfillmentType?: EnumFulfillmentTypeFieldUpdateOperationsInput | $Enums.FulfillmentType
     projectRef?: NullableStringFieldUpdateOperationsInput | string | null
     channel?: StringFieldUpdateOperationsInput | string
+    requestKey?: NullableStringFieldUpdateOperationsInput | string | null
+    requestHash?: NullableStringFieldUpdateOperationsInput | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -221564,6 +221626,11 @@ export namespace Prisma {
     orderNumber: string
   }
 
+  export type SalesOrderTenantIdRequestKeyCompoundUniqueInput = {
+    tenantId: string
+    requestKey: string
+  }
+
   export type SalesOrderCountOrderByAggregateInput = {
     id?: SortOrder
     tenantId?: SortOrder
@@ -221578,6 +221645,8 @@ export namespace Prisma {
     fulfillmentType?: SortOrder
     projectRef?: SortOrder
     channel?: SortOrder
+    requestKey?: SortOrder
+    requestHash?: SortOrder
     createdBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -221601,6 +221670,8 @@ export namespace Prisma {
     fulfillmentType?: SortOrder
     projectRef?: SortOrder
     channel?: SortOrder
+    requestKey?: SortOrder
+    requestHash?: SortOrder
     createdBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -221620,6 +221691,8 @@ export namespace Prisma {
     fulfillmentType?: SortOrder
     projectRef?: SortOrder
     channel?: SortOrder
+    requestKey?: SortOrder
+    requestHash?: SortOrder
     createdBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -240975,6 +241048,8 @@ export namespace Prisma {
     fulfillmentType?: $Enums.FulfillmentType
     projectRef?: string | null
     channel?: string
+    requestKey?: string | null
+    requestHash?: string | null
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -240995,6 +241070,8 @@ export namespace Prisma {
     fulfillmentType?: $Enums.FulfillmentType
     projectRef?: string | null
     channel?: string
+    requestKey?: string | null
+    requestHash?: string | null
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -245243,6 +245320,8 @@ export namespace Prisma {
     fulfillmentType?: EnumFulfillmentTypeFilter<"SalesOrder"> | $Enums.FulfillmentType
     projectRef?: StringNullableFilter<"SalesOrder"> | string | null
     channel?: StringFilter<"SalesOrder"> | string
+    requestKey?: StringNullableFilter<"SalesOrder"> | string | null
+    requestHash?: StringNullableFilter<"SalesOrder"> | string | null
     createdBy?: StringNullableFilter<"SalesOrder"> | string | null
     createdAt?: DateTimeFilter<"SalesOrder"> | Date | string
     updatedAt?: DateTimeFilter<"SalesOrder"> | Date | string
@@ -277661,6 +277740,8 @@ export namespace Prisma {
     fulfillmentType?: $Enums.FulfillmentType
     projectRef?: string | null
     channel?: string
+    requestKey?: string | null
+    requestHash?: string | null
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -277682,6 +277763,8 @@ export namespace Prisma {
     fulfillmentType?: $Enums.FulfillmentType
     projectRef?: string | null
     channel?: string
+    requestKey?: string | null
+    requestHash?: string | null
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -278000,6 +278083,8 @@ export namespace Prisma {
     fulfillmentType?: EnumFulfillmentTypeFieldUpdateOperationsInput | $Enums.FulfillmentType
     projectRef?: NullableStringFieldUpdateOperationsInput | string | null
     channel?: StringFieldUpdateOperationsInput | string
+    requestKey?: NullableStringFieldUpdateOperationsInput | string | null
+    requestHash?: NullableStringFieldUpdateOperationsInput | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -278021,6 +278106,8 @@ export namespace Prisma {
     fulfillmentType?: EnumFulfillmentTypeFieldUpdateOperationsInput | $Enums.FulfillmentType
     projectRef?: NullableStringFieldUpdateOperationsInput | string | null
     channel?: StringFieldUpdateOperationsInput | string
+    requestKey?: NullableStringFieldUpdateOperationsInput | string | null
+    requestHash?: NullableStringFieldUpdateOperationsInput | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -310499,6 +310586,8 @@ export namespace Prisma {
     fulfillmentType?: $Enums.FulfillmentType
     projectRef?: string | null
     channel?: string
+    requestKey?: string | null
+    requestHash?: string | null
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -310520,6 +310609,8 @@ export namespace Prisma {
     fulfillmentType?: $Enums.FulfillmentType
     projectRef?: string | null
     channel?: string
+    requestKey?: string | null
+    requestHash?: string | null
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -310862,6 +310953,8 @@ export namespace Prisma {
     fulfillmentType?: EnumFulfillmentTypeFieldUpdateOperationsInput | $Enums.FulfillmentType
     projectRef?: NullableStringFieldUpdateOperationsInput | string | null
     channel?: StringFieldUpdateOperationsInput | string
+    requestKey?: NullableStringFieldUpdateOperationsInput | string | null
+    requestHash?: NullableStringFieldUpdateOperationsInput | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -310883,6 +310976,8 @@ export namespace Prisma {
     fulfillmentType?: EnumFulfillmentTypeFieldUpdateOperationsInput | $Enums.FulfillmentType
     projectRef?: NullableStringFieldUpdateOperationsInput | string | null
     channel?: StringFieldUpdateOperationsInput | string
+    requestKey?: NullableStringFieldUpdateOperationsInput | string | null
+    requestHash?: NullableStringFieldUpdateOperationsInput | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -328818,6 +328913,8 @@ export namespace Prisma {
     fulfillmentType?: $Enums.FulfillmentType
     projectRef?: string | null
     channel?: string
+    requestKey?: string | null
+    requestHash?: string | null
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -331152,6 +331249,8 @@ export namespace Prisma {
     fulfillmentType?: EnumFulfillmentTypeFieldUpdateOperationsInput | $Enums.FulfillmentType
     projectRef?: NullableStringFieldUpdateOperationsInput | string | null
     channel?: StringFieldUpdateOperationsInput | string
+    requestKey?: NullableStringFieldUpdateOperationsInput | string | null
+    requestHash?: NullableStringFieldUpdateOperationsInput | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -331172,6 +331271,8 @@ export namespace Prisma {
     fulfillmentType?: EnumFulfillmentTypeFieldUpdateOperationsInput | $Enums.FulfillmentType
     projectRef?: NullableStringFieldUpdateOperationsInput | string | null
     channel?: StringFieldUpdateOperationsInput | string
+    requestKey?: NullableStringFieldUpdateOperationsInput | string | null
+    requestHash?: NullableStringFieldUpdateOperationsInput | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -331192,6 +331293,8 @@ export namespace Prisma {
     fulfillmentType?: EnumFulfillmentTypeFieldUpdateOperationsInput | $Enums.FulfillmentType
     projectRef?: NullableStringFieldUpdateOperationsInput | string | null
     channel?: StringFieldUpdateOperationsInput | string
+    requestKey?: NullableStringFieldUpdateOperationsInput | string | null
+    requestHash?: NullableStringFieldUpdateOperationsInput | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string

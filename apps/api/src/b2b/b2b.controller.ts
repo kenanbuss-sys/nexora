@@ -32,6 +32,11 @@ const claimSchema = z.object({
 const placeOrderSchema = z.object({
   warehouseId: z.string().uuid().optional(),
   currency: z.string().length(3).optional(),
+  /** Sprint 222: idempotency key per intended order (kept across retries). */
+  requestKey: z
+    .string()
+    .regex(/^[A-Za-z0-9_-]{8,64}$/)
+    .optional(),
   lines: z
     .array(z.object({ skuId: z.string().uuid(), quantity: z.number().positive() }))
     .min(1)

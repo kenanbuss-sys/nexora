@@ -143,3 +143,17 @@ Otvoreno (master backlog, nepromijenjeno): vizuelni pregled 215–220 (vlasnik);
 - Evidentirano (nije rađeno): placeOrder nema server-side idempotency ključ — dvostruka predaja spriječena je UI-jem (busy+dijalog); preporuka za budući sprint: Idempotency-Key na POST /portal/orders
 
 Otvoreno (master backlog, nepromijenjeno): vizuelni pregled 215–221 (vlasnik); LaunchAgent NEPOTVRĐEN; FIN-028; HR inventar (ODL-005); stvarni adapteri; preostale EN stranice; enterprise grid.
+
+# Sprint 222 — ZAVRŠEN 17.09.2026: server-side idempotentnost portal placeOrder
+
+- [x] Postojeći projektni obrazac (kao StockMovement ključ): `requestKey`+`requestHash` na samom redu `sales_order` uz `@@unique([tenantId, requestKey])` — **narudžba i idempotency evidencija su jedan atomski INSERT**; migracija 20260917000222 (rollback u komentaru)
+- [x] Ključ vezan za tenant (unique constraint), kupca (namespace `portal:{accountId}:{key}`) i operaciju (portal placeOrder); klijentski ključ 8–64 sigurna znaka (zod)
+- [x] Semantika: isti ključ + isti sadržaj (kanonski hash: warehouseId, currency, sortirane linije) → ista narudžba (replay, bez novih efekata); isti ključ + drugačiji sadržaj → 409 CONFLICT; konkurentni duplikati gube trku na constraintu PRIJE ikakvog poslovnog efekta i replayuju pobjednika; bez ključa → staro ponašanje (kompatibilno)
+- [x] OMS createOrder proširen opcionim requestKey/requestHash (public interface vlasničkog domena — bez širenja na druge module)
+- [x] Frontend: jedan ključ po namjeravanoj narudžbi (useRef + crypto.randomUUID pri predaji), čuva se kroz retry/neizvjestan ishod, poništava se pri svakoj promjeni korpe (nova namjera = novi ključ); busy zaštita ostaje
+- [x] Politika trajanja: ključ živi koliko i narudžba (kao ledger idempotencyKey — bez isteka); **dokumentovano ograničenje**: linije se upisuju poslije reda narudžbe, pa pad usred upisa linija ostavlja replayabilan DRAFT s manje linija (vidljiv i uredljiv u OMS-u)
+- [x] Testovi (sprint222.integration.test.ts, 5/5 ✓): ponavljanje poslije uspjeha (isti id, 1 narudžba, 1 ORDER_CREATED event); izmijenjeni sadržaj → 409; 3 paralelna zahtjeva → tačno 1 narudžba; isti ključ nezavisan po kupcu i tenantu (3 različite narudžbe, bez probe); bez ključa kompatibilno
+- [x] Browser regresija (Playwright): korpa 2×110 → dijalog → dvoklik blokiran → **SO-000003 220 EUR, +1 narudžba**; nova namjerna narudžba → novi ključ (2 različita ključa u mrežnim zahtjevima) → SO-000004 110 EUR; typecheck ✓; lint 0 errors
+- Napomena: integracijski testovi TRUNCATE-uju dev bazu — demo tenant ponovo seedovan (scripts/seed-demo.mjs + portal kupci)
+
+Otvoreno (master backlog, nepromijenjeno): vizuelni pregled 215–222 (vlasnik); LaunchAgent NEPOTVRĐEN; FIN-028; HR inventar (ODL-005); stvarni adapteri; preostale EN stranice; enterprise grid.

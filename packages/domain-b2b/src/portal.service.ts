@@ -1,3 +1,5 @@
+import { createHash } from 'node:crypto';
+
 import { writeAudit } from '@nexora/audit';
 import type { PortalUserStatus, PrismaClient } from '@nexora/db';
 import { DomainError, notFound } from '@nexora/kernel';
@@ -271,10 +273,65 @@ export class PortalService {
    * without a contract price are refused so the portal can never
    * invent prices. The order lands as DRAFT for the seller's OMS flow.
    */
+  /** Canonical content hash: same key + different content = conflict. */
+  private orderContentHash(input: {
+    warehouseId?: string | undefined;
+    currency?: string | undefined;
+    lines: Array<{ skuId: string; quantity: number }>;
+  }): string {
+    const canonical = JSON.stringify({
+      warehouseId: input.warehouseId ?? null,
+      currency: input.currency ?? 'EUR',
+      lines: [...input.lines]
+        .map((l) => ({ skuId: l.skuId, quantity: l.quantity }))
+        .sort((a, b) => a.skuId.localeCompare(b.skuId)),
+    });
+    return createHash('sha256').update(canonical).digest('hex');
+  }
+
+  /** Replays a stored idempotent order, or refuses a mismatched retry. */
+  private replayOrder(
+    existing: {
+      id: string;
+      orderNumber: string;
+      status: string;
+      requestHash: string | null;
+      _count: { lines: number };
+    },
+    requestHash: string | undefined,
+  ): { id: string; orderNumber: string; lines: number; needsApproval: boolean } {
+    if (existing.requestHash !== (requestHash ?? null)) {
+      throw new DomainError(
+        'CONFLICT',
+        'This request key was already used with different content — a new order needs a new key',
+      );
+    }
+    return {
+      id: existing.id,
+      orderNumber: existing.orderNumber,
+      lines: existing._count.lines,
+      needsApproval: existing.status === 'ON_HOLD',
+    };
+  }
+
+  /**
+   * Idempotency (Sprint 222): the client sends a requestKey per intended
+   * order. The key is namespaced to the authorized account and stored on
+   * the sales order row itself under a tenant-scoped unique constraint,
+   * so the order and its idempotency evidence are one atomic insert. A
+   * replay with the same key and content returns the same order; the
+   * same key with different content is a conflict. Concurrent requests
+   * race on the constraint — the loser replays before any business
+   * effect. Keys live as long as the order (no expiry — matches the
+   * project's ledger-key policy). Known limitation: line writes follow
+   * the order insert, so a crash mid-lines leaves a replayable DRAFT
+   * with fewer lines — the draft stays visible and editable in OMS.
+   */
   async placeOrder(
     input: {
       warehouseId?: string | undefined;
       currency?: string | undefined;
+      requestKey?: string | undefined;
       lines: Array<{ skuId: string; quantity: number }>;
     },
     ctx: RequestContext,
@@ -286,6 +343,17 @@ export class PortalService {
       throw new DomainError('VALIDATION_FAILED', 'An order needs at least one line');
     }
     const portal = await this.resolvePortalContext(ctx);
+    const requestKey =
+      input.requestKey !== undefined ? `portal:${portal.accountId}:${input.requestKey}` : undefined;
+    const requestHash =
+      requestKey !== undefined ? this.orderContentHash(input) : undefined;
+    if (requestKey !== undefined) {
+      const existing = await this.prisma.salesOrder.findFirst({
+        where: { tenantId: ctx.tenantId, requestKey },
+        include: { _count: { select: { lines: true } } },
+      });
+      if (existing) return this.replayOrder(existing, requestHash);
+    }
     const catalog = await this.myCatalog(ctx);
     const priced = new Map(
       catalog.filter((c) => c.unitPrice !== null).map((c) => [c.skuId, Number(c.unitPrice)]),
@@ -311,15 +379,35 @@ export class PortalService {
       if (!warehouse) throw new DomainError('INVALID_STATE', 'No warehouse is configured');
       warehouseId = warehouse.id;
     }
-    const order = await this.orders.createOrder(
-      {
-        accountId: portal.accountId,
-        warehouseId,
-        currency: input.currency ?? 'EUR',
-        channel: 'portal',
-      },
-      ctx,
-    );
+    let order;
+    try {
+      order = await this.orders.createOrder(
+        {
+          accountId: portal.accountId,
+          warehouseId,
+          currency: input.currency ?? 'EUR',
+          channel: 'portal',
+          ...(requestKey !== undefined ? { requestKey, requestHash } : {}),
+        },
+        ctx,
+      );
+    } catch (e) {
+      // Concurrent duplicate: the unique (tenantId, requestKey) insert
+      // lost the race before any business effect — replay the winner.
+      if (
+        requestKey !== undefined &&
+        typeof e === 'object' &&
+        e !== null &&
+        (e as { code?: string }).code === 'P2002'
+      ) {
+        const winner = await this.prisma.salesOrder.findFirst({
+          where: { tenantId: ctx.tenantId, requestKey },
+          include: { _count: { select: { lines: true } } },
+        });
+        if (winner) return this.replayOrder(winner, requestHash);
+      }
+      throw e;
+    }
     for (const line of input.lines) {
       await this.orders.addLine(
         {

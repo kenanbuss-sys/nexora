@@ -781,11 +781,19 @@ export class OrderService {
       fulfillmentType?: 'DELIVERY' | 'PICKUP' | undefined;
       projectRef?: string | undefined;
       channel?: string | undefined;
+      /// Sprint 222: idempotency evidence stored on the order row itself,
+      /// so order and evidence are one atomic insert. The caller namespaces
+      /// the key (tenant scoping comes from the unique constraint).
+      requestKey?: string | undefined;
+      requestHash?: string | undefined;
     },
     ctx: RequestContext,
   ): Promise<OrderView> {
     if (input.channel !== undefined && !/^[a-z][a-z0-9_-]{1,31}$/.test(input.channel)) {
       throw new DomainError('VALIDATION_FAILED', 'Invalid channel code');
+    }
+    if (input.requestKey !== undefined && !/^[A-Za-z0-9:|_-]{8,160}$/.test(input.requestKey)) {
+      throw new DomainError('VALIDATION_FAILED', 'requestKey must be 8-160 safe characters');
     }
     const account = await this.accounts.getAccountState(ctx.tenantId, input.accountId);
     if (!account.exists) throw notFound('CrmAccount', input.accountId);
@@ -812,6 +820,9 @@ export class OrderService {
             : {}),
           ...(input.projectRef !== undefined ? { projectRef: input.projectRef } : {}),
           ...(input.channel !== undefined ? { channel: input.channel } : {}),
+          ...(input.requestKey !== undefined
+            ? { requestKey: input.requestKey, requestHash: input.requestHash ?? null }
+            : {}),
           createdBy: ctx.userId ?? null,
         },
         include: { lines: true },
