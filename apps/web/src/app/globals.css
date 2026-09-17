@@ -123,14 +123,14 @@ h2::before {
   animation: page-in 0.28s ease both;
 }
 
+/* Opacity-only: a transform animation would make .page a containing
+   block for position:fixed and break centered dialogs. */
 @keyframes page-in {
   from {
     opacity: 0;
-    transform: translateY(6px);
   }
   to {
     opacity: 1;
-    transform: none;
   }
 }
 

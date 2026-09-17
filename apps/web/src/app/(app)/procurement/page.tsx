@@ -1,7 +1,9 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
+import Link from 'next/link';
 import { api, errorText } from '../../../lib/api';
+import { ConfirmDialog, DataTable, EmptyState, LoadingState } from '../../../components/ui';
 import { useApp } from '../app-shell';
 
 interface SupplierPerformanceRow {
@@ -65,6 +67,7 @@ interface WarehouseView {
 interface SkuOption {
   id: string;
   code: string;
+  status?: string;
 }
 
 interface RfqQuoteView {
@@ -84,6 +87,29 @@ interface RfqView {
   status: 'DRAFT' | 'SENT' | 'AWARDED' | 'CANCELLED';
   quotes: RfqQuoteView[];
 }
+
+const REQ_LABELS: Record<RequisitionView['status'], string> = {
+  DRAFT: 'Nacrt',
+  PENDING_APPROVAL: 'Čeka odobrenje',
+  APPROVED: 'Odobrena',
+  REJECTED: 'Odbijena',
+  CONVERTED: 'Pretvorena u narudžbenicu',
+  CANCELLED: 'Otkazana',
+};
+
+const PO_LABELS: Record<PurchaseOrderView['status'], string> = {
+  OPEN: 'Otvorena',
+  PARTIALLY_RECEIVED: 'Djelimično primljena',
+  RECEIVED: 'Primljena',
+  CANCELLED: 'Otkazana',
+};
+
+const RFQ_LABELS: Record<RfqView['status'], string> = {
+  DRAFT: 'Nacrt',
+  SENT: 'Poslan',
+  AWARDED: 'Dodijeljen',
+  CANCELLED: 'Otkazan',
+};
 
 const RFQ_BADGE: Record<RfqView['status'], string> = {
   DRAFT: 'badge-warn',
@@ -148,6 +174,14 @@ export default function ProcurementPage() {
   const [poWarehouse, setPoWarehouse] = useState('');
   const [receivePo, setReceivePo] = useState('');
   const [receiveQty, setReceiveQty] = useState<Record<string, string>>({});
+  // Stabilan idempotentan ključ prijema po otvorenom PO panelu: ponovni
+  // klik ili retry NE može udvostručiti prijem (ista kretanja u knjizi).
+  const [receiveKey, setReceiveKey] = useState('');
+  const [confirmReceive, setConfirmReceive] = useState<PurchaseOrderView | null>(null);
+  const [confirmSubmitReq, setConfirmSubmitReq] = useState<RequisitionView | null>(null);
+  const [confirmCancelPo, setConfirmCancelPo] = useState<PurchaseOrderView | null>(null);
+  const [poFilter, setPoFilter] = useState('');
+  const [poStatusFilter, setPoStatusFilter] = useState('');
   const [rfqs, setRfqs] = useState<RfqView[]>([]);
   const [rfqSku, setRfqSku] = useState('');
   const [rfqQty, setRfqQty] = useState('1');
@@ -197,10 +231,15 @@ export default function ProcurementPage() {
           r.products
             .slice(0, 20)
             .map((p) =>
-              api<{ skus: Array<{ id: string; code: string }> }>('GET', `/api/v1/products/${p.id}`),
+              api<{ skus: Array<{ id: string; code: string; status?: string }> }>(
+                'GET',
+                `/api/v1/products/${p.id}`,
+              ),
             ),
         );
-        setSkus(details.flatMap((d) => d.skus));
+        // Samo aktivni SKU-ovi se mogu transaktovati u skladištu — ostale
+        // ne nudimo, da zahtjev ne završi u razumljivoj, ali izbježivoj grešci.
+        setSkus(details.flatMap((d) => d.skus).filter((k) => !k.status || k.status === 'ACTIVE'));
       })
       .catch(() => undefined);
     // eslint-disable-next-line
@@ -226,10 +265,15 @@ export default function ProcurementPage() {
 
   return (
     <main className="page">
-      <h1>Procurement</h1>
+      <div className="spread">
+        <h1>Nabavka</h1>
+        <Link href="/inventory" className="btn">
+          Skladišno stanje →
+        </Link>
+      </div>
       <p className="page-sub">
-        Suppliers, requisitions with approval above 1000, purchase orders and goods receipt straight
-        into the stock ledger.
+        Zahtjev za nabavku → odobrenje (iznad praga) → narudžbenica → djelimični ili potpuni prijem
+        — prijem knjiži RECEIPT kretanja direktno u knjigu zaliha.
       </p>
       {error ? <div className="alert alert-error">{error}</div> : null}
       {notice ? <div className="alert alert-ok">{notice}</div> : null}
@@ -237,53 +281,71 @@ export default function ProcurementPage() {
       <div className="grid-2">
         <div>
           <div className="card">
-            <h2>Suppliers</h2>
-            {suppliers.length === 0 ? <div className="empty">No suppliers yet.</div> : null}
-            {suppliers.length > 0 ? (
-              <table className="table">
-                <tbody>
-                  {suppliers.map((s) => (
-                    <tr key={s.id}>
-                      <td className="mono">{s.supplierNumber}</td>
-                      <td>
-                        {s.partyName}
-                        {s.leadTimeDays !== null ? (
-                          <span className="muted"> · {s.leadTimeDays}d lead</span>
-                        ) : null}
-                      </td>
-                      <td>
-                        <span
-                          className={`badge ${s.status === 'ACTIVE' ? 'badge-ok' : 'badge-danger'}`}
-                        >
-                          {s.status}
-                        </span>
-                      </td>
-                      <td style={{ textAlign: 'right' }}>
-                        {can('purchase.manage') ? (
-                          <button
-                            className="btn btn-sm"
-                            disabled={busy}
-                            onClick={() =>
-                              run(
-                                () =>
-                                  api(
-                                    'POST',
-                                    `/api/v1/suppliers/${s.id}/${s.status === 'ACTIVE' ? 'block' : 'activate'}`,
-                                  ),
-                                null,
-                              )
-                            }
-                            type="button"
-                          >
-                            {s.status === 'ACTIVE' ? 'Block' : 'Activate'}
-                          </button>
-                        ) : null}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            ) : null}
+            <h2>Dobavljači</h2>
+            <DataTable
+              columns={[
+                {
+                  key: 'num',
+                  header: 'Broj',
+                  render: (x: SupplierView) => <span className="mono">{x.supplierNumber}</span>,
+                  text: (x: SupplierView) => x.supplierNumber,
+                },
+                {
+                  key: 'name',
+                  header: 'Naziv',
+                  render: (x: SupplierView) => (
+                    <>
+                      {x.partyName}
+                      {x.leadTimeDays !== null ? (
+                        <span className="muted"> · rok {x.leadTimeDays} d</span>
+                      ) : null}
+                    </>
+                  ),
+                  text: (x: SupplierView) => x.partyName,
+                },
+                {
+                  key: 'status',
+                  header: 'Status',
+                  render: (x: SupplierView) => (
+                    <span
+                      className={`badge ${x.status === 'ACTIVE' ? 'badge-ok' : 'badge-danger'}`}
+                    >
+                      {x.status === 'ACTIVE' ? 'Aktivan' : 'Blokiran'}
+                    </span>
+                  ),
+                },
+                {
+                  key: 'act',
+                  header: '',
+                  align: 'right',
+                  render: (x: SupplierView) =>
+                    can('purchase.manage') ? (
+                      <button
+                        className="btn btn-sm"
+                        disabled={busy}
+                        onClick={() =>
+                          run(
+                            () =>
+                              api(
+                                'POST',
+                                `/api/v1/suppliers/${x.id}/${x.status === 'ACTIVE' ? 'block' : 'activate'}`,
+                              ),
+                            null,
+                          )
+                        }
+                        type="button"
+                      >
+                        {x.status === 'ACTIVE' ? 'Blokiraj' : 'Aktiviraj'}
+                      </button>
+                    ) : null,
+                },
+              ]}
+              rows={suppliers}
+              rowKey={(x) => x.id}
+              searchPlaceholder="Pretraga dobavljača…"
+              pageSize={8}
+              emptyText="Još nema dobavljača."
+            />
             {can('purchase.manage') ? (
               <form
                 className="row"
@@ -296,7 +358,7 @@ export default function ProcurementPage() {
                         name: supName,
                         ...(supLead ? { leadTimeDays: Number(supLead) } : {}),
                       }),
-                    'Supplier created.',
+                    'Dobavljač kreiran.',
                   ).then(() => {
                     setSupName('');
                     setSupLead('');
@@ -306,7 +368,7 @@ export default function ProcurementPage() {
                 <input
                   className="input"
                   style={{ maxWidth: 200 }}
-                  placeholder="Supplier name"
+                  placeholder="Naziv dobavljača"
                   value={supName}
                   onChange={(e) => setSupName(e.target.value)}
                   required
@@ -316,22 +378,22 @@ export default function ProcurementPage() {
                   style={{ maxWidth: 100 }}
                   type="number"
                   min="0"
-                  placeholder="Lead (d)"
+                  placeholder="Rok (d)"
                   value={supLead}
                   onChange={(e) => setSupLead(e.target.value)}
                 />
                 <button className="btn btn-sm" disabled={busy} type="submit">
-                  Add supplier
+                  Dodaj dobavljača
                 </button>
               </form>
             ) : null}
           </div>
 
           <div className="card">
-            <h2>Requisitions</h2>
-            {requisitions === null ? <div className="loading">Loading…</div> : null}
+            <h2>Zahtjevi za nabavku</h2>
+            {requisitions === null ? <LoadingState text="Učitavanje zahtjeva…" /> : null}
             {requisitions && requisitions.length === 0 ? (
-              <div className="empty">No requisitions yet — request a purchase below.</div>
+              <EmptyState text="Još nema zahtjeva — kreirajte prvi ispod." />
             ) : null}
             {(requisitions ?? []).map((r) => (
               <div
@@ -350,7 +412,7 @@ export default function ProcurementPage() {
                       {r.total} {r.currency}
                     </div>
                   </div>
-                  <span className={`badge ${REQ_BADGE[r.status]}`}>{r.status}</span>
+                  <span className={`badge ${REQ_BADGE[r.status]}`}>{REQ_LABELS[r.status]}</span>
                 </div>
                 {r.lines.length > 0 ? (
                   <table className="table" style={{ marginTop: 8 }}>
@@ -404,7 +466,7 @@ export default function ProcurementPage() {
                         type="number"
                         min="0"
                         step="any"
-                        placeholder="Est. price"
+                        placeholder="Procij. cijena"
                         value={lineReq === r.id ? linePrice : ''}
                         onChange={(e) => {
                           setLineReq(r.id);
@@ -427,21 +489,16 @@ export default function ProcurementPage() {
                         }
                         type="button"
                       >
-                        Add line
+                        Dodaj stavku
                       </button>
                       {r.lines.length > 0 ? (
                         <button
                           className="btn btn-sm btn-primary"
                           disabled={busy}
-                          onClick={() =>
-                            run(
-                              () => api('POST', `/api/v1/requisitions/${r.id}/submit`),
-                              'Requisition submitted.',
-                            )
-                          }
+                          onClick={() => setConfirmSubmitReq(r)}
                           type="button"
                         >
-                          Submit
+                          Predaj na odobrenje
                         </button>
                       ) : null}
                     </>
@@ -455,7 +512,7 @@ export default function ProcurementPage() {
                       }
                       type="button"
                     >
-                      Check approval
+                      Provjeri odobrenje
                     </button>
                   ) : null}
                 </div>
@@ -468,7 +525,7 @@ export default function ProcurementPage() {
                   e.preventDefault();
                   void run(
                     () => api('POST', '/api/v1/requisitions', { currency: reqCurrency }),
-                    'Requisition created (draft).',
+                    'Zahtjev kreiran (nacrt).',
                   );
                 }}
               >
@@ -481,7 +538,7 @@ export default function ProcurementPage() {
                   required
                 />
                 <button className="btn btn-primary btn-sm" disabled={busy} type="submit">
-                  New requisition
+                  Novi zahtjev
                 </button>
               </form>
             ) : null}
@@ -501,19 +558,19 @@ export default function ProcurementPage() {
                       supplierId: poSupplier,
                       warehouseId: poWarehouse,
                     }),
-                  'Purchase order issued.',
+                  'Narudžbenica izdana.',
                 );
               }}
             >
-              <h2>Issue purchase order</h2>
-              <label className="label">Approved requisition</label>
+              <h2>Izdaj narudžbenicu</h2>
+              <label className="label">Odobreni zahtjev</label>
               <select
                 className="select"
                 value={poReq}
                 onChange={(e) => setPoReq(e.target.value)}
                 required
               >
-                <option value="">Select…</option>
+                <option value="">Odaberite…</option>
                 {(requisitions ?? [])
                   .filter((r) => r.status === 'APPROVED')
                   .map((r) => (
@@ -522,14 +579,14 @@ export default function ProcurementPage() {
                     </option>
                   ))}
               </select>
-              <label className="label">Supplier</label>
+              <label className="label">Dobavljač</label>
               <select
                 className="select"
                 value={poSupplier}
                 onChange={(e) => setPoSupplier(e.target.value)}
                 required
               >
-                <option value="">Select…</option>
+                <option value="">Odaberite…</option>
                 {suppliers
                   .filter((s) => s.status === 'ACTIVE')
                   .map((s) => (
@@ -538,14 +595,14 @@ export default function ProcurementPage() {
                     </option>
                   ))}
               </select>
-              <label className="label">Deliver to warehouse</label>
+              <label className="label">Skladište isporuke</label>
               <select
                 className="select"
                 value={poWarehouse}
                 onChange={(e) => setPoWarehouse(e.target.value)}
                 required
               >
-                <option value="">Select…</option>
+                <option value="">Odaberite…</option>
                 {warehouses.map((w) => (
                   <option key={w.id} value={w.id}>
                     {w.code} — {w.name}
@@ -558,148 +615,178 @@ export default function ProcurementPage() {
                 disabled={busy}
                 type="submit"
               >
-                Issue PO
+                Izdaj narudžbenicu
               </button>
             </form>
           ) : null}
 
           <div className="card">
-            <h2>Purchase orders</h2>
-            {pos.length === 0 ? (
-              <div className="empty">No purchase orders yet — convert an approved requisition.</div>
-            ) : null}
-            {pos.map((po) => (
-              <div
-                key={po.id}
-                style={{
-                  border: '1px solid var(--color-border)',
-                  borderRadius: 8,
-                  padding: 12,
-                  marginBottom: 10,
-                }}
+            <h2>Narudžbenice</h2>
+            <div className="row" style={{ marginBottom: 10 }}>
+              <input
+                className="input"
+                style={{ maxWidth: 220 }}
+                placeholder="Pretraga narudžbenica…"
+                value={poFilter}
+                onChange={(e) => setPoFilter(e.target.value)}
+                aria-label="Pretraga narudžbenica"
+              />
+              <select
+                className="input"
+                style={{ maxWidth: 200 }}
+                value={poStatusFilter}
+                onChange={(e) => setPoStatusFilter(e.target.value)}
+                aria-label="Filter po statusu"
               >
-                <div className="spread">
-                  <div>
-                    <strong className="mono">{po.poNumber}</strong>
-                    <div className="muted" style={{ fontSize: 12 }}>
-                      {supplierName(po.supplierId)} · {po.total} {po.currency}
+                <option value="">Svi statusi</option>
+                {Object.entries(PO_LABELS).map(([v, l]) => (
+                  <option key={v} value={v}>
+                    {l}
+                  </option>
+                ))}
+              </select>
+            </div>
+            {pos.length === 0 ? (
+              <EmptyState text="Još nema narudžbenica — pretvorite odobreni zahtjev." />
+            ) : null}
+            {pos
+              .filter(
+                (po) =>
+                  (!poStatusFilter || po.status === poStatusFilter) &&
+                  (!poFilter.trim() ||
+                    po.poNumber.toLowerCase().includes(poFilter.trim().toLowerCase()) ||
+                    supplierName(po.supplierId)
+                      .toLowerCase()
+                      .includes(poFilter.trim().toLowerCase())),
+              )
+              .map((po) => (
+                <div
+                  key={po.id}
+                  style={{
+                    border: '1px solid var(--color-border)',
+                    borderRadius: 8,
+                    padding: 12,
+                    marginBottom: 10,
+                  }}
+                >
+                  <div className="spread">
+                    <div>
+                      <strong className="mono">{po.poNumber}</strong>
+                      <div className="muted" style={{ fontSize: 12 }}>
+                        {supplierName(po.supplierId)} · {po.total} {po.currency}
+                      </div>
                     </div>
+                    <span className={`badge ${PO_BADGE[po.status]}`}>{PO_LABELS[po.status]}</span>
                   </div>
-                  <span className={`badge ${PO_BADGE[po.status]}`}>{po.status}</span>
-                </div>
-                {po.lines.length > 0 ? (
-                  <table className="table" style={{ marginTop: 8 }}>
-                    <tbody>
-                      {po.lines.map((l) => (
-                        <tr key={l.id}>
-                          <td>{l.description}</td>
-                          <td>
-                            {l.receivedQty} / {l.quantity} received
-                          </td>
-                          {receivePo === po.id &&
-                          ['OPEN', 'PARTIALLY_RECEIVED'].includes(po.status) ? (
-                            <td style={{ textAlign: 'right' }}>
-                              <input
-                                className="input"
-                                style={{ maxWidth: 80 }}
-                                type="number"
-                                min="0"
-                                step="any"
-                                placeholder="Qty"
-                                value={receiveQty[l.id] ?? ''}
-                                onChange={(e) =>
-                                  setReceiveQty((m) => ({ ...m, [l.id]: e.target.value }))
-                                }
-                              />
-                            </td>
+                  {po.lines.length > 0 ? (
+                    <table className="table" style={{ marginTop: 8 }}>
+                      <thead>
+                        <tr>
+                          <th>Stavka</th>
+                          <th>Naručeno</th>
+                          <th>Primljeno</th>
+                          <th>Preostalo</th>
+                          {receivePo === po.id ? (
+                            <th style={{ textAlign: 'right' }}>Prijem</th>
                           ) : null}
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                ) : null}
-                <div className="row" style={{ marginTop: 8 }}>
-                  {['OPEN', 'PARTIALLY_RECEIVED'].includes(po.status) && can('purchase.receive') ? (
-                    receivePo === po.id ? (
-                      <>
-                        <button
-                          className="btn btn-sm btn-primary"
-                          disabled={busy || !Object.values(receiveQty).some((v) => Number(v) > 0)}
-                          onClick={() =>
-                            run(
-                              () =>
-                                api('POST', `/api/v1/purchase-orders/${po.id}/receive`, {
-                                  receiptKey: `ui-${Date.now()}`,
-                                  lines: Object.entries(receiveQty)
-                                    .filter(([, v]) => Number(v) > 0)
-                                    .map(([lineId, v]) => ({
-                                      lineId,
-                                      quantity: Number(v),
-                                    })),
-                                }),
-                              'Goods received into the ledger.',
-                            ).then(() => {
+                      </thead>
+                      <tbody>
+                        {po.lines.map((l) => (
+                          <tr key={l.id}>
+                            <td>{l.description}</td>
+                            <td className="mono">{Number(l.quantity)}</td>
+                            <td className="mono">{Number(l.receivedQty)}</td>
+                            <td className="mono">
+                              {Math.max(0, Number(l.quantity) - Number(l.receivedQty))}
+                            </td>
+                            {receivePo === po.id &&
+                            ['OPEN', 'PARTIALLY_RECEIVED'].includes(po.status) ? (
+                              <td style={{ textAlign: 'right' }}>
+                                <input
+                                  className="input"
+                                  style={{ maxWidth: 80 }}
+                                  type="number"
+                                  min="0"
+                                  step="any"
+                                  placeholder="Kol."
+                                  value={receiveQty[l.id] ?? ''}
+                                  onChange={(e) =>
+                                    setReceiveQty((m) => ({ ...m, [l.id]: e.target.value }))
+                                  }
+                                />
+                              </td>
+                            ) : null}
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  ) : null}
+                  <div className="row" style={{ marginTop: 8 }}>
+                    {['OPEN', 'PARTIALLY_RECEIVED'].includes(po.status) &&
+                    can('purchase.receive') ? (
+                      receivePo === po.id ? (
+                        <>
+                          <button
+                            className="btn btn-sm btn-primary"
+                            disabled={busy || !Object.values(receiveQty).some((v) => Number(v) > 0)}
+                            onClick={() => setConfirmReceive(po)}
+                            type="button"
+                          >
+                            Proknjiži prijem
+                          </button>
+                          <button
+                            className="btn btn-sm"
+                            onClick={() => {
                               setReceivePo('');
                               setReceiveQty({});
-                            })
-                          }
-                          type="button"
-                        >
-                          Post receipt
-                        </button>
+                            }}
+                            type="button"
+                          >
+                            Zatvori
+                          </button>
+                        </>
+                      ) : (
                         <button
-                          className="btn btn-sm"
+                          className="btn btn-sm btn-primary"
                           onClick={() => {
-                            setReceivePo('');
+                            setReceivePo(po.id);
                             setReceiveQty({});
+                            setReceiveKey(`rcpt-${po.id.slice(0, 8)}-${Date.now()}`);
                           }}
                           type="button"
                         >
-                          Close
+                          Prijem robe
                         </button>
-                      </>
-                    ) : (
+                      )
+                    ) : null}
+                    {po.status === 'OPEN' && can('purchase.manage') ? (
                       <button
-                        className="btn btn-sm btn-primary"
-                        onClick={() => setReceivePo(po.id)}
+                        className="btn btn-sm btn-danger"
+                        disabled={busy}
+                        onClick={() => setConfirmCancelPo(po)}
                         type="button"
                       >
-                        Receive goods
+                        Otkaži
                       </button>
-                    )
-                  ) : null}
-                  {po.status === 'OPEN' && can('purchase.manage') ? (
-                    <button
-                      className="btn btn-sm btn-danger"
-                      disabled={busy}
-                      onClick={() =>
-                        run(
-                          () => api('POST', `/api/v1/purchase-orders/${po.id}/cancel`),
-                          'PO cancelled.',
-                        )
-                      }
-                      type="button"
-                    >
-                      Cancel
-                    </button>
-                  ) : null}
+                    ) : null}
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
           </div>
         </div>
       </div>
       {performance.length > 0 ? (
         <div className="card" style={{ marginTop: 16 }}>
-          <h2>Supplier performance</h2>
+          <h2>Učinak dobavljača</h2>
           <table className="table">
             <thead>
               <tr>
-                <th style={{ textAlign: 'left' }}>Supplier</th>
-                <th>Orders</th>
-                <th>Spend</th>
-                <th>Fill rate</th>
-                <th>Avg. receipt time</th>
+                <th style={{ textAlign: 'left' }}>Dobavljač</th>
+                <th>Narudžbe</th>
+                <th>Potrošnja</th>
+                <th>Popunjenost</th>
+                <th>Prosj. vrijeme prijema</th>
               </tr>
             </thead>
             <tbody>
@@ -734,11 +821,11 @@ export default function ProcurementPage() {
       ) : null}
 
       <div className="card" style={{ marginTop: 16 }}>
-        <h2>RFQs</h2>
+        <h2>Zahtjevi za ponudu (RFQ)</h2>
         <p className="muted" style={{ marginTop: 0 }}>
-          Request quotations from suppliers for one SKU and award the best offer.
+          Zatražite ponude dobavljača za jedan artikal i dodijelite najbolju.
         </p>
-        {rfqs.length === 0 ? <div className="empty">No RFQs yet.</div> : null}
+        {rfqs.length === 0 ? <EmptyState text="Još nema RFQ-ova." /> : null}
         {rfqs.map((r) => (
           <div key={r.id} style={{ marginBottom: 12 }}>
             <div className="row spread">
@@ -747,7 +834,7 @@ export default function ProcurementPage() {
                 <span className="mono muted">
                   {r.skuCode} × {Number(r.quantity)}
                 </span>{' '}
-                <span className={`badge ${RFQ_BADGE[r.status]}`}>{r.status}</span>
+                <span className={`badge ${RFQ_BADGE[r.status]}`}>{RFQ_LABELS[r.status]}</span>
               </span>
               <span>
                 {can('purchase.manage') && r.status === 'DRAFT' ? (
@@ -755,11 +842,14 @@ export default function ProcurementPage() {
                     className="btn btn-sm"
                     disabled={busy}
                     onClick={() =>
-                      run(() => api('POST', `/api/v1/rfqs/${r.id}/send`), 'RFQ sent to suppliers.')
+                      run(
+                        () => api('POST', `/api/v1/rfqs/${r.id}/send`),
+                        'RFQ poslan dobavljačima.',
+                      )
                     }
                     type="button"
                   >
-                    Send
+                    Pošalji
                   </button>
                 ) : null}
               </span>
@@ -771,7 +861,7 @@ export default function ProcurementPage() {
                   {q.leadTimeDays !== null ? (
                     <span className="muted"> · {q.leadTimeDays}d</span>
                   ) : null}
-                  {q.awarded ? <span className="badge badge-ok"> AWARDED</span> : null}
+                  {q.awarded ? <span className="badge badge-ok"> DODIJELJENO</span> : null}
                 </span>
                 <span>
                   {can('purchase.approve') && r.status === 'SENT' ? (
@@ -781,12 +871,12 @@ export default function ProcurementPage() {
                       onClick={() =>
                         run(
                           () => api('POST', `/api/v1/rfqs/${r.id}/award`, { quoteId: q.id }),
-                          'RFQ awarded.',
+                          'RFQ dodijeljen.',
                         )
                       }
                       type="button"
                     >
-                      Award
+                      Dodijeli
                     </button>
                   ) : null}
                 </span>
@@ -804,7 +894,7 @@ export default function ProcurementPage() {
                         supplierId: quoteSupplier[r.id],
                         unitPrice: Number(quotePrice[r.id]),
                       }),
-                    'Quote recorded.',
+                    'Ponuda evidentirana.',
                   );
                 }}
               >
@@ -814,7 +904,7 @@ export default function ProcurementPage() {
                   onChange={(e) => setQuoteSupplier({ ...quoteSupplier, [r.id]: e.target.value })}
                   required
                 >
-                  <option value="">Supplier…</option>
+                  <option value="">Dobavljač…</option>
                   {suppliers.map((s) => (
                     <option key={s.id} value={s.id}>
                       {s.partyName}
@@ -824,13 +914,13 @@ export default function ProcurementPage() {
                 <input
                   className="input"
                   style={{ width: 110 }}
-                  placeholder="Unit price"
+                  placeholder="Jedinična cijena"
                   value={quotePrice[r.id] ?? ''}
                   onChange={(e) => setQuotePrice({ ...quotePrice, [r.id]: e.target.value })}
                   required
                 />
                 <button className="btn btn-sm" disabled={busy} type="submit">
-                  Record quote
+                  Evidentiraj ponudu
                 </button>
               </form>
             ) : null}
@@ -844,7 +934,7 @@ export default function ProcurementPage() {
               e.preventDefault();
               void run(
                 () => api('POST', '/api/v1/rfqs', { skuId: rfqSku, quantity: Number(rfqQty) }),
-                'RFQ created.',
+                'RFQ kreiran.',
               );
             }}
           >
@@ -869,7 +959,7 @@ export default function ProcurementPage() {
               required
             />
             <button className="btn btn-sm" disabled={busy} type="submit">
-              New RFQ
+              Novi RFQ
             </button>
           </form>
         ) : null}
@@ -877,9 +967,9 @@ export default function ProcurementPage() {
 
       {discrepancies.length > 0 ? (
         <div className="card" style={{ marginTop: 16 }}>
-          <h2>Receiving discrepancies</h2>
+          <h2>Odstupanja pri prijemu</h2>
           <p className="muted" style={{ marginTop: 0 }}>
-            Received quantities that do not match what was ordered.
+            Primljene količine koje ne odgovaraju naručenim.
           </p>
           {discrepancies.slice(0, 8).map((d) => (
             <div key={d.poId} style={{ marginBottom: 8 }}>
@@ -897,9 +987,9 @@ export default function ProcurementPage() {
 
       {otd.length > 0 ? (
         <div className="card" style={{ marginTop: 16 }}>
-          <h2>On-time delivery</h2>
+          <h2>Isporuka na vrijeme</h2>
           <p className="muted" style={{ marginTop: 0 }}>
-            Fully received purchase orders landing on or before their expected date.
+            Potpuno primljene narudžbenice stigle na ili prije očekivanog datuma.
           </p>
           {otd.map((row) => (
             <div key={row.supplierId} className="row spread" style={{ marginBottom: 4 }}>
@@ -917,18 +1007,138 @@ export default function ProcurementPage() {
                           : 'badge-danger'
                     }`}
                   >
-                    {row.onTimePct}% on time
+                    {row.onTimePct}% na vrijeme
                   </span>
                 ) : (
-                  <span className="badge">no promises</span>
+                  <span className="badge">bez rokova</span>
                 )}{' '}
                 <span className="muted" style={{ fontSize: 12 }}>
-                  {row.receivedCount} received
+                  {row.receivedCount} primljeno
                 </span>
               </span>
             </div>
           ))}
         </div>
+      ) : null}
+
+      {confirmSubmitReq ? (
+        <ConfirmDialog
+          open
+          title={`Predaja zahtjeva ${confirmSubmitReq.requisitionNumber}`}
+          consequence="Iznos iznad tenant praga ide na odobrenje; ispod praga zahtjev se odmah odobrava."
+          confirmLabel="Predaj na odobrenje"
+          busy={busy}
+          onCancel={() => setConfirmSubmitReq(null)}
+          onConfirm={() => {
+            const r = confirmSubmitReq;
+            void run(
+              () => api('POST', `/api/v1/requisitions/${r.id}/submit`),
+              'Zahtjev predat — provjerite status odobrenja.',
+            ).then(() => setConfirmSubmitReq(null));
+          }}
+        >
+          <div className="fact">
+            <span>Zahtjev</span>
+            <span className="mono">{confirmSubmitReq.requisitionNumber}</span>
+          </div>
+          <div className="fact">
+            <span>Stavki</span>
+            <span>{confirmSubmitReq.lines.length}</span>
+          </div>
+          <div className="fact">
+            <span>Ukupno (procjena)</span>
+            <span>
+              {confirmSubmitReq.total} {confirmSubmitReq.currency}
+            </span>
+          </div>
+        </ConfirmDialog>
+      ) : null}
+
+      {confirmReceive
+        ? (() => {
+            const po = confirmReceive;
+            const entered = po.lines
+              .map((l) => ({
+                line: l,
+                qty: Number(receiveQty[l.id] ?? 0),
+                remaining: Math.max(0, Number(l.quantity) - Number(l.receivedQty)),
+              }))
+              .filter((x) => x.qty > 0);
+            const over = entered.some((x) => x.qty > x.remaining);
+            return (
+              <ConfirmDialog
+                open
+                title={`Prijem robe — ${po.poNumber}`}
+                consequence={
+                  over
+                    ? 'PAŽNJA: unesena količina je veća od preostale — prijem će biti evidentiran kao odstupanje u izvještaju. Prijem knjiži RECEIPT kretanja u knjigu zaliha (idempotentan ključ — ponovni klik ne duplira).'
+                    : 'Prijem knjiži RECEIPT kretanja direktno u knjigu zaliha (idempotentan ključ — ponovni klik ne duplira prijem).'
+                }
+                confirmLabel="Proknjiži prijem"
+                danger={over}
+                busy={busy}
+                onCancel={() => setConfirmReceive(null)}
+                onConfirm={() => {
+                  void run(
+                    () =>
+                      api('POST', `/api/v1/purchase-orders/${po.id}/receive`, {
+                        receiptKey: receiveKey,
+                        lines: entered.map((x) => ({ lineId: x.line.id, quantity: x.qty })),
+                      }),
+                    'Roba zaprimljena — kretanja su u knjizi zaliha.',
+                  ).then(() => {
+                    setConfirmReceive(null);
+                    setReceivePo('');
+                    setReceiveQty({});
+                    setReceiveKey('');
+                  });
+                }}
+              >
+                <div className="fact">
+                  <span>Dobavljač</span>
+                  <span>{supplierName(po.supplierId)}</span>
+                </div>
+                {entered.map((x) => (
+                  <div key={x.line.id} className="fact">
+                    <span>{x.line.description}</span>
+                    <span className="mono">
+                      prijem {x.qty} (preostalo {x.remaining})
+                    </span>
+                  </div>
+                ))}
+              </ConfirmDialog>
+            );
+          })()
+        : null}
+
+      {confirmCancelPo ? (
+        <ConfirmDialog
+          open
+          danger
+          title={`Otkazivanje narudžbenice ${confirmCancelPo.poNumber}`}
+          consequence="Otkazana narudžbenica se više ne može zaprimati; već proknjiženi prijemi ostaju u knjizi."
+          confirmLabel="Otkaži narudžbenicu"
+          busy={busy}
+          onCancel={() => setConfirmCancelPo(null)}
+          onConfirm={() => {
+            const po = confirmCancelPo;
+            void run(
+              () => api('POST', `/api/v1/purchase-orders/${po.id}/cancel`),
+              'Narudžbenica otkazana.',
+            ).then(() => setConfirmCancelPo(null));
+          }}
+        >
+          <div className="fact">
+            <span>Narudžbenica</span>
+            <span className="mono">{confirmCancelPo.poNumber}</span>
+          </div>
+          <div className="fact">
+            <span>Iznos</span>
+            <span>
+              {confirmCancelPo.total} {confirmCancelPo.currency}
+            </span>
+          </div>
+        </ConfirmDialog>
       ) : null}
     </main>
   );

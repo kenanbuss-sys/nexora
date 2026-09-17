@@ -96,3 +96,17 @@ Sljedeći prijedlog: BACKLOG_DOPUNA faza 1 — čeka potvrdu vlasnika.
 - [x] Browser provjere (Playwright, 16 snimaka): kompletan tok knjiženja (konta → nacrt → dijalog → POSTED → storno kroz danger dijalog), kompletan tok kompenzacije (nacrt 80/80 → potvrda kroz dijalog → CONFIRMED → poništenje s razlogom → Poništena, otvorene stavke vraćene), kartica i bruto bilans, promjena pravnog lica bez zaostalih podataka, zabranjen pristup, mobilni prikaz; web typecheck/build ✓; lint 0 errors
 
 Otvoreno (master backlog, nepromijenjeno): vizuelni pregled Sprintova 215–217 od vlasnika; LaunchAgent NEPOTVRĐEN; preostale EN stranice; enterprise grid; FIN-028.
+
+# Sprint 218 — ZAVRŠEN 17.09.2026: frontend nabavke na standardu 215–217
+
+- [x] /procurement na zajedničkom okviru: bosanski (mape labela za statuse zahtjeva/narudžbenica/RFQ), dobavljači kroz DataTable, pretraga + status filter narudžbenica, LoadingState/EmptyState, link na skladišno stanje
+- [x] Postojeći tok kroz UI: zahtjev (nacrt + stavke) → **predaja kroz ConfirmDialog** (ispod praga auto-odobrenje) → izdavanje narudžbenice iz odobrenog zahtjeva → **prijem kroz ConfirmDialog** (djelimični i završni) → **otkaz kroz danger dijalog**
+- [x] Kolone **Naručeno / Primljeno / Preostalo** po stavci narudžbenice; prijem s količinom po stavci
+- [x] Dupli unos spriječen: **stabilan receiptKey po otvorenom panelu prijema** (ranije `Date.now()` po kliku — dvostruki klik je mogao duplirati prijem) + busy u dijalogu; server idempotentnost po ključu netaknuta
+- [x] Prekomjerni prijem: backend ga namjerno dozvoljava i evidentira kao odstupanje — dijalog to jasno kaže (danger stil) prije potvrde; izvještaj "Odstupanja pri prijemu" preveden
+- [x] UX popravka: u zahtjevu se nude samo AKTIVNI SKU-ovi (neaktivan SKU je vodio u izbježivu grešku "Inactive SKU cannot be newly transacted")
+- [x] **Globalna ispravka dijaloga**: `page-in` animacija (transform) pravila je containing block za position:fixed — dijalozi su se centrirali na dokument umjesto na viewport; animacija sada samo opacity (popravlja i ledger/bank/kompenzacije dijaloge na skrolovanim stranicama)
+- [x] Backend NIJE mijenjan
+- [x] Browser provjere (Playwright, 13 snimaka + ciljani dijalozi): zahtjev→odobrenje→narudžbenica→djelimični prijem 2/6→pokušaj prekomjernog (10>4, upozorenje, odustanak)→završni prijem 4 → **PO RECEIVED 6/6 potvrđeno u bazi**; kretanja vidljiva u zalihama; promjena pravnog lica bez zaostalih podataka; zabranjen pristup; kompletna /flow regresija; mobilni prikaz; web typecheck/build ✓; lint 0 errors
+
+Otvoreno (master backlog, nepromijenjeno): vizuelni pregled 215–218 (vlasnik); LaunchAgent NEPOTVRĐEN; FIN-028; HR inventar (ODL-005); stvarni adapteri (vision, banka); preostale EN stranice; enterprise grid.
