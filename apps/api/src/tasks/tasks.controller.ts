@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Inject, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Inject, Param, Post, Query } from '@nestjs/common';
 import type { TaskService } from '@nexora/domain-core';
 import type { ApprovalService } from '@nexora/domain-wf';
 import type { RequestContext } from '@nexora/tenancy';
@@ -36,8 +36,9 @@ export class TasksController {
   }
 
   @Get()
-  async listMine(@Ctx() ctx: RequestContext) {
-    return { tasks: await this.tasks.listMyTasks(ctx) };
+  async listMine(@Ctx() ctx: RequestContext, @Query('status') status?: string) {
+    const scope = status === 'DONE' || status === 'ALL' ? status : 'OPEN';
+    return { tasks: await this.tasks.listMyTasks(ctx, scope) };
   }
 }
 

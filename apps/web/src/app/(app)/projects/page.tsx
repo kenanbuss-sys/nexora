@@ -138,6 +138,7 @@ export default function ProjectsPage() {
   const canManage = can('project.manage');
   const canPo = can('purchase.read');
   const canDocs = can('collab.use');
+  const canTask = can('task.manage');
 
   const [projects, setProjects] = useState<ProjectView[] | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -161,6 +162,9 @@ export default function ProjectsPage() {
   const [employees, setEmployees] = useState<EmployeeOption[]>([]);
   const [chosenParty, setChosenParty] = useState('');
   const [chosenEmployee, setChosenEmployee] = useState('');
+  const [newTask, setNewTask] = useState(false);
+  const [taskTitle, setTaskTitle] = useState('');
+  const [taskDue, setTaskDue] = useState('');
 
   const load = useCallback(() => {
     if (!canRead) return;
@@ -415,6 +419,24 @@ export default function ProjectsPage() {
                     ) : null}
                   </span>
                 </div>
+                {canTask ? (
+                  <div className="row" style={{ marginTop: 10 }}>
+                    <button
+                      type="button"
+                      className="btn btn-sm"
+                      disabled={busy}
+                      onClick={() => {
+                        setTaskTitle(`${selected.code}: `);
+                        setNewTask(true);
+                      }}
+                    >
+                      Novi zadatak za projekat
+                    </button>
+                    <Link href="/tasks" className="muted" style={{ fontSize: 12.5 }}>
+                      Svi zadaci →
+                    </Link>
+                  </div>
+                ) : null}
                 {detailError ? <ErrorState text={detailError} /> : null}
 
                 <h3 style={{ marginTop: 16, marginBottom: 6 }}>Finansijski pregled</h3>
@@ -656,6 +678,57 @@ export default function ProjectsPage() {
           </div>
         </div>
       )}
+
+      {newTask && selected ? (
+        <ConfirmDialog
+          open
+          title="Novi zadatak za projekat"
+          consequence="Zadatak se kreira povezan s ovim projektom i pojavljuje se u Zadacima (auditirano)."
+          confirmLabel="Kreiraj zadatak"
+          busy={busy}
+          onConfirm={() =>
+            void run(async () => {
+              const rec = (projects ?? []).find((p) => p.code === selected.code);
+              await api('POST', '/api/v1/tasks', {
+                title: taskTitle,
+                relatedObjectType: 'prj_project',
+                relatedObjectId: rec?.recordId ?? selected.code,
+                ...(taskDue ? { dueAt: new Date(taskDue).toISOString() } : {}),
+              });
+              setNewTask(false);
+              setTaskTitle('');
+              setTaskDue('');
+            }, 'Zadatak je kreiran i povezan s projektom.')
+          }
+          onCancel={() => setNewTask(false)}
+        >
+          <div className="fact">
+            <span>Projekat</span>
+            <span>
+              {selected.code} — {selected.name}
+            </span>
+          </div>
+          <label className="label" htmlFor="prj-task-title">
+            Naslov zadatka
+          </label>
+          <input
+            id="prj-task-title"
+            className="input"
+            value={taskTitle}
+            onChange={(e) => setTaskTitle(e.target.value)}
+          />
+          <label className="label" htmlFor="prj-task-due">
+            Rok (opcionalno)
+          </label>
+          <input
+            id="prj-task-due"
+            className="input"
+            type="date"
+            value={taskDue}
+            onChange={(e) => setTaskDue(e.target.value)}
+          />
+        </ConfirmDialog>
+      ) : null}
 
       {assignClient && selected ? (
         <ConfirmDialog

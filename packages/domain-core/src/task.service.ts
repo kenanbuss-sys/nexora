@@ -12,9 +12,13 @@ import type { RequestContext } from '@nexora/tenancy';
 export interface TaskView {
   id: string;
   title: string;
+  description: string | null;
   status: 'OPEN' | 'DONE' | 'CANCELLED';
   assigneeUserId: string | null;
   dueAt: Date | null;
+  relatedObjectType: string | null;
+  relatedObjectId: string | null;
+  createdAt: Date;
 }
 
 export interface NotificationView {
@@ -27,6 +31,30 @@ export interface NotificationView {
 
 export class TaskService {
   constructor(private readonly prisma: PrismaClient) {}
+
+  private toView(t: {
+    id: string;
+    title: string;
+    description: string | null;
+    status: 'OPEN' | 'DONE' | 'CANCELLED';
+    assigneeUserId: string | null;
+    dueAt: Date | null;
+    relatedObjectType: string | null;
+    relatedObjectId: string | null;
+    createdAt: Date;
+  }): TaskView {
+    return {
+      id: t.id,
+      title: t.title,
+      description: t.description,
+      status: t.status,
+      assigneeUserId: t.assigneeUserId,
+      dueAt: t.dueAt,
+      relatedObjectType: t.relatedObjectType,
+      relatedObjectId: t.relatedObjectId,
+      createdAt: t.createdAt,
+    };
+  }
 
   async createTask(
     input: {
@@ -68,7 +96,7 @@ export class TaskService {
         source: 'api',
         newValues: { title: task.title },
       });
-      return task;
+      return this.toView(task);
     });
   }
 
@@ -98,13 +126,7 @@ export class TaskService {
         createdByUserId: input.createdByUserId ?? null,
       },
     });
-    return {
-      id: task.id,
-      title: task.title,
-      status: task.status,
-      assigneeUserId: task.assigneeUserId,
-      dueAt: task.dueAt,
-    };
+    return this.toView(task);
   }
 
   async completeTask(taskId: string, ctx: RequestContext): Promise<TaskView> {
@@ -126,22 +148,19 @@ export class TaskService {
         previousValues: { status: 'OPEN' },
         newValues: { status: 'DONE' },
       });
-      return {
-        id: updated.id,
-        title: updated.title,
-        status: updated.status,
-        assigneeUserId: updated.assigneeUserId,
-        dueAt: updated.dueAt,
-      };
+      return this.toView(updated);
     });
   }
 
   /** Open tasks assigned to the caller or unassigned. */
-  async listMyTasks(ctx: RequestContext): Promise<TaskView[]> {
+  async listMyTasks(
+    ctx: RequestContext,
+    status: 'OPEN' | 'DONE' | 'ALL' = 'OPEN',
+  ): Promise<TaskView[]> {
     const tasks = await this.prisma.task.findMany({
       where: {
         tenantId: ctx.tenantId,
-        status: 'OPEN',
+        ...(status === 'ALL' ? {} : { status }),
         OR: [
           { assigneeUserId: ctx.userId ?? '00000000-0000-0000-0000-000000000000' },
           { assigneeUserId: null },
@@ -150,13 +169,7 @@ export class TaskService {
       orderBy: { createdAt: 'asc' },
       take: 100,
     });
-    return tasks.map((t) => ({
-      id: t.id,
-      title: t.title,
-      status: t.status,
-      assigneeUserId: t.assigneeUserId,
-      dueAt: t.dueAt,
-    }));
+    return tasks.map((t) => this.toView(t));
   }
 
   /** Transactional notification creation (used by API and automation). */

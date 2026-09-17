@@ -251,3 +251,11 @@ Backlog ažuriran: /projects UI ✓ ZATVOREN; NOVO — polja klijent/odgovorna o
 - [x] Testovi (sprint227, 5/5 ✓): klijent/osoba + audit; cross-tenant party → 404; viewer bez manage → 403; NBN lista tačno auditirani linkovi + 403 bez purchase.read; dokument upload→download roundtrip, text/html odbijen porukom, >5MB odbijen, cross-tenant download → 404; tuđi projekat → 404
 - [x] Browser (make): detalj pokazuje klijenta/odgovornu/NBN/dokumente; promjena odgovorne kroz dijalog radi; mobilno; typecheck/build ✓, lint 0 errors
 - [x] Demo generator dopunjen (idempotentno): klijenti+odgovorne za sva 4 projekta, 1 NBN link, 2 dokumenta
+
+# Sprint 228 — 17.09.2026: Zadaci i odobrenja na standardu 226
+
+- [x] Backend (owning domen, minimalno): TaskView proširen (description, relatedObjectType/Id, createdAt); GET /tasks?status=OPEN|DONE|ALL (podrazumijevano OPEN — vlastiti/nedodijeljeni); create/complete audit postoji od ranije
+- [x] /tasks preuređen: DataTable (zadatak+opis, rok s "kasni" isticanjem, Povezano → link na Projekte, status badge, Završi), status filter, forma novog zadatka (naslov/rok/opis + dodjela korisniku kad IAM pravo dozvoli listu); kartica Odobrenja na čekanju (approval.act) s Odobri/Odbij kroz ConfirmDialog — SoD ostaje na serveru (vlastiti zahtjevi se ne prikazuju niti mogu odobriti)
+- [x] Tok iz projekta: /projects detalj → "Novi zadatak za projekat" (ConfirmDialog s naslovom/rokom; relatedObjectType=prj_project, relatedObjectId=record) + link na /tasks
+- [x] Browser (make): zadatak kreiran iz projekta vidljiv u /tasks s vezom "Projekat" i rokom; Završi + filter Završeni radi; admin (podnosilac) NE vidi vlastiti zahtjev odsustva; vodja ga odobrio kroz dijalog; mobilno; typecheck/build ✓
+- Evidentirano: lista zadataka po projektu (server filter po relatedObjectId) → backlog (nisko)
