@@ -180,6 +180,13 @@ h2::before {
   align-items: start;
 }
 
+/* Grid stavke ne smiju rasti preko kolone zbog min-content širine tabele —
+ * bez ovoga široka tabela u kartici gura horizontalni scroll cijele stranice
+ * na mobilnom (tabela se skroluje unutar kartice, ne stranica). */
+.grid-2 > * {
+  min-width: 0;
+}
+
 @media (max-width: 900px) {
   .grid-2 {
     grid-template-columns: 1fr;

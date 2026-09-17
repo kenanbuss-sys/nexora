@@ -275,3 +275,11 @@ Backlog ažuriran: /projects UI ✓ ZATVOREN; NOVO — polja klijent/odgovorna o
 - [x] Historija održavanja već iz Sprint 229 bloka (ploter kvar→završetak 70 EUR, kombi zaduženje) — bez dupliranja
 - [x] Idempotentnost DOKAZANA: 2 uzastopna pokretanja → tasks=12, approvals_req=2 oba puta (0 novih zapisa u drugom)
 - [x] Sve TEST vrijednosti, domenski servisi (bez direktnog SQL upisa poslovnih zapisa), REF_DATE 15.09.2026 zadržan
+
+# Sprint 231 — 17.09.2026: usklađivanje izmijenjenih ekrana s osnovama 226
+
+- [x] Pregled /projects, /tasks, /assets prema 226 (Inter Variable potvrđen computed-style provjerom; .page margine; hijerarhija h1/page-sub/kartice; DataTable/ConfirmDialog/stanja; bosanske labele; samo dozvoljene radnje)
+- [x] **Ispravka (mobilno)**: grid stavke bez min-width:0 rasle preko kolone zbog min-content širine tabele → horizontalni scroll CIJELE stranice na 390px na sva tri ekrana; dodano `.grid-2 > * { min-width: 0 }` — tabela se sada skroluje unutar kartice, page-hscroll=false potvrđeno na /tasks, /projects, /assets
+- [x] **Ispravka (lokalizacija)**: rok zadatka koristio podrazumijevani locale (9/25/2026) → toLocaleDateString('bs-BA'); prikaz sada ISO-konzistentan s rokovima faza na /projects (mono)
+- [x] Snimci (9): tasks desktop s "kasni" isticanjem, projekat detalj, assets lista+detalj+dijalog kvara (danger), odobrenja kao vodja (2 na čekanju, SoD napomena), mobilno 390px sva tri ekrana
+- [x] Provjere: lint 0 errors (35 warnings baseline), typecheck ✓, web build ✓; BEZ paralelnog design systema — samo postojeći tokeni; završni premium redizajn i dalje OTVOREN u backlogu

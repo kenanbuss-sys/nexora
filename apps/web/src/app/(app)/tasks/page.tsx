@@ -142,13 +142,13 @@ export default function TasksPage() {
       render: (t) =>
         t.dueAt ? (
           <span className="mono" style={overdue(t) ? { color: 'var(--color-danger)' } : undefined}>
-            {new Date(t.dueAt).toLocaleDateString()}
+            {new Date(t.dueAt).toLocaleDateString('bs-BA')}
             {overdue(t) ? ' — kasni' : ''}
           </span>
         ) : (
           <span className="muted">—</span>
         ),
-      text: (t) => (t.dueAt ? new Date(t.dueAt).toLocaleDateString() : ''),
+      text: (t) => (t.dueAt ? new Date(t.dueAt).toLocaleDateString('bs-BA') : ''),
     },
     {
       key: 'related',
