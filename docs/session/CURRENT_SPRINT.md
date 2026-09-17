@@ -13,3 +13,25 @@ Lokalna provjera: `INTEGRATION=1 pnpm exec vitest run src/sprint213.integration.
 Migracija: `prisma/migrations/20260917000213_sprint_213_bank_statements` (primijenjena samo lokalno; produkcija netaknuta).
 
 Sljedeći prijedlog: BACKLOG_DOPUNA faza 1 — čeka potvrdu vlasnika.
+
+## Dopuna zatvaranja Sprinta 213 (dokazi i ograničenja)
+
+**Implementirani capability ID-evi**: FIN-030, FIN-031, AI-016 (+ regresiona ispravka FIN-027/FIN-029 prikaza). Iz backlog reda 3 NIJE rađen FIN-032 (kompenzacije) — ostaje otvoren.
+
+**Stvarno izvršeni testovi** (cloud okruženje, lokalni PostgreSQL s primijenjenom migracijom 20260917000213; `INTEGRATION=1` vitest u apps/api):
+- sprint211.integration.test.ts — 9/9 PASS
+- sprint212.integration.test.ts — 9/9 PASS (uklj. 3 nove cross-period regresije)
+- sprint213.integration.test.ts — 10/10 PASS
+- `pnpm turbo typecheck` PASS (svi paketi); `pnpm lint` 0 errors (35 postojećih warninga); `next build` web PASS. Push NIJE dokaz funkcionalnosti — dokaz su gornji testovi.
+
+**AI adapter — status**: postoji SAMO DevVisionAdapter (providerKind='dev', aktivan isključivo uz `AI_VISION_DEV=1`, parsira već strukturisan JSON). Stvarni produkcijski vision provider NIJE implementiran ni konfigurisan; bez njega /extract vraća jasnu grešku, ručni tok netaknut.
+
+**Preostala ograničenja**:
+- Nema poništenja/release alokacije (ispravka pogrešne alokacije nije podržana; payment je append-only).
+- Arhiva PDF-a izvoda (FinTrack paritet napomena uz FIN-030) nije pokrivena — nema pohrane originalnog dokumenta.
+- Konkurentne alokacije različitim ključevima na istoj liniji: uplata može biti evidentirana, a alokacija odbijena CONFLICT-om; retry ISTIM ključem se samoizliječi (bez dupliranja) — dokumentovano ponašanje.
+- Import ograničen na 1000 stavki po izvodu; alokacija poslije zaključanja perioda nije dodatno blokirana (ne knjiži, potvrda izvoda jeste blokirana).
+- Testovi 212/213 djelimično zavise od tekućeg datuma (storno ogledalo datira "danas").
+- Restart `com.nexora.autodev` NEPOTVRĐEN s macOS hosta (launchctl nedostupan iz VM-a) — čeka read-only provjeru korisnika.
+
+**Sljedeći sprint (backlog Faza 1)**: dovršiti red 3 → **FIN-032 kompenzacije**, zatim red 4 (FIN-028 KUF/KIF + PDV, paket "accounting-bih"). Čeka odobrenje vlasnika.
