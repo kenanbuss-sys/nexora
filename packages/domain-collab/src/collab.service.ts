@@ -27,6 +27,7 @@ export const COLLAB_ENTITY_TYPES = [
   'ncr',
   'sku',
   'product',
+  'prj_project',
 ] as const;
 export type CollabEntityType = (typeof COLLAB_ENTITY_TYPES)[number];
 
@@ -324,6 +325,14 @@ export class CollaborationService {
     ctx: RequestContext,
   ): Promise<AttachmentView> {
     this.assertEntityType(input.entityType);
+    // Sprint 227: izvršni/skriptni tipovi se odbijaju s razumljivom porukom.
+    const blockedType = /^(text\/html|application\/(x-sh|x-msdownload|x-executable|javascript|x-httpd-php))/i;
+    if (blockedType.test(input.contentType)) {
+      throw new DomainError(
+        'VALIDATION_FAILED',
+        `Tip datoteke '${input.contentType}' nije dozvoljen kao prilog`,
+      );
+    }
     const data = Buffer.from(input.dataBase64, 'base64');
     if (data.length === 0) {
       throw new DomainError('VALIDATION_FAILED', 'Attachment content must not be empty');

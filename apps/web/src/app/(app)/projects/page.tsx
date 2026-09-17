@@ -62,6 +62,30 @@ interface DocumentView {
   sizeBytes: number;
 }
 
+interface HeaderInfo {
+  client: { partyId: string; name: string } | null;
+  owner: { employeeId: string; name: string; title: string | null } | null;
+}
+
+interface PoRow {
+  id: string;
+  poNumber: string;
+  status: string;
+  total: string;
+  currency: string;
+}
+
+interface PartyOption {
+  id: string;
+  name: string;
+}
+
+interface EmployeeOption {
+  id: string;
+  name: string;
+  title: string | null;
+}
+
 interface OrderRow {
   id: string;
   orderNumber: string;
@@ -87,6 +111,16 @@ const COST_LABEL: Record<string, string> = {
   subcontract: 'Podizvođači',
   other: 'Ostalo',
 };
+const PO_STATUS: Record<string, string> = {
+  OPEN: 'Otvorena',
+  PARTIALLY_RECEIVED: 'Djelimično primljena',
+  RECEIVED: 'Primljena',
+  CANCELLED: 'Otkazana',
+};
+/** Dozvoljeni tipovi projektnih dokumenata (server dodatno provjerava). */
+const UPLOAD_ACCEPT = '.pdf,.png,.jpg,.jpeg,.webp,.txt,.csv,.docx,.xlsx,.pptx,.zip';
+const MAX_UPLOAD_BYTES = 5 * 1024 * 1024;
+
 const ORDER_STATUS: Record<string, string> = {
   DRAFT: 'Nacrt',
   CONFIRMED: 'Potvrđena',
@@ -102,6 +136,8 @@ export default function ProjectsPage() {
   const { can } = useApp();
   const canRead = can('project.read');
   const canManage = can('project.manage');
+  const canPo = can('purchase.read');
+  const canDocs = can('collab.use');
 
   const [projects, setProjects] = useState<ProjectView[] | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -117,6 +153,14 @@ export default function ProjectsPage() {
   const [linkedOrders, setLinkedOrders] = useState<OrderRow[] | null>(null);
   const [detailError, setDetailError] = useState<string | null>(null);
   const [confirmMilestone, setConfirmMilestone] = useState<Milestone | null>(null);
+  const [header, setHeader] = useState<HeaderInfo | null>(null);
+  const [linkedPos, setLinkedPos] = useState<PoRow[] | null>(null);
+  const [assignClient, setAssignClient] = useState(false);
+  const [assignOwner, setAssignOwner] = useState(false);
+  const [parties, setParties] = useState<PartyOption[]>([]);
+  const [employees, setEmployees] = useState<EmployeeOption[]>([]);
+  const [chosenParty, setChosenParty] = useState('');
+  const [chosenEmployee, setChosenEmployee] = useState('');
 
   const load = useCallback(() => {
     if (!canRead) return;
@@ -136,8 +180,13 @@ export default function ProjectsPage() {
     setProfit(null);
     setDocuments(null);
     setLinkedOrders(null);
+    setHeader(null);
+    setLinkedPos(null);
     setDetailError(null);
     const enc = encodeURIComponent(code);
+    api<{ project: unknown } & HeaderInfo>('GET', `/api/v1/projects/${enc}/header`)
+      .then((r) => setHeader({ client: r.client, owner: r.owner }))
+      .catch(() => setHeader({ client: null, owner: null }));
     api<{ milestones: Milestone[] }>('GET', `/api/v1/projects/${enc}/milestones`)
       .then((r) => setMilestones(r.milestones))
       .catch((e: unknown) => setDetailError(errorText(e)));
@@ -150,6 +199,9 @@ export default function ProjectsPage() {
     api<{ documents: DocumentView[] }>('GET', `/api/v1/projects/${enc}/documents`)
       .then((r) => setDocuments(r.documents))
       .catch(() => setDocuments([]));
+    api<{ purchaseOrders: PoRow[] }>('GET', `/api/v1/projects/${enc}/purchase-orders`)
+      .then((r) => setLinkedPos(r.purchaseOrders))
+      .catch(() => setLinkedPos(null));
     // Stvarna veza: narudžbe čiji projectRef == šifra projekta.
     api<{ orders: OrderRow[] }>('GET', '/api/v1/orders')
       .then((r) => setLinkedOrders(r.orders.filter((o) => o.projectRef === code)))
@@ -171,6 +223,62 @@ export default function ProjectsPage() {
       setBusy(false);
     }
   }
+
+  const openAssignClient = () => {
+    setAssignClient(true);
+    api<{ parties: PartyOption[] }>('GET', '/api/v1/parties?q=')
+      .then((r) => setParties(r.parties))
+      .catch(() => setParties([]));
+  };
+  const openAssignOwner = () => {
+    setAssignOwner(true);
+    api<{ employees: EmployeeOption[] }>('GET', '/api/v1/employees')
+      .then((r) => setEmployees(r.employees))
+      .catch(() => setEmployees([]));
+  };
+
+  const uploadDocument = (file: File) => {
+    if (!selectedCode) return;
+    if (file.size > MAX_UPLOAD_BYTES) {
+      setError(
+        `Dokument je veći od 5 MB (${(file.size / 1024 / 1024).toFixed(1)} MB) — smanjite datoteku pa pokušajte ponovo.`,
+      );
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      const dataBase64 = String(reader.result).split(',')[1] ?? '';
+      const rec = (projects ?? []).find((p) => p.code === selectedCode);
+      if (!rec) return;
+      void run(
+        () =>
+          api('POST', '/api/v1/attachments', {
+            entityType: 'prj_project',
+            entityId: rec.recordId,
+            fileName: file.name,
+            contentType: file.type || 'application/octet-stream',
+            dataBase64,
+          }),
+        'Dokument je dodat na projekat.',
+      );
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const downloadDocument = (doc: DocumentView) => {
+    void api<DocumentView & { dataBase64: string }>('GET', `/api/v1/attachments/${doc.id}/download`)
+      .then((r) => {
+        const bytes = Uint8Array.from(atob(r.dataBase64), (c) => c.charCodeAt(0));
+        const blob = new Blob([bytes], { type: r.contentType });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = r.fileName;
+        a.click();
+        URL.revokeObjectURL(url);
+      })
+      .catch((e: unknown) => setError(errorText(e)));
+  };
 
   const selected = (projects ?? []).find((p) => p.code === selectedCode) ?? null;
   const filtered = (projects ?? []).filter(
@@ -267,6 +375,44 @@ export default function ProjectsPage() {
                   <span>Status</span>
                   <span className={`badge ${STATUS_BADGE[selected.status] ?? ''}`}>
                     {STATUS_LABEL[selected.status] ?? selected.status}
+                  </span>
+                </div>
+                <div className="fact">
+                  <span>Klijent</span>
+                  <span>
+                    {header === null ? '…' : (header.client?.name ?? '—')}
+                    {canManage ? (
+                      <button
+                        type="button"
+                        className="btn btn-sm"
+                        style={{ marginLeft: 8 }}
+                        disabled={busy}
+                        onClick={openAssignClient}
+                      >
+                        {header?.client ? 'Promijeni' : 'Dodijeli'}
+                      </button>
+                    ) : null}
+                  </span>
+                </div>
+                <div className="fact">
+                  <span>Odgovorna osoba</span>
+                  <span>
+                    {header === null
+                      ? '…'
+                      : header.owner
+                        ? `${header.owner.name}${header.owner.title ? ` (${header.owner.title})` : ''}`
+                        : '—'}
+                    {canManage ? (
+                      <button
+                        type="button"
+                        className="btn btn-sm"
+                        style={{ marginLeft: 8 }}
+                        disabled={busy}
+                        onClick={openAssignOwner}
+                      >
+                        {header?.owner ? 'Promijeni' : 'Dodijeli'}
+                      </button>
+                    ) : null}
                   </span>
                 </div>
                 {detailError ? <ErrorState text={detailError} /> : null}
@@ -387,6 +533,40 @@ export default function ProjectsPage() {
                   </table>
                 )}
 
+                {canPo ? (
+                  <>
+                    <h3 style={{ marginTop: 16, marginBottom: 6 }}>Nabavne narudžbenice</h3>
+                    <p className="muted" style={{ marginTop: 0, fontSize: 12 }}>
+                      Samo NBN-ovi stvarno povezani s projektom (auditirani link).
+                    </p>
+                    {linkedPos === null ? (
+                      <LoadingState text="Učitavanje nabavke…" />
+                    ) : linkedPos.length === 0 ? (
+                      <EmptyState text="Nijedna narudžbenica nije povezana s projektom." />
+                    ) : (
+                      <table className="table">
+                        <tbody>
+                          {linkedPos.map((po) => (
+                            <tr key={po.id}>
+                              <td>
+                                <Link href="/procurement" className="mono">
+                                  {po.poNumber}
+                                </Link>
+                              </td>
+                              <td style={{ textAlign: 'right' }} className="mono">
+                                {fmt(po.total, po.currency)}
+                              </td>
+                              <td style={{ textAlign: 'right' }}>
+                                <span className="badge">{PO_STATUS[po.status] ?? po.status}</span>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    )}
+                  </>
+                ) : null}
+
                 <h3 style={{ marginTop: 16, marginBottom: 6 }}>Povezane narudžbe</h3>
                 <p className="muted" style={{ marginTop: 0, fontSize: 12 }}>
                   Veza postoji samo kada narudžba nosi referencu ovog projekta.
@@ -418,6 +598,30 @@ export default function ProjectsPage() {
                 )}
 
                 <h3 style={{ marginTop: 16, marginBottom: 6 }}>Dokumenti</h3>
+                {canDocs ? (
+                  <div className="row" style={{ marginBottom: 8 }}>
+                    <label
+                      className="btn btn-sm"
+                      style={{ cursor: busy ? 'not-allowed' : 'pointer' }}
+                    >
+                      Dodaj dokument
+                      <input
+                        type="file"
+                        accept={UPLOAD_ACCEPT}
+                        style={{ display: 'none' }}
+                        disabled={busy}
+                        onChange={(e) => {
+                          const file = e.target.files?.[0];
+                          e.target.value = '';
+                          if (file) uploadDocument(file);
+                        }}
+                      />
+                    </label>
+                    <span className="muted" style={{ fontSize: 12 }}>
+                      PDF, slike, Office, CSV/TXT, ZIP — do 5 MB.
+                    </span>
+                  </div>
+                ) : null}
                 {documents === null ? (
                   <LoadingState text="Učitavanje dokumenata…" />
                 ) : documents.length === 0 ? (
@@ -431,6 +635,17 @@ export default function ProjectsPage() {
                           <td className="muted" style={{ textAlign: 'right', fontSize: 12 }}>
                             {(d.sizeBytes / 1024).toFixed(0)} KB
                           </td>
+                          <td style={{ textAlign: 'right' }}>
+                            {canDocs ? (
+                              <button
+                                type="button"
+                                className="btn btn-sm"
+                                onClick={() => downloadDocument(d)}
+                              >
+                                Preuzmi
+                              </button>
+                            ) : null}
+                          </td>
                         </tr>
                       ))}
                     </tbody>
@@ -441,6 +656,93 @@ export default function ProjectsPage() {
           </div>
         </div>
       )}
+
+      {assignClient && selected ? (
+        <ConfirmDialog
+          open
+          title="Dodjela klijenta projektu"
+          consequence="Klijent se bira iz postojećeg partner šifrarnika i evidentira auditirano; zadnja dodjela važi."
+          confirmLabel="Dodijeli klijenta"
+          busy={busy}
+          onConfirm={() =>
+            void run(async () => {
+              await api('POST', `/api/v1/projects/${encodeURIComponent(selected.code)}/client`, {
+                partyId: chosenParty,
+              });
+              setAssignClient(false);
+              setChosenParty('');
+            }, 'Klijent je dodijeljen projektu.')
+          }
+          onCancel={() => setAssignClient(false)}
+        >
+          <div className="fact">
+            <span>Projekat</span>
+            <span>
+              {selected.code} — {selected.name}
+            </span>
+          </div>
+          <label className="label" htmlFor="prj-client">
+            Partner (klijent)
+          </label>
+          <select
+            id="prj-client"
+            className="select"
+            value={chosenParty}
+            onChange={(e) => setChosenParty(e.target.value)}
+          >
+            <option value="">Odaberite partnera…</option>
+            {parties.map((p) => (
+              <option key={p.id} value={p.id}>
+                {p.name}
+              </option>
+            ))}
+          </select>
+        </ConfirmDialog>
+      ) : null}
+
+      {assignOwner && selected ? (
+        <ConfirmDialog
+          open
+          title="Dodjela odgovorne osobe"
+          consequence="Odgovorna osoba se bira iz postojeće evidencije zaposlenih; zadnja dodjela važi (auditirano)."
+          confirmLabel="Dodijeli osobu"
+          busy={busy}
+          onConfirm={() =>
+            void run(async () => {
+              await api('POST', `/api/v1/projects/${encodeURIComponent(selected.code)}/owner`, {
+                employeeId: chosenEmployee,
+              });
+              setAssignOwner(false);
+              setChosenEmployee('');
+            }, 'Odgovorna osoba je dodijeljena.')
+          }
+          onCancel={() => setAssignOwner(false)}
+        >
+          <div className="fact">
+            <span>Projekat</span>
+            <span>
+              {selected.code} — {selected.name}
+            </span>
+          </div>
+          <label className="label" htmlFor="prj-owner">
+            Zaposleni
+          </label>
+          <select
+            id="prj-owner"
+            className="select"
+            value={chosenEmployee}
+            onChange={(e) => setChosenEmployee(e.target.value)}
+          >
+            <option value="">Odaberite zaposlenog…</option>
+            {employees.map((emp) => (
+              <option key={emp.id} value={emp.id}>
+                {emp.name}
+                {emp.title ? ` — ${emp.title}` : ''}
+              </option>
+            ))}
+          </select>
+        </ConfirmDialog>
+      ) : null}
 
       {confirmMilestone && selected ? (
         <ConfirmDialog

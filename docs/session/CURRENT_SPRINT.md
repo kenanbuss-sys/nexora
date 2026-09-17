@@ -240,3 +240,14 @@ Prioritizovani backlog (dopuna, postojeće stavke sačuvane):
 - Napomena: završni premium redizajn SVIH ekrana ostaje otvoren (ovaj task postavlja osnove, ne zatvara dizajn-fazu)
 
 Backlog ažuriran: /projects UI ✓ ZATVOREN; NOVO — polja klijent/odgovorna osoba/rokovi na projektu (model+UI), lista povezanih NBN po projektu, upload dokumenata na projekat (UI); ostale stavke nepromijenjene.
+
+# Sprint 227 — 17.09.2026: projekat — klijent, odgovorna osoba, NBN, dokumenti
+
+- [x] **Klijent** iz postojećeg partner šifrarnika (POST /projects/:code/client {partyId} — validacija partije u tenantu, audit 'prj.client.set', zadnja dodjela važi) i **odgovorna osoba** iz evidencije zaposlenih (…/owner {employeeId}, ACTIVE, audit 'prj.owner.set') — isti auditni marker obrazac kao prihod, BEZ novog modela i BEZ migracije; GET :code/header vraća oboje
+- [x] **NBN pregled**: GET /projects/:code/purchase-orders vraća isključivo auditirano povezane NBN-ove (prj.po.link) — bez povezivanja po nazivu; ruta traži purchase.read (nabavni iznosi)
+- [x] **Projektni dokumenti** kroz POSTOJEĆI attachment/storage sloj (CORE-009, blob u bazi — stvaran storage, ne mock): 'prj_project' dodan u COLLAB_ENTITY_TYPES; upload/download u UI (5MB limit + server-side odbijanje izvršnih/skriptnih tipova s razumljivom porukom); privatnost per-tenant + doc.accessPolicy sloj postoji
+- [x] UI /projects detalj: fakti Klijent/Odgovorna osoba + dodjela kroz ConfirmDialog (selecti iz stvarnih šifrarnika), sekcija Nabavne narudžbenice, Dodaj dokument/Preuzmi; standard 226 zadržan
+- [x] Migracije: NISU potrebne (auditni markeri + postojeće tabele); provjere na izolovanoj enterprise_os_test bazi
+- [x] Testovi (sprint227, 5/5 ✓): klijent/osoba + audit; cross-tenant party → 404; viewer bez manage → 403; NBN lista tačno auditirani linkovi + 403 bez purchase.read; dokument upload→download roundtrip, text/html odbijen porukom, >5MB odbijen, cross-tenant download → 404; tuđi projekat → 404
+- [x] Browser (make): detalj pokazuje klijenta/odgovornu/NBN/dokumente; promjena odgovorne kroz dijalog radi; mobilno; typecheck/build ✓, lint 0 errors
+- [x] Demo generator dopunjen (idempotentno): klijenti+odgovorne za sva 4 projekta, 1 NBN link, 2 dokumenta

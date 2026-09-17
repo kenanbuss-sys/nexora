@@ -34,6 +34,8 @@ const changeOrderSchema = z.object({
 });
 const revenueSchema = z.object({ amount: z.number().nonnegative() });
 const milestoneDoneSchema = z.object({ milestoneRecordId: z.string().min(1) });
+const clientSchema = z.object({ partyId: z.string().uuid() });
+const ownerSchema = z.object({ employeeId: z.string().uuid() });
 
 /**
  * PRJ — project & job management (PRJ-001..012). Project, site and
@@ -55,6 +57,34 @@ export class ProjectsController {
   @RequirePermission('project.read')
   async list(@Ctx() ctx: RequestContext) {
     return { projects: await this.service.projects(ctx) };
+  }
+
+  /** Sprint 227: zaglavlje s klijentom (partner) i odgovornom osobom. */
+  @Get(':code/header')
+  @RequirePermission('project.read')
+  async header(@Param('code') code: string, @Ctx() ctx: RequestContext) {
+    return this.service.header(code, ctx);
+  }
+
+  @Post(':code/client')
+  @RequirePermission('project.manage')
+  async setClient(@Param('code') code: string, @Body() body: unknown, @Ctx() ctx: RequestContext) {
+    const input = parseBody(clientSchema, body);
+    return this.service.setClient({ projectCode: code, partyId: input.partyId }, ctx);
+  }
+
+  @Post(':code/owner')
+  @RequirePermission('project.manage')
+  async setOwner(@Param('code') code: string, @Body() body: unknown, @Ctx() ctx: RequestContext) {
+    const input = parseBody(ownerSchema, body);
+    return this.service.setOwner({ projectCode: code, employeeId: input.employeeId }, ctx);
+  }
+
+  /** NBN-ovi stvarno povezani s projektom; nabavni iznosi traže purchase.read. */
+  @Get(':code/purchase-orders')
+  @RequirePermission('purchase.read')
+  async purchaseOrders(@Param('code') code: string, @Ctx() ctx: RequestContext) {
+    return { purchaseOrders: await this.service.purchaseOrders(code, ctx) };
   }
 
   @Post(':code/costs')

@@ -594,6 +594,53 @@ try {
   }
   await addOnce('PRJ-2025-07', '/costs', { entryId: 'make-c4', kind: 'other', amount: 84300, description: 'Ukupni troškovi izvedbe (zaključeno)' });
   console.log('- 4 projekta (aktivni/planiran/završen) s troškovima i prihodima');
+  // Sprint 227: klijent (partner) + odgovorna osoba + povezani NBN + dokumenti
+  const hdr = await call('GET', '/api/v1/projects/PRJ-2026-01/header', admin);
+  if (!hdr.body.client) {
+    const partiesNow = await call('GET', '/api/v1/parties?q=', admin);
+    const partyByName = new Map((partiesNow.body.parties ?? []).map((p) => [p.name, p]));
+    const empsNow = await call('GET', '/api/v1/employees', admin);
+    const empByName = new Map((empsNow.body.employees ?? []).map((e) => [e.name, e]));
+    const CLIENT_MAP = [
+      ['PRJ-2026-01', 'Tehno Park TEST d.o.o.', 'Adna Testović'],
+      ['PRJ-2026-02', 'Amir Testić (rezidencija)', 'Selma Testar'],
+      ['PRJ-2026-03', 'Market Lipa TEST d.o.o.', 'Tarik Testić'],
+      ['PRJ-2025-07', 'Hotel Panorama TEST d.o.o.', 'Mirza Testalović'],
+    ];
+    for (const [code, clientName, ownerName] of CLIENT_MAP) {
+      const party = partyByName.get(clientName);
+      const emp = empByName.get(ownerName);
+      if (party) await call('POST', `/api/v1/projects/${code}/client`, admin, { partyId: party.id });
+      if (emp) await call('POST', `/api/v1/projects/${code}/owner`, admin, { employeeId: emp.id });
+    }
+    // poveži prvi NBN s aktivnim projektom (idempotentno u servisu)
+    const pos = await call('GET', '/api/v1/purchase-orders', admin);
+    const firstPo = (pos.body.purchaseOrders ?? [])[0];
+    if (firstPo) {
+      await call('POST', '/api/v1/projects/PRJ-2026-01/purchase-orders', admin, { purchaseOrderId: firstPo.id });
+    }
+    // 2 projektna dokumenta (mali, sintetički)
+    const recs = await call('GET', '/api/v1/custom-objects/prj_project/records', admin);
+    const rec01 = (recs.body.records ?? []).find((r) => (r.data ?? {}).code === 'PRJ-2026-01');
+    if (rec01) {
+      const docsNow = await call('GET', `/api/v1/attachments?entityType=prj_project&entityId=${rec01.id}`, admin);
+      if ((docsNow.body.attachments ?? []).length === 0) {
+        const b64 = (t) => Buffer.from(t).toString('base64');
+        await call('POST', '/api/v1/attachments', admin, {
+          entityType: 'prj_project', entityId: rec01.id,
+          fileName: 'zapisnik-sastanka-2026-08.txt', contentType: 'text/plain',
+          dataBase64: b64('Zapisnik koordinacije — faza 1 (sintetički demo dokument).'),
+        });
+        await call('POST', '/api/v1/attachments', admin, {
+          entityType: 'prj_project', entityId: rec01.id,
+          fileName: 'specifikacija-opreme-v2.csv', contentType: 'text/csv',
+          dataBase64: b64('pozicija,artikal,kolicina\n1,ST-RAD-PRO,25\n2,PAN-AKU-60,80'),
+        });
+      }
+    }
+    console.log('- projekti: klijenti/odgovorne osobe + 1 NBN link + 2 dokumenta');
+  }
+
 } catch (e) {
   console.log(`- (projekti preskočeni: ${e.message})`);
 }

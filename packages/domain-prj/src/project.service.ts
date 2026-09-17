@@ -264,6 +264,117 @@ export class ProjectService {
     return { ok: true, duplicate: false };
   }
 
+  // ------------------------------- client & owner (Sprint 227, PRJ-002 dopuna)
+
+  /**
+   * Klijent projekta = referenca na POSTOJEĆI partner šifrarnik (partyId
+   * validiran u tenantu); odgovorna osoba = postojeći zaposleni. Oba žive
+   * kao auditirani markeri (zadnji važi) — isti obrazac kao prihod — pa
+   * nema paralelnog modela ni migracije.
+   */
+  async setClient(
+    input: { projectCode: string; partyId: string },
+    ctx: RequestContext,
+  ): Promise<{ ok: true }> {
+    const project = await this.project(input.projectCode, ctx);
+    const party = await this.prisma.party.findFirst({
+      where: { id: input.partyId, tenantId: ctx.tenantId },
+      select: { id: true, name: true },
+    });
+    if (!party) throw notFound('Party', input.partyId);
+    await this.mark(
+      'prj.client.set',
+      `${project.code}:client`,
+      { partyId: party.id, partyName: party.name },
+      ctx,
+    );
+    return { ok: true };
+  }
+
+  async setOwner(
+    input: { projectCode: string; employeeId: string },
+    ctx: RequestContext,
+  ): Promise<{ ok: true }> {
+    const project = await this.project(input.projectCode, ctx);
+    const employee = await this.prisma.employee.findFirst({
+      where: { id: input.employeeId, tenantId: ctx.tenantId, status: 'ACTIVE' },
+      select: { id: true, name: true, title: true },
+    });
+    if (!employee) throw notFound('Employee', input.employeeId);
+    await this.mark(
+      'prj.owner.set',
+      `${project.code}:owner`,
+      { employeeId: employee.id, employeeName: employee.name, title: employee.title },
+      ctx,
+    );
+    return { ok: true };
+  }
+
+  /** Zaglavlje projekta s klijentom i odgovornom osobom (zadnji marker). */
+  async header(
+    projectCode: string,
+    ctx: RequestContext,
+  ): Promise<{
+    project: ProjectView;
+    client: { partyId: string; name: string } | null;
+    owner: { employeeId: string; name: string; title: string | null } | null;
+  }> {
+    const project = await this.project(projectCode, ctx);
+    const clientMark = await this.marked('prj.client.set', `${project.code}:client`, ctx.tenantId);
+    const ownerMark = await this.marked('prj.owner.set', `${project.code}:owner`, ctx.tenantId);
+    const c = (clientMark?.newValues ?? null) as { partyId?: string; partyName?: string } | null;
+    const o = (ownerMark?.newValues ?? null) as {
+      employeeId?: string;
+      employeeName?: string;
+      title?: string | null;
+    } | null;
+    return {
+      project,
+      client: c?.partyId ? { partyId: c.partyId, name: c.partyName ?? '' } : null,
+      owner: o?.employeeId
+        ? { employeeId: o.employeeId, name: o.employeeName ?? '', title: o.title ?? null }
+        : null,
+    };
+  }
+
+  /** NBN-ovi STVARNO povezani s projektom (prj.po.link markeri). */
+  async purchaseOrders(
+    projectCode: string,
+    ctx: RequestContext,
+  ): Promise<
+    Array<{ id: string; poNumber: string; status: string; total: string; currency: string }>
+  > {
+    const project = await this.project(projectCode, ctx);
+    const events = await this.prisma.auditEvent.findMany({
+      where: {
+        tenantId: ctx.tenantId,
+        action: 'prj.po.link',
+        objectType: 'Project',
+        objectId: { startsWith: `${project.code}:po:` },
+      },
+      take: 500,
+    });
+    const ids = [
+      ...new Set(
+        events
+          .map((e) => (e.newValues as { purchaseOrderId?: string } | null)?.purchaseOrderId)
+          .filter((id): id is string => typeof id === 'string'),
+      ),
+    ];
+    if (ids.length === 0) return [];
+    const pos = await this.prisma.purchaseOrder.findMany({
+      where: { id: { in: ids }, tenantId: ctx.tenantId },
+      orderBy: { poNumber: 'asc' },
+    });
+    return pos.map((po) => ({
+      id: po.id,
+      poNumber: po.poNumber,
+      status: po.status,
+      total: po.total.toString(),
+      currency: po.currency,
+    }));
+  }
+
   // -------------------------------------------------- project inventory (PRJ-007)
 
   /** Issue material to a project through the stock ledger; costed. */
