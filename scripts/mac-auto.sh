@@ -6,7 +6,8 @@
 #   bash scripts/mac-auto.sh stop   <- uninstall the LaunchAgent and stop everything
 #
 # After install, the machine keeps the platform at http://localhost:3000 and
-# automatically picks up every new commit on origin/main within ~60 seconds:
+# automatically picks up every new commit on the CHECKED-OUT branch's origin
+# counterpart within ~60 seconds:
 # fetch -> fast-forward (clean tree only; never discards local work) ->
 # apply new migrations -> build -> restart API and web.
 # Survives reboots (LaunchAgent, RunAtLoad + KeepAlive). Logs: /tmp/nexora-auto.log
@@ -144,39 +145,40 @@ start_stack() {
     (cd "$REPO/apps/web" && nohup npx next start --port 3000 >> "$LOG" 2>&1 & echo $! > "$WEB_PID_FILE")
   fi
   sleep 3
-  # Top up MISSING demo records only (seed-demo is idempotent/additive —
-  # existing records are never overwritten).
-  node "$REPO/scripts/seed-demo.mjs" >> "$LOG" 2>&1 || true
+  # Seeding is OPT-IN (AUTO_SEED=1) — starting the stack never touches data.
+  if [ "${AUTO_SEED:-0}" = "1" ]; then
+    node "$REPO/scripts/seed-demo.mjs" >> "$LOG" 2>&1 || true
+  fi
   log "stack (re)started — http://localhost:3000"
 }
 
-log "auto-dev loop starting in $REPO (sync policy v2: main-only, clean tree, ff-only — never discards work)"
+log "auto-dev loop starting in $REPO (sync policy v3: current branch, clean tree, ff-only — never discards work)"
 start_stack
 
-# Sync policy: NEVER discard local work. Updates apply only when the
-# checkout is on main, the working tree is clean, and origin/main is a
-# fast-forward of HEAD. In every other case the loop pauses and says why.
+# Sync policy: NEVER discard local work. The loop follows whatever branch
+# the checkout is on: updates apply only when the tree is clean and
+# origin/<branch> is a fast-forward of HEAD; otherwise it pauses and says why.
 while true; do
   sleep 60
-  git fetch -q origin main 2>/dev/null || continue
   BRANCH="$(git symbolic-ref --short -q HEAD || echo detached)"
-  if [ "$BRANCH" != "main" ]; then
-    log "on branch '$BRANCH' — auto-update paused (checkout main to resume)"
+  if [ "$BRANCH" = "detached" ]; then
+    log "detached HEAD — auto-update paused (checkout a branch to resume)"
     continue
   fi
-  if [ -n "$(git status --porcelain)" ]; then
+  git fetch -q origin "$BRANCH" 2>/dev/null || continue
+  if [ -n "$(git status --porcelain -uno)" ]; then
     log "working tree not clean — auto-update paused (commit or stash to resume)"
     continue
   fi
   LOCAL="$(git rev-parse HEAD)"
-  REMOTE="$(git rev-parse origin/main)"
+  REMOTE="$(git rev-parse "origin/$BRANCH" 2>/dev/null || echo "$LOCAL")"
   if [ "$LOCAL" != "$REMOTE" ]; then
     if git merge-base --is-ancestor "$LOCAL" "$REMOTE"; then
-      log "update found: ${LOCAL:0:7} -> ${REMOTE:0:7} (fast-forward)"
-      git merge --ff-only origin/main >/dev/null || { log "fast-forward failed — paused"; continue; }
+      log "update found on $BRANCH: ${LOCAL:0:7} -> ${REMOTE:0:7} (fast-forward)"
+      git merge --ff-only "origin/$BRANCH" >/dev/null || { log "fast-forward failed — paused"; continue; }
       start_stack
     else
-      log "local main diverged from origin/main — auto-update stopped WITHOUT discarding local commits"
+      log "local $BRANCH diverged from origin/$BRANCH — auto-update stopped WITHOUT discarding local commits"
       continue
     fi
   fi
