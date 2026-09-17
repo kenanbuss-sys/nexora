@@ -189,3 +189,12 @@ Otvoreno (master backlog, nepromijenjeno): vizuelni pregled 215–222 (vlasnik);
 - [x] Provjere kroz browser: /ledger direktno → samo Finansije otvorene; toggle + favorit → poslije reloada obje oblasti otvorene i Favoriti prisutni; pretraga "glav" → Glavna knjiga, Enter → /ledger; **promjena korisnika (hr2): čist state, vidljiva samo Ljudi i HR**; mobilni meni; snimci sklopljenog i proširenog menija; typecheck/build ✓; lint 0 errors
 
 Otvoreno (master backlog): vizuelni pregled 215–223 (vlasnik); LaunchAgent NEPOTVRĐEN; FIN-028; HR inventar (ODL-005); stvarni adapteri; preostale EN stranice; enterprise grid.
+
+# Sprint 224 — 17.09.2026: stabilizacija lokalnog dev okruženja
+
+- [x] **Istraga dva pada dev PostgreSQL-a (cloud)**: logovi pokazuju 12+ događaja "database system was not properly shut down; automatic recovery" bez IJEDNE crash signature (0× PANIC / terminated by signal / OOM) — dakle **eksterno gašenje procesa pri suspenziji sandbox kontejnera između radnih sesija**, ne pad baze niti prekid veze; svaki restart uredno odradio WAL redo; fsync + synchronous_commit = ON → komitovani podaci sačuvani. Prividni "gubitak demo tenanta" = dokumentovani TRUNCATE integracijskih testova (sprint222 beforeAll), ne baza. Izvod loga (bez tajni): pg-dev-log-izvod.txt (isporučen).
+- [x] **mac-auto/LaunchAgent konflikt POTVRĐEN u kodu i ispravljen**: start_stack i stop su radili `pkill -f` na SVE API/next procese — uklj. ručno pokrenute. Sada: agent gasi samo vlastite procese (PID fajlovi), tuđi vlasnik porta 3000/3001 se glasno prijavljuje i NE dira; pg_isready guard s jasnom greškom; build fail → postojeći stack ostaje; baza se nikad ne gasi/resetuje; seed ostaje isključivo aditivan (idempotentan, ne prepisuje) i nikad nije automatski oporavak.
+- [x] **scripts/dev-up.sh** (cloud/dev): pokreće samo ono što ne radi, odbija duple instance (zauzet port bez odgovora → greška, bez slijepog killa), čuva bazu, bez reseeda; provjeren idempotentno (2. poziv: sve "left untouched").
+- [x] **Kontrolisani restart test**: 3 sintetička zapisa, md5 checksum PRIJE == POSLIJE `service postgresql restart` (bez gubitka i dupliranja); proba obrisana; tenanti netaknuti (demo, demo2, test-s222a/b).
+- [x] macOS host: iz sesije dostupan samo Linux VM most (ne macOS procesi) → **status LaunchAgenta ostaje NEPOTVRĐEN**; minimalna dijagnostička naredba: `launchctl list | grep com.nexora.autodev` (izlaz "PID Label" = radi; prazno = ne radi).
+- Napomena: samo gašenje kontejnera nije popravljivo u kodu (infrastruktura) — ublaženo dev-up skriptom i evidentirano.

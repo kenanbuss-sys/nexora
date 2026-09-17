@@ -1,9 +1,7 @@
-# HANDOFF — 17.09.2026 (Sprint 223)
+# HANDOFF — 17.09.2026 (Sprint 224 — stabilizacija dev okruženja)
 
-Stanje: Sprint 223 završen na `docs/software-factory-md-v1`. (1) HCM /hr na standardu 215–221: lista/profil zaposlenih (DataTable, filteri; e-mail samo uz hcm.manage), prisustvo iz postojeće evidencije + idempotentan dolazak/odlazak, zahtjev za odsustvo kroz ConfirmDialog, odobravanje (approval.act) uz SoD na serveru; samo dozvoljene radnje; backend netaknut. (2) Sidebar: sklopive poslovne oblasti (Prodaja i kupci, Nabavka, Skladište i logistika, Proizvodnja i kvalitet, Finansije, Ljudi i HR, Servis i imovina, Analitika, Administracija), Početna+Favoriti na vrhu, aktivna oblast proširena/označena, brza pretraga menija, favoriti; izbor se pamti po korisniku/tenant-u; samo dozvoljeni tabovi, prazne oblasti skrivene; rute/prava netaknuti.
+Stanje: na `docs/software-factory-md-v1`. Istraga PG padova (cloud dev): eksterno gašenje procesa pri suspenziji sandbox kontejnera — 0 crash signatura, uredan WAL redo svaki put, fsync/synchronous_commit ON → bez gubitka komitovanih podataka; "nestali" demo tenant bio je TRUNCATE integracijskih testova. Potvrđen i ispravljen mac-auto/LaunchAgent konflikt: pkill je ubijao i ručno pokrenute instance — sada PID-fajlovi (gasi samo svoje), tuđi vlasnik porta se prijavljuje i ne dira, pg_isready guard, build-fail čuva postojeći stack; baza se nikad ne resetuje, seed isključivo aditivan i nikad automatski oporavak. Novi scripts/dev-up.sh (cloud): startuje samo ono što ne radi, odbija duple instance, jasne greške. Kontrolisani restart test: md5 sintetičkih zapisa identičan prije/poslije, bez dupliranja.
 
-Provjere: tok zahtjev→odobrenje→GRANTED; dupli zahtjev 409; dupla odluka 409; SoD 403 + sakriven vlastiti zahtjev; radnik 403/poruka; demo2 tuđe prisustvo 404; sidebar: direktno /ledger, persistencija poslije reloada, promjena korisnika čisti state (hr2 vidi samo Ljudi i HR), pretraga+Enter, mobilno; typecheck/build ✓; lint 0 errors. 16 snimaka.
-
-Napomene: HR repo nedostupan — ODL-005 inventar i dalje blokiran; ovo nije potpuno HR pokriće. Postgres se 2× srušio (dev) — demo reseedovan.
+macOS host nedostupan iz sesije (samo Linux VM most) → LaunchAgent i lokalno osvježavanje localhost:3000 NEPOTVRĐENI. Dijagnostika: `launchctl list | grep com.nexora.autodev`. Ručno osvježenje na Macu: `cd <nexora> && git pull --ff-only && bash scripts/mac-dev.sh`.
 
 Otvoreno: vizuelni pregled 215–223, LaunchAgent, FIN-028, HR inventar, stvarni adapteri, EN stranice.

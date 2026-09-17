@@ -20,9 +20,12 @@ LOG="/tmp/nexora-auto.log"
 if [ "${1:-install}" = "stop" ]; then
   launchctl unload "$PLIST" 2>/dev/null || true
   rm -f "$PLIST"
-  pkill -f 'apps/api/dist/main.js' 2>/dev/null || true
-  pkill -f 'next start' 2>/dev/null || true
-  echo "Auto-dev stopped and uninstalled."
+  # Stop only what this agent started (PID files); never a manual stack.
+  for f in /tmp/nexora-auto.api.pid /tmp/nexora-auto.web.pid; do
+    [ -f "$f" ] && kill "$(cat "$f" 2>/dev/null)" 2>/dev/null || true
+    rm -f "$f"
+  done
+  echo "Auto-dev stopped and uninstalled (manually started processes were left alone)."
   exit 0
 fi
 
@@ -85,25 +88,64 @@ apply_migrations() {
   done
 }
 
+# Environment-stabilization rules (Sprint 224):
+# - The database is NEVER stopped, dropped or reseeded destructively here;
+#   seed-demo.mjs only ADDS missing demo records (idempotent) and a
+#   reset/reseed is never an automatic recovery path.
+# - Only processes THIS agent started (tracked in PID files) are restarted.
+#   A foreign process holding :3000/:3001 (a manual `pnpm start`, another
+#   checkout) is reported loudly and left alone — no blind pkill, so the
+#   LaunchAgent can no longer kill a manually started stack.
+API_PID_FILE="/tmp/nexora-auto.api.pid"
+WEB_PID_FILE="/tmp/nexora-auto.web.pid"
+
+stop_own() {
+  # Stops only the instance this agent started earlier.
+  local pid_file="$1"
+  if [ -f "$pid_file" ]; then
+    local pid
+    pid="$(cat "$pid_file" 2>/dev/null)"
+    [ -n "$pid" ] && kill "$pid" 2>/dev/null || true
+    rm -f "$pid_file"
+    sleep 1
+  fi
+}
+
+port_owner() { lsof -ti tcp:"$1" 2>/dev/null | head -1; }
+
 start_stack() {
   brew services start postgresql@17 >/dev/null 2>&1 || brew services start postgresql >/dev/null 2>&1 || true
   brew services start redis >/dev/null 2>&1 || true
   sleep 2
+  if ! pg_isready -q 2>/dev/null; then
+    log "ERROR: PostgreSQL is not accepting connections — stack NOT (re)started; existing data left untouched"
+    return 1
+  fi
   psql -lqt 2>/dev/null | cut -d '|' -f 1 | grep -qw enterprise_os || createdb enterprise_os || true
   apply_migrations
   log "installing dependencies"
   pnpm install --silent >/dev/null 2>&1 || pnpm install
   log "building"
-  pnpm turbo build --filter=@nexora/api --filter=@nexora/web --output-logs=errors-only || return 1
-  pkill -f 'apps/api/dist/main.js' 2>/dev/null || true
-  sleep 1
-  DATABASE_URL="$DB_URL" REDIS_URL="redis://localhost:6379" nohup node "$REPO/apps/api/dist/main.js" >> "$LOG" 2>&1 &
-  pkill -f 'next start' 2>/dev/null || true
-  sleep 1
-  (cd "$REPO/apps/web" && nohup npx next start --port 3000 >> "$LOG" 2>&1 &)
+  pnpm turbo build --filter=@nexora/api --filter=@nexora/web --output-logs=errors-only || {
+    log "ERROR: build failed — keeping the currently running stack as-is"
+    return 1
+  }
+  stop_own "$API_PID_FILE"
+  if [ -n "$(port_owner 3001)" ]; then
+    log "ERROR: port 3001 is held by a process this agent did not start (PID $(port_owner 3001)) — not touching it; stop it manually if you want the agent to serve the API"
+  else
+    DATABASE_URL="$DB_URL" REDIS_URL="redis://localhost:6379" nohup node "$REPO/apps/api/dist/main.js" >> "$LOG" 2>&1 &
+    echo $! > "$API_PID_FILE"
+  fi
+  stop_own "$WEB_PID_FILE"
+  if [ -n "$(port_owner 3000)" ]; then
+    log "ERROR: port 3000 is held by a process this agent did not start (PID $(port_owner 3000)) — not touching it; stop it manually if you want the agent to serve the web app"
+  else
+    (cd "$REPO/apps/web" && nohup npx next start --port 3000 >> "$LOG" 2>&1 & echo $! > "$WEB_PID_FILE")
+  fi
   sleep 3
-  # Keep the demo tenant topped up (idempotent; also refreshes permissions
-  # when new modules arrive).
+  # Top up MISSING demo records only (seed-demo is idempotent/additive —
+  # existing records are never overwritten).
   node "$REPO/scripts/seed-demo.mjs" >> "$LOG" 2>&1 || true
   log "stack (re)started — http://localhost:3000"
 }
