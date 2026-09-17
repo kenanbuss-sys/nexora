@@ -62,3 +62,12 @@ Use focused independent architecture/security/data/test/UX reviewers. Prefer at 
 - Inspect existing .claude rules/agents/skills before changing them; this package does not replace unseen files.
 - Never merge architecture or data with FinTrack. Verify the correct clone and unpushed work before removing any duplicate checkout.
 - Record meaningful changes in docs/session/PROJECT_STATE.md, CURRENT_SPRINT.md and DECISIONS.md; do not record secrets or unverified completion.
+
+## Work economy
+- Do not re-read or restate information already loaded in context unless it changed or is no longer available.
+- One task = one clear scope with acceptance criteria. Do not widen the plan or refactor unrelated code.
+- Routine changes are done directly. Use a plan or independent review agents only when complexity or risk justifies their cost; delegate with a bounded context.
+- Run the tests relevant to the change while working; run the wider project checks once at completion. Do not repeat an identical check without a change or a concrete reason.
+- Keep details in the existing documentation, not in replies. HANDOFF stays at 150-200 words: state, commit, checks, blocker, next step.
+- Replies default to <=150 words: result, checks, blockers. Do not repeat the request or paste code/diffs unless needed.
+- Never trade security, domain rules or correctness verification for tokens. Report the unknown instead of assuming.

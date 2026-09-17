@@ -511,10 +511,10 @@ ESG-007,ESG,Compliance evidence,P3,DONE,R4+,,,Sprint 207: compliance evidence as
 ESG-008,ESG,Sustainability targets,P3,DONE,R4+,,,Sprint 207: sustainability targets — caps and floors evaluated against measured actuals.
 ESG-009,ESG,ESG reporting hooks,P3,DONE,R4+,,,Sprint 207: ESG report export through connectors, exactly once per period.
 ESG-010,ESG,Operational sustainability analytics,P3,DONE,R4+,,,Sprint 207: operational analytics — energy, waste, recycling rate and CO2 per period.
-FIN-023,FIN,General ledger (journal entries, posting workflow),P1,PLANNED,R5,,,Audit 17.09.2026: FinTrack paritet — dvojno knjigovodstvo; ADR ODL-001.
-FIN-024,FIN,Chart of accounts per legal entity + system account mapping,P1,PLANNED,R5,,,FinTrack paritet: 8-cifrena konta, uloga->konto, partner analitika.
-FIN-025,FIN,Opening balances + period/ledger lock,P1,PLANNED,R5,,,FinTrack paritet: guard datumi po pravnom licu.
-FIN-026,FIN,Reversal/storno engine for posted entries,P1,PLANNED,R5,,,FinTrack paritet: zrcalni storno, posted nepromjenjiv.
+FIN-023,FIN,General ledger (journal entries, posting workflow),DONE,PLANNED,R5,,Sprint 211: journal entries draft->posted with D=P invariant and per-legal-entity numbering (ADR-0001).
+FIN-024,FIN,Chart of accounts per legal entity + system account mapping,P1,DONE,R5,,,Sprint 211: 8-digit COA per legal entity with copy, system-account map and lazy partner analytics from MDM.
+FIN-025,FIN,Opening balances + period/ledger lock,P1,DONE,R5,,,Sprint 211: opening-balance date guard + period lock per legal entity.
+FIN-026,FIN,Reversal/storno engine for posted entries,P1,DONE,R5,,,Sprint 211: mirrored storno as the only correction; posted entries immutable.
 FIN-027,FIN,Account/partner cards + IOS + external client card,P1,PLANNED,R5,,,FinTrack paritet: kartice s PS kumulativom, kontrola salda prije printa.
 FIN-028,FIN,KUF/KIF + VAT ledger (BiH localization pack),P1,PLANNED,R5,,,FinTrack paritet: PDV period status, prijava.
 FIN-029,FIN,Trial balance + GL reports + profit years,P2,PLANNED,R5,,,FinTrack paritet: bruto bilans, glavna knjiga.

@@ -1,10 +1,10 @@
 # Session handoff
-Datum: 17.09.2026 · Grana: `docs/software-factory-md-v1` (main @ a914c71) · commit bez pusha.
+Datum: 17.09.2026 · commiti bez pusha/deploya.
 
-Urađeno: (1) instalacioni MD paket committan (CLAUDE wrapper + AGENTS.md + docs/archive + docs/session); (2) audit usklađivanja: razlika 475/512/277 razriješena (README zastario; 512 stvarno; 277 = samo redovi "DONE", uz 217 "Implemented" i 18 "Partially"); (3) svježa provjera na a914c71 — 772 testa zeleno + E2E prijem→otprema 7/7 u izolovanoj bazi; (4) FinTrack potpuno inventarisan read-only (`docs/implementation/FINTRACK_INVENTORY.md`); (5) mapa pokrića `specs/fintrack_hr_coverage_matrix.csv` + 24 nova capability ID-a (PLANNED) u katalogu i matrici; (6) registar odluka `docs/implementation/FINTRACK_HR_GAP_REGISTER.md`; (7) backlog `docs/implementation/BACKLOG_DOPUNA.md` + Sprint 211 definisan u `CURRENT_SPRINT.md`.
+Stanje: Sprint 211 (GL jezgro, ADR-0001) implementiran i zatvoren — FIN-023..026: kontni plan po pravnom licu, nalozi draft→posted (D=P, numeracija po firmi), početno stanje + lock perioda, zrcalni storno; permisije finance.ledger.*; UI ekran /ledger. AGENTS.md dopunjen sekcijom "Work economy". Matrica: FIN-023..026 DONE. FINANCE_BOUNDARY usklađen.
 
-Blokade: HR repo `kenanbuss-sys/xcalltech-hr` nedostupan (ODL-005); ODL-001 (GL u FIN) čeka odobrenje/ADR; dev adapteri = pilot blokatori (AUDIT §3-4).
+Commiti (cloud clone = izvor istine ove sesije): sprint 211 kod, MD paket, audit docs, ovaj closure. U Mac checkoutu isti lanac je na granama `docs/software-factory-md-v1` i `audit/2026-09-17`; OPREZ: auto-pull na ~/nexora radi `reset --hard origin/main` na aktivnoj grani — zato je aktivni checkout vraćen na main, a rad živi na imenovanim granama.
 
-Ne dirano: poslovni kod, FinTrack/HR, produkcija, ugniježdeni klon `nexora/`; bez pusha i deploya.
+Provjere: sprint211 testovi 9/9; puna API suita zelena poslije sprinta (izolovana baza); build + lint (0 errors) + typecheck zeleni.
 
-Sljedeće: odobriti ODL-001 → ADR → Sprint 211 (GL jezgro). Detalji: `docs/implementation/AUDIT_2026-09-17_VERIFIED_STATE.md`.
+Blokada: HR repo nedostupan (ODL-005). Sljedeći korak: potvrda obima Sprinta 212 (FIN-027 kartice + FIN-029 bruto bilans).
