@@ -110,3 +110,15 @@ Otvoreno (master backlog, nepromijenjeno): vizuelni pregled Sprintova 215–217 
 - [x] Browser provjere (Playwright, 13 snimaka + ciljani dijalozi): zahtjev→odobrenje→narudžbenica→djelimični prijem 2/6→pokušaj prekomjernog (10>4, upozorenje, odustanak)→završni prijem 4 → **PO RECEIVED 6/6 potvrđeno u bazi**; kretanja vidljiva u zalihama; promjena pravnog lica bez zaostalih podataka; zabranjen pristup; kompletna /flow regresija; mobilni prikaz; web typecheck/build ✓; lint 0 errors
 
 Otvoreno (master backlog, nepromijenjeno): vizuelni pregled 215–218 (vlasnik); LaunchAgent NEPOTVRĐEN; FIN-028; HR inventar (ODL-005); stvarni adapteri (vision, banka); preostale EN stranice; enterprise grid.
+
+# Sprint 219 — ZAVRŠEN 17.09.2026: proizvodni frontend (BOM + radni nalozi) na standardu 215–218
+
+**Provjera receiptKey (Sprint 218) — bez izmjena koda:** semantika potvrđena čitanjem koda: ključ se generiše pri otvaranju panela prijema, retry/dvoklik unutar iste operacije koristi ISTI ključ, panel se zatvara nakon uspjeha pa novi legitimni prijem dobija novi ključ. Ciljana regresija NIJE dodana jer već postoji: sprint008.integration.test.ts ("Same receiptKey retried: no double stock"; novi ključ uvećava; prekomjerni poslije RECEIVED → 409). Prekomjerni prijem ostaje po postojećoj politici (evidentira se kao odstupanje) — pravilo nije mijenjano.
+
+- [x] /engineering: bosanski, BOM/rutiranja/izmjene kroz DataTable, detalj normativa (komponenta, količina po jedinici, škart %), **Pusti verziju** kroz ConfirmDialog; link na /production
+- [x] /production: bosanski + mape statusa (Planiran/Pušten u rad/U toku/Pauziran/Završen/Otkazan), nalozi kroz DataTable + status filter, planirana i stvarne količine (dobro/škart) u listi i detalju; link na /inventory
+- [x] Administrativni status vs stvarna kretanja jasno razdvojeni u dijalozima: **Pusti u rad** (ISSUE materijala po normativu; backflush napomena), **Pokreni/Pauziraj** ("mijenja samo administrativni status — ne knjiži kretanja"), **Završi nalog** (fakti: planirano vs uneseno dobro+škart; RECEIPT gotovog proizvoda), **Otkaži** (danger; kompenzacijski RECEIPT) — pozivi tek iz onConfirm, busy blokira dvostruki klik; prelazi samo oni koje backend podržava
+- [x] Backend NIJE mijenjan; bez novih poslovnih funkcija
+- [x] Provjere kroz browser + API (Playwright 10 snimaka): normativ FG-219 (komponenta 2×/jed) → radni nalog 5 kom → puštanje (dijalog) → pokretanje → završetak 4 dobro + 1 škart (dijalog) → **ledger potvrđen: komponenta 50−10−10=30, gotov proizvod +4**; ponovljeni complete → 409; nedozvoljen prelaz (complete iz PLANNED) → INVALID_STATE; tenant izolacija (demo2 prazno); zabranjen pristup; mobilni prikaz; regresija zajedničkih dijaloga (centriranje ✓); web typecheck/build ✓; lint 0 errors
+
+Otvoreno (master backlog, nepromijenjeno): vizuelni pregled 215–219 (vlasnik); LaunchAgent NEPOTVRĐEN; FIN-028; HR inventar (ODL-005); stvarni adapteri; preostale EN stranice; enterprise grid.

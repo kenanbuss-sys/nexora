@@ -1,6 +1,8 @@
 'use client';
 
+import Link from 'next/link';
 import { useCallback, useEffect, useState } from 'react';
+import { ConfirmDialog, DataTable, EmptyState, LoadingState } from '../../../components/ui';
 import { api, errorText } from '../../../lib/api';
 import { downloadDocument } from '../../../lib/download';
 import { useApp } from '../app-shell';
@@ -60,6 +62,31 @@ const WO_BADGE: Record<WorkOrderView['status'], string> = {
   CANCELLED: 'badge-danger',
 };
 
+const WO_LABEL: Record<WorkOrderView['status'], string> = {
+  PLANNED: 'Planiran',
+  RELEASED: 'Pušten u rad',
+  IN_PROGRESS: 'U toku',
+  PAUSED: 'Pauziran',
+  COMPLETED: 'Završen',
+  CANCELLED: 'Otkazan',
+};
+
+const OP_LABEL: Record<WoOperationView['status'], string> = {
+  PENDING: 'Na čekanju',
+  RUNNING: 'U toku',
+  DONE: 'Završena',
+};
+
+const DT_CATEGORY_LABEL: Record<string, string> = {
+  BREAKDOWN: 'Kvar',
+  SETUP: 'Podešavanje',
+  MATERIAL: 'Materijal',
+  QUALITY: 'Kvalitet',
+  OTHER: 'Ostalo',
+};
+
+type ConfirmKind = 'release' | 'start' | 'pause' | 'complete' | 'cancel';
+
 export default function ProductionPage() {
   const { can } = useApp();
   const [workOrders, setWorkOrders] = useState<WorkOrderView[] | null>(null);
@@ -90,6 +117,10 @@ export default function ProductionPage() {
   const [completeWo, setCompleteWo] = useState('');
   const [goodQty, setGoodQty] = useState('');
   const [scrapQty, setScrapQty] = useState('0');
+
+  const [statusFilter, setStatusFilter] = useState('');
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [confirm, setConfirm] = useState<{ kind: ConfirmKind; wo: WorkOrderView } | null>(null);
 
   const load = useCallback(() => {
     api<{ workCenters: WorkCenterOption[] }>('GET', '/api/v1/shopfloor/work-centers')
@@ -160,12 +191,40 @@ export default function ProductionPage() {
     ['RELEASED', 'IN_PROGRESS', 'PAUSED'].includes(w.status),
   ).length;
 
+  const filteredOrders = (workOrders ?? []).filter(
+    (w) => !statusFilter || w.status === statusFilter,
+  );
+  const selected = (workOrders ?? []).find((w) => w.id === selectedId) ?? null;
+
+  const facts = (wo: WorkOrderView) => (
+    <>
+      <div className="fact">
+        <span>Radni nalog</span>
+        <span className="mono">{wo.woNumber}</span>
+      </div>
+      <div className="fact">
+        <span>Artikal (SKU)</span>
+        <span className="mono">{skuCode(wo.skuId)}</span>
+      </div>
+      <div className="fact">
+        <span>Planirana količina</span>
+        <span>{wo.quantity}</span>
+      </div>
+    </>
+  );
+
   return (
     <main className="page">
-      <h1>Production</h1>
+      <div className="spread">
+        <h1>Proizvodnja</h1>
+        <Link href="/inventory" className="btn">
+          Zalihe →
+        </Link>
+      </div>
       <p className="page-sub">
-        Work orders against released BOMs — material issued from the ledger at release, good
-        quantity received back at completion, scrap recorded. {wip} in WIP.
+        Radni nalozi po odobrenim normativima (BOM) — materijal se izdaje iz knjige zaliha pri
+        puštanju u rad, dobra količina se prima nazad pri završetku, škart se evidentira. {wip} u
+        toku (WIP).
         {backflush ? <span className="badge badge-accent"> Backflush</span> : null}
       </p>
       {error ? <div className="alert alert-error">{error}</div> : null}
@@ -185,40 +244,40 @@ export default function ProductionPage() {
                       warehouseId: newWarehouse,
                       quantity: Number(newQty),
                     }),
-                  'Work order planned.',
+                  'Radni nalog je planiran.',
                 );
               }}
             >
-              <h2>New work order</h2>
-              <label className="label">Output SKU (needs a released BOM)</label>
+              <h2>Novi radni nalog</h2>
+              <label className="label">Izlazni artikal (SKU, treba odobren normativ)</label>
               <select
                 className="select"
                 value={newSku}
                 onChange={(e) => setNewSku(e.target.value)}
                 required
               >
-                <option value="">Select SKU…</option>
+                <option value="">Odaberite SKU…</option>
                 {skus.map((s) => (
                   <option key={s.id} value={s.id}>
                     {s.code}
                   </option>
                 ))}
               </select>
-              <label className="label">Warehouse</label>
+              <label className="label">Skladište</label>
               <select
                 className="select"
                 value={newWarehouse}
                 onChange={(e) => setNewWarehouse(e.target.value)}
                 required
               >
-                <option value="">Select…</option>
+                <option value="">Odaberite…</option>
                 {warehouses.map((w) => (
                   <option key={w.id} value={w.id}>
                     {w.code} — {w.name}
                   </option>
                 ))}
               </select>
-              <label className="label">Quantity</label>
+              <label className="label">Količina</label>
               <input
                 className="input"
                 style={{ maxWidth: 120 }}
@@ -235,47 +294,115 @@ export default function ProductionPage() {
                 disabled={busy}
                 type="submit"
               >
-                Plan work order
+                Planiraj radni nalog
               </button>
             </form>
           ) : null}
         </div>
 
         <div className="card">
-          <h2>Work orders</h2>
-          {workOrders === null ? <div className="loading">Loading…</div> : null}
-          {workOrders && workOrders.length === 0 ? (
-            <div className="empty">No work orders yet — plan one from a released BOM.</div>
+          <h2>Radni nalozi</h2>
+          {workOrders === null ? <LoadingState /> : null}
+          {workOrders !== null ? (
+            <DataTable
+              columns={[
+                {
+                  key: 'num',
+                  header: 'Broj',
+                  render: (wo: WorkOrderView) => <span className="mono">{wo.woNumber}</span>,
+                  text: (wo: WorkOrderView) => wo.woNumber,
+                },
+                {
+                  key: 'sku',
+                  header: 'Artikal',
+                  render: (wo: WorkOrderView) => <span className="mono">{skuCode(wo.skuId)}</span>,
+                  text: (wo: WorkOrderView) => skuCode(wo.skuId),
+                },
+                {
+                  key: 'planned',
+                  header: 'Planirano',
+                  align: 'right',
+                  render: (wo: WorkOrderView) => wo.quantity,
+                },
+                {
+                  key: 'actual',
+                  header: 'Dobro / škart',
+                  align: 'right',
+                  render: (wo: WorkOrderView) =>
+                    wo.status === 'COMPLETED' ? (
+                      <span>
+                        {wo.goodQuantity} / {wo.scrapQuantity}
+                      </span>
+                    ) : (
+                      <span className="muted">—</span>
+                    ),
+                },
+                {
+                  key: 'status',
+                  header: 'Status',
+                  render: (wo: WorkOrderView) => (
+                    <span className={`badge ${WO_BADGE[wo.status]}`}>{WO_LABEL[wo.status]}</span>
+                  ),
+                  text: (wo: WorkOrderView) => WO_LABEL[wo.status],
+                },
+              ]}
+              rows={filteredOrders}
+              rowKey={(wo) => wo.id}
+              onRowClick={(wo) => setSelectedId(wo.id === selectedId ? null : wo.id)}
+              searchPlaceholder="Pretraga naloga…"
+              pageSize={10}
+              emptyText={
+                statusFilter
+                  ? 'Nema radnih naloga za odabrani status.'
+                  : 'Još nema radnih naloga — planirajte prvi iz odobrenog normativa.'
+              }
+              toolbar={
+                <select
+                  className="select"
+                  style={{ maxWidth: 180 }}
+                  value={statusFilter}
+                  onChange={(e) => setStatusFilter(e.target.value)}
+                  aria-label="Filter po statusu"
+                >
+                  <option value="">Svi statusi</option>
+                  {(Object.keys(WO_LABEL) as Array<WorkOrderView['status']>).map((s) => (
+                    <option key={s} value={s}>
+                      {WO_LABEL[s]}
+                    </option>
+                  ))}
+                </select>
+              }
+            />
           ) : null}
-          {(workOrders ?? []).map((wo) => (
+
+          {selected ? (
             <div
-              key={wo.id}
               style={{
                 border: '1px solid var(--color-border)',
                 borderRadius: 8,
                 padding: 12,
-                marginBottom: 10,
+                marginTop: 12,
               }}
             >
               <div className="spread">
                 <div>
-                  <strong className="mono">{wo.woNumber}</strong>
+                  <strong className="mono">{selected.woNumber}</strong>
                   <div className="muted" style={{ fontSize: 12 }}>
-                    {skuCode(wo.skuId)} × {wo.quantity}
-                    {wo.status === 'COMPLETED'
-                      ? ` · good ${wo.goodQuantity} / scrap ${wo.scrapQuantity}`
+                    {skuCode(selected.skuId)} · planirano {selected.quantity}
+                    {selected.status === 'COMPLETED'
+                      ? ` · dobro ${selected.goodQuantity} / škart ${selected.scrapQuantity}`
                       : ''}
                   </div>
                 </div>
-                <span className={`badge ${WO_BADGE[wo.status]}`}>
-                  {wo.status.replace('_', ' ')}
+                <span className={`badge ${WO_BADGE[selected.status]}`}>
+                  {WO_LABEL[selected.status]}
                 </span>
               </div>
 
-              {wo.operations.length > 0 ? (
+              {selected.operations.length > 0 ? (
                 <table className="table" style={{ marginTop: 8 }}>
                   <tbody>
-                    {wo.operations.map((op) => (
+                    {selected.operations.map((op) => (
                       <tr key={op.id}>
                         <td className="mono">{op.seq}</td>
                         <td>
@@ -283,8 +410,8 @@ export default function ProductionPage() {
                         </td>
                         <td style={{ textAlign: 'right' }}>
                           {op.status === 'DONE' ? (
-                            <span className="badge badge-ok">DONE</span>
-                          ) : wo.status === 'IN_PROGRESS' && can('production.execute') ? (
+                            <span className="badge badge-ok">{OP_LABEL.DONE}</span>
+                          ) : selected.status === 'IN_PROGRESS' && can('production.execute') ? (
                             <button
                               className="btn btn-sm"
                               disabled={busy}
@@ -293,17 +420,17 @@ export default function ProductionPage() {
                                   () =>
                                     api(
                                       'POST',
-                                      `/api/v1/work-orders/${wo.id}/operations/${op.id}/complete`,
+                                      `/api/v1/work-orders/${selected.id}/operations/${op.id}/complete`,
                                     ),
                                   null,
                                 )
                               }
                               type="button"
                             >
-                              Complete
+                              Završi operaciju
                             </button>
                           ) : (
-                            <span className="badge badge-warn">{op.status}</span>
+                            <span className="badge badge-warn">{OP_LABEL[op.status]}</span>
                           )}
                         </td>
                       </tr>
@@ -312,74 +439,65 @@ export default function ProductionPage() {
                 </table>
               ) : null}
 
-              <div className="row" style={{ marginTop: 8 }}>
+              <div className="row" style={{ marginTop: 8, flexWrap: 'wrap' }}>
                 <button
                   className="btn btn-sm"
                   disabled={busy}
                   type="button"
                   onClick={() =>
-                    void downloadDocument(`/api/v1/documents/work-order/${wo.id}/label`)
+                    void downloadDocument(`/api/v1/documents/work-order/${selected.id}/label`)
                   }
                 >
-                  Label
+                  Etiketa
                 </button>
-                {wo.status === 'COMPLETED' &&
-                Number(wo.scrapQuantity) > 0 &&
+                {selected.status === 'COMPLETED' &&
+                Number(selected.scrapQuantity) > 0 &&
                 can('production.manage') ? (
                   <button
                     className="btn btn-sm"
                     disabled={busy}
                     onClick={() =>
                       run(
-                        () => api('POST', `/api/v1/work-orders/${wo.id}/rework`),
-                        'Rework order created for the scrapped quantity.',
+                        () => api('POST', `/api/v1/work-orders/${selected.id}/rework`),
+                        'Kreiran je nalog dorade za škartiranu količinu.',
                       )
                     }
                     type="button"
                   >
-                    Rework scrap
+                    Dorada škarta
                   </button>
                 ) : null}
-                {wo.status === 'PLANNED' && can('production.manage') ? (
+                {selected.status === 'PLANNED' && can('production.manage') ? (
                   <button
                     className="btn btn-sm btn-primary"
                     disabled={busy}
-                    onClick={() =>
-                      run(
-                        () => api('POST', `/api/v1/work-orders/${wo.id}/release`),
-                        'Released — material issued from the ledger.',
-                      )
-                    }
+                    onClick={() => setConfirm({ kind: 'release', wo: selected })}
                     type="button"
                   >
-                    Release (issue material)
+                    Pusti u rad
                   </button>
                 ) : null}
-                {['RELEASED', 'PAUSED'].includes(wo.status) && can('production.execute') ? (
+                {['RELEASED', 'PAUSED'].includes(selected.status) && can('production.execute') ? (
                   <button
                     className="btn btn-sm btn-primary"
                     disabled={busy}
-                    onClick={() =>
-                      run(() => api('POST', `/api/v1/work-orders/${wo.id}/start`), null)
-                    }
+                    onClick={() => setConfirm({ kind: 'start', wo: selected })}
                     type="button"
                   >
-                    {wo.status === 'PAUSED' ? 'Resume' : 'Start'}
+                    {selected.status === 'PAUSED' ? 'Nastavi' : 'Pokreni'}
                   </button>
                 ) : null}
-                {wo.status === 'IN_PROGRESS' && can('production.execute') ? (
+                {selected.status === 'IN_PROGRESS' && can('production.execute') ? (
                   <>
                     <button
                       className="btn btn-sm"
                       disabled={busy}
-                      onClick={() =>
-                        run(() => api('POST', `/api/v1/work-orders/${wo.id}/pause`), null)
-                      }
+                      onClick={() => setConfirm({ kind: 'pause', wo: selected })}
                       type="button"
                     >
-                      Pause
+                      Pauziraj
                     </button>
-                    {completeWo === wo.id ? (
+                    {completeWo === selected.id ? (
                       <>
                         <input
                           className="input"
@@ -387,7 +505,8 @@ export default function ProductionPage() {
                           type="number"
                           min="0"
                           step="any"
-                          placeholder="Good"
+                          placeholder="Dobro"
+                          aria-label="Dobra količina"
                           value={goodQty}
                           onChange={(e) => setGoodQty(e.target.value)}
                         />
@@ -397,74 +516,65 @@ export default function ProductionPage() {
                           type="number"
                           min="0"
                           step="any"
-                          placeholder="Scrap"
+                          placeholder="Škart"
+                          aria-label="Škart količina"
                           value={scrapQty}
                           onChange={(e) => setScrapQty(e.target.value)}
                         />
                         <button
                           className="btn btn-sm btn-primary"
                           disabled={busy || goodQty === ''}
-                          onClick={() =>
-                            run(
-                              () =>
-                                api('POST', `/api/v1/work-orders/${wo.id}/complete`, {
-                                  goodQuantity: Number(goodQty),
-                                  scrapQuantity: Number(scrapQty),
-                                }),
-                              'Completed — output received into stock.',
-                            ).then(() => setCompleteWo(''))
-                          }
+                          onClick={() => setConfirm({ kind: 'complete', wo: selected })}
                           type="button"
                         >
-                          Confirm
+                          Završi nalog
                         </button>
                       </>
                     ) : (
                       <button
                         className="btn btn-sm btn-primary"
                         onClick={() => {
-                          setCompleteWo(wo.id);
-                          setGoodQty(wo.quantity);
+                          setCompleteWo(selected.id);
+                          setGoodQty(selected.quantity);
                           setScrapQty('0');
                         }}
                         type="button"
                       >
-                        Complete…
+                        Završi…
                       </button>
                     )}
                   </>
                 ) : null}
-                {['PLANNED', 'RELEASED'].includes(wo.status) && can('production.manage') ? (
+                {['PLANNED', 'RELEASED'].includes(selected.status) && can('production.manage') ? (
                   <button
                     className="btn btn-sm btn-danger"
                     disabled={busy}
-                    onClick={() =>
-                      run(
-                        () => api('POST', `/api/v1/work-orders/${wo.id}/cancel`),
-                        'Cancelled — issued material returned.',
-                      )
-                    }
+                    onClick={() => setConfirm({ kind: 'cancel', wo: selected })}
                     type="button"
                   >
-                    Cancel
+                    Otkaži
                   </button>
                 ) : null}
               </div>
             </div>
-          ))}
+          ) : workOrders !== null && workOrders.length > 0 ? (
+            <p className="muted" style={{ fontSize: 12.5, marginTop: 10 }}>
+              Kliknite na red za detalje i akcije naloga.
+            </p>
+          ) : null}
         </div>
       </div>
       <div className="card" style={{ marginTop: 16 }}>
-        <h2>Work centers &amp; downtime</h2>
+        <h2>Radni centri i zastoji</h2>
         {oee.length > 0 ? (
           <table className="table">
             <thead>
               <tr>
-                <th style={{ textAlign: 'left' }}>Work center</th>
-                <th>Downtime (30d)</th>
-                <th>Top cause</th>
-                <th>Ops done</th>
-                <th>Avg op time</th>
+                <th style={{ textAlign: 'left' }}>Radni centar</th>
+                <th>Zastoj (30 d)</th>
+                <th>Glavni uzrok</th>
+                <th>Završene op.</th>
+                <th>Prosj. trajanje op.</th>
               </tr>
             </thead>
             <tbody>
@@ -489,7 +599,7 @@ export default function ProductionPage() {
                       </span>
                     </td>
                     <td style={{ textAlign: 'center' }} className="muted">
-                      {top ? `${top[0]} (${top[1]}m)` : '—'}
+                      {top ? `${DT_CATEGORY_LABEL[top[0]] ?? top[0]} (${top[1]} min)` : '—'}
                     </td>
                     <td style={{ textAlign: 'center' }}>{row.operationsCompleted}</td>
                     <td style={{ textAlign: 'center' }} className="mono">
@@ -501,7 +611,7 @@ export default function ProductionPage() {
             </tbody>
           </table>
         ) : (
-          <div className="empty">No work centers yet — create one below.</div>
+          <EmptyState text="Još nema radnih centara — kreirajte prvi ispod." />
         )}
 
         <div className="row" style={{ marginTop: 12, flexWrap: 'wrap' }}>
@@ -510,14 +620,14 @@ export default function ProductionPage() {
               <input
                 className="input mono"
                 style={{ maxWidth: 100 }}
-                placeholder="Code"
+                placeholder="Šifra"
                 value={wcCode}
                 onChange={(e) => setWcCode(e.target.value)}
               />
               <input
                 className="input"
                 style={{ maxWidth: 170 }}
-                placeholder="Work center name"
+                placeholder="Naziv radnog centra"
                 value={wcName}
                 onChange={(e) => setWcName(e.target.value)}
               />
@@ -531,7 +641,7 @@ export default function ProductionPage() {
                         code: wcCode,
                         name: wcName,
                       }),
-                    'Work center created.',
+                    'Radni centar je kreiran.',
                   ).then(() => {
                     setWcCode('');
                     setWcName('');
@@ -539,7 +649,7 @@ export default function ProductionPage() {
                 }
                 type="button"
               >
-                Add work center
+                Dodaj radni centar
               </button>
             </>
           ) : null}
@@ -551,7 +661,7 @@ export default function ProductionPage() {
                 value={dtCenter}
                 onChange={(e) => setDtCenter(e.target.value)}
               >
-                <option value="">Work center…</option>
+                <option value="">Radni centar…</option>
                 {workCenters.map((w) => (
                   <option key={w.id} value={w.id}>
                     {w.code}
@@ -566,7 +676,7 @@ export default function ProductionPage() {
               >
                 {['BREAKDOWN', 'SETUP', 'MATERIAL', 'QUALITY', 'OTHER'].map((c) => (
                   <option key={c} value={c}>
-                    {c}
+                    {DT_CATEGORY_LABEL[c] ?? c}
                   </option>
                 ))}
               </select>
@@ -576,14 +686,14 @@ export default function ProductionPage() {
                 type="number"
                 min="1"
                 max="1440"
-                title="Minutes"
+                title="Minute"
                 value={dtMinutes}
                 onChange={(e) => setDtMinutes(e.target.value)}
               />
               <input
                 className="input"
                 style={{ maxWidth: 200 }}
-                placeholder="Downtime reason"
+                placeholder="Razlog zastoja"
                 value={dtReason}
                 onChange={(e) => setDtReason(e.target.value)}
               />
@@ -599,12 +709,12 @@ export default function ProductionPage() {
                         minutes: Number(dtMinutes),
                         reason: dtReason,
                       }),
-                    'Downtime logged.',
+                    'Zastoj je evidentiran.',
                   ).then(() => setDtReason(''))
                 }
                 type="button"
               >
-                Log downtime
+                Evidentiraj zastoj
               </button>
             </>
           ) : null}
@@ -612,19 +722,19 @@ export default function ProductionPage() {
       </div>
       {wcLoad.length > 0 ? (
         <div className="card" style={{ marginTop: 16 }}>
-          <h2>Work-center load</h2>
+          <h2>Opterećenje radnih centara</h2>
           {wcLoad.map((w) => (
             <div key={w.code} className="row spread" style={{ marginBottom: 4 }}>
               <span className="mono" style={{ fontSize: 13 }}>
                 {w.code} <span className="muted">{w.name}</span>
-                {!w.active ? <span className="badge badge-danger"> inactive</span> : null}
+                {!w.active ? <span className="badge badge-danger"> neaktivan</span> : null}
               </span>
               <span>
                 <span className={`badge ${w.pending > 0 ? 'badge-warn' : ''}`}>
-                  {w.pending} pending
+                  {w.pending} na čekanju
                 </span>{' '}
                 <span className={`badge ${w.running > 0 ? 'badge-accent' : ''}`}>
-                  {w.running} running
+                  {w.running} u toku
                 </span>
               </span>
             </div>
@@ -634,16 +744,150 @@ export default function ProductionPage() {
 
       {byDay.length > 0 ? (
         <div className="card" style={{ marginTop: 16 }}>
-          <h2>Production by day</h2>
+          <h2>Proizvodnja po danima</h2>
           {byDay.map((d) => (
             <div key={d.day} className="row spread" style={{ marginBottom: 4 }}>
               <span className="mono">{d.day}</span>
               <span className="muted" style={{ fontSize: 12 }}>
-                good {d.good} · scrap {d.scrap} · {d.workOrders} WO
+                dobro {d.good} · škart {d.scrap} · {d.workOrders} naloga
               </span>
             </div>
           ))}
         </div>
+      ) : null}
+
+      {confirm?.kind === 'release' ? (
+        <ConfirmDialog
+          open
+          title={`Puštanje u rad — ${confirm.wo.woNumber}`}
+          consequence="Puštanje u rad izdaje materijal po normativu kao ISSUE kretanja u knjizi zaliha (kod backflush načina materijal se troši tek pri završetku)."
+          confirmLabel="Pusti u rad"
+          busy={busy}
+          onCancel={() => setConfirm(null)}
+          onConfirm={() => {
+            const wo = confirm.wo;
+            void run(
+              () => api('POST', `/api/v1/work-orders/${wo.id}/release`),
+              'Nalog je pušten u rad — materijal je izdat iz knjige zaliha.',
+            ).then(() => setConfirm(null));
+          }}
+        >
+          {facts(confirm.wo)}
+        </ConfirmDialog>
+      ) : null}
+
+      {confirm?.kind === 'start' ? (
+        <ConfirmDialog
+          open
+          title={
+            confirm.wo.status === 'PAUSED'
+              ? `Nastavak rada — ${confirm.wo.woNumber}`
+              : `Pokretanje rada — ${confirm.wo.woNumber}`
+          }
+          consequence="Mijenja samo administrativni status naloga — ne knjiži kretanja."
+          confirmLabel={confirm.wo.status === 'PAUSED' ? 'Nastavi rad' : 'Pokreni rad'}
+          busy={busy}
+          onCancel={() => setConfirm(null)}
+          onConfirm={() => {
+            const wo = confirm.wo;
+            void run(() => api('POST', `/api/v1/work-orders/${wo.id}/start`), null).then(() =>
+              setConfirm(null),
+            );
+          }}
+        >
+          {facts(confirm.wo)}
+          <div className="fact">
+            <span>Trenutni status</span>
+            <span>{WO_LABEL[confirm.wo.status]}</span>
+          </div>
+        </ConfirmDialog>
+      ) : null}
+
+      {confirm?.kind === 'pause' ? (
+        <ConfirmDialog
+          open
+          title={`Pauziranje — ${confirm.wo.woNumber}`}
+          consequence="Mijenja samo administrativni status naloga — ne knjiži kretanja."
+          confirmLabel="Pauziraj"
+          busy={busy}
+          onCancel={() => setConfirm(null)}
+          onConfirm={() => {
+            const wo = confirm.wo;
+            void run(() => api('POST', `/api/v1/work-orders/${wo.id}/pause`), null).then(() =>
+              setConfirm(null),
+            );
+          }}
+        >
+          {facts(confirm.wo)}
+          <div className="fact">
+            <span>Trenutni status</span>
+            <span>{WO_LABEL[confirm.wo.status]}</span>
+          </div>
+        </ConfirmDialog>
+      ) : null}
+
+      {confirm?.kind === 'complete' ? (
+        <ConfirmDialog
+          open
+          title={`Završetak naloga — ${confirm.wo.woNumber}`}
+          consequence="Završetak knjiži RECEIPT gotovog proizvoda u skladište (i backflush materijala ako je konfigurisan). Nalog postaje završen."
+          confirmLabel="Završi nalog"
+          busy={busy}
+          onCancel={() => setConfirm(null)}
+          onConfirm={() => {
+            const wo = confirm.wo;
+            void run(
+              () =>
+                api('POST', `/api/v1/work-orders/${wo.id}/complete`, {
+                  goodQuantity: Number(goodQty),
+                  scrapQuantity: Number(scrapQty),
+                }),
+              'Nalog je završen — gotov proizvod je primljen na zalihu.',
+            ).then(() => {
+              setConfirm(null);
+              setCompleteWo('');
+            });
+          }}
+        >
+          {facts(confirm.wo)}
+          <div className="fact">
+            <span>Uneseno dobro</span>
+            <span>{goodQty || '0'}</span>
+          </div>
+          <div className="fact">
+            <span>Uneseni škart</span>
+            <span>{scrapQty || '0'}</span>
+          </div>
+          <div className="fact">
+            <span>Ukupno uneseno (dobro + škart)</span>
+            <span>{Number(goodQty || 0) + Number(scrapQty || 0)}</span>
+          </div>
+        </ConfirmDialog>
+      ) : null}
+
+      {confirm?.kind === 'cancel' ? (
+        <ConfirmDialog
+          open
+          danger
+          title={`Otkazivanje naloga — ${confirm.wo.woNumber}`}
+          consequence="Otkazivanje kompenzira već izdati materijal RECEIPT kretanjima; historija kretanja se ne briše."
+          confirmLabel="Otkaži nalog"
+          busy={busy}
+          onCancel={() => setConfirm(null)}
+          onConfirm={() => {
+            const wo = confirm.wo;
+            void run(
+              () => api('POST', `/api/v1/work-orders/${wo.id}/cancel`),
+              'Nalog je otkazan — izdati materijal je vraćen.',
+            ).then(() => setConfirm(null));
+          }}
+        >
+          {facts(confirm.wo)}
+          <div className="fact">
+            <span>Trenutni status</span>
+            <span>{WO_LABEL[confirm.wo.status]}</span>
+          </div>
+        </ConfirmDialog>
       ) : null}
     </main>
   );
