@@ -435,7 +435,47 @@ export class LedgerService {
     return this.entryView(entry.id, ctx);
   }
 
-  async deleteDraft(entryId: string, ctx: RequestContext): Promise<{ ok: true }> {
+  /**
+   * Entries created by an owning FIN business action (KUF/KIF book, VAT
+   * settlement, compensation) are corrected only through that action,
+   * never through the generic ledger API — otherwise the owning record
+   * and the ledger would silently diverge.
+   */
+  private async assertNotOwned(entryId: string, ctx: RequestContext) {
+    const [vatEntry, vatPeriod, compensation] = await Promise.all([
+      this.prisma.vatBookEntry.findFirst({
+        where: { tenantId: ctx.tenantId, glEntryId: entryId },
+        select: { bookType: true, bookNo: true, year: true },
+      }),
+      this.prisma.vatPeriod.findFirst({
+        where: { tenantId: ctx.tenantId, settlementEntryId: entryId },
+        select: { year: true, month: true },
+      }),
+      this.prisma.compensation.findFirst({
+        where: { tenantId: ctx.tenantId, glEntryId: entryId },
+        select: { compensationNumber: true },
+      }),
+    ]);
+    const owner = vatEntry
+      ? `${vatEntry.bookType} ${vatEntry.bookNo}/${vatEntry.year}`
+      : vatPeriod
+        ? `PDV prijava ${vatPeriod.month}/${vatPeriod.year}`
+        : compensation
+          ? `kompenzacija ${compensation.compensationNumber}`
+          : null;
+    if (owner) {
+      throw new DomainError(
+        'INVALID_STATE',
+        `This entry belongs to ${owner} — correct it through that document`,
+      );
+    }
+  }
+
+  async deleteDraft(
+    entryId: string,
+    ctx: RequestContext,
+    opts: { owned?: boolean } = {},
+  ): Promise<{ ok: true }> {
     const entry = await this.entry(entryId, ctx);
     if (entry.status !== 'DRAFT') {
       throw new DomainError(
@@ -443,7 +483,10 @@ export class LedgerService {
         'Only a draft can be deleted; posted entries are corrected by storno',
       );
     }
-    await this.prisma.glJournalEntry.delete({ where: { id: entry.id } });
+    if (!opts.owned) await this.assertNotOwned(entry.id, ctx);
+    await this.prisma.glJournalEntry.deleteMany({
+      where: { id: entry.id, tenantId: ctx.tenantId, status: 'DRAFT' },
+    });
     await this.audit('gl.entry.draft_delete', entry.id, {}, ctx);
     return { ok: true };
   }
@@ -516,15 +559,19 @@ export class LedgerService {
         orderBy: { entryNo: 'desc' },
         select: { entryNo: true },
       });
-      const row = await tx.glJournalEntry.update({
-        where: { id: entry.id },
+      // CAS: a concurrent post of the same draft never renumbers it.
+      const entryNo = (last?.entryNo ?? 0) + 1;
+      const claimed = await tx.glJournalEntry.updateMany({
+        where: { id: entry.id, tenantId: ctx.tenantId, status: 'DRAFT' },
         data: {
           status: 'POSTED',
-          entryNo: (last?.entryNo ?? 0) + 1,
+          entryNo,
           postedAt: new Date(),
           postedBy: ctx.userId ?? null,
         },
       });
+      if (claimed.count === 0) return null;
+      const row = { id: entry.id, entryNo };
       await writeAudit(tx, {
         tenantId: ctx.tenantId,
         actorType: ctx.actorType,
@@ -538,11 +585,16 @@ export class LedgerService {
       });
       return row;
     });
-    return this.entryView(posted.id, ctx);
+    return this.entryView(posted?.id ?? entry.id, ctx);
   }
 
   /** FIN-026: the ONLY correction path for a posted entry. */
-  async storno(entryId: string, reason: string, ctx: RequestContext): Promise<GlEntryView> {
+  async storno(
+    entryId: string,
+    reason: string,
+    ctx: RequestContext,
+    opts: { owned?: boolean } = {},
+  ): Promise<GlEntryView> {
     if (reason.trim().length < 5) {
       throw new DomainError('VALIDATION_FAILED', 'A storno needs a reason');
     }
@@ -550,13 +602,17 @@ export class LedgerService {
     if (entry.status !== 'POSTED') {
       throw new DomainError('INVALID_STATE', 'Only a posted entry can be stornoed');
     }
+    if (entry.entryType === 'STORNO') {
+      throw new DomainError('INVALID_STATE', 'A storno entry cannot be stornoed again');
+    }
+    if (!opts.owned) await this.assertNotOwned(entry.id, ctx);
     if (entry.stornoedById) {
+      // Resume a storno whose mirror was claimed but not yet posted.
+      const claimedMirror = await this.entry(entry.stornoedById, ctx);
+      if (claimedMirror.status === 'DRAFT') return this.post(claimedMirror.id, ctx);
       throw new DomainError('CONFLICT', 'The entry is already stornoed', {
         stornoEntryId: entry.stornoedById,
       });
-    }
-    if (entry.entryType === 'STORNO') {
-      throw new DomainError('INVALID_STATE', 'A storno entry cannot be stornoed again');
     }
     const lines = await this.prisma.glJournalLine.findMany({
       where: { tenantId: ctx.tenantId, entryId: entry.id },
@@ -577,17 +633,24 @@ export class LedgerService {
       },
       ctx,
     );
-    await this.prisma.glJournalEntry.update({
-      where: { id: mirror.id },
+    await this.prisma.glJournalEntry.updateMany({
+      where: { id: mirror.id, tenantId: ctx.tenantId },
       data: { stornoOfId: entry.id },
     });
-    const posted = await this.post(mirror.id, ctx);
-    await this.prisma.glJournalEntry.update({
-      where: { id: entry.id },
+    // Claim the reversal atomically BEFORE posting: a concurrent storno
+    // of the same entry loses here and never posts a second mirror.
+    const claimed = await this.prisma.glJournalEntry.updateMany({
+      where: { id: entry.id, tenantId: ctx.tenantId, stornoedById: null },
       data: { stornoedById: mirror.id },
     });
+    if (claimed.count === 0) {
+      await this.prisma.glJournalEntry.deleteMany({
+        where: { id: mirror.id, tenantId: ctx.tenantId, status: 'DRAFT' },
+      });
+      throw new DomainError('CONFLICT', 'The entry is already stornoed');
+    }
     await this.audit('gl.entry.storno', entry.id, { stornoEntryId: mirror.id }, ctx, reason.trim());
-    return posted;
+    return this.post(mirror.id, ctx);
   }
 
   async listEntries(

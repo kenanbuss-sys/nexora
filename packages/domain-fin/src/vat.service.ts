@@ -411,7 +411,7 @@ export class VatService {
     if (!(VAT_BOOK_TYPES as readonly string[]).includes(input.bookType)) {
       throw new DomainError('VALIDATION_FAILED', 'bookType must be KUF or KIF');
     }
-    if (!KEY_RE.test(input.requestKey)) {
+    if (!KEY_RE.test(input.requestKey) || input.requestKey.startsWith('storno:')) {
       throw new DomainError('VALIDATION_FAILED', 'requestKey: 8-80 safe characters');
     }
     if (!DATE_RE.test(input.documentDate) || !DATE_RE.test(input.bookingDate)) {
@@ -614,6 +614,18 @@ export class VatService {
     }
   }
 
+  private async periodStatus(legalEntityId: string, date: Date, ctx: RequestContext) {
+    const period = await this.prisma.vatPeriod.findFirst({
+      where: {
+        tenantId: ctx.tenantId,
+        legalEntityId,
+        year: date.getUTCFullYear(),
+        month: date.getUTCMonth() + 1,
+      },
+    });
+    return period?.status ?? 'OPEN';
+  }
+
   /** Allocates the next book number; retries on a numbering race. */
   private async insertNumbered(
     data: Omit<Prisma.VatBookEntryUncheckedCreateInput, 'bookNo'>,
@@ -647,6 +659,32 @@ export class VatService {
             where: { tenantId: ctx.tenantId, stornoOfId: data.stornoOfId },
           });
           if (mirror) return { replay: true };
+        }
+        // Partial unique indexes (migration 233): the same partner document
+        // or invoice was booked concurrently under another key.
+        if (!data.stornoOfId) {
+          const clash = await this.prisma.vatBookEntry.findFirst({
+            where: {
+              tenantId: ctx.tenantId,
+              stornoOfId: null,
+              status: { not: 'STORNOED' },
+              OR: [
+                {
+                  legalEntityId: data.legalEntityId,
+                  bookType: data.bookType,
+                  partnerId: data.partnerId,
+                  documentNumber: data.documentNumber,
+                },
+                ...(data.invoiceId ? [{ invoiceId: data.invoiceId }] : []),
+              ],
+            },
+          });
+          if (clash) {
+            throw new DomainError(
+              'CONFLICT',
+              `This document or invoice is already in ${clash.bookType} (${clash.bookNo}/${clash.year})`,
+            );
+          }
         }
       }
     }
@@ -718,13 +756,40 @@ export class VatService {
       });
       if (stored.count === 0) {
         await this.ledger.deleteDraft(draft.id, ctx);
-        const fresh = await this.prisma.vatBookEntry.findFirst({ where: { id: row.id } });
+        const fresh = await this.prisma.vatBookEntry.findFirst({
+          where: { id: row.id, tenantId: ctx.tenantId },
+        });
         glEntryId = fresh?.glEntryId ?? null;
       } else {
         glEntryId = draft.id;
       }
     }
     if (!glEntryId) throw new DomainError('CONFLICT', 'Book entry posting is in progress — retry');
+    // A same-key resume may reach this point after a filing started: the
+    // row is still PENDING (so the filer refuses), and here it is withdrawn
+    // before it can ever post into a filing/filed period.
+    const status = await this.periodStatus(row.legalEntityId, row.bookingDate, ctx);
+    if (status !== 'OPEN') {
+      const gl = await this.prisma.glJournalEntry.findFirst({
+        where: { id: glEntryId, tenantId: ctx.tenantId },
+      });
+      if (gl?.status === 'DRAFT') {
+        const released = await this.prisma.vatBookEntry.updateMany({
+          where: { id: row.id, tenantId: ctx.tenantId, status: 'PENDING', glEntryId },
+          data: { glEntryId: null },
+        });
+        if (released.count > 0) {
+          await this.ledger.deleteDraft(glEntryId, ctx);
+          await this.prisma.vatBookEntry.deleteMany({
+            where: { id: row.id, tenantId: ctx.tenantId, status: 'PENDING', glEntryId: null },
+          });
+        }
+        throw new DomainError(
+          'INVALID_STATE',
+          'The VAT period was filed meanwhile — book it in an open period',
+        );
+      }
+    }
     await this.ledger.post(glEntryId, ctx);
     await this.prisma.vatBookEntry.updateMany({
       where: { id: row.id, tenantId: ctx.tenantId, status: 'PENDING' },
@@ -818,11 +883,29 @@ export class VatService {
         where: { id: original.glEntryId, tenantId: ctx.tenantId },
       });
       if (entry && !entry.stornoedById) {
-        await this.ledger.storno(
-          original.glEntryId,
-          `Storno ${original.bookType} ${original.bookNo}/${original.year}: ${reason.trim()}`,
-          ctx,
-        );
+        const status = await this.periodStatus(original.legalEntityId, mirror.bookingDate, ctx);
+        if (status !== 'OPEN') {
+          await this.prisma.vatBookEntry.deleteMany({
+            where: { id: mirror.id, tenantId: ctx.tenantId, status: 'PENDING', glEntryId: null },
+          });
+          throw new DomainError(
+            'INVALID_STATE',
+            'The current VAT period was filed meanwhile — the storno cannot be booked',
+          );
+        }
+      }
+      if (entry) {
+        try {
+          // Ledger claims the reversal atomically; a concurrent loser gets
+          // CONFLICT and a crashed claim is resumed (posted) here.
+          await this.ledger.storno(
+            original.glEntryId,
+            `Storno ${original.bookType} ${original.bookNo}/${original.year}: ${reason.trim()}`,
+            ctx,
+          );
+        } catch (error) {
+          if (!(error instanceof DomainError && error.code === 'CONFLICT')) throw error;
+        }
       }
       const after = await this.prisma.glJournalEntry.findFirst({
         where: { id: original.glEntryId, tenantId: ctx.tenantId },
@@ -1073,14 +1156,14 @@ export class VatService {
 
     if (period.status === 'OPEN') {
       await this.prisma.vatPeriod.updateMany({
-        where: { id: period.id, status: 'OPEN' },
+        where: { id: period.id, tenantId: ctx.tenantId, status: 'OPEN' },
         data: { status: 'FILING' },
       });
     }
     const t = await this.totals(params.legalEntityId, from, to, ctx);
     if (t.pending > 0) {
       await this.prisma.vatPeriod.updateMany({
-        where: { id: period.id, status: 'FILING', settlementEntryId: null },
+        where: { id: period.id, tenantId: ctx.tenantId, status: 'FILING', settlementEntryId: null },
         data: { status: 'OPEN' },
       });
       throw new DomainError(
@@ -1091,9 +1174,14 @@ export class VatService {
     const outC = t.kif.vatC;
     const inC = t.kuf.vatC;
 
-    let settlementId =
-      (await this.prisma.vatPeriod.findFirst({ where: { id: period.id } }))?.settlementEntryId ??
-      null;
+    const current = await this.prisma.vatPeriod.findFirst({
+      where: { id: period.id, tenantId: ctx.tenantId },
+    });
+    if (current?.status === 'FILED') return this.period(params, ctx);
+    if (current?.status !== 'FILING') {
+      throw new DomainError('CONFLICT', 'Another filing attempt reopened the period — retry');
+    }
+    let settlementId = current.settlementEntryId;
     if (!settlementId && (outC !== 0 || inC !== 0)) {
       const out = roles.get(VAT_ROLES.output)!;
       const inp = roles.get(VAT_ROLES.input)!;
@@ -1117,23 +1205,28 @@ export class VatService {
         ctx,
       );
       const stored = await this.prisma.vatPeriod.updateMany({
-        where: { id: period.id, settlementEntryId: null },
+        where: { id: period.id, tenantId: ctx.tenantId, status: 'FILING', settlementEntryId: null },
         data: { settlementEntryId: draft.id },
       });
       if (stored.count === 0) {
         await this.ledger.deleteDraft(draft.id, ctx);
-        settlementId =
-          (await this.prisma.vatPeriod.findFirst({ where: { id: period.id } }))
-            ?.settlementEntryId ?? null;
+        const again = await this.prisma.vatPeriod.findFirst({
+          where: { id: period.id, tenantId: ctx.tenantId },
+        });
+        if (again?.status === 'FILED') return this.period(params, ctx);
+        if (again?.status !== 'FILING' || !again.settlementEntryId) {
+          throw new DomainError('CONFLICT', 'Another filing attempt reopened the period — retry');
+        }
+        settlementId = again.settlementEntryId;
       } else {
         settlementId = draft.id;
       }
     }
     if (settlementId) await this.ledger.post(settlementId, ctx);
 
-    await this.prisma.$transaction(async (tx) => {
+    const flippedNow = await this.prisma.$transaction(async (tx) => {
       const flipped = await tx.vatPeriod.updateMany({
-        where: { id: period.id, status: 'FILING' },
+        where: { id: period.id, tenantId: ctx.tenantId, status: 'FILING' },
         data: {
           status: 'FILED',
           outputVat: money(outC),
@@ -1143,7 +1236,7 @@ export class VatService {
           filedBy: ctx.userId ?? null,
         },
       });
-      if (flipped.count === 0) return;
+      if (flipped.count === 0) return false;
       await writeAudit(tx, {
         tenantId: ctx.tenantId,
         actorType: ctx.actorType,
@@ -1177,7 +1270,16 @@ export class VatService {
           payableVat: money(outC - inC),
         },
       });
+      return true;
     });
+    if (!flippedNow) {
+      const final = await this.prisma.vatPeriod.findFirst({
+        where: { id: period.id, tenantId: ctx.tenantId },
+      });
+      if (final?.status !== 'FILED') {
+        throw new DomainError('CONFLICT', 'The filing did not complete — retry');
+      }
+    }
     return this.period(params, ctx);
   }
 
@@ -1225,7 +1327,7 @@ export class VatService {
       );
     }
     const flipped = await this.prisma.vatPeriod.updateMany({
-      where: { id: period.id, paidAt: null },
+      where: { id: period.id, tenantId: ctx.tenantId, paidAt: null },
       data: {
         paidAt: new Date(params.paidAt),
         paidReference: params.reference.trim(),

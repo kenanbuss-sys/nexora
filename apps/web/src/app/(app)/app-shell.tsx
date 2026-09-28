@@ -257,6 +257,12 @@ const NAV_GROUPS: Array<{ section: string; items: NavItem[] }> = [
         icon: 'finance',
         permission: 'finance.ledger.read',
       },
+      {
+        href: '/vat',
+        label: 'PDV · KUF/KIF',
+        icon: 'finance',
+        permission: 'finance.ledger.read',
+      },
       { href: '/bank', label: 'Banka', icon: 'finance', permission: 'finance.read' },
       {
         href: '/compensations',
@@ -416,6 +422,7 @@ export function AppShell({ children }: { children: ReactNode }) {
     '/quality': 'quality',
     '/finance': 'finance',
     '/ledger': 'finance',
+    '/vat': 'finance',
     '/bank': 'finance',
     '/compensations': 'finance',
     '/inventory': 'warehouse',

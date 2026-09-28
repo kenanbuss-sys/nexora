@@ -1,8 +1,11 @@
-# HANDOFF — 17.09.2026 (noćni rad: Sprintovi 227–231)
+# HANDOFF — 28.09.2026 (Sprint 232: FIN-028 KUF/KIF + PDV)
 
-Stanje: na `docs/software-factory-md-v1`, commitovi 54775b3→85f17a6. (227) Projekat: klijent iz partner šifrarnika + odgovorna osoba iz zaposlenih (auditni markeri, bez migracija), lista stvarno povezanih NBN (purchase.read), privatni dokumenti kroz postojeći attachment sloj (5MB, blokada skriptnih tipova, per-tenant). (228) /tasks preuređen: rokovi s "kasni", veza na projekat, filter, nova dodjela; odobrenja s Odobri/Odbij kroz dijalog — SoD na serveru; tok "Novi zadatak za projekat" iz /projects. (229) /assets preuređen: servisna historija iz stvarnih zapisa, kvar→održavanje→završetak (idempotentni ključ), zaduženje/rashodovanje; maintenance rute su pod /api/v1/maintenance/... Model NEMA lokaciju/QR — backlog. (230) Make demo dopuna (idempotentno: tasks=12, approvals_req=2 u 2 pokretanja). (231) Usklađivanje s 226: `.grid-2 > * { min-width:0 }` (mobilni page-hscroll otklonjen), bs-BA rok.
+Stanje: grana `claude/lucid-dijkstra-qywmaw` (osnova `docs/software-factory-md-v1` @ 88988f1). FIN-028 završen: paket `accounting-bih` kao podaci (efektivno-datirane PDV stope po pravnom licu, sistemska konta `vat.output`/`vat.input`/`vat.settlement`); KUF/KIF unos → server obračun PDV-a + tačno jedan KUF/KIF nalog; storno = negativna stavka u tekućem periodu + storno naloga; PDV prijava = jedan nalog zatvaranja + `vat.return.filed` (outbox), period zatvoren; status uplate; usklađenost knjiga↔GK. UI `/vat` (Finansije). Migracije 20260928000232 + 000233 (parcijalni unique indeksi — ne brisati pri regeneraciji).
 
-Provjere: sprint227 testovi 5/5; Playwright snimci (shots227–231); lint 0 errors; typecheck/build ✓.
-Mac: Terminal 1 `cd ~/nexora && git pull --ff-only && bash scripts/mac-dev.sh` (ili mac-auto); Terminal 2 `cd ~/nexora && DATABASE_URL="postgresql://$USER@localhost:5432/enterprise_os" node scripts/seed-make-demo.mjs`.
+Review (data-integrity) nalazi 1–8 ispravljeni: ledger `post` CAS, atomski storno claim, generički storno/brisanje naloga u vlasništvu KUF/KIF/prijave/kompenzacije odbijeno.
 
-Otvoreno: premium redizajn svih ekrana, FIN-028, HR inventar (ODL-005), stvarni adapteri, EN stranice, make GL/banka seed, lokacija/QR opreme, zadaci po projektu (server filter).
+Provjere: sprint232 14/14 (3×); regresija 211/212/213/214/222 zelena; typecheck/lint/build — vidi CURRENT_SPRINT.
+
+Mac: `cd ~/nexora && git fetch && git checkout claude/lucid-dijkstra-qywmaw && bash scripts/mac-dev.sh` (migracije aditivne).
+
+Otvoreno: vizuelna provjera /vat (Playwright nije rađen), fiskalni/e-PDV adapter (FIN-021), obrazac/XML prijave, Excel export KUF/KIF, FK-ovi vat tabela; ostalo iz backloga (premium redizajn, HR ODL-005, stvarni adapteri, make GL/banka seed, QR opreme).

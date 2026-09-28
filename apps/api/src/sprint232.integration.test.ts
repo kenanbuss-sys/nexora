@@ -262,7 +262,9 @@ integration('Sprint 232 — KUF/KIF + PDV (FIN-028)', () => {
       grossAmount: '117.00',
       partnerName: 'Kupac Alfa d.o.o.',
     });
-    const gl = await prisma.glJournalEntry.findFirst({ where: { id: res.body.glEntryId as string } });
+    const gl = await prisma.glJournalEntry.findFirst({
+      where: { id: res.body.glEntryId as string },
+    });
     expect(gl).toMatchObject({ entryType: 'KIF', status: 'POSTED' });
     const lines = await glLines(gl!.id);
     expect(lines[1]).toBe('47000000:0.00/17.00');
@@ -329,7 +331,12 @@ integration('Sprint 232 — KUF/KIF + PDV (FIN-028)', () => {
   });
 
   it('DUPLICATES and validation: same partner document twice, invoice mismatch, unmapped VAT account', async () => {
-    const dup = await api('POST', '/api/v1/vat/entries', tokenA, entry({ documentNumber: 'IF-0001' }));
+    const dup = await api(
+      'POST',
+      '/api/v1/vat/entries',
+      tokenA,
+      entry({ documentNumber: 'IF-0001' }),
+    );
     expect(dup.status).toBe(409);
     expect(String(dup.body.message)).toContain('already in KIF');
 
@@ -363,9 +370,19 @@ integration('Sprint 232 — KUF/KIF + PDV (FIN-028)', () => {
       entry({ netAmount: 99, invoiceId: invoice.id }),
     );
     expect(wrongAmount.status).toBe(400);
-    const linked = await api('POST', '/api/v1/vat/entries', tokenA, entry({ invoiceId: invoice.id }));
+    const linked = await api(
+      'POST',
+      '/api/v1/vat/entries',
+      tokenA,
+      entry({ invoiceId: invoice.id }),
+    );
     expect(linked.status).toBe(201);
-    const twice = await api('POST', '/api/v1/vat/entries', tokenA, entry({ invoiceId: invoice.id }));
+    const twice = await api(
+      'POST',
+      '/api/v1/vat/entries',
+      tokenA,
+      entry({ invoiceId: invoice.id }),
+    );
     expect(twice.status).toBe(409);
 
     await api('POST', '/api/v1/vat/pack/bih', tokenA, { legalEntityId: le2 });
@@ -378,6 +395,47 @@ integration('Sprint 232 — KUF/KIF + PDV (FIN-028)', () => {
     expect(unmapped.status).toBe(409);
     expect(String(unmapped.body.message)).toContain('vat.output');
     expect(await prisma.vatBookEntry.count({ where: { legalEntityId: le2 } })).toBe(0);
+  });
+
+  it('REVIEW FIXES: concurrent duplicates with different keys, reserved storno key, VAT-owned entries guarded', async () => {
+    const doc = {
+      documentNumber: 'IF-RACE',
+      netAmount: 5,
+      documentDate: '2025-06-12',
+      bookingDate: '2025-06-12',
+    };
+    const results = await Promise.all(
+      [1, 2, 3].map(() => api('POST', '/api/v1/vat/entries', tokenA, entry(doc))),
+    );
+    expect(results.filter((r) => r.status === 201)).toHaveLength(1);
+    for (const r of results) expect([201, 409]).toContain(r.status);
+    expect(
+      await prisma.vatBookEntry.count({
+        where: { tenantId: tenantAId, documentNumber: 'IF-RACE' },
+      }),
+    ).toBe(1);
+    const ok = results.find((r) => r.status === 201)!;
+    await api('POST', `/api/v1/vat/entries/${ok.body.id as string}/storno`, tokenA, {
+      reason: 'Test utrke duplikata',
+    });
+
+    const reserved = await api(
+      'POST',
+      '/api/v1/vat/entries',
+      tokenA,
+      entry({ requestKey: `storno:${kifId}` }),
+    );
+    expect(reserved.status).toBe(400);
+
+    const owned = await prisma.vatBookEntry.findFirst({ where: { id: kifId } });
+    const genericStorno = await api(
+      'POST',
+      `/api/v1/ledger/entries/${owned!.glEntryId!}/storno`,
+      tokenA,
+      { reason: 'Zaobilazak knjige' },
+    );
+    expect(genericStorno.status).toBe(409);
+    expect(String(genericStorno.body.message)).toContain('KIF');
   });
 
   it('BOOK + PERIOD: KIF/KUF totals for the month reconcile with the ledger VAT accounts', async () => {
@@ -473,6 +531,39 @@ integration('Sprint 232 — KUF/KIF + PDV (FIN-028)', () => {
     );
     expect(stornoOfStorno.status).toBe(409);
 
+    // Concurrent storno of another entry: exactly one ledger reversal.
+    const other = await api(
+      'POST',
+      '/api/v1/vat/entries',
+      tokenA,
+      entry({ documentNumber: 'IF-CONC', documentDate: '2025-06-10', bookingDate: '2025-06-10' }),
+    );
+    const conc = await Promise.all(
+      [1, 2, 3].map(() =>
+        api('POST', `/api/v1/vat/entries/${other.body.id as string}/storno`, tokenA, {
+          reason: 'Paralelni storno',
+        }),
+      ),
+    );
+    for (const r of conc) expect([201, 409]).toContain(r.status);
+    const finalStorno = await api(
+      'POST',
+      `/api/v1/vat/entries/${other.body.id as string}/storno`,
+      tokenA,
+      { reason: 'Paralelni storno' },
+    );
+    expect(finalStorno.body.status).toBe('STORNO');
+    expect(
+      await prisma.glJournalEntry.count({
+        where: { tenantId: tenantAId, stornoOfId: other.body.glEntryId as string },
+      }),
+    ).toBe(1);
+    expect(
+      await prisma.vatBookEntry.count({
+        where: { tenantId: tenantAId, stornoOfId: other.body.id as string },
+      }),
+    ).toBe(1);
+
     const march = await api(
       'GET',
       `/api/v1/vat/periods/summary?legalEntityId=${le}&year=2025&month=3`,
@@ -561,7 +652,7 @@ integration('Sprint 232 — KUF/KIF + PDV (FIN-028)', () => {
         vatAmount: 1.7,
         grossAmount: 11.7,
         currency: 'BAM',
-        counterAccountId: acc.revenue,
+        counterAccountId: acc.revenue!,
         requestKey: 'pending-key-0001',
         requestHash: 'x',
       },
@@ -587,7 +678,11 @@ integration('Sprint 232 — KUF/KIF + PDV (FIN-028)', () => {
     );
     const results = await Promise.all(
       [1, 2, 3].map(() =>
-        api('POST', '/api/v1/vat/periods/file', tokenA, { legalEntityId: le, year: 2025, month: 5 }),
+        api('POST', '/api/v1/vat/periods/file', tokenA, {
+          legalEntityId: le,
+          year: 2025,
+          month: 5,
+        }),
       ),
     );
     for (const r of results) expect([201, 409]).toContain(r.status);
