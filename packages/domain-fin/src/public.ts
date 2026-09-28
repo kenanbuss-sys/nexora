@@ -62,3 +62,10 @@ export {
   type VatRateView,
 } from './vat.service';
 export { BIH_VAT_PACK } from './localization/bih-vat';
+export {
+  PostingProposalService,
+  confidenceFor,
+  type PostingProposal,
+  type PostingProposalLine,
+  type ProposalConfidence,
+} from './posting-proposal.service';

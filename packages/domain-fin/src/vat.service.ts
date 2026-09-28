@@ -1346,6 +1346,70 @@ export class VatService {
     return this.period(params, ctx);
   }
 
+  /**
+   * FIN-033 assist for the KUF/KIF form: counter account and VAT rate
+   * from this partner's earlier RECORDED entries of the same book. A
+   * recommendation only — the person submits the entry; confidence is
+   * computed in code (HIGH ≥ 3 matching precedents, MEDIUM 1–2, LOW 0).
+   */
+  async suggest(
+    params: { legalEntityId: string; bookType: VatBookType; partnerId: string },
+    ctx: RequestContext,
+  ) {
+    if (!(VAT_BOOK_TYPES as readonly string[]).includes(params.bookType)) {
+      throw new DomainError('VALIDATION_FAILED', 'bookType must be KUF or KIF');
+    }
+    await this.legalEntity(params.legalEntityId, ctx);
+    const rows = await this.prisma.vatBookEntry.findMany({
+      where: {
+        tenantId: ctx.tenantId,
+        legalEntityId: params.legalEntityId,
+        bookType: params.bookType,
+        partnerId: params.partnerId,
+        status: 'RECORDED',
+      },
+      orderBy: [{ bookingDate: 'desc' }, { bookNo: 'desc' }],
+      take: 50,
+    });
+    const accounts = await this.prisma.glAccount.findMany({
+      where: {
+        tenantId: ctx.tenantId,
+        legalEntityId: params.legalEntityId,
+        id: { in: [...new Set(rows.map((r) => r.counterAccountId))] },
+        active: true,
+      },
+    });
+    const active = new Map(accounts.map((a) => [a.id, a]));
+    const pairs = new Map<string, { accountId: string; rate: string; rows: typeof rows }>();
+    for (const r of rows) {
+      if (!active.has(r.counterAccountId)) continue;
+      const key = `${r.counterAccountId}|${r.vatRateCode}`;
+      const g = pairs.get(key) ?? { accountId: r.counterAccountId, rate: r.vatRateCode, rows: [] };
+      g.rows.push(r);
+      pairs.set(key, g);
+    }
+    let best: { accountId: string; rate: string; rows: typeof rows } | null = null;
+    for (const g of pairs.values()) if (!best || g.rows.length > best.rows.length) best = g;
+    const matches = best?.rows.length ?? 0;
+    const account = best ? active.get(best.accountId) : undefined;
+    return {
+      confidence: matches >= 3 ? 'HIGH' : matches >= 1 ? 'MEDIUM' : 'LOW',
+      matchingPrecedents: matches,
+      consideredPrecedents: rows.length,
+      counterAccountId: account?.id ?? null,
+      counterAccountCode: account?.code ?? null,
+      counterAccountName: account?.name ?? null,
+      vatRateCode: best?.rate ?? null,
+      precedents: (best?.rows ?? []).slice(0, 5).map((r) => ({
+        id: r.id,
+        bookNo: r.bookNo,
+        year: r.year,
+        documentNumber: r.documentNumber,
+        bookingDate: day(r.bookingDate),
+      })),
+    };
+  }
+
   async listPeriods(legalEntityId: string, ctx: RequestContext) {
     await this.legalEntity(legalEntityId, ctx);
     const rows = await this.prisma.vatPeriod.findMany({

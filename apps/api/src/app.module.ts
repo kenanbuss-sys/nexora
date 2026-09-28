@@ -70,9 +70,14 @@ import { BANK_STATEMENT_SERVICE, BankController, VISION_PORT } from './fin/bank.
 import { COMPENSATION_SERVICE, CompensationController } from './fin/compensation.controller';
 import { VAT_SERVICE, VatController } from './fin/vat.controller';
 import {
+  POSTING_PROPOSAL_SERVICE,
+  PostingProposalController,
+} from './fin/posting-proposal.controller';
+import {
   BankStatementService,
   CompensationService,
   VatService,
+  PostingProposalService,
   DevBankFeedAdapter,
   ValuationService,
   ExchangeRateService,
@@ -468,6 +473,7 @@ export const REDIS = 'REDIS';
     BankController,
     CompensationController,
     VatController,
+    PostingProposalController,
     TreasuryController,
     ExchangeRatesController,
     ValuationController,
@@ -878,6 +884,14 @@ export const REDIS = 'REDIS';
           },
         ),
       inject: [PRISMA, FINANCE_SERVICE, LEDGER_SERVICE],
+    },
+    {
+      provide: POSTING_PROPOSAL_SERVICE,
+      useFactory: (prisma: PrismaClient, ledger: LedgerService) =>
+        new PostingProposalService(prisma, {
+          createDraft: (input, ctx) => ledger.createDraft({ ...input, entryType: 'MANUAL' }, ctx),
+        }),
+      inject: [PRISMA, LEDGER_SERVICE],
     },
     {
       provide: VAT_SERVICE,

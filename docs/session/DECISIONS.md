@@ -12,5 +12,6 @@
 | ODL-007 | PREDLOŽENO | FinTrack čišćenja/HISTORIJA vrste se ne prenose; pokriva migracioni alat | isto |
 | ODL-008 | OTVORENO (kasnija faza) | Migracija stvarnih podataka = poseban projekat (mapiranje/dry-run/zbirovi/rollback) | isto |
 | FIN-028-D1 | Primijenjeno 28.09.2026 (Sprint 232, u okviru ADR-0001) | PDV = paket "accounting-bih" kao PODACI: efektivno-datirane stope po pravnom licu (append-only verzije) + sistemska konta vat.output/vat.input/vat.settlement; storno KUF/KIF ide u TEKUĆI period (podnesena prijava se nikad ne mijenja retroaktivno); podnošenje zatvara period za nove unose; status uplate bez GL knjiženja (uplata ide kroz izvod) | Vlasnik izabrao FIN-028 kao Sprint 232 (28.09.) |
+| FIN-033-D1 | Primijenjeno 28.09.2026 (Sprint 233) | Prijedlozi knjiženja su DETERMINISTIČKI (presedani iz proknjiženih naloga), bez LLM poziva: AI rizik klasa "recommendation→draft", sigurnost pravilom u kodu, prihvatanje kreira samo NACRT; OCR/vision faktura ostaje zaseban AI-016 adapter (kad bude produkcijski provider, on samo puni ulaz prijedloga) | FinTrack ai-knjizenje paritet; 14_AI_GOVERNANCE |
 
 Puni registar s obrazloženjima: `docs/implementation/FINTRACK_HR_GAP_REGISTER.md`. ADR-ovi idu u `docs/architecture/` po postojećoj proceduri; prijedlozi ovdje NISU odobrene odluke.

@@ -88,6 +88,25 @@ export class VatController {
     return this.vat.book(q, ctx);
   }
 
+  @Get('suggest')
+  @RequirePermission('finance.ledger.read')
+  async suggest(
+    @Query('legalEntityId') legalEntityId: string,
+    @Query('bookType') bookType: string,
+    @Query('partnerId') partnerId: string,
+    @Ctx() ctx: RequestContext,
+  ) {
+    const q = parseBody(
+      z.object({
+        legalEntityId: LE,
+        bookType: z.enum(VAT_BOOK_TYPES),
+        partnerId: z.string().uuid(),
+      }),
+      { legalEntityId, bookType, partnerId },
+    );
+    return this.vat.suggest(q, ctx);
+  }
+
   @Post('entries')
   @RequirePermission('finance.ledger.post')
   async record(@Body() body: unknown, @Ctx() ctx: RequestContext) {
