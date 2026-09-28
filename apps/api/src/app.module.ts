@@ -20,7 +20,8 @@ import {
   PdfService,
   DocumentTemplateService,
 } from '@nexora/domain-doc';
-import { EmployeeService, WorkforceService } from '@nexora/domain-hcm';
+import { AttendanceMatrixService, EmployeeService, WorkforceService } from '@nexora/domain-hcm';
+import { ATTENDANCE_SERVICE, AttendanceController } from './hcm/attendance.controller';
 import { MaintenanceService, AssetService } from '@nexora/domain-eam';
 import {
   ConfiguratorService,
@@ -433,6 +434,7 @@ export const REDIS = 'REDIS';
     ContractsController,
     EmployeesController,
     WorkforceController,
+    AttendanceController,
     OpsController,
     OpenApiController,
     AssetsController,
@@ -1122,6 +1124,7 @@ export const REDIS = 'REDIS';
         tenants: TenantService,
         approvals: ApprovalService,
         connectors: ConnectorService,
+        attendance: AttendanceMatrixService,
       ) =>
         new WorkforceService(
           prisma,
@@ -1141,8 +1144,36 @@ export const REDIS = 'REDIS';
             },
           },
           { pushObject: (input, ctx) => connectors.pushObject(input, ctx) },
+          { workedDaysFor: (period, ctx) => attendance.workedDaysFor(period, ctx) },
         ),
-      inject: [PRISMA, TENANT_SERVICE, APPROVAL_SERVICE, CONNECTOR_SERVICE],
+      inject: [PRISMA, TENANT_SERVICE, APPROVAL_SERVICE, CONNECTOR_SERVICE, ATTENDANCE_SERVICE],
+    },
+    {
+      // HCM-015: granted leave is read from WF approvals through a gate.
+      provide: ATTENDANCE_SERVICE,
+      useFactory: (prisma: PrismaClient, tenants: TenantService) =>
+        new AttendanceMatrixService(
+          prisma,
+          { getEffectiveConfiguration: (t) => tenants.getEffectiveConfiguration(t) },
+          {
+            grantedLeaveKeys: async (tenantId, employeeIds) => {
+              const rows = await prisma.approval.findMany({
+                where: {
+                  tenantId,
+                  subjectObjectType: 'hcm_leave',
+                  status: 'GRANTED',
+                  OR: employeeIds.map((id) => ({
+                    subjectObjectId: { startsWith: `${id}:leave:` },
+                  })),
+                },
+                select: { subjectObjectId: true },
+                take: 5000,
+              });
+              return rows.map((r) => r.subjectObjectId);
+            },
+          },
+        ),
+      inject: [PRISMA, TENANT_SERVICE],
     },
     {
       provide: ASSET_SERVICE,

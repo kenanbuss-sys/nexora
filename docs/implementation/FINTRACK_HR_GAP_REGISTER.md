@@ -7,7 +7,7 @@ Pravilo: nijedna postojeća poslovna mogućnost FinTracka/HR-a ne izlazi iz obim
 | ID | Odluka | Kontekst | Prijedlog | Status |
 |---|---|---|---|---|
 | ODL-001 | Uvesti statutarni GL (dvojno knjigovodstvo) u Nexoru | `12_FINANCE_BOUNDARY.md` dopušta "until a dedicated accounting localization exists"; FinTrack GL je stvarna potreba | DA — novi FIN-023..FIN-033 kao "BiH accounting localization"; ADR obavezan prije Sprinta 211 | OTVORENO |
-| ODL-002 | Model prisutnosti: matrica statusa (FinTrack) vs clock IN/OUT (Nexora HCM-003) | Dva legitimna modela | Podržati OBA: matrica (HCM-015) kao primarna za kancelarijske tenante; clock za pogon; zajednički obračunski izvor | OTVORENO |
+| ODL-002 | Model prisutnosti: matrica statusa (FinTrack) vs clock IN/OUT (Nexora HCM-003) | Dva legitimna modela | Podržati OBA: matrica (HCM-015) kao primarna za kancelarijske tenante; clock za pogon; zajednički obračunski izvor | ODOBRENO 28.09.2026 — primijenjeno u Sprintu 234 |
 | ODL-003 | Lotto | Paralelna mini-evidencija u FinTracku | NE prenositi kao funkciju — modelovati kao zasebno pravno lice/poslovnu jedinicu + aktivacija modula (CORE-002) | PREDLOŽENO |
 | ODL-004 | Otvaranje poslovnice (playbook) | Poseban tab u FinTracku | Pokriti postojećim: konfigurabilne checkliste (sprint 172) + PRJ troškovi; bez novog podsistema | PREDLOŽENO |
 | ODL-005 | Kompletnost HR inventara | Repo `kenanbuss-sys/xcalltech-hr` nedostupan (nema lokalnog checkouta; PAT bez pristupa) | Vlasnik daje pristup (checkout u `~/` ili proširenje PAT-a); do tada HCM-020 BLOKIRANO — bez implementacije po pretpostavci | BLOKIRANO |

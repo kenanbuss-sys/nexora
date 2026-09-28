@@ -312,3 +312,18 @@ Backlog Faza 1, red 5. Vlasnik domena: FIN; AI rizik klasa "recommendation → d
 - [x] UI: /ledger „Prijedlog knjiženja" (uredive stavke, značka sigurnosti s objašnjenjem pravila, presedani, „Kreiraj nacrt" kroz ConfirmDialog); /vat „Predloži konto i stopu" u formi unosa
 - [x] Testovi (sprint233 8/8, 3×): VISOKA + tačni iznosi + provenance, sužavanje ključnim riječima i zaokruženje (0.07), prijedlog po opisu bez tuđeg konta i bez tuđeg tenanta, NISKA/validacija, storno presedana → SREDNJA, neaktivno konto označeno, prihvatanje = NACRT bez promjene broja proknjiženih + audit, neuravnoteženo/tuđi presedani → 400, KUF asistent, authz (read-only predlaže, ne kreira nacrt) i cross-tenant 404; regresija sprint211 9/9, sprint232 14/14
 - Nije rađeno: LLM/vision OCR faktura (AI-016 i dalje samo dev adapter), eval set i metrika prihvatanja prijedloga
+
+# Sprint 234 — ZAVRŠEN 28.09.2026: šihtarica — matrica statusa prisutnosti (HCM-015)
+
+Backlog Faza 2, red 6. ODL-002 ODOBRENO (vlasnik 28.09.): oba modela — matrica je izvor obračuna, clock (HCM-003) i odobreno odsustvo samo predlažu. Vlasnik domena: HCM.
+
+- [x] Migracija `20260928000234_sprint_234_attendance_matrix` (aditivna): `attendance_day` (zaposleni×dan, status, izvor MANUAL/CLOCK/LEAVE, napomena, verzija) i `attendance_period` (OPEN/LOCKED); rollback u komentaru
+- [x] Konfiguracija, ne kod: `hcm.attendanceModel` (BOTH podrazumijevano / MATRIX / CLOCK) i `hcm.attendanceStatuses` [{key,label,countsAsWorked}] s podrazumijevanim katalogom (Prisutan, Obuka, Bolovanje, Godišnji, Slobodan, Odsutan); CLOCK tenant ne uređuje matricu
+- [x] Postavljanje/brisanje dana (hcm.manage): optimistička verzija (expectedVersion; zastarjelo → 409), isti status = no-op bez audita, svaka izmjena audit staro→novo (`hcm.attendance_day.set`); konkurentni unos istog dana → tačno jedan pobjednik
+- [x] Prijedlozi: clock IN dani → PRISUTAN, odobreno odsustvo (WF approval kroz gate) → GODIŠNJI (ima prednost); prikazani, NE snimljeni; „Primijeni prijedloge" puni samo PRAZNE dane (ručni unos se nikad ne gazi), idempotentno
+- [x] Presjek (hcm.read): po zaposlenom brojevi po statusu, radni dani (countsAsWorked), neevidentirano, clock sati; kontrola izmjena (hcm.manage) iz audita
+- [x] Zaključavanje mjeseca (hcm.manage) + otključavanje samo s razlogom (audit); izmjene serijalizovane s lockom (`FOR SHARE` na redu perioda u transakciji) — izmjena nikad ne ulazi u zaključan mjesec
+- [x] Payroll export (HCM-012) nosi `workedDays` po zaposlenom iz matrice + `workedDaysTotal` u auditu (jedan obračunski izvor)
+- [x] UI /hr tab „Šihtarica" (matrica sa sticky kolonom, uređivanje ćelije, prijedlozi isprekidano, zaključavanje, legenda, presjek sa štampom, kontrola izmjena) — samo dozvoljene radnje
+- [x] Testovi: **sprint234 10/10** (3×) — katalog/model, set/clear + audit + optimistička verzija + idempotentnost, konkurentni unos, prijedlozi clock/odsustvo samo za prazne dane + idempotentna primjena, presjek + kontrola izmjena, payroll workedDays = presjek, lock/unlock s razlogom, deterministička serijalizacija lock↔izmjena, CLOCK model i vlastiti katalog, authz (čitalac ne uređuje / ne vidi kontrolu izmjena) i tenant izolacija; regresija sprint203 7/7, sprint072 4/4
+- Nije rađeno: obračun plata (HCM-013/014), mjesečni fond sati po sektoru, Excel export presjeka, browser provjera /hr Šihtarica

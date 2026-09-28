@@ -8,3 +8,10 @@ export {
   type PayrollConnectorGate,
   type WorkforceConfigGate,
 } from './workforce.service';
+export {
+  AttendanceMatrixService,
+  DEFAULT_ATTENDANCE_STATUSES,
+  type AttendanceModel,
+  type AttendanceStatusDef,
+  type GrantedLeaveGate,
+} from './attendance.service';

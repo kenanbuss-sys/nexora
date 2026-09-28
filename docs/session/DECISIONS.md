@@ -4,7 +4,7 @@
 |---|---|---|---|
 | DOC-001 | Instalirano (commit na ovoj grani) | Zajednički AGENTS core + CLAUDE import; detaljne reference na zahtjev | Software-Factory-MD-v1 paket; original arhiviran u docs/archive/ |
 | ODL-001 | ODOBRENO 17.09.2026 (ADR-0001) | Statutarni GL (dvojno knjigovodstvo, BiH lokalizacija) ulazi u FIN domen (FIN-023..033) | 12_FINANCE_BOUNDARY dopušta; ADR obavezan prije Sprinta 211 |
-| ODL-002 | OTVORENO | Prisutnost: matrica statusa (HCM-015) uz postojeći clock model (HCM-003) | detalji: FINTRACK_HR_GAP_REGISTER.md |
+| ODL-002 | ODOBRENO 28.09.2026 (vlasnik: "oba modela") | Matrica statusa (HCM-015) je izvor obračuna; clock (HCM-003) i odobreno odsustvo samo predlažu status; model po tenantu u konfiguraciji (BOTH/MATRIX/CLOCK) | primijenjeno u Sprintu 234 |
 | ODL-003 | PREDLOŽENO | Lotto = pravno lice/poslovna jedinica + module activation, ne nova funkcija | isto |
 | ODL-004 | PREDLOŽENO | Playbook otvaranja poslovnice kroz postojeće checkliste + PRJ troškove | isto |
 | ODL-005 | BLOKIRANO — treba pristup | HR inventar čeka pristup repou kenanbuss-sys/xcalltech-hr; HCM-020 bez implementacije po pretpostavci | isto |

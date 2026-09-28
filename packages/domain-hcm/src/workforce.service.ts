@@ -43,6 +43,10 @@ export class WorkforceService {
     private readonly configuration: WorkforceConfigGate,
     private readonly approvals?: LeaveApprovalGate,
     private readonly connectors?: PayrollConnectorGate,
+    /** HCM-015: worked days from the attendance matrix (payroll source, ODL-002). */
+    private readonly attendance?: {
+      workedDaysFor(period: string, ctx: RequestContext): Promise<Map<string, number>>;
+    },
   ) {}
 
   private async employee(employeeId: string, ctx: RequestContext) {
@@ -350,6 +354,7 @@ export class WorkforceService {
       select: { id: true, employeeNumber: true, name: true },
       take: 1000,
     });
+    const worked = this.attendance ? await this.attendance.workedDaysFor(input.period, ctx) : null;
     const rows = [];
     for (const employee of employees) {
       const attendance = await this.attendanceReport(employee.id, ctx);
@@ -357,6 +362,7 @@ export class WorkforceService {
         employeeNumber: employee.employeeNumber,
         name: employee.name,
         hours: attendance.hours,
+        ...(worked ? { workedDays: worked.get(employee.id) ?? 0 } : {}),
       });
     }
     const result = await this.connectors.pushObject(
@@ -379,7 +385,11 @@ export class WorkforceService {
       objectType: 'Payroll',
       objectId: marker,
       source: 'api',
-      newValues: { reference: result.reference, employees: rows.length },
+      newValues: {
+        reference: result.reference,
+        employees: rows.length,
+        ...(worked ? { workedDaysTotal: [...worked.values()].reduce((a, b) => a + b, 0) } : {}),
+      },
     });
     return { reference: result.reference, employees: rows.length, existing: false };
   }

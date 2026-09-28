@@ -853,6 +853,16 @@ export type VatBookEntry = $Result.DefaultSelection<Prisma.$VatBookEntryPayload>
  * 
  */
 export type VatPeriod = $Result.DefaultSelection<Prisma.$VatPeriodPayload>
+/**
+ * Model AttendanceDay
+ * 
+ */
+export type AttendanceDay = $Result.DefaultSelection<Prisma.$AttendanceDayPayload>
+/**
+ * Model AttendancePeriod
+ * 
+ */
+export type AttendancePeriod = $Result.DefaultSelection<Prisma.$AttendancePeriodPayload>
 
 /**
  * Enums
@@ -3346,6 +3356,26 @@ export class PrismaClient<
     * ```
     */
   get vatPeriod(): Prisma.VatPeriodDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.attendanceDay`: Exposes CRUD operations for the **AttendanceDay** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more AttendanceDays
+    * const attendanceDays = await prisma.attendanceDay.findMany()
+    * ```
+    */
+  get attendanceDay(): Prisma.AttendanceDayDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.attendancePeriod`: Exposes CRUD operations for the **AttendancePeriod** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more AttendancePeriods
+    * const attendancePeriods = await prisma.attendancePeriod.findMany()
+    * ```
+    */
+  get attendancePeriod(): Prisma.AttendancePeriodDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -3934,7 +3964,9 @@ export namespace Prisma {
     CompensationLine: 'CompensationLine',
     VatRate: 'VatRate',
     VatBookEntry: 'VatBookEntry',
-    VatPeriod: 'VatPeriod'
+    VatPeriod: 'VatPeriod',
+    AttendanceDay: 'AttendanceDay',
+    AttendancePeriod: 'AttendancePeriod'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -3953,7 +3985,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "tenant" | "tenantConfigurationVersion" | "legalEntity" | "businessUnit" | "branch" | "factory" | "user" | "userCredential" | "role" | "rolePermission" | "userRoleAssignment" | "auditEvent" | "outboxEvent" | "terminologyEntry" | "moduleActivation" | "customFieldDefinition" | "task" | "notification" | "workflowDefinition" | "workflowVersion" | "workflowInstance" | "ruleDefinition" | "ruleVersion" | "approval" | "processedEvent" | "documentTemplate" | "documentTemplateVersion" | "party" | "consentRecord" | "partyExternalIdentity" | "product" | "sku" | "barcode" | "uomConversion" | "warehouse" | "warehouseLocation" | "stockMovement" | "stockReservation" | "device" | "scanEvent" | "wmsOrder" | "wmsOrderLine" | "territory" | "salesTeam" | "salesTeamMember" | "crmAccount" | "lead" | "opportunity" | "crmActivity" | "priceList" | "priceListEntry" | "quote" | "packagingLevel" | "skuSubstitution" | "discountRule" | "quoteLine" | "salesOrder" | "salesOrderLine" | "orderEvent" | "supplier" | "purchaseRequisition" | "purchaseRequisitionLine" | "purchaseOrder" | "purchaseOrderLine" | "bom" | "bomLine" | "routing" | "routingOperation" | "engineeringChange" | "planningPolicy" | "mrpRun" | "mrpSuggestion" | "workOrder" | "workOrderOperation" | "qcPlan" | "qcPlanItem" | "qcInspection" | "qcInspectionItem" | "ncr" | "invoice" | "payment" | "portalUser" | "comment" | "attachment" | "attachmentBlob" | "numberSequence" | "exchangeRate" | "costCenter" | "budget" | "webhookSubscription" | "webhookDelivery" | "apiKey" | "securityEvent" | "productCategory" | "returnOrder" | "returnOrderLine" | "stockCount" | "stockCountLine" | "workCenter" | "downtimeEvent" | "promotion" | "promotionRedemption" | "bundleComponent" | "serialNumber" | "breakGlassGrant" | "masterDataRequest" | "loyaltyAccount" | "loyaltyTransaction" | "supportCase" | "contract" | "employee" | "asset" | "quarantineHold" | "rfq" | "rfqQuote" | "package" | "packageLine" | "landedCost" | "customObjectDefinition" | "customObjectRecord" | "frameworkAgreement" | "skuChannelContent" | "container" | "posSession" | "vehicle" | "driver" | "shipment" | "shipmentStop" | "dockAppointment" | "installedAsset" | "serviceRequest" | "serviceOrder" | "serviceOrderPart" | "rma" | "glAccount" | "glJournalEntry" | "glJournalLine" | "glSystemAccount" | "glOpeningBalanceDate" | "glPeriodLock" | "bankStatement" | "bankStatementLine" | "paymentAllocation" | "compensation" | "compensationLine" | "vatRate" | "vatBookEntry" | "vatPeriod"
+      modelProps: "tenant" | "tenantConfigurationVersion" | "legalEntity" | "businessUnit" | "branch" | "factory" | "user" | "userCredential" | "role" | "rolePermission" | "userRoleAssignment" | "auditEvent" | "outboxEvent" | "terminologyEntry" | "moduleActivation" | "customFieldDefinition" | "task" | "notification" | "workflowDefinition" | "workflowVersion" | "workflowInstance" | "ruleDefinition" | "ruleVersion" | "approval" | "processedEvent" | "documentTemplate" | "documentTemplateVersion" | "party" | "consentRecord" | "partyExternalIdentity" | "product" | "sku" | "barcode" | "uomConversion" | "warehouse" | "warehouseLocation" | "stockMovement" | "stockReservation" | "device" | "scanEvent" | "wmsOrder" | "wmsOrderLine" | "territory" | "salesTeam" | "salesTeamMember" | "crmAccount" | "lead" | "opportunity" | "crmActivity" | "priceList" | "priceListEntry" | "quote" | "packagingLevel" | "skuSubstitution" | "discountRule" | "quoteLine" | "salesOrder" | "salesOrderLine" | "orderEvent" | "supplier" | "purchaseRequisition" | "purchaseRequisitionLine" | "purchaseOrder" | "purchaseOrderLine" | "bom" | "bomLine" | "routing" | "routingOperation" | "engineeringChange" | "planningPolicy" | "mrpRun" | "mrpSuggestion" | "workOrder" | "workOrderOperation" | "qcPlan" | "qcPlanItem" | "qcInspection" | "qcInspectionItem" | "ncr" | "invoice" | "payment" | "portalUser" | "comment" | "attachment" | "attachmentBlob" | "numberSequence" | "exchangeRate" | "costCenter" | "budget" | "webhookSubscription" | "webhookDelivery" | "apiKey" | "securityEvent" | "productCategory" | "returnOrder" | "returnOrderLine" | "stockCount" | "stockCountLine" | "workCenter" | "downtimeEvent" | "promotion" | "promotionRedemption" | "bundleComponent" | "serialNumber" | "breakGlassGrant" | "masterDataRequest" | "loyaltyAccount" | "loyaltyTransaction" | "supportCase" | "contract" | "employee" | "asset" | "quarantineHold" | "rfq" | "rfqQuote" | "package" | "packageLine" | "landedCost" | "customObjectDefinition" | "customObjectRecord" | "frameworkAgreement" | "skuChannelContent" | "container" | "posSession" | "vehicle" | "driver" | "shipment" | "shipmentStop" | "dockAppointment" | "installedAsset" | "serviceRequest" | "serviceOrder" | "serviceOrderPart" | "rma" | "glAccount" | "glJournalEntry" | "glJournalLine" | "glSystemAccount" | "glOpeningBalanceDate" | "glPeriodLock" | "bankStatement" | "bankStatementLine" | "paymentAllocation" | "compensation" | "compensationLine" | "vatRate" | "vatBookEntry" | "vatPeriod" | "attendanceDay" | "attendancePeriod"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -14909,6 +14941,154 @@ export namespace Prisma {
           }
         }
       }
+      AttendanceDay: {
+        payload: Prisma.$AttendanceDayPayload<ExtArgs>
+        fields: Prisma.AttendanceDayFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AttendanceDayFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendanceDayPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AttendanceDayFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendanceDayPayload>
+          }
+          findFirst: {
+            args: Prisma.AttendanceDayFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendanceDayPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AttendanceDayFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendanceDayPayload>
+          }
+          findMany: {
+            args: Prisma.AttendanceDayFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendanceDayPayload>[]
+          }
+          create: {
+            args: Prisma.AttendanceDayCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendanceDayPayload>
+          }
+          createMany: {
+            args: Prisma.AttendanceDayCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AttendanceDayCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendanceDayPayload>[]
+          }
+          delete: {
+            args: Prisma.AttendanceDayDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendanceDayPayload>
+          }
+          update: {
+            args: Prisma.AttendanceDayUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendanceDayPayload>
+          }
+          deleteMany: {
+            args: Prisma.AttendanceDayDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AttendanceDayUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.AttendanceDayUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendanceDayPayload>[]
+          }
+          upsert: {
+            args: Prisma.AttendanceDayUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendanceDayPayload>
+          }
+          aggregate: {
+            args: Prisma.AttendanceDayAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAttendanceDay>
+          }
+          groupBy: {
+            args: Prisma.AttendanceDayGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AttendanceDayGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AttendanceDayCountArgs<ExtArgs>
+            result: $Utils.Optional<AttendanceDayCountAggregateOutputType> | number
+          }
+        }
+      }
+      AttendancePeriod: {
+        payload: Prisma.$AttendancePeriodPayload<ExtArgs>
+        fields: Prisma.AttendancePeriodFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AttendancePeriodFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendancePeriodPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AttendancePeriodFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendancePeriodPayload>
+          }
+          findFirst: {
+            args: Prisma.AttendancePeriodFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendancePeriodPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AttendancePeriodFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendancePeriodPayload>
+          }
+          findMany: {
+            args: Prisma.AttendancePeriodFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendancePeriodPayload>[]
+          }
+          create: {
+            args: Prisma.AttendancePeriodCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendancePeriodPayload>
+          }
+          createMany: {
+            args: Prisma.AttendancePeriodCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AttendancePeriodCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendancePeriodPayload>[]
+          }
+          delete: {
+            args: Prisma.AttendancePeriodDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendancePeriodPayload>
+          }
+          update: {
+            args: Prisma.AttendancePeriodUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendancePeriodPayload>
+          }
+          deleteMany: {
+            args: Prisma.AttendancePeriodDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AttendancePeriodUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.AttendancePeriodUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendancePeriodPayload>[]
+          }
+          upsert: {
+            args: Prisma.AttendancePeriodUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendancePeriodPayload>
+          }
+          aggregate: {
+            args: Prisma.AttendancePeriodAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAttendancePeriod>
+          }
+          groupBy: {
+            args: Prisma.AttendancePeriodGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AttendancePeriodGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AttendancePeriodCountArgs<ExtArgs>
+            result: $Utils.Optional<AttendancePeriodCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -15153,6 +15333,8 @@ export namespace Prisma {
     vatRate?: VatRateOmit
     vatBookEntry?: VatBookEntryOmit
     vatPeriod?: VatPeriodOmit
+    attendanceDay?: AttendanceDayOmit
+    attendancePeriod?: AttendancePeriodOmit
   }
 
   /* Types for Logging */
@@ -15363,6 +15545,8 @@ export namespace Prisma {
     vatBookEntries: number
     vatPeriods: number
     compensationLines: number
+    attendanceDays: number
+    attendancePeriods: number
   }
 
   export type TenantCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -15496,6 +15680,8 @@ export namespace Prisma {
     vatBookEntries?: boolean | TenantCountOutputTypeCountVatBookEntriesArgs
     vatPeriods?: boolean | TenantCountOutputTypeCountVatPeriodsArgs
     compensationLines?: boolean | TenantCountOutputTypeCountCompensationLinesArgs
+    attendanceDays?: boolean | TenantCountOutputTypeCountAttendanceDaysArgs
+    attendancePeriods?: boolean | TenantCountOutputTypeCountAttendancePeriodsArgs
   }
 
   // Custom InputTypes
@@ -16417,6 +16603,20 @@ export namespace Prisma {
    */
   export type TenantCountOutputTypeCountCompensationLinesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: CompensationLineWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountAttendanceDaysArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AttendanceDayWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountAttendancePeriodsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AttendancePeriodWhereInput
   }
 
 
@@ -18476,6 +18676,8 @@ export namespace Prisma {
     vatBookEntries?: boolean | Tenant$vatBookEntriesArgs<ExtArgs>
     vatPeriods?: boolean | Tenant$vatPeriodsArgs<ExtArgs>
     compensationLines?: boolean | Tenant$compensationLinesArgs<ExtArgs>
+    attendanceDays?: boolean | Tenant$attendanceDaysArgs<ExtArgs>
+    attendancePeriods?: boolean | Tenant$attendancePeriodsArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["tenant"]>
 
@@ -18641,6 +18843,8 @@ export namespace Prisma {
     vatBookEntries?: boolean | Tenant$vatBookEntriesArgs<ExtArgs>
     vatPeriods?: boolean | Tenant$vatPeriodsArgs<ExtArgs>
     compensationLines?: boolean | Tenant$compensationLinesArgs<ExtArgs>
+    attendanceDays?: boolean | Tenant$attendanceDaysArgs<ExtArgs>
+    attendancePeriods?: boolean | Tenant$attendancePeriodsArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type TenantIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -18779,6 +18983,8 @@ export namespace Prisma {
       vatBookEntries: Prisma.$VatBookEntryPayload<ExtArgs>[]
       vatPeriods: Prisma.$VatPeriodPayload<ExtArgs>[]
       compensationLines: Prisma.$CompensationLinePayload<ExtArgs>[]
+      attendanceDays: Prisma.$AttendanceDayPayload<ExtArgs>[]
+      attendancePeriods: Prisma.$AttendancePeriodPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -19312,6 +19518,8 @@ export namespace Prisma {
     vatBookEntries<T extends Tenant$vatBookEntriesArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$vatBookEntriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VatBookEntryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     vatPeriods<T extends Tenant$vatPeriodsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$vatPeriodsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VatPeriodPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     compensationLines<T extends Tenant$compensationLinesArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$compensationLinesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CompensationLinePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    attendanceDays<T extends Tenant$attendanceDaysArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$attendanceDaysArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttendanceDayPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    attendancePeriods<T extends Tenant$attendancePeriodsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$attendancePeriodsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttendancePeriodPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -22853,6 +23061,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: CompensationLineScalarFieldEnum | CompensationLineScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.attendanceDays
+   */
+  export type Tenant$attendanceDaysArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceDay
+     */
+    select?: AttendanceDaySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceDay
+     */
+    omit?: AttendanceDayOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceDayInclude<ExtArgs> | null
+    where?: AttendanceDayWhereInput
+    orderBy?: AttendanceDayOrderByWithRelationInput | AttendanceDayOrderByWithRelationInput[]
+    cursor?: AttendanceDayWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AttendanceDayScalarFieldEnum | AttendanceDayScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.attendancePeriods
+   */
+  export type Tenant$attendancePeriodsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendancePeriod
+     */
+    select?: AttendancePeriodSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendancePeriod
+     */
+    omit?: AttendancePeriodOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendancePeriodInclude<ExtArgs> | null
+    where?: AttendancePeriodWhereInput
+    orderBy?: AttendancePeriodOrderByWithRelationInput | AttendancePeriodOrderByWithRelationInput[]
+    cursor?: AttendancePeriodWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AttendancePeriodScalarFieldEnum | AttendancePeriodScalarFieldEnum[]
   }
 
   /**
@@ -192671,6 +192927,2333 @@ export namespace Prisma {
 
 
   /**
+   * Model AttendanceDay
+   */
+
+  export type AggregateAttendanceDay = {
+    _count: AttendanceDayCountAggregateOutputType | null
+    _avg: AttendanceDayAvgAggregateOutputType | null
+    _sum: AttendanceDaySumAggregateOutputType | null
+    _min: AttendanceDayMinAggregateOutputType | null
+    _max: AttendanceDayMaxAggregateOutputType | null
+  }
+
+  export type AttendanceDayAvgAggregateOutputType = {
+    version: number | null
+  }
+
+  export type AttendanceDaySumAggregateOutputType = {
+    version: number | null
+  }
+
+  export type AttendanceDayMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    employeeId: string | null
+    day: Date | null
+    statusKey: string | null
+    source: string | null
+    note: string | null
+    version: number | null
+    updatedBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type AttendanceDayMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    employeeId: string | null
+    day: Date | null
+    statusKey: string | null
+    source: string | null
+    note: string | null
+    version: number | null
+    updatedBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type AttendanceDayCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    employeeId: number
+    day: number
+    statusKey: number
+    source: number
+    note: number
+    version: number
+    updatedBy: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type AttendanceDayAvgAggregateInputType = {
+    version?: true
+  }
+
+  export type AttendanceDaySumAggregateInputType = {
+    version?: true
+  }
+
+  export type AttendanceDayMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    employeeId?: true
+    day?: true
+    statusKey?: true
+    source?: true
+    note?: true
+    version?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type AttendanceDayMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    employeeId?: true
+    day?: true
+    statusKey?: true
+    source?: true
+    note?: true
+    version?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type AttendanceDayCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    employeeId?: true
+    day?: true
+    statusKey?: true
+    source?: true
+    note?: true
+    version?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type AttendanceDayAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AttendanceDay to aggregate.
+     */
+    where?: AttendanceDayWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AttendanceDays to fetch.
+     */
+    orderBy?: AttendanceDayOrderByWithRelationInput | AttendanceDayOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AttendanceDayWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AttendanceDays from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AttendanceDays.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned AttendanceDays
+    **/
+    _count?: true | AttendanceDayCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: AttendanceDayAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: AttendanceDaySumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AttendanceDayMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AttendanceDayMaxAggregateInputType
+  }
+
+  export type GetAttendanceDayAggregateType<T extends AttendanceDayAggregateArgs> = {
+        [P in keyof T & keyof AggregateAttendanceDay]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAttendanceDay[P]>
+      : GetScalarType<T[P], AggregateAttendanceDay[P]>
+  }
+
+
+
+
+  export type AttendanceDayGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AttendanceDayWhereInput
+    orderBy?: AttendanceDayOrderByWithAggregationInput | AttendanceDayOrderByWithAggregationInput[]
+    by: AttendanceDayScalarFieldEnum[] | AttendanceDayScalarFieldEnum
+    having?: AttendanceDayScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AttendanceDayCountAggregateInputType | true
+    _avg?: AttendanceDayAvgAggregateInputType
+    _sum?: AttendanceDaySumAggregateInputType
+    _min?: AttendanceDayMinAggregateInputType
+    _max?: AttendanceDayMaxAggregateInputType
+  }
+
+  export type AttendanceDayGroupByOutputType = {
+    id: string
+    tenantId: string
+    employeeId: string
+    day: Date
+    statusKey: string
+    source: string
+    note: string | null
+    version: number
+    updatedBy: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: AttendanceDayCountAggregateOutputType | null
+    _avg: AttendanceDayAvgAggregateOutputType | null
+    _sum: AttendanceDaySumAggregateOutputType | null
+    _min: AttendanceDayMinAggregateOutputType | null
+    _max: AttendanceDayMaxAggregateOutputType | null
+  }
+
+  type GetAttendanceDayGroupByPayload<T extends AttendanceDayGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AttendanceDayGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AttendanceDayGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AttendanceDayGroupByOutputType[P]>
+            : GetScalarType<T[P], AttendanceDayGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AttendanceDaySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    employeeId?: boolean
+    day?: boolean
+    statusKey?: boolean
+    source?: boolean
+    note?: boolean
+    version?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["attendanceDay"]>
+
+  export type AttendanceDaySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    employeeId?: boolean
+    day?: boolean
+    statusKey?: boolean
+    source?: boolean
+    note?: boolean
+    version?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["attendanceDay"]>
+
+  export type AttendanceDaySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    employeeId?: boolean
+    day?: boolean
+    statusKey?: boolean
+    source?: boolean
+    note?: boolean
+    version?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["attendanceDay"]>
+
+  export type AttendanceDaySelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    employeeId?: boolean
+    day?: boolean
+    statusKey?: boolean
+    source?: boolean
+    note?: boolean
+    version?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type AttendanceDayOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "employeeId" | "day" | "statusKey" | "source" | "note" | "version" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["attendanceDay"]>
+  export type AttendanceDayInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type AttendanceDayIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type AttendanceDayIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+
+  export type $AttendanceDayPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "AttendanceDay"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      employeeId: string
+      day: Date
+      statusKey: string
+      /**
+       * MANUAL (person), CLOCK (applied clock suggestion), LEAVE (applied granted leave).
+       */
+      source: string
+      note: string | null
+      /**
+       * Optimistic concurrency: every change increments it.
+       */
+      version: number
+      updatedBy: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["attendanceDay"]>
+    composites: {}
+  }
+
+  type AttendanceDayGetPayload<S extends boolean | null | undefined | AttendanceDayDefaultArgs> = $Result.GetResult<Prisma.$AttendanceDayPayload, S>
+
+  type AttendanceDayCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<AttendanceDayFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: AttendanceDayCountAggregateInputType | true
+    }
+
+  export interface AttendanceDayDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['AttendanceDay'], meta: { name: 'AttendanceDay' } }
+    /**
+     * Find zero or one AttendanceDay that matches the filter.
+     * @param {AttendanceDayFindUniqueArgs} args - Arguments to find a AttendanceDay
+     * @example
+     * // Get one AttendanceDay
+     * const attendanceDay = await prisma.attendanceDay.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AttendanceDayFindUniqueArgs>(args: SelectSubset<T, AttendanceDayFindUniqueArgs<ExtArgs>>): Prisma__AttendanceDayClient<$Result.GetResult<Prisma.$AttendanceDayPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one AttendanceDay that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {AttendanceDayFindUniqueOrThrowArgs} args - Arguments to find a AttendanceDay
+     * @example
+     * // Get one AttendanceDay
+     * const attendanceDay = await prisma.attendanceDay.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AttendanceDayFindUniqueOrThrowArgs>(args: SelectSubset<T, AttendanceDayFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AttendanceDayClient<$Result.GetResult<Prisma.$AttendanceDayPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AttendanceDay that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttendanceDayFindFirstArgs} args - Arguments to find a AttendanceDay
+     * @example
+     * // Get one AttendanceDay
+     * const attendanceDay = await prisma.attendanceDay.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AttendanceDayFindFirstArgs>(args?: SelectSubset<T, AttendanceDayFindFirstArgs<ExtArgs>>): Prisma__AttendanceDayClient<$Result.GetResult<Prisma.$AttendanceDayPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AttendanceDay that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttendanceDayFindFirstOrThrowArgs} args - Arguments to find a AttendanceDay
+     * @example
+     * // Get one AttendanceDay
+     * const attendanceDay = await prisma.attendanceDay.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AttendanceDayFindFirstOrThrowArgs>(args?: SelectSubset<T, AttendanceDayFindFirstOrThrowArgs<ExtArgs>>): Prisma__AttendanceDayClient<$Result.GetResult<Prisma.$AttendanceDayPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more AttendanceDays that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttendanceDayFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all AttendanceDays
+     * const attendanceDays = await prisma.attendanceDay.findMany()
+     * 
+     * // Get first 10 AttendanceDays
+     * const attendanceDays = await prisma.attendanceDay.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const attendanceDayWithIdOnly = await prisma.attendanceDay.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AttendanceDayFindManyArgs>(args?: SelectSubset<T, AttendanceDayFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttendanceDayPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a AttendanceDay.
+     * @param {AttendanceDayCreateArgs} args - Arguments to create a AttendanceDay.
+     * @example
+     * // Create one AttendanceDay
+     * const AttendanceDay = await prisma.attendanceDay.create({
+     *   data: {
+     *     // ... data to create a AttendanceDay
+     *   }
+     * })
+     * 
+     */
+    create<T extends AttendanceDayCreateArgs>(args: SelectSubset<T, AttendanceDayCreateArgs<ExtArgs>>): Prisma__AttendanceDayClient<$Result.GetResult<Prisma.$AttendanceDayPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many AttendanceDays.
+     * @param {AttendanceDayCreateManyArgs} args - Arguments to create many AttendanceDays.
+     * @example
+     * // Create many AttendanceDays
+     * const attendanceDay = await prisma.attendanceDay.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AttendanceDayCreateManyArgs>(args?: SelectSubset<T, AttendanceDayCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many AttendanceDays and returns the data saved in the database.
+     * @param {AttendanceDayCreateManyAndReturnArgs} args - Arguments to create many AttendanceDays.
+     * @example
+     * // Create many AttendanceDays
+     * const attendanceDay = await prisma.attendanceDay.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many AttendanceDays and only return the `id`
+     * const attendanceDayWithIdOnly = await prisma.attendanceDay.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AttendanceDayCreateManyAndReturnArgs>(args?: SelectSubset<T, AttendanceDayCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttendanceDayPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a AttendanceDay.
+     * @param {AttendanceDayDeleteArgs} args - Arguments to delete one AttendanceDay.
+     * @example
+     * // Delete one AttendanceDay
+     * const AttendanceDay = await prisma.attendanceDay.delete({
+     *   where: {
+     *     // ... filter to delete one AttendanceDay
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AttendanceDayDeleteArgs>(args: SelectSubset<T, AttendanceDayDeleteArgs<ExtArgs>>): Prisma__AttendanceDayClient<$Result.GetResult<Prisma.$AttendanceDayPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one AttendanceDay.
+     * @param {AttendanceDayUpdateArgs} args - Arguments to update one AttendanceDay.
+     * @example
+     * // Update one AttendanceDay
+     * const attendanceDay = await prisma.attendanceDay.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AttendanceDayUpdateArgs>(args: SelectSubset<T, AttendanceDayUpdateArgs<ExtArgs>>): Prisma__AttendanceDayClient<$Result.GetResult<Prisma.$AttendanceDayPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more AttendanceDays.
+     * @param {AttendanceDayDeleteManyArgs} args - Arguments to filter AttendanceDays to delete.
+     * @example
+     * // Delete a few AttendanceDays
+     * const { count } = await prisma.attendanceDay.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AttendanceDayDeleteManyArgs>(args?: SelectSubset<T, AttendanceDayDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AttendanceDays.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttendanceDayUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many AttendanceDays
+     * const attendanceDay = await prisma.attendanceDay.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AttendanceDayUpdateManyArgs>(args: SelectSubset<T, AttendanceDayUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AttendanceDays and returns the data updated in the database.
+     * @param {AttendanceDayUpdateManyAndReturnArgs} args - Arguments to update many AttendanceDays.
+     * @example
+     * // Update many AttendanceDays
+     * const attendanceDay = await prisma.attendanceDay.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more AttendanceDays and only return the `id`
+     * const attendanceDayWithIdOnly = await prisma.attendanceDay.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends AttendanceDayUpdateManyAndReturnArgs>(args: SelectSubset<T, AttendanceDayUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttendanceDayPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one AttendanceDay.
+     * @param {AttendanceDayUpsertArgs} args - Arguments to update or create a AttendanceDay.
+     * @example
+     * // Update or create a AttendanceDay
+     * const attendanceDay = await prisma.attendanceDay.upsert({
+     *   create: {
+     *     // ... data to create a AttendanceDay
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the AttendanceDay we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AttendanceDayUpsertArgs>(args: SelectSubset<T, AttendanceDayUpsertArgs<ExtArgs>>): Prisma__AttendanceDayClient<$Result.GetResult<Prisma.$AttendanceDayPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of AttendanceDays.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttendanceDayCountArgs} args - Arguments to filter AttendanceDays to count.
+     * @example
+     * // Count the number of AttendanceDays
+     * const count = await prisma.attendanceDay.count({
+     *   where: {
+     *     // ... the filter for the AttendanceDays we want to count
+     *   }
+     * })
+    **/
+    count<T extends AttendanceDayCountArgs>(
+      args?: Subset<T, AttendanceDayCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AttendanceDayCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a AttendanceDay.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttendanceDayAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AttendanceDayAggregateArgs>(args: Subset<T, AttendanceDayAggregateArgs>): Prisma.PrismaPromise<GetAttendanceDayAggregateType<T>>
+
+    /**
+     * Group by AttendanceDay.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttendanceDayGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AttendanceDayGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AttendanceDayGroupByArgs['orderBy'] }
+        : { orderBy?: AttendanceDayGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AttendanceDayGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAttendanceDayGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the AttendanceDay model
+   */
+  readonly fields: AttendanceDayFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for AttendanceDay.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AttendanceDayClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the AttendanceDay model
+   */
+  interface AttendanceDayFieldRefs {
+    readonly id: FieldRef<"AttendanceDay", 'String'>
+    readonly tenantId: FieldRef<"AttendanceDay", 'String'>
+    readonly employeeId: FieldRef<"AttendanceDay", 'String'>
+    readonly day: FieldRef<"AttendanceDay", 'DateTime'>
+    readonly statusKey: FieldRef<"AttendanceDay", 'String'>
+    readonly source: FieldRef<"AttendanceDay", 'String'>
+    readonly note: FieldRef<"AttendanceDay", 'String'>
+    readonly version: FieldRef<"AttendanceDay", 'Int'>
+    readonly updatedBy: FieldRef<"AttendanceDay", 'String'>
+    readonly createdAt: FieldRef<"AttendanceDay", 'DateTime'>
+    readonly updatedAt: FieldRef<"AttendanceDay", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * AttendanceDay findUnique
+   */
+  export type AttendanceDayFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceDay
+     */
+    select?: AttendanceDaySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceDay
+     */
+    omit?: AttendanceDayOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceDayInclude<ExtArgs> | null
+    /**
+     * Filter, which AttendanceDay to fetch.
+     */
+    where: AttendanceDayWhereUniqueInput
+  }
+
+  /**
+   * AttendanceDay findUniqueOrThrow
+   */
+  export type AttendanceDayFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceDay
+     */
+    select?: AttendanceDaySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceDay
+     */
+    omit?: AttendanceDayOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceDayInclude<ExtArgs> | null
+    /**
+     * Filter, which AttendanceDay to fetch.
+     */
+    where: AttendanceDayWhereUniqueInput
+  }
+
+  /**
+   * AttendanceDay findFirst
+   */
+  export type AttendanceDayFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceDay
+     */
+    select?: AttendanceDaySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceDay
+     */
+    omit?: AttendanceDayOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceDayInclude<ExtArgs> | null
+    /**
+     * Filter, which AttendanceDay to fetch.
+     */
+    where?: AttendanceDayWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AttendanceDays to fetch.
+     */
+    orderBy?: AttendanceDayOrderByWithRelationInput | AttendanceDayOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AttendanceDays.
+     */
+    cursor?: AttendanceDayWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AttendanceDays from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AttendanceDays.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AttendanceDays.
+     */
+    distinct?: AttendanceDayScalarFieldEnum | AttendanceDayScalarFieldEnum[]
+  }
+
+  /**
+   * AttendanceDay findFirstOrThrow
+   */
+  export type AttendanceDayFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceDay
+     */
+    select?: AttendanceDaySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceDay
+     */
+    omit?: AttendanceDayOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceDayInclude<ExtArgs> | null
+    /**
+     * Filter, which AttendanceDay to fetch.
+     */
+    where?: AttendanceDayWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AttendanceDays to fetch.
+     */
+    orderBy?: AttendanceDayOrderByWithRelationInput | AttendanceDayOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AttendanceDays.
+     */
+    cursor?: AttendanceDayWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AttendanceDays from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AttendanceDays.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AttendanceDays.
+     */
+    distinct?: AttendanceDayScalarFieldEnum | AttendanceDayScalarFieldEnum[]
+  }
+
+  /**
+   * AttendanceDay findMany
+   */
+  export type AttendanceDayFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceDay
+     */
+    select?: AttendanceDaySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceDay
+     */
+    omit?: AttendanceDayOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceDayInclude<ExtArgs> | null
+    /**
+     * Filter, which AttendanceDays to fetch.
+     */
+    where?: AttendanceDayWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AttendanceDays to fetch.
+     */
+    orderBy?: AttendanceDayOrderByWithRelationInput | AttendanceDayOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing AttendanceDays.
+     */
+    cursor?: AttendanceDayWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AttendanceDays from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AttendanceDays.
+     */
+    skip?: number
+    distinct?: AttendanceDayScalarFieldEnum | AttendanceDayScalarFieldEnum[]
+  }
+
+  /**
+   * AttendanceDay create
+   */
+  export type AttendanceDayCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceDay
+     */
+    select?: AttendanceDaySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceDay
+     */
+    omit?: AttendanceDayOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceDayInclude<ExtArgs> | null
+    /**
+     * The data needed to create a AttendanceDay.
+     */
+    data: XOR<AttendanceDayCreateInput, AttendanceDayUncheckedCreateInput>
+  }
+
+  /**
+   * AttendanceDay createMany
+   */
+  export type AttendanceDayCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many AttendanceDays.
+     */
+    data: AttendanceDayCreateManyInput | AttendanceDayCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * AttendanceDay createManyAndReturn
+   */
+  export type AttendanceDayCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceDay
+     */
+    select?: AttendanceDaySelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceDay
+     */
+    omit?: AttendanceDayOmit<ExtArgs> | null
+    /**
+     * The data used to create many AttendanceDays.
+     */
+    data: AttendanceDayCreateManyInput | AttendanceDayCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceDayIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * AttendanceDay update
+   */
+  export type AttendanceDayUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceDay
+     */
+    select?: AttendanceDaySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceDay
+     */
+    omit?: AttendanceDayOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceDayInclude<ExtArgs> | null
+    /**
+     * The data needed to update a AttendanceDay.
+     */
+    data: XOR<AttendanceDayUpdateInput, AttendanceDayUncheckedUpdateInput>
+    /**
+     * Choose, which AttendanceDay to update.
+     */
+    where: AttendanceDayWhereUniqueInput
+  }
+
+  /**
+   * AttendanceDay updateMany
+   */
+  export type AttendanceDayUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update AttendanceDays.
+     */
+    data: XOR<AttendanceDayUpdateManyMutationInput, AttendanceDayUncheckedUpdateManyInput>
+    /**
+     * Filter which AttendanceDays to update
+     */
+    where?: AttendanceDayWhereInput
+    /**
+     * Limit how many AttendanceDays to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * AttendanceDay updateManyAndReturn
+   */
+  export type AttendanceDayUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceDay
+     */
+    select?: AttendanceDaySelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceDay
+     */
+    omit?: AttendanceDayOmit<ExtArgs> | null
+    /**
+     * The data used to update AttendanceDays.
+     */
+    data: XOR<AttendanceDayUpdateManyMutationInput, AttendanceDayUncheckedUpdateManyInput>
+    /**
+     * Filter which AttendanceDays to update
+     */
+    where?: AttendanceDayWhereInput
+    /**
+     * Limit how many AttendanceDays to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceDayIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * AttendanceDay upsert
+   */
+  export type AttendanceDayUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceDay
+     */
+    select?: AttendanceDaySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceDay
+     */
+    omit?: AttendanceDayOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceDayInclude<ExtArgs> | null
+    /**
+     * The filter to search for the AttendanceDay to update in case it exists.
+     */
+    where: AttendanceDayWhereUniqueInput
+    /**
+     * In case the AttendanceDay found by the `where` argument doesn't exist, create a new AttendanceDay with this data.
+     */
+    create: XOR<AttendanceDayCreateInput, AttendanceDayUncheckedCreateInput>
+    /**
+     * In case the AttendanceDay was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AttendanceDayUpdateInput, AttendanceDayUncheckedUpdateInput>
+  }
+
+  /**
+   * AttendanceDay delete
+   */
+  export type AttendanceDayDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceDay
+     */
+    select?: AttendanceDaySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceDay
+     */
+    omit?: AttendanceDayOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceDayInclude<ExtArgs> | null
+    /**
+     * Filter which AttendanceDay to delete.
+     */
+    where: AttendanceDayWhereUniqueInput
+  }
+
+  /**
+   * AttendanceDay deleteMany
+   */
+  export type AttendanceDayDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AttendanceDays to delete
+     */
+    where?: AttendanceDayWhereInput
+    /**
+     * Limit how many AttendanceDays to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * AttendanceDay without action
+   */
+  export type AttendanceDayDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceDay
+     */
+    select?: AttendanceDaySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceDay
+     */
+    omit?: AttendanceDayOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceDayInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model AttendancePeriod
+   */
+
+  export type AggregateAttendancePeriod = {
+    _count: AttendancePeriodCountAggregateOutputType | null
+    _avg: AttendancePeriodAvgAggregateOutputType | null
+    _sum: AttendancePeriodSumAggregateOutputType | null
+    _min: AttendancePeriodMinAggregateOutputType | null
+    _max: AttendancePeriodMaxAggregateOutputType | null
+  }
+
+  export type AttendancePeriodAvgAggregateOutputType = {
+    year: number | null
+    month: number | null
+  }
+
+  export type AttendancePeriodSumAggregateOutputType = {
+    year: number | null
+    month: number | null
+  }
+
+  export type AttendancePeriodMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    year: number | null
+    month: number | null
+    status: string | null
+    lockedAt: Date | null
+    lockedBy: string | null
+    unlockReason: string | null
+    updatedAt: Date | null
+  }
+
+  export type AttendancePeriodMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    year: number | null
+    month: number | null
+    status: string | null
+    lockedAt: Date | null
+    lockedBy: string | null
+    unlockReason: string | null
+    updatedAt: Date | null
+  }
+
+  export type AttendancePeriodCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    year: number
+    month: number
+    status: number
+    lockedAt: number
+    lockedBy: number
+    unlockReason: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type AttendancePeriodAvgAggregateInputType = {
+    year?: true
+    month?: true
+  }
+
+  export type AttendancePeriodSumAggregateInputType = {
+    year?: true
+    month?: true
+  }
+
+  export type AttendancePeriodMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    year?: true
+    month?: true
+    status?: true
+    lockedAt?: true
+    lockedBy?: true
+    unlockReason?: true
+    updatedAt?: true
+  }
+
+  export type AttendancePeriodMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    year?: true
+    month?: true
+    status?: true
+    lockedAt?: true
+    lockedBy?: true
+    unlockReason?: true
+    updatedAt?: true
+  }
+
+  export type AttendancePeriodCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    year?: true
+    month?: true
+    status?: true
+    lockedAt?: true
+    lockedBy?: true
+    unlockReason?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type AttendancePeriodAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AttendancePeriod to aggregate.
+     */
+    where?: AttendancePeriodWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AttendancePeriods to fetch.
+     */
+    orderBy?: AttendancePeriodOrderByWithRelationInput | AttendancePeriodOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AttendancePeriodWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AttendancePeriods from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AttendancePeriods.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned AttendancePeriods
+    **/
+    _count?: true | AttendancePeriodCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: AttendancePeriodAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: AttendancePeriodSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AttendancePeriodMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AttendancePeriodMaxAggregateInputType
+  }
+
+  export type GetAttendancePeriodAggregateType<T extends AttendancePeriodAggregateArgs> = {
+        [P in keyof T & keyof AggregateAttendancePeriod]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAttendancePeriod[P]>
+      : GetScalarType<T[P], AggregateAttendancePeriod[P]>
+  }
+
+
+
+
+  export type AttendancePeriodGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AttendancePeriodWhereInput
+    orderBy?: AttendancePeriodOrderByWithAggregationInput | AttendancePeriodOrderByWithAggregationInput[]
+    by: AttendancePeriodScalarFieldEnum[] | AttendancePeriodScalarFieldEnum
+    having?: AttendancePeriodScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AttendancePeriodCountAggregateInputType | true
+    _avg?: AttendancePeriodAvgAggregateInputType
+    _sum?: AttendancePeriodSumAggregateInputType
+    _min?: AttendancePeriodMinAggregateInputType
+    _max?: AttendancePeriodMaxAggregateInputType
+  }
+
+  export type AttendancePeriodGroupByOutputType = {
+    id: string
+    tenantId: string
+    year: number
+    month: number
+    status: string
+    lockedAt: Date | null
+    lockedBy: string | null
+    unlockReason: string | null
+    updatedAt: Date
+    _count: AttendancePeriodCountAggregateOutputType | null
+    _avg: AttendancePeriodAvgAggregateOutputType | null
+    _sum: AttendancePeriodSumAggregateOutputType | null
+    _min: AttendancePeriodMinAggregateOutputType | null
+    _max: AttendancePeriodMaxAggregateOutputType | null
+  }
+
+  type GetAttendancePeriodGroupByPayload<T extends AttendancePeriodGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AttendancePeriodGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AttendancePeriodGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AttendancePeriodGroupByOutputType[P]>
+            : GetScalarType<T[P], AttendancePeriodGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AttendancePeriodSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    year?: boolean
+    month?: boolean
+    status?: boolean
+    lockedAt?: boolean
+    lockedBy?: boolean
+    unlockReason?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["attendancePeriod"]>
+
+  export type AttendancePeriodSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    year?: boolean
+    month?: boolean
+    status?: boolean
+    lockedAt?: boolean
+    lockedBy?: boolean
+    unlockReason?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["attendancePeriod"]>
+
+  export type AttendancePeriodSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    year?: boolean
+    month?: boolean
+    status?: boolean
+    lockedAt?: boolean
+    lockedBy?: boolean
+    unlockReason?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["attendancePeriod"]>
+
+  export type AttendancePeriodSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    year?: boolean
+    month?: boolean
+    status?: boolean
+    lockedAt?: boolean
+    lockedBy?: boolean
+    unlockReason?: boolean
+    updatedAt?: boolean
+  }
+
+  export type AttendancePeriodOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "year" | "month" | "status" | "lockedAt" | "lockedBy" | "unlockReason" | "updatedAt", ExtArgs["result"]["attendancePeriod"]>
+  export type AttendancePeriodInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type AttendancePeriodIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type AttendancePeriodIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+
+  export type $AttendancePeriodPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "AttendancePeriod"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      year: number
+      month: number
+      /**
+       * OPEN or LOCKED (month closed for payroll; edits refused).
+       */
+      status: string
+      lockedAt: Date | null
+      lockedBy: string | null
+      unlockReason: string | null
+      updatedAt: Date
+    }, ExtArgs["result"]["attendancePeriod"]>
+    composites: {}
+  }
+
+  type AttendancePeriodGetPayload<S extends boolean | null | undefined | AttendancePeriodDefaultArgs> = $Result.GetResult<Prisma.$AttendancePeriodPayload, S>
+
+  type AttendancePeriodCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<AttendancePeriodFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: AttendancePeriodCountAggregateInputType | true
+    }
+
+  export interface AttendancePeriodDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['AttendancePeriod'], meta: { name: 'AttendancePeriod' } }
+    /**
+     * Find zero or one AttendancePeriod that matches the filter.
+     * @param {AttendancePeriodFindUniqueArgs} args - Arguments to find a AttendancePeriod
+     * @example
+     * // Get one AttendancePeriod
+     * const attendancePeriod = await prisma.attendancePeriod.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AttendancePeriodFindUniqueArgs>(args: SelectSubset<T, AttendancePeriodFindUniqueArgs<ExtArgs>>): Prisma__AttendancePeriodClient<$Result.GetResult<Prisma.$AttendancePeriodPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one AttendancePeriod that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {AttendancePeriodFindUniqueOrThrowArgs} args - Arguments to find a AttendancePeriod
+     * @example
+     * // Get one AttendancePeriod
+     * const attendancePeriod = await prisma.attendancePeriod.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AttendancePeriodFindUniqueOrThrowArgs>(args: SelectSubset<T, AttendancePeriodFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AttendancePeriodClient<$Result.GetResult<Prisma.$AttendancePeriodPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AttendancePeriod that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttendancePeriodFindFirstArgs} args - Arguments to find a AttendancePeriod
+     * @example
+     * // Get one AttendancePeriod
+     * const attendancePeriod = await prisma.attendancePeriod.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AttendancePeriodFindFirstArgs>(args?: SelectSubset<T, AttendancePeriodFindFirstArgs<ExtArgs>>): Prisma__AttendancePeriodClient<$Result.GetResult<Prisma.$AttendancePeriodPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AttendancePeriod that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttendancePeriodFindFirstOrThrowArgs} args - Arguments to find a AttendancePeriod
+     * @example
+     * // Get one AttendancePeriod
+     * const attendancePeriod = await prisma.attendancePeriod.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AttendancePeriodFindFirstOrThrowArgs>(args?: SelectSubset<T, AttendancePeriodFindFirstOrThrowArgs<ExtArgs>>): Prisma__AttendancePeriodClient<$Result.GetResult<Prisma.$AttendancePeriodPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more AttendancePeriods that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttendancePeriodFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all AttendancePeriods
+     * const attendancePeriods = await prisma.attendancePeriod.findMany()
+     * 
+     * // Get first 10 AttendancePeriods
+     * const attendancePeriods = await prisma.attendancePeriod.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const attendancePeriodWithIdOnly = await prisma.attendancePeriod.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AttendancePeriodFindManyArgs>(args?: SelectSubset<T, AttendancePeriodFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttendancePeriodPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a AttendancePeriod.
+     * @param {AttendancePeriodCreateArgs} args - Arguments to create a AttendancePeriod.
+     * @example
+     * // Create one AttendancePeriod
+     * const AttendancePeriod = await prisma.attendancePeriod.create({
+     *   data: {
+     *     // ... data to create a AttendancePeriod
+     *   }
+     * })
+     * 
+     */
+    create<T extends AttendancePeriodCreateArgs>(args: SelectSubset<T, AttendancePeriodCreateArgs<ExtArgs>>): Prisma__AttendancePeriodClient<$Result.GetResult<Prisma.$AttendancePeriodPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many AttendancePeriods.
+     * @param {AttendancePeriodCreateManyArgs} args - Arguments to create many AttendancePeriods.
+     * @example
+     * // Create many AttendancePeriods
+     * const attendancePeriod = await prisma.attendancePeriod.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AttendancePeriodCreateManyArgs>(args?: SelectSubset<T, AttendancePeriodCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many AttendancePeriods and returns the data saved in the database.
+     * @param {AttendancePeriodCreateManyAndReturnArgs} args - Arguments to create many AttendancePeriods.
+     * @example
+     * // Create many AttendancePeriods
+     * const attendancePeriod = await prisma.attendancePeriod.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many AttendancePeriods and only return the `id`
+     * const attendancePeriodWithIdOnly = await prisma.attendancePeriod.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AttendancePeriodCreateManyAndReturnArgs>(args?: SelectSubset<T, AttendancePeriodCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttendancePeriodPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a AttendancePeriod.
+     * @param {AttendancePeriodDeleteArgs} args - Arguments to delete one AttendancePeriod.
+     * @example
+     * // Delete one AttendancePeriod
+     * const AttendancePeriod = await prisma.attendancePeriod.delete({
+     *   where: {
+     *     // ... filter to delete one AttendancePeriod
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AttendancePeriodDeleteArgs>(args: SelectSubset<T, AttendancePeriodDeleteArgs<ExtArgs>>): Prisma__AttendancePeriodClient<$Result.GetResult<Prisma.$AttendancePeriodPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one AttendancePeriod.
+     * @param {AttendancePeriodUpdateArgs} args - Arguments to update one AttendancePeriod.
+     * @example
+     * // Update one AttendancePeriod
+     * const attendancePeriod = await prisma.attendancePeriod.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AttendancePeriodUpdateArgs>(args: SelectSubset<T, AttendancePeriodUpdateArgs<ExtArgs>>): Prisma__AttendancePeriodClient<$Result.GetResult<Prisma.$AttendancePeriodPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more AttendancePeriods.
+     * @param {AttendancePeriodDeleteManyArgs} args - Arguments to filter AttendancePeriods to delete.
+     * @example
+     * // Delete a few AttendancePeriods
+     * const { count } = await prisma.attendancePeriod.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AttendancePeriodDeleteManyArgs>(args?: SelectSubset<T, AttendancePeriodDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AttendancePeriods.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttendancePeriodUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many AttendancePeriods
+     * const attendancePeriod = await prisma.attendancePeriod.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AttendancePeriodUpdateManyArgs>(args: SelectSubset<T, AttendancePeriodUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AttendancePeriods and returns the data updated in the database.
+     * @param {AttendancePeriodUpdateManyAndReturnArgs} args - Arguments to update many AttendancePeriods.
+     * @example
+     * // Update many AttendancePeriods
+     * const attendancePeriod = await prisma.attendancePeriod.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more AttendancePeriods and only return the `id`
+     * const attendancePeriodWithIdOnly = await prisma.attendancePeriod.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends AttendancePeriodUpdateManyAndReturnArgs>(args: SelectSubset<T, AttendancePeriodUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttendancePeriodPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one AttendancePeriod.
+     * @param {AttendancePeriodUpsertArgs} args - Arguments to update or create a AttendancePeriod.
+     * @example
+     * // Update or create a AttendancePeriod
+     * const attendancePeriod = await prisma.attendancePeriod.upsert({
+     *   create: {
+     *     // ... data to create a AttendancePeriod
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the AttendancePeriod we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AttendancePeriodUpsertArgs>(args: SelectSubset<T, AttendancePeriodUpsertArgs<ExtArgs>>): Prisma__AttendancePeriodClient<$Result.GetResult<Prisma.$AttendancePeriodPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of AttendancePeriods.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttendancePeriodCountArgs} args - Arguments to filter AttendancePeriods to count.
+     * @example
+     * // Count the number of AttendancePeriods
+     * const count = await prisma.attendancePeriod.count({
+     *   where: {
+     *     // ... the filter for the AttendancePeriods we want to count
+     *   }
+     * })
+    **/
+    count<T extends AttendancePeriodCountArgs>(
+      args?: Subset<T, AttendancePeriodCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AttendancePeriodCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a AttendancePeriod.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttendancePeriodAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AttendancePeriodAggregateArgs>(args: Subset<T, AttendancePeriodAggregateArgs>): Prisma.PrismaPromise<GetAttendancePeriodAggregateType<T>>
+
+    /**
+     * Group by AttendancePeriod.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttendancePeriodGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AttendancePeriodGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AttendancePeriodGroupByArgs['orderBy'] }
+        : { orderBy?: AttendancePeriodGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AttendancePeriodGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAttendancePeriodGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the AttendancePeriod model
+   */
+  readonly fields: AttendancePeriodFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for AttendancePeriod.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AttendancePeriodClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the AttendancePeriod model
+   */
+  interface AttendancePeriodFieldRefs {
+    readonly id: FieldRef<"AttendancePeriod", 'String'>
+    readonly tenantId: FieldRef<"AttendancePeriod", 'String'>
+    readonly year: FieldRef<"AttendancePeriod", 'Int'>
+    readonly month: FieldRef<"AttendancePeriod", 'Int'>
+    readonly status: FieldRef<"AttendancePeriod", 'String'>
+    readonly lockedAt: FieldRef<"AttendancePeriod", 'DateTime'>
+    readonly lockedBy: FieldRef<"AttendancePeriod", 'String'>
+    readonly unlockReason: FieldRef<"AttendancePeriod", 'String'>
+    readonly updatedAt: FieldRef<"AttendancePeriod", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * AttendancePeriod findUnique
+   */
+  export type AttendancePeriodFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendancePeriod
+     */
+    select?: AttendancePeriodSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendancePeriod
+     */
+    omit?: AttendancePeriodOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendancePeriodInclude<ExtArgs> | null
+    /**
+     * Filter, which AttendancePeriod to fetch.
+     */
+    where: AttendancePeriodWhereUniqueInput
+  }
+
+  /**
+   * AttendancePeriod findUniqueOrThrow
+   */
+  export type AttendancePeriodFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendancePeriod
+     */
+    select?: AttendancePeriodSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendancePeriod
+     */
+    omit?: AttendancePeriodOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendancePeriodInclude<ExtArgs> | null
+    /**
+     * Filter, which AttendancePeriod to fetch.
+     */
+    where: AttendancePeriodWhereUniqueInput
+  }
+
+  /**
+   * AttendancePeriod findFirst
+   */
+  export type AttendancePeriodFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendancePeriod
+     */
+    select?: AttendancePeriodSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendancePeriod
+     */
+    omit?: AttendancePeriodOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendancePeriodInclude<ExtArgs> | null
+    /**
+     * Filter, which AttendancePeriod to fetch.
+     */
+    where?: AttendancePeriodWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AttendancePeriods to fetch.
+     */
+    orderBy?: AttendancePeriodOrderByWithRelationInput | AttendancePeriodOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AttendancePeriods.
+     */
+    cursor?: AttendancePeriodWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AttendancePeriods from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AttendancePeriods.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AttendancePeriods.
+     */
+    distinct?: AttendancePeriodScalarFieldEnum | AttendancePeriodScalarFieldEnum[]
+  }
+
+  /**
+   * AttendancePeriod findFirstOrThrow
+   */
+  export type AttendancePeriodFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendancePeriod
+     */
+    select?: AttendancePeriodSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendancePeriod
+     */
+    omit?: AttendancePeriodOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendancePeriodInclude<ExtArgs> | null
+    /**
+     * Filter, which AttendancePeriod to fetch.
+     */
+    where?: AttendancePeriodWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AttendancePeriods to fetch.
+     */
+    orderBy?: AttendancePeriodOrderByWithRelationInput | AttendancePeriodOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AttendancePeriods.
+     */
+    cursor?: AttendancePeriodWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AttendancePeriods from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AttendancePeriods.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AttendancePeriods.
+     */
+    distinct?: AttendancePeriodScalarFieldEnum | AttendancePeriodScalarFieldEnum[]
+  }
+
+  /**
+   * AttendancePeriod findMany
+   */
+  export type AttendancePeriodFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendancePeriod
+     */
+    select?: AttendancePeriodSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendancePeriod
+     */
+    omit?: AttendancePeriodOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendancePeriodInclude<ExtArgs> | null
+    /**
+     * Filter, which AttendancePeriods to fetch.
+     */
+    where?: AttendancePeriodWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AttendancePeriods to fetch.
+     */
+    orderBy?: AttendancePeriodOrderByWithRelationInput | AttendancePeriodOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing AttendancePeriods.
+     */
+    cursor?: AttendancePeriodWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AttendancePeriods from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AttendancePeriods.
+     */
+    skip?: number
+    distinct?: AttendancePeriodScalarFieldEnum | AttendancePeriodScalarFieldEnum[]
+  }
+
+  /**
+   * AttendancePeriod create
+   */
+  export type AttendancePeriodCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendancePeriod
+     */
+    select?: AttendancePeriodSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendancePeriod
+     */
+    omit?: AttendancePeriodOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendancePeriodInclude<ExtArgs> | null
+    /**
+     * The data needed to create a AttendancePeriod.
+     */
+    data: XOR<AttendancePeriodCreateInput, AttendancePeriodUncheckedCreateInput>
+  }
+
+  /**
+   * AttendancePeriod createMany
+   */
+  export type AttendancePeriodCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many AttendancePeriods.
+     */
+    data: AttendancePeriodCreateManyInput | AttendancePeriodCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * AttendancePeriod createManyAndReturn
+   */
+  export type AttendancePeriodCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendancePeriod
+     */
+    select?: AttendancePeriodSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendancePeriod
+     */
+    omit?: AttendancePeriodOmit<ExtArgs> | null
+    /**
+     * The data used to create many AttendancePeriods.
+     */
+    data: AttendancePeriodCreateManyInput | AttendancePeriodCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendancePeriodIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * AttendancePeriod update
+   */
+  export type AttendancePeriodUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendancePeriod
+     */
+    select?: AttendancePeriodSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendancePeriod
+     */
+    omit?: AttendancePeriodOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendancePeriodInclude<ExtArgs> | null
+    /**
+     * The data needed to update a AttendancePeriod.
+     */
+    data: XOR<AttendancePeriodUpdateInput, AttendancePeriodUncheckedUpdateInput>
+    /**
+     * Choose, which AttendancePeriod to update.
+     */
+    where: AttendancePeriodWhereUniqueInput
+  }
+
+  /**
+   * AttendancePeriod updateMany
+   */
+  export type AttendancePeriodUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update AttendancePeriods.
+     */
+    data: XOR<AttendancePeriodUpdateManyMutationInput, AttendancePeriodUncheckedUpdateManyInput>
+    /**
+     * Filter which AttendancePeriods to update
+     */
+    where?: AttendancePeriodWhereInput
+    /**
+     * Limit how many AttendancePeriods to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * AttendancePeriod updateManyAndReturn
+   */
+  export type AttendancePeriodUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendancePeriod
+     */
+    select?: AttendancePeriodSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendancePeriod
+     */
+    omit?: AttendancePeriodOmit<ExtArgs> | null
+    /**
+     * The data used to update AttendancePeriods.
+     */
+    data: XOR<AttendancePeriodUpdateManyMutationInput, AttendancePeriodUncheckedUpdateManyInput>
+    /**
+     * Filter which AttendancePeriods to update
+     */
+    where?: AttendancePeriodWhereInput
+    /**
+     * Limit how many AttendancePeriods to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendancePeriodIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * AttendancePeriod upsert
+   */
+  export type AttendancePeriodUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendancePeriod
+     */
+    select?: AttendancePeriodSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendancePeriod
+     */
+    omit?: AttendancePeriodOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendancePeriodInclude<ExtArgs> | null
+    /**
+     * The filter to search for the AttendancePeriod to update in case it exists.
+     */
+    where: AttendancePeriodWhereUniqueInput
+    /**
+     * In case the AttendancePeriod found by the `where` argument doesn't exist, create a new AttendancePeriod with this data.
+     */
+    create: XOR<AttendancePeriodCreateInput, AttendancePeriodUncheckedCreateInput>
+    /**
+     * In case the AttendancePeriod was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AttendancePeriodUpdateInput, AttendancePeriodUncheckedUpdateInput>
+  }
+
+  /**
+   * AttendancePeriod delete
+   */
+  export type AttendancePeriodDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendancePeriod
+     */
+    select?: AttendancePeriodSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendancePeriod
+     */
+    omit?: AttendancePeriodOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendancePeriodInclude<ExtArgs> | null
+    /**
+     * Filter which AttendancePeriod to delete.
+     */
+    where: AttendancePeriodWhereUniqueInput
+  }
+
+  /**
+   * AttendancePeriod deleteMany
+   */
+  export type AttendancePeriodDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AttendancePeriods to delete
+     */
+    where?: AttendancePeriodWhereInput
+    /**
+     * Limit how many AttendancePeriods to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * AttendancePeriod without action
+   */
+  export type AttendancePeriodDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendancePeriod
+     */
+    select?: AttendancePeriodSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendancePeriod
+     */
+    omit?: AttendancePeriodOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendancePeriodInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -194971,6 +197554,38 @@ export namespace Prisma {
   export type VatPeriodScalarFieldEnum = (typeof VatPeriodScalarFieldEnum)[keyof typeof VatPeriodScalarFieldEnum]
 
 
+  export const AttendanceDayScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    employeeId: 'employeeId',
+    day: 'day',
+    statusKey: 'statusKey',
+    source: 'source',
+    note: 'note',
+    version: 'version',
+    updatedBy: 'updatedBy',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type AttendanceDayScalarFieldEnum = (typeof AttendanceDayScalarFieldEnum)[keyof typeof AttendanceDayScalarFieldEnum]
+
+
+  export const AttendancePeriodScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    year: 'year',
+    month: 'month',
+    status: 'status',
+    lockedAt: 'lockedAt',
+    lockedBy: 'lockedBy',
+    unlockReason: 'unlockReason',
+    updatedAt: 'updatedAt'
+  };
+
+  export type AttendancePeriodScalarFieldEnum = (typeof AttendancePeriodScalarFieldEnum)[keyof typeof AttendancePeriodScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -196197,6 +198812,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryListRelationFilter
     vatPeriods?: VatPeriodListRelationFilter
     compensationLines?: CompensationLineListRelationFilter
+    attendanceDays?: AttendanceDayListRelationFilter
+    attendancePeriods?: AttendancePeriodListRelationFilter
   }
 
   export type TenantOrderByWithRelationInput = {
@@ -196337,6 +198954,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryOrderByRelationAggregateInput
     vatPeriods?: VatPeriodOrderByRelationAggregateInput
     compensationLines?: CompensationLineOrderByRelationAggregateInput
+    attendanceDays?: AttendanceDayOrderByRelationAggregateInput
+    attendancePeriods?: AttendancePeriodOrderByRelationAggregateInput
   }
 
   export type TenantWhereUniqueInput = Prisma.AtLeast<{
@@ -196480,6 +199099,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryListRelationFilter
     vatPeriods?: VatPeriodListRelationFilter
     compensationLines?: CompensationLineListRelationFilter
+    attendanceDays?: AttendanceDayListRelationFilter
+    attendancePeriods?: AttendancePeriodListRelationFilter
   }, "id" | "slug">
 
   export type TenantOrderByWithAggregationInput = {
@@ -208533,6 +211154,172 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"VatPeriod"> | Date | string
   }
 
+  export type AttendanceDayWhereInput = {
+    AND?: AttendanceDayWhereInput | AttendanceDayWhereInput[]
+    OR?: AttendanceDayWhereInput[]
+    NOT?: AttendanceDayWhereInput | AttendanceDayWhereInput[]
+    id?: UuidFilter<"AttendanceDay"> | string
+    tenantId?: UuidFilter<"AttendanceDay"> | string
+    employeeId?: UuidFilter<"AttendanceDay"> | string
+    day?: DateTimeFilter<"AttendanceDay"> | Date | string
+    statusKey?: StringFilter<"AttendanceDay"> | string
+    source?: StringFilter<"AttendanceDay"> | string
+    note?: StringNullableFilter<"AttendanceDay"> | string | null
+    version?: IntFilter<"AttendanceDay"> | number
+    updatedBy?: StringNullableFilter<"AttendanceDay"> | string | null
+    createdAt?: DateTimeFilter<"AttendanceDay"> | Date | string
+    updatedAt?: DateTimeFilter<"AttendanceDay"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+  }
+
+  export type AttendanceDayOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    employeeId?: SortOrder
+    day?: SortOrder
+    statusKey?: SortOrder
+    source?: SortOrder
+    note?: SortOrderInput | SortOrder
+    version?: SortOrder
+    updatedBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+  }
+
+  export type AttendanceDayWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    tenantId_employeeId_day?: AttendanceDayTenantIdEmployeeIdDayCompoundUniqueInput
+    AND?: AttendanceDayWhereInput | AttendanceDayWhereInput[]
+    OR?: AttendanceDayWhereInput[]
+    NOT?: AttendanceDayWhereInput | AttendanceDayWhereInput[]
+    tenantId?: UuidFilter<"AttendanceDay"> | string
+    employeeId?: UuidFilter<"AttendanceDay"> | string
+    day?: DateTimeFilter<"AttendanceDay"> | Date | string
+    statusKey?: StringFilter<"AttendanceDay"> | string
+    source?: StringFilter<"AttendanceDay"> | string
+    note?: StringNullableFilter<"AttendanceDay"> | string | null
+    version?: IntFilter<"AttendanceDay"> | number
+    updatedBy?: StringNullableFilter<"AttendanceDay"> | string | null
+    createdAt?: DateTimeFilter<"AttendanceDay"> | Date | string
+    updatedAt?: DateTimeFilter<"AttendanceDay"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+  }, "id" | "tenantId_employeeId_day">
+
+  export type AttendanceDayOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    employeeId?: SortOrder
+    day?: SortOrder
+    statusKey?: SortOrder
+    source?: SortOrder
+    note?: SortOrderInput | SortOrder
+    version?: SortOrder
+    updatedBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: AttendanceDayCountOrderByAggregateInput
+    _avg?: AttendanceDayAvgOrderByAggregateInput
+    _max?: AttendanceDayMaxOrderByAggregateInput
+    _min?: AttendanceDayMinOrderByAggregateInput
+    _sum?: AttendanceDaySumOrderByAggregateInput
+  }
+
+  export type AttendanceDayScalarWhereWithAggregatesInput = {
+    AND?: AttendanceDayScalarWhereWithAggregatesInput | AttendanceDayScalarWhereWithAggregatesInput[]
+    OR?: AttendanceDayScalarWhereWithAggregatesInput[]
+    NOT?: AttendanceDayScalarWhereWithAggregatesInput | AttendanceDayScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"AttendanceDay"> | string
+    tenantId?: UuidWithAggregatesFilter<"AttendanceDay"> | string
+    employeeId?: UuidWithAggregatesFilter<"AttendanceDay"> | string
+    day?: DateTimeWithAggregatesFilter<"AttendanceDay"> | Date | string
+    statusKey?: StringWithAggregatesFilter<"AttendanceDay"> | string
+    source?: StringWithAggregatesFilter<"AttendanceDay"> | string
+    note?: StringNullableWithAggregatesFilter<"AttendanceDay"> | string | null
+    version?: IntWithAggregatesFilter<"AttendanceDay"> | number
+    updatedBy?: StringNullableWithAggregatesFilter<"AttendanceDay"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"AttendanceDay"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"AttendanceDay"> | Date | string
+  }
+
+  export type AttendancePeriodWhereInput = {
+    AND?: AttendancePeriodWhereInput | AttendancePeriodWhereInput[]
+    OR?: AttendancePeriodWhereInput[]
+    NOT?: AttendancePeriodWhereInput | AttendancePeriodWhereInput[]
+    id?: UuidFilter<"AttendancePeriod"> | string
+    tenantId?: UuidFilter<"AttendancePeriod"> | string
+    year?: IntFilter<"AttendancePeriod"> | number
+    month?: IntFilter<"AttendancePeriod"> | number
+    status?: StringFilter<"AttendancePeriod"> | string
+    lockedAt?: DateTimeNullableFilter<"AttendancePeriod"> | Date | string | null
+    lockedBy?: StringNullableFilter<"AttendancePeriod"> | string | null
+    unlockReason?: StringNullableFilter<"AttendancePeriod"> | string | null
+    updatedAt?: DateTimeFilter<"AttendancePeriod"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+  }
+
+  export type AttendancePeriodOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    year?: SortOrder
+    month?: SortOrder
+    status?: SortOrder
+    lockedAt?: SortOrderInput | SortOrder
+    lockedBy?: SortOrderInput | SortOrder
+    unlockReason?: SortOrderInput | SortOrder
+    updatedAt?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+  }
+
+  export type AttendancePeriodWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    tenantId_year_month?: AttendancePeriodTenantIdYearMonthCompoundUniqueInput
+    AND?: AttendancePeriodWhereInput | AttendancePeriodWhereInput[]
+    OR?: AttendancePeriodWhereInput[]
+    NOT?: AttendancePeriodWhereInput | AttendancePeriodWhereInput[]
+    tenantId?: UuidFilter<"AttendancePeriod"> | string
+    year?: IntFilter<"AttendancePeriod"> | number
+    month?: IntFilter<"AttendancePeriod"> | number
+    status?: StringFilter<"AttendancePeriod"> | string
+    lockedAt?: DateTimeNullableFilter<"AttendancePeriod"> | Date | string | null
+    lockedBy?: StringNullableFilter<"AttendancePeriod"> | string | null
+    unlockReason?: StringNullableFilter<"AttendancePeriod"> | string | null
+    updatedAt?: DateTimeFilter<"AttendancePeriod"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+  }, "id" | "tenantId_year_month">
+
+  export type AttendancePeriodOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    year?: SortOrder
+    month?: SortOrder
+    status?: SortOrder
+    lockedAt?: SortOrderInput | SortOrder
+    lockedBy?: SortOrderInput | SortOrder
+    unlockReason?: SortOrderInput | SortOrder
+    updatedAt?: SortOrder
+    _count?: AttendancePeriodCountOrderByAggregateInput
+    _avg?: AttendancePeriodAvgOrderByAggregateInput
+    _max?: AttendancePeriodMaxOrderByAggregateInput
+    _min?: AttendancePeriodMinOrderByAggregateInput
+    _sum?: AttendancePeriodSumOrderByAggregateInput
+  }
+
+  export type AttendancePeriodScalarWhereWithAggregatesInput = {
+    AND?: AttendancePeriodScalarWhereWithAggregatesInput | AttendancePeriodScalarWhereWithAggregatesInput[]
+    OR?: AttendancePeriodScalarWhereWithAggregatesInput[]
+    NOT?: AttendancePeriodScalarWhereWithAggregatesInput | AttendancePeriodScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"AttendancePeriod"> | string
+    tenantId?: UuidWithAggregatesFilter<"AttendancePeriod"> | string
+    year?: IntWithAggregatesFilter<"AttendancePeriod"> | number
+    month?: IntWithAggregatesFilter<"AttendancePeriod"> | number
+    status?: StringWithAggregatesFilter<"AttendancePeriod"> | string
+    lockedAt?: DateTimeNullableWithAggregatesFilter<"AttendancePeriod"> | Date | string | null
+    lockedBy?: StringNullableWithAggregatesFilter<"AttendancePeriod"> | string | null
+    unlockReason?: StringNullableWithAggregatesFilter<"AttendancePeriod"> | string | null
+    updatedAt?: DateTimeWithAggregatesFilter<"AttendancePeriod"> | Date | string
+  }
+
   export type TenantCreateInput = {
     id?: string
     slug: string
@@ -208671,6 +211458,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateInput = {
@@ -208811,6 +211600,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUpdateInput = {
@@ -208951,6 +211742,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateInput = {
@@ -209091,6 +211884,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateManyInput = {
@@ -222040,6 +224835,186 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type AttendanceDayCreateInput = {
+    id?: string
+    employeeId: string
+    day: Date | string
+    statusKey: string
+    source?: string
+    note?: string | null
+    version?: number
+    updatedBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutAttendanceDaysInput
+  }
+
+  export type AttendanceDayUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    employeeId: string
+    day: Date | string
+    statusKey: string
+    source?: string
+    note?: string | null
+    version?: number
+    updatedBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AttendanceDayUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    day?: DateTimeFieldUpdateOperationsInput | Date | string
+    statusKey?: StringFieldUpdateOperationsInput | string
+    source?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    version?: IntFieldUpdateOperationsInput | number
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutAttendanceDaysNestedInput
+  }
+
+  export type AttendanceDayUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    day?: DateTimeFieldUpdateOperationsInput | Date | string
+    statusKey?: StringFieldUpdateOperationsInput | string
+    source?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    version?: IntFieldUpdateOperationsInput | number
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AttendanceDayCreateManyInput = {
+    id?: string
+    tenantId: string
+    employeeId: string
+    day: Date | string
+    statusKey: string
+    source?: string
+    note?: string | null
+    version?: number
+    updatedBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AttendanceDayUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    day?: DateTimeFieldUpdateOperationsInput | Date | string
+    statusKey?: StringFieldUpdateOperationsInput | string
+    source?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    version?: IntFieldUpdateOperationsInput | number
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AttendanceDayUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    day?: DateTimeFieldUpdateOperationsInput | Date | string
+    statusKey?: StringFieldUpdateOperationsInput | string
+    source?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    version?: IntFieldUpdateOperationsInput | number
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AttendancePeriodCreateInput = {
+    id?: string
+    year: number
+    month: number
+    status?: string
+    lockedAt?: Date | string | null
+    lockedBy?: string | null
+    unlockReason?: string | null
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutAttendancePeriodsInput
+  }
+
+  export type AttendancePeriodUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    year: number
+    month: number
+    status?: string
+    lockedAt?: Date | string | null
+    lockedBy?: string | null
+    unlockReason?: string | null
+    updatedAt?: Date | string
+  }
+
+  export type AttendancePeriodUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    month?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    lockedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lockedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    unlockReason?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutAttendancePeriodsNestedInput
+  }
+
+  export type AttendancePeriodUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    month?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    lockedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lockedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    unlockReason?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AttendancePeriodCreateManyInput = {
+    id?: string
+    tenantId: string
+    year: number
+    month: number
+    status?: string
+    lockedAt?: Date | string | null
+    lockedBy?: string | null
+    unlockReason?: string | null
+    updatedAt?: Date | string
+  }
+
+  export type AttendancePeriodUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    month?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    lockedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lockedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    unlockReason?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AttendancePeriodUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    month?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    lockedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lockedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    unlockReason?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type UuidFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -222876,6 +225851,18 @@ export namespace Prisma {
     none?: CompensationLineWhereInput
   }
 
+  export type AttendanceDayListRelationFilter = {
+    every?: AttendanceDayWhereInput
+    some?: AttendanceDayWhereInput
+    none?: AttendanceDayWhereInput
+  }
+
+  export type AttendancePeriodListRelationFilter = {
+    every?: AttendancePeriodWhereInput
+    some?: AttendancePeriodWhereInput
+    none?: AttendancePeriodWhereInput
+  }
+
   export type TenantConfigurationVersionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -223393,6 +226380,14 @@ export namespace Prisma {
   }
 
   export type CompensationLineOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type AttendanceDayOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type AttendancePeriodOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -232218,6 +235213,114 @@ export namespace Prisma {
     payableVat?: SortOrder
   }
 
+  export type AttendanceDayTenantIdEmployeeIdDayCompoundUniqueInput = {
+    tenantId: string
+    employeeId: string
+    day: Date | string
+  }
+
+  export type AttendanceDayCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    employeeId?: SortOrder
+    day?: SortOrder
+    statusKey?: SortOrder
+    source?: SortOrder
+    note?: SortOrder
+    version?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AttendanceDayAvgOrderByAggregateInput = {
+    version?: SortOrder
+  }
+
+  export type AttendanceDayMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    employeeId?: SortOrder
+    day?: SortOrder
+    statusKey?: SortOrder
+    source?: SortOrder
+    note?: SortOrder
+    version?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AttendanceDayMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    employeeId?: SortOrder
+    day?: SortOrder
+    statusKey?: SortOrder
+    source?: SortOrder
+    note?: SortOrder
+    version?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AttendanceDaySumOrderByAggregateInput = {
+    version?: SortOrder
+  }
+
+  export type AttendancePeriodTenantIdYearMonthCompoundUniqueInput = {
+    tenantId: string
+    year: number
+    month: number
+  }
+
+  export type AttendancePeriodCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    year?: SortOrder
+    month?: SortOrder
+    status?: SortOrder
+    lockedAt?: SortOrder
+    lockedBy?: SortOrder
+    unlockReason?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AttendancePeriodAvgOrderByAggregateInput = {
+    year?: SortOrder
+    month?: SortOrder
+  }
+
+  export type AttendancePeriodMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    year?: SortOrder
+    month?: SortOrder
+    status?: SortOrder
+    lockedAt?: SortOrder
+    lockedBy?: SortOrder
+    unlockReason?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AttendancePeriodMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    year?: SortOrder
+    month?: SortOrder
+    status?: SortOrder
+    lockedAt?: SortOrder
+    lockedBy?: SortOrder
+    unlockReason?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AttendancePeriodSumOrderByAggregateInput = {
+    year?: SortOrder
+    month?: SortOrder
+  }
+
   export type TenantConfigurationVersionCreateNestedManyWithoutTenantInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -233128,6 +236231,20 @@ export namespace Prisma {
     connect?: CompensationLineWhereUniqueInput | CompensationLineWhereUniqueInput[]
   }
 
+  export type AttendanceDayCreateNestedManyWithoutTenantInput = {
+    create?: XOR<AttendanceDayCreateWithoutTenantInput, AttendanceDayUncheckedCreateWithoutTenantInput> | AttendanceDayCreateWithoutTenantInput[] | AttendanceDayUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: AttendanceDayCreateOrConnectWithoutTenantInput | AttendanceDayCreateOrConnectWithoutTenantInput[]
+    createMany?: AttendanceDayCreateManyTenantInputEnvelope
+    connect?: AttendanceDayWhereUniqueInput | AttendanceDayWhereUniqueInput[]
+  }
+
+  export type AttendancePeriodCreateNestedManyWithoutTenantInput = {
+    create?: XOR<AttendancePeriodCreateWithoutTenantInput, AttendancePeriodUncheckedCreateWithoutTenantInput> | AttendancePeriodCreateWithoutTenantInput[] | AttendancePeriodUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: AttendancePeriodCreateOrConnectWithoutTenantInput | AttendancePeriodCreateOrConnectWithoutTenantInput[]
+    createMany?: AttendancePeriodCreateManyTenantInputEnvelope
+    connect?: AttendancePeriodWhereUniqueInput | AttendancePeriodWhereUniqueInput[]
+  }
+
   export type TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -234036,6 +237153,20 @@ export namespace Prisma {
     connectOrCreate?: CompensationLineCreateOrConnectWithoutTenantInput | CompensationLineCreateOrConnectWithoutTenantInput[]
     createMany?: CompensationLineCreateManyTenantInputEnvelope
     connect?: CompensationLineWhereUniqueInput | CompensationLineWhereUniqueInput[]
+  }
+
+  export type AttendanceDayUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<AttendanceDayCreateWithoutTenantInput, AttendanceDayUncheckedCreateWithoutTenantInput> | AttendanceDayCreateWithoutTenantInput[] | AttendanceDayUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: AttendanceDayCreateOrConnectWithoutTenantInput | AttendanceDayCreateOrConnectWithoutTenantInput[]
+    createMany?: AttendanceDayCreateManyTenantInputEnvelope
+    connect?: AttendanceDayWhereUniqueInput | AttendanceDayWhereUniqueInput[]
+  }
+
+  export type AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<AttendancePeriodCreateWithoutTenantInput, AttendancePeriodUncheckedCreateWithoutTenantInput> | AttendancePeriodCreateWithoutTenantInput[] | AttendancePeriodUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: AttendancePeriodCreateOrConnectWithoutTenantInput | AttendancePeriodCreateOrConnectWithoutTenantInput[]
+    createMany?: AttendancePeriodCreateManyTenantInputEnvelope
+    connect?: AttendancePeriodWhereUniqueInput | AttendancePeriodWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -235878,6 +239009,34 @@ export namespace Prisma {
     deleteMany?: CompensationLineScalarWhereInput | CompensationLineScalarWhereInput[]
   }
 
+  export type AttendanceDayUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<AttendanceDayCreateWithoutTenantInput, AttendanceDayUncheckedCreateWithoutTenantInput> | AttendanceDayCreateWithoutTenantInput[] | AttendanceDayUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: AttendanceDayCreateOrConnectWithoutTenantInput | AttendanceDayCreateOrConnectWithoutTenantInput[]
+    upsert?: AttendanceDayUpsertWithWhereUniqueWithoutTenantInput | AttendanceDayUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: AttendanceDayCreateManyTenantInputEnvelope
+    set?: AttendanceDayWhereUniqueInput | AttendanceDayWhereUniqueInput[]
+    disconnect?: AttendanceDayWhereUniqueInput | AttendanceDayWhereUniqueInput[]
+    delete?: AttendanceDayWhereUniqueInput | AttendanceDayWhereUniqueInput[]
+    connect?: AttendanceDayWhereUniqueInput | AttendanceDayWhereUniqueInput[]
+    update?: AttendanceDayUpdateWithWhereUniqueWithoutTenantInput | AttendanceDayUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: AttendanceDayUpdateManyWithWhereWithoutTenantInput | AttendanceDayUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: AttendanceDayScalarWhereInput | AttendanceDayScalarWhereInput[]
+  }
+
+  export type AttendancePeriodUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<AttendancePeriodCreateWithoutTenantInput, AttendancePeriodUncheckedCreateWithoutTenantInput> | AttendancePeriodCreateWithoutTenantInput[] | AttendancePeriodUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: AttendancePeriodCreateOrConnectWithoutTenantInput | AttendancePeriodCreateOrConnectWithoutTenantInput[]
+    upsert?: AttendancePeriodUpsertWithWhereUniqueWithoutTenantInput | AttendancePeriodUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: AttendancePeriodCreateManyTenantInputEnvelope
+    set?: AttendancePeriodWhereUniqueInput | AttendancePeriodWhereUniqueInput[]
+    disconnect?: AttendancePeriodWhereUniqueInput | AttendancePeriodWhereUniqueInput[]
+    delete?: AttendancePeriodWhereUniqueInput | AttendancePeriodWhereUniqueInput[]
+    connect?: AttendancePeriodWhereUniqueInput | AttendancePeriodWhereUniqueInput[]
+    update?: AttendancePeriodUpdateWithWhereUniqueWithoutTenantInput | AttendancePeriodUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: AttendancePeriodUpdateManyWithWhereWithoutTenantInput | AttendancePeriodUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: AttendancePeriodScalarWhereInput | AttendancePeriodScalarWhereInput[]
+  }
+
   export type TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -237696,6 +240855,34 @@ export namespace Prisma {
     update?: CompensationLineUpdateWithWhereUniqueWithoutTenantInput | CompensationLineUpdateWithWhereUniqueWithoutTenantInput[]
     updateMany?: CompensationLineUpdateManyWithWhereWithoutTenantInput | CompensationLineUpdateManyWithWhereWithoutTenantInput[]
     deleteMany?: CompensationLineScalarWhereInput | CompensationLineScalarWhereInput[]
+  }
+
+  export type AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<AttendanceDayCreateWithoutTenantInput, AttendanceDayUncheckedCreateWithoutTenantInput> | AttendanceDayCreateWithoutTenantInput[] | AttendanceDayUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: AttendanceDayCreateOrConnectWithoutTenantInput | AttendanceDayCreateOrConnectWithoutTenantInput[]
+    upsert?: AttendanceDayUpsertWithWhereUniqueWithoutTenantInput | AttendanceDayUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: AttendanceDayCreateManyTenantInputEnvelope
+    set?: AttendanceDayWhereUniqueInput | AttendanceDayWhereUniqueInput[]
+    disconnect?: AttendanceDayWhereUniqueInput | AttendanceDayWhereUniqueInput[]
+    delete?: AttendanceDayWhereUniqueInput | AttendanceDayWhereUniqueInput[]
+    connect?: AttendanceDayWhereUniqueInput | AttendanceDayWhereUniqueInput[]
+    update?: AttendanceDayUpdateWithWhereUniqueWithoutTenantInput | AttendanceDayUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: AttendanceDayUpdateManyWithWhereWithoutTenantInput | AttendanceDayUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: AttendanceDayScalarWhereInput | AttendanceDayScalarWhereInput[]
+  }
+
+  export type AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<AttendancePeriodCreateWithoutTenantInput, AttendancePeriodUncheckedCreateWithoutTenantInput> | AttendancePeriodCreateWithoutTenantInput[] | AttendancePeriodUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: AttendancePeriodCreateOrConnectWithoutTenantInput | AttendancePeriodCreateOrConnectWithoutTenantInput[]
+    upsert?: AttendancePeriodUpsertWithWhereUniqueWithoutTenantInput | AttendancePeriodUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: AttendancePeriodCreateManyTenantInputEnvelope
+    set?: AttendancePeriodWhereUniqueInput | AttendancePeriodWhereUniqueInput[]
+    disconnect?: AttendancePeriodWhereUniqueInput | AttendancePeriodWhereUniqueInput[]
+    delete?: AttendancePeriodWhereUniqueInput | AttendancePeriodWhereUniqueInput[]
+    connect?: AttendancePeriodWhereUniqueInput | AttendancePeriodWhereUniqueInput[]
+    update?: AttendancePeriodUpdateWithWhereUniqueWithoutTenantInput | AttendancePeriodUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: AttendancePeriodUpdateManyWithWhereWithoutTenantInput | AttendancePeriodUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: AttendancePeriodScalarWhereInput | AttendancePeriodScalarWhereInput[]
   }
 
   export type TenantCreateNestedOneWithoutConfigurationVersionsInput = {
@@ -243901,6 +247088,34 @@ export namespace Prisma {
     update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutVatPeriodsInput, TenantUpdateWithoutVatPeriodsInput>, TenantUncheckedUpdateWithoutVatPeriodsInput>
   }
 
+  export type TenantCreateNestedOneWithoutAttendanceDaysInput = {
+    create?: XOR<TenantCreateWithoutAttendanceDaysInput, TenantUncheckedCreateWithoutAttendanceDaysInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutAttendanceDaysInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type TenantUpdateOneRequiredWithoutAttendanceDaysNestedInput = {
+    create?: XOR<TenantCreateWithoutAttendanceDaysInput, TenantUncheckedCreateWithoutAttendanceDaysInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutAttendanceDaysInput
+    upsert?: TenantUpsertWithoutAttendanceDaysInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutAttendanceDaysInput, TenantUpdateWithoutAttendanceDaysInput>, TenantUncheckedUpdateWithoutAttendanceDaysInput>
+  }
+
+  export type TenantCreateNestedOneWithoutAttendancePeriodsInput = {
+    create?: XOR<TenantCreateWithoutAttendancePeriodsInput, TenantUncheckedCreateWithoutAttendancePeriodsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutAttendancePeriodsInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type TenantUpdateOneRequiredWithoutAttendancePeriodsNestedInput = {
+    create?: XOR<TenantCreateWithoutAttendancePeriodsInput, TenantUncheckedCreateWithoutAttendancePeriodsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutAttendancePeriodsInput
+    upsert?: TenantUpsertWithoutAttendancePeriodsInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutAttendancePeriodsInput, TenantUpdateWithoutAttendancePeriodsInput>, TenantUncheckedUpdateWithoutAttendancePeriodsInput>
+  }
+
   export type NestedUuidFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -249894,6 +253109,74 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type AttendanceDayCreateWithoutTenantInput = {
+    id?: string
+    employeeId: string
+    day: Date | string
+    statusKey: string
+    source?: string
+    note?: string | null
+    version?: number
+    updatedBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AttendanceDayUncheckedCreateWithoutTenantInput = {
+    id?: string
+    employeeId: string
+    day: Date | string
+    statusKey: string
+    source?: string
+    note?: string | null
+    version?: number
+    updatedBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AttendanceDayCreateOrConnectWithoutTenantInput = {
+    where: AttendanceDayWhereUniqueInput
+    create: XOR<AttendanceDayCreateWithoutTenantInput, AttendanceDayUncheckedCreateWithoutTenantInput>
+  }
+
+  export type AttendanceDayCreateManyTenantInputEnvelope = {
+    data: AttendanceDayCreateManyTenantInput | AttendanceDayCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type AttendancePeriodCreateWithoutTenantInput = {
+    id?: string
+    year: number
+    month: number
+    status?: string
+    lockedAt?: Date | string | null
+    lockedBy?: string | null
+    unlockReason?: string | null
+    updatedAt?: Date | string
+  }
+
+  export type AttendancePeriodUncheckedCreateWithoutTenantInput = {
+    id?: string
+    year: number
+    month: number
+    status?: string
+    lockedAt?: Date | string | null
+    lockedBy?: string | null
+    unlockReason?: string | null
+    updatedAt?: Date | string
+  }
+
+  export type AttendancePeriodCreateOrConnectWithoutTenantInput = {
+    where: AttendancePeriodWhereUniqueInput
+    create: XOR<AttendancePeriodCreateWithoutTenantInput, AttendancePeriodUncheckedCreateWithoutTenantInput>
+  }
+
+  export type AttendancePeriodCreateManyTenantInputEnvelope = {
+    data: AttendancePeriodCreateManyTenantInput | AttendancePeriodCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
   export type TenantConfigurationVersionUpsertWithWhereUniqueWithoutTenantInput = {
     where: TenantConfigurationVersionWhereUniqueInput
     update: XOR<TenantConfigurationVersionUpdateWithoutTenantInput, TenantConfigurationVersionUncheckedUpdateWithoutTenantInput>
@@ -254025,6 +257308,70 @@ export namespace Prisma {
     paymentId?: UuidNullableFilter<"CompensationLine"> | string | null
   }
 
+  export type AttendanceDayUpsertWithWhereUniqueWithoutTenantInput = {
+    where: AttendanceDayWhereUniqueInput
+    update: XOR<AttendanceDayUpdateWithoutTenantInput, AttendanceDayUncheckedUpdateWithoutTenantInput>
+    create: XOR<AttendanceDayCreateWithoutTenantInput, AttendanceDayUncheckedCreateWithoutTenantInput>
+  }
+
+  export type AttendanceDayUpdateWithWhereUniqueWithoutTenantInput = {
+    where: AttendanceDayWhereUniqueInput
+    data: XOR<AttendanceDayUpdateWithoutTenantInput, AttendanceDayUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type AttendanceDayUpdateManyWithWhereWithoutTenantInput = {
+    where: AttendanceDayScalarWhereInput
+    data: XOR<AttendanceDayUpdateManyMutationInput, AttendanceDayUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type AttendanceDayScalarWhereInput = {
+    AND?: AttendanceDayScalarWhereInput | AttendanceDayScalarWhereInput[]
+    OR?: AttendanceDayScalarWhereInput[]
+    NOT?: AttendanceDayScalarWhereInput | AttendanceDayScalarWhereInput[]
+    id?: UuidFilter<"AttendanceDay"> | string
+    tenantId?: UuidFilter<"AttendanceDay"> | string
+    employeeId?: UuidFilter<"AttendanceDay"> | string
+    day?: DateTimeFilter<"AttendanceDay"> | Date | string
+    statusKey?: StringFilter<"AttendanceDay"> | string
+    source?: StringFilter<"AttendanceDay"> | string
+    note?: StringNullableFilter<"AttendanceDay"> | string | null
+    version?: IntFilter<"AttendanceDay"> | number
+    updatedBy?: StringNullableFilter<"AttendanceDay"> | string | null
+    createdAt?: DateTimeFilter<"AttendanceDay"> | Date | string
+    updatedAt?: DateTimeFilter<"AttendanceDay"> | Date | string
+  }
+
+  export type AttendancePeriodUpsertWithWhereUniqueWithoutTenantInput = {
+    where: AttendancePeriodWhereUniqueInput
+    update: XOR<AttendancePeriodUpdateWithoutTenantInput, AttendancePeriodUncheckedUpdateWithoutTenantInput>
+    create: XOR<AttendancePeriodCreateWithoutTenantInput, AttendancePeriodUncheckedCreateWithoutTenantInput>
+  }
+
+  export type AttendancePeriodUpdateWithWhereUniqueWithoutTenantInput = {
+    where: AttendancePeriodWhereUniqueInput
+    data: XOR<AttendancePeriodUpdateWithoutTenantInput, AttendancePeriodUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type AttendancePeriodUpdateManyWithWhereWithoutTenantInput = {
+    where: AttendancePeriodScalarWhereInput
+    data: XOR<AttendancePeriodUpdateManyMutationInput, AttendancePeriodUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type AttendancePeriodScalarWhereInput = {
+    AND?: AttendancePeriodScalarWhereInput | AttendancePeriodScalarWhereInput[]
+    OR?: AttendancePeriodScalarWhereInput[]
+    NOT?: AttendancePeriodScalarWhereInput | AttendancePeriodScalarWhereInput[]
+    id?: UuidFilter<"AttendancePeriod"> | string
+    tenantId?: UuidFilter<"AttendancePeriod"> | string
+    year?: IntFilter<"AttendancePeriod"> | number
+    month?: IntFilter<"AttendancePeriod"> | number
+    status?: StringFilter<"AttendancePeriod"> | string
+    lockedAt?: DateTimeNullableFilter<"AttendancePeriod"> | Date | string | null
+    lockedBy?: StringNullableFilter<"AttendancePeriod"> | string | null
+    unlockReason?: StringNullableFilter<"AttendancePeriod"> | string | null
+    updatedAt?: DateTimeFilter<"AttendancePeriod"> | Date | string
+  }
+
   export type TenantCreateWithoutConfigurationVersionsInput = {
     id?: string
     slug: string
@@ -254162,6 +257509,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutConfigurationVersionsInput = {
@@ -254301,6 +257650,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutConfigurationVersionsInput = {
@@ -254456,6 +257807,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutConfigurationVersionsInput = {
@@ -254595,6 +257948,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutLegalEntitiesInput = {
@@ -254734,6 +258089,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLegalEntitiesInput = {
@@ -254873,6 +258230,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLegalEntitiesInput = {
@@ -255062,6 +258421,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLegalEntitiesInput = {
@@ -255201,6 +258562,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithWhereUniqueWithoutLegalEntityInput = {
@@ -255356,6 +258719,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBusinessUnitsInput = {
@@ -255495,6 +258860,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBusinessUnitsInput = {
@@ -255788,6 +259155,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBusinessUnitsInput = {
@@ -255927,6 +259296,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type LegalEntityUpsertWithoutBusinessUnitsInput = {
@@ -256178,6 +259549,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBranchesInput = {
@@ -256317,6 +259690,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBranchesInput = {
@@ -256501,6 +259876,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBranchesInput = {
@@ -256640,6 +260017,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithoutBranchesInput = {
@@ -256814,6 +260193,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutFactoriesInput = {
@@ -256953,6 +260334,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutFactoriesInput = {
@@ -257137,6 +260520,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutFactoriesInput = {
@@ -257276,6 +260661,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithoutFactoriesInput = {
@@ -257450,6 +260837,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutUsersInput = {
@@ -257589,6 +260978,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutUsersInput = {
@@ -257833,6 +261224,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutUsersInput = {
@@ -257972,6 +261365,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserRoleAssignmentUpsertWithWhereUniqueWithoutUserInput = {
@@ -258180,6 +261575,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutUserCredentialsInput = {
@@ -258319,6 +261716,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutUserCredentialsInput = {
@@ -258505,6 +261904,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutUserCredentialsInput = {
@@ -258644,6 +262045,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserUpsertWithoutCredentialInput = {
@@ -258820,6 +262223,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRolesInput = {
@@ -258959,6 +262364,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRolesInput = {
@@ -259164,6 +262571,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRolesInput = {
@@ -259303,6 +262712,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RolePermissionUpsertWithWhereUniqueWithoutRoleInput = {
@@ -259540,6 +262951,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoleAssignmentsInput = {
@@ -259679,6 +263092,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoleAssignmentsInput = {
@@ -259890,6 +263305,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoleAssignmentsInput = {
@@ -260029,6 +263446,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserUpsertWithoutRoleAssignmentsInput = {
@@ -260236,6 +263655,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAuditEventsInput = {
@@ -260375,6 +263796,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAuditEventsInput = {
@@ -260530,6 +263953,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAuditEventsInput = {
@@ -260669,6 +264094,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutOutboxEventsInput = {
@@ -260808,6 +264235,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOutboxEventsInput = {
@@ -260947,6 +264376,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOutboxEventsInput = {
@@ -261102,6 +264533,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOutboxEventsInput = {
@@ -261241,6 +264674,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutTerminologyEntriesInput = {
@@ -261380,6 +264815,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTerminologyEntriesInput = {
@@ -261519,6 +264956,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTerminologyEntriesInput = {
@@ -261674,6 +265113,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTerminologyEntriesInput = {
@@ -261813,6 +265254,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutModuleActivationsInput = {
@@ -261952,6 +265395,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutModuleActivationsInput = {
@@ -262091,6 +265536,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutModuleActivationsInput = {
@@ -262246,6 +265693,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutModuleActivationsInput = {
@@ -262385,6 +265834,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCustomFieldDefsInput = {
@@ -262524,6 +265975,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCustomFieldDefsInput = {
@@ -262663,6 +266116,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCustomFieldDefsInput = {
@@ -262818,6 +266273,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCustomFieldDefsInput = {
@@ -262957,6 +266414,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutTasksInput = {
@@ -263096,6 +266555,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTasksInput = {
@@ -263235,6 +266696,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTasksInput = {
@@ -263390,6 +266853,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTasksInput = {
@@ -263529,6 +266994,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutNotificationsInput = {
@@ -263668,6 +267135,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNotificationsInput = {
@@ -263807,6 +267276,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNotificationsInput = {
@@ -263962,6 +267433,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNotificationsInput = {
@@ -264101,6 +267574,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutWorkflowDefinitionsInput = {
@@ -264240,6 +267715,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkflowDefinitionsInput = {
@@ -264379,6 +267856,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkflowDefinitionsInput = {
@@ -264596,6 +268075,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkflowDefinitionsInput = {
@@ -264735,6 +268216,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkflowVersionUpsertWithWhereUniqueWithoutDefinitionInput = {
@@ -265132,6 +268615,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRuleDefinitionsInput = {
@@ -265271,6 +268756,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRuleDefinitionsInput = {
@@ -265454,6 +268941,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRuleDefinitionsInput = {
@@ -265593,6 +269082,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RuleVersionUpsertWithWhereUniqueWithoutRuleInput = {
@@ -265805,6 +269296,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutApprovalsInput = {
@@ -265944,6 +269437,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutApprovalsInput = {
@@ -266099,6 +269594,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutApprovalsInput = {
@@ -266238,6 +269735,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutProcessedEventsInput = {
@@ -266377,6 +269876,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProcessedEventsInput = {
@@ -266516,6 +270017,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProcessedEventsInput = {
@@ -266671,6 +270174,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProcessedEventsInput = {
@@ -266810,6 +270315,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutDocumentTemplatesInput = {
@@ -266949,6 +270456,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDocumentTemplatesInput = {
@@ -267088,6 +270597,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDocumentTemplatesInput = {
@@ -267269,6 +270780,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDocumentTemplatesInput = {
@@ -267408,6 +270921,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type DocumentTemplateVersionUpsertWithWhereUniqueWithoutTemplateInput = {
@@ -267623,6 +271138,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPartiesInput = {
@@ -267762,6 +271279,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPartiesInput = {
@@ -268098,6 +271617,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPartiesInput = {
@@ -268237,6 +271758,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PartyUpsertWithoutMergedPartiesInput = {
@@ -268497,6 +272020,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutConsentRecordsInput = {
@@ -268636,6 +272161,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutConsentRecordsInput = {
@@ -268830,6 +272357,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutConsentRecordsInput = {
@@ -268969,6 +272498,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PartyUpsertWithoutConsentRecordsInput = {
@@ -269237,6 +272768,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProductsInput = {
@@ -269376,6 +272909,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProductsInput = {
@@ -269595,6 +273130,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProductsInput = {
@@ -269734,6 +273271,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SkuUpsertWithWhereUniqueWithoutProductInput = {
@@ -270591,6 +274130,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWarehousesInput = {
@@ -270730,6 +274271,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWarehousesInput = {
@@ -270943,6 +274486,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWarehousesInput = {
@@ -271082,6 +274627,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WarehouseLocationUpsertWithWhereUniqueWithoutWarehouseInput = {
@@ -271311,6 +274858,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockMovementsInput = {
@@ -271450,6 +274999,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockMovementsInput = {
@@ -271605,6 +275156,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockMovementsInput = {
@@ -271744,6 +275297,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutStockReservationsInput = {
@@ -271883,6 +275438,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockReservationsInput = {
@@ -272022,6 +275579,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockReservationsInput = {
@@ -272177,6 +275736,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockReservationsInput = {
@@ -272316,6 +275877,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutDevicesInput = {
@@ -272455,6 +276018,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDevicesInput = {
@@ -272594,6 +276159,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDevicesInput = {
@@ -272749,6 +276316,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDevicesInput = {
@@ -272888,6 +276457,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutScanEventsInput = {
@@ -273027,6 +276598,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutScanEventsInput = {
@@ -273166,6 +276739,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutScanEventsInput = {
@@ -273321,6 +276896,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutScanEventsInput = {
@@ -273460,6 +277037,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutWmsOrdersInput = {
@@ -273599,6 +277178,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWmsOrdersInput = {
@@ -273738,6 +277319,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWmsOrdersInput = {
@@ -273919,6 +277502,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWmsOrdersInput = {
@@ -274058,6 +277643,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WmsOrderLineUpsertWithWhereUniqueWithoutOrderInput = {
@@ -274213,6 +277800,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWmsOrderLinesInput = {
@@ -274352,6 +277941,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWmsOrderLinesInput = {
@@ -274540,6 +278131,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWmsOrderLinesInput = {
@@ -274679,6 +278272,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WmsOrderUpsertWithoutLinesInput = {
@@ -274857,6 +278452,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTerritoriesInput = {
@@ -274996,6 +278593,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTerritoriesInput = {
@@ -275151,6 +278750,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTerritoriesInput = {
@@ -275290,6 +278891,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSalesTeamsInput = {
@@ -275429,6 +279032,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesTeamsInput = {
@@ -275568,6 +279173,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesTeamsInput = {
@@ -275747,6 +279354,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesTeamsInput = {
@@ -275886,6 +279495,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesTeamMemberUpsertWithWhereUniqueWithoutTeamInput = {
@@ -276041,6 +279652,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesTeamMembersInput = {
@@ -276180,6 +279793,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesTeamMembersInput = {
@@ -276356,6 +279971,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesTeamMembersInput = {
@@ -276495,6 +280112,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesTeamUpsertWithoutMembersInput = {
@@ -276661,6 +280280,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCrmAccountsInput = {
@@ -276800,6 +280421,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCrmAccountsInput = {
@@ -276955,6 +280578,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCrmAccountsInput = {
@@ -277094,6 +280719,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutLeadsInput = {
@@ -277233,6 +280860,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLeadsInput = {
@@ -277372,6 +281001,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLeadsInput = {
@@ -277527,6 +281158,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLeadsInput = {
@@ -277666,6 +281299,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutOpportunitiesInput = {
@@ -277805,6 +281440,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOpportunitiesInput = {
@@ -277944,6 +281581,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOpportunitiesInput = {
@@ -278099,6 +281738,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOpportunitiesInput = {
@@ -278238,6 +281879,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCrmActivitiesInput = {
@@ -278377,6 +282020,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCrmActivitiesInput = {
@@ -278516,6 +282161,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCrmActivitiesInput = {
@@ -278671,6 +282318,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCrmActivitiesInput = {
@@ -278810,6 +282459,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPriceListsInput = {
@@ -278949,6 +282600,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPriceListsInput = {
@@ -279088,6 +282741,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPriceListsInput = {
@@ -279269,6 +282924,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPriceListsInput = {
@@ -279408,6 +283065,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PriceListEntryUpsertWithWhereUniqueWithoutPriceListInput = {
@@ -279563,6 +283222,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPriceListEntriesInput = {
@@ -279702,6 +283363,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPriceListEntriesInput = {
@@ -279890,6 +283553,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPriceListEntriesInput = {
@@ -280029,6 +283694,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PriceListUpsertWithoutEntriesInput = {
@@ -280207,6 +283874,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQuotesInput = {
@@ -280346,6 +284015,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQuotesInput = {
@@ -280535,6 +284206,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQuotesInput = {
@@ -280674,6 +284347,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QuoteLineUpsertWithWhereUniqueWithoutQuoteInput = {
@@ -280829,6 +284504,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPackagingLevelsInput = {
@@ -280968,6 +284645,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPackagingLevelsInput = {
@@ -281182,6 +284861,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPackagingLevelsInput = {
@@ -281321,6 +285002,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SkuUpsertWithoutPackagingLevelsInput = {
@@ -281525,6 +285208,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSkuSubstitutionsInput = {
@@ -281664,6 +285349,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSkuSubstitutionsInput = {
@@ -281819,6 +285506,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSkuSubstitutionsInput = {
@@ -281958,6 +285647,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutDiscountRulesInput = {
@@ -282097,6 +285788,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDiscountRulesInput = {
@@ -282236,6 +285929,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDiscountRulesInput = {
@@ -282391,6 +286086,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDiscountRulesInput = {
@@ -282530,6 +286227,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutQuoteLinesInput = {
@@ -282669,6 +286368,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQuoteLinesInput = {
@@ -282808,6 +286509,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQuoteLinesInput = {
@@ -283010,6 +286713,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQuoteLinesInput = {
@@ -283149,6 +286854,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QuoteUpsertWithoutLinesInput = {
@@ -283341,6 +287048,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesOrdersInput = {
@@ -283480,6 +287189,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesOrdersInput = {
@@ -283707,6 +287418,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesOrdersInput = {
@@ -283846,6 +287559,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesOrderLineUpsertWithWhereUniqueWithoutOrderInput = {
@@ -284017,6 +287732,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesOrderLinesInput = {
@@ -284156,6 +287873,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesOrderLinesInput = {
@@ -284360,6 +288079,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesOrderLinesInput = {
@@ -284499,6 +288220,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesOrderUpsertWithoutLinesInput = {
@@ -284693,6 +288416,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOrderEventsInput = {
@@ -284832,6 +288557,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOrderEventsInput = {
@@ -284987,6 +288714,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOrderEventsInput = {
@@ -285126,6 +288855,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSuppliersInput = {
@@ -285265,6 +288996,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSuppliersInput = {
@@ -285404,6 +289137,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSuppliersInput = {
@@ -285559,6 +289294,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSuppliersInput = {
@@ -285698,6 +289435,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPurchaseRequisitionsInput = {
@@ -285837,6 +289576,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseRequisitionsInput = {
@@ -285976,6 +289717,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseRequisitionsInput = {
@@ -286161,6 +289904,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseRequisitionsInput = {
@@ -286300,6 +290045,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseRequisitionLineUpsertWithWhereUniqueWithoutRequisitionInput = {
@@ -286455,6 +290202,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseReqLinesInput = {
@@ -286594,6 +290343,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseReqLinesInput = {
@@ -286782,6 +290533,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseReqLinesInput = {
@@ -286921,6 +290674,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseRequisitionUpsertWithoutLinesInput = {
@@ -287099,6 +290854,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseOrdersInput = {
@@ -287238,6 +290995,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseOrdersInput = {
@@ -287491,6 +291250,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseOrdersInput = {
@@ -287630,6 +291391,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseOrderLineUpsertWithWhereUniqueWithoutPoInput = {
@@ -287817,6 +291580,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseOrderLinesInput = {
@@ -287956,6 +291721,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseOrderLinesInput = {
@@ -288152,6 +291919,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseOrderLinesInput = {
@@ -288291,6 +292060,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseOrderUpsertWithoutLinesInput = {
@@ -288477,6 +292248,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBomsInput = {
@@ -288616,6 +292389,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBomsInput = {
@@ -288801,6 +292576,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBomsInput = {
@@ -288940,6 +292717,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BomLineUpsertWithWhereUniqueWithoutBomInput = {
@@ -289095,6 +292874,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBomLinesInput = {
@@ -289234,6 +293015,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBomLinesInput = {
@@ -289420,6 +293203,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBomLinesInput = {
@@ -289559,6 +293344,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BomUpsertWithoutLinesInput = {
@@ -289735,6 +293522,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoutingsInput = {
@@ -289874,6 +293663,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoutingsInput = {
@@ -290061,6 +293852,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoutingsInput = {
@@ -290200,6 +293993,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RoutingOperationUpsertWithWhereUniqueWithoutRoutingInput = {
@@ -290355,6 +294150,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoutingOperationsInput = {
@@ -290494,6 +294291,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoutingOperationsInput = {
@@ -290676,6 +294475,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoutingOperationsInput = {
@@ -290815,6 +294616,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RoutingUpsertWithoutOperationsInput = {
@@ -290987,6 +294790,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutEngineeringChangesInput = {
@@ -291126,6 +294931,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutEngineeringChangesInput = {
@@ -291281,6 +295088,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutEngineeringChangesInput = {
@@ -291420,6 +295229,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPlanningPoliciesInput = {
@@ -291559,6 +295370,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPlanningPoliciesInput = {
@@ -291698,6 +295511,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPlanningPoliciesInput = {
@@ -291853,6 +295668,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPlanningPoliciesInput = {
@@ -291992,6 +295809,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutMrpRunsInput = {
@@ -292131,6 +295950,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutMrpRunsInput = {
@@ -292270,6 +296091,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutMrpRunsInput = {
@@ -292455,6 +296278,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutMrpRunsInput = {
@@ -292594,6 +296419,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type MrpSuggestionUpsertWithWhereUniqueWithoutRunInput = {
@@ -292749,6 +296576,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutMrpSuggestionsInput = {
@@ -292888,6 +296717,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutMrpSuggestionsInput = {
@@ -293068,6 +296899,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutMrpSuggestionsInput = {
@@ -293207,6 +297040,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type MrpRunUpsertWithoutSuggestionsInput = {
@@ -293377,6 +297212,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkOrdersInput = {
@@ -293516,6 +297353,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkOrdersInput = {
@@ -293707,6 +297546,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkOrdersInput = {
@@ -293846,6 +297687,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkOrderOperationUpsertWithWhereUniqueWithoutWorkOrderInput = {
@@ -294001,6 +297844,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkOrderOperationsInput = {
@@ -294140,6 +297985,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkOrderOperationsInput = {
@@ -294338,6 +298185,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkOrderOperationsInput = {
@@ -294477,6 +298326,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkOrderUpsertWithoutOperationsInput = {
@@ -294665,6 +298516,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcPlansInput = {
@@ -294804,6 +298657,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcPlansInput = {
@@ -294985,6 +298840,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcPlansInput = {
@@ -295124,6 +298981,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcPlanItemUpsertWithWhereUniqueWithoutPlanInput = {
@@ -295279,6 +299138,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcPlanItemsInput = {
@@ -295418,6 +299279,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcPlanItemsInput = {
@@ -295600,6 +299463,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcPlanItemsInput = {
@@ -295739,6 +299604,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcPlanUpsertWithoutItemsInput = {
@@ -295911,6 +299778,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcInspectionsInput = {
@@ -296050,6 +299919,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcInspectionsInput = {
@@ -296235,6 +300106,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcInspectionsInput = {
@@ -296374,6 +300247,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcInspectionItemUpsertWithWhereUniqueWithoutInspectionInput = {
@@ -296529,6 +300404,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcInspectionItemsInput = {
@@ -296668,6 +300545,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcInspectionItemsInput = {
@@ -296858,6 +300737,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcInspectionItemsInput = {
@@ -296997,6 +300878,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcInspectionUpsertWithoutItemsInput = {
@@ -297177,6 +301060,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNcrsInput = {
@@ -297316,6 +301201,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNcrsInput = {
@@ -297471,6 +301358,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNcrsInput = {
@@ -297610,6 +301499,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutInvoicesInput = {
@@ -297749,6 +301640,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutInvoicesInput = {
@@ -297888,6 +301781,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutInvoicesInput = {
@@ -298139,6 +302034,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutInvoicesInput = {
@@ -298278,6 +302175,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PaymentUpsertWithWhereUniqueWithoutInvoiceInput = {
@@ -298465,6 +302364,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPaymentsInput = {
@@ -298604,6 +302505,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPaymentsInput = {
@@ -298875,6 +302778,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPaymentsInput = {
@@ -299014,6 +302919,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type InvoiceUpsertWithoutPaymentsInput = {
@@ -299261,6 +303168,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPortalUsersInput = {
@@ -299400,6 +303309,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPortalUsersInput = {
@@ -299555,6 +303466,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPortalUsersInput = {
@@ -299694,6 +303607,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCommentsInput = {
@@ -299833,6 +303748,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCommentsInput = {
@@ -299972,6 +303889,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCommentsInput = {
@@ -300127,6 +304046,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCommentsInput = {
@@ -300266,6 +304187,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutAttachmentsInput = {
@@ -300405,6 +304328,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAttachmentsInput = {
@@ -300544,6 +304469,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAttachmentsInput = {
@@ -300716,6 +304643,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAttachmentsInput = {
@@ -300855,6 +304784,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type AttachmentBlobUpsertWithoutAttachmentInput = {
@@ -301017,6 +304948,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAttachmentBlobsInput = {
@@ -301156,6 +305089,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAttachmentBlobsInput = {
@@ -301342,6 +305277,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAttachmentBlobsInput = {
@@ -301481,6 +305418,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type AttachmentUpsertWithoutBlobInput = {
@@ -301657,6 +305596,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNumberSequencesInput = {
@@ -301796,6 +305737,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNumberSequencesInput = {
@@ -301951,6 +305894,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNumberSequencesInput = {
@@ -302090,6 +306035,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutExchangeRatesInput = {
@@ -302229,6 +306176,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutExchangeRatesInput = {
@@ -302368,6 +306317,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutExchangeRatesInput = {
@@ -302523,6 +306474,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutExchangeRatesInput = {
@@ -302662,6 +306615,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCostCentersInput = {
@@ -302801,6 +306756,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCostCentersInput = {
@@ -302940,6 +306897,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCostCentersInput = {
@@ -303123,6 +307082,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCostCentersInput = {
@@ -303262,6 +307223,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BudgetUpsertWithWhereUniqueWithoutCostCenterInput = {
@@ -303417,6 +307380,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBudgetsInput = {
@@ -303556,6 +307521,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBudgetsInput = {
@@ -303734,6 +307701,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBudgetsInput = {
@@ -303873,6 +307842,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type CostCenterUpsertWithoutBudgetsInput = {
@@ -304041,6 +308012,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWebhookSubscriptionsInput = {
@@ -304180,6 +308153,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWebhookSubscriptionsInput = {
@@ -304373,6 +308348,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWebhookSubscriptionsInput = {
@@ -304512,6 +308489,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WebhookDeliveryUpsertWithWhereUniqueWithoutSubscriptionInput = {
@@ -304667,6 +308646,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWebhookDeliveriesInput = {
@@ -304806,6 +308787,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWebhookDeliveriesInput = {
@@ -304988,6 +308971,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWebhookDeliveriesInput = {
@@ -305127,6 +309112,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WebhookSubscriptionUpsertWithoutDeliveriesInput = {
@@ -305299,6 +309286,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutApiKeysInput = {
@@ -305438,6 +309427,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutApiKeysInput = {
@@ -305593,6 +309584,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutApiKeysInput = {
@@ -305732,6 +309725,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSecurityEventsInput = {
@@ -305871,6 +309866,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSecurityEventsInput = {
@@ -306010,6 +310007,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSecurityEventsInput = {
@@ -306165,6 +310164,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSecurityEventsInput = {
@@ -306304,6 +310305,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutProductCategoriesInput = {
@@ -306443,6 +310446,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProductCategoriesInput = {
@@ -306582,6 +310587,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProductCategoriesInput = {
@@ -306788,6 +310795,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProductCategoriesInput = {
@@ -306927,6 +310936,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ProductCategoryUpsertWithoutChildrenInput = {
@@ -307111,6 +311122,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutReturnOrdersInput = {
@@ -307250,6 +311263,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutReturnOrdersInput = {
@@ -307433,6 +311448,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutReturnOrdersInput = {
@@ -307572,6 +311589,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ReturnOrderLineUpsertWithWhereUniqueWithoutReturnOrderInput = {
@@ -307727,6 +311746,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutReturnOrderLinesInput = {
@@ -307866,6 +311887,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutReturnOrderLinesInput = {
@@ -308056,6 +312079,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutReturnOrderLinesInput = {
@@ -308195,6 +312220,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ReturnOrderUpsertWithoutLinesInput = {
@@ -308375,6 +312402,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockCountsInput = {
@@ -308514,6 +312543,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockCountsInput = {
@@ -308695,6 +312726,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockCountsInput = {
@@ -308834,6 +312867,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type StockCountLineUpsertWithWhereUniqueWithoutCountInput = {
@@ -308989,6 +313024,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockCountLinesInput = {
@@ -309128,6 +313165,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockCountLinesInput = {
@@ -309316,6 +313355,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockCountLinesInput = {
@@ -309455,6 +313496,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type StockCountUpsertWithoutLinesInput = {
@@ -309633,6 +313676,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkCentersInput = {
@@ -309772,6 +313817,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkCentersInput = {
@@ -309959,6 +314006,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkCentersInput = {
@@ -310098,6 +314147,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type DowntimeEventUpsertWithWhereUniqueWithoutWorkCenterInput = {
@@ -310253,6 +314304,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDowntimeEventsInput = {
@@ -310392,6 +314445,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDowntimeEventsInput = {
@@ -310570,6 +314625,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDowntimeEventsInput = {
@@ -310709,6 +314766,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkCenterUpsertWithoutDowntimesInput = {
@@ -310877,6 +314936,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPromotionsInput = {
@@ -311016,6 +315077,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPromotionsInput = {
@@ -311197,6 +315260,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPromotionsInput = {
@@ -311336,6 +315401,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PromotionRedemptionUpsertWithWhereUniqueWithoutPromotionInput = {
@@ -311955,6 +316022,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBreakGlassGrantsInput = {
@@ -312094,6 +316163,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBreakGlassGrantsInput = {
@@ -312280,6 +316351,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBreakGlassGrantsInput = {
@@ -312419,6 +316492,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserUpsertWithoutBreakGlassGrantsInput = {
@@ -312595,6 +316670,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutMasterDataRequestsInput = {
@@ -312734,6 +316811,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutMasterDataRequestsInput = {
@@ -312889,6 +316968,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutMasterDataRequestsInput = {
@@ -313028,6 +317109,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutLoyaltyAccountsInput = {
@@ -313167,6 +317250,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLoyaltyAccountsInput = {
@@ -313306,6 +317391,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLoyaltyAccountsInput = {
@@ -313491,6 +317578,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLoyaltyAccountsInput = {
@@ -313630,6 +317719,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type LoyaltyTransactionUpsertWithWhereUniqueWithoutLoyaltyAccountInput = {
@@ -313851,6 +317942,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSupportCasesInput = {
@@ -313990,6 +318083,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSupportCasesInput = {
@@ -314145,6 +318240,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSupportCasesInput = {
@@ -314284,6 +318381,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutContractsInput = {
@@ -314423,6 +318522,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutContractsInput = {
@@ -314562,6 +318663,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutContractsInput = {
@@ -314756,6 +318859,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutContractsInput = {
@@ -314895,6 +319000,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PartyUpsertWithoutContractsInput = {
@@ -315079,6 +319186,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutEmployeesInput = {
@@ -315218,6 +319327,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutEmployeesInput = {
@@ -315373,6 +319484,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutEmployeesInput = {
@@ -315512,6 +319625,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutAssetsInput = {
@@ -315651,6 +319766,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAssetsInput = {
@@ -315790,6 +319907,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAssetsInput = {
@@ -315945,6 +320064,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAssetsInput = {
@@ -316084,6 +320205,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutQuarantineHoldsInput = {
@@ -316223,6 +320346,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQuarantineHoldsInput = {
@@ -316362,6 +320487,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQuarantineHoldsInput = {
@@ -316517,6 +320644,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQuarantineHoldsInput = {
@@ -316656,6 +320785,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutRfqsInput = {
@@ -316795,6 +320926,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRfqsInput = {
@@ -316934,6 +321067,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRfqsInput = {
@@ -317119,6 +321254,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRfqsInput = {
@@ -317258,6 +321395,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RfqQuoteUpsertWithWhereUniqueWithoutRfqInput = {
@@ -317499,6 +321638,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPackagesInput = {
@@ -317638,6 +321779,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPackagesInput = {
@@ -317866,6 +322009,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPackagesInput = {
@@ -318005,6 +322150,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesOrderUpsertWithoutPackagesInput = {
@@ -318294,6 +322441,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLandedCostsInput = {
@@ -318433,6 +322582,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLandedCostsInput = {
@@ -318629,6 +322780,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLandedCostsInput = {
@@ -318768,6 +322921,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseOrderUpsertWithoutLandedCostsInput = {
@@ -318954,6 +323109,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCustomObjectDefinitionsInput = {
@@ -319093,6 +323250,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCustomObjectDefinitionsInput = {
@@ -319276,6 +323435,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCustomObjectDefinitionsInput = {
@@ -319415,6 +323576,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type CustomObjectRecordUpsertWithWhereUniqueWithoutDefinitionInput = {
@@ -319647,6 +323810,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutFrameworkAgreementsInput = {
@@ -319786,6 +323951,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutFrameworkAgreementsInput = {
@@ -319941,6 +324108,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutFrameworkAgreementsInput = {
@@ -320080,6 +324249,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSkuChannelContentsInput = {
@@ -320219,6 +324390,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSkuChannelContentsInput = {
@@ -320358,6 +324531,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSkuChannelContentsInput = {
@@ -320572,6 +324747,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSkuChannelContentsInput = {
@@ -320711,6 +324888,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SkuUpsertWithoutChannelContentsInput = {
@@ -320915,6 +325094,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutContainersInput = {
@@ -321054,6 +325235,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutContainersInput = {
@@ -321250,6 +325433,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutContainersInput = {
@@ -321389,6 +325574,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseOrderUpsertWithoutContainersInput = {
@@ -321575,6 +325762,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPosSessionsInput = {
@@ -321714,6 +325903,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPosSessionsInput = {
@@ -321869,6 +326060,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPosSessionsInput = {
@@ -322008,6 +326201,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutVehiclesInput = {
@@ -322147,6 +326342,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutVehiclesInput = {
@@ -322286,6 +326483,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutVehiclesInput = {
@@ -322491,6 +326690,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutVehiclesInput = {
@@ -322630,6 +326831,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ShipmentUpsertWithWhereUniqueWithoutVehicleInput = {
@@ -322785,6 +326988,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDriversInput = {
@@ -322924,6 +327129,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDriversInput = {
@@ -323129,6 +327336,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDriversInput = {
@@ -323268,6 +327477,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ShipmentUpsertWithWhereUniqueWithoutDriverInput = {
@@ -323423,6 +327634,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutShipmentsInput = {
@@ -323562,6 +327775,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutShipmentsInput = {
@@ -323805,6 +328020,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutShipmentsInput = {
@@ -323944,6 +328161,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type VehicleUpsertWithoutShipmentsInput = {
@@ -324163,6 +328382,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutShipmentStopsInput = {
@@ -324302,6 +328523,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutShipmentStopsInput = {
@@ -324502,6 +328725,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutShipmentStopsInput = {
@@ -324641,6 +328866,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ShipmentUpsertWithoutStopsInput = {
@@ -324831,6 +329058,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDockAppointmentsInput = {
@@ -324970,6 +329199,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDockAppointmentsInput = {
@@ -325146,6 +329377,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDockAppointmentsInput = {
@@ -325285,6 +329518,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WarehouseUpsertWithoutDockAppointmentsInput = {
@@ -325451,6 +329686,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutInstalledAssetsInput = {
@@ -325590,6 +329827,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutInstalledAssetsInput = {
@@ -325833,6 +330072,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutInstalledAssetsInput = {
@@ -325972,6 +330213,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ServiceRequestUpsertWithWhereUniqueWithoutInstalledAssetInput = {
@@ -326143,6 +330386,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutServiceRequestsInput = {
@@ -326282,6 +330527,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutServiceRequestsInput = {
@@ -326522,6 +330769,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutServiceRequestsInput = {
@@ -326661,6 +330910,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type InstalledAssetUpsertWithoutServiceRequestsInput = {
@@ -326859,6 +331110,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutServiceOrdersInput = {
@@ -326998,6 +331251,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutServiceOrdersInput = {
@@ -327251,6 +331506,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutServiceOrdersInput = {
@@ -327390,6 +331647,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ServiceRequestUpsertWithoutServiceOrdersInput = {
@@ -327629,6 +331888,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutServiceOrderPartsInput = {
@@ -327768,6 +332029,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutServiceOrderPartsInput = {
@@ -327966,6 +332229,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutServiceOrderPartsInput = {
@@ -328105,6 +332370,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ServiceOrderUpsertWithoutPartsInput = {
@@ -328293,6 +332560,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRmasInput = {
@@ -328432,6 +332701,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRmasInput = {
@@ -328587,6 +332858,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRmasInput = {
@@ -328726,6 +332999,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutGlAccountsInput = {
@@ -328865,6 +333140,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutGlAccountsInput = {
@@ -329004,6 +333281,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutGlAccountsInput = {
@@ -329189,6 +333468,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutGlAccountsInput = {
@@ -329328,6 +333609,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type GlJournalLineUpsertWithWhereUniqueWithoutAccountInput = {
@@ -329483,6 +333766,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutGlJournalEntriesInput = {
@@ -329622,6 +333907,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutGlJournalEntriesInput = {
@@ -329807,6 +334094,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutGlJournalEntriesInput = {
@@ -329946,6 +334235,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type GlJournalLineUpsertWithWhereUniqueWithoutEntryInput = {
@@ -330101,6 +334392,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutGlJournalLinesInput = {
@@ -330240,6 +334533,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutGlJournalLinesInput = {
@@ -330465,6 +334760,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutGlJournalLinesInput = {
@@ -330604,6 +334901,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type GlJournalEntryUpsertWithoutLinesInput = {
@@ -330825,6 +335124,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutGlSystemAccountsInput = {
@@ -330964,6 +335265,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutGlSystemAccountsInput = {
@@ -331119,6 +335422,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutGlSystemAccountsInput = {
@@ -331258,6 +335563,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutGlOpeningBalanceDatesInput = {
@@ -331397,6 +335704,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutGlOpeningBalanceDatesInput = {
@@ -331536,6 +335845,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutGlOpeningBalanceDatesInput = {
@@ -331691,6 +336002,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutGlOpeningBalanceDatesInput = {
@@ -331830,6 +336143,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutGlPeriodLocksInput = {
@@ -331969,6 +336284,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutGlPeriodLocksInput = {
@@ -332108,6 +336425,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutGlPeriodLocksInput = {
@@ -332263,6 +336582,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutGlPeriodLocksInput = {
@@ -332402,6 +336723,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutBankStatementsInput = {
@@ -332541,6 +336864,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBankStatementsInput = {
@@ -332680,6 +337005,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBankStatementsInput = {
@@ -332875,6 +337202,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBankStatementsInput = {
@@ -333014,6 +337343,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BankStatementLineUpsertWithWhereUniqueWithoutStatementInput = {
@@ -333169,6 +337500,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBankStatementLinesInput = {
@@ -333308,6 +337641,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBankStatementLinesInput = {
@@ -333540,6 +337875,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBankStatementLinesInput = {
@@ -333679,6 +338016,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BankStatementUpsertWithoutLinesInput = {
@@ -333885,6 +338224,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPaymentAllocationsInput = {
@@ -334024,6 +338365,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPaymentAllocationsInput = {
@@ -334263,6 +338606,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPaymentAllocationsInput = {
@@ -334402,6 +338747,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BankStatementLineUpsertWithoutAllocationsInput = {
@@ -334637,6 +338984,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCompensationsInput = {
@@ -334776,6 +339125,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCompensationsInput = {
@@ -334959,6 +339310,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCompensationsInput = {
@@ -335098,6 +339451,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type CompensationLineUpsertWithWhereUniqueWithoutCompensationInput = {
@@ -335253,6 +339608,8 @@ export namespace Prisma {
     vatRates?: VatRateCreateNestedManyWithoutTenantInput
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCompensationLinesInput = {
@@ -335392,6 +339749,8 @@ export namespace Prisma {
     vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCompensationLinesInput = {
@@ -335643,6 +340002,8 @@ export namespace Prisma {
     vatRates?: VatRateUpdateManyWithoutTenantNestedInput
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCompensationLinesInput = {
@@ -335782,6 +340143,8 @@ export namespace Prisma {
     vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type CompensationUpsertWithoutLinesInput = {
@@ -336029,6 +340392,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutVatRatesInput = {
@@ -336168,6 +340533,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutVatRatesInput = {
@@ -336323,6 +340690,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutVatRatesInput = {
@@ -336462,6 +340831,8 @@ export namespace Prisma {
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutVatBookEntriesInput = {
@@ -336601,6 +340972,8 @@ export namespace Prisma {
     vatRates?: VatRateCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutVatBookEntriesInput = {
@@ -336740,6 +341113,8 @@ export namespace Prisma {
     vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
     vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutVatBookEntriesInput = {
@@ -336895,6 +341270,8 @@ export namespace Prisma {
     vatRates?: VatRateUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutVatBookEntriesInput = {
@@ -337034,6 +341411,8 @@ export namespace Prisma {
     vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
     vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutVatPeriodsInput = {
@@ -337173,6 +341552,8 @@ export namespace Prisma {
     vatRates?: VatRateCreateNestedManyWithoutTenantInput
     vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutVatPeriodsInput = {
@@ -337312,6 +341693,8 @@ export namespace Prisma {
     vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
     vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutVatPeriodsInput = {
@@ -337467,6 +341850,8 @@ export namespace Prisma {
     vatRates?: VatRateUpdateManyWithoutTenantNestedInput
     vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutVatPeriodsInput = {
@@ -337606,6 +341991,1168 @@ export namespace Prisma {
     vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
     vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantCreateWithoutAttendanceDaysInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    factories?: FactoryCreateNestedManyWithoutTenantInput
+    users?: UserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionCreateNestedManyWithoutTenantInput
+    tasks?: TaskCreateNestedManyWithoutTenantInput
+    notifications?: NotificationCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    products?: ProductCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountCreateNestedManyWithoutTenantInput
+    leads?: LeadCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryCreateNestedManyWithoutTenantInput
+    quotes?: QuoteCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
+    comments?: CommentCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
+    exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
+    breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
+    masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
+    supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
+    employees?: EmployeeCreateNestedManyWithoutTenantInput
+    assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
+    rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
+    containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
+    installedAssets?: InstalledAssetCreateNestedManyWithoutTenantInput
+    serviceRequests?: ServiceRequestCreateNestedManyWithoutTenantInput
+    serviceOrders?: ServiceOrderCreateNestedManyWithoutTenantInput
+    serviceOrderParts?: ServiceOrderPartCreateNestedManyWithoutTenantInput
+    rmas?: RmaCreateNestedManyWithoutTenantInput
+    glAccounts?: GlAccountCreateNestedManyWithoutTenantInput
+    glJournalEntries?: GlJournalEntryCreateNestedManyWithoutTenantInput
+    glJournalLines?: GlJournalLineCreateNestedManyWithoutTenantInput
+    glSystemAccounts?: GlSystemAccountCreateNestedManyWithoutTenantInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
+    glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutAttendanceDaysInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityUncheckedCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    factories?: FactoryUncheckedCreateNestedManyWithoutTenantInput
+    users?: UserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventUncheckedCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventUncheckedCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryUncheckedCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationUncheckedCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutTenantInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalUncheckedCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventUncheckedCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    products?: ProductUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountUncheckedCreateNestedManyWithoutTenantInput
+    leads?: LeadUncheckedCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityUncheckedCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityUncheckedCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListUncheckedCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryUncheckedCreateNestedManyWithoutTenantInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineUncheckedCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderUncheckedCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventUncheckedCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierUncheckedCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
+    comments?: CommentUncheckedCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderUncheckedCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
+    exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
+    breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
+    masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
+    supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
+    employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
+    assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
+    rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
+    containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
+    installedAssets?: InstalledAssetUncheckedCreateNestedManyWithoutTenantInput
+    serviceRequests?: ServiceRequestUncheckedCreateNestedManyWithoutTenantInput
+    serviceOrders?: ServiceOrderUncheckedCreateNestedManyWithoutTenantInput
+    serviceOrderParts?: ServiceOrderPartUncheckedCreateNestedManyWithoutTenantInput
+    rmas?: RmaUncheckedCreateNestedManyWithoutTenantInput
+    glAccounts?: GlAccountUncheckedCreateNestedManyWithoutTenantInput
+    glJournalEntries?: GlJournalEntryUncheckedCreateNestedManyWithoutTenantInput
+    glJournalLines?: GlJournalLineUncheckedCreateNestedManyWithoutTenantInput
+    glSystemAccounts?: GlSystemAccountUncheckedCreateNestedManyWithoutTenantInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
+    glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutAttendanceDaysInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutAttendanceDaysInput, TenantUncheckedCreateWithoutAttendanceDaysInput>
+  }
+
+  export type TenantUpsertWithoutAttendanceDaysInput = {
+    update: XOR<TenantUpdateWithoutAttendanceDaysInput, TenantUncheckedUpdateWithoutAttendanceDaysInput>
+    create: XOR<TenantCreateWithoutAttendanceDaysInput, TenantUncheckedCreateWithoutAttendanceDaysInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutAttendanceDaysInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutAttendanceDaysInput, TenantUncheckedUpdateWithoutAttendanceDaysInput>
+  }
+
+  export type TenantUpdateWithoutAttendanceDaysInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUpdateManyWithoutTenantNestedInput
+    users?: UserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    products?: ProductUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUpdateManyWithoutTenantNestedInput
+    leads?: LeadUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
+    comments?: CommentUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
+    exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
+    breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
+    masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
+    supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
+    employees?: EmployeeUpdateManyWithoutTenantNestedInput
+    assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
+    rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
+    containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
+    installedAssets?: InstalledAssetUpdateManyWithoutTenantNestedInput
+    serviceRequests?: ServiceRequestUpdateManyWithoutTenantNestedInput
+    serviceOrders?: ServiceOrderUpdateManyWithoutTenantNestedInput
+    serviceOrderParts?: ServiceOrderPartUpdateManyWithoutTenantNestedInput
+    rmas?: RmaUpdateManyWithoutTenantNestedInput
+    glAccounts?: GlAccountUpdateManyWithoutTenantNestedInput
+    glJournalEntries?: GlJournalEntryUpdateManyWithoutTenantNestedInput
+    glJournalLines?: GlJournalLineUpdateManyWithoutTenantNestedInput
+    glSystemAccounts?: GlSystemAccountUpdateManyWithoutTenantNestedInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
+    glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutAttendanceDaysInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUncheckedUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUncheckedUpdateManyWithoutTenantNestedInput
+    users?: UserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUncheckedUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUncheckedUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUncheckedUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUncheckedUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUncheckedUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUncheckedUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    products?: ProductUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUncheckedUpdateManyWithoutTenantNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUncheckedUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUncheckedUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUncheckedUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUncheckedUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUncheckedUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
+    exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
+    breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
+    masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
+    supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
+    employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
+    assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
+    rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
+    containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
+    installedAssets?: InstalledAssetUncheckedUpdateManyWithoutTenantNestedInput
+    serviceRequests?: ServiceRequestUncheckedUpdateManyWithoutTenantNestedInput
+    serviceOrders?: ServiceOrderUncheckedUpdateManyWithoutTenantNestedInput
+    serviceOrderParts?: ServiceOrderPartUncheckedUpdateManyWithoutTenantNestedInput
+    rmas?: RmaUncheckedUpdateManyWithoutTenantNestedInput
+    glAccounts?: GlAccountUncheckedUpdateManyWithoutTenantNestedInput
+    glJournalEntries?: GlJournalEntryUncheckedUpdateManyWithoutTenantNestedInput
+    glJournalLines?: GlJournalLineUncheckedUpdateManyWithoutTenantNestedInput
+    glSystemAccounts?: GlSystemAccountUncheckedUpdateManyWithoutTenantNestedInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
+    glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantCreateWithoutAttendancePeriodsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    factories?: FactoryCreateNestedManyWithoutTenantInput
+    users?: UserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionCreateNestedManyWithoutTenantInput
+    tasks?: TaskCreateNestedManyWithoutTenantInput
+    notifications?: NotificationCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    products?: ProductCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountCreateNestedManyWithoutTenantInput
+    leads?: LeadCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryCreateNestedManyWithoutTenantInput
+    quotes?: QuoteCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
+    comments?: CommentCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
+    exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
+    breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
+    masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
+    supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
+    employees?: EmployeeCreateNestedManyWithoutTenantInput
+    assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
+    rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
+    containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
+    installedAssets?: InstalledAssetCreateNestedManyWithoutTenantInput
+    serviceRequests?: ServiceRequestCreateNestedManyWithoutTenantInput
+    serviceOrders?: ServiceOrderCreateNestedManyWithoutTenantInput
+    serviceOrderParts?: ServiceOrderPartCreateNestedManyWithoutTenantInput
+    rmas?: RmaCreateNestedManyWithoutTenantInput
+    glAccounts?: GlAccountCreateNestedManyWithoutTenantInput
+    glJournalEntries?: GlJournalEntryCreateNestedManyWithoutTenantInput
+    glJournalLines?: GlJournalLineCreateNestedManyWithoutTenantInput
+    glSystemAccounts?: GlSystemAccountCreateNestedManyWithoutTenantInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
+    glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutAttendancePeriodsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityUncheckedCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    factories?: FactoryUncheckedCreateNestedManyWithoutTenantInput
+    users?: UserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventUncheckedCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventUncheckedCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryUncheckedCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationUncheckedCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutTenantInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalUncheckedCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventUncheckedCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    products?: ProductUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountUncheckedCreateNestedManyWithoutTenantInput
+    leads?: LeadUncheckedCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityUncheckedCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityUncheckedCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListUncheckedCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryUncheckedCreateNestedManyWithoutTenantInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineUncheckedCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderUncheckedCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventUncheckedCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierUncheckedCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
+    comments?: CommentUncheckedCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderUncheckedCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
+    exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
+    breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
+    masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
+    supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
+    employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
+    assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
+    rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
+    containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
+    installedAssets?: InstalledAssetUncheckedCreateNestedManyWithoutTenantInput
+    serviceRequests?: ServiceRequestUncheckedCreateNestedManyWithoutTenantInput
+    serviceOrders?: ServiceOrderUncheckedCreateNestedManyWithoutTenantInput
+    serviceOrderParts?: ServiceOrderPartUncheckedCreateNestedManyWithoutTenantInput
+    rmas?: RmaUncheckedCreateNestedManyWithoutTenantInput
+    glAccounts?: GlAccountUncheckedCreateNestedManyWithoutTenantInput
+    glJournalEntries?: GlJournalEntryUncheckedCreateNestedManyWithoutTenantInput
+    glJournalLines?: GlJournalLineUncheckedCreateNestedManyWithoutTenantInput
+    glSystemAccounts?: GlSystemAccountUncheckedCreateNestedManyWithoutTenantInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
+    glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutAttendancePeriodsInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutAttendancePeriodsInput, TenantUncheckedCreateWithoutAttendancePeriodsInput>
+  }
+
+  export type TenantUpsertWithoutAttendancePeriodsInput = {
+    update: XOR<TenantUpdateWithoutAttendancePeriodsInput, TenantUncheckedUpdateWithoutAttendancePeriodsInput>
+    create: XOR<TenantCreateWithoutAttendancePeriodsInput, TenantUncheckedCreateWithoutAttendancePeriodsInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutAttendancePeriodsInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutAttendancePeriodsInput, TenantUncheckedUpdateWithoutAttendancePeriodsInput>
+  }
+
+  export type TenantUpdateWithoutAttendancePeriodsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUpdateManyWithoutTenantNestedInput
+    users?: UserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    products?: ProductUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUpdateManyWithoutTenantNestedInput
+    leads?: LeadUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
+    comments?: CommentUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
+    exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
+    breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
+    masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
+    supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
+    employees?: EmployeeUpdateManyWithoutTenantNestedInput
+    assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
+    rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
+    containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
+    installedAssets?: InstalledAssetUpdateManyWithoutTenantNestedInput
+    serviceRequests?: ServiceRequestUpdateManyWithoutTenantNestedInput
+    serviceOrders?: ServiceOrderUpdateManyWithoutTenantNestedInput
+    serviceOrderParts?: ServiceOrderPartUpdateManyWithoutTenantNestedInput
+    rmas?: RmaUpdateManyWithoutTenantNestedInput
+    glAccounts?: GlAccountUpdateManyWithoutTenantNestedInput
+    glJournalEntries?: GlJournalEntryUpdateManyWithoutTenantNestedInput
+    glJournalLines?: GlJournalLineUpdateManyWithoutTenantNestedInput
+    glSystemAccounts?: GlSystemAccountUpdateManyWithoutTenantNestedInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
+    glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutAttendancePeriodsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUncheckedUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUncheckedUpdateManyWithoutTenantNestedInput
+    users?: UserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUncheckedUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUncheckedUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUncheckedUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUncheckedUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUncheckedUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUncheckedUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    products?: ProductUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUncheckedUpdateManyWithoutTenantNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUncheckedUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUncheckedUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUncheckedUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUncheckedUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUncheckedUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
+    exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
+    breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
+    masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
+    supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
+    employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
+    assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
+    rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
+    containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
+    installedAssets?: InstalledAssetUncheckedUpdateManyWithoutTenantNestedInput
+    serviceRequests?: ServiceRequestUncheckedUpdateManyWithoutTenantNestedInput
+    serviceOrders?: ServiceOrderUncheckedUpdateManyWithoutTenantNestedInput
+    serviceOrderParts?: ServiceOrderPartUncheckedUpdateManyWithoutTenantNestedInput
+    rmas?: RmaUncheckedUpdateManyWithoutTenantNestedInput
+    glAccounts?: GlAccountUncheckedUpdateManyWithoutTenantNestedInput
+    glJournalEntries?: GlJournalEntryUncheckedUpdateManyWithoutTenantNestedInput
+    glJournalLines?: GlJournalLineUncheckedUpdateManyWithoutTenantNestedInput
+    glSystemAccounts?: GlSystemAccountUncheckedUpdateManyWithoutTenantNestedInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
+    glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantConfigurationVersionCreateManyTenantInput = {
@@ -339137,6 +344684,30 @@ export namespace Prisma {
     side: $Enums.CompensationSide
     amount: Decimal | DecimalJsLike | number | string
     paymentId?: string | null
+  }
+
+  export type AttendanceDayCreateManyTenantInput = {
+    id?: string
+    employeeId: string
+    day: Date | string
+    statusKey: string
+    source?: string
+    note?: string | null
+    version?: number
+    updatedBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AttendancePeriodCreateManyTenantInput = {
+    id?: string
+    year: number
+    month: number
+    status?: string
+    lockedAt?: Date | string | null
+    lockedBy?: string | null
+    unlockReason?: string | null
+    updatedAt?: Date | string
   }
 
   export type TenantConfigurationVersionUpdateWithoutTenantInput = {
@@ -343858,6 +349429,78 @@ export namespace Prisma {
     side?: EnumCompensationSideFieldUpdateOperationsInput | $Enums.CompensationSide
     amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     paymentId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type AttendanceDayUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    day?: DateTimeFieldUpdateOperationsInput | Date | string
+    statusKey?: StringFieldUpdateOperationsInput | string
+    source?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    version?: IntFieldUpdateOperationsInput | number
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AttendanceDayUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    day?: DateTimeFieldUpdateOperationsInput | Date | string
+    statusKey?: StringFieldUpdateOperationsInput | string
+    source?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    version?: IntFieldUpdateOperationsInput | number
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AttendanceDayUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    day?: DateTimeFieldUpdateOperationsInput | Date | string
+    statusKey?: StringFieldUpdateOperationsInput | string
+    source?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    version?: IntFieldUpdateOperationsInput | number
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AttendancePeriodUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    month?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    lockedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lockedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    unlockReason?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AttendancePeriodUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    month?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    lockedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lockedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    unlockReason?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AttendancePeriodUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    month?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    lockedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lockedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    unlockReason?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type BusinessUnitCreateManyLegalEntityInput = {

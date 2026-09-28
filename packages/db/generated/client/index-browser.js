@@ -1964,6 +1964,32 @@ exports.Prisma.VatPeriodScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.AttendanceDayScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  employeeId: 'employeeId',
+  day: 'day',
+  statusKey: 'statusKey',
+  source: 'source',
+  note: 'note',
+  version: 'version',
+  updatedBy: 'updatedBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.AttendancePeriodScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  year: 'year',
+  month: 'month',
+  status: 'status',
+  lockedAt: 'lockedAt',
+  lockedBy: 'lockedBy',
+  unlockReason: 'unlockReason',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -2569,7 +2595,9 @@ exports.Prisma.ModelName = {
   CompensationLine: 'CompensationLine',
   VatRate: 'VatRate',
   VatBookEntry: 'VatBookEntry',
-  VatPeriod: 'VatPeriod'
+  VatPeriod: 'VatPeriod',
+  AttendanceDay: 'AttendanceDay',
+  AttendancePeriod: 'AttendancePeriod'
 };
 
 /**

@@ -11,6 +11,7 @@ import {
   LoadingState,
   type Column,
 } from '../../../components/ui';
+import { AttendanceMatrix } from './attendance-matrix';
 
 /**
  * HCM (Sprint 223): employee list + profile, existing attendance
@@ -85,6 +86,7 @@ export default function HrPage() {
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  const [tab, setTab] = useState<'records' | 'matrix'>('records');
   const [statusFilter, setStatusFilter] = useState<'ALL' | 'ACTIVE' | 'INACTIVE'>('ALL');
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [attendance, setAttendance] = useState<AttendanceView | null>(null);
@@ -232,8 +234,33 @@ export default function HrPage() {
       {error ? <ErrorState text={error} /> : null}
       {notice ? <div className="alert alert-ok">{notice}</div> : null}
 
+      {canRead ? (
+        <div className="row" role="tablist" aria-label="Prikaz" style={{ marginBottom: 16 }}>
+          <button
+            type="button"
+            role="tab"
+            aria-selected={tab === 'records'}
+            className={tab === 'records' ? 'btn btn-primary' : 'btn'}
+            onClick={() => setTab('records')}
+          >
+            Evidencija
+          </button>
+          <button
+            type="button"
+            role="tab"
+            aria-selected={tab === 'matrix'}
+            className={tab === 'matrix' ? 'btn btn-primary' : 'btn'}
+            onClick={() => setTab('matrix')}
+          >
+            Šihtarica
+          </button>
+        </div>
+      ) : null}
+
       {!canRead ? (
         <EmptyState text="Nemate pristup evidenciji zaposlenih — zatražite od administratora ulogu s dozvolom hcm.read." />
+      ) : tab === 'matrix' ? (
+        <AttendanceMatrix canManage={canManage} />
       ) : (
         <>
           <div className="grid-2">

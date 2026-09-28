@@ -170,6 +170,8 @@ model Tenant {
   vatBookEntries          VatBookEntry[]
   vatPeriods              VatPeriod[]
   compensationLines       CompensationLine[]
+  attendanceDays          AttendanceDay[]
+  attendancePeriods       AttendancePeriod[]
 
   @@map("tenant")
 }
@@ -3770,4 +3772,51 @@ model VatPeriod {
 
   @@unique([tenantId, legalEntityId, year, month])
   @@map("vat_period")
+}
+
+// ---------------------------------------------------------------------------
+// Sprint 234 — HCM-015: attendance status matrix (šihtarica) + change audit
+// + monthly digest. ODL-002: the matrix is the payroll source of truth; the
+// HCM-003 clock and granted leave only SUGGEST day statuses. The status
+// catalog and the attendance model are tenant configuration.
+// ---------------------------------------------------------------------------
+
+model AttendanceDay {
+  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId   String   @map("tenant_id") @db.Uuid
+  employeeId String   @map("employee_id") @db.Uuid
+  day        DateTime @db.Date
+  statusKey  String   @map("status_key")
+  /// MANUAL (person), CLOCK (applied clock suggestion), LEAVE (applied granted leave).
+  source     String   @default("MANUAL")
+  note       String?
+  /// Optimistic concurrency: every change increments it.
+  version    Int      @default(1)
+  updatedBy  String?  @map("updated_by")
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@unique([tenantId, employeeId, day])
+  @@index([tenantId, day])
+  @@map("attendance_day")
+}
+
+model AttendancePeriod {
+  id           String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId     String    @map("tenant_id") @db.Uuid
+  year         Int
+  month        Int
+  /// OPEN or LOCKED (month closed for payroll; edits refused).
+  status       String    @default("OPEN")
+  lockedAt     DateTime? @map("locked_at")
+  lockedBy     String?   @map("locked_by")
+  unlockReason String?   @map("unlock_reason")
+  updatedAt    DateTime  @updatedAt @map("updated_at")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@unique([tenantId, year, month])
+  @@map("attendance_period")
 }
