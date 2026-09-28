@@ -121,6 +121,38 @@ interface EntryBody {
   counterAccountId: string;
 }
 
+type Confidence = 'HIGH' | 'MEDIUM' | 'LOW';
+
+/** FIN-033 — server suggestion from the partner's earlier entries (read-only). */
+interface VatSuggestion {
+  confidence: Confidence;
+  matchingPrecedents: number;
+  consideredPrecedents: number;
+  counterAccountId: string | null;
+  counterAccountCode: string | null;
+  counterAccountName: string | null;
+  vatRateCode: string | null;
+  precedents: Array<{
+    id: string;
+    bookNo: number;
+    year: number;
+    documentNumber: string;
+    bookingDate: string;
+  }>;
+}
+
+const CONFIDENCE_LABELS: Record<Confidence, string> = {
+  HIGH: 'Visoka',
+  MEDIUM: 'Srednja',
+  LOW: 'Niska',
+};
+
+const CONFIDENCE_BADGE: Record<Confidence, string> = {
+  HIGH: 'badge-ok',
+  MEDIUM: 'badge-warn',
+  LOW: 'badge-danger',
+};
+
 const MONTHS = [
   'Januar',
   'Februar',
@@ -234,6 +266,12 @@ export default function VatPage() {
   // a second entry (the retry resends the pending content).
   const pendingEntryRef = useRef<{ key: string; body: EntryBody } | null>(null);
   const [hasPending, setHasPending] = useState(false);
+  // Suggestion (FIN-033): only prefills the form; never records anything.
+  const [suggestion, setSuggestion] = useState<VatSuggestion | null>(null);
+  const [suggestError, setSuggestError] = useState<string | null>(null);
+  const [suggesting, setSuggesting] = useState(false);
+  // Bumped on every partner/book change so a late response is ignored.
+  const suggestSeq = useRef(0);
 
   // Period actions.
   const [confirmFile, setConfirmFile] = useState(false);
@@ -360,6 +398,37 @@ export default function VatPage() {
       setError(vatErrorText(e));
     } finally {
       setBusy(false);
+    }
+  }
+
+  /**
+   * Asks the server for the partner's usual counter account and rate and
+   * prefills them (the user can still change both). A pending unresolved
+   * submission is unaffected: its retry resends the ref-held content.
+   */
+  async function suggest() {
+    if (!fPartnerId || !entityId) return;
+    const seq = ++suggestSeq.current;
+    setSuggesting(true);
+    setSuggestError(null);
+    setSuggestion(null);
+    try {
+      const r = await api<VatSuggestion>(
+        'GET',
+        `/api/v1/vat/suggest?legalEntityId=${entityId}&bookType=${fBookType}&partnerId=${fPartnerId}`,
+      );
+      if (seq !== suggestSeq.current) return;
+      setSuggestion(r);
+      if (r.counterAccountId && (accounts ?? []).some((a) => a.id === r.counterAccountId)) {
+        setFAccountId(r.counterAccountId);
+      }
+      if (r.vatRateCode && rateCodes.some((x) => x.code === r.vatRateCode)) {
+        setFRateCode(r.vatRateCode);
+      }
+    } catch (e: unknown) {
+      if (seq === suggestSeq.current) setSuggestError(vatErrorText(e));
+    } finally {
+      setSuggesting(false);
     }
   }
 
@@ -723,6 +792,9 @@ export default function VatPage() {
               onChange={(e) => {
                 setFBookType(e.target.value as BookType);
                 setFAccountId('');
+                suggestSeq.current++;
+                setSuggestion(null);
+                setSuggestError(null);
               }}
             >
               <option value="KIF">KIF — izlazna faktura</option>
@@ -737,7 +809,12 @@ export default function VatPage() {
               <select
                 className="input"
                 value={fPartnerId}
-                onChange={(e) => setFPartnerId(e.target.value)}
+                onChange={(e) => {
+                  setFPartnerId(e.target.value);
+                  suggestSeq.current++;
+                  setSuggestion(null);
+                  setSuggestError(null);
+                }}
                 required
               >
                 <option value="">Partner…</option>
@@ -748,6 +825,78 @@ export default function VatPage() {
                 ))}
               </select>
             )}
+            <button
+              type="button"
+              className="btn btn-sm"
+              style={{ marginTop: 6 }}
+              disabled={!fPartnerId || suggesting || busy}
+              onClick={() => void suggest()}
+            >
+              {suggesting ? 'Tražim ranije unose…' : 'Predloži konto i stopu'}
+            </button>
+            {!fPartnerId ? (
+              <p className="muted" style={{ fontSize: 12.5, margin: '4px 0 0' }}>
+                Prijedlog je dostupan nakon izbora partnera.
+              </p>
+            ) : null}
+            {suggestError ? <ErrorState text={suggestError} /> : null}
+            {suggestion ? (
+              suggestion.counterAccountId === null && suggestion.vatRateCode === null ? (
+                <p className="muted" style={{ fontSize: 12.5, margin: '4px 0 0' }}>
+                  Nema ranijih unosa ovog partnera — izaberite ručno.
+                </p>
+              ) : (
+                <div className="alert alert-warn" style={{ marginTop: 6, fontSize: 12.5 }}>
+                  <div>
+                    Prijedlog (popunjeno u formi, možete izmijeniti) · sigurnost{' '}
+                    <span className={`badge ${CONFIDENCE_BADGE[suggestion.confidence]}`}>
+                      {CONFIDENCE_LABELS[suggestion.confidence]}
+                    </span>{' '}
+                    · na osnovu {suggestion.matchingPrecedents} ranijih unosa (razmotreno{' '}
+                    {suggestion.consideredPrecedents})
+                  </div>
+                  <div>
+                    {counterLabel}:{' '}
+                    {suggestion.counterAccountCode ? (
+                      <span className="mono">
+                        {suggestion.counterAccountCode} — {suggestion.counterAccountName ?? ''}
+                      </span>
+                    ) : (
+                      'nije predložen'
+                    )}{' '}
+                    · Stopa:{' '}
+                    {suggestion.vatRateCode ? (
+                      <span className="mono">{suggestion.vatRateCode}</span>
+                    ) : (
+                      'nije predložena'
+                    )}
+                  </div>
+                  {suggestion.counterAccountId &&
+                  !(accounts ?? []).some((a) => a.id === suggestion.counterAccountId) ? (
+                    <div>Predloženi konto nije među aktivnim kontima — izaberite ručno.</div>
+                  ) : null}
+                  {suggestion.vatRateCode &&
+                  !rateCodes.some((x) => x.code === suggestion.vatRateCode) ? (
+                    <div>Predložena stopa nije konfigurisana — izaberite ručno.</div>
+                  ) : null}
+                  {suggestion.precedents.length > 0 ? (
+                    <div>
+                      Dokumenti:{' '}
+                      {suggestion.precedents.map((p, i) => (
+                        <span key={p.id} className="mono">
+                          {p.documentNumber} ({p.bookNo}/{p.year}, {p.bookingDate})
+                          {i < suggestion.precedents.length - 1 ? ', ' : ''}
+                        </span>
+                      ))}
+                    </div>
+                  ) : null}
+                  <div className="muted">
+                    Sigurnost je izračunata pravilom: ≥3 presedana visoka, 1–2 srednja, 0 niska — ne
+                    procjenjuje je AI
+                  </div>
+                </div>
+              )
+            ) : null}
             <label className="label">Broj dokumenta</label>
             <input
               className="input"

@@ -90,6 +90,63 @@ interface DraftLine {
   credit: string;
 }
 
+type Confidence = 'HIGH' | 'MEDIUM' | 'LOW';
+
+interface PartyOption {
+  id: string;
+  name: string;
+}
+
+/** FIN-033 — server response of POST /ledger/proposals (read-only). */
+interface ProposalView {
+  basis: 'partner' | 'text';
+  confidence: Confidence;
+  matchingPrecedents: number;
+  consideredPrecedents: number;
+  precedents: Array<{
+    entryId: string;
+    entryNo: number | null;
+    bookingDate: string;
+    description: string;
+  }>;
+  entryType: string | null;
+  lines: Array<{
+    accountId: string | null;
+    accountCode: string | null;
+    accountName: string | null;
+    partnerId: string | null;
+    debit: string;
+    credit: string;
+    note?: string;
+  }>;
+  warnings: string[];
+  proposalHash: string;
+}
+
+/** Editable copy of a proposed line (the proposal itself stays untouched). */
+interface ProposalLine {
+  accountId: string;
+  debit: string;
+  credit: string;
+  partnerId: string | null;
+  note: string | null;
+}
+
+const CONFIDENCE_LABELS: Record<Confidence, string> = {
+  HIGH: 'Visoka',
+  MEDIUM: 'Srednja',
+  LOW: 'Niska',
+};
+
+const CONFIDENCE_BADGE: Record<Confidence, string> = {
+  HIGH: 'badge-ok',
+  MEDIUM: 'badge-warn',
+  LOW: 'badge-danger',
+};
+
+const CONFIDENCE_RULE =
+  'Sigurnost je izračunata pravilom: ≥3 presedana visoka, 1–2 srednja, 0 niska — ne procjenjuje je AI';
+
 const ENTRY_TYPES = ['MANUAL', 'OPENING_BALANCE', 'KUF', 'KIF', 'BANK_STATEMENT', 'COMPENSATION'];
 
 /** Display labels for API entry types (API values stay untouched). */
@@ -126,7 +183,7 @@ function statusBadge(en: EntryView) {
 
 export default function LedgerPage() {
   const { can, entities, legalEntityId: entityId } = useApp();
-  const [tab, setTab] = useState<'entries' | 'accounts' | 'card' | 'trial'>('entries');
+  const [tab, setTab] = useState<'entries' | 'accounts' | 'card' | 'trial' | 'proposal'>('entries');
   const [accounts, setAccounts] = useState<AccountView[] | null>(null);
   const [entries, setEntries] = useState<EntryView[] | null>(null);
   const [open, setOpen] = useState<EntryView | null>(null);
@@ -159,6 +216,32 @@ export default function LedgerPage() {
   const [cardShowStorno, setCardShowStorno] = useState(false);
   const [card, setCard] = useState<CardView | null>(null);
   const [trial, setTrial] = useState<TrialView | null>(null);
+
+  // Posting proposal (FIN-033, Sprint 233): draft-only, never posts.
+  const [parties, setParties] = useState<PartyOption[] | null>(null);
+  const [pPartnerId, setPPartnerId] = useState('');
+  const [pText, setPText] = useState('');
+  const [pAmount, setPAmount] = useState('');
+  const [proposal, setProposal] = useState<(ProposalView & { legalEntityId: string }) | null>(null);
+  const [pLines, setPLines] = useState<ProposalLine[]>([]);
+  const [pBookingDate, setPBookingDate] = useState(() => new Date().toISOString().slice(0, 10));
+  const [pDescription, setPDescription] = useState('');
+  const [confirmProposalDraft, setConfirmProposalDraft] = useState(false);
+
+  useEffect(() => {
+    if (tab !== 'proposal' || parties !== null) return;
+    let cancelled = false;
+    api<{ parties: PartyOption[] }>('GET', '/api/v1/parties')
+      .then((r) => {
+        if (!cancelled) setParties(r.parties);
+      })
+      .catch(() => {
+        if (!cancelled) setParties([]);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [tab, parties]);
 
   const load = useCallback(() => {
     if (!entityId) return;
@@ -222,6 +305,52 @@ export default function LedgerPage() {
     }, 'Nacrt naloga je kreiran.');
   }
 
+  /** FIN-033 — asks the server for a precedent-based proposal (read-only). */
+  async function propose(e: React.FormEvent) {
+    e.preventDefault();
+    const forEntity = entityId;
+    await run(async () => {
+      const r = await api<ProposalView>('POST', '/api/v1/ledger/proposals', {
+        legalEntityId: forEntity,
+        ...(pPartnerId ? { partnerId: pPartnerId } : {}),
+        ...(pText.trim() ? { text: pText.trim() } : {}),
+        amount: Number(pAmount),
+      });
+      const active = new Set((accounts ?? []).filter((a) => a.active).map((a) => a.id));
+      setProposal({ ...r, legalEntityId: forEntity });
+      setPLines(
+        r.lines.map((l) => {
+          const usable = l.accountId !== null && active.has(l.accountId);
+          return {
+            accountId: usable ? (l.accountId ?? '') : '',
+            debit: l.debit,
+            credit: l.credit,
+            partnerId: l.partnerId,
+            note:
+              l.note ??
+              (l.accountId !== null && !usable
+                ? `Predloženi konto ${l.accountCode ?? ''} nije aktivan — izaberite konto.`
+                : null),
+          };
+        }),
+      );
+      setPDescription(pText.trim());
+      setPBookingDate(new Date().toISOString().slice(0, 10));
+    }, null);
+  }
+
+  function setProposalLine(i: number, patch: Partial<ProposalLine>) {
+    setPLines((prev) => prev.map((l, idx) => (idx === i ? { ...l, ...patch } : l)));
+  }
+
+  // Input validation only (mirrors the manual draft form); the server
+  // re-validates balance and accounts when the draft is created.
+  const pTotalDebit = pLines.reduce((s, l) => s + (Number(l.debit) || 0), 0);
+  const pTotalCredit = pLines.reduce((s, l) => s + (Number(l.credit) || 0), 0);
+  const pBalanced = Math.abs(pTotalDebit - pTotalCredit) < 0.005 && pTotalDebit > 0;
+  const pAllAccounts = pLines.length >= 2 && pLines.every((l) => l.accountId);
+  const pReady = pBalanced && pAllAccounts && !!pDescription.trim() && !!pBookingDate;
+
   /** Opens an entry (from the card report) in the "Nalozi" tab. */
   function openEntryById(entryId: string) {
     const en = (entries ?? []).find((e) => e.id === entryId);
@@ -240,6 +369,10 @@ export default function LedgerPage() {
   }
 
   const entityName = entities.find((le) => le.id === entityId)?.name ?? '—';
+  // A proposal belongs to the entity it was requested for; switching the
+  // global legal entity hides it (accounts differ per entity).
+  const shownProposal = proposal && proposal.legalEntityId === entityId ? proposal : null;
+  const activeAccounts = (accounts ?? []).filter((a) => a.active);
 
   const accountColumns: Array<Column<AccountView>> = [
     {
@@ -334,6 +467,12 @@ export default function LedgerPage() {
             onClick={() => setTab('trial')}
           >
             Bruto bilans
+          </button>{' '}
+          <button
+            className={`btn btn-sm ${tab === 'proposal' ? 'btn-primary' : ''}`}
+            onClick={() => setTab('proposal')}
+          >
+            Prijedlog knjiženja
           </button>
         </div>
       </div>
@@ -791,6 +930,304 @@ export default function LedgerPage() {
             )
           ) : null}
         </div>
+      ) : null}
+
+      {tab === 'proposal' && entityId ? (
+        <div className="grid-2">
+          <form className="card" onSubmit={(e) => void propose(e)}>
+            <h2>Prijedlog knjiženja</h2>
+            <p className="alert alert-warn" style={{ marginTop: 0 }}>
+              Prijedlog se sastavlja iz ranijih proknjiženih naloga (presedana). Ništa se ne knjiži
+              automatski — prihvatanjem nastaje samo NACRT naloga koji pregledate i proknjižite
+              ručno.
+            </p>
+            <label className="label">Partner (opcionalno)</label>
+            {parties === null ? (
+              <LoadingState text="Učitavanje partnera…" />
+            ) : parties.length === 0 ? (
+              <p className="muted" style={{ fontSize: 12.5, margin: '4px 0' }}>
+                Partneri nisu dostupni (nema partnera ili nedostaje permisija mdm.read) — koristite
+                opis/ključne riječi.
+              </p>
+            ) : (
+              <select
+                className="input"
+                value={pPartnerId}
+                onChange={(e) => setPPartnerId(e.target.value)}
+              >
+                <option value="">— bez partnera —</option>
+                {parties.map((p) => (
+                  <option key={p.id} value={p.id}>
+                    {p.name}
+                  </option>
+                ))}
+              </select>
+            )}
+            <label className="label">Opis / ključne riječi</label>
+            <input
+              className="input"
+              value={pText}
+              onChange={(e) => setPText(e.target.value)}
+              maxLength={300}
+              placeholder="npr. zakup poslovnog prostora"
+            />
+            <label className="label">Iznos</label>
+            <input
+              className="input mono"
+              type="number"
+              step="0.01"
+              min="0.01"
+              value={pAmount}
+              onChange={(e) => setPAmount(e.target.value)}
+              required
+            />
+            <button
+              className="btn btn-primary"
+              style={{ marginTop: 10 }}
+              disabled={busy || !(Number(pAmount) > 0) || (!pPartnerId && !pText.trim())}
+            >
+              Predloži
+            </button>
+            {!pPartnerId && !pText.trim() ? (
+              <p className="muted" style={{ fontSize: 12.5 }}>
+                Izaberite partnera ili unesite opis/ključne riječi (barem jedno je obavezno).
+              </p>
+            ) : null}
+          </form>
+
+          <div className="card">
+            <h2>Predložene stavke</h2>
+            {busy && !shownProposal ? <LoadingState text="Traženje presedana…" /> : null}
+            {!shownProposal && !busy ? (
+              <EmptyState text="Unesite partnera ili opis i iznos pa kliknite „Predloži“." />
+            ) : null}
+            {shownProposal ? (
+              <>
+                <div className="spread" style={{ flexWrap: 'wrap', gap: 6 }}>
+                  <span>
+                    Sigurnost:{' '}
+                    <span className={`badge ${CONFIDENCE_BADGE[shownProposal.confidence]}`}>
+                      {CONFIDENCE_LABELS[shownProposal.confidence]}
+                    </span>
+                  </span>
+                  <span className="muted" style={{ fontSize: 12.5 }}>
+                    Osnova: {shownProposal.basis === 'partner' ? 'partner' : 'opis'} · podudarnih{' '}
+                    {shownProposal.matchingPrecedents} od {shownProposal.consideredPrecedents}{' '}
+                    razmotrenih naloga
+                    {shownProposal.entryType
+                      ? ` · vrsta ${entryTypeLabel(shownProposal.entryType)}`
+                      : ''}
+                  </span>
+                </div>
+                <p className="muted" style={{ fontSize: 12.5 }}>
+                  {CONFIDENCE_RULE}
+                </p>
+
+                {shownProposal.warnings.length > 0 ? (
+                  <div className="alert alert-warn">
+                    {shownProposal.warnings.map((w, i) => (
+                      <div key={i}>{w}</div>
+                    ))}
+                  </div>
+                ) : null}
+
+                {shownProposal.precedents.length > 0 ? (
+                  <>
+                    <p style={{ fontSize: 12.5, marginBottom: 4 }}>
+                      <strong>Na osnovu naloga:</strong>
+                    </p>
+                    <table className="table">
+                      <thead>
+                        <tr>
+                          <th>Br.</th>
+                          <th>Datum</th>
+                          <th>Opis</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {shownProposal.precedents.map((p) => (
+                          <tr key={p.entryId}>
+                            <td className="mono">{p.entryNo ?? '—'}</td>
+                            <td className="mono">{p.bookingDate}</td>
+                            <td>{p.description}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </>
+                ) : null}
+
+                {pLines.length === 0 ? (
+                  <EmptyState text="Nema presedana za prijedlog stavki — koristite formu „Novi nalog (nacrt)“ u kartici Nalozi." />
+                ) : (
+                  <>
+                    <label className="label">Datum knjiženja</label>
+                    <input
+                      className="input"
+                      type="date"
+                      value={pBookingDate}
+                      onChange={(e) => setPBookingDate(e.target.value)}
+                      required
+                    />
+                    <label className="label">Opis naloga</label>
+                    <input
+                      className="input"
+                      value={pDescription}
+                      onChange={(e) => setPDescription(e.target.value)}
+                      maxLength={500}
+                      required
+                    />
+                    <label className="label">Stavke (možete izmijeniti)</label>
+                    {pLines.map((l, i) => (
+                      <div key={i} style={{ marginBottom: 6 }}>
+                        <div className="spread" style={{ gap: 6 }}>
+                          <select
+                            className="input"
+                            value={l.accountId}
+                            onChange={(e) => setProposalLine(i, { accountId: e.target.value })}
+                            aria-label={`Konto stavke ${i + 1}`}
+                            style={l.accountId ? undefined : { borderColor: 'var(--color-warn)' }}
+                          >
+                            <option value="">— izaberite konto —</option>
+                            {activeAccounts.map((a) => (
+                              <option key={a.id} value={a.id}>
+                                {a.code} {a.name}
+                              </option>
+                            ))}
+                          </select>
+                          <input
+                            className="input mono"
+                            style={{ maxWidth: 110 }}
+                            type="number"
+                            step="0.01"
+                            min="0"
+                            placeholder="Duguje"
+                            aria-label={`Duguje stavke ${i + 1}`}
+                            value={l.debit}
+                            onChange={(e) => setProposalLine(i, { debit: e.target.value })}
+                          />
+                          <input
+                            className="input mono"
+                            style={{ maxWidth: 110 }}
+                            type="number"
+                            step="0.01"
+                            min="0"
+                            placeholder="Potražuje"
+                            aria-label={`Potražuje stavke ${i + 1}`}
+                            value={l.credit}
+                            onChange={(e) => setProposalLine(i, { credit: e.target.value })}
+                          />
+                        </div>
+                        {l.note || !l.accountId ? (
+                          <span className="badge badge-warn" style={{ marginTop: 4 }}>
+                            {l.note ?? 'Konto nije predložen — izaberite konto.'}
+                          </span>
+                        ) : null}
+                      </div>
+                    ))}
+                    <div style={{ marginTop: 10 }}>
+                      <span className={`badge ${pBalanced ? 'badge-ok' : 'badge-warn'}`}>
+                        Duguje {pTotalDebit.toFixed(2)} · Potražuje {pTotalCredit.toFixed(2)} ·{' '}
+                        {pBalanced ? 'u ravnoteži' : 'NIJE u ravnoteži'}
+                      </span>
+                    </div>
+                    {can('finance.ledger.post') ? (
+                      <>
+                        <button
+                          type="button"
+                          className="btn btn-primary"
+                          style={{ marginTop: 10 }}
+                          disabled={busy || !pReady}
+                          onClick={() => setConfirmProposalDraft(true)}
+                        >
+                          Kreiraj nacrt
+                        </button>
+                        {!pReady ? (
+                          <p className="muted" style={{ fontSize: 12.5 }}>
+                            Za nacrt: svaka stavka mora imati konto, duguje i potražuje moraju biti
+                            u ravnoteži, a datum i opis popunjeni.
+                          </p>
+                        ) : null}
+                      </>
+                    ) : (
+                      <p className="muted" style={{ fontSize: 12.5, marginTop: 10 }}>
+                        Kreiranje nacrta iz prijedloga zahtijeva permisiju finance.ledger.post.
+                      </p>
+                    )}
+                  </>
+                )}
+              </>
+            ) : null}
+          </div>
+        </div>
+      ) : null}
+
+      {shownProposal ? (
+        <ConfirmDialog
+          open={confirmProposalDraft}
+          title="Kreiraj nacrt iz prijedloga"
+          consequence="Kreira se NACRT naloga. Ništa se ne knjiži — nacrt pregledate i proknjižite u kartici Nalozi."
+          confirmLabel="Kreiraj nacrt"
+          busy={busy}
+          onCancel={() => setConfirmProposalDraft(false)}
+          onConfirm={() => {
+            if (!pReady) return;
+            const p = shownProposal;
+            void run(async () => {
+              await api<{ entryId: string; status: 'DRAFT' }>(
+                'POST',
+                '/api/v1/ledger/proposals/draft',
+                {
+                  legalEntityId: p.legalEntityId,
+                  bookingDate: pBookingDate,
+                  description: pDescription.trim(),
+                  lines: pLines.map((l) => ({
+                    accountId: l.accountId,
+                    debit: Number(l.debit) || 0,
+                    credit: Number(l.credit) || 0,
+                    ...(l.partnerId ? { partnerId: l.partnerId } : {}),
+                  })),
+                  proposalHash: p.proposalHash,
+                  confidence: p.confidence,
+                  precedentEntryIds: p.precedents.map((x) => x.entryId),
+                },
+              );
+              setProposal(null);
+              setPLines([]);
+              setOpen(null);
+              setTab('entries');
+            }, 'Nacrt naloga je kreiran iz prijedloga — ništa nije proknjiženo. Pregledajte ga i proknjižite u listi Nalozi.').then(
+              () => setConfirmProposalDraft(false),
+            );
+          }}
+        >
+          <div className="fact">
+            <span>Pravno lice</span>
+            <span>{entityName}</span>
+          </div>
+          <div className="fact">
+            <span>Datum knjiženja</span>
+            <span>{pBookingDate}</span>
+          </div>
+          <div className="fact">
+            <span>Opis</span>
+            <span>{pDescription}</span>
+          </div>
+          <div className="fact">
+            <span>Ukupno duguje / potražuje</span>
+            <span className="mono">
+              {pTotalDebit.toFixed(2)} / {pTotalCredit.toFixed(2)}
+            </span>
+          </div>
+          <div className="fact">
+            <span>Sigurnost</span>
+            <span>{CONFIDENCE_LABELS[shownProposal.confidence]}</span>
+          </div>
+          <div className="fact">
+            <span>Broj presedana</span>
+            <span className="mono">{shownProposal.precedents.length}</span>
+          </div>
+        </ConfirmDialog>
       ) : null}
 
       {open ? (
