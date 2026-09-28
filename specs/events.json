@@ -689,6 +689,17 @@
       ]
     },
     {
+      "name": "vat.return.filed",
+      "owner": "FIN",
+      "meaning": "VAT return filed for a legal-entity period (FIN-028)",
+      "requiredPayload": [
+        "legalEntityId",
+        "year",
+        "month",
+        "payableVat"
+      ]
+    },
+    {
       "name": "budget.published",
       "owner": "FIN",
       "meaning": "Budget published",

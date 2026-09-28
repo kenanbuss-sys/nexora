@@ -1900,6 +1900,70 @@ exports.Prisma.CompensationLineScalarFieldEnum = {
   paymentId: 'paymentId'
 };
 
+exports.Prisma.VatRateScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  legalEntityId: 'legalEntityId',
+  code: 'code',
+  name: 'name',
+  ratePct: 'ratePct',
+  validFrom: 'validFrom',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.VatBookEntryScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  legalEntityId: 'legalEntityId',
+  bookType: 'bookType',
+  year: 'year',
+  bookNo: 'bookNo',
+  status: 'status',
+  documentNumber: 'documentNumber',
+  documentDate: 'documentDate',
+  bookingDate: 'bookingDate',
+  partnerId: 'partnerId',
+  partnerName: 'partnerName',
+  partnerTaxId: 'partnerTaxId',
+  vatRateCode: 'vatRateCode',
+  ratePct: 'ratePct',
+  netAmount: 'netAmount',
+  vatAmount: 'vatAmount',
+  grossAmount: 'grossAmount',
+  currency: 'currency',
+  counterAccountId: 'counterAccountId',
+  invoiceId: 'invoiceId',
+  glEntryId: 'glEntryId',
+  stornoOfId: 'stornoOfId',
+  stornoReason: 'stornoReason',
+  requestKey: 'requestKey',
+  requestHash: 'requestHash',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.VatPeriodScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  legalEntityId: 'legalEntityId',
+  year: 'year',
+  month: 'month',
+  status: 'status',
+  outputVat: 'outputVat',
+  inputVat: 'inputVat',
+  payableVat: 'payableVat',
+  settlementEntryId: 'settlementEntryId',
+  filedAt: 'filedAt',
+  filedBy: 'filedBy',
+  paidAt: 'paidAt',
+  paidReference: 'paidReference',
+  paidBy: 'paidBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -2502,7 +2566,10 @@ exports.Prisma.ModelName = {
   BankStatementLine: 'BankStatementLine',
   PaymentAllocation: 'PaymentAllocation',
   Compensation: 'Compensation',
-  CompensationLine: 'CompensationLine'
+  CompensationLine: 'CompensationLine',
+  VatRate: 'VatRate',
+  VatBookEntry: 'VatBookEntry',
+  VatPeriod: 'VatPeriod'
 };
 
 /**

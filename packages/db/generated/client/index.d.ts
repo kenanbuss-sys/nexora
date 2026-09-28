@@ -838,6 +838,21 @@ export type Compensation = $Result.DefaultSelection<Prisma.$CompensationPayload>
  * 
  */
 export type CompensationLine = $Result.DefaultSelection<Prisma.$CompensationLinePayload>
+/**
+ * Model VatRate
+ * 
+ */
+export type VatRate = $Result.DefaultSelection<Prisma.$VatRatePayload>
+/**
+ * Model VatBookEntry
+ * 
+ */
+export type VatBookEntry = $Result.DefaultSelection<Prisma.$VatBookEntryPayload>
+/**
+ * Model VatPeriod
+ * 
+ */
+export type VatPeriod = $Result.DefaultSelection<Prisma.$VatPeriodPayload>
 
 /**
  * Enums
@@ -3301,6 +3316,36 @@ export class PrismaClient<
     * ```
     */
   get compensationLine(): Prisma.CompensationLineDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.vatRate`: Exposes CRUD operations for the **VatRate** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more VatRates
+    * const vatRates = await prisma.vatRate.findMany()
+    * ```
+    */
+  get vatRate(): Prisma.VatRateDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.vatBookEntry`: Exposes CRUD operations for the **VatBookEntry** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more VatBookEntries
+    * const vatBookEntries = await prisma.vatBookEntry.findMany()
+    * ```
+    */
+  get vatBookEntry(): Prisma.VatBookEntryDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.vatPeriod`: Exposes CRUD operations for the **VatPeriod** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more VatPeriods
+    * const vatPeriods = await prisma.vatPeriod.findMany()
+    * ```
+    */
+  get vatPeriod(): Prisma.VatPeriodDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -3886,7 +3931,10 @@ export namespace Prisma {
     BankStatementLine: 'BankStatementLine',
     PaymentAllocation: 'PaymentAllocation',
     Compensation: 'Compensation',
-    CompensationLine: 'CompensationLine'
+    CompensationLine: 'CompensationLine',
+    VatRate: 'VatRate',
+    VatBookEntry: 'VatBookEntry',
+    VatPeriod: 'VatPeriod'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -3905,7 +3953,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "tenant" | "tenantConfigurationVersion" | "legalEntity" | "businessUnit" | "branch" | "factory" | "user" | "userCredential" | "role" | "rolePermission" | "userRoleAssignment" | "auditEvent" | "outboxEvent" | "terminologyEntry" | "moduleActivation" | "customFieldDefinition" | "task" | "notification" | "workflowDefinition" | "workflowVersion" | "workflowInstance" | "ruleDefinition" | "ruleVersion" | "approval" | "processedEvent" | "documentTemplate" | "documentTemplateVersion" | "party" | "consentRecord" | "partyExternalIdentity" | "product" | "sku" | "barcode" | "uomConversion" | "warehouse" | "warehouseLocation" | "stockMovement" | "stockReservation" | "device" | "scanEvent" | "wmsOrder" | "wmsOrderLine" | "territory" | "salesTeam" | "salesTeamMember" | "crmAccount" | "lead" | "opportunity" | "crmActivity" | "priceList" | "priceListEntry" | "quote" | "packagingLevel" | "skuSubstitution" | "discountRule" | "quoteLine" | "salesOrder" | "salesOrderLine" | "orderEvent" | "supplier" | "purchaseRequisition" | "purchaseRequisitionLine" | "purchaseOrder" | "purchaseOrderLine" | "bom" | "bomLine" | "routing" | "routingOperation" | "engineeringChange" | "planningPolicy" | "mrpRun" | "mrpSuggestion" | "workOrder" | "workOrderOperation" | "qcPlan" | "qcPlanItem" | "qcInspection" | "qcInspectionItem" | "ncr" | "invoice" | "payment" | "portalUser" | "comment" | "attachment" | "attachmentBlob" | "numberSequence" | "exchangeRate" | "costCenter" | "budget" | "webhookSubscription" | "webhookDelivery" | "apiKey" | "securityEvent" | "productCategory" | "returnOrder" | "returnOrderLine" | "stockCount" | "stockCountLine" | "workCenter" | "downtimeEvent" | "promotion" | "promotionRedemption" | "bundleComponent" | "serialNumber" | "breakGlassGrant" | "masterDataRequest" | "loyaltyAccount" | "loyaltyTransaction" | "supportCase" | "contract" | "employee" | "asset" | "quarantineHold" | "rfq" | "rfqQuote" | "package" | "packageLine" | "landedCost" | "customObjectDefinition" | "customObjectRecord" | "frameworkAgreement" | "skuChannelContent" | "container" | "posSession" | "vehicle" | "driver" | "shipment" | "shipmentStop" | "dockAppointment" | "installedAsset" | "serviceRequest" | "serviceOrder" | "serviceOrderPart" | "rma" | "glAccount" | "glJournalEntry" | "glJournalLine" | "glSystemAccount" | "glOpeningBalanceDate" | "glPeriodLock" | "bankStatement" | "bankStatementLine" | "paymentAllocation" | "compensation" | "compensationLine"
+      modelProps: "tenant" | "tenantConfigurationVersion" | "legalEntity" | "businessUnit" | "branch" | "factory" | "user" | "userCredential" | "role" | "rolePermission" | "userRoleAssignment" | "auditEvent" | "outboxEvent" | "terminologyEntry" | "moduleActivation" | "customFieldDefinition" | "task" | "notification" | "workflowDefinition" | "workflowVersion" | "workflowInstance" | "ruleDefinition" | "ruleVersion" | "approval" | "processedEvent" | "documentTemplate" | "documentTemplateVersion" | "party" | "consentRecord" | "partyExternalIdentity" | "product" | "sku" | "barcode" | "uomConversion" | "warehouse" | "warehouseLocation" | "stockMovement" | "stockReservation" | "device" | "scanEvent" | "wmsOrder" | "wmsOrderLine" | "territory" | "salesTeam" | "salesTeamMember" | "crmAccount" | "lead" | "opportunity" | "crmActivity" | "priceList" | "priceListEntry" | "quote" | "packagingLevel" | "skuSubstitution" | "discountRule" | "quoteLine" | "salesOrder" | "salesOrderLine" | "orderEvent" | "supplier" | "purchaseRequisition" | "purchaseRequisitionLine" | "purchaseOrder" | "purchaseOrderLine" | "bom" | "bomLine" | "routing" | "routingOperation" | "engineeringChange" | "planningPolicy" | "mrpRun" | "mrpSuggestion" | "workOrder" | "workOrderOperation" | "qcPlan" | "qcPlanItem" | "qcInspection" | "qcInspectionItem" | "ncr" | "invoice" | "payment" | "portalUser" | "comment" | "attachment" | "attachmentBlob" | "numberSequence" | "exchangeRate" | "costCenter" | "budget" | "webhookSubscription" | "webhookDelivery" | "apiKey" | "securityEvent" | "productCategory" | "returnOrder" | "returnOrderLine" | "stockCount" | "stockCountLine" | "workCenter" | "downtimeEvent" | "promotion" | "promotionRedemption" | "bundleComponent" | "serialNumber" | "breakGlassGrant" | "masterDataRequest" | "loyaltyAccount" | "loyaltyTransaction" | "supportCase" | "contract" | "employee" | "asset" | "quarantineHold" | "rfq" | "rfqQuote" | "package" | "packageLine" | "landedCost" | "customObjectDefinition" | "customObjectRecord" | "frameworkAgreement" | "skuChannelContent" | "container" | "posSession" | "vehicle" | "driver" | "shipment" | "shipmentStop" | "dockAppointment" | "installedAsset" | "serviceRequest" | "serviceOrder" | "serviceOrderPart" | "rma" | "glAccount" | "glJournalEntry" | "glJournalLine" | "glSystemAccount" | "glOpeningBalanceDate" | "glPeriodLock" | "bankStatement" | "bankStatementLine" | "paymentAllocation" | "compensation" | "compensationLine" | "vatRate" | "vatBookEntry" | "vatPeriod"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -14639,6 +14687,228 @@ export namespace Prisma {
           }
         }
       }
+      VatRate: {
+        payload: Prisma.$VatRatePayload<ExtArgs>
+        fields: Prisma.VatRateFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.VatRateFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VatRatePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.VatRateFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VatRatePayload>
+          }
+          findFirst: {
+            args: Prisma.VatRateFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VatRatePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.VatRateFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VatRatePayload>
+          }
+          findMany: {
+            args: Prisma.VatRateFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VatRatePayload>[]
+          }
+          create: {
+            args: Prisma.VatRateCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VatRatePayload>
+          }
+          createMany: {
+            args: Prisma.VatRateCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.VatRateCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VatRatePayload>[]
+          }
+          delete: {
+            args: Prisma.VatRateDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VatRatePayload>
+          }
+          update: {
+            args: Prisma.VatRateUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VatRatePayload>
+          }
+          deleteMany: {
+            args: Prisma.VatRateDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.VatRateUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.VatRateUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VatRatePayload>[]
+          }
+          upsert: {
+            args: Prisma.VatRateUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VatRatePayload>
+          }
+          aggregate: {
+            args: Prisma.VatRateAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateVatRate>
+          }
+          groupBy: {
+            args: Prisma.VatRateGroupByArgs<ExtArgs>
+            result: $Utils.Optional<VatRateGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.VatRateCountArgs<ExtArgs>
+            result: $Utils.Optional<VatRateCountAggregateOutputType> | number
+          }
+        }
+      }
+      VatBookEntry: {
+        payload: Prisma.$VatBookEntryPayload<ExtArgs>
+        fields: Prisma.VatBookEntryFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.VatBookEntryFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VatBookEntryPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.VatBookEntryFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VatBookEntryPayload>
+          }
+          findFirst: {
+            args: Prisma.VatBookEntryFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VatBookEntryPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.VatBookEntryFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VatBookEntryPayload>
+          }
+          findMany: {
+            args: Prisma.VatBookEntryFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VatBookEntryPayload>[]
+          }
+          create: {
+            args: Prisma.VatBookEntryCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VatBookEntryPayload>
+          }
+          createMany: {
+            args: Prisma.VatBookEntryCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.VatBookEntryCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VatBookEntryPayload>[]
+          }
+          delete: {
+            args: Prisma.VatBookEntryDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VatBookEntryPayload>
+          }
+          update: {
+            args: Prisma.VatBookEntryUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VatBookEntryPayload>
+          }
+          deleteMany: {
+            args: Prisma.VatBookEntryDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.VatBookEntryUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.VatBookEntryUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VatBookEntryPayload>[]
+          }
+          upsert: {
+            args: Prisma.VatBookEntryUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VatBookEntryPayload>
+          }
+          aggregate: {
+            args: Prisma.VatBookEntryAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateVatBookEntry>
+          }
+          groupBy: {
+            args: Prisma.VatBookEntryGroupByArgs<ExtArgs>
+            result: $Utils.Optional<VatBookEntryGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.VatBookEntryCountArgs<ExtArgs>
+            result: $Utils.Optional<VatBookEntryCountAggregateOutputType> | number
+          }
+        }
+      }
+      VatPeriod: {
+        payload: Prisma.$VatPeriodPayload<ExtArgs>
+        fields: Prisma.VatPeriodFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.VatPeriodFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VatPeriodPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.VatPeriodFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VatPeriodPayload>
+          }
+          findFirst: {
+            args: Prisma.VatPeriodFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VatPeriodPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.VatPeriodFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VatPeriodPayload>
+          }
+          findMany: {
+            args: Prisma.VatPeriodFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VatPeriodPayload>[]
+          }
+          create: {
+            args: Prisma.VatPeriodCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VatPeriodPayload>
+          }
+          createMany: {
+            args: Prisma.VatPeriodCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.VatPeriodCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VatPeriodPayload>[]
+          }
+          delete: {
+            args: Prisma.VatPeriodDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VatPeriodPayload>
+          }
+          update: {
+            args: Prisma.VatPeriodUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VatPeriodPayload>
+          }
+          deleteMany: {
+            args: Prisma.VatPeriodDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.VatPeriodUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.VatPeriodUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VatPeriodPayload>[]
+          }
+          upsert: {
+            args: Prisma.VatPeriodUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VatPeriodPayload>
+          }
+          aggregate: {
+            args: Prisma.VatPeriodAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateVatPeriod>
+          }
+          groupBy: {
+            args: Prisma.VatPeriodGroupByArgs<ExtArgs>
+            result: $Utils.Optional<VatPeriodGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.VatPeriodCountArgs<ExtArgs>
+            result: $Utils.Optional<VatPeriodCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -14880,6 +15150,9 @@ export namespace Prisma {
     paymentAllocation?: PaymentAllocationOmit
     compensation?: CompensationOmit
     compensationLine?: CompensationLineOmit
+    vatRate?: VatRateOmit
+    vatBookEntry?: VatBookEntryOmit
+    vatPeriod?: VatPeriodOmit
   }
 
   /* Types for Logging */
@@ -15086,6 +15359,9 @@ export namespace Prisma {
     bankStatementLines: number
     paymentAllocations: number
     compensations: number
+    vatRates: number
+    vatBookEntries: number
+    vatPeriods: number
     compensationLines: number
   }
 
@@ -15216,6 +15492,9 @@ export namespace Prisma {
     bankStatementLines?: boolean | TenantCountOutputTypeCountBankStatementLinesArgs
     paymentAllocations?: boolean | TenantCountOutputTypeCountPaymentAllocationsArgs
     compensations?: boolean | TenantCountOutputTypeCountCompensationsArgs
+    vatRates?: boolean | TenantCountOutputTypeCountVatRatesArgs
+    vatBookEntries?: boolean | TenantCountOutputTypeCountVatBookEntriesArgs
+    vatPeriods?: boolean | TenantCountOutputTypeCountVatPeriodsArgs
     compensationLines?: boolean | TenantCountOutputTypeCountCompensationLinesArgs
   }
 
@@ -16110,6 +16389,27 @@ export namespace Prisma {
    */
   export type TenantCountOutputTypeCountCompensationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: CompensationWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountVatRatesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: VatRateWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountVatBookEntriesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: VatBookEntryWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountVatPeriodsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: VatPeriodWhereInput
   }
 
   /**
@@ -18172,6 +18472,9 @@ export namespace Prisma {
     bankStatementLines?: boolean | Tenant$bankStatementLinesArgs<ExtArgs>
     paymentAllocations?: boolean | Tenant$paymentAllocationsArgs<ExtArgs>
     compensations?: boolean | Tenant$compensationsArgs<ExtArgs>
+    vatRates?: boolean | Tenant$vatRatesArgs<ExtArgs>
+    vatBookEntries?: boolean | Tenant$vatBookEntriesArgs<ExtArgs>
+    vatPeriods?: boolean | Tenant$vatPeriodsArgs<ExtArgs>
     compensationLines?: boolean | Tenant$compensationLinesArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["tenant"]>
@@ -18334,6 +18637,9 @@ export namespace Prisma {
     bankStatementLines?: boolean | Tenant$bankStatementLinesArgs<ExtArgs>
     paymentAllocations?: boolean | Tenant$paymentAllocationsArgs<ExtArgs>
     compensations?: boolean | Tenant$compensationsArgs<ExtArgs>
+    vatRates?: boolean | Tenant$vatRatesArgs<ExtArgs>
+    vatBookEntries?: boolean | Tenant$vatBookEntriesArgs<ExtArgs>
+    vatPeriods?: boolean | Tenant$vatPeriodsArgs<ExtArgs>
     compensationLines?: boolean | Tenant$compensationLinesArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }
@@ -18469,6 +18775,9 @@ export namespace Prisma {
       bankStatementLines: Prisma.$BankStatementLinePayload<ExtArgs>[]
       paymentAllocations: Prisma.$PaymentAllocationPayload<ExtArgs>[]
       compensations: Prisma.$CompensationPayload<ExtArgs>[]
+      vatRates: Prisma.$VatRatePayload<ExtArgs>[]
+      vatBookEntries: Prisma.$VatBookEntryPayload<ExtArgs>[]
+      vatPeriods: Prisma.$VatPeriodPayload<ExtArgs>[]
       compensationLines: Prisma.$CompensationLinePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -18999,6 +19308,9 @@ export namespace Prisma {
     bankStatementLines<T extends Tenant$bankStatementLinesArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$bankStatementLinesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BankStatementLinePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     paymentAllocations<T extends Tenant$paymentAllocationsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$paymentAllocationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentAllocationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     compensations<T extends Tenant$compensationsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$compensationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CompensationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    vatRates<T extends Tenant$vatRatesArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$vatRatesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VatRatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    vatBookEntries<T extends Tenant$vatBookEntriesArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$vatBookEntriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VatBookEntryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    vatPeriods<T extends Tenant$vatPeriodsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$vatPeriodsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VatPeriodPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     compensationLines<T extends Tenant$compensationLinesArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$compensationLinesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CompensationLinePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -22445,6 +22757,78 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: CompensationScalarFieldEnum | CompensationScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.vatRates
+   */
+  export type Tenant$vatRatesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VatRate
+     */
+    select?: VatRateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VatRate
+     */
+    omit?: VatRateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VatRateInclude<ExtArgs> | null
+    where?: VatRateWhereInput
+    orderBy?: VatRateOrderByWithRelationInput | VatRateOrderByWithRelationInput[]
+    cursor?: VatRateWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: VatRateScalarFieldEnum | VatRateScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.vatBookEntries
+   */
+  export type Tenant$vatBookEntriesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VatBookEntry
+     */
+    select?: VatBookEntrySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VatBookEntry
+     */
+    omit?: VatBookEntryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VatBookEntryInclude<ExtArgs> | null
+    where?: VatBookEntryWhereInput
+    orderBy?: VatBookEntryOrderByWithRelationInput | VatBookEntryOrderByWithRelationInput[]
+    cursor?: VatBookEntryWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: VatBookEntryScalarFieldEnum | VatBookEntryScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.vatPeriods
+   */
+  export type Tenant$vatPeriodsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VatPeriod
+     */
+    select?: VatPeriodSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VatPeriod
+     */
+    omit?: VatPeriodOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VatPeriodInclude<ExtArgs> | null
+    where?: VatPeriodWhereInput
+    orderBy?: VatPeriodOrderByWithRelationInput | VatPeriodOrderByWithRelationInput[]
+    cursor?: VatPeriodWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: VatPeriodScalarFieldEnum | VatPeriodScalarFieldEnum[]
   }
 
   /**
@@ -188445,6 +188829,3848 @@ export namespace Prisma {
 
 
   /**
+   * Model VatRate
+   */
+
+  export type AggregateVatRate = {
+    _count: VatRateCountAggregateOutputType | null
+    _avg: VatRateAvgAggregateOutputType | null
+    _sum: VatRateSumAggregateOutputType | null
+    _min: VatRateMinAggregateOutputType | null
+    _max: VatRateMaxAggregateOutputType | null
+  }
+
+  export type VatRateAvgAggregateOutputType = {
+    ratePct: Decimal | null
+  }
+
+  export type VatRateSumAggregateOutputType = {
+    ratePct: Decimal | null
+  }
+
+  export type VatRateMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    legalEntityId: string | null
+    code: string | null
+    name: string | null
+    ratePct: Decimal | null
+    validFrom: Date | null
+    createdBy: string | null
+    createdAt: Date | null
+  }
+
+  export type VatRateMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    legalEntityId: string | null
+    code: string | null
+    name: string | null
+    ratePct: Decimal | null
+    validFrom: Date | null
+    createdBy: string | null
+    createdAt: Date | null
+  }
+
+  export type VatRateCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    legalEntityId: number
+    code: number
+    name: number
+    ratePct: number
+    validFrom: number
+    createdBy: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type VatRateAvgAggregateInputType = {
+    ratePct?: true
+  }
+
+  export type VatRateSumAggregateInputType = {
+    ratePct?: true
+  }
+
+  export type VatRateMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    legalEntityId?: true
+    code?: true
+    name?: true
+    ratePct?: true
+    validFrom?: true
+    createdBy?: true
+    createdAt?: true
+  }
+
+  export type VatRateMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    legalEntityId?: true
+    code?: true
+    name?: true
+    ratePct?: true
+    validFrom?: true
+    createdBy?: true
+    createdAt?: true
+  }
+
+  export type VatRateCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    legalEntityId?: true
+    code?: true
+    name?: true
+    ratePct?: true
+    validFrom?: true
+    createdBy?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type VatRateAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which VatRate to aggregate.
+     */
+    where?: VatRateWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of VatRates to fetch.
+     */
+    orderBy?: VatRateOrderByWithRelationInput | VatRateOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: VatRateWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` VatRates from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` VatRates.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned VatRates
+    **/
+    _count?: true | VatRateCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: VatRateAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: VatRateSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: VatRateMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: VatRateMaxAggregateInputType
+  }
+
+  export type GetVatRateAggregateType<T extends VatRateAggregateArgs> = {
+        [P in keyof T & keyof AggregateVatRate]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateVatRate[P]>
+      : GetScalarType<T[P], AggregateVatRate[P]>
+  }
+
+
+
+
+  export type VatRateGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: VatRateWhereInput
+    orderBy?: VatRateOrderByWithAggregationInput | VatRateOrderByWithAggregationInput[]
+    by: VatRateScalarFieldEnum[] | VatRateScalarFieldEnum
+    having?: VatRateScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: VatRateCountAggregateInputType | true
+    _avg?: VatRateAvgAggregateInputType
+    _sum?: VatRateSumAggregateInputType
+    _min?: VatRateMinAggregateInputType
+    _max?: VatRateMaxAggregateInputType
+  }
+
+  export type VatRateGroupByOutputType = {
+    id: string
+    tenantId: string
+    legalEntityId: string
+    code: string
+    name: string
+    ratePct: Decimal
+    validFrom: Date
+    createdBy: string | null
+    createdAt: Date
+    _count: VatRateCountAggregateOutputType | null
+    _avg: VatRateAvgAggregateOutputType | null
+    _sum: VatRateSumAggregateOutputType | null
+    _min: VatRateMinAggregateOutputType | null
+    _max: VatRateMaxAggregateOutputType | null
+  }
+
+  type GetVatRateGroupByPayload<T extends VatRateGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<VatRateGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof VatRateGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], VatRateGroupByOutputType[P]>
+            : GetScalarType<T[P], VatRateGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type VatRateSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    legalEntityId?: boolean
+    code?: boolean
+    name?: boolean
+    ratePct?: boolean
+    validFrom?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["vatRate"]>
+
+  export type VatRateSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    legalEntityId?: boolean
+    code?: boolean
+    name?: boolean
+    ratePct?: boolean
+    validFrom?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["vatRate"]>
+
+  export type VatRateSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    legalEntityId?: boolean
+    code?: boolean
+    name?: boolean
+    ratePct?: boolean
+    validFrom?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["vatRate"]>
+
+  export type VatRateSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    legalEntityId?: boolean
+    code?: boolean
+    name?: boolean
+    ratePct?: boolean
+    validFrom?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+  }
+
+  export type VatRateOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "legalEntityId" | "code" | "name" | "ratePct" | "validFrom" | "createdBy" | "createdAt", ExtArgs["result"]["vatRate"]>
+  export type VatRateInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type VatRateIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type VatRateIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+
+  export type $VatRatePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "VatRate"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      legalEntityId: string
+      code: string
+      name: string
+      ratePct: Prisma.Decimal
+      validFrom: Date
+      createdBy: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["vatRate"]>
+    composites: {}
+  }
+
+  type VatRateGetPayload<S extends boolean | null | undefined | VatRateDefaultArgs> = $Result.GetResult<Prisma.$VatRatePayload, S>
+
+  type VatRateCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<VatRateFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: VatRateCountAggregateInputType | true
+    }
+
+  export interface VatRateDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['VatRate'], meta: { name: 'VatRate' } }
+    /**
+     * Find zero or one VatRate that matches the filter.
+     * @param {VatRateFindUniqueArgs} args - Arguments to find a VatRate
+     * @example
+     * // Get one VatRate
+     * const vatRate = await prisma.vatRate.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends VatRateFindUniqueArgs>(args: SelectSubset<T, VatRateFindUniqueArgs<ExtArgs>>): Prisma__VatRateClient<$Result.GetResult<Prisma.$VatRatePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one VatRate that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {VatRateFindUniqueOrThrowArgs} args - Arguments to find a VatRate
+     * @example
+     * // Get one VatRate
+     * const vatRate = await prisma.vatRate.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends VatRateFindUniqueOrThrowArgs>(args: SelectSubset<T, VatRateFindUniqueOrThrowArgs<ExtArgs>>): Prisma__VatRateClient<$Result.GetResult<Prisma.$VatRatePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first VatRate that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VatRateFindFirstArgs} args - Arguments to find a VatRate
+     * @example
+     * // Get one VatRate
+     * const vatRate = await prisma.vatRate.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends VatRateFindFirstArgs>(args?: SelectSubset<T, VatRateFindFirstArgs<ExtArgs>>): Prisma__VatRateClient<$Result.GetResult<Prisma.$VatRatePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first VatRate that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VatRateFindFirstOrThrowArgs} args - Arguments to find a VatRate
+     * @example
+     * // Get one VatRate
+     * const vatRate = await prisma.vatRate.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends VatRateFindFirstOrThrowArgs>(args?: SelectSubset<T, VatRateFindFirstOrThrowArgs<ExtArgs>>): Prisma__VatRateClient<$Result.GetResult<Prisma.$VatRatePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more VatRates that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VatRateFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all VatRates
+     * const vatRates = await prisma.vatRate.findMany()
+     * 
+     * // Get first 10 VatRates
+     * const vatRates = await prisma.vatRate.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const vatRateWithIdOnly = await prisma.vatRate.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends VatRateFindManyArgs>(args?: SelectSubset<T, VatRateFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VatRatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a VatRate.
+     * @param {VatRateCreateArgs} args - Arguments to create a VatRate.
+     * @example
+     * // Create one VatRate
+     * const VatRate = await prisma.vatRate.create({
+     *   data: {
+     *     // ... data to create a VatRate
+     *   }
+     * })
+     * 
+     */
+    create<T extends VatRateCreateArgs>(args: SelectSubset<T, VatRateCreateArgs<ExtArgs>>): Prisma__VatRateClient<$Result.GetResult<Prisma.$VatRatePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many VatRates.
+     * @param {VatRateCreateManyArgs} args - Arguments to create many VatRates.
+     * @example
+     * // Create many VatRates
+     * const vatRate = await prisma.vatRate.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends VatRateCreateManyArgs>(args?: SelectSubset<T, VatRateCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many VatRates and returns the data saved in the database.
+     * @param {VatRateCreateManyAndReturnArgs} args - Arguments to create many VatRates.
+     * @example
+     * // Create many VatRates
+     * const vatRate = await prisma.vatRate.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many VatRates and only return the `id`
+     * const vatRateWithIdOnly = await prisma.vatRate.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends VatRateCreateManyAndReturnArgs>(args?: SelectSubset<T, VatRateCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VatRatePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a VatRate.
+     * @param {VatRateDeleteArgs} args - Arguments to delete one VatRate.
+     * @example
+     * // Delete one VatRate
+     * const VatRate = await prisma.vatRate.delete({
+     *   where: {
+     *     // ... filter to delete one VatRate
+     *   }
+     * })
+     * 
+     */
+    delete<T extends VatRateDeleteArgs>(args: SelectSubset<T, VatRateDeleteArgs<ExtArgs>>): Prisma__VatRateClient<$Result.GetResult<Prisma.$VatRatePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one VatRate.
+     * @param {VatRateUpdateArgs} args - Arguments to update one VatRate.
+     * @example
+     * // Update one VatRate
+     * const vatRate = await prisma.vatRate.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends VatRateUpdateArgs>(args: SelectSubset<T, VatRateUpdateArgs<ExtArgs>>): Prisma__VatRateClient<$Result.GetResult<Prisma.$VatRatePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more VatRates.
+     * @param {VatRateDeleteManyArgs} args - Arguments to filter VatRates to delete.
+     * @example
+     * // Delete a few VatRates
+     * const { count } = await prisma.vatRate.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends VatRateDeleteManyArgs>(args?: SelectSubset<T, VatRateDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more VatRates.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VatRateUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many VatRates
+     * const vatRate = await prisma.vatRate.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends VatRateUpdateManyArgs>(args: SelectSubset<T, VatRateUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more VatRates and returns the data updated in the database.
+     * @param {VatRateUpdateManyAndReturnArgs} args - Arguments to update many VatRates.
+     * @example
+     * // Update many VatRates
+     * const vatRate = await prisma.vatRate.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more VatRates and only return the `id`
+     * const vatRateWithIdOnly = await prisma.vatRate.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends VatRateUpdateManyAndReturnArgs>(args: SelectSubset<T, VatRateUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VatRatePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one VatRate.
+     * @param {VatRateUpsertArgs} args - Arguments to update or create a VatRate.
+     * @example
+     * // Update or create a VatRate
+     * const vatRate = await prisma.vatRate.upsert({
+     *   create: {
+     *     // ... data to create a VatRate
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the VatRate we want to update
+     *   }
+     * })
+     */
+    upsert<T extends VatRateUpsertArgs>(args: SelectSubset<T, VatRateUpsertArgs<ExtArgs>>): Prisma__VatRateClient<$Result.GetResult<Prisma.$VatRatePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of VatRates.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VatRateCountArgs} args - Arguments to filter VatRates to count.
+     * @example
+     * // Count the number of VatRates
+     * const count = await prisma.vatRate.count({
+     *   where: {
+     *     // ... the filter for the VatRates we want to count
+     *   }
+     * })
+    **/
+    count<T extends VatRateCountArgs>(
+      args?: Subset<T, VatRateCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], VatRateCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a VatRate.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VatRateAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends VatRateAggregateArgs>(args: Subset<T, VatRateAggregateArgs>): Prisma.PrismaPromise<GetVatRateAggregateType<T>>
+
+    /**
+     * Group by VatRate.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VatRateGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends VatRateGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: VatRateGroupByArgs['orderBy'] }
+        : { orderBy?: VatRateGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, VatRateGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetVatRateGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the VatRate model
+   */
+  readonly fields: VatRateFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for VatRate.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__VatRateClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the VatRate model
+   */
+  interface VatRateFieldRefs {
+    readonly id: FieldRef<"VatRate", 'String'>
+    readonly tenantId: FieldRef<"VatRate", 'String'>
+    readonly legalEntityId: FieldRef<"VatRate", 'String'>
+    readonly code: FieldRef<"VatRate", 'String'>
+    readonly name: FieldRef<"VatRate", 'String'>
+    readonly ratePct: FieldRef<"VatRate", 'Decimal'>
+    readonly validFrom: FieldRef<"VatRate", 'DateTime'>
+    readonly createdBy: FieldRef<"VatRate", 'String'>
+    readonly createdAt: FieldRef<"VatRate", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * VatRate findUnique
+   */
+  export type VatRateFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VatRate
+     */
+    select?: VatRateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VatRate
+     */
+    omit?: VatRateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VatRateInclude<ExtArgs> | null
+    /**
+     * Filter, which VatRate to fetch.
+     */
+    where: VatRateWhereUniqueInput
+  }
+
+  /**
+   * VatRate findUniqueOrThrow
+   */
+  export type VatRateFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VatRate
+     */
+    select?: VatRateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VatRate
+     */
+    omit?: VatRateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VatRateInclude<ExtArgs> | null
+    /**
+     * Filter, which VatRate to fetch.
+     */
+    where: VatRateWhereUniqueInput
+  }
+
+  /**
+   * VatRate findFirst
+   */
+  export type VatRateFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VatRate
+     */
+    select?: VatRateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VatRate
+     */
+    omit?: VatRateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VatRateInclude<ExtArgs> | null
+    /**
+     * Filter, which VatRate to fetch.
+     */
+    where?: VatRateWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of VatRates to fetch.
+     */
+    orderBy?: VatRateOrderByWithRelationInput | VatRateOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for VatRates.
+     */
+    cursor?: VatRateWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` VatRates from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` VatRates.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of VatRates.
+     */
+    distinct?: VatRateScalarFieldEnum | VatRateScalarFieldEnum[]
+  }
+
+  /**
+   * VatRate findFirstOrThrow
+   */
+  export type VatRateFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VatRate
+     */
+    select?: VatRateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VatRate
+     */
+    omit?: VatRateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VatRateInclude<ExtArgs> | null
+    /**
+     * Filter, which VatRate to fetch.
+     */
+    where?: VatRateWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of VatRates to fetch.
+     */
+    orderBy?: VatRateOrderByWithRelationInput | VatRateOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for VatRates.
+     */
+    cursor?: VatRateWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` VatRates from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` VatRates.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of VatRates.
+     */
+    distinct?: VatRateScalarFieldEnum | VatRateScalarFieldEnum[]
+  }
+
+  /**
+   * VatRate findMany
+   */
+  export type VatRateFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VatRate
+     */
+    select?: VatRateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VatRate
+     */
+    omit?: VatRateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VatRateInclude<ExtArgs> | null
+    /**
+     * Filter, which VatRates to fetch.
+     */
+    where?: VatRateWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of VatRates to fetch.
+     */
+    orderBy?: VatRateOrderByWithRelationInput | VatRateOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing VatRates.
+     */
+    cursor?: VatRateWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` VatRates from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` VatRates.
+     */
+    skip?: number
+    distinct?: VatRateScalarFieldEnum | VatRateScalarFieldEnum[]
+  }
+
+  /**
+   * VatRate create
+   */
+  export type VatRateCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VatRate
+     */
+    select?: VatRateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VatRate
+     */
+    omit?: VatRateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VatRateInclude<ExtArgs> | null
+    /**
+     * The data needed to create a VatRate.
+     */
+    data: XOR<VatRateCreateInput, VatRateUncheckedCreateInput>
+  }
+
+  /**
+   * VatRate createMany
+   */
+  export type VatRateCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many VatRates.
+     */
+    data: VatRateCreateManyInput | VatRateCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * VatRate createManyAndReturn
+   */
+  export type VatRateCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VatRate
+     */
+    select?: VatRateSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the VatRate
+     */
+    omit?: VatRateOmit<ExtArgs> | null
+    /**
+     * The data used to create many VatRates.
+     */
+    data: VatRateCreateManyInput | VatRateCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VatRateIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * VatRate update
+   */
+  export type VatRateUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VatRate
+     */
+    select?: VatRateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VatRate
+     */
+    omit?: VatRateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VatRateInclude<ExtArgs> | null
+    /**
+     * The data needed to update a VatRate.
+     */
+    data: XOR<VatRateUpdateInput, VatRateUncheckedUpdateInput>
+    /**
+     * Choose, which VatRate to update.
+     */
+    where: VatRateWhereUniqueInput
+  }
+
+  /**
+   * VatRate updateMany
+   */
+  export type VatRateUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update VatRates.
+     */
+    data: XOR<VatRateUpdateManyMutationInput, VatRateUncheckedUpdateManyInput>
+    /**
+     * Filter which VatRates to update
+     */
+    where?: VatRateWhereInput
+    /**
+     * Limit how many VatRates to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * VatRate updateManyAndReturn
+   */
+  export type VatRateUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VatRate
+     */
+    select?: VatRateSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the VatRate
+     */
+    omit?: VatRateOmit<ExtArgs> | null
+    /**
+     * The data used to update VatRates.
+     */
+    data: XOR<VatRateUpdateManyMutationInput, VatRateUncheckedUpdateManyInput>
+    /**
+     * Filter which VatRates to update
+     */
+    where?: VatRateWhereInput
+    /**
+     * Limit how many VatRates to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VatRateIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * VatRate upsert
+   */
+  export type VatRateUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VatRate
+     */
+    select?: VatRateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VatRate
+     */
+    omit?: VatRateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VatRateInclude<ExtArgs> | null
+    /**
+     * The filter to search for the VatRate to update in case it exists.
+     */
+    where: VatRateWhereUniqueInput
+    /**
+     * In case the VatRate found by the `where` argument doesn't exist, create a new VatRate with this data.
+     */
+    create: XOR<VatRateCreateInput, VatRateUncheckedCreateInput>
+    /**
+     * In case the VatRate was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<VatRateUpdateInput, VatRateUncheckedUpdateInput>
+  }
+
+  /**
+   * VatRate delete
+   */
+  export type VatRateDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VatRate
+     */
+    select?: VatRateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VatRate
+     */
+    omit?: VatRateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VatRateInclude<ExtArgs> | null
+    /**
+     * Filter which VatRate to delete.
+     */
+    where: VatRateWhereUniqueInput
+  }
+
+  /**
+   * VatRate deleteMany
+   */
+  export type VatRateDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which VatRates to delete
+     */
+    where?: VatRateWhereInput
+    /**
+     * Limit how many VatRates to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * VatRate without action
+   */
+  export type VatRateDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VatRate
+     */
+    select?: VatRateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VatRate
+     */
+    omit?: VatRateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VatRateInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model VatBookEntry
+   */
+
+  export type AggregateVatBookEntry = {
+    _count: VatBookEntryCountAggregateOutputType | null
+    _avg: VatBookEntryAvgAggregateOutputType | null
+    _sum: VatBookEntrySumAggregateOutputType | null
+    _min: VatBookEntryMinAggregateOutputType | null
+    _max: VatBookEntryMaxAggregateOutputType | null
+  }
+
+  export type VatBookEntryAvgAggregateOutputType = {
+    year: number | null
+    bookNo: number | null
+    ratePct: Decimal | null
+    netAmount: Decimal | null
+    vatAmount: Decimal | null
+    grossAmount: Decimal | null
+  }
+
+  export type VatBookEntrySumAggregateOutputType = {
+    year: number | null
+    bookNo: number | null
+    ratePct: Decimal | null
+    netAmount: Decimal | null
+    vatAmount: Decimal | null
+    grossAmount: Decimal | null
+  }
+
+  export type VatBookEntryMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    legalEntityId: string | null
+    bookType: string | null
+    year: number | null
+    bookNo: number | null
+    status: string | null
+    documentNumber: string | null
+    documentDate: Date | null
+    bookingDate: Date | null
+    partnerId: string | null
+    partnerName: string | null
+    partnerTaxId: string | null
+    vatRateCode: string | null
+    ratePct: Decimal | null
+    netAmount: Decimal | null
+    vatAmount: Decimal | null
+    grossAmount: Decimal | null
+    currency: string | null
+    counterAccountId: string | null
+    invoiceId: string | null
+    glEntryId: string | null
+    stornoOfId: string | null
+    stornoReason: string | null
+    requestKey: string | null
+    requestHash: string | null
+    createdBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type VatBookEntryMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    legalEntityId: string | null
+    bookType: string | null
+    year: number | null
+    bookNo: number | null
+    status: string | null
+    documentNumber: string | null
+    documentDate: Date | null
+    bookingDate: Date | null
+    partnerId: string | null
+    partnerName: string | null
+    partnerTaxId: string | null
+    vatRateCode: string | null
+    ratePct: Decimal | null
+    netAmount: Decimal | null
+    vatAmount: Decimal | null
+    grossAmount: Decimal | null
+    currency: string | null
+    counterAccountId: string | null
+    invoiceId: string | null
+    glEntryId: string | null
+    stornoOfId: string | null
+    stornoReason: string | null
+    requestKey: string | null
+    requestHash: string | null
+    createdBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type VatBookEntryCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    legalEntityId: number
+    bookType: number
+    year: number
+    bookNo: number
+    status: number
+    documentNumber: number
+    documentDate: number
+    bookingDate: number
+    partnerId: number
+    partnerName: number
+    partnerTaxId: number
+    vatRateCode: number
+    ratePct: number
+    netAmount: number
+    vatAmount: number
+    grossAmount: number
+    currency: number
+    counterAccountId: number
+    invoiceId: number
+    glEntryId: number
+    stornoOfId: number
+    stornoReason: number
+    requestKey: number
+    requestHash: number
+    createdBy: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type VatBookEntryAvgAggregateInputType = {
+    year?: true
+    bookNo?: true
+    ratePct?: true
+    netAmount?: true
+    vatAmount?: true
+    grossAmount?: true
+  }
+
+  export type VatBookEntrySumAggregateInputType = {
+    year?: true
+    bookNo?: true
+    ratePct?: true
+    netAmount?: true
+    vatAmount?: true
+    grossAmount?: true
+  }
+
+  export type VatBookEntryMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    legalEntityId?: true
+    bookType?: true
+    year?: true
+    bookNo?: true
+    status?: true
+    documentNumber?: true
+    documentDate?: true
+    bookingDate?: true
+    partnerId?: true
+    partnerName?: true
+    partnerTaxId?: true
+    vatRateCode?: true
+    ratePct?: true
+    netAmount?: true
+    vatAmount?: true
+    grossAmount?: true
+    currency?: true
+    counterAccountId?: true
+    invoiceId?: true
+    glEntryId?: true
+    stornoOfId?: true
+    stornoReason?: true
+    requestKey?: true
+    requestHash?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type VatBookEntryMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    legalEntityId?: true
+    bookType?: true
+    year?: true
+    bookNo?: true
+    status?: true
+    documentNumber?: true
+    documentDate?: true
+    bookingDate?: true
+    partnerId?: true
+    partnerName?: true
+    partnerTaxId?: true
+    vatRateCode?: true
+    ratePct?: true
+    netAmount?: true
+    vatAmount?: true
+    grossAmount?: true
+    currency?: true
+    counterAccountId?: true
+    invoiceId?: true
+    glEntryId?: true
+    stornoOfId?: true
+    stornoReason?: true
+    requestKey?: true
+    requestHash?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type VatBookEntryCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    legalEntityId?: true
+    bookType?: true
+    year?: true
+    bookNo?: true
+    status?: true
+    documentNumber?: true
+    documentDate?: true
+    bookingDate?: true
+    partnerId?: true
+    partnerName?: true
+    partnerTaxId?: true
+    vatRateCode?: true
+    ratePct?: true
+    netAmount?: true
+    vatAmount?: true
+    grossAmount?: true
+    currency?: true
+    counterAccountId?: true
+    invoiceId?: true
+    glEntryId?: true
+    stornoOfId?: true
+    stornoReason?: true
+    requestKey?: true
+    requestHash?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type VatBookEntryAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which VatBookEntry to aggregate.
+     */
+    where?: VatBookEntryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of VatBookEntries to fetch.
+     */
+    orderBy?: VatBookEntryOrderByWithRelationInput | VatBookEntryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: VatBookEntryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` VatBookEntries from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` VatBookEntries.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned VatBookEntries
+    **/
+    _count?: true | VatBookEntryCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: VatBookEntryAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: VatBookEntrySumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: VatBookEntryMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: VatBookEntryMaxAggregateInputType
+  }
+
+  export type GetVatBookEntryAggregateType<T extends VatBookEntryAggregateArgs> = {
+        [P in keyof T & keyof AggregateVatBookEntry]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateVatBookEntry[P]>
+      : GetScalarType<T[P], AggregateVatBookEntry[P]>
+  }
+
+
+
+
+  export type VatBookEntryGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: VatBookEntryWhereInput
+    orderBy?: VatBookEntryOrderByWithAggregationInput | VatBookEntryOrderByWithAggregationInput[]
+    by: VatBookEntryScalarFieldEnum[] | VatBookEntryScalarFieldEnum
+    having?: VatBookEntryScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: VatBookEntryCountAggregateInputType | true
+    _avg?: VatBookEntryAvgAggregateInputType
+    _sum?: VatBookEntrySumAggregateInputType
+    _min?: VatBookEntryMinAggregateInputType
+    _max?: VatBookEntryMaxAggregateInputType
+  }
+
+  export type VatBookEntryGroupByOutputType = {
+    id: string
+    tenantId: string
+    legalEntityId: string
+    bookType: string
+    year: number
+    bookNo: number
+    status: string
+    documentNumber: string
+    documentDate: Date
+    bookingDate: Date
+    partnerId: string
+    partnerName: string
+    partnerTaxId: string | null
+    vatRateCode: string
+    ratePct: Decimal
+    netAmount: Decimal
+    vatAmount: Decimal
+    grossAmount: Decimal
+    currency: string
+    counterAccountId: string
+    invoiceId: string | null
+    glEntryId: string | null
+    stornoOfId: string | null
+    stornoReason: string | null
+    requestKey: string
+    requestHash: string
+    createdBy: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: VatBookEntryCountAggregateOutputType | null
+    _avg: VatBookEntryAvgAggregateOutputType | null
+    _sum: VatBookEntrySumAggregateOutputType | null
+    _min: VatBookEntryMinAggregateOutputType | null
+    _max: VatBookEntryMaxAggregateOutputType | null
+  }
+
+  type GetVatBookEntryGroupByPayload<T extends VatBookEntryGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<VatBookEntryGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof VatBookEntryGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], VatBookEntryGroupByOutputType[P]>
+            : GetScalarType<T[P], VatBookEntryGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type VatBookEntrySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    legalEntityId?: boolean
+    bookType?: boolean
+    year?: boolean
+    bookNo?: boolean
+    status?: boolean
+    documentNumber?: boolean
+    documentDate?: boolean
+    bookingDate?: boolean
+    partnerId?: boolean
+    partnerName?: boolean
+    partnerTaxId?: boolean
+    vatRateCode?: boolean
+    ratePct?: boolean
+    netAmount?: boolean
+    vatAmount?: boolean
+    grossAmount?: boolean
+    currency?: boolean
+    counterAccountId?: boolean
+    invoiceId?: boolean
+    glEntryId?: boolean
+    stornoOfId?: boolean
+    stornoReason?: boolean
+    requestKey?: boolean
+    requestHash?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["vatBookEntry"]>
+
+  export type VatBookEntrySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    legalEntityId?: boolean
+    bookType?: boolean
+    year?: boolean
+    bookNo?: boolean
+    status?: boolean
+    documentNumber?: boolean
+    documentDate?: boolean
+    bookingDate?: boolean
+    partnerId?: boolean
+    partnerName?: boolean
+    partnerTaxId?: boolean
+    vatRateCode?: boolean
+    ratePct?: boolean
+    netAmount?: boolean
+    vatAmount?: boolean
+    grossAmount?: boolean
+    currency?: boolean
+    counterAccountId?: boolean
+    invoiceId?: boolean
+    glEntryId?: boolean
+    stornoOfId?: boolean
+    stornoReason?: boolean
+    requestKey?: boolean
+    requestHash?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["vatBookEntry"]>
+
+  export type VatBookEntrySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    legalEntityId?: boolean
+    bookType?: boolean
+    year?: boolean
+    bookNo?: boolean
+    status?: boolean
+    documentNumber?: boolean
+    documentDate?: boolean
+    bookingDate?: boolean
+    partnerId?: boolean
+    partnerName?: boolean
+    partnerTaxId?: boolean
+    vatRateCode?: boolean
+    ratePct?: boolean
+    netAmount?: boolean
+    vatAmount?: boolean
+    grossAmount?: boolean
+    currency?: boolean
+    counterAccountId?: boolean
+    invoiceId?: boolean
+    glEntryId?: boolean
+    stornoOfId?: boolean
+    stornoReason?: boolean
+    requestKey?: boolean
+    requestHash?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["vatBookEntry"]>
+
+  export type VatBookEntrySelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    legalEntityId?: boolean
+    bookType?: boolean
+    year?: boolean
+    bookNo?: boolean
+    status?: boolean
+    documentNumber?: boolean
+    documentDate?: boolean
+    bookingDate?: boolean
+    partnerId?: boolean
+    partnerName?: boolean
+    partnerTaxId?: boolean
+    vatRateCode?: boolean
+    ratePct?: boolean
+    netAmount?: boolean
+    vatAmount?: boolean
+    grossAmount?: boolean
+    currency?: boolean
+    counterAccountId?: boolean
+    invoiceId?: boolean
+    glEntryId?: boolean
+    stornoOfId?: boolean
+    stornoReason?: boolean
+    requestKey?: boolean
+    requestHash?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type VatBookEntryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "legalEntityId" | "bookType" | "year" | "bookNo" | "status" | "documentNumber" | "documentDate" | "bookingDate" | "partnerId" | "partnerName" | "partnerTaxId" | "vatRateCode" | "ratePct" | "netAmount" | "vatAmount" | "grossAmount" | "currency" | "counterAccountId" | "invoiceId" | "glEntryId" | "stornoOfId" | "stornoReason" | "requestKey" | "requestHash" | "createdBy" | "createdAt" | "updatedAt", ExtArgs["result"]["vatBookEntry"]>
+  export type VatBookEntryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type VatBookEntryIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type VatBookEntryIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+
+  export type $VatBookEntryPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "VatBookEntry"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      legalEntityId: string
+      /**
+       * KUF (input / supplier invoices) or KIF (output / customer invoices).
+       */
+      bookType: string
+      year: number
+      bookNo: number
+      /**
+       * PENDING until its ledger entry is posted; RECORDED; STORNOED
+       * (original, corrected); STORNO (the negative mirror row).
+       */
+      status: string
+      documentNumber: string
+      documentDate: Date
+      bookingDate: Date
+      partnerId: string
+      partnerName: string
+      partnerTaxId: string | null
+      vatRateCode: string
+      ratePct: Prisma.Decimal
+      netAmount: Prisma.Decimal
+      vatAmount: Prisma.Decimal
+      grossAmount: Prisma.Decimal
+      currency: string
+      counterAccountId: string
+      invoiceId: string | null
+      glEntryId: string | null
+      stornoOfId: string | null
+      stornoReason: string | null
+      requestKey: string
+      requestHash: string
+      createdBy: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["vatBookEntry"]>
+    composites: {}
+  }
+
+  type VatBookEntryGetPayload<S extends boolean | null | undefined | VatBookEntryDefaultArgs> = $Result.GetResult<Prisma.$VatBookEntryPayload, S>
+
+  type VatBookEntryCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<VatBookEntryFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: VatBookEntryCountAggregateInputType | true
+    }
+
+  export interface VatBookEntryDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['VatBookEntry'], meta: { name: 'VatBookEntry' } }
+    /**
+     * Find zero or one VatBookEntry that matches the filter.
+     * @param {VatBookEntryFindUniqueArgs} args - Arguments to find a VatBookEntry
+     * @example
+     * // Get one VatBookEntry
+     * const vatBookEntry = await prisma.vatBookEntry.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends VatBookEntryFindUniqueArgs>(args: SelectSubset<T, VatBookEntryFindUniqueArgs<ExtArgs>>): Prisma__VatBookEntryClient<$Result.GetResult<Prisma.$VatBookEntryPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one VatBookEntry that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {VatBookEntryFindUniqueOrThrowArgs} args - Arguments to find a VatBookEntry
+     * @example
+     * // Get one VatBookEntry
+     * const vatBookEntry = await prisma.vatBookEntry.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends VatBookEntryFindUniqueOrThrowArgs>(args: SelectSubset<T, VatBookEntryFindUniqueOrThrowArgs<ExtArgs>>): Prisma__VatBookEntryClient<$Result.GetResult<Prisma.$VatBookEntryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first VatBookEntry that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VatBookEntryFindFirstArgs} args - Arguments to find a VatBookEntry
+     * @example
+     * // Get one VatBookEntry
+     * const vatBookEntry = await prisma.vatBookEntry.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends VatBookEntryFindFirstArgs>(args?: SelectSubset<T, VatBookEntryFindFirstArgs<ExtArgs>>): Prisma__VatBookEntryClient<$Result.GetResult<Prisma.$VatBookEntryPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first VatBookEntry that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VatBookEntryFindFirstOrThrowArgs} args - Arguments to find a VatBookEntry
+     * @example
+     * // Get one VatBookEntry
+     * const vatBookEntry = await prisma.vatBookEntry.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends VatBookEntryFindFirstOrThrowArgs>(args?: SelectSubset<T, VatBookEntryFindFirstOrThrowArgs<ExtArgs>>): Prisma__VatBookEntryClient<$Result.GetResult<Prisma.$VatBookEntryPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more VatBookEntries that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VatBookEntryFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all VatBookEntries
+     * const vatBookEntries = await prisma.vatBookEntry.findMany()
+     * 
+     * // Get first 10 VatBookEntries
+     * const vatBookEntries = await prisma.vatBookEntry.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const vatBookEntryWithIdOnly = await prisma.vatBookEntry.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends VatBookEntryFindManyArgs>(args?: SelectSubset<T, VatBookEntryFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VatBookEntryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a VatBookEntry.
+     * @param {VatBookEntryCreateArgs} args - Arguments to create a VatBookEntry.
+     * @example
+     * // Create one VatBookEntry
+     * const VatBookEntry = await prisma.vatBookEntry.create({
+     *   data: {
+     *     // ... data to create a VatBookEntry
+     *   }
+     * })
+     * 
+     */
+    create<T extends VatBookEntryCreateArgs>(args: SelectSubset<T, VatBookEntryCreateArgs<ExtArgs>>): Prisma__VatBookEntryClient<$Result.GetResult<Prisma.$VatBookEntryPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many VatBookEntries.
+     * @param {VatBookEntryCreateManyArgs} args - Arguments to create many VatBookEntries.
+     * @example
+     * // Create many VatBookEntries
+     * const vatBookEntry = await prisma.vatBookEntry.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends VatBookEntryCreateManyArgs>(args?: SelectSubset<T, VatBookEntryCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many VatBookEntries and returns the data saved in the database.
+     * @param {VatBookEntryCreateManyAndReturnArgs} args - Arguments to create many VatBookEntries.
+     * @example
+     * // Create many VatBookEntries
+     * const vatBookEntry = await prisma.vatBookEntry.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many VatBookEntries and only return the `id`
+     * const vatBookEntryWithIdOnly = await prisma.vatBookEntry.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends VatBookEntryCreateManyAndReturnArgs>(args?: SelectSubset<T, VatBookEntryCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VatBookEntryPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a VatBookEntry.
+     * @param {VatBookEntryDeleteArgs} args - Arguments to delete one VatBookEntry.
+     * @example
+     * // Delete one VatBookEntry
+     * const VatBookEntry = await prisma.vatBookEntry.delete({
+     *   where: {
+     *     // ... filter to delete one VatBookEntry
+     *   }
+     * })
+     * 
+     */
+    delete<T extends VatBookEntryDeleteArgs>(args: SelectSubset<T, VatBookEntryDeleteArgs<ExtArgs>>): Prisma__VatBookEntryClient<$Result.GetResult<Prisma.$VatBookEntryPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one VatBookEntry.
+     * @param {VatBookEntryUpdateArgs} args - Arguments to update one VatBookEntry.
+     * @example
+     * // Update one VatBookEntry
+     * const vatBookEntry = await prisma.vatBookEntry.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends VatBookEntryUpdateArgs>(args: SelectSubset<T, VatBookEntryUpdateArgs<ExtArgs>>): Prisma__VatBookEntryClient<$Result.GetResult<Prisma.$VatBookEntryPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more VatBookEntries.
+     * @param {VatBookEntryDeleteManyArgs} args - Arguments to filter VatBookEntries to delete.
+     * @example
+     * // Delete a few VatBookEntries
+     * const { count } = await prisma.vatBookEntry.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends VatBookEntryDeleteManyArgs>(args?: SelectSubset<T, VatBookEntryDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more VatBookEntries.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VatBookEntryUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many VatBookEntries
+     * const vatBookEntry = await prisma.vatBookEntry.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends VatBookEntryUpdateManyArgs>(args: SelectSubset<T, VatBookEntryUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more VatBookEntries and returns the data updated in the database.
+     * @param {VatBookEntryUpdateManyAndReturnArgs} args - Arguments to update many VatBookEntries.
+     * @example
+     * // Update many VatBookEntries
+     * const vatBookEntry = await prisma.vatBookEntry.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more VatBookEntries and only return the `id`
+     * const vatBookEntryWithIdOnly = await prisma.vatBookEntry.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends VatBookEntryUpdateManyAndReturnArgs>(args: SelectSubset<T, VatBookEntryUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VatBookEntryPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one VatBookEntry.
+     * @param {VatBookEntryUpsertArgs} args - Arguments to update or create a VatBookEntry.
+     * @example
+     * // Update or create a VatBookEntry
+     * const vatBookEntry = await prisma.vatBookEntry.upsert({
+     *   create: {
+     *     // ... data to create a VatBookEntry
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the VatBookEntry we want to update
+     *   }
+     * })
+     */
+    upsert<T extends VatBookEntryUpsertArgs>(args: SelectSubset<T, VatBookEntryUpsertArgs<ExtArgs>>): Prisma__VatBookEntryClient<$Result.GetResult<Prisma.$VatBookEntryPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of VatBookEntries.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VatBookEntryCountArgs} args - Arguments to filter VatBookEntries to count.
+     * @example
+     * // Count the number of VatBookEntries
+     * const count = await prisma.vatBookEntry.count({
+     *   where: {
+     *     // ... the filter for the VatBookEntries we want to count
+     *   }
+     * })
+    **/
+    count<T extends VatBookEntryCountArgs>(
+      args?: Subset<T, VatBookEntryCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], VatBookEntryCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a VatBookEntry.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VatBookEntryAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends VatBookEntryAggregateArgs>(args: Subset<T, VatBookEntryAggregateArgs>): Prisma.PrismaPromise<GetVatBookEntryAggregateType<T>>
+
+    /**
+     * Group by VatBookEntry.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VatBookEntryGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends VatBookEntryGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: VatBookEntryGroupByArgs['orderBy'] }
+        : { orderBy?: VatBookEntryGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, VatBookEntryGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetVatBookEntryGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the VatBookEntry model
+   */
+  readonly fields: VatBookEntryFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for VatBookEntry.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__VatBookEntryClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the VatBookEntry model
+   */
+  interface VatBookEntryFieldRefs {
+    readonly id: FieldRef<"VatBookEntry", 'String'>
+    readonly tenantId: FieldRef<"VatBookEntry", 'String'>
+    readonly legalEntityId: FieldRef<"VatBookEntry", 'String'>
+    readonly bookType: FieldRef<"VatBookEntry", 'String'>
+    readonly year: FieldRef<"VatBookEntry", 'Int'>
+    readonly bookNo: FieldRef<"VatBookEntry", 'Int'>
+    readonly status: FieldRef<"VatBookEntry", 'String'>
+    readonly documentNumber: FieldRef<"VatBookEntry", 'String'>
+    readonly documentDate: FieldRef<"VatBookEntry", 'DateTime'>
+    readonly bookingDate: FieldRef<"VatBookEntry", 'DateTime'>
+    readonly partnerId: FieldRef<"VatBookEntry", 'String'>
+    readonly partnerName: FieldRef<"VatBookEntry", 'String'>
+    readonly partnerTaxId: FieldRef<"VatBookEntry", 'String'>
+    readonly vatRateCode: FieldRef<"VatBookEntry", 'String'>
+    readonly ratePct: FieldRef<"VatBookEntry", 'Decimal'>
+    readonly netAmount: FieldRef<"VatBookEntry", 'Decimal'>
+    readonly vatAmount: FieldRef<"VatBookEntry", 'Decimal'>
+    readonly grossAmount: FieldRef<"VatBookEntry", 'Decimal'>
+    readonly currency: FieldRef<"VatBookEntry", 'String'>
+    readonly counterAccountId: FieldRef<"VatBookEntry", 'String'>
+    readonly invoiceId: FieldRef<"VatBookEntry", 'String'>
+    readonly glEntryId: FieldRef<"VatBookEntry", 'String'>
+    readonly stornoOfId: FieldRef<"VatBookEntry", 'String'>
+    readonly stornoReason: FieldRef<"VatBookEntry", 'String'>
+    readonly requestKey: FieldRef<"VatBookEntry", 'String'>
+    readonly requestHash: FieldRef<"VatBookEntry", 'String'>
+    readonly createdBy: FieldRef<"VatBookEntry", 'String'>
+    readonly createdAt: FieldRef<"VatBookEntry", 'DateTime'>
+    readonly updatedAt: FieldRef<"VatBookEntry", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * VatBookEntry findUnique
+   */
+  export type VatBookEntryFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VatBookEntry
+     */
+    select?: VatBookEntrySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VatBookEntry
+     */
+    omit?: VatBookEntryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VatBookEntryInclude<ExtArgs> | null
+    /**
+     * Filter, which VatBookEntry to fetch.
+     */
+    where: VatBookEntryWhereUniqueInput
+  }
+
+  /**
+   * VatBookEntry findUniqueOrThrow
+   */
+  export type VatBookEntryFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VatBookEntry
+     */
+    select?: VatBookEntrySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VatBookEntry
+     */
+    omit?: VatBookEntryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VatBookEntryInclude<ExtArgs> | null
+    /**
+     * Filter, which VatBookEntry to fetch.
+     */
+    where: VatBookEntryWhereUniqueInput
+  }
+
+  /**
+   * VatBookEntry findFirst
+   */
+  export type VatBookEntryFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VatBookEntry
+     */
+    select?: VatBookEntrySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VatBookEntry
+     */
+    omit?: VatBookEntryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VatBookEntryInclude<ExtArgs> | null
+    /**
+     * Filter, which VatBookEntry to fetch.
+     */
+    where?: VatBookEntryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of VatBookEntries to fetch.
+     */
+    orderBy?: VatBookEntryOrderByWithRelationInput | VatBookEntryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for VatBookEntries.
+     */
+    cursor?: VatBookEntryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` VatBookEntries from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` VatBookEntries.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of VatBookEntries.
+     */
+    distinct?: VatBookEntryScalarFieldEnum | VatBookEntryScalarFieldEnum[]
+  }
+
+  /**
+   * VatBookEntry findFirstOrThrow
+   */
+  export type VatBookEntryFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VatBookEntry
+     */
+    select?: VatBookEntrySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VatBookEntry
+     */
+    omit?: VatBookEntryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VatBookEntryInclude<ExtArgs> | null
+    /**
+     * Filter, which VatBookEntry to fetch.
+     */
+    where?: VatBookEntryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of VatBookEntries to fetch.
+     */
+    orderBy?: VatBookEntryOrderByWithRelationInput | VatBookEntryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for VatBookEntries.
+     */
+    cursor?: VatBookEntryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` VatBookEntries from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` VatBookEntries.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of VatBookEntries.
+     */
+    distinct?: VatBookEntryScalarFieldEnum | VatBookEntryScalarFieldEnum[]
+  }
+
+  /**
+   * VatBookEntry findMany
+   */
+  export type VatBookEntryFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VatBookEntry
+     */
+    select?: VatBookEntrySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VatBookEntry
+     */
+    omit?: VatBookEntryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VatBookEntryInclude<ExtArgs> | null
+    /**
+     * Filter, which VatBookEntries to fetch.
+     */
+    where?: VatBookEntryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of VatBookEntries to fetch.
+     */
+    orderBy?: VatBookEntryOrderByWithRelationInput | VatBookEntryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing VatBookEntries.
+     */
+    cursor?: VatBookEntryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` VatBookEntries from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` VatBookEntries.
+     */
+    skip?: number
+    distinct?: VatBookEntryScalarFieldEnum | VatBookEntryScalarFieldEnum[]
+  }
+
+  /**
+   * VatBookEntry create
+   */
+  export type VatBookEntryCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VatBookEntry
+     */
+    select?: VatBookEntrySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VatBookEntry
+     */
+    omit?: VatBookEntryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VatBookEntryInclude<ExtArgs> | null
+    /**
+     * The data needed to create a VatBookEntry.
+     */
+    data: XOR<VatBookEntryCreateInput, VatBookEntryUncheckedCreateInput>
+  }
+
+  /**
+   * VatBookEntry createMany
+   */
+  export type VatBookEntryCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many VatBookEntries.
+     */
+    data: VatBookEntryCreateManyInput | VatBookEntryCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * VatBookEntry createManyAndReturn
+   */
+  export type VatBookEntryCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VatBookEntry
+     */
+    select?: VatBookEntrySelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the VatBookEntry
+     */
+    omit?: VatBookEntryOmit<ExtArgs> | null
+    /**
+     * The data used to create many VatBookEntries.
+     */
+    data: VatBookEntryCreateManyInput | VatBookEntryCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VatBookEntryIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * VatBookEntry update
+   */
+  export type VatBookEntryUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VatBookEntry
+     */
+    select?: VatBookEntrySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VatBookEntry
+     */
+    omit?: VatBookEntryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VatBookEntryInclude<ExtArgs> | null
+    /**
+     * The data needed to update a VatBookEntry.
+     */
+    data: XOR<VatBookEntryUpdateInput, VatBookEntryUncheckedUpdateInput>
+    /**
+     * Choose, which VatBookEntry to update.
+     */
+    where: VatBookEntryWhereUniqueInput
+  }
+
+  /**
+   * VatBookEntry updateMany
+   */
+  export type VatBookEntryUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update VatBookEntries.
+     */
+    data: XOR<VatBookEntryUpdateManyMutationInput, VatBookEntryUncheckedUpdateManyInput>
+    /**
+     * Filter which VatBookEntries to update
+     */
+    where?: VatBookEntryWhereInput
+    /**
+     * Limit how many VatBookEntries to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * VatBookEntry updateManyAndReturn
+   */
+  export type VatBookEntryUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VatBookEntry
+     */
+    select?: VatBookEntrySelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the VatBookEntry
+     */
+    omit?: VatBookEntryOmit<ExtArgs> | null
+    /**
+     * The data used to update VatBookEntries.
+     */
+    data: XOR<VatBookEntryUpdateManyMutationInput, VatBookEntryUncheckedUpdateManyInput>
+    /**
+     * Filter which VatBookEntries to update
+     */
+    where?: VatBookEntryWhereInput
+    /**
+     * Limit how many VatBookEntries to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VatBookEntryIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * VatBookEntry upsert
+   */
+  export type VatBookEntryUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VatBookEntry
+     */
+    select?: VatBookEntrySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VatBookEntry
+     */
+    omit?: VatBookEntryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VatBookEntryInclude<ExtArgs> | null
+    /**
+     * The filter to search for the VatBookEntry to update in case it exists.
+     */
+    where: VatBookEntryWhereUniqueInput
+    /**
+     * In case the VatBookEntry found by the `where` argument doesn't exist, create a new VatBookEntry with this data.
+     */
+    create: XOR<VatBookEntryCreateInput, VatBookEntryUncheckedCreateInput>
+    /**
+     * In case the VatBookEntry was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<VatBookEntryUpdateInput, VatBookEntryUncheckedUpdateInput>
+  }
+
+  /**
+   * VatBookEntry delete
+   */
+  export type VatBookEntryDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VatBookEntry
+     */
+    select?: VatBookEntrySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VatBookEntry
+     */
+    omit?: VatBookEntryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VatBookEntryInclude<ExtArgs> | null
+    /**
+     * Filter which VatBookEntry to delete.
+     */
+    where: VatBookEntryWhereUniqueInput
+  }
+
+  /**
+   * VatBookEntry deleteMany
+   */
+  export type VatBookEntryDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which VatBookEntries to delete
+     */
+    where?: VatBookEntryWhereInput
+    /**
+     * Limit how many VatBookEntries to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * VatBookEntry without action
+   */
+  export type VatBookEntryDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VatBookEntry
+     */
+    select?: VatBookEntrySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VatBookEntry
+     */
+    omit?: VatBookEntryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VatBookEntryInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model VatPeriod
+   */
+
+  export type AggregateVatPeriod = {
+    _count: VatPeriodCountAggregateOutputType | null
+    _avg: VatPeriodAvgAggregateOutputType | null
+    _sum: VatPeriodSumAggregateOutputType | null
+    _min: VatPeriodMinAggregateOutputType | null
+    _max: VatPeriodMaxAggregateOutputType | null
+  }
+
+  export type VatPeriodAvgAggregateOutputType = {
+    year: number | null
+    month: number | null
+    outputVat: Decimal | null
+    inputVat: Decimal | null
+    payableVat: Decimal | null
+  }
+
+  export type VatPeriodSumAggregateOutputType = {
+    year: number | null
+    month: number | null
+    outputVat: Decimal | null
+    inputVat: Decimal | null
+    payableVat: Decimal | null
+  }
+
+  export type VatPeriodMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    legalEntityId: string | null
+    year: number | null
+    month: number | null
+    status: string | null
+    outputVat: Decimal | null
+    inputVat: Decimal | null
+    payableVat: Decimal | null
+    settlementEntryId: string | null
+    filedAt: Date | null
+    filedBy: string | null
+    paidAt: Date | null
+    paidReference: string | null
+    paidBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type VatPeriodMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    legalEntityId: string | null
+    year: number | null
+    month: number | null
+    status: string | null
+    outputVat: Decimal | null
+    inputVat: Decimal | null
+    payableVat: Decimal | null
+    settlementEntryId: string | null
+    filedAt: Date | null
+    filedBy: string | null
+    paidAt: Date | null
+    paidReference: string | null
+    paidBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type VatPeriodCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    legalEntityId: number
+    year: number
+    month: number
+    status: number
+    outputVat: number
+    inputVat: number
+    payableVat: number
+    settlementEntryId: number
+    filedAt: number
+    filedBy: number
+    paidAt: number
+    paidReference: number
+    paidBy: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type VatPeriodAvgAggregateInputType = {
+    year?: true
+    month?: true
+    outputVat?: true
+    inputVat?: true
+    payableVat?: true
+  }
+
+  export type VatPeriodSumAggregateInputType = {
+    year?: true
+    month?: true
+    outputVat?: true
+    inputVat?: true
+    payableVat?: true
+  }
+
+  export type VatPeriodMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    legalEntityId?: true
+    year?: true
+    month?: true
+    status?: true
+    outputVat?: true
+    inputVat?: true
+    payableVat?: true
+    settlementEntryId?: true
+    filedAt?: true
+    filedBy?: true
+    paidAt?: true
+    paidReference?: true
+    paidBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type VatPeriodMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    legalEntityId?: true
+    year?: true
+    month?: true
+    status?: true
+    outputVat?: true
+    inputVat?: true
+    payableVat?: true
+    settlementEntryId?: true
+    filedAt?: true
+    filedBy?: true
+    paidAt?: true
+    paidReference?: true
+    paidBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type VatPeriodCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    legalEntityId?: true
+    year?: true
+    month?: true
+    status?: true
+    outputVat?: true
+    inputVat?: true
+    payableVat?: true
+    settlementEntryId?: true
+    filedAt?: true
+    filedBy?: true
+    paidAt?: true
+    paidReference?: true
+    paidBy?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type VatPeriodAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which VatPeriod to aggregate.
+     */
+    where?: VatPeriodWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of VatPeriods to fetch.
+     */
+    orderBy?: VatPeriodOrderByWithRelationInput | VatPeriodOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: VatPeriodWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` VatPeriods from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` VatPeriods.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned VatPeriods
+    **/
+    _count?: true | VatPeriodCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: VatPeriodAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: VatPeriodSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: VatPeriodMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: VatPeriodMaxAggregateInputType
+  }
+
+  export type GetVatPeriodAggregateType<T extends VatPeriodAggregateArgs> = {
+        [P in keyof T & keyof AggregateVatPeriod]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateVatPeriod[P]>
+      : GetScalarType<T[P], AggregateVatPeriod[P]>
+  }
+
+
+
+
+  export type VatPeriodGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: VatPeriodWhereInput
+    orderBy?: VatPeriodOrderByWithAggregationInput | VatPeriodOrderByWithAggregationInput[]
+    by: VatPeriodScalarFieldEnum[] | VatPeriodScalarFieldEnum
+    having?: VatPeriodScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: VatPeriodCountAggregateInputType | true
+    _avg?: VatPeriodAvgAggregateInputType
+    _sum?: VatPeriodSumAggregateInputType
+    _min?: VatPeriodMinAggregateInputType
+    _max?: VatPeriodMaxAggregateInputType
+  }
+
+  export type VatPeriodGroupByOutputType = {
+    id: string
+    tenantId: string
+    legalEntityId: string
+    year: number
+    month: number
+    status: string
+    outputVat: Decimal | null
+    inputVat: Decimal | null
+    payableVat: Decimal | null
+    settlementEntryId: string | null
+    filedAt: Date | null
+    filedBy: string | null
+    paidAt: Date | null
+    paidReference: string | null
+    paidBy: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: VatPeriodCountAggregateOutputType | null
+    _avg: VatPeriodAvgAggregateOutputType | null
+    _sum: VatPeriodSumAggregateOutputType | null
+    _min: VatPeriodMinAggregateOutputType | null
+    _max: VatPeriodMaxAggregateOutputType | null
+  }
+
+  type GetVatPeriodGroupByPayload<T extends VatPeriodGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<VatPeriodGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof VatPeriodGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], VatPeriodGroupByOutputType[P]>
+            : GetScalarType<T[P], VatPeriodGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type VatPeriodSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    legalEntityId?: boolean
+    year?: boolean
+    month?: boolean
+    status?: boolean
+    outputVat?: boolean
+    inputVat?: boolean
+    payableVat?: boolean
+    settlementEntryId?: boolean
+    filedAt?: boolean
+    filedBy?: boolean
+    paidAt?: boolean
+    paidReference?: boolean
+    paidBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["vatPeriod"]>
+
+  export type VatPeriodSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    legalEntityId?: boolean
+    year?: boolean
+    month?: boolean
+    status?: boolean
+    outputVat?: boolean
+    inputVat?: boolean
+    payableVat?: boolean
+    settlementEntryId?: boolean
+    filedAt?: boolean
+    filedBy?: boolean
+    paidAt?: boolean
+    paidReference?: boolean
+    paidBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["vatPeriod"]>
+
+  export type VatPeriodSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    legalEntityId?: boolean
+    year?: boolean
+    month?: boolean
+    status?: boolean
+    outputVat?: boolean
+    inputVat?: boolean
+    payableVat?: boolean
+    settlementEntryId?: boolean
+    filedAt?: boolean
+    filedBy?: boolean
+    paidAt?: boolean
+    paidReference?: boolean
+    paidBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["vatPeriod"]>
+
+  export type VatPeriodSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    legalEntityId?: boolean
+    year?: boolean
+    month?: boolean
+    status?: boolean
+    outputVat?: boolean
+    inputVat?: boolean
+    payableVat?: boolean
+    settlementEntryId?: boolean
+    filedAt?: boolean
+    filedBy?: boolean
+    paidAt?: boolean
+    paidReference?: boolean
+    paidBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type VatPeriodOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "legalEntityId" | "year" | "month" | "status" | "outputVat" | "inputVat" | "payableVat" | "settlementEntryId" | "filedAt" | "filedBy" | "paidAt" | "paidReference" | "paidBy" | "createdAt" | "updatedAt", ExtArgs["result"]["vatPeriod"]>
+  export type VatPeriodInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type VatPeriodIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type VatPeriodIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+
+  export type $VatPeriodPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "VatPeriod"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      legalEntityId: string
+      year: number
+      month: number
+      /**
+       * OPEN → FILING (transient, resumable) → FILED.
+       */
+      status: string
+      outputVat: Prisma.Decimal | null
+      inputVat: Prisma.Decimal | null
+      payableVat: Prisma.Decimal | null
+      settlementEntryId: string | null
+      filedAt: Date | null
+      filedBy: string | null
+      paidAt: Date | null
+      paidReference: string | null
+      paidBy: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["vatPeriod"]>
+    composites: {}
+  }
+
+  type VatPeriodGetPayload<S extends boolean | null | undefined | VatPeriodDefaultArgs> = $Result.GetResult<Prisma.$VatPeriodPayload, S>
+
+  type VatPeriodCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<VatPeriodFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: VatPeriodCountAggregateInputType | true
+    }
+
+  export interface VatPeriodDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['VatPeriod'], meta: { name: 'VatPeriod' } }
+    /**
+     * Find zero or one VatPeriod that matches the filter.
+     * @param {VatPeriodFindUniqueArgs} args - Arguments to find a VatPeriod
+     * @example
+     * // Get one VatPeriod
+     * const vatPeriod = await prisma.vatPeriod.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends VatPeriodFindUniqueArgs>(args: SelectSubset<T, VatPeriodFindUniqueArgs<ExtArgs>>): Prisma__VatPeriodClient<$Result.GetResult<Prisma.$VatPeriodPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one VatPeriod that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {VatPeriodFindUniqueOrThrowArgs} args - Arguments to find a VatPeriod
+     * @example
+     * // Get one VatPeriod
+     * const vatPeriod = await prisma.vatPeriod.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends VatPeriodFindUniqueOrThrowArgs>(args: SelectSubset<T, VatPeriodFindUniqueOrThrowArgs<ExtArgs>>): Prisma__VatPeriodClient<$Result.GetResult<Prisma.$VatPeriodPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first VatPeriod that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VatPeriodFindFirstArgs} args - Arguments to find a VatPeriod
+     * @example
+     * // Get one VatPeriod
+     * const vatPeriod = await prisma.vatPeriod.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends VatPeriodFindFirstArgs>(args?: SelectSubset<T, VatPeriodFindFirstArgs<ExtArgs>>): Prisma__VatPeriodClient<$Result.GetResult<Prisma.$VatPeriodPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first VatPeriod that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VatPeriodFindFirstOrThrowArgs} args - Arguments to find a VatPeriod
+     * @example
+     * // Get one VatPeriod
+     * const vatPeriod = await prisma.vatPeriod.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends VatPeriodFindFirstOrThrowArgs>(args?: SelectSubset<T, VatPeriodFindFirstOrThrowArgs<ExtArgs>>): Prisma__VatPeriodClient<$Result.GetResult<Prisma.$VatPeriodPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more VatPeriods that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VatPeriodFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all VatPeriods
+     * const vatPeriods = await prisma.vatPeriod.findMany()
+     * 
+     * // Get first 10 VatPeriods
+     * const vatPeriods = await prisma.vatPeriod.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const vatPeriodWithIdOnly = await prisma.vatPeriod.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends VatPeriodFindManyArgs>(args?: SelectSubset<T, VatPeriodFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VatPeriodPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a VatPeriod.
+     * @param {VatPeriodCreateArgs} args - Arguments to create a VatPeriod.
+     * @example
+     * // Create one VatPeriod
+     * const VatPeriod = await prisma.vatPeriod.create({
+     *   data: {
+     *     // ... data to create a VatPeriod
+     *   }
+     * })
+     * 
+     */
+    create<T extends VatPeriodCreateArgs>(args: SelectSubset<T, VatPeriodCreateArgs<ExtArgs>>): Prisma__VatPeriodClient<$Result.GetResult<Prisma.$VatPeriodPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many VatPeriods.
+     * @param {VatPeriodCreateManyArgs} args - Arguments to create many VatPeriods.
+     * @example
+     * // Create many VatPeriods
+     * const vatPeriod = await prisma.vatPeriod.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends VatPeriodCreateManyArgs>(args?: SelectSubset<T, VatPeriodCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many VatPeriods and returns the data saved in the database.
+     * @param {VatPeriodCreateManyAndReturnArgs} args - Arguments to create many VatPeriods.
+     * @example
+     * // Create many VatPeriods
+     * const vatPeriod = await prisma.vatPeriod.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many VatPeriods and only return the `id`
+     * const vatPeriodWithIdOnly = await prisma.vatPeriod.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends VatPeriodCreateManyAndReturnArgs>(args?: SelectSubset<T, VatPeriodCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VatPeriodPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a VatPeriod.
+     * @param {VatPeriodDeleteArgs} args - Arguments to delete one VatPeriod.
+     * @example
+     * // Delete one VatPeriod
+     * const VatPeriod = await prisma.vatPeriod.delete({
+     *   where: {
+     *     // ... filter to delete one VatPeriod
+     *   }
+     * })
+     * 
+     */
+    delete<T extends VatPeriodDeleteArgs>(args: SelectSubset<T, VatPeriodDeleteArgs<ExtArgs>>): Prisma__VatPeriodClient<$Result.GetResult<Prisma.$VatPeriodPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one VatPeriod.
+     * @param {VatPeriodUpdateArgs} args - Arguments to update one VatPeriod.
+     * @example
+     * // Update one VatPeriod
+     * const vatPeriod = await prisma.vatPeriod.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends VatPeriodUpdateArgs>(args: SelectSubset<T, VatPeriodUpdateArgs<ExtArgs>>): Prisma__VatPeriodClient<$Result.GetResult<Prisma.$VatPeriodPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more VatPeriods.
+     * @param {VatPeriodDeleteManyArgs} args - Arguments to filter VatPeriods to delete.
+     * @example
+     * // Delete a few VatPeriods
+     * const { count } = await prisma.vatPeriod.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends VatPeriodDeleteManyArgs>(args?: SelectSubset<T, VatPeriodDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more VatPeriods.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VatPeriodUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many VatPeriods
+     * const vatPeriod = await prisma.vatPeriod.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends VatPeriodUpdateManyArgs>(args: SelectSubset<T, VatPeriodUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more VatPeriods and returns the data updated in the database.
+     * @param {VatPeriodUpdateManyAndReturnArgs} args - Arguments to update many VatPeriods.
+     * @example
+     * // Update many VatPeriods
+     * const vatPeriod = await prisma.vatPeriod.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more VatPeriods and only return the `id`
+     * const vatPeriodWithIdOnly = await prisma.vatPeriod.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends VatPeriodUpdateManyAndReturnArgs>(args: SelectSubset<T, VatPeriodUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VatPeriodPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one VatPeriod.
+     * @param {VatPeriodUpsertArgs} args - Arguments to update or create a VatPeriod.
+     * @example
+     * // Update or create a VatPeriod
+     * const vatPeriod = await prisma.vatPeriod.upsert({
+     *   create: {
+     *     // ... data to create a VatPeriod
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the VatPeriod we want to update
+     *   }
+     * })
+     */
+    upsert<T extends VatPeriodUpsertArgs>(args: SelectSubset<T, VatPeriodUpsertArgs<ExtArgs>>): Prisma__VatPeriodClient<$Result.GetResult<Prisma.$VatPeriodPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of VatPeriods.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VatPeriodCountArgs} args - Arguments to filter VatPeriods to count.
+     * @example
+     * // Count the number of VatPeriods
+     * const count = await prisma.vatPeriod.count({
+     *   where: {
+     *     // ... the filter for the VatPeriods we want to count
+     *   }
+     * })
+    **/
+    count<T extends VatPeriodCountArgs>(
+      args?: Subset<T, VatPeriodCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], VatPeriodCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a VatPeriod.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VatPeriodAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends VatPeriodAggregateArgs>(args: Subset<T, VatPeriodAggregateArgs>): Prisma.PrismaPromise<GetVatPeriodAggregateType<T>>
+
+    /**
+     * Group by VatPeriod.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VatPeriodGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends VatPeriodGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: VatPeriodGroupByArgs['orderBy'] }
+        : { orderBy?: VatPeriodGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, VatPeriodGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetVatPeriodGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the VatPeriod model
+   */
+  readonly fields: VatPeriodFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for VatPeriod.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__VatPeriodClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the VatPeriod model
+   */
+  interface VatPeriodFieldRefs {
+    readonly id: FieldRef<"VatPeriod", 'String'>
+    readonly tenantId: FieldRef<"VatPeriod", 'String'>
+    readonly legalEntityId: FieldRef<"VatPeriod", 'String'>
+    readonly year: FieldRef<"VatPeriod", 'Int'>
+    readonly month: FieldRef<"VatPeriod", 'Int'>
+    readonly status: FieldRef<"VatPeriod", 'String'>
+    readonly outputVat: FieldRef<"VatPeriod", 'Decimal'>
+    readonly inputVat: FieldRef<"VatPeriod", 'Decimal'>
+    readonly payableVat: FieldRef<"VatPeriod", 'Decimal'>
+    readonly settlementEntryId: FieldRef<"VatPeriod", 'String'>
+    readonly filedAt: FieldRef<"VatPeriod", 'DateTime'>
+    readonly filedBy: FieldRef<"VatPeriod", 'String'>
+    readonly paidAt: FieldRef<"VatPeriod", 'DateTime'>
+    readonly paidReference: FieldRef<"VatPeriod", 'String'>
+    readonly paidBy: FieldRef<"VatPeriod", 'String'>
+    readonly createdAt: FieldRef<"VatPeriod", 'DateTime'>
+    readonly updatedAt: FieldRef<"VatPeriod", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * VatPeriod findUnique
+   */
+  export type VatPeriodFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VatPeriod
+     */
+    select?: VatPeriodSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VatPeriod
+     */
+    omit?: VatPeriodOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VatPeriodInclude<ExtArgs> | null
+    /**
+     * Filter, which VatPeriod to fetch.
+     */
+    where: VatPeriodWhereUniqueInput
+  }
+
+  /**
+   * VatPeriod findUniqueOrThrow
+   */
+  export type VatPeriodFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VatPeriod
+     */
+    select?: VatPeriodSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VatPeriod
+     */
+    omit?: VatPeriodOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VatPeriodInclude<ExtArgs> | null
+    /**
+     * Filter, which VatPeriod to fetch.
+     */
+    where: VatPeriodWhereUniqueInput
+  }
+
+  /**
+   * VatPeriod findFirst
+   */
+  export type VatPeriodFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VatPeriod
+     */
+    select?: VatPeriodSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VatPeriod
+     */
+    omit?: VatPeriodOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VatPeriodInclude<ExtArgs> | null
+    /**
+     * Filter, which VatPeriod to fetch.
+     */
+    where?: VatPeriodWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of VatPeriods to fetch.
+     */
+    orderBy?: VatPeriodOrderByWithRelationInput | VatPeriodOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for VatPeriods.
+     */
+    cursor?: VatPeriodWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` VatPeriods from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` VatPeriods.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of VatPeriods.
+     */
+    distinct?: VatPeriodScalarFieldEnum | VatPeriodScalarFieldEnum[]
+  }
+
+  /**
+   * VatPeriod findFirstOrThrow
+   */
+  export type VatPeriodFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VatPeriod
+     */
+    select?: VatPeriodSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VatPeriod
+     */
+    omit?: VatPeriodOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VatPeriodInclude<ExtArgs> | null
+    /**
+     * Filter, which VatPeriod to fetch.
+     */
+    where?: VatPeriodWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of VatPeriods to fetch.
+     */
+    orderBy?: VatPeriodOrderByWithRelationInput | VatPeriodOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for VatPeriods.
+     */
+    cursor?: VatPeriodWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` VatPeriods from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` VatPeriods.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of VatPeriods.
+     */
+    distinct?: VatPeriodScalarFieldEnum | VatPeriodScalarFieldEnum[]
+  }
+
+  /**
+   * VatPeriod findMany
+   */
+  export type VatPeriodFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VatPeriod
+     */
+    select?: VatPeriodSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VatPeriod
+     */
+    omit?: VatPeriodOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VatPeriodInclude<ExtArgs> | null
+    /**
+     * Filter, which VatPeriods to fetch.
+     */
+    where?: VatPeriodWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of VatPeriods to fetch.
+     */
+    orderBy?: VatPeriodOrderByWithRelationInput | VatPeriodOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing VatPeriods.
+     */
+    cursor?: VatPeriodWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` VatPeriods from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` VatPeriods.
+     */
+    skip?: number
+    distinct?: VatPeriodScalarFieldEnum | VatPeriodScalarFieldEnum[]
+  }
+
+  /**
+   * VatPeriod create
+   */
+  export type VatPeriodCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VatPeriod
+     */
+    select?: VatPeriodSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VatPeriod
+     */
+    omit?: VatPeriodOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VatPeriodInclude<ExtArgs> | null
+    /**
+     * The data needed to create a VatPeriod.
+     */
+    data: XOR<VatPeriodCreateInput, VatPeriodUncheckedCreateInput>
+  }
+
+  /**
+   * VatPeriod createMany
+   */
+  export type VatPeriodCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many VatPeriods.
+     */
+    data: VatPeriodCreateManyInput | VatPeriodCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * VatPeriod createManyAndReturn
+   */
+  export type VatPeriodCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VatPeriod
+     */
+    select?: VatPeriodSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the VatPeriod
+     */
+    omit?: VatPeriodOmit<ExtArgs> | null
+    /**
+     * The data used to create many VatPeriods.
+     */
+    data: VatPeriodCreateManyInput | VatPeriodCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VatPeriodIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * VatPeriod update
+   */
+  export type VatPeriodUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VatPeriod
+     */
+    select?: VatPeriodSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VatPeriod
+     */
+    omit?: VatPeriodOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VatPeriodInclude<ExtArgs> | null
+    /**
+     * The data needed to update a VatPeriod.
+     */
+    data: XOR<VatPeriodUpdateInput, VatPeriodUncheckedUpdateInput>
+    /**
+     * Choose, which VatPeriod to update.
+     */
+    where: VatPeriodWhereUniqueInput
+  }
+
+  /**
+   * VatPeriod updateMany
+   */
+  export type VatPeriodUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update VatPeriods.
+     */
+    data: XOR<VatPeriodUpdateManyMutationInput, VatPeriodUncheckedUpdateManyInput>
+    /**
+     * Filter which VatPeriods to update
+     */
+    where?: VatPeriodWhereInput
+    /**
+     * Limit how many VatPeriods to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * VatPeriod updateManyAndReturn
+   */
+  export type VatPeriodUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VatPeriod
+     */
+    select?: VatPeriodSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the VatPeriod
+     */
+    omit?: VatPeriodOmit<ExtArgs> | null
+    /**
+     * The data used to update VatPeriods.
+     */
+    data: XOR<VatPeriodUpdateManyMutationInput, VatPeriodUncheckedUpdateManyInput>
+    /**
+     * Filter which VatPeriods to update
+     */
+    where?: VatPeriodWhereInput
+    /**
+     * Limit how many VatPeriods to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VatPeriodIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * VatPeriod upsert
+   */
+  export type VatPeriodUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VatPeriod
+     */
+    select?: VatPeriodSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VatPeriod
+     */
+    omit?: VatPeriodOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VatPeriodInclude<ExtArgs> | null
+    /**
+     * The filter to search for the VatPeriod to update in case it exists.
+     */
+    where: VatPeriodWhereUniqueInput
+    /**
+     * In case the VatPeriod found by the `where` argument doesn't exist, create a new VatPeriod with this data.
+     */
+    create: XOR<VatPeriodCreateInput, VatPeriodUncheckedCreateInput>
+    /**
+     * In case the VatPeriod was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<VatPeriodUpdateInput, VatPeriodUncheckedUpdateInput>
+  }
+
+  /**
+   * VatPeriod delete
+   */
+  export type VatPeriodDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VatPeriod
+     */
+    select?: VatPeriodSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VatPeriod
+     */
+    omit?: VatPeriodOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VatPeriodInclude<ExtArgs> | null
+    /**
+     * Filter which VatPeriod to delete.
+     */
+    where: VatPeriodWhereUniqueInput
+  }
+
+  /**
+   * VatPeriod deleteMany
+   */
+  export type VatPeriodDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which VatPeriods to delete
+     */
+    where?: VatPeriodWhereInput
+    /**
+     * Limit how many VatPeriods to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * VatPeriod without action
+   */
+  export type VatPeriodDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VatPeriod
+     */
+    select?: VatPeriodSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VatPeriod
+     */
+    omit?: VatPeriodOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VatPeriodInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -190672,6 +194898,79 @@ export namespace Prisma {
   export type CompensationLineScalarFieldEnum = (typeof CompensationLineScalarFieldEnum)[keyof typeof CompensationLineScalarFieldEnum]
 
 
+  export const VatRateScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    legalEntityId: 'legalEntityId',
+    code: 'code',
+    name: 'name',
+    ratePct: 'ratePct',
+    validFrom: 'validFrom',
+    createdBy: 'createdBy',
+    createdAt: 'createdAt'
+  };
+
+  export type VatRateScalarFieldEnum = (typeof VatRateScalarFieldEnum)[keyof typeof VatRateScalarFieldEnum]
+
+
+  export const VatBookEntryScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    legalEntityId: 'legalEntityId',
+    bookType: 'bookType',
+    year: 'year',
+    bookNo: 'bookNo',
+    status: 'status',
+    documentNumber: 'documentNumber',
+    documentDate: 'documentDate',
+    bookingDate: 'bookingDate',
+    partnerId: 'partnerId',
+    partnerName: 'partnerName',
+    partnerTaxId: 'partnerTaxId',
+    vatRateCode: 'vatRateCode',
+    ratePct: 'ratePct',
+    netAmount: 'netAmount',
+    vatAmount: 'vatAmount',
+    grossAmount: 'grossAmount',
+    currency: 'currency',
+    counterAccountId: 'counterAccountId',
+    invoiceId: 'invoiceId',
+    glEntryId: 'glEntryId',
+    stornoOfId: 'stornoOfId',
+    stornoReason: 'stornoReason',
+    requestKey: 'requestKey',
+    requestHash: 'requestHash',
+    createdBy: 'createdBy',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type VatBookEntryScalarFieldEnum = (typeof VatBookEntryScalarFieldEnum)[keyof typeof VatBookEntryScalarFieldEnum]
+
+
+  export const VatPeriodScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    legalEntityId: 'legalEntityId',
+    year: 'year',
+    month: 'month',
+    status: 'status',
+    outputVat: 'outputVat',
+    inputVat: 'inputVat',
+    payableVat: 'payableVat',
+    settlementEntryId: 'settlementEntryId',
+    filedAt: 'filedAt',
+    filedBy: 'filedBy',
+    paidAt: 'paidAt',
+    paidReference: 'paidReference',
+    paidBy: 'paidBy',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type VatPeriodScalarFieldEnum = (typeof VatPeriodScalarFieldEnum)[keyof typeof VatPeriodScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -191894,6 +196193,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineListRelationFilter
     paymentAllocations?: PaymentAllocationListRelationFilter
     compensations?: CompensationListRelationFilter
+    vatRates?: VatRateListRelationFilter
+    vatBookEntries?: VatBookEntryListRelationFilter
+    vatPeriods?: VatPeriodListRelationFilter
     compensationLines?: CompensationLineListRelationFilter
   }
 
@@ -192031,6 +196333,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineOrderByRelationAggregateInput
     paymentAllocations?: PaymentAllocationOrderByRelationAggregateInput
     compensations?: CompensationOrderByRelationAggregateInput
+    vatRates?: VatRateOrderByRelationAggregateInput
+    vatBookEntries?: VatBookEntryOrderByRelationAggregateInput
+    vatPeriods?: VatPeriodOrderByRelationAggregateInput
     compensationLines?: CompensationLineOrderByRelationAggregateInput
   }
 
@@ -192171,6 +196476,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineListRelationFilter
     paymentAllocations?: PaymentAllocationListRelationFilter
     compensations?: CompensationListRelationFilter
+    vatRates?: VatRateListRelationFilter
+    vatBookEntries?: VatBookEntryListRelationFilter
+    vatPeriods?: VatPeriodListRelationFilter
     compensationLines?: CompensationLineListRelationFilter
   }, "id" | "slug">
 
@@ -203849,6 +208157,382 @@ export namespace Prisma {
     paymentId?: UuidNullableWithAggregatesFilter<"CompensationLine"> | string | null
   }
 
+  export type VatRateWhereInput = {
+    AND?: VatRateWhereInput | VatRateWhereInput[]
+    OR?: VatRateWhereInput[]
+    NOT?: VatRateWhereInput | VatRateWhereInput[]
+    id?: UuidFilter<"VatRate"> | string
+    tenantId?: UuidFilter<"VatRate"> | string
+    legalEntityId?: UuidFilter<"VatRate"> | string
+    code?: StringFilter<"VatRate"> | string
+    name?: StringFilter<"VatRate"> | string
+    ratePct?: DecimalFilter<"VatRate"> | Decimal | DecimalJsLike | number | string
+    validFrom?: DateTimeFilter<"VatRate"> | Date | string
+    createdBy?: StringNullableFilter<"VatRate"> | string | null
+    createdAt?: DateTimeFilter<"VatRate"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+  }
+
+  export type VatRateOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    legalEntityId?: SortOrder
+    code?: SortOrder
+    name?: SortOrder
+    ratePct?: SortOrder
+    validFrom?: SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+  }
+
+  export type VatRateWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    tenantId_legalEntityId_code_validFrom?: VatRateTenantIdLegalEntityIdCodeValidFromCompoundUniqueInput
+    AND?: VatRateWhereInput | VatRateWhereInput[]
+    OR?: VatRateWhereInput[]
+    NOT?: VatRateWhereInput | VatRateWhereInput[]
+    tenantId?: UuidFilter<"VatRate"> | string
+    legalEntityId?: UuidFilter<"VatRate"> | string
+    code?: StringFilter<"VatRate"> | string
+    name?: StringFilter<"VatRate"> | string
+    ratePct?: DecimalFilter<"VatRate"> | Decimal | DecimalJsLike | number | string
+    validFrom?: DateTimeFilter<"VatRate"> | Date | string
+    createdBy?: StringNullableFilter<"VatRate"> | string | null
+    createdAt?: DateTimeFilter<"VatRate"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+  }, "id" | "tenantId_legalEntityId_code_validFrom">
+
+  export type VatRateOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    legalEntityId?: SortOrder
+    code?: SortOrder
+    name?: SortOrder
+    ratePct?: SortOrder
+    validFrom?: SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: VatRateCountOrderByAggregateInput
+    _avg?: VatRateAvgOrderByAggregateInput
+    _max?: VatRateMaxOrderByAggregateInput
+    _min?: VatRateMinOrderByAggregateInput
+    _sum?: VatRateSumOrderByAggregateInput
+  }
+
+  export type VatRateScalarWhereWithAggregatesInput = {
+    AND?: VatRateScalarWhereWithAggregatesInput | VatRateScalarWhereWithAggregatesInput[]
+    OR?: VatRateScalarWhereWithAggregatesInput[]
+    NOT?: VatRateScalarWhereWithAggregatesInput | VatRateScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"VatRate"> | string
+    tenantId?: UuidWithAggregatesFilter<"VatRate"> | string
+    legalEntityId?: UuidWithAggregatesFilter<"VatRate"> | string
+    code?: StringWithAggregatesFilter<"VatRate"> | string
+    name?: StringWithAggregatesFilter<"VatRate"> | string
+    ratePct?: DecimalWithAggregatesFilter<"VatRate"> | Decimal | DecimalJsLike | number | string
+    validFrom?: DateTimeWithAggregatesFilter<"VatRate"> | Date | string
+    createdBy?: StringNullableWithAggregatesFilter<"VatRate"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"VatRate"> | Date | string
+  }
+
+  export type VatBookEntryWhereInput = {
+    AND?: VatBookEntryWhereInput | VatBookEntryWhereInput[]
+    OR?: VatBookEntryWhereInput[]
+    NOT?: VatBookEntryWhereInput | VatBookEntryWhereInput[]
+    id?: UuidFilter<"VatBookEntry"> | string
+    tenantId?: UuidFilter<"VatBookEntry"> | string
+    legalEntityId?: UuidFilter<"VatBookEntry"> | string
+    bookType?: StringFilter<"VatBookEntry"> | string
+    year?: IntFilter<"VatBookEntry"> | number
+    bookNo?: IntFilter<"VatBookEntry"> | number
+    status?: StringFilter<"VatBookEntry"> | string
+    documentNumber?: StringFilter<"VatBookEntry"> | string
+    documentDate?: DateTimeFilter<"VatBookEntry"> | Date | string
+    bookingDate?: DateTimeFilter<"VatBookEntry"> | Date | string
+    partnerId?: UuidFilter<"VatBookEntry"> | string
+    partnerName?: StringFilter<"VatBookEntry"> | string
+    partnerTaxId?: StringNullableFilter<"VatBookEntry"> | string | null
+    vatRateCode?: StringFilter<"VatBookEntry"> | string
+    ratePct?: DecimalFilter<"VatBookEntry"> | Decimal | DecimalJsLike | number | string
+    netAmount?: DecimalFilter<"VatBookEntry"> | Decimal | DecimalJsLike | number | string
+    vatAmount?: DecimalFilter<"VatBookEntry"> | Decimal | DecimalJsLike | number | string
+    grossAmount?: DecimalFilter<"VatBookEntry"> | Decimal | DecimalJsLike | number | string
+    currency?: StringFilter<"VatBookEntry"> | string
+    counterAccountId?: UuidFilter<"VatBookEntry"> | string
+    invoiceId?: UuidNullableFilter<"VatBookEntry"> | string | null
+    glEntryId?: UuidNullableFilter<"VatBookEntry"> | string | null
+    stornoOfId?: UuidNullableFilter<"VatBookEntry"> | string | null
+    stornoReason?: StringNullableFilter<"VatBookEntry"> | string | null
+    requestKey?: StringFilter<"VatBookEntry"> | string
+    requestHash?: StringFilter<"VatBookEntry"> | string
+    createdBy?: StringNullableFilter<"VatBookEntry"> | string | null
+    createdAt?: DateTimeFilter<"VatBookEntry"> | Date | string
+    updatedAt?: DateTimeFilter<"VatBookEntry"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+  }
+
+  export type VatBookEntryOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    legalEntityId?: SortOrder
+    bookType?: SortOrder
+    year?: SortOrder
+    bookNo?: SortOrder
+    status?: SortOrder
+    documentNumber?: SortOrder
+    documentDate?: SortOrder
+    bookingDate?: SortOrder
+    partnerId?: SortOrder
+    partnerName?: SortOrder
+    partnerTaxId?: SortOrderInput | SortOrder
+    vatRateCode?: SortOrder
+    ratePct?: SortOrder
+    netAmount?: SortOrder
+    vatAmount?: SortOrder
+    grossAmount?: SortOrder
+    currency?: SortOrder
+    counterAccountId?: SortOrder
+    invoiceId?: SortOrderInput | SortOrder
+    glEntryId?: SortOrderInput | SortOrder
+    stornoOfId?: SortOrderInput | SortOrder
+    stornoReason?: SortOrderInput | SortOrder
+    requestKey?: SortOrder
+    requestHash?: SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+  }
+
+  export type VatBookEntryWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    tenantId_requestKey?: VatBookEntryTenantIdRequestKeyCompoundUniqueInput
+    tenantId_legalEntityId_bookType_year_bookNo?: VatBookEntryTenantIdLegalEntityIdBookTypeYearBookNoCompoundUniqueInput
+    tenantId_stornoOfId?: VatBookEntryTenantIdStornoOfIdCompoundUniqueInput
+    AND?: VatBookEntryWhereInput | VatBookEntryWhereInput[]
+    OR?: VatBookEntryWhereInput[]
+    NOT?: VatBookEntryWhereInput | VatBookEntryWhereInput[]
+    tenantId?: UuidFilter<"VatBookEntry"> | string
+    legalEntityId?: UuidFilter<"VatBookEntry"> | string
+    bookType?: StringFilter<"VatBookEntry"> | string
+    year?: IntFilter<"VatBookEntry"> | number
+    bookNo?: IntFilter<"VatBookEntry"> | number
+    status?: StringFilter<"VatBookEntry"> | string
+    documentNumber?: StringFilter<"VatBookEntry"> | string
+    documentDate?: DateTimeFilter<"VatBookEntry"> | Date | string
+    bookingDate?: DateTimeFilter<"VatBookEntry"> | Date | string
+    partnerId?: UuidFilter<"VatBookEntry"> | string
+    partnerName?: StringFilter<"VatBookEntry"> | string
+    partnerTaxId?: StringNullableFilter<"VatBookEntry"> | string | null
+    vatRateCode?: StringFilter<"VatBookEntry"> | string
+    ratePct?: DecimalFilter<"VatBookEntry"> | Decimal | DecimalJsLike | number | string
+    netAmount?: DecimalFilter<"VatBookEntry"> | Decimal | DecimalJsLike | number | string
+    vatAmount?: DecimalFilter<"VatBookEntry"> | Decimal | DecimalJsLike | number | string
+    grossAmount?: DecimalFilter<"VatBookEntry"> | Decimal | DecimalJsLike | number | string
+    currency?: StringFilter<"VatBookEntry"> | string
+    counterAccountId?: UuidFilter<"VatBookEntry"> | string
+    invoiceId?: UuidNullableFilter<"VatBookEntry"> | string | null
+    glEntryId?: UuidNullableFilter<"VatBookEntry"> | string | null
+    stornoOfId?: UuidNullableFilter<"VatBookEntry"> | string | null
+    stornoReason?: StringNullableFilter<"VatBookEntry"> | string | null
+    requestKey?: StringFilter<"VatBookEntry"> | string
+    requestHash?: StringFilter<"VatBookEntry"> | string
+    createdBy?: StringNullableFilter<"VatBookEntry"> | string | null
+    createdAt?: DateTimeFilter<"VatBookEntry"> | Date | string
+    updatedAt?: DateTimeFilter<"VatBookEntry"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+  }, "id" | "tenantId_requestKey" | "tenantId_legalEntityId_bookType_year_bookNo" | "tenantId_stornoOfId">
+
+  export type VatBookEntryOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    legalEntityId?: SortOrder
+    bookType?: SortOrder
+    year?: SortOrder
+    bookNo?: SortOrder
+    status?: SortOrder
+    documentNumber?: SortOrder
+    documentDate?: SortOrder
+    bookingDate?: SortOrder
+    partnerId?: SortOrder
+    partnerName?: SortOrder
+    partnerTaxId?: SortOrderInput | SortOrder
+    vatRateCode?: SortOrder
+    ratePct?: SortOrder
+    netAmount?: SortOrder
+    vatAmount?: SortOrder
+    grossAmount?: SortOrder
+    currency?: SortOrder
+    counterAccountId?: SortOrder
+    invoiceId?: SortOrderInput | SortOrder
+    glEntryId?: SortOrderInput | SortOrder
+    stornoOfId?: SortOrderInput | SortOrder
+    stornoReason?: SortOrderInput | SortOrder
+    requestKey?: SortOrder
+    requestHash?: SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: VatBookEntryCountOrderByAggregateInput
+    _avg?: VatBookEntryAvgOrderByAggregateInput
+    _max?: VatBookEntryMaxOrderByAggregateInput
+    _min?: VatBookEntryMinOrderByAggregateInput
+    _sum?: VatBookEntrySumOrderByAggregateInput
+  }
+
+  export type VatBookEntryScalarWhereWithAggregatesInput = {
+    AND?: VatBookEntryScalarWhereWithAggregatesInput | VatBookEntryScalarWhereWithAggregatesInput[]
+    OR?: VatBookEntryScalarWhereWithAggregatesInput[]
+    NOT?: VatBookEntryScalarWhereWithAggregatesInput | VatBookEntryScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"VatBookEntry"> | string
+    tenantId?: UuidWithAggregatesFilter<"VatBookEntry"> | string
+    legalEntityId?: UuidWithAggregatesFilter<"VatBookEntry"> | string
+    bookType?: StringWithAggregatesFilter<"VatBookEntry"> | string
+    year?: IntWithAggregatesFilter<"VatBookEntry"> | number
+    bookNo?: IntWithAggregatesFilter<"VatBookEntry"> | number
+    status?: StringWithAggregatesFilter<"VatBookEntry"> | string
+    documentNumber?: StringWithAggregatesFilter<"VatBookEntry"> | string
+    documentDate?: DateTimeWithAggregatesFilter<"VatBookEntry"> | Date | string
+    bookingDate?: DateTimeWithAggregatesFilter<"VatBookEntry"> | Date | string
+    partnerId?: UuidWithAggregatesFilter<"VatBookEntry"> | string
+    partnerName?: StringWithAggregatesFilter<"VatBookEntry"> | string
+    partnerTaxId?: StringNullableWithAggregatesFilter<"VatBookEntry"> | string | null
+    vatRateCode?: StringWithAggregatesFilter<"VatBookEntry"> | string
+    ratePct?: DecimalWithAggregatesFilter<"VatBookEntry"> | Decimal | DecimalJsLike | number | string
+    netAmount?: DecimalWithAggregatesFilter<"VatBookEntry"> | Decimal | DecimalJsLike | number | string
+    vatAmount?: DecimalWithAggregatesFilter<"VatBookEntry"> | Decimal | DecimalJsLike | number | string
+    grossAmount?: DecimalWithAggregatesFilter<"VatBookEntry"> | Decimal | DecimalJsLike | number | string
+    currency?: StringWithAggregatesFilter<"VatBookEntry"> | string
+    counterAccountId?: UuidWithAggregatesFilter<"VatBookEntry"> | string
+    invoiceId?: UuidNullableWithAggregatesFilter<"VatBookEntry"> | string | null
+    glEntryId?: UuidNullableWithAggregatesFilter<"VatBookEntry"> | string | null
+    stornoOfId?: UuidNullableWithAggregatesFilter<"VatBookEntry"> | string | null
+    stornoReason?: StringNullableWithAggregatesFilter<"VatBookEntry"> | string | null
+    requestKey?: StringWithAggregatesFilter<"VatBookEntry"> | string
+    requestHash?: StringWithAggregatesFilter<"VatBookEntry"> | string
+    createdBy?: StringNullableWithAggregatesFilter<"VatBookEntry"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"VatBookEntry"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"VatBookEntry"> | Date | string
+  }
+
+  export type VatPeriodWhereInput = {
+    AND?: VatPeriodWhereInput | VatPeriodWhereInput[]
+    OR?: VatPeriodWhereInput[]
+    NOT?: VatPeriodWhereInput | VatPeriodWhereInput[]
+    id?: UuidFilter<"VatPeriod"> | string
+    tenantId?: UuidFilter<"VatPeriod"> | string
+    legalEntityId?: UuidFilter<"VatPeriod"> | string
+    year?: IntFilter<"VatPeriod"> | number
+    month?: IntFilter<"VatPeriod"> | number
+    status?: StringFilter<"VatPeriod"> | string
+    outputVat?: DecimalNullableFilter<"VatPeriod"> | Decimal | DecimalJsLike | number | string | null
+    inputVat?: DecimalNullableFilter<"VatPeriod"> | Decimal | DecimalJsLike | number | string | null
+    payableVat?: DecimalNullableFilter<"VatPeriod"> | Decimal | DecimalJsLike | number | string | null
+    settlementEntryId?: UuidNullableFilter<"VatPeriod"> | string | null
+    filedAt?: DateTimeNullableFilter<"VatPeriod"> | Date | string | null
+    filedBy?: StringNullableFilter<"VatPeriod"> | string | null
+    paidAt?: DateTimeNullableFilter<"VatPeriod"> | Date | string | null
+    paidReference?: StringNullableFilter<"VatPeriod"> | string | null
+    paidBy?: StringNullableFilter<"VatPeriod"> | string | null
+    createdAt?: DateTimeFilter<"VatPeriod"> | Date | string
+    updatedAt?: DateTimeFilter<"VatPeriod"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+  }
+
+  export type VatPeriodOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    legalEntityId?: SortOrder
+    year?: SortOrder
+    month?: SortOrder
+    status?: SortOrder
+    outputVat?: SortOrderInput | SortOrder
+    inputVat?: SortOrderInput | SortOrder
+    payableVat?: SortOrderInput | SortOrder
+    settlementEntryId?: SortOrderInput | SortOrder
+    filedAt?: SortOrderInput | SortOrder
+    filedBy?: SortOrderInput | SortOrder
+    paidAt?: SortOrderInput | SortOrder
+    paidReference?: SortOrderInput | SortOrder
+    paidBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+  }
+
+  export type VatPeriodWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    tenantId_legalEntityId_year_month?: VatPeriodTenantIdLegalEntityIdYearMonthCompoundUniqueInput
+    AND?: VatPeriodWhereInput | VatPeriodWhereInput[]
+    OR?: VatPeriodWhereInput[]
+    NOT?: VatPeriodWhereInput | VatPeriodWhereInput[]
+    tenantId?: UuidFilter<"VatPeriod"> | string
+    legalEntityId?: UuidFilter<"VatPeriod"> | string
+    year?: IntFilter<"VatPeriod"> | number
+    month?: IntFilter<"VatPeriod"> | number
+    status?: StringFilter<"VatPeriod"> | string
+    outputVat?: DecimalNullableFilter<"VatPeriod"> | Decimal | DecimalJsLike | number | string | null
+    inputVat?: DecimalNullableFilter<"VatPeriod"> | Decimal | DecimalJsLike | number | string | null
+    payableVat?: DecimalNullableFilter<"VatPeriod"> | Decimal | DecimalJsLike | number | string | null
+    settlementEntryId?: UuidNullableFilter<"VatPeriod"> | string | null
+    filedAt?: DateTimeNullableFilter<"VatPeriod"> | Date | string | null
+    filedBy?: StringNullableFilter<"VatPeriod"> | string | null
+    paidAt?: DateTimeNullableFilter<"VatPeriod"> | Date | string | null
+    paidReference?: StringNullableFilter<"VatPeriod"> | string | null
+    paidBy?: StringNullableFilter<"VatPeriod"> | string | null
+    createdAt?: DateTimeFilter<"VatPeriod"> | Date | string
+    updatedAt?: DateTimeFilter<"VatPeriod"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+  }, "id" | "tenantId_legalEntityId_year_month">
+
+  export type VatPeriodOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    legalEntityId?: SortOrder
+    year?: SortOrder
+    month?: SortOrder
+    status?: SortOrder
+    outputVat?: SortOrderInput | SortOrder
+    inputVat?: SortOrderInput | SortOrder
+    payableVat?: SortOrderInput | SortOrder
+    settlementEntryId?: SortOrderInput | SortOrder
+    filedAt?: SortOrderInput | SortOrder
+    filedBy?: SortOrderInput | SortOrder
+    paidAt?: SortOrderInput | SortOrder
+    paidReference?: SortOrderInput | SortOrder
+    paidBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: VatPeriodCountOrderByAggregateInput
+    _avg?: VatPeriodAvgOrderByAggregateInput
+    _max?: VatPeriodMaxOrderByAggregateInput
+    _min?: VatPeriodMinOrderByAggregateInput
+    _sum?: VatPeriodSumOrderByAggregateInput
+  }
+
+  export type VatPeriodScalarWhereWithAggregatesInput = {
+    AND?: VatPeriodScalarWhereWithAggregatesInput | VatPeriodScalarWhereWithAggregatesInput[]
+    OR?: VatPeriodScalarWhereWithAggregatesInput[]
+    NOT?: VatPeriodScalarWhereWithAggregatesInput | VatPeriodScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"VatPeriod"> | string
+    tenantId?: UuidWithAggregatesFilter<"VatPeriod"> | string
+    legalEntityId?: UuidWithAggregatesFilter<"VatPeriod"> | string
+    year?: IntWithAggregatesFilter<"VatPeriod"> | number
+    month?: IntWithAggregatesFilter<"VatPeriod"> | number
+    status?: StringWithAggregatesFilter<"VatPeriod"> | string
+    outputVat?: DecimalNullableWithAggregatesFilter<"VatPeriod"> | Decimal | DecimalJsLike | number | string | null
+    inputVat?: DecimalNullableWithAggregatesFilter<"VatPeriod"> | Decimal | DecimalJsLike | number | string | null
+    payableVat?: DecimalNullableWithAggregatesFilter<"VatPeriod"> | Decimal | DecimalJsLike | number | string | null
+    settlementEntryId?: UuidNullableWithAggregatesFilter<"VatPeriod"> | string | null
+    filedAt?: DateTimeNullableWithAggregatesFilter<"VatPeriod"> | Date | string | null
+    filedBy?: StringNullableWithAggregatesFilter<"VatPeriod"> | string | null
+    paidAt?: DateTimeNullableWithAggregatesFilter<"VatPeriod"> | Date | string | null
+    paidReference?: StringNullableWithAggregatesFilter<"VatPeriod"> | string | null
+    paidBy?: StringNullableWithAggregatesFilter<"VatPeriod"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"VatPeriod"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"VatPeriod"> | Date | string
+  }
+
   export type TenantCreateInput = {
     id?: string
     slug: string
@@ -203983,6 +208667,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -204120,6 +208807,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -204257,6 +208947,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -204394,6 +209087,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -216899,6 +221595,451 @@ export namespace Prisma {
     paymentId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
+  export type VatRateCreateInput = {
+    id?: string
+    legalEntityId: string
+    code: string
+    name: string
+    ratePct: Decimal | DecimalJsLike | number | string
+    validFrom: Date | string
+    createdBy?: string | null
+    createdAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutVatRatesInput
+  }
+
+  export type VatRateUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    legalEntityId: string
+    code: string
+    name: string
+    ratePct: Decimal | DecimalJsLike | number | string
+    validFrom: Date | string
+    createdBy?: string | null
+    createdAt?: Date | string
+  }
+
+  export type VatRateUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    legalEntityId?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    ratePct?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    validFrom?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutVatRatesNestedInput
+  }
+
+  export type VatRateUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    legalEntityId?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    ratePct?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    validFrom?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VatRateCreateManyInput = {
+    id?: string
+    tenantId: string
+    legalEntityId: string
+    code: string
+    name: string
+    ratePct: Decimal | DecimalJsLike | number | string
+    validFrom: Date | string
+    createdBy?: string | null
+    createdAt?: Date | string
+  }
+
+  export type VatRateUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    legalEntityId?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    ratePct?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    validFrom?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VatRateUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    legalEntityId?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    ratePct?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    validFrom?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VatBookEntryCreateInput = {
+    id?: string
+    legalEntityId: string
+    bookType: string
+    year: number
+    bookNo: number
+    status?: string
+    documentNumber: string
+    documentDate: Date | string
+    bookingDate: Date | string
+    partnerId: string
+    partnerName: string
+    partnerTaxId?: string | null
+    vatRateCode: string
+    ratePct: Decimal | DecimalJsLike | number | string
+    netAmount: Decimal | DecimalJsLike | number | string
+    vatAmount: Decimal | DecimalJsLike | number | string
+    grossAmount: Decimal | DecimalJsLike | number | string
+    currency: string
+    counterAccountId: string
+    invoiceId?: string | null
+    glEntryId?: string | null
+    stornoOfId?: string | null
+    stornoReason?: string | null
+    requestKey: string
+    requestHash: string
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutVatBookEntriesInput
+  }
+
+  export type VatBookEntryUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    legalEntityId: string
+    bookType: string
+    year: number
+    bookNo: number
+    status?: string
+    documentNumber: string
+    documentDate: Date | string
+    bookingDate: Date | string
+    partnerId: string
+    partnerName: string
+    partnerTaxId?: string | null
+    vatRateCode: string
+    ratePct: Decimal | DecimalJsLike | number | string
+    netAmount: Decimal | DecimalJsLike | number | string
+    vatAmount: Decimal | DecimalJsLike | number | string
+    grossAmount: Decimal | DecimalJsLike | number | string
+    currency: string
+    counterAccountId: string
+    invoiceId?: string | null
+    glEntryId?: string | null
+    stornoOfId?: string | null
+    stornoReason?: string | null
+    requestKey: string
+    requestHash: string
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type VatBookEntryUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    legalEntityId?: StringFieldUpdateOperationsInput | string
+    bookType?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    bookNo?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    documentNumber?: StringFieldUpdateOperationsInput | string
+    documentDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    bookingDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    partnerId?: StringFieldUpdateOperationsInput | string
+    partnerName?: StringFieldUpdateOperationsInput | string
+    partnerTaxId?: NullableStringFieldUpdateOperationsInput | string | null
+    vatRateCode?: StringFieldUpdateOperationsInput | string
+    ratePct?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    netAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    vatAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    grossAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    counterAccountId?: StringFieldUpdateOperationsInput | string
+    invoiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    glEntryId?: NullableStringFieldUpdateOperationsInput | string | null
+    stornoOfId?: NullableStringFieldUpdateOperationsInput | string | null
+    stornoReason?: NullableStringFieldUpdateOperationsInput | string | null
+    requestKey?: StringFieldUpdateOperationsInput | string
+    requestHash?: StringFieldUpdateOperationsInput | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutVatBookEntriesNestedInput
+  }
+
+  export type VatBookEntryUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    legalEntityId?: StringFieldUpdateOperationsInput | string
+    bookType?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    bookNo?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    documentNumber?: StringFieldUpdateOperationsInput | string
+    documentDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    bookingDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    partnerId?: StringFieldUpdateOperationsInput | string
+    partnerName?: StringFieldUpdateOperationsInput | string
+    partnerTaxId?: NullableStringFieldUpdateOperationsInput | string | null
+    vatRateCode?: StringFieldUpdateOperationsInput | string
+    ratePct?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    netAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    vatAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    grossAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    counterAccountId?: StringFieldUpdateOperationsInput | string
+    invoiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    glEntryId?: NullableStringFieldUpdateOperationsInput | string | null
+    stornoOfId?: NullableStringFieldUpdateOperationsInput | string | null
+    stornoReason?: NullableStringFieldUpdateOperationsInput | string | null
+    requestKey?: StringFieldUpdateOperationsInput | string
+    requestHash?: StringFieldUpdateOperationsInput | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VatBookEntryCreateManyInput = {
+    id?: string
+    tenantId: string
+    legalEntityId: string
+    bookType: string
+    year: number
+    bookNo: number
+    status?: string
+    documentNumber: string
+    documentDate: Date | string
+    bookingDate: Date | string
+    partnerId: string
+    partnerName: string
+    partnerTaxId?: string | null
+    vatRateCode: string
+    ratePct: Decimal | DecimalJsLike | number | string
+    netAmount: Decimal | DecimalJsLike | number | string
+    vatAmount: Decimal | DecimalJsLike | number | string
+    grossAmount: Decimal | DecimalJsLike | number | string
+    currency: string
+    counterAccountId: string
+    invoiceId?: string | null
+    glEntryId?: string | null
+    stornoOfId?: string | null
+    stornoReason?: string | null
+    requestKey: string
+    requestHash: string
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type VatBookEntryUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    legalEntityId?: StringFieldUpdateOperationsInput | string
+    bookType?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    bookNo?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    documentNumber?: StringFieldUpdateOperationsInput | string
+    documentDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    bookingDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    partnerId?: StringFieldUpdateOperationsInput | string
+    partnerName?: StringFieldUpdateOperationsInput | string
+    partnerTaxId?: NullableStringFieldUpdateOperationsInput | string | null
+    vatRateCode?: StringFieldUpdateOperationsInput | string
+    ratePct?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    netAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    vatAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    grossAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    counterAccountId?: StringFieldUpdateOperationsInput | string
+    invoiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    glEntryId?: NullableStringFieldUpdateOperationsInput | string | null
+    stornoOfId?: NullableStringFieldUpdateOperationsInput | string | null
+    stornoReason?: NullableStringFieldUpdateOperationsInput | string | null
+    requestKey?: StringFieldUpdateOperationsInput | string
+    requestHash?: StringFieldUpdateOperationsInput | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VatBookEntryUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    legalEntityId?: StringFieldUpdateOperationsInput | string
+    bookType?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    bookNo?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    documentNumber?: StringFieldUpdateOperationsInput | string
+    documentDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    bookingDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    partnerId?: StringFieldUpdateOperationsInput | string
+    partnerName?: StringFieldUpdateOperationsInput | string
+    partnerTaxId?: NullableStringFieldUpdateOperationsInput | string | null
+    vatRateCode?: StringFieldUpdateOperationsInput | string
+    ratePct?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    netAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    vatAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    grossAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    counterAccountId?: StringFieldUpdateOperationsInput | string
+    invoiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    glEntryId?: NullableStringFieldUpdateOperationsInput | string | null
+    stornoOfId?: NullableStringFieldUpdateOperationsInput | string | null
+    stornoReason?: NullableStringFieldUpdateOperationsInput | string | null
+    requestKey?: StringFieldUpdateOperationsInput | string
+    requestHash?: StringFieldUpdateOperationsInput | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VatPeriodCreateInput = {
+    id?: string
+    legalEntityId: string
+    year: number
+    month: number
+    status?: string
+    outputVat?: Decimal | DecimalJsLike | number | string | null
+    inputVat?: Decimal | DecimalJsLike | number | string | null
+    payableVat?: Decimal | DecimalJsLike | number | string | null
+    settlementEntryId?: string | null
+    filedAt?: Date | string | null
+    filedBy?: string | null
+    paidAt?: Date | string | null
+    paidReference?: string | null
+    paidBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutVatPeriodsInput
+  }
+
+  export type VatPeriodUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    legalEntityId: string
+    year: number
+    month: number
+    status?: string
+    outputVat?: Decimal | DecimalJsLike | number | string | null
+    inputVat?: Decimal | DecimalJsLike | number | string | null
+    payableVat?: Decimal | DecimalJsLike | number | string | null
+    settlementEntryId?: string | null
+    filedAt?: Date | string | null
+    filedBy?: string | null
+    paidAt?: Date | string | null
+    paidReference?: string | null
+    paidBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type VatPeriodUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    legalEntityId?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    month?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    outputVat?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    inputVat?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    payableVat?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    settlementEntryId?: NullableStringFieldUpdateOperationsInput | string | null
+    filedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    filedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidReference?: NullableStringFieldUpdateOperationsInput | string | null
+    paidBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutVatPeriodsNestedInput
+  }
+
+  export type VatPeriodUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    legalEntityId?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    month?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    outputVat?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    inputVat?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    payableVat?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    settlementEntryId?: NullableStringFieldUpdateOperationsInput | string | null
+    filedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    filedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidReference?: NullableStringFieldUpdateOperationsInput | string | null
+    paidBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VatPeriodCreateManyInput = {
+    id?: string
+    tenantId: string
+    legalEntityId: string
+    year: number
+    month: number
+    status?: string
+    outputVat?: Decimal | DecimalJsLike | number | string | null
+    inputVat?: Decimal | DecimalJsLike | number | string | null
+    payableVat?: Decimal | DecimalJsLike | number | string | null
+    settlementEntryId?: string | null
+    filedAt?: Date | string | null
+    filedBy?: string | null
+    paidAt?: Date | string | null
+    paidReference?: string | null
+    paidBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type VatPeriodUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    legalEntityId?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    month?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    outputVat?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    inputVat?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    payableVat?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    settlementEntryId?: NullableStringFieldUpdateOperationsInput | string | null
+    filedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    filedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidReference?: NullableStringFieldUpdateOperationsInput | string | null
+    paidBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VatPeriodUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    legalEntityId?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    month?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    outputVat?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    inputVat?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    payableVat?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    settlementEntryId?: NullableStringFieldUpdateOperationsInput | string | null
+    filedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    filedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidReference?: NullableStringFieldUpdateOperationsInput | string | null
+    paidBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type UuidFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -217711,6 +222852,24 @@ export namespace Prisma {
     none?: CompensationWhereInput
   }
 
+  export type VatRateListRelationFilter = {
+    every?: VatRateWhereInput
+    some?: VatRateWhereInput
+    none?: VatRateWhereInput
+  }
+
+  export type VatBookEntryListRelationFilter = {
+    every?: VatBookEntryWhereInput
+    some?: VatBookEntryWhereInput
+    none?: VatBookEntryWhereInput
+  }
+
+  export type VatPeriodListRelationFilter = {
+    every?: VatPeriodWhereInput
+    some?: VatPeriodWhereInput
+    none?: VatPeriodWhereInput
+  }
+
   export type CompensationLineListRelationFilter = {
     every?: CompensationLineWhereInput
     some?: CompensationLineWhereInput
@@ -218218,6 +223377,18 @@ export namespace Prisma {
   }
 
   export type CompensationOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type VatRateOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type VatBookEntryOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type VatPeriodOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -226781,6 +231952,272 @@ export namespace Prisma {
     _max?: NestedEnumCompensationSideFilter<$PrismaModel>
   }
 
+  export type VatRateTenantIdLegalEntityIdCodeValidFromCompoundUniqueInput = {
+    tenantId: string
+    legalEntityId: string
+    code: string
+    validFrom: Date | string
+  }
+
+  export type VatRateCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    legalEntityId?: SortOrder
+    code?: SortOrder
+    name?: SortOrder
+    ratePct?: SortOrder
+    validFrom?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type VatRateAvgOrderByAggregateInput = {
+    ratePct?: SortOrder
+  }
+
+  export type VatRateMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    legalEntityId?: SortOrder
+    code?: SortOrder
+    name?: SortOrder
+    ratePct?: SortOrder
+    validFrom?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type VatRateMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    legalEntityId?: SortOrder
+    code?: SortOrder
+    name?: SortOrder
+    ratePct?: SortOrder
+    validFrom?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type VatRateSumOrderByAggregateInput = {
+    ratePct?: SortOrder
+  }
+
+  export type VatBookEntryTenantIdRequestKeyCompoundUniqueInput = {
+    tenantId: string
+    requestKey: string
+  }
+
+  export type VatBookEntryTenantIdLegalEntityIdBookTypeYearBookNoCompoundUniqueInput = {
+    tenantId: string
+    legalEntityId: string
+    bookType: string
+    year: number
+    bookNo: number
+  }
+
+  export type VatBookEntryTenantIdStornoOfIdCompoundUniqueInput = {
+    tenantId: string
+    stornoOfId: string
+  }
+
+  export type VatBookEntryCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    legalEntityId?: SortOrder
+    bookType?: SortOrder
+    year?: SortOrder
+    bookNo?: SortOrder
+    status?: SortOrder
+    documentNumber?: SortOrder
+    documentDate?: SortOrder
+    bookingDate?: SortOrder
+    partnerId?: SortOrder
+    partnerName?: SortOrder
+    partnerTaxId?: SortOrder
+    vatRateCode?: SortOrder
+    ratePct?: SortOrder
+    netAmount?: SortOrder
+    vatAmount?: SortOrder
+    grossAmount?: SortOrder
+    currency?: SortOrder
+    counterAccountId?: SortOrder
+    invoiceId?: SortOrder
+    glEntryId?: SortOrder
+    stornoOfId?: SortOrder
+    stornoReason?: SortOrder
+    requestKey?: SortOrder
+    requestHash?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type VatBookEntryAvgOrderByAggregateInput = {
+    year?: SortOrder
+    bookNo?: SortOrder
+    ratePct?: SortOrder
+    netAmount?: SortOrder
+    vatAmount?: SortOrder
+    grossAmount?: SortOrder
+  }
+
+  export type VatBookEntryMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    legalEntityId?: SortOrder
+    bookType?: SortOrder
+    year?: SortOrder
+    bookNo?: SortOrder
+    status?: SortOrder
+    documentNumber?: SortOrder
+    documentDate?: SortOrder
+    bookingDate?: SortOrder
+    partnerId?: SortOrder
+    partnerName?: SortOrder
+    partnerTaxId?: SortOrder
+    vatRateCode?: SortOrder
+    ratePct?: SortOrder
+    netAmount?: SortOrder
+    vatAmount?: SortOrder
+    grossAmount?: SortOrder
+    currency?: SortOrder
+    counterAccountId?: SortOrder
+    invoiceId?: SortOrder
+    glEntryId?: SortOrder
+    stornoOfId?: SortOrder
+    stornoReason?: SortOrder
+    requestKey?: SortOrder
+    requestHash?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type VatBookEntryMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    legalEntityId?: SortOrder
+    bookType?: SortOrder
+    year?: SortOrder
+    bookNo?: SortOrder
+    status?: SortOrder
+    documentNumber?: SortOrder
+    documentDate?: SortOrder
+    bookingDate?: SortOrder
+    partnerId?: SortOrder
+    partnerName?: SortOrder
+    partnerTaxId?: SortOrder
+    vatRateCode?: SortOrder
+    ratePct?: SortOrder
+    netAmount?: SortOrder
+    vatAmount?: SortOrder
+    grossAmount?: SortOrder
+    currency?: SortOrder
+    counterAccountId?: SortOrder
+    invoiceId?: SortOrder
+    glEntryId?: SortOrder
+    stornoOfId?: SortOrder
+    stornoReason?: SortOrder
+    requestKey?: SortOrder
+    requestHash?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type VatBookEntrySumOrderByAggregateInput = {
+    year?: SortOrder
+    bookNo?: SortOrder
+    ratePct?: SortOrder
+    netAmount?: SortOrder
+    vatAmount?: SortOrder
+    grossAmount?: SortOrder
+  }
+
+  export type VatPeriodTenantIdLegalEntityIdYearMonthCompoundUniqueInput = {
+    tenantId: string
+    legalEntityId: string
+    year: number
+    month: number
+  }
+
+  export type VatPeriodCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    legalEntityId?: SortOrder
+    year?: SortOrder
+    month?: SortOrder
+    status?: SortOrder
+    outputVat?: SortOrder
+    inputVat?: SortOrder
+    payableVat?: SortOrder
+    settlementEntryId?: SortOrder
+    filedAt?: SortOrder
+    filedBy?: SortOrder
+    paidAt?: SortOrder
+    paidReference?: SortOrder
+    paidBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type VatPeriodAvgOrderByAggregateInput = {
+    year?: SortOrder
+    month?: SortOrder
+    outputVat?: SortOrder
+    inputVat?: SortOrder
+    payableVat?: SortOrder
+  }
+
+  export type VatPeriodMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    legalEntityId?: SortOrder
+    year?: SortOrder
+    month?: SortOrder
+    status?: SortOrder
+    outputVat?: SortOrder
+    inputVat?: SortOrder
+    payableVat?: SortOrder
+    settlementEntryId?: SortOrder
+    filedAt?: SortOrder
+    filedBy?: SortOrder
+    paidAt?: SortOrder
+    paidReference?: SortOrder
+    paidBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type VatPeriodMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    legalEntityId?: SortOrder
+    year?: SortOrder
+    month?: SortOrder
+    status?: SortOrder
+    outputVat?: SortOrder
+    inputVat?: SortOrder
+    payableVat?: SortOrder
+    settlementEntryId?: SortOrder
+    filedAt?: SortOrder
+    filedBy?: SortOrder
+    paidAt?: SortOrder
+    paidReference?: SortOrder
+    paidBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type VatPeriodSumOrderByAggregateInput = {
+    year?: SortOrder
+    month?: SortOrder
+    outputVat?: SortOrder
+    inputVat?: SortOrder
+    payableVat?: SortOrder
+  }
+
   export type TenantConfigurationVersionCreateNestedManyWithoutTenantInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -227661,6 +233098,27 @@ export namespace Prisma {
     connectOrCreate?: CompensationCreateOrConnectWithoutTenantInput | CompensationCreateOrConnectWithoutTenantInput[]
     createMany?: CompensationCreateManyTenantInputEnvelope
     connect?: CompensationWhereUniqueInput | CompensationWhereUniqueInput[]
+  }
+
+  export type VatRateCreateNestedManyWithoutTenantInput = {
+    create?: XOR<VatRateCreateWithoutTenantInput, VatRateUncheckedCreateWithoutTenantInput> | VatRateCreateWithoutTenantInput[] | VatRateUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: VatRateCreateOrConnectWithoutTenantInput | VatRateCreateOrConnectWithoutTenantInput[]
+    createMany?: VatRateCreateManyTenantInputEnvelope
+    connect?: VatRateWhereUniqueInput | VatRateWhereUniqueInput[]
+  }
+
+  export type VatBookEntryCreateNestedManyWithoutTenantInput = {
+    create?: XOR<VatBookEntryCreateWithoutTenantInput, VatBookEntryUncheckedCreateWithoutTenantInput> | VatBookEntryCreateWithoutTenantInput[] | VatBookEntryUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: VatBookEntryCreateOrConnectWithoutTenantInput | VatBookEntryCreateOrConnectWithoutTenantInput[]
+    createMany?: VatBookEntryCreateManyTenantInputEnvelope
+    connect?: VatBookEntryWhereUniqueInput | VatBookEntryWhereUniqueInput[]
+  }
+
+  export type VatPeriodCreateNestedManyWithoutTenantInput = {
+    create?: XOR<VatPeriodCreateWithoutTenantInput, VatPeriodUncheckedCreateWithoutTenantInput> | VatPeriodCreateWithoutTenantInput[] | VatPeriodUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: VatPeriodCreateOrConnectWithoutTenantInput | VatPeriodCreateOrConnectWithoutTenantInput[]
+    createMany?: VatPeriodCreateManyTenantInputEnvelope
+    connect?: VatPeriodWhereUniqueInput | VatPeriodWhereUniqueInput[]
   }
 
   export type CompensationLineCreateNestedManyWithoutTenantInput = {
@@ -228550,6 +234008,27 @@ export namespace Prisma {
     connectOrCreate?: CompensationCreateOrConnectWithoutTenantInput | CompensationCreateOrConnectWithoutTenantInput[]
     createMany?: CompensationCreateManyTenantInputEnvelope
     connect?: CompensationWhereUniqueInput | CompensationWhereUniqueInput[]
+  }
+
+  export type VatRateUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<VatRateCreateWithoutTenantInput, VatRateUncheckedCreateWithoutTenantInput> | VatRateCreateWithoutTenantInput[] | VatRateUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: VatRateCreateOrConnectWithoutTenantInput | VatRateCreateOrConnectWithoutTenantInput[]
+    createMany?: VatRateCreateManyTenantInputEnvelope
+    connect?: VatRateWhereUniqueInput | VatRateWhereUniqueInput[]
+  }
+
+  export type VatBookEntryUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<VatBookEntryCreateWithoutTenantInput, VatBookEntryUncheckedCreateWithoutTenantInput> | VatBookEntryCreateWithoutTenantInput[] | VatBookEntryUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: VatBookEntryCreateOrConnectWithoutTenantInput | VatBookEntryCreateOrConnectWithoutTenantInput[]
+    createMany?: VatBookEntryCreateManyTenantInputEnvelope
+    connect?: VatBookEntryWhereUniqueInput | VatBookEntryWhereUniqueInput[]
+  }
+
+  export type VatPeriodUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<VatPeriodCreateWithoutTenantInput, VatPeriodUncheckedCreateWithoutTenantInput> | VatPeriodCreateWithoutTenantInput[] | VatPeriodUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: VatPeriodCreateOrConnectWithoutTenantInput | VatPeriodCreateOrConnectWithoutTenantInput[]
+    createMany?: VatPeriodCreateManyTenantInputEnvelope
+    connect?: VatPeriodWhereUniqueInput | VatPeriodWhereUniqueInput[]
   }
 
   export type CompensationLineUncheckedCreateNestedManyWithoutTenantInput = {
@@ -230343,6 +235822,48 @@ export namespace Prisma {
     deleteMany?: CompensationScalarWhereInput | CompensationScalarWhereInput[]
   }
 
+  export type VatRateUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<VatRateCreateWithoutTenantInput, VatRateUncheckedCreateWithoutTenantInput> | VatRateCreateWithoutTenantInput[] | VatRateUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: VatRateCreateOrConnectWithoutTenantInput | VatRateCreateOrConnectWithoutTenantInput[]
+    upsert?: VatRateUpsertWithWhereUniqueWithoutTenantInput | VatRateUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: VatRateCreateManyTenantInputEnvelope
+    set?: VatRateWhereUniqueInput | VatRateWhereUniqueInput[]
+    disconnect?: VatRateWhereUniqueInput | VatRateWhereUniqueInput[]
+    delete?: VatRateWhereUniqueInput | VatRateWhereUniqueInput[]
+    connect?: VatRateWhereUniqueInput | VatRateWhereUniqueInput[]
+    update?: VatRateUpdateWithWhereUniqueWithoutTenantInput | VatRateUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: VatRateUpdateManyWithWhereWithoutTenantInput | VatRateUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: VatRateScalarWhereInput | VatRateScalarWhereInput[]
+  }
+
+  export type VatBookEntryUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<VatBookEntryCreateWithoutTenantInput, VatBookEntryUncheckedCreateWithoutTenantInput> | VatBookEntryCreateWithoutTenantInput[] | VatBookEntryUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: VatBookEntryCreateOrConnectWithoutTenantInput | VatBookEntryCreateOrConnectWithoutTenantInput[]
+    upsert?: VatBookEntryUpsertWithWhereUniqueWithoutTenantInput | VatBookEntryUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: VatBookEntryCreateManyTenantInputEnvelope
+    set?: VatBookEntryWhereUniqueInput | VatBookEntryWhereUniqueInput[]
+    disconnect?: VatBookEntryWhereUniqueInput | VatBookEntryWhereUniqueInput[]
+    delete?: VatBookEntryWhereUniqueInput | VatBookEntryWhereUniqueInput[]
+    connect?: VatBookEntryWhereUniqueInput | VatBookEntryWhereUniqueInput[]
+    update?: VatBookEntryUpdateWithWhereUniqueWithoutTenantInput | VatBookEntryUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: VatBookEntryUpdateManyWithWhereWithoutTenantInput | VatBookEntryUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: VatBookEntryScalarWhereInput | VatBookEntryScalarWhereInput[]
+  }
+
+  export type VatPeriodUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<VatPeriodCreateWithoutTenantInput, VatPeriodUncheckedCreateWithoutTenantInput> | VatPeriodCreateWithoutTenantInput[] | VatPeriodUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: VatPeriodCreateOrConnectWithoutTenantInput | VatPeriodCreateOrConnectWithoutTenantInput[]
+    upsert?: VatPeriodUpsertWithWhereUniqueWithoutTenantInput | VatPeriodUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: VatPeriodCreateManyTenantInputEnvelope
+    set?: VatPeriodWhereUniqueInput | VatPeriodWhereUniqueInput[]
+    disconnect?: VatPeriodWhereUniqueInput | VatPeriodWhereUniqueInput[]
+    delete?: VatPeriodWhereUniqueInput | VatPeriodWhereUniqueInput[]
+    connect?: VatPeriodWhereUniqueInput | VatPeriodWhereUniqueInput[]
+    update?: VatPeriodUpdateWithWhereUniqueWithoutTenantInput | VatPeriodUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: VatPeriodUpdateManyWithWhereWithoutTenantInput | VatPeriodUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: VatPeriodScalarWhereInput | VatPeriodScalarWhereInput[]
+  }
+
   export type CompensationLineUpdateManyWithoutTenantNestedInput = {
     create?: XOR<CompensationLineCreateWithoutTenantInput, CompensationLineUncheckedCreateWithoutTenantInput> | CompensationLineCreateWithoutTenantInput[] | CompensationLineUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: CompensationLineCreateOrConnectWithoutTenantInput | CompensationLineCreateOrConnectWithoutTenantInput[]
@@ -232119,6 +237640,48 @@ export namespace Prisma {
     update?: CompensationUpdateWithWhereUniqueWithoutTenantInput | CompensationUpdateWithWhereUniqueWithoutTenantInput[]
     updateMany?: CompensationUpdateManyWithWhereWithoutTenantInput | CompensationUpdateManyWithWhereWithoutTenantInput[]
     deleteMany?: CompensationScalarWhereInput | CompensationScalarWhereInput[]
+  }
+
+  export type VatRateUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<VatRateCreateWithoutTenantInput, VatRateUncheckedCreateWithoutTenantInput> | VatRateCreateWithoutTenantInput[] | VatRateUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: VatRateCreateOrConnectWithoutTenantInput | VatRateCreateOrConnectWithoutTenantInput[]
+    upsert?: VatRateUpsertWithWhereUniqueWithoutTenantInput | VatRateUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: VatRateCreateManyTenantInputEnvelope
+    set?: VatRateWhereUniqueInput | VatRateWhereUniqueInput[]
+    disconnect?: VatRateWhereUniqueInput | VatRateWhereUniqueInput[]
+    delete?: VatRateWhereUniqueInput | VatRateWhereUniqueInput[]
+    connect?: VatRateWhereUniqueInput | VatRateWhereUniqueInput[]
+    update?: VatRateUpdateWithWhereUniqueWithoutTenantInput | VatRateUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: VatRateUpdateManyWithWhereWithoutTenantInput | VatRateUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: VatRateScalarWhereInput | VatRateScalarWhereInput[]
+  }
+
+  export type VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<VatBookEntryCreateWithoutTenantInput, VatBookEntryUncheckedCreateWithoutTenantInput> | VatBookEntryCreateWithoutTenantInput[] | VatBookEntryUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: VatBookEntryCreateOrConnectWithoutTenantInput | VatBookEntryCreateOrConnectWithoutTenantInput[]
+    upsert?: VatBookEntryUpsertWithWhereUniqueWithoutTenantInput | VatBookEntryUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: VatBookEntryCreateManyTenantInputEnvelope
+    set?: VatBookEntryWhereUniqueInput | VatBookEntryWhereUniqueInput[]
+    disconnect?: VatBookEntryWhereUniqueInput | VatBookEntryWhereUniqueInput[]
+    delete?: VatBookEntryWhereUniqueInput | VatBookEntryWhereUniqueInput[]
+    connect?: VatBookEntryWhereUniqueInput | VatBookEntryWhereUniqueInput[]
+    update?: VatBookEntryUpdateWithWhereUniqueWithoutTenantInput | VatBookEntryUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: VatBookEntryUpdateManyWithWhereWithoutTenantInput | VatBookEntryUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: VatBookEntryScalarWhereInput | VatBookEntryScalarWhereInput[]
+  }
+
+  export type VatPeriodUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<VatPeriodCreateWithoutTenantInput, VatPeriodUncheckedCreateWithoutTenantInput> | VatPeriodCreateWithoutTenantInput[] | VatPeriodUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: VatPeriodCreateOrConnectWithoutTenantInput | VatPeriodCreateOrConnectWithoutTenantInput[]
+    upsert?: VatPeriodUpsertWithWhereUniqueWithoutTenantInput | VatPeriodUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: VatPeriodCreateManyTenantInputEnvelope
+    set?: VatPeriodWhereUniqueInput | VatPeriodWhereUniqueInput[]
+    disconnect?: VatPeriodWhereUniqueInput | VatPeriodWhereUniqueInput[]
+    delete?: VatPeriodWhereUniqueInput | VatPeriodWhereUniqueInput[]
+    connect?: VatPeriodWhereUniqueInput | VatPeriodWhereUniqueInput[]
+    update?: VatPeriodUpdateWithWhereUniqueWithoutTenantInput | VatPeriodUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: VatPeriodUpdateManyWithWhereWithoutTenantInput | VatPeriodUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: VatPeriodScalarWhereInput | VatPeriodScalarWhereInput[]
   }
 
   export type CompensationLineUncheckedUpdateManyWithoutTenantNestedInput = {
@@ -238296,6 +243859,48 @@ export namespace Prisma {
     update?: XOR<XOR<InvoiceUpdateToOneWithWhereWithoutCompensationLinesInput, InvoiceUpdateWithoutCompensationLinesInput>, InvoiceUncheckedUpdateWithoutCompensationLinesInput>
   }
 
+  export type TenantCreateNestedOneWithoutVatRatesInput = {
+    create?: XOR<TenantCreateWithoutVatRatesInput, TenantUncheckedCreateWithoutVatRatesInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutVatRatesInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type TenantUpdateOneRequiredWithoutVatRatesNestedInput = {
+    create?: XOR<TenantCreateWithoutVatRatesInput, TenantUncheckedCreateWithoutVatRatesInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutVatRatesInput
+    upsert?: TenantUpsertWithoutVatRatesInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutVatRatesInput, TenantUpdateWithoutVatRatesInput>, TenantUncheckedUpdateWithoutVatRatesInput>
+  }
+
+  export type TenantCreateNestedOneWithoutVatBookEntriesInput = {
+    create?: XOR<TenantCreateWithoutVatBookEntriesInput, TenantUncheckedCreateWithoutVatBookEntriesInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutVatBookEntriesInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type TenantUpdateOneRequiredWithoutVatBookEntriesNestedInput = {
+    create?: XOR<TenantCreateWithoutVatBookEntriesInput, TenantUncheckedCreateWithoutVatBookEntriesInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutVatBookEntriesInput
+    upsert?: TenantUpsertWithoutVatBookEntriesInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutVatBookEntriesInput, TenantUpdateWithoutVatBookEntriesInput>, TenantUncheckedUpdateWithoutVatBookEntriesInput>
+  }
+
+  export type TenantCreateNestedOneWithoutVatPeriodsInput = {
+    create?: XOR<TenantCreateWithoutVatPeriodsInput, TenantUncheckedCreateWithoutVatPeriodsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutVatPeriodsInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type TenantUpdateOneRequiredWithoutVatPeriodsNestedInput = {
+    create?: XOR<TenantCreateWithoutVatPeriodsInput, TenantUncheckedCreateWithoutVatPeriodsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutVatPeriodsInput
+    upsert?: TenantUpsertWithoutVatPeriodsInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutVatPeriodsInput, TenantUpdateWithoutVatPeriodsInput>, TenantUncheckedUpdateWithoutVatPeriodsInput>
+  }
+
   export type NestedUuidFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -244109,6 +249714,158 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type VatRateCreateWithoutTenantInput = {
+    id?: string
+    legalEntityId: string
+    code: string
+    name: string
+    ratePct: Decimal | DecimalJsLike | number | string
+    validFrom: Date | string
+    createdBy?: string | null
+    createdAt?: Date | string
+  }
+
+  export type VatRateUncheckedCreateWithoutTenantInput = {
+    id?: string
+    legalEntityId: string
+    code: string
+    name: string
+    ratePct: Decimal | DecimalJsLike | number | string
+    validFrom: Date | string
+    createdBy?: string | null
+    createdAt?: Date | string
+  }
+
+  export type VatRateCreateOrConnectWithoutTenantInput = {
+    where: VatRateWhereUniqueInput
+    create: XOR<VatRateCreateWithoutTenantInput, VatRateUncheckedCreateWithoutTenantInput>
+  }
+
+  export type VatRateCreateManyTenantInputEnvelope = {
+    data: VatRateCreateManyTenantInput | VatRateCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type VatBookEntryCreateWithoutTenantInput = {
+    id?: string
+    legalEntityId: string
+    bookType: string
+    year: number
+    bookNo: number
+    status?: string
+    documentNumber: string
+    documentDate: Date | string
+    bookingDate: Date | string
+    partnerId: string
+    partnerName: string
+    partnerTaxId?: string | null
+    vatRateCode: string
+    ratePct: Decimal | DecimalJsLike | number | string
+    netAmount: Decimal | DecimalJsLike | number | string
+    vatAmount: Decimal | DecimalJsLike | number | string
+    grossAmount: Decimal | DecimalJsLike | number | string
+    currency: string
+    counterAccountId: string
+    invoiceId?: string | null
+    glEntryId?: string | null
+    stornoOfId?: string | null
+    stornoReason?: string | null
+    requestKey: string
+    requestHash: string
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type VatBookEntryUncheckedCreateWithoutTenantInput = {
+    id?: string
+    legalEntityId: string
+    bookType: string
+    year: number
+    bookNo: number
+    status?: string
+    documentNumber: string
+    documentDate: Date | string
+    bookingDate: Date | string
+    partnerId: string
+    partnerName: string
+    partnerTaxId?: string | null
+    vatRateCode: string
+    ratePct: Decimal | DecimalJsLike | number | string
+    netAmount: Decimal | DecimalJsLike | number | string
+    vatAmount: Decimal | DecimalJsLike | number | string
+    grossAmount: Decimal | DecimalJsLike | number | string
+    currency: string
+    counterAccountId: string
+    invoiceId?: string | null
+    glEntryId?: string | null
+    stornoOfId?: string | null
+    stornoReason?: string | null
+    requestKey: string
+    requestHash: string
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type VatBookEntryCreateOrConnectWithoutTenantInput = {
+    where: VatBookEntryWhereUniqueInput
+    create: XOR<VatBookEntryCreateWithoutTenantInput, VatBookEntryUncheckedCreateWithoutTenantInput>
+  }
+
+  export type VatBookEntryCreateManyTenantInputEnvelope = {
+    data: VatBookEntryCreateManyTenantInput | VatBookEntryCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type VatPeriodCreateWithoutTenantInput = {
+    id?: string
+    legalEntityId: string
+    year: number
+    month: number
+    status?: string
+    outputVat?: Decimal | DecimalJsLike | number | string | null
+    inputVat?: Decimal | DecimalJsLike | number | string | null
+    payableVat?: Decimal | DecimalJsLike | number | string | null
+    settlementEntryId?: string | null
+    filedAt?: Date | string | null
+    filedBy?: string | null
+    paidAt?: Date | string | null
+    paidReference?: string | null
+    paidBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type VatPeriodUncheckedCreateWithoutTenantInput = {
+    id?: string
+    legalEntityId: string
+    year: number
+    month: number
+    status?: string
+    outputVat?: Decimal | DecimalJsLike | number | string | null
+    inputVat?: Decimal | DecimalJsLike | number | string | null
+    payableVat?: Decimal | DecimalJsLike | number | string | null
+    settlementEntryId?: string | null
+    filedAt?: Date | string | null
+    filedBy?: string | null
+    paidAt?: Date | string | null
+    paidReference?: string | null
+    paidBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type VatPeriodCreateOrConnectWithoutTenantInput = {
+    where: VatPeriodWhereUniqueInput
+    create: XOR<VatPeriodCreateWithoutTenantInput, VatPeriodUncheckedCreateWithoutTenantInput>
+  }
+
+  export type VatPeriodCreateManyTenantInputEnvelope = {
+    data: VatPeriodCreateManyTenantInput | VatPeriodCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
   export type CompensationLineCreateWithoutTenantInput = {
     id?: string
     side: $Enums.CompensationSide
@@ -248118,6 +253875,127 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Compensation"> | Date | string
   }
 
+  export type VatRateUpsertWithWhereUniqueWithoutTenantInput = {
+    where: VatRateWhereUniqueInput
+    update: XOR<VatRateUpdateWithoutTenantInput, VatRateUncheckedUpdateWithoutTenantInput>
+    create: XOR<VatRateCreateWithoutTenantInput, VatRateUncheckedCreateWithoutTenantInput>
+  }
+
+  export type VatRateUpdateWithWhereUniqueWithoutTenantInput = {
+    where: VatRateWhereUniqueInput
+    data: XOR<VatRateUpdateWithoutTenantInput, VatRateUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type VatRateUpdateManyWithWhereWithoutTenantInput = {
+    where: VatRateScalarWhereInput
+    data: XOR<VatRateUpdateManyMutationInput, VatRateUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type VatRateScalarWhereInput = {
+    AND?: VatRateScalarWhereInput | VatRateScalarWhereInput[]
+    OR?: VatRateScalarWhereInput[]
+    NOT?: VatRateScalarWhereInput | VatRateScalarWhereInput[]
+    id?: UuidFilter<"VatRate"> | string
+    tenantId?: UuidFilter<"VatRate"> | string
+    legalEntityId?: UuidFilter<"VatRate"> | string
+    code?: StringFilter<"VatRate"> | string
+    name?: StringFilter<"VatRate"> | string
+    ratePct?: DecimalFilter<"VatRate"> | Decimal | DecimalJsLike | number | string
+    validFrom?: DateTimeFilter<"VatRate"> | Date | string
+    createdBy?: StringNullableFilter<"VatRate"> | string | null
+    createdAt?: DateTimeFilter<"VatRate"> | Date | string
+  }
+
+  export type VatBookEntryUpsertWithWhereUniqueWithoutTenantInput = {
+    where: VatBookEntryWhereUniqueInput
+    update: XOR<VatBookEntryUpdateWithoutTenantInput, VatBookEntryUncheckedUpdateWithoutTenantInput>
+    create: XOR<VatBookEntryCreateWithoutTenantInput, VatBookEntryUncheckedCreateWithoutTenantInput>
+  }
+
+  export type VatBookEntryUpdateWithWhereUniqueWithoutTenantInput = {
+    where: VatBookEntryWhereUniqueInput
+    data: XOR<VatBookEntryUpdateWithoutTenantInput, VatBookEntryUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type VatBookEntryUpdateManyWithWhereWithoutTenantInput = {
+    where: VatBookEntryScalarWhereInput
+    data: XOR<VatBookEntryUpdateManyMutationInput, VatBookEntryUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type VatBookEntryScalarWhereInput = {
+    AND?: VatBookEntryScalarWhereInput | VatBookEntryScalarWhereInput[]
+    OR?: VatBookEntryScalarWhereInput[]
+    NOT?: VatBookEntryScalarWhereInput | VatBookEntryScalarWhereInput[]
+    id?: UuidFilter<"VatBookEntry"> | string
+    tenantId?: UuidFilter<"VatBookEntry"> | string
+    legalEntityId?: UuidFilter<"VatBookEntry"> | string
+    bookType?: StringFilter<"VatBookEntry"> | string
+    year?: IntFilter<"VatBookEntry"> | number
+    bookNo?: IntFilter<"VatBookEntry"> | number
+    status?: StringFilter<"VatBookEntry"> | string
+    documentNumber?: StringFilter<"VatBookEntry"> | string
+    documentDate?: DateTimeFilter<"VatBookEntry"> | Date | string
+    bookingDate?: DateTimeFilter<"VatBookEntry"> | Date | string
+    partnerId?: UuidFilter<"VatBookEntry"> | string
+    partnerName?: StringFilter<"VatBookEntry"> | string
+    partnerTaxId?: StringNullableFilter<"VatBookEntry"> | string | null
+    vatRateCode?: StringFilter<"VatBookEntry"> | string
+    ratePct?: DecimalFilter<"VatBookEntry"> | Decimal | DecimalJsLike | number | string
+    netAmount?: DecimalFilter<"VatBookEntry"> | Decimal | DecimalJsLike | number | string
+    vatAmount?: DecimalFilter<"VatBookEntry"> | Decimal | DecimalJsLike | number | string
+    grossAmount?: DecimalFilter<"VatBookEntry"> | Decimal | DecimalJsLike | number | string
+    currency?: StringFilter<"VatBookEntry"> | string
+    counterAccountId?: UuidFilter<"VatBookEntry"> | string
+    invoiceId?: UuidNullableFilter<"VatBookEntry"> | string | null
+    glEntryId?: UuidNullableFilter<"VatBookEntry"> | string | null
+    stornoOfId?: UuidNullableFilter<"VatBookEntry"> | string | null
+    stornoReason?: StringNullableFilter<"VatBookEntry"> | string | null
+    requestKey?: StringFilter<"VatBookEntry"> | string
+    requestHash?: StringFilter<"VatBookEntry"> | string
+    createdBy?: StringNullableFilter<"VatBookEntry"> | string | null
+    createdAt?: DateTimeFilter<"VatBookEntry"> | Date | string
+    updatedAt?: DateTimeFilter<"VatBookEntry"> | Date | string
+  }
+
+  export type VatPeriodUpsertWithWhereUniqueWithoutTenantInput = {
+    where: VatPeriodWhereUniqueInput
+    update: XOR<VatPeriodUpdateWithoutTenantInput, VatPeriodUncheckedUpdateWithoutTenantInput>
+    create: XOR<VatPeriodCreateWithoutTenantInput, VatPeriodUncheckedCreateWithoutTenantInput>
+  }
+
+  export type VatPeriodUpdateWithWhereUniqueWithoutTenantInput = {
+    where: VatPeriodWhereUniqueInput
+    data: XOR<VatPeriodUpdateWithoutTenantInput, VatPeriodUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type VatPeriodUpdateManyWithWhereWithoutTenantInput = {
+    where: VatPeriodScalarWhereInput
+    data: XOR<VatPeriodUpdateManyMutationInput, VatPeriodUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type VatPeriodScalarWhereInput = {
+    AND?: VatPeriodScalarWhereInput | VatPeriodScalarWhereInput[]
+    OR?: VatPeriodScalarWhereInput[]
+    NOT?: VatPeriodScalarWhereInput | VatPeriodScalarWhereInput[]
+    id?: UuidFilter<"VatPeriod"> | string
+    tenantId?: UuidFilter<"VatPeriod"> | string
+    legalEntityId?: UuidFilter<"VatPeriod"> | string
+    year?: IntFilter<"VatPeriod"> | number
+    month?: IntFilter<"VatPeriod"> | number
+    status?: StringFilter<"VatPeriod"> | string
+    outputVat?: DecimalNullableFilter<"VatPeriod"> | Decimal | DecimalJsLike | number | string | null
+    inputVat?: DecimalNullableFilter<"VatPeriod"> | Decimal | DecimalJsLike | number | string | null
+    payableVat?: DecimalNullableFilter<"VatPeriod"> | Decimal | DecimalJsLike | number | string | null
+    settlementEntryId?: UuidNullableFilter<"VatPeriod"> | string | null
+    filedAt?: DateTimeNullableFilter<"VatPeriod"> | Date | string | null
+    filedBy?: StringNullableFilter<"VatPeriod"> | string | null
+    paidAt?: DateTimeNullableFilter<"VatPeriod"> | Date | string | null
+    paidReference?: StringNullableFilter<"VatPeriod"> | string | null
+    paidBy?: StringNullableFilter<"VatPeriod"> | string | null
+    createdAt?: DateTimeFilter<"VatPeriod"> | Date | string
+    updatedAt?: DateTimeFilter<"VatPeriod"> | Date | string
+  }
+
   export type CompensationLineUpsertWithWhereUniqueWithoutTenantInput = {
     where: CompensationLineWhereUniqueInput
     update: XOR<CompensationLineUpdateWithoutTenantInput, CompensationLineUncheckedUpdateWithoutTenantInput>
@@ -248280,6 +254158,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -248416,6 +254297,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -248568,6 +254452,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -248704,6 +254591,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -248840,6 +254730,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -248976,6 +254869,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -249162,6 +255058,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -249298,6 +255197,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -249450,6 +255352,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -249586,6 +255491,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -249876,6 +255784,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -250012,6 +255923,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -250260,6 +256174,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -250396,6 +256313,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -250577,6 +256497,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -250713,6 +256636,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -250884,6 +256810,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -251020,6 +256949,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -251201,6 +257133,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -251337,6 +257272,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -251508,6 +257446,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -251644,6 +257585,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -251885,6 +257829,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -252021,6 +257968,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -252226,6 +258176,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -252362,6 +258315,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -252545,6 +258501,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -252681,6 +258640,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -252854,6 +258816,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -252990,6 +258955,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -253192,6 +259160,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -253328,6 +259299,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -253562,6 +259536,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -253698,6 +259675,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -253906,6 +259886,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -254042,6 +260025,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -254246,6 +260232,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -254382,6 +260371,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -254534,6 +260526,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -254670,6 +260665,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -254806,6 +260804,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -254942,6 +260943,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -255094,6 +261098,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -255230,6 +261237,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -255366,6 +261376,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -255502,6 +261515,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -255654,6 +261670,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -255790,6 +261809,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -255926,6 +261948,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -256062,6 +262087,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -256214,6 +262242,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -256350,6 +262381,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -256486,6 +262520,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -256622,6 +262659,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -256774,6 +262814,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -256910,6 +262953,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -257046,6 +263092,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -257182,6 +263231,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -257334,6 +263386,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -257470,6 +263525,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -257606,6 +263664,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -257742,6 +263803,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -257894,6 +263958,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -258030,6 +264097,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -258166,6 +264236,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -258302,6 +264375,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -258516,6 +264592,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -258652,6 +264731,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -259046,6 +265128,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -259182,6 +265267,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -259362,6 +265450,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -259498,6 +265589,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -259707,6 +265801,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -259843,6 +265940,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -259995,6 +266095,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -260131,6 +266234,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -260267,6 +266373,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -260403,6 +266512,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -260555,6 +266667,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -260691,6 +266806,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -260827,6 +266945,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -260963,6 +267084,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -261141,6 +267265,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -261277,6 +267404,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -261489,6 +267619,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -261625,6 +267758,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -261958,6 +268094,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -262094,6 +268233,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -262351,6 +268493,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -262487,6 +268632,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -262678,6 +268826,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -262814,6 +268965,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -263079,6 +269233,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -263215,6 +269372,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -263431,6 +269591,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -263567,6 +269730,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -264421,6 +270587,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -264557,6 +270726,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -264767,6 +270939,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -264903,6 +271078,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -265129,6 +271307,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -265265,6 +271446,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -265417,6 +271601,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -265553,6 +271740,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -265689,6 +271879,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -265825,6 +272018,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -265977,6 +272173,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -266113,6 +272312,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -266249,6 +272451,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -266385,6 +272590,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -266537,6 +272745,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -266673,6 +272884,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -266809,6 +273023,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -266945,6 +273162,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -267097,6 +273317,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -267233,6 +273456,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -267369,6 +273595,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -267505,6 +273734,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -267683,6 +273915,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -267819,6 +274054,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -267971,6 +274209,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -268107,6 +274348,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -268292,6 +274536,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -268428,6 +274675,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -268603,6 +274853,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -268739,6 +274992,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -268891,6 +275147,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -269027,6 +275286,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -269163,6 +275425,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -269299,6 +275564,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -269475,6 +275743,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -269611,6 +275882,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -269763,6 +276037,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -269899,6 +276176,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -270072,6 +276352,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -270208,6 +276491,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -270371,6 +276657,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -270507,6 +276796,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -270659,6 +276951,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -270795,6 +277090,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -270931,6 +277229,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -271067,6 +277368,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -271219,6 +277523,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -271355,6 +277662,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -271491,6 +277801,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -271627,6 +277940,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -271779,6 +278095,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -271915,6 +278234,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -272051,6 +278373,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -272187,6 +278512,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -272339,6 +278667,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -272475,6 +278806,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -272611,6 +278945,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -272747,6 +279084,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -272925,6 +279265,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -273061,6 +279404,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -273213,6 +279559,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -273349,6 +279698,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -273534,6 +279886,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -273670,6 +280025,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -273845,6 +280203,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -273981,6 +280342,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -274167,6 +280531,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -274303,6 +280670,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -274455,6 +280825,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -274591,6 +280964,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -274802,6 +281178,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -274938,6 +281317,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -275139,6 +281521,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -275275,6 +281660,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -275427,6 +281815,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -275563,6 +281954,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -275699,6 +282093,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -275835,6 +282232,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -275987,6 +282387,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -276123,6 +282526,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -276259,6 +282665,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -276395,6 +282804,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -276594,6 +283006,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -276730,6 +283145,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -276919,6 +283337,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -277055,6 +283476,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -277279,6 +283703,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -277415,6 +283842,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -277583,6 +284013,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -277719,6 +284152,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -277920,6 +284356,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -278056,6 +284495,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -278247,6 +284689,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -278383,6 +284828,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -278535,6 +284983,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -278671,6 +285122,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -278807,6 +285261,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -278943,6 +285400,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -279095,6 +285555,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -279231,6 +285694,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -279367,6 +285833,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -279503,6 +285972,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -279685,6 +286157,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -279821,6 +286296,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -279973,6 +286451,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -280109,6 +286590,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -280294,6 +286778,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -280430,6 +286917,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -280605,6 +287095,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -280741,6 +287234,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -280991,6 +287487,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -281127,6 +287626,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -281311,6 +287813,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -281447,6 +287952,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -281640,6 +288148,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -281776,6 +288287,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -281959,6 +288473,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -282095,6 +288612,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -282277,6 +288797,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -282413,6 +288936,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -282565,6 +289091,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -282701,6 +289230,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -282884,6 +289416,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -283020,6 +289555,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -283193,6 +289731,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -283329,6 +289870,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -283513,6 +290057,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -283649,6 +290196,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -283801,6 +290351,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -283937,6 +290490,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -284116,6 +290672,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -284252,6 +290811,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -284421,6 +290983,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -284557,6 +291122,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -284709,6 +291277,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -284845,6 +291416,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -284981,6 +291555,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -285117,6 +291694,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -285269,6 +291849,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -285405,6 +291988,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -285541,6 +292127,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -285677,6 +292266,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -285859,6 +292451,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -285995,6 +292590,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -286147,6 +292745,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -286283,6 +292884,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -286460,6 +293064,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -286596,6 +293203,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -286763,6 +293373,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -286899,6 +293512,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -287087,6 +293703,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -287223,6 +293842,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -287375,6 +293997,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -287511,6 +294136,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -287706,6 +294334,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -287842,6 +294473,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -288027,6 +294661,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -288163,6 +294800,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -288341,6 +294981,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -288477,6 +295120,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -288629,6 +295275,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -288765,6 +295414,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -288944,6 +295596,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -289080,6 +295735,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -289249,6 +295907,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -289385,6 +296046,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -289567,6 +296231,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -289703,6 +296370,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -289855,6 +296525,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -289991,6 +296664,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -290178,6 +296854,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -290314,6 +296993,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -290491,6 +297173,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -290627,6 +297312,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -290779,6 +297467,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -290915,6 +297606,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -291051,6 +297745,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -291187,6 +297884,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -291435,6 +298135,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -291571,6 +298274,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -291755,6 +298461,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -291891,6 +298600,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -292159,6 +298871,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -292295,6 +299010,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -292539,6 +299257,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -292675,6 +299396,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -292827,6 +299551,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -292963,6 +299690,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -293099,6 +299829,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -293235,6 +299968,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -293387,6 +300123,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -293523,6 +300262,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -293659,6 +300401,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -293795,6 +300540,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -293964,6 +300712,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -294100,6 +300851,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -294259,6 +301013,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -294395,6 +301152,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -294578,6 +301338,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -294714,6 +301477,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -294887,6 +301653,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -295023,6 +301792,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -295175,6 +301947,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -295311,6 +302086,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -295447,6 +302225,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -295583,6 +302364,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -295735,6 +302519,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -295871,6 +302658,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -296007,6 +302797,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -296143,6 +302936,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -296323,6 +303119,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -296459,6 +303258,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -296611,6 +303413,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -296747,6 +303552,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -296922,6 +303730,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -297058,6 +303869,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -297223,6 +304037,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -297359,6 +304176,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -297549,6 +304369,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -297685,6 +304508,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -297837,6 +304663,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -297973,6 +304802,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -298152,6 +304984,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -298288,6 +305123,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -298457,6 +305295,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -298593,6 +305434,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -298745,6 +305589,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -298881,6 +305728,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -299017,6 +305867,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -299153,6 +306006,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -299305,6 +306161,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -299441,6 +306300,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -299577,6 +306439,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -299713,6 +306578,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -299916,6 +306784,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -300052,6 +306923,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -300233,6 +307107,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -300369,6 +307246,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -300549,6 +307429,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -300685,6 +307568,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -300837,6 +307723,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -300973,6 +307862,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -301160,6 +308052,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -301296,6 +308191,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -301473,6 +308371,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -301609,6 +308510,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -301787,6 +308691,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -301923,6 +308830,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -302075,6 +308985,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -302211,6 +309124,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -302396,6 +309312,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -302532,6 +309451,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -302707,6 +309629,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -302843,6 +309768,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -303027,6 +309955,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -303163,6 +310094,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -303315,6 +310249,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -303451,6 +310388,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -303626,6 +310566,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -303762,6 +310705,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -303927,6 +310873,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -304063,6 +311012,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -304241,6 +311193,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -304377,6 +311332,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -304993,6 +311951,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -305129,6 +312090,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -305312,6 +312276,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -305448,6 +312415,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -305621,6 +312591,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -305757,6 +312730,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -305909,6 +312885,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -306045,6 +313024,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -306181,6 +313163,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -306317,6 +313302,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -306499,6 +313487,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -306635,6 +313626,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -306853,6 +313847,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -306989,6 +313986,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -307141,6 +314141,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -307277,6 +314280,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -307413,6 +314419,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -307549,6 +314558,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -307740,6 +314752,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -307876,6 +314891,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -308057,6 +315075,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -308193,6 +315214,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -308345,6 +315369,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -308481,6 +315508,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -308617,6 +315647,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -308753,6 +315786,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -308905,6 +315941,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -309041,6 +316080,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -309177,6 +316219,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -309313,6 +316358,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -309465,6 +316513,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -309601,6 +316652,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -309737,6 +316791,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -309873,6 +316930,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -310055,6 +317115,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -310191,6 +317254,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -310429,6 +317495,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -310565,6 +317634,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -310790,6 +317862,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -310926,6 +318001,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -311212,6 +318290,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -311348,6 +318429,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -311541,6 +318625,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -311677,6 +318764,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -311860,6 +318950,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -311996,6 +319089,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -312176,6 +319272,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -312312,6 +319411,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -312541,6 +319643,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -312677,6 +319782,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -312829,6 +319937,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -312965,6 +320076,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -313101,6 +320215,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -313237,6 +320354,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -313448,6 +320568,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -313584,6 +320707,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -313785,6 +320911,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -313921,6 +321050,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -314114,6 +321246,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -314250,6 +321385,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -314433,6 +321571,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -314569,6 +321710,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -314721,6 +321865,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -314857,6 +322004,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -314993,6 +322143,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -315129,6 +322282,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -315331,6 +322487,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -315467,6 +322626,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -315619,6 +322781,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -315755,6 +322920,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -315957,6 +323125,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -316093,6 +323264,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -316245,6 +323419,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -316381,6 +323558,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -316621,6 +323801,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -316757,6 +323940,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -316973,6 +324159,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -317109,6 +324298,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -317306,6 +324498,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -317442,6 +324637,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -317629,6 +324827,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -317765,6 +324966,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -317938,6 +325142,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -318074,6 +325281,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -318237,6 +325447,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -318373,6 +325586,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -318613,6 +325829,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -318749,6 +325968,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -318917,6 +326139,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -319053,6 +326278,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -319290,6 +326518,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -319426,6 +326657,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -319621,6 +326855,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -319757,6 +326994,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -320007,6 +327247,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -320143,6 +327386,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -320379,6 +327625,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -320515,6 +327764,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -320710,6 +327962,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -320846,6 +328101,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -321031,6 +328289,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -321167,6 +328428,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -321319,6 +328583,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -321455,6 +328722,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -321591,6 +328861,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -321727,6 +329000,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -321909,6 +329185,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -322045,6 +329324,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -322197,6 +329479,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -322333,6 +329618,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -322515,6 +329803,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -322651,6 +329942,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -322803,6 +330097,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -322939,6 +330236,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -323161,6 +330461,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -323297,6 +330600,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -323515,6 +330821,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -323651,6 +330960,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -323803,6 +331115,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -323939,6 +331254,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -324075,6 +331393,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -324211,6 +331532,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -324363,6 +331687,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -324499,6 +331826,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -324635,6 +331965,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -324771,6 +332104,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -324923,6 +332259,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -325059,6 +332398,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -325195,6 +332537,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -325331,6 +332676,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -325523,6 +332871,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -325659,6 +333010,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -325811,6 +333165,9 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -325947,6 +333304,9 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -326176,6 +333536,9 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -326312,6 +333675,9 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -326515,6 +333881,9 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -326651,6 +334020,9 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -326887,6 +334259,9 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -327023,6 +334398,9 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -327255,6 +334633,9 @@ export namespace Prisma {
     bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
   }
 
@@ -327391,6 +334772,9 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
     compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
   }
 
@@ -327571,6 +334955,9 @@ export namespace Prisma {
     bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
   }
 
@@ -327707,6 +335094,9 @@ export namespace Prisma {
     bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
     compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
@@ -327860,6 +335250,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
     compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCompensationLinesInput = {
@@ -327996,6 +335389,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
     paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
     compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCompensationLinesInput = {
@@ -328244,6 +335640,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCompensationLinesInput = {
@@ -328380,6 +335779,9 @@ export namespace Prisma {
     bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
     paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
     compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type CompensationUpsertWithoutLinesInput = {
@@ -328488,6 +335890,1722 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     payments?: PaymentUncheckedUpdateManyWithoutInvoiceNestedInput
     allocations?: PaymentAllocationUncheckedUpdateManyWithoutInvoiceNestedInput
+  }
+
+  export type TenantCreateWithoutVatRatesInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    factories?: FactoryCreateNestedManyWithoutTenantInput
+    users?: UserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionCreateNestedManyWithoutTenantInput
+    tasks?: TaskCreateNestedManyWithoutTenantInput
+    notifications?: NotificationCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    products?: ProductCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountCreateNestedManyWithoutTenantInput
+    leads?: LeadCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryCreateNestedManyWithoutTenantInput
+    quotes?: QuoteCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
+    comments?: CommentCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
+    exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
+    breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
+    masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
+    supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
+    employees?: EmployeeCreateNestedManyWithoutTenantInput
+    assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
+    rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
+    containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
+    installedAssets?: InstalledAssetCreateNestedManyWithoutTenantInput
+    serviceRequests?: ServiceRequestCreateNestedManyWithoutTenantInput
+    serviceOrders?: ServiceOrderCreateNestedManyWithoutTenantInput
+    serviceOrderParts?: ServiceOrderPartCreateNestedManyWithoutTenantInput
+    rmas?: RmaCreateNestedManyWithoutTenantInput
+    glAccounts?: GlAccountCreateNestedManyWithoutTenantInput
+    glJournalEntries?: GlJournalEntryCreateNestedManyWithoutTenantInput
+    glJournalLines?: GlJournalLineCreateNestedManyWithoutTenantInput
+    glSystemAccounts?: GlSystemAccountCreateNestedManyWithoutTenantInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
+    glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutVatRatesInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityUncheckedCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    factories?: FactoryUncheckedCreateNestedManyWithoutTenantInput
+    users?: UserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventUncheckedCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventUncheckedCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryUncheckedCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationUncheckedCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutTenantInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalUncheckedCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventUncheckedCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    products?: ProductUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountUncheckedCreateNestedManyWithoutTenantInput
+    leads?: LeadUncheckedCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityUncheckedCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityUncheckedCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListUncheckedCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryUncheckedCreateNestedManyWithoutTenantInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineUncheckedCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderUncheckedCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventUncheckedCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierUncheckedCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
+    comments?: CommentUncheckedCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderUncheckedCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
+    exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
+    breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
+    masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
+    supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
+    employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
+    assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
+    rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
+    containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
+    installedAssets?: InstalledAssetUncheckedCreateNestedManyWithoutTenantInput
+    serviceRequests?: ServiceRequestUncheckedCreateNestedManyWithoutTenantInput
+    serviceOrders?: ServiceOrderUncheckedCreateNestedManyWithoutTenantInput
+    serviceOrderParts?: ServiceOrderPartUncheckedCreateNestedManyWithoutTenantInput
+    rmas?: RmaUncheckedCreateNestedManyWithoutTenantInput
+    glAccounts?: GlAccountUncheckedCreateNestedManyWithoutTenantInput
+    glJournalEntries?: GlJournalEntryUncheckedCreateNestedManyWithoutTenantInput
+    glJournalLines?: GlJournalLineUncheckedCreateNestedManyWithoutTenantInput
+    glSystemAccounts?: GlSystemAccountUncheckedCreateNestedManyWithoutTenantInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
+    glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutVatRatesInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutVatRatesInput, TenantUncheckedCreateWithoutVatRatesInput>
+  }
+
+  export type TenantUpsertWithoutVatRatesInput = {
+    update: XOR<TenantUpdateWithoutVatRatesInput, TenantUncheckedUpdateWithoutVatRatesInput>
+    create: XOR<TenantCreateWithoutVatRatesInput, TenantUncheckedCreateWithoutVatRatesInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutVatRatesInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutVatRatesInput, TenantUncheckedUpdateWithoutVatRatesInput>
+  }
+
+  export type TenantUpdateWithoutVatRatesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUpdateManyWithoutTenantNestedInput
+    users?: UserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    products?: ProductUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUpdateManyWithoutTenantNestedInput
+    leads?: LeadUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
+    comments?: CommentUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
+    exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
+    breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
+    masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
+    supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
+    employees?: EmployeeUpdateManyWithoutTenantNestedInput
+    assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
+    rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
+    containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
+    installedAssets?: InstalledAssetUpdateManyWithoutTenantNestedInput
+    serviceRequests?: ServiceRequestUpdateManyWithoutTenantNestedInput
+    serviceOrders?: ServiceOrderUpdateManyWithoutTenantNestedInput
+    serviceOrderParts?: ServiceOrderPartUpdateManyWithoutTenantNestedInput
+    rmas?: RmaUpdateManyWithoutTenantNestedInput
+    glAccounts?: GlAccountUpdateManyWithoutTenantNestedInput
+    glJournalEntries?: GlJournalEntryUpdateManyWithoutTenantNestedInput
+    glJournalLines?: GlJournalLineUpdateManyWithoutTenantNestedInput
+    glSystemAccounts?: GlSystemAccountUpdateManyWithoutTenantNestedInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
+    glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutVatRatesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUncheckedUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUncheckedUpdateManyWithoutTenantNestedInput
+    users?: UserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUncheckedUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUncheckedUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUncheckedUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUncheckedUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUncheckedUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUncheckedUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    products?: ProductUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUncheckedUpdateManyWithoutTenantNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUncheckedUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUncheckedUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUncheckedUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUncheckedUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUncheckedUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
+    exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
+    breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
+    masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
+    supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
+    employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
+    assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
+    rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
+    containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
+    installedAssets?: InstalledAssetUncheckedUpdateManyWithoutTenantNestedInput
+    serviceRequests?: ServiceRequestUncheckedUpdateManyWithoutTenantNestedInput
+    serviceOrders?: ServiceOrderUncheckedUpdateManyWithoutTenantNestedInput
+    serviceOrderParts?: ServiceOrderPartUncheckedUpdateManyWithoutTenantNestedInput
+    rmas?: RmaUncheckedUpdateManyWithoutTenantNestedInput
+    glAccounts?: GlAccountUncheckedUpdateManyWithoutTenantNestedInput
+    glJournalEntries?: GlJournalEntryUncheckedUpdateManyWithoutTenantNestedInput
+    glJournalLines?: GlJournalLineUncheckedUpdateManyWithoutTenantNestedInput
+    glSystemAccounts?: GlSystemAccountUncheckedUpdateManyWithoutTenantNestedInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
+    glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantCreateWithoutVatBookEntriesInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    factories?: FactoryCreateNestedManyWithoutTenantInput
+    users?: UserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionCreateNestedManyWithoutTenantInput
+    tasks?: TaskCreateNestedManyWithoutTenantInput
+    notifications?: NotificationCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    products?: ProductCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountCreateNestedManyWithoutTenantInput
+    leads?: LeadCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryCreateNestedManyWithoutTenantInput
+    quotes?: QuoteCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
+    comments?: CommentCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
+    exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
+    breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
+    masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
+    supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
+    employees?: EmployeeCreateNestedManyWithoutTenantInput
+    assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
+    rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
+    containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
+    installedAssets?: InstalledAssetCreateNestedManyWithoutTenantInput
+    serviceRequests?: ServiceRequestCreateNestedManyWithoutTenantInput
+    serviceOrders?: ServiceOrderCreateNestedManyWithoutTenantInput
+    serviceOrderParts?: ServiceOrderPartCreateNestedManyWithoutTenantInput
+    rmas?: RmaCreateNestedManyWithoutTenantInput
+    glAccounts?: GlAccountCreateNestedManyWithoutTenantInput
+    glJournalEntries?: GlJournalEntryCreateNestedManyWithoutTenantInput
+    glJournalLines?: GlJournalLineCreateNestedManyWithoutTenantInput
+    glSystemAccounts?: GlSystemAccountCreateNestedManyWithoutTenantInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
+    glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutVatBookEntriesInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityUncheckedCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    factories?: FactoryUncheckedCreateNestedManyWithoutTenantInput
+    users?: UserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventUncheckedCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventUncheckedCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryUncheckedCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationUncheckedCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutTenantInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalUncheckedCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventUncheckedCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    products?: ProductUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountUncheckedCreateNestedManyWithoutTenantInput
+    leads?: LeadUncheckedCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityUncheckedCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityUncheckedCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListUncheckedCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryUncheckedCreateNestedManyWithoutTenantInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineUncheckedCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderUncheckedCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventUncheckedCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierUncheckedCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
+    comments?: CommentUncheckedCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderUncheckedCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
+    exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
+    breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
+    masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
+    supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
+    employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
+    assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
+    rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
+    containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
+    installedAssets?: InstalledAssetUncheckedCreateNestedManyWithoutTenantInput
+    serviceRequests?: ServiceRequestUncheckedCreateNestedManyWithoutTenantInput
+    serviceOrders?: ServiceOrderUncheckedCreateNestedManyWithoutTenantInput
+    serviceOrderParts?: ServiceOrderPartUncheckedCreateNestedManyWithoutTenantInput
+    rmas?: RmaUncheckedCreateNestedManyWithoutTenantInput
+    glAccounts?: GlAccountUncheckedCreateNestedManyWithoutTenantInput
+    glJournalEntries?: GlJournalEntryUncheckedCreateNestedManyWithoutTenantInput
+    glJournalLines?: GlJournalLineUncheckedCreateNestedManyWithoutTenantInput
+    glSystemAccounts?: GlSystemAccountUncheckedCreateNestedManyWithoutTenantInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
+    glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutVatBookEntriesInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutVatBookEntriesInput, TenantUncheckedCreateWithoutVatBookEntriesInput>
+  }
+
+  export type TenantUpsertWithoutVatBookEntriesInput = {
+    update: XOR<TenantUpdateWithoutVatBookEntriesInput, TenantUncheckedUpdateWithoutVatBookEntriesInput>
+    create: XOR<TenantCreateWithoutVatBookEntriesInput, TenantUncheckedCreateWithoutVatBookEntriesInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutVatBookEntriesInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutVatBookEntriesInput, TenantUncheckedUpdateWithoutVatBookEntriesInput>
+  }
+
+  export type TenantUpdateWithoutVatBookEntriesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUpdateManyWithoutTenantNestedInput
+    users?: UserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    products?: ProductUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUpdateManyWithoutTenantNestedInput
+    leads?: LeadUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
+    comments?: CommentUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
+    exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
+    breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
+    masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
+    supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
+    employees?: EmployeeUpdateManyWithoutTenantNestedInput
+    assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
+    rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
+    containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
+    installedAssets?: InstalledAssetUpdateManyWithoutTenantNestedInput
+    serviceRequests?: ServiceRequestUpdateManyWithoutTenantNestedInput
+    serviceOrders?: ServiceOrderUpdateManyWithoutTenantNestedInput
+    serviceOrderParts?: ServiceOrderPartUpdateManyWithoutTenantNestedInput
+    rmas?: RmaUpdateManyWithoutTenantNestedInput
+    glAccounts?: GlAccountUpdateManyWithoutTenantNestedInput
+    glJournalEntries?: GlJournalEntryUpdateManyWithoutTenantNestedInput
+    glJournalLines?: GlJournalLineUpdateManyWithoutTenantNestedInput
+    glSystemAccounts?: GlSystemAccountUpdateManyWithoutTenantNestedInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
+    glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutVatBookEntriesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUncheckedUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUncheckedUpdateManyWithoutTenantNestedInput
+    users?: UserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUncheckedUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUncheckedUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUncheckedUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUncheckedUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUncheckedUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUncheckedUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    products?: ProductUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUncheckedUpdateManyWithoutTenantNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUncheckedUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUncheckedUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUncheckedUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUncheckedUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUncheckedUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
+    exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
+    breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
+    masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
+    supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
+    employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
+    assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
+    rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
+    containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
+    installedAssets?: InstalledAssetUncheckedUpdateManyWithoutTenantNestedInput
+    serviceRequests?: ServiceRequestUncheckedUpdateManyWithoutTenantNestedInput
+    serviceOrders?: ServiceOrderUncheckedUpdateManyWithoutTenantNestedInput
+    serviceOrderParts?: ServiceOrderPartUncheckedUpdateManyWithoutTenantNestedInput
+    rmas?: RmaUncheckedUpdateManyWithoutTenantNestedInput
+    glAccounts?: GlAccountUncheckedUpdateManyWithoutTenantNestedInput
+    glJournalEntries?: GlJournalEntryUncheckedUpdateManyWithoutTenantNestedInput
+    glJournalLines?: GlJournalLineUncheckedUpdateManyWithoutTenantNestedInput
+    glSystemAccounts?: GlSystemAccountUncheckedUpdateManyWithoutTenantNestedInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
+    glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantCreateWithoutVatPeriodsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    factories?: FactoryCreateNestedManyWithoutTenantInput
+    users?: UserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionCreateNestedManyWithoutTenantInput
+    tasks?: TaskCreateNestedManyWithoutTenantInput
+    notifications?: NotificationCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    products?: ProductCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountCreateNestedManyWithoutTenantInput
+    leads?: LeadCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryCreateNestedManyWithoutTenantInput
+    quotes?: QuoteCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
+    comments?: CommentCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
+    exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
+    breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
+    masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
+    supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
+    employees?: EmployeeCreateNestedManyWithoutTenantInput
+    assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
+    rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
+    containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
+    installedAssets?: InstalledAssetCreateNestedManyWithoutTenantInput
+    serviceRequests?: ServiceRequestCreateNestedManyWithoutTenantInput
+    serviceOrders?: ServiceOrderCreateNestedManyWithoutTenantInput
+    serviceOrderParts?: ServiceOrderPartCreateNestedManyWithoutTenantInput
+    rmas?: RmaCreateNestedManyWithoutTenantInput
+    glAccounts?: GlAccountCreateNestedManyWithoutTenantInput
+    glJournalEntries?: GlJournalEntryCreateNestedManyWithoutTenantInput
+    glJournalLines?: GlJournalLineCreateNestedManyWithoutTenantInput
+    glSystemAccounts?: GlSystemAccountCreateNestedManyWithoutTenantInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
+    glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutVatPeriodsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityUncheckedCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    factories?: FactoryUncheckedCreateNestedManyWithoutTenantInput
+    users?: UserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventUncheckedCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventUncheckedCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryUncheckedCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationUncheckedCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutTenantInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalUncheckedCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventUncheckedCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    products?: ProductUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountUncheckedCreateNestedManyWithoutTenantInput
+    leads?: LeadUncheckedCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityUncheckedCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityUncheckedCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListUncheckedCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryUncheckedCreateNestedManyWithoutTenantInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineUncheckedCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderUncheckedCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventUncheckedCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierUncheckedCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
+    comments?: CommentUncheckedCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderUncheckedCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
+    exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
+    breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
+    masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
+    supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
+    employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
+    assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
+    rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
+    containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
+    installedAssets?: InstalledAssetUncheckedCreateNestedManyWithoutTenantInput
+    serviceRequests?: ServiceRequestUncheckedCreateNestedManyWithoutTenantInput
+    serviceOrders?: ServiceOrderUncheckedCreateNestedManyWithoutTenantInput
+    serviceOrderParts?: ServiceOrderPartUncheckedCreateNestedManyWithoutTenantInput
+    rmas?: RmaUncheckedCreateNestedManyWithoutTenantInput
+    glAccounts?: GlAccountUncheckedCreateNestedManyWithoutTenantInput
+    glJournalEntries?: GlJournalEntryUncheckedCreateNestedManyWithoutTenantInput
+    glJournalLines?: GlJournalLineUncheckedCreateNestedManyWithoutTenantInput
+    glSystemAccounts?: GlSystemAccountUncheckedCreateNestedManyWithoutTenantInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
+    glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutVatPeriodsInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutVatPeriodsInput, TenantUncheckedCreateWithoutVatPeriodsInput>
+  }
+
+  export type TenantUpsertWithoutVatPeriodsInput = {
+    update: XOR<TenantUpdateWithoutVatPeriodsInput, TenantUncheckedUpdateWithoutVatPeriodsInput>
+    create: XOR<TenantCreateWithoutVatPeriodsInput, TenantUncheckedCreateWithoutVatPeriodsInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutVatPeriodsInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutVatPeriodsInput, TenantUncheckedUpdateWithoutVatPeriodsInput>
+  }
+
+  export type TenantUpdateWithoutVatPeriodsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUpdateManyWithoutTenantNestedInput
+    users?: UserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    products?: ProductUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUpdateManyWithoutTenantNestedInput
+    leads?: LeadUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
+    comments?: CommentUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
+    exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
+    breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
+    masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
+    supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
+    employees?: EmployeeUpdateManyWithoutTenantNestedInput
+    assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
+    rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
+    containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
+    installedAssets?: InstalledAssetUpdateManyWithoutTenantNestedInput
+    serviceRequests?: ServiceRequestUpdateManyWithoutTenantNestedInput
+    serviceOrders?: ServiceOrderUpdateManyWithoutTenantNestedInput
+    serviceOrderParts?: ServiceOrderPartUpdateManyWithoutTenantNestedInput
+    rmas?: RmaUpdateManyWithoutTenantNestedInput
+    glAccounts?: GlAccountUpdateManyWithoutTenantNestedInput
+    glJournalEntries?: GlJournalEntryUpdateManyWithoutTenantNestedInput
+    glJournalLines?: GlJournalLineUpdateManyWithoutTenantNestedInput
+    glSystemAccounts?: GlSystemAccountUpdateManyWithoutTenantNestedInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
+    glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutVatPeriodsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUncheckedUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUncheckedUpdateManyWithoutTenantNestedInput
+    users?: UserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUncheckedUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUncheckedUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUncheckedUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUncheckedUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUncheckedUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUncheckedUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    products?: ProductUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUncheckedUpdateManyWithoutTenantNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUncheckedUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUncheckedUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUncheckedUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUncheckedUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUncheckedUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
+    exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
+    breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
+    masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
+    supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
+    employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
+    assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
+    rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
+    containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
+    installedAssets?: InstalledAssetUncheckedUpdateManyWithoutTenantNestedInput
+    serviceRequests?: ServiceRequestUncheckedUpdateManyWithoutTenantNestedInput
+    serviceOrders?: ServiceOrderUncheckedUpdateManyWithoutTenantNestedInput
+    serviceOrderParts?: ServiceOrderPartUncheckedUpdateManyWithoutTenantNestedInput
+    rmas?: RmaUncheckedUpdateManyWithoutTenantNestedInput
+    glAccounts?: GlAccountUncheckedUpdateManyWithoutTenantNestedInput
+    glJournalEntries?: GlJournalEntryUncheckedUpdateManyWithoutTenantNestedInput
+    glJournalLines?: GlJournalLineUncheckedUpdateManyWithoutTenantNestedInput
+    glSystemAccounts?: GlSystemAccountUncheckedUpdateManyWithoutTenantNestedInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
+    glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantConfigurationVersionCreateManyTenantInput = {
@@ -329947,6 +339065,67 @@ export namespace Prisma {
     cancelledBy?: string | null
     cancelReason?: string | null
     createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type VatRateCreateManyTenantInput = {
+    id?: string
+    legalEntityId: string
+    code: string
+    name: string
+    ratePct: Decimal | DecimalJsLike | number | string
+    validFrom: Date | string
+    createdBy?: string | null
+    createdAt?: Date | string
+  }
+
+  export type VatBookEntryCreateManyTenantInput = {
+    id?: string
+    legalEntityId: string
+    bookType: string
+    year: number
+    bookNo: number
+    status?: string
+    documentNumber: string
+    documentDate: Date | string
+    bookingDate: Date | string
+    partnerId: string
+    partnerName: string
+    partnerTaxId?: string | null
+    vatRateCode: string
+    ratePct: Decimal | DecimalJsLike | number | string
+    netAmount: Decimal | DecimalJsLike | number | string
+    vatAmount: Decimal | DecimalJsLike | number | string
+    grossAmount: Decimal | DecimalJsLike | number | string
+    currency: string
+    counterAccountId: string
+    invoiceId?: string | null
+    glEntryId?: string | null
+    stornoOfId?: string | null
+    stornoReason?: string | null
+    requestKey: string
+    requestHash: string
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type VatPeriodCreateManyTenantInput = {
+    id?: string
+    legalEntityId: string
+    year: number
+    month: number
+    status?: string
+    outputVat?: Decimal | DecimalJsLike | number | string | null
+    inputVat?: Decimal | DecimalJsLike | number | string | null
+    payableVat?: Decimal | DecimalJsLike | number | string | null
+    settlementEntryId?: string | null
+    filedAt?: Date | string | null
+    filedBy?: string | null
+    paidAt?: Date | string | null
+    paidReference?: string | null
+    paidBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -334467,6 +343646,189 @@ export namespace Prisma {
     cancelledBy?: NullableStringFieldUpdateOperationsInput | string | null
     cancelReason?: NullableStringFieldUpdateOperationsInput | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VatRateUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    legalEntityId?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    ratePct?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    validFrom?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VatRateUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    legalEntityId?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    ratePct?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    validFrom?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VatRateUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    legalEntityId?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    ratePct?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    validFrom?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VatBookEntryUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    legalEntityId?: StringFieldUpdateOperationsInput | string
+    bookType?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    bookNo?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    documentNumber?: StringFieldUpdateOperationsInput | string
+    documentDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    bookingDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    partnerId?: StringFieldUpdateOperationsInput | string
+    partnerName?: StringFieldUpdateOperationsInput | string
+    partnerTaxId?: NullableStringFieldUpdateOperationsInput | string | null
+    vatRateCode?: StringFieldUpdateOperationsInput | string
+    ratePct?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    netAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    vatAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    grossAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    counterAccountId?: StringFieldUpdateOperationsInput | string
+    invoiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    glEntryId?: NullableStringFieldUpdateOperationsInput | string | null
+    stornoOfId?: NullableStringFieldUpdateOperationsInput | string | null
+    stornoReason?: NullableStringFieldUpdateOperationsInput | string | null
+    requestKey?: StringFieldUpdateOperationsInput | string
+    requestHash?: StringFieldUpdateOperationsInput | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VatBookEntryUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    legalEntityId?: StringFieldUpdateOperationsInput | string
+    bookType?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    bookNo?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    documentNumber?: StringFieldUpdateOperationsInput | string
+    documentDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    bookingDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    partnerId?: StringFieldUpdateOperationsInput | string
+    partnerName?: StringFieldUpdateOperationsInput | string
+    partnerTaxId?: NullableStringFieldUpdateOperationsInput | string | null
+    vatRateCode?: StringFieldUpdateOperationsInput | string
+    ratePct?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    netAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    vatAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    grossAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    counterAccountId?: StringFieldUpdateOperationsInput | string
+    invoiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    glEntryId?: NullableStringFieldUpdateOperationsInput | string | null
+    stornoOfId?: NullableStringFieldUpdateOperationsInput | string | null
+    stornoReason?: NullableStringFieldUpdateOperationsInput | string | null
+    requestKey?: StringFieldUpdateOperationsInput | string
+    requestHash?: StringFieldUpdateOperationsInput | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VatBookEntryUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    legalEntityId?: StringFieldUpdateOperationsInput | string
+    bookType?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    bookNo?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    documentNumber?: StringFieldUpdateOperationsInput | string
+    documentDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    bookingDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    partnerId?: StringFieldUpdateOperationsInput | string
+    partnerName?: StringFieldUpdateOperationsInput | string
+    partnerTaxId?: NullableStringFieldUpdateOperationsInput | string | null
+    vatRateCode?: StringFieldUpdateOperationsInput | string
+    ratePct?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    netAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    vatAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    grossAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    counterAccountId?: StringFieldUpdateOperationsInput | string
+    invoiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    glEntryId?: NullableStringFieldUpdateOperationsInput | string | null
+    stornoOfId?: NullableStringFieldUpdateOperationsInput | string | null
+    stornoReason?: NullableStringFieldUpdateOperationsInput | string | null
+    requestKey?: StringFieldUpdateOperationsInput | string
+    requestHash?: StringFieldUpdateOperationsInput | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VatPeriodUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    legalEntityId?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    month?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    outputVat?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    inputVat?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    payableVat?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    settlementEntryId?: NullableStringFieldUpdateOperationsInput | string | null
+    filedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    filedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidReference?: NullableStringFieldUpdateOperationsInput | string | null
+    paidBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VatPeriodUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    legalEntityId?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    month?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    outputVat?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    inputVat?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    payableVat?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    settlementEntryId?: NullableStringFieldUpdateOperationsInput | string | null
+    filedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    filedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidReference?: NullableStringFieldUpdateOperationsInput | string | null
+    paidBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VatPeriodUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    legalEntityId?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    month?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    outputVat?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    inputVat?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    payableVat?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    settlementEntryId?: NullableStringFieldUpdateOperationsInput | string | null
+    filedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    filedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidReference?: NullableStringFieldUpdateOperationsInput | string | null
+    paidBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

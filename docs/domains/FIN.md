@@ -40,6 +40,7 @@ Operational finance, cost, margin, budget, cash, AR/AP and accounting integratio
 - `invoice.issued`
 - `payment.received`
 - `payment.matched`
+- `vat.return.filed`
 - `budget.published`
 
 ## Permissions

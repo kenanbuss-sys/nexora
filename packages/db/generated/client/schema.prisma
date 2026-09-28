@@ -166,6 +166,9 @@ model Tenant {
   bankStatementLines      BankStatementLine[]
   paymentAllocations      PaymentAllocation[]
   compensations           Compensation[]
+  vatRates                VatRate[]
+  vatBookEntries          VatBookEntry[]
+  vatPeriods              VatPeriod[]
   compensationLines       CompensationLine[]
 
   @@map("tenant")
@@ -3670,4 +3673,101 @@ model CompensationLine {
   @@unique([tenantId, compensationId, invoiceId])
   @@index([tenantId, compensationId])
   @@map("compensation_line")
+}
+
+// ---------------------------------------------------------------------------
+// Sprint 232 — FIN-028: KUF/KIF books + VAT periods (BiH localization pack).
+// Rates are effective-dated tenant configuration per legal entity (never
+// edited — a new version supersedes). A book entry posts exactly one
+// KUF/KIF ledger entry through the FIN ledger commands; corrections are a
+// negative mirror row + ledger storno. Filing a VAT period posts one
+// settlement entry and closes the period for new book entries.
+// ---------------------------------------------------------------------------
+
+model VatRate {
+  id            String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId      String   @map("tenant_id") @db.Uuid
+  legalEntityId String   @map("legal_entity_id") @db.Uuid
+  code          String
+  name          String
+  ratePct       Decimal  @map("rate_pct") @db.Decimal(5, 2)
+  validFrom     DateTime @map("valid_from") @db.Date
+  createdBy     String?  @map("created_by")
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@unique([tenantId, legalEntityId, code, validFrom])
+  @@index([tenantId, legalEntityId, code])
+  @@map("vat_rate")
+}
+
+model VatBookEntry {
+  id               String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId         String   @map("tenant_id") @db.Uuid
+  legalEntityId    String   @map("legal_entity_id") @db.Uuid
+  /// KUF (input / supplier invoices) or KIF (output / customer invoices).
+  bookType         String   @map("book_type")
+  year             Int
+  bookNo           Int      @map("book_no")
+  /// PENDING until its ledger entry is posted; RECORDED; STORNOED
+  /// (original, corrected); STORNO (the negative mirror row).
+  status           String   @default("PENDING")
+  documentNumber   String   @map("document_number")
+  documentDate     DateTime @map("document_date") @db.Date
+  bookingDate      DateTime @map("booking_date") @db.Date
+  partnerId        String   @map("partner_id") @db.Uuid
+  partnerName      String   @map("partner_name")
+  partnerTaxId     String?  @map("partner_tax_id")
+  vatRateCode      String   @map("vat_rate_code")
+  ratePct          Decimal  @map("rate_pct") @db.Decimal(5, 2)
+  netAmount        Decimal  @map("net_amount") @db.Decimal(18, 2)
+  vatAmount        Decimal  @map("vat_amount") @db.Decimal(18, 2)
+  grossAmount      Decimal  @map("gross_amount") @db.Decimal(18, 2)
+  currency         String   @db.Char(3)
+  counterAccountId String   @map("counter_account_id") @db.Uuid
+  invoiceId        String?  @map("invoice_id") @db.Uuid
+  glEntryId        String?  @map("gl_entry_id") @db.Uuid
+  stornoOfId       String?  @map("storno_of_id") @db.Uuid
+  stornoReason     String?  @map("storno_reason")
+  requestKey       String   @map("request_key")
+  requestHash      String   @map("request_hash")
+  createdBy        String?  @map("created_by")
+  createdAt        DateTime @default(now()) @map("created_at")
+  updatedAt        DateTime @updatedAt @map("updated_at")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@unique([tenantId, requestKey])
+  @@unique([tenantId, legalEntityId, bookType, year, bookNo])
+  @@unique([tenantId, stornoOfId])
+  @@index([tenantId, legalEntityId, bookType, bookingDate])
+  @@index([tenantId, invoiceId])
+  @@map("vat_book_entry")
+}
+
+model VatPeriod {
+  id                String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId          String    @map("tenant_id") @db.Uuid
+  legalEntityId     String    @map("legal_entity_id") @db.Uuid
+  year              Int
+  month             Int
+  /// OPEN → FILING (transient, resumable) → FILED.
+  status            String    @default("OPEN")
+  outputVat         Decimal?  @map("output_vat") @db.Decimal(18, 2)
+  inputVat          Decimal?  @map("input_vat") @db.Decimal(18, 2)
+  payableVat        Decimal?  @map("payable_vat") @db.Decimal(18, 2)
+  settlementEntryId String?   @map("settlement_entry_id") @db.Uuid
+  filedAt           DateTime? @map("filed_at")
+  filedBy           String?   @map("filed_by")
+  paidAt            DateTime? @map("paid_at") @db.Date
+  paidReference     String?   @map("paid_reference")
+  paidBy            String?   @map("paid_by")
+  createdAt         DateTime  @default(now()) @map("created_at")
+  updatedAt         DateTime  @updatedAt @map("updated_at")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@unique([tenantId, legalEntityId, year, month])
+  @@map("vat_period")
 }

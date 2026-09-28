@@ -50,3 +50,15 @@ export {
   type CardRow,
   type TrialBalanceRow,
 } from './ledger.service';
+export {
+  VAT_BOOK_TYPES,
+  VAT_ROLES,
+  VatService,
+  type VatBookEntryInput,
+  type VatBookEntryView,
+  type VatBookType,
+  type VatLedgerGate,
+  type VatPeriodView,
+  type VatRateView,
+} from './vat.service';
+export { BIH_VAT_PACK } from './localization/bih-vat';

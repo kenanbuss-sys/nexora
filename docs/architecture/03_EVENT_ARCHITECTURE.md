@@ -90,6 +90,7 @@ Rules: state change + outbox in one DB transaction; consumers idempotent; breaki
 | `invoice.issued` | FIN | Operational invoice issued/imported | invoiceId |
 | `payment.received` | FIN | Payment received/imported | paymentId |
 | `payment.matched` | FIN | Payment matched | paymentId |
+| `vat.return.filed` | FIN | VAT return filed for a legal-entity period (FIN-028) | legalEntityId, year, month, payableVat |
 | `budget.published` | FIN | Budget published | budgetId, version |
 | `integration.failed` | INT | Integration failed | connectionId, runId |
 | `integration.recovered` | INT | Integration recovered | connectionId |

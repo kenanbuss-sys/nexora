@@ -68,9 +68,11 @@ import {
 } from './fin/ledger.controller';
 import { BANK_STATEMENT_SERVICE, BankController, VISION_PORT } from './fin/bank.controller';
 import { COMPENSATION_SERVICE, CompensationController } from './fin/compensation.controller';
+import { VAT_SERVICE, VatController } from './fin/vat.controller';
 import {
   BankStatementService,
   CompensationService,
+  VatService,
   DevBankFeedAdapter,
   ValuationService,
   ExchangeRateService,
@@ -465,6 +467,7 @@ export const REDIS = 'REDIS';
     LedgerReportsController,
     BankController,
     CompensationController,
+    VatController,
     TreasuryController,
     ExchangeRatesController,
     ValuationController,
@@ -875,6 +878,18 @@ export const REDIS = 'REDIS';
           },
         ),
       inject: [PRISMA, FINANCE_SERVICE, LEDGER_SERVICE],
+    },
+    {
+      provide: VAT_SERVICE,
+      useFactory: (prisma: PrismaClient, ledger: LedgerService) =>
+        new VatService(prisma, {
+          ensurePartnerAccount: (input, ctx) => ledger.ensurePartnerAccount(input, ctx),
+          createDraft: (input, ctx) => ledger.createDraft(input, ctx),
+          deleteDraft: (id, ctx) => ledger.deleteDraft(id, ctx),
+          post: (id, ctx) => ledger.post(id, ctx),
+          storno: (id, reason, ctx) => ledger.storno(id, reason, ctx),
+        }),
+      inject: [PRISMA, LEDGER_SERVICE],
     },
     {
       // AI-016: the vision provider is OPTIONAL. The dev stand-in is

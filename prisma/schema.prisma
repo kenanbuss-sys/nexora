@@ -40,133 +40,136 @@ model Tenant {
   createdAt DateTime     @default(now()) @map("created_at")
   updatedAt DateTime     @updatedAt @map("updated_at")
 
-  configurationVersions TenantConfigurationVersion[]
-  legalEntities         LegalEntity[]
-  businessUnits         BusinessUnit[]
-  branches              Branch[]
-  factories             Factory[]
-  users                 User[]
-  roles                 Role[]
-  roleAssignments       UserRoleAssignment[]
-  auditEvents           AuditEvent[]
-  outboxEvents          OutboxEvent[]
-  terminologyEntries    TerminologyEntry[]
-  moduleActivations     ModuleActivation[]
-  customFieldDefs       CustomFieldDefinition[]
-  tasks                 Task[]
-  notifications         Notification[]
-  workflowDefinitions   WorkflowDefinition[]
-  ruleDefinitions       RuleDefinition[]
-  approvals             Approval[]
-  processedEvents       ProcessedEvent[]
-  documentTemplates     DocumentTemplate[]
-  parties               Party[]
-  products              Product[]
-  warehouses            Warehouse[]
-  stockMovements        StockMovement[]
-  stockReservations     StockReservation[]
-  devices               Device[]
-  scanEvents            ScanEvent[]
-  wmsOrders             WmsOrder[]
-  wmsOrderLines         WmsOrderLine[]
-  crmAccounts           CrmAccount[]
-  leads                 Lead[]
-  opportunities         Opportunity[]
-  crmActivities         CrmActivity[]
-  priceLists            PriceList[]
-  priceListEntries      PriceListEntry[]
-  quotes                Quote[]
-  quoteLines            QuoteLine[]
-  salesOrders           SalesOrder[]
-  salesOrderLines       SalesOrderLine[]
-  orderEvents           OrderEvent[]
-  suppliers             Supplier[]
-  purchaseRequisitions  PurchaseRequisition[]
-  purchaseReqLines      PurchaseRequisitionLine[]
-  purchaseOrders        PurchaseOrder[]
-  purchaseOrderLines    PurchaseOrderLine[]
-  boms                  Bom[]
-  bomLines              BomLine[]
-  routings              Routing[]
-  routingOperations     RoutingOperation[]
-  engineeringChanges    EngineeringChange[]
-  planningPolicies      PlanningPolicy[]
-  mrpRuns               MrpRun[]
-  mrpSuggestions        MrpSuggestion[]
-  workOrders            WorkOrder[]
-  workOrderOperations   WorkOrderOperation[]
-  qcPlans               QcPlan[]
-  qcPlanItems           QcPlanItem[]
-  qcInspections         QcInspection[]
-  qcInspectionItems     QcInspectionItem[]
-  ncrs                  Ncr[]
-  invoices              Invoice[]
-  payments              Payment[]
-  portalUsers           PortalUser[]
-  comments              Comment[]
-  attachments           Attachment[]
-  attachmentBlobs       AttachmentBlob[]
-  numberSequences       NumberSequence[]
-  costCenters           CostCenter[]
-  budgets               Budget[]
-  webhookSubscriptions  WebhookSubscription[]
-  webhookDeliveries     WebhookDelivery[]
-  apiKeys               ApiKey[]
-  securityEvents        SecurityEvent[]
-  productCategories     ProductCategory[]
-  returnOrders          ReturnOrder[]
-  returnOrderLines      ReturnOrderLine[]
-  stockCounts           StockCount[]
-  stockCountLines       StockCountLine[]
-  workCenters           WorkCenter[]
-  downtimeEvents        DowntimeEvent[]
-  userCredentials       UserCredential[]
-  discountRules         DiscountRule[]
-  skuSubstitutions      SkuSubstitution[]
-  packagingLevels       PackagingLevel[]
-  territories           Territory[]
-  salesTeams            SalesTeam[]
-  salesTeamMembers      SalesTeamMember[]
-  exchangeRates         ExchangeRate[]
-  consentRecords        ConsentRecord[]
-  promotions            Promotion[]
-  breakGlassGrants      BreakGlassGrant[]
-  masterDataRequests    MasterDataRequest[]
-  loyaltyAccounts       LoyaltyAccount[]
-  supportCases          SupportCase[]
-  contracts             Contract[]
-  employees             Employee[]
-  assets                Asset[]
-  quarantineHolds       QuarantineHold[]
-  rfqs                  Rfq[]
-  packages              Package[]
-  landedCosts           LandedCost[]
+  configurationVersions   TenantConfigurationVersion[]
+  legalEntities           LegalEntity[]
+  businessUnits           BusinessUnit[]
+  branches                Branch[]
+  factories               Factory[]
+  users                   User[]
+  roles                   Role[]
+  roleAssignments         UserRoleAssignment[]
+  auditEvents             AuditEvent[]
+  outboxEvents            OutboxEvent[]
+  terminologyEntries      TerminologyEntry[]
+  moduleActivations       ModuleActivation[]
+  customFieldDefs         CustomFieldDefinition[]
+  tasks                   Task[]
+  notifications           Notification[]
+  workflowDefinitions     WorkflowDefinition[]
+  ruleDefinitions         RuleDefinition[]
+  approvals               Approval[]
+  processedEvents         ProcessedEvent[]
+  documentTemplates       DocumentTemplate[]
+  parties                 Party[]
+  products                Product[]
+  warehouses              Warehouse[]
+  stockMovements          StockMovement[]
+  stockReservations       StockReservation[]
+  devices                 Device[]
+  scanEvents              ScanEvent[]
+  wmsOrders               WmsOrder[]
+  wmsOrderLines           WmsOrderLine[]
+  crmAccounts             CrmAccount[]
+  leads                   Lead[]
+  opportunities           Opportunity[]
+  crmActivities           CrmActivity[]
+  priceLists              PriceList[]
+  priceListEntries        PriceListEntry[]
+  quotes                  Quote[]
+  quoteLines              QuoteLine[]
+  salesOrders             SalesOrder[]
+  salesOrderLines         SalesOrderLine[]
+  orderEvents             OrderEvent[]
+  suppliers               Supplier[]
+  purchaseRequisitions    PurchaseRequisition[]
+  purchaseReqLines        PurchaseRequisitionLine[]
+  purchaseOrders          PurchaseOrder[]
+  purchaseOrderLines      PurchaseOrderLine[]
+  boms                    Bom[]
+  bomLines                BomLine[]
+  routings                Routing[]
+  routingOperations       RoutingOperation[]
+  engineeringChanges      EngineeringChange[]
+  planningPolicies        PlanningPolicy[]
+  mrpRuns                 MrpRun[]
+  mrpSuggestions          MrpSuggestion[]
+  workOrders              WorkOrder[]
+  workOrderOperations     WorkOrderOperation[]
+  qcPlans                 QcPlan[]
+  qcPlanItems             QcPlanItem[]
+  qcInspections           QcInspection[]
+  qcInspectionItems       QcInspectionItem[]
+  ncrs                    Ncr[]
+  invoices                Invoice[]
+  payments                Payment[]
+  portalUsers             PortalUser[]
+  comments                Comment[]
+  attachments             Attachment[]
+  attachmentBlobs         AttachmentBlob[]
+  numberSequences         NumberSequence[]
+  costCenters             CostCenter[]
+  budgets                 Budget[]
+  webhookSubscriptions    WebhookSubscription[]
+  webhookDeliveries       WebhookDelivery[]
+  apiKeys                 ApiKey[]
+  securityEvents          SecurityEvent[]
+  productCategories       ProductCategory[]
+  returnOrders            ReturnOrder[]
+  returnOrderLines        ReturnOrderLine[]
+  stockCounts             StockCount[]
+  stockCountLines         StockCountLine[]
+  workCenters             WorkCenter[]
+  downtimeEvents          DowntimeEvent[]
+  userCredentials         UserCredential[]
+  discountRules           DiscountRule[]
+  skuSubstitutions        SkuSubstitution[]
+  packagingLevels         PackagingLevel[]
+  territories             Territory[]
+  salesTeams              SalesTeam[]
+  salesTeamMembers        SalesTeamMember[]
+  exchangeRates           ExchangeRate[]
+  consentRecords          ConsentRecord[]
+  promotions              Promotion[]
+  breakGlassGrants        BreakGlassGrant[]
+  masterDataRequests      MasterDataRequest[]
+  loyaltyAccounts         LoyaltyAccount[]
+  supportCases            SupportCase[]
+  contracts               Contract[]
+  employees               Employee[]
+  assets                  Asset[]
+  quarantineHolds         QuarantineHold[]
+  rfqs                    Rfq[]
+  packages                Package[]
+  landedCosts             LandedCost[]
   customObjectDefinitions CustomObjectDefinition[]
-  skuChannelContents    SkuChannelContent[]
-  containers            Container[]
-  posSessions           PosSession[]
-  vehicles              Vehicle[]
-  drivers               Driver[]
-  shipments             Shipment[]
-  shipmentStops         ShipmentStop[]
-  dockAppointments      DockAppointment[]
-  installedAssets       InstalledAsset[]
-  serviceRequests       ServiceRequest[]
-  serviceOrders         ServiceOrder[]
-  serviceOrderParts     ServiceOrderPart[]
-  rmas                  Rma[]
-  glAccounts            GlAccount[]
-  glJournalEntries      GlJournalEntry[]
-  glJournalLines        GlJournalLine[]
-  glSystemAccounts      GlSystemAccount[]
-  glOpeningBalanceDates GlOpeningBalanceDate[]
-  glPeriodLocks         GlPeriodLock[]
-  frameworkAgreements   FrameworkAgreement[]
-  bankStatements        BankStatement[]
-  bankStatementLines    BankStatementLine[]
-  paymentAllocations    PaymentAllocation[]
-  compensations         Compensation[]
-  compensationLines     CompensationLine[]
+  skuChannelContents      SkuChannelContent[]
+  containers              Container[]
+  posSessions             PosSession[]
+  vehicles                Vehicle[]
+  drivers                 Driver[]
+  shipments               Shipment[]
+  shipmentStops           ShipmentStop[]
+  dockAppointments        DockAppointment[]
+  installedAssets         InstalledAsset[]
+  serviceRequests         ServiceRequest[]
+  serviceOrders           ServiceOrder[]
+  serviceOrderParts       ServiceOrderPart[]
+  rmas                    Rma[]
+  glAccounts              GlAccount[]
+  glJournalEntries        GlJournalEntry[]
+  glJournalLines          GlJournalLine[]
+  glSystemAccounts        GlSystemAccount[]
+  glOpeningBalanceDates   GlOpeningBalanceDate[]
+  glPeriodLocks           GlPeriodLock[]
+  frameworkAgreements     FrameworkAgreement[]
+  bankStatements          BankStatement[]
+  bankStatementLines      BankStatementLine[]
+  paymentAllocations      PaymentAllocation[]
+  compensations           Compensation[]
+  vatRates                VatRate[]
+  vatBookEntries          VatBookEntry[]
+  vatPeriods              VatPeriod[]
+  compensationLines       CompensationLine[]
 
   @@map("tenant")
 }
@@ -275,9 +278,9 @@ model User {
   createdAt   DateTime   @default(now()) @map("created_at")
   updatedAt   DateTime   @updatedAt @map("updated_at")
 
-  tenant          Tenant               @relation(fields: [tenantId], references: [id])
-  roleAssignments UserRoleAssignment[]
-  credential      UserCredential?
+  tenant           Tenant               @relation(fields: [tenantId], references: [id])
+  roleAssignments  UserRoleAssignment[]
+  credential       UserCredential?
   breakGlassGrants BreakGlassGrant[]
 
   @@unique([tenantId, email])
@@ -676,8 +679,8 @@ enum DocumentTemplateStatus {
 }
 
 model DocumentTemplate {
-  id       String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  tenantId String @map("tenant_id") @db.Uuid
+  id       String                 @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId String                 @map("tenant_id") @db.Uuid
   key      String
   name     String
   /// Sprint 102 (DOC-005): lifecycle — only ACTIVE templates render.
@@ -740,7 +743,8 @@ model Party {
   externalIdentities PartyExternalIdentity[]
   consentRecords     ConsentRecord[]
 
-  contracts          Contract[]
+  contracts Contract[]
+
   @@index([tenantId, normalizedName])
   @@map("party")
 }
@@ -824,43 +828,43 @@ model Product {
 }
 
 model Sku {
-  id            String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  tenantId      String    @map("tenant_id") @db.Uuid
-  productId     String    @map("product_id") @db.Uuid
+  id            String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId      String       @map("tenant_id") @db.Uuid
+  productId     String       @map("product_id") @db.Uuid
   code          String
   name          String
   /// Base unit of measure; cannot casually change once transactions exist.
-  baseUom       String    @map("base_uom")
+  baseUom       String       @map("base_uom")
   /// Sprint 022 (PIM-010/012): lot policy — lot-tracked SKUs demand a
   /// lot on every inbound movement; shelf life derives expiry.
-  lotTracked    Boolean   @default(false) @map("lot_tracked")
-  shelfLifeDays Int?      @map("shelf_life_days")
+  lotTracked    Boolean      @default(false) @map("lot_tracked")
+  shelfLifeDays Int?         @map("shelf_life_days")
   /// Sprint 025 (PIM-002): variant coordinates, e.g. {"color":"red"}.
-  variantValues Json?     @map("variant_values")
+  variantValues Json?        @map("variant_values")
   /// Sprint 049 (PIM-009): logistics data per base unit.
-  weightKg      Decimal?  @map("weight_kg") @db.Decimal(12, 3)
-  lengthCm      Decimal?  @map("length_cm") @db.Decimal(10, 1)
-  widthCm       Decimal?  @map("width_cm") @db.Decimal(10, 1)
-  heightCm      Decimal?  @map("height_cm") @db.Decimal(10, 1)
+  weightKg      Decimal?     @map("weight_kg") @db.Decimal(12, 3)
+  lengthCm      Decimal?     @map("length_cm") @db.Decimal(10, 1)
+  widthCm       Decimal?     @map("width_cm") @db.Decimal(10, 1)
+  heightCm      Decimal?     @map("height_cm") @db.Decimal(10, 1)
   /// Sprint 055 (PIM-011): serial tracking policy for this SKU.
   serialPolicy  SerialPolicy @default(NONE) @map("serial_policy")
   /// Sprint 070 (FIN-005): standard unit cost for valuation and margins.
   standardCost  Decimal?     @map("standard_cost") @db.Decimal(18, 4)
-  status        SkuStatus @default(DRAFT)
-  createdAt DateTime  @default(now()) @map("created_at")
-  updatedAt DateTime  @updatedAt @map("updated_at")
+  status        SkuStatus    @default(DRAFT)
+  createdAt     DateTime     @default(now()) @map("created_at")
+  updatedAt     DateTime     @updatedAt @map("updated_at")
 
-  product        Product         @relation(fields: [productId], references: [id])
-  barcodes        Barcode[]
-  uomConversions  UomConversion[]
-  packagingLevels PackagingLevel[]
-  bundleComponents BundleComponent[] @relation("BundleParent")
-  bundleUsedIn     BundleComponent[] @relation("BundleComponentSku")
+  product          Product             @relation(fields: [productId], references: [id])
+  barcodes         Barcode[]
+  uomConversions   UomConversion[]
+  packagingLevels  PackagingLevel[]
+  bundleComponents BundleComponent[]   @relation("BundleParent")
+  bundleUsedIn     BundleComponent[]   @relation("BundleComponentSku")
   serialNumbers    SerialNumber[]
+  channelContents  SkuChannelContent[]
 
   @@unique([tenantId, code])
   @@map("sku")
-  channelContents SkuChannelContent[]
 }
 
 model Barcode {
@@ -878,12 +882,12 @@ model Barcode {
 }
 
 model UomConversion {
-  id      String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  tenantId String @map("tenant_id") @db.Uuid
-  skuId   String  @map("sku_id") @db.Uuid
-  fromUom String  @map("from_uom")
-  toUom   String  @map("to_uom")
-  factor  Decimal @db.Decimal(18, 6)
+  id       String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId String  @map("tenant_id") @db.Uuid
+  skuId    String  @map("sku_id") @db.Uuid
+  fromUom  String  @map("from_uom")
+  toUom    String  @map("to_uom")
+  factor   Decimal @db.Decimal(18, 6)
 
   sku Sku @relation(fields: [skuId], references: [id])
 
@@ -901,8 +905,8 @@ model Warehouse {
   code     String
   name     String
 
-  tenant    Tenant              @relation(fields: [tenantId], references: [id])
-  locations WarehouseLocation[]
+  tenant           Tenant              @relation(fields: [tenantId], references: [id])
+  locations        WarehouseLocation[]
   dockAppointments DockAppointment[]
 
   @@unique([tenantId, code])
@@ -1178,8 +1182,8 @@ model CrmAccount {
   /// Sprint 042 (CRM-005): sales territory assignment.
   territoryId      String?          @map("territory_id") @db.Uuid
   status           CrmAccountStatus @default(ACTIVE)
-  createdAt     DateTime         @default(now()) @map("created_at")
-  updatedAt     DateTime         @updatedAt @map("updated_at")
+  createdAt        DateTime         @default(now()) @map("created_at")
+  updatedAt        DateTime         @updatedAt @map("updated_at")
 
   tenant Tenant @relation(fields: [tenantId], references: [id])
 
@@ -1458,35 +1462,35 @@ enum SalesOrderStatus {
 /// releasing reservations (OMS-010); fulfillment consumes them via ledger
 /// ISSUE movements (OMS-011). Never stores stock truth.
 model SalesOrder {
-  id          String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  tenantId    String           @map("tenant_id") @db.Uuid
-  orderNumber String           @map("order_number")
-  accountId   String           @map("account_id") @db.Uuid
-  quoteId     String?          @map("quote_id") @db.Uuid
-  warehouseId String           @map("warehouse_id") @db.Uuid
-  status      SalesOrderStatus @default(DRAFT)
-  currency    String           @db.Char(3)
-  total       Decimal          @default(0) @db.Decimal(18, 2)
-  holdReason  String?          @map("hold_reason")
+  id              String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId        String           @map("tenant_id") @db.Uuid
+  orderNumber     String           @map("order_number")
+  accountId       String           @map("account_id") @db.Uuid
+  quoteId         String?          @map("quote_id") @db.Uuid
+  warehouseId     String           @map("warehouse_id") @db.Uuid
+  status          SalesOrderStatus @default(DRAFT)
+  currency        String           @db.Char(3)
+  total           Decimal          @default(0) @db.Decimal(18, 2)
+  holdReason      String?          @map("hold_reason")
   /// Sprint 102 (COM-007): DELIVERY ships; PICKUP is click & collect.
-  fulfillmentType FulfillmentType @default(DELIVERY) @map("fulfillment_type")
+  fulfillmentType FulfillmentType  @default(DELIVERY) @map("fulfillment_type")
   /// Sprint 102 (B2B-009): customer's project/site reference.
-  projectRef  String?          @map("project_ref")
+  projectRef      String?          @map("project_ref")
   /// Sprint 124 (COM-006): originating channel — one canonical order model.
-  channel     String           @default("direct")
+  channel         String           @default("direct")
   /// Sprint 222: idempotent portal ordering — namespaced client request
   /// key; the order row itself is the idempotency record, so order and
   /// evidence are written atomically. Key lives as long as the order.
-  requestKey  String?          @map("request_key")
+  requestKey      String?          @map("request_key")
   /// Content hash of the original request: a replay with the same key
   /// but different content is refused as a conflict.
-  requestHash String?          @map("request_hash")
-  createdBy   String?          @map("created_by")
-  createdAt   DateTime         @default(now()) @map("created_at")
-  updatedAt   DateTime         @updatedAt @map("updated_at")
+  requestHash     String?          @map("request_hash")
+  createdBy       String?          @map("created_by")
+  createdAt       DateTime         @default(now()) @map("created_at")
+  updatedAt       DateTime         @updatedAt @map("updated_at")
 
-  tenant Tenant           @relation(fields: [tenantId], references: [id])
-  lines  SalesOrderLine[]
+  tenant   Tenant           @relation(fields: [tenantId], references: [id])
+  lines    SalesOrderLine[]
   packages Package[]
 
   @@unique([tenantId, orderNumber])
@@ -1636,8 +1640,8 @@ model PurchaseOrder {
   createdAt     DateTime            @default(now()) @map("created_at")
   updatedAt     DateTime            @updatedAt @map("updated_at")
 
-  tenant Tenant              @relation(fields: [tenantId], references: [id])
-  lines  PurchaseOrderLine[]
+  tenant      Tenant              @relation(fields: [tenantId], references: [id])
+  lines       PurchaseOrderLine[]
   landedCosts LandedCost[]
   containers  Container[]
 
@@ -1901,12 +1905,12 @@ model WorkOrder {
 
 /// Operation snapshot copied from the released routing (MES-002/009).
 model WorkOrderOperation {
-  id          String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  tenantId    String            @map("tenant_id") @db.Uuid
-  workOrderId String            @map("work_order_id") @db.Uuid
-  seq         Int
-  name        String
-  workCenter  String            @map("work_center")
+  id           String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId     String            @map("tenant_id") @db.Uuid
+  workOrderId  String            @map("work_order_id") @db.Uuid
+  seq          Int
+  name         String
+  workCenter   String            @map("work_center")
   status       WoOperationStatus @default(PENDING)
   assignedTo   String?           @map("assigned_to")
   confirmedQty Decimal           @default(0) @map("confirmed_qty") @db.Decimal(18, 3)
@@ -2095,19 +2099,19 @@ model Invoice {
 
 /// Payment matched to an invoice (FIN-014). Append-only.
 model Payment {
-  id            String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  tenantId      String   @map("tenant_id") @db.Uuid
-  paymentNumber String   @map("payment_number")
-  invoiceId     String   @map("invoice_id") @db.Uuid
-  amount        Decimal  @db.Decimal(18, 2)
-  currency      String   @db.Char(3)
-  reference     String?
-  receivedAt    DateTime @default(now()) @map("received_at")
-  createdBy     String?  @map("created_by")
+  id                String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId          String   @map("tenant_id") @db.Uuid
+  paymentNumber     String   @map("payment_number")
+  invoiceId         String   @map("invoice_id") @db.Uuid
+  amount            Decimal  @db.Decimal(18, 2)
+  currency          String   @db.Char(3)
+  reference         String?
+  receivedAt        DateTime @default(now()) @map("received_at")
+  createdBy         String?  @map("created_by")
   /// Sprint 214 (FIN-032): a controlled release is a NEGATIVE mirror
   /// payment pointing at the payment it reverses — append-only, at
   /// most one release per payment (unique below).
-  reversesPaymentId String? @map("reverses_payment_id") @db.Uuid
+  reversesPaymentId String?  @map("reverses_payment_id") @db.Uuid
 
   tenant     Tenant    @relation(fields: [tenantId], references: [id])
   invoice    Invoice   @relation(fields: [invoiceId], references: [id])
@@ -2679,18 +2683,18 @@ enum MasterDataRequestStatus {
 /// payload; a steward other than the requester decides (SoD), and only
 /// approval applies the change through the owning domain.
 model MasterDataRequest {
-  id          String                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  tenantId    String                  @map("tenant_id") @db.Uuid
-  entityType  String                  @map("entity_type")
-  entityId    String                  @map("entity_id") @db.Uuid
-  changeType  String                  @map("change_type")
-  payload     Json
-  status      MasterDataRequestStatus @default(PENDING)
-  requestedBy String                  @map("requested_by") @db.Uuid
-  decidedBy   String?                 @map("decided_by") @db.Uuid
-  decidedAt   DateTime?               @map("decided_at")
-  decisionNote String?                @map("decision_note")
-  createdAt   DateTime                @default(now()) @map("created_at")
+  id           String                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId     String                  @map("tenant_id") @db.Uuid
+  entityType   String                  @map("entity_type")
+  entityId     String                  @map("entity_id") @db.Uuid
+  changeType   String                  @map("change_type")
+  payload      Json
+  status       MasterDataRequestStatus @default(PENDING)
+  requestedBy  String                  @map("requested_by") @db.Uuid
+  decidedBy    String?                 @map("decided_by") @db.Uuid
+  decidedAt    DateTime?               @map("decided_at")
+  decisionNote String?                 @map("decision_note")
+  createdAt    DateTime                @default(now()) @map("created_at")
 
   tenant Tenant @relation(fields: [tenantId], references: [id])
 
@@ -3669,4 +3673,101 @@ model CompensationLine {
   @@unique([tenantId, compensationId, invoiceId])
   @@index([tenantId, compensationId])
   @@map("compensation_line")
+}
+
+// ---------------------------------------------------------------------------
+// Sprint 232 — FIN-028: KUF/KIF books + VAT periods (BiH localization pack).
+// Rates are effective-dated tenant configuration per legal entity (never
+// edited — a new version supersedes). A book entry posts exactly one
+// KUF/KIF ledger entry through the FIN ledger commands; corrections are a
+// negative mirror row + ledger storno. Filing a VAT period posts one
+// settlement entry and closes the period for new book entries.
+// ---------------------------------------------------------------------------
+
+model VatRate {
+  id            String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId      String   @map("tenant_id") @db.Uuid
+  legalEntityId String   @map("legal_entity_id") @db.Uuid
+  code          String
+  name          String
+  ratePct       Decimal  @map("rate_pct") @db.Decimal(5, 2)
+  validFrom     DateTime @map("valid_from") @db.Date
+  createdBy     String?  @map("created_by")
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@unique([tenantId, legalEntityId, code, validFrom])
+  @@index([tenantId, legalEntityId, code])
+  @@map("vat_rate")
+}
+
+model VatBookEntry {
+  id               String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId         String   @map("tenant_id") @db.Uuid
+  legalEntityId    String   @map("legal_entity_id") @db.Uuid
+  /// KUF (input / supplier invoices) or KIF (output / customer invoices).
+  bookType         String   @map("book_type")
+  year             Int
+  bookNo           Int      @map("book_no")
+  /// PENDING until its ledger entry is posted; RECORDED; STORNOED
+  /// (original, corrected); STORNO (the negative mirror row).
+  status           String   @default("PENDING")
+  documentNumber   String   @map("document_number")
+  documentDate     DateTime @map("document_date") @db.Date
+  bookingDate      DateTime @map("booking_date") @db.Date
+  partnerId        String   @map("partner_id") @db.Uuid
+  partnerName      String   @map("partner_name")
+  partnerTaxId     String?  @map("partner_tax_id")
+  vatRateCode      String   @map("vat_rate_code")
+  ratePct          Decimal  @map("rate_pct") @db.Decimal(5, 2)
+  netAmount        Decimal  @map("net_amount") @db.Decimal(18, 2)
+  vatAmount        Decimal  @map("vat_amount") @db.Decimal(18, 2)
+  grossAmount      Decimal  @map("gross_amount") @db.Decimal(18, 2)
+  currency         String   @db.Char(3)
+  counterAccountId String   @map("counter_account_id") @db.Uuid
+  invoiceId        String?  @map("invoice_id") @db.Uuid
+  glEntryId        String?  @map("gl_entry_id") @db.Uuid
+  stornoOfId       String?  @map("storno_of_id") @db.Uuid
+  stornoReason     String?  @map("storno_reason")
+  requestKey       String   @map("request_key")
+  requestHash      String   @map("request_hash")
+  createdBy        String?  @map("created_by")
+  createdAt        DateTime @default(now()) @map("created_at")
+  updatedAt        DateTime @updatedAt @map("updated_at")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@unique([tenantId, requestKey])
+  @@unique([tenantId, legalEntityId, bookType, year, bookNo])
+  @@unique([tenantId, stornoOfId])
+  @@index([tenantId, legalEntityId, bookType, bookingDate])
+  @@index([tenantId, invoiceId])
+  @@map("vat_book_entry")
+}
+
+model VatPeriod {
+  id                String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId          String    @map("tenant_id") @db.Uuid
+  legalEntityId     String    @map("legal_entity_id") @db.Uuid
+  year              Int
+  month             Int
+  /// OPEN → FILING (transient, resumable) → FILED.
+  status            String    @default("OPEN")
+  outputVat         Decimal?  @map("output_vat") @db.Decimal(18, 2)
+  inputVat          Decimal?  @map("input_vat") @db.Decimal(18, 2)
+  payableVat        Decimal?  @map("payable_vat") @db.Decimal(18, 2)
+  settlementEntryId String?   @map("settlement_entry_id") @db.Uuid
+  filedAt           DateTime? @map("filed_at")
+  filedBy           String?   @map("filed_by")
+  paidAt            DateTime? @map("paid_at") @db.Date
+  paidReference     String?   @map("paid_reference")
+  paidBy            String?   @map("paid_by")
+  createdAt         DateTime  @default(now()) @map("created_at")
+  updatedAt         DateTime  @updatedAt @map("updated_at")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@unique([tenantId, legalEntityId, year, month])
+  @@map("vat_period")
 }

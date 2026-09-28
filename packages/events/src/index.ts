@@ -81,6 +81,7 @@ export const EVENT_TYPES = {
   BACKORDER_CREATED: 'backorder.created',
   BACKORDER_RELEASED: 'backorder.released',
   ATTACHMENT_UPLOADED: 'attachment.uploaded',
+  VAT_RETURN_FILED: 'vat.return.filed',
 } as const;
 
 export type EventType = (typeof EVENT_TYPES)[keyof typeof EVENT_TYPES];
