@@ -1169,8 +1169,12 @@ export const REDIS = 'REDIS';
           prisma,
           { getEffectiveConfiguration: (t) => tenants.getEffectiveConfiguration(t) },
           {
+            // Salary access is tenant-wide: an org-scoped grant (e.g. BRANCH)
+            // never satisfies it (same rule as permissions.isAllowed).
             getPermissionKeys: async (userId, tenantId) =>
-              (await roles.getEffectivePermissions(userId, tenantId)).map((g) => g.permissionKey),
+              (await roles.getEffectivePermissions(userId, tenantId))
+                .filter((g) => g.scopeType === 'TENANT')
+                .map((g) => g.permissionKey),
           },
           { workedDaysFor: (period, ctx) => attendance.workedDaysFor(period, ctx) },
         ),

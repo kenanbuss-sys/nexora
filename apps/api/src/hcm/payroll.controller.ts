@@ -28,9 +28,11 @@ const adjustmentSchema = periodSchema.extend({
 });
 
 /**
- * HCM-013/014 (Sprint 235) — salaries and payroll. The route guard only
- * requires hcm.read; the salary policy (hcm.salary.read / .contract /
- * .manage / .management) is enforced in the HCM domain service, so
+ * HCM-013/014 (Sprint 235) — salaries and payroll. Write routes carry a
+ * guard-level salary permission (defence in depth); reads need hcm.read
+ * at the guard because the read policy chooses between hcm.salary.read
+ * and hcm.salary.contract. The HCM domain service always enforces the
+ * full salary policy (tenant-wide grants only, management lock), so
  * restricted amounts never leave the API.
  */
 @Controller('api/v1/payroll')
@@ -44,19 +46,19 @@ export class PayrollController {
   }
 
   @Post('salaries')
-  @RequirePermission('hcm.read')
+  @RequirePermission('hcm.salary.manage')
   async setSalary(@Body() body: unknown, @Ctx() ctx: RequestContext) {
     return this.payroll.setSalary(parseBody(salarySchema, body), ctx);
   }
 
   @Post('salary-lock')
-  @RequirePermission('hcm.read')
+  @RequirePermission('hcm.salary.management')
   async lock(@Body() body: unknown, @Ctx() ctx: RequestContext) {
     return this.payroll.setSalaryLock(parseBody(lockSchema, body), ctx);
   }
 
   @Post('adjustments')
-  @RequirePermission('hcm.read')
+  @RequirePermission('hcm.salary.manage')
   async adjustment(@Body() body: unknown, @Ctx() ctx: RequestContext) {
     return this.payroll.addAdjustment(parseBody(adjustmentSchema, body), ctx);
   }
@@ -72,13 +74,13 @@ export class PayrollController {
   }
 
   @Post('runs/compute')
-  @RequirePermission('hcm.read')
+  @RequirePermission('hcm.salary.manage')
   async compute(@Body() body: unknown, @Ctx() ctx: RequestContext) {
     return this.payroll.compute(parseBody(periodSchema, body), ctx);
   }
 
   @Post('runs/confirm')
-  @RequirePermission('hcm.read')
+  @RequirePermission('hcm.salary.manage')
   async confirm(@Body() body: unknown, @Ctx() ctx: RequestContext) {
     return this.payroll.confirm(parseBody(periodSchema, body), ctx);
   }

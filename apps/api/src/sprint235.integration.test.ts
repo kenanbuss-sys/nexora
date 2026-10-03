@@ -157,7 +157,6 @@ integration('Sprint 235 — payroll + salary permissions (HCM-013/014)', () => {
       validFrom: '2025-01-01',
     });
     expect(forbidden.status).toBe(403);
-    expect(String(forbidden.body.message)).toContain('hcm.salary.manage');
     const byContract = await api('POST', '/api/v1/payroll/salaries', contract, {
       employeeId: e1,
       netAmount: 2100,
@@ -274,17 +273,20 @@ integration('Sprint 235 — payroll + salary permissions (HCM-013/014)', () => {
       e2,
       [3, 4, 5, 6, 7, 10, 11, 12, 13, 14, 17, 18, 19, 20, 21, 24, 25, 26, 27, 28, 31],
     );
-    const res = await api('POST', '/api/v1/payroll/runs/compute', officer, {
+    // The run includes a locked employee: only the management layer may compute it.
+    const byOfficer = await api('POST', '/api/v1/payroll/runs/compute', officer, {
       year: 2025,
       month: 3,
     });
-    expect(res.status).toBe(201);
-    expect(res.body).toMatchObject({
-      status: 'DRAFT',
-      fundDays: 21,
-      hiddenLines: 1,
-      visibleTotal: '2100.00',
-    });
+    expect(byOfficer.status).toBe(403);
+    expect(String(byOfficer.body.message)).toContain('hcm.salary.management');
+    await api('POST', '/api/v1/payroll/runs/compute', manager, { year: 2025, month: 3 });
+    const res = await api('GET', '/api/v1/payroll/runs?year=2025&month=3', officer);
+    expect(res.body).toMatchObject({ status: 'DRAFT', fundDays: 21, visibleTotal: '2100.00' });
+    // The salary circle does not even learn how many employees are locked.
+    expect(res.body.hiddenLines).toBeUndefined();
+    expect(res.body.lockedLinesIncluded).toBeUndefined();
+    expect((res.body.lines as Line[]).map((l) => l.employeeId)).toEqual([e1]);
     const l1 = (res.body.lines as Line[]).find((l) => l.employeeId === e1)!;
     expect(l1).toMatchObject({
       baseNet: '2100.00',
@@ -298,11 +300,11 @@ integration('Sprint 235 — payroll + salary permissions (HCM-013/014)', () => {
     expect((res.body.lines as Line[]).some((l) => l.employeeId === e3)).toBe(false);
 
     const mgmt = await api('GET', '/api/v1/payroll/runs?year=2025&month=3', manager);
-    expect(mgmt.body).toMatchObject({ hiddenLines: 0, visibleTotal: '5100.00' });
+    expect(mgmt.body).toMatchObject({ lockedLinesIncluded: 1, visibleTotal: '5100.00' });
   });
 
   it('CONFIRM: needs the locked Šihtarica; immutable; one event without amounts; unlock refused', async () => {
-    const early = await api('POST', '/api/v1/payroll/runs/confirm', officer, {
+    const early = await api('POST', '/api/v1/payroll/runs/confirm', manager, {
       year: 2025,
       month: 3,
     });
@@ -310,13 +312,18 @@ integration('Sprint 235 — payroll + salary permissions (HCM-013/014)', () => {
     expect(String(early.body.message)).toContain('šihtarica');
 
     await api('POST', '/api/v1/workforce/attendance/lock', admin, { year: 2025, month: 3 });
+    const officerConfirm = await api('POST', '/api/v1/payroll/runs/confirm', officer, {
+      year: 2025,
+      month: 3,
+    });
+    expect(officerConfirm.status).toBe(403);
     const results = await Promise.all(
       [1, 2, 3].map(() =>
-        api('POST', '/api/v1/payroll/runs/confirm', officer, { year: 2025, month: 3 }),
+        api('POST', '/api/v1/payroll/runs/confirm', manager, { year: 2025, month: 3 }),
       ),
     );
     for (const r of results) expect([201, 409]).toContain(r.status);
-    const final = await api('POST', '/api/v1/payroll/runs/confirm', officer, {
+    const final = await api('POST', '/api/v1/payroll/runs/confirm', manager, {
       year: 2025,
       month: 3,
     });
@@ -337,7 +344,7 @@ integration('Sprint 235 — payroll + salary permissions (HCM-013/014)', () => {
       requestKey: 's235-late-0001',
     });
     expect(lateAdj.status).toBe(409);
-    const recompute = await api('POST', '/api/v1/payroll/runs/compute', officer, {
+    const recompute = await api('POST', '/api/v1/payroll/runs/compute', manager, {
       year: 2025,
       month: 3,
     });
@@ -381,6 +388,56 @@ integration('Sprint 235 — payroll + salary permissions (HCM-013/014)', () => {
     expect(
       await prisma.auditEvent.count({ where: { tenantId: tenantAId, action: 'hcm.payslip.view' } }),
     ).toBe(2);
+  });
+
+  it('LOCK AFTER CONFIRM: locking later hides the confirmed history from the salary circle too', async () => {
+    await api('POST', '/api/v1/payroll/salary-lock', manager, { employeeId: e1, locked: true });
+    const slip = await api(
+      'GET',
+      `/api/v1/payroll/payslip?year=2025&month=3&employeeId=${e1}`,
+      officer,
+    );
+    expect(slip.status).toBe(404);
+    const run = await api('GET', '/api/v1/payroll/runs?year=2025&month=3', officer);
+    expect(run.body.lines).toEqual([]);
+    expect(run.body.visibleTotal).toBe('0.00');
+    await api('POST', '/api/v1/payroll/salary-lock', manager, { employeeId: e1, locked: false });
+  });
+
+  it('SCOPED GRANT: an org-scoped (legal entity) salary permission never grants tenant-wide salary access', async () => {
+    const role = await api('POST', '/api/v1/roles', admin, {
+      name: 's235-branch-salary',
+      permissions: ['hcm.read', 'hcm.salary.read', 'hcm.salary.manage', 'hcm.salary.management'],
+    });
+    const user = await api('POST', '/api/v1/users/invite', admin, {
+      email: 'branch@test-s235a.example',
+      displayName: 'Branch',
+      idpSubject: 'idp|s235-branch',
+    });
+    const le = await api('POST', '/api/v1/organization/legal-entities', admin, {
+      name: 'Podružnica 235',
+    });
+    const assigned = await api('POST', '/api/v1/roles/assign', admin, {
+      userId: user.body.id,
+      roleId: role.body.id,
+      scopeType: 'LEGAL_ENTITY',
+      scopeId: le.body.id,
+    });
+    expect(assigned.status).toBe(201);
+    const branch = identity.signToken({ tenantSlug: 'test-s235a', subject: 'idp|s235-branch' });
+    const salaries = await api('GET', '/api/v1/payroll/salaries', branch);
+    expect(salaries.status).toBe(403);
+    const lock = await api('POST', '/api/v1/payroll/salary-lock', branch, {
+      employeeId: e1,
+      locked: true,
+    });
+    expect(lock.status).toBe(403);
+    const slip = await api(
+      'GET',
+      `/api/v1/payroll/payslip?year=2025&month=3&employeeId=${e1}`,
+      branch,
+    );
+    expect(slip.status).toBe(403);
   });
 
   it('TENANT ISOLATION: another tenant’s salary circle sees nothing of tenant A', async () => {

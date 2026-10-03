@@ -83,9 +83,7 @@ export class PayrollService {
   // --------------------------------------------------------------- policy
 
   private async access(ctx: RequestContext): Promise<Access> {
-    if (ctx.platformAdmin === true) {
-      return { read: true, contract: true, manage: true, management: true };
-    }
+    // No platform-operator bypass: salary access only via explicit tenant grants.
     const keys = new Set(
       ctx.userId ? await this.permissions.getPermissionKeys(ctx.userId, ctx.tenantId) : [],
     );
@@ -419,7 +417,9 @@ export class PayrollService {
       if (salary.currency !== settings.currency) {
         throw new DomainError(
           'INVALID_STATE',
-          `Salary of ${e.employeeNumber} is in ${salary.currency}, payroll currency is ${settings.currency}`,
+          e.salaryLocked
+            ? `A salary is not in the payroll currency ${settings.currency}`
+            : `Salary of ${e.employeeNumber} is in ${salary.currency}, payroll currency is ${settings.currency}`,
         );
       }
       const baseC = cents(salary.netAmount);
@@ -446,7 +446,13 @@ export class PayrollService {
         negative: earnedC + bonusC - deductionC < 0,
       });
     }
-    return { fundDays, currency: settings.currency, lines, missingSalary };
+    return {
+      fundDays,
+      currency: settings.currency,
+      lines,
+      missingSalary,
+      hasLocked: lines.some((l) => l.salaryLocked),
+    };
   }
 
   private async writeRun(
@@ -501,15 +507,13 @@ export class PayrollService {
     const access = await this.access(ctx);
     if (!access.manage) this.forbid(SALARY_PERMISSIONS.manage);
     const calc = await this.calculate(params.year, params.month, ctx);
+    this.assertCanTouchLocked(calc.hasLocked, access);
     await this.prisma.$transaction((tx) => this.writeRun(params.year, params.month, calc, ctx, tx));
     await this.audit(
       'hcm.payroll.compute',
       'PayrollRun',
       `${params.year}-${params.month}`,
-      {
-        employees: calc.lines.length,
-        missingSalary: calc.missingSalary.length,
-      },
+      { computed: true },
       ctx,
     );
     return this.view(params, ctx);
@@ -536,6 +540,7 @@ export class PayrollService {
       );
     }
     const calc = await this.calculate(params.year, params.month, ctx);
+    this.assertCanTouchLocked(calc.hasLocked, access);
     if (calc.lines.some((l) => l.negative)) {
       throw new DomainError(
         'INVALID_STATE',
@@ -566,7 +571,7 @@ export class PayrollService {
         objectId: runId,
         source: 'api',
         previousValues: { status: 'DRAFT' },
-        newValues: { status: 'CONFIRMED', employees: calc.lines.length },
+        newValues: { status: 'CONFIRMED' },
       });
       await publishToOutbox(tx, {
         tenantId: ctx.tenantId,
@@ -576,10 +581,32 @@ export class PayrollService {
         actorType: ctx.actorType,
         actorId: ctx.userId,
         // Deliberately no amounts: events are read beyond the salary circle.
-        payload: { runId, year: params.year, month: params.month, employees: calc.lines.length },
+        payload: { runId, year: params.year, month: params.month },
       });
     });
     return this.view(params, ctx);
+  }
+
+  /**
+   * Computing/confirming freezes salary lines of locked employees too —
+   * only the management layer may do that (locked = immutable without it).
+   */
+  private assertCanTouchLocked(hasLocked: boolean, access: Access) {
+    if (hasLocked && !access.management) {
+      throw new DomainError(
+        'FORBIDDEN',
+        `This payroll includes employees under the management lock — it requires '${SALARY_PERMISSIONS.management}'`,
+      );
+    }
+  }
+
+  /** Employees CURRENTLY under the management lock (the lock covers history too). */
+  private async lockedNow(ctx: RequestContext): Promise<Set<string>> {
+    const rows = await this.prisma.employee.findMany({
+      where: { tenantId: ctx.tenantId, salaryLocked: true },
+      select: { id: true },
+    });
+    return new Set(rows.map((r) => r.id));
   }
 
   /** True when a confirmed payroll depends on this attendance month. */
@@ -607,11 +634,13 @@ export class PayrollService {
         status: 'NONE',
         attendanceStatus: attendance?.status ?? 'OPEN',
         lines: [],
-        hiddenLines: 0,
         visibleTotal: '0.00',
       };
     }
-    const visible = run.lines.filter((l) => !l.salaryLocked || access.management);
+    const locked = await this.lockedNow(ctx);
+    const visible = run.lines.filter(
+      (l) => access.management || (!l.salaryLocked && !locked.has(l.employeeId)),
+    );
     return {
       id: run.id,
       year: run.year,
@@ -634,7 +663,13 @@ export class PayrollService {
         deductions: Number(l.deductions).toFixed(2),
         netTotal: Number(l.netTotal).toFixed(2),
       })),
-      hiddenLines: run.lines.length - visible.length,
+      // How many employees are locked is itself management-only information.
+      ...(access.management
+        ? {
+            lockedLinesIncluded: visible.filter((l) => l.salaryLocked || locked.has(l.employeeId))
+              .length,
+          }
+        : {}),
       visibleTotal: money(visible.reduce((s, l) => s + cents(l.netTotal), 0)),
     };
   }
@@ -647,7 +682,8 @@ export class PayrollService {
     const line = await this.prisma.payrollLine.findFirst({
       where: { tenantId: ctx.tenantId, runId: run.id, employeeId: params.employeeId },
     });
-    if (!line || (line.salaryLocked && !access.management)) {
+    const lockedNow = !access.management && (await this.lockedNow(ctx)).has(params.employeeId);
+    if (!line || ((line.salaryLocked || lockedNow) && !access.management)) {
       throw notFound('Payslip', params.employeeId);
     }
     const adjustments = await this.prisma.payrollAdjustment.findMany({
