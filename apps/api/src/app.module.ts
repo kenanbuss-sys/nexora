@@ -20,7 +20,13 @@ import {
   PdfService,
   DocumentTemplateService,
 } from '@nexora/domain-doc';
-import { AttendanceMatrixService, EmployeeService, WorkforceService } from '@nexora/domain-hcm';
+import {
+  AttendanceMatrixService,
+  EmployeeService,
+  PayrollService,
+  WorkforceService,
+} from '@nexora/domain-hcm';
+import { PAYROLL_SERVICE, PayrollController } from './hcm/payroll.controller';
 import { ATTENDANCE_SERVICE, AttendanceController } from './hcm/attendance.controller';
 import { MaintenanceService, AssetService } from '@nexora/domain-eam';
 import {
@@ -435,6 +441,7 @@ export const REDIS = 'REDIS';
     EmployeesController,
     WorkforceController,
     AttendanceController,
+    PayrollController,
     OpsController,
     OpenApiController,
     AssetsController,
@@ -1147,6 +1154,27 @@ export const REDIS = 'REDIS';
           { workedDaysFor: (period, ctx) => attendance.workedDaysFor(period, ctx) },
         ),
       inject: [PRISMA, TENANT_SERVICE, APPROVAL_SERVICE, CONNECTOR_SERVICE, ATTENDANCE_SERVICE],
+    },
+    {
+      // HCM-013/014: salary policy reads effective permissions (IAM) and
+      // worked days from the HCM-015 matrix.
+      provide: PAYROLL_SERVICE,
+      useFactory: (
+        prisma: PrismaClient,
+        tenants: TenantService,
+        roles: RoleService,
+        attendance: AttendanceMatrixService,
+      ) =>
+        new PayrollService(
+          prisma,
+          { getEffectiveConfiguration: (t) => tenants.getEffectiveConfiguration(t) },
+          {
+            getPermissionKeys: async (userId, tenantId) =>
+              (await roles.getEffectivePermissions(userId, tenantId)).map((g) => g.permissionKey),
+          },
+          { workedDaysFor: (period, ctx) => attendance.workedDaysFor(period, ctx) },
+        ),
+      inject: [PRISMA, TENANT_SERVICE, ROLE_SERVICE, ATTENDANCE_SERVICE],
     },
     {
       // HCM-015: granted leave is read from WF approvals through a gate.

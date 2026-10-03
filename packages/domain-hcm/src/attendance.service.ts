@@ -630,9 +630,23 @@ export class AttendanceMatrixService {
     if (!period || period.status !== 'LOCKED') {
       return { year: params.year, month: params.month, status: 'OPEN' };
     }
-    const flipped = await this.prisma.attendancePeriod.updateMany({
-      where: { id: period.id, tenantId: ctx.tenantId, status: 'LOCKED' },
-      data: { status: 'OPEN', unlockReason: params.reason.trim() },
+    // Serialize with payroll confirmation (which share-locks this row) and
+    // refuse once a confirmed payroll depends on the month (HCM-013).
+    const flipped = await this.prisma.$transaction(async (tx) => {
+      await tx.$queryRaw`SELECT id FROM attendance_period WHERE id = ${period.id}::uuid FOR UPDATE`;
+      const payroll = await tx.payrollRun.findFirst({
+        where: { tenantId: ctx.tenantId, year: params.year, month: params.month },
+      });
+      if (payroll?.status === 'CONFIRMED') {
+        throw new DomainError(
+          'INVALID_STATE',
+          'The payroll for this month is confirmed — attendance cannot be unlocked',
+        );
+      }
+      return tx.attendancePeriod.updateMany({
+        where: { id: period.id, tenantId: ctx.tenantId, status: 'LOCKED' },
+        data: { status: 'OPEN', unlockReason: params.reason.trim() },
+      });
     });
     if (flipped.count > 0) {
       await writeAudit(this.prisma, {

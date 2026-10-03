@@ -15,3 +15,9 @@ export {
   type AttendanceStatusDef,
   type GrantedLeaveGate,
 } from './attendance.service';
+export {
+  PayrollService,
+  SALARY_PERMISSIONS,
+  type SalaryPermissionGate,
+  type WorkedDaysGate,
+} from './payroll.service';

@@ -172,6 +172,10 @@ model Tenant {
   compensationLines       CompensationLine[]
   attendanceDays          AttendanceDay[]
   attendancePeriods       AttendancePeriod[]
+  employeeSalaries        EmployeeSalary[]
+  payrollRuns             PayrollRun[]
+  payrollLines            PayrollLine[]
+  payrollAdjustments      PayrollAdjustment[]
 
   @@map("tenant")
 }
@@ -2837,6 +2841,9 @@ model Employee {
   userId         String?        @map("user_id") @db.Uuid
   skills         Json?
   hiredAt        DateTime?      @map("hired_at")
+  /// Sprint 235 (HCM-014): management lock — salary data of this employee
+  /// is visible/editable only with hcm.salary.management (extra layer).
+  salaryLocked   Boolean        @default(false) @map("salary_locked")
   createdAt      DateTime       @default(now()) @map("created_at")
   updatedAt      DateTime       @updatedAt @map("updated_at")
 
@@ -3819,4 +3826,98 @@ model AttendancePeriod {
 
   @@unique([tenantId, year, month])
   @@map("attendance_period")
+}
+
+// ---------------------------------------------------------------------------
+// Sprint 235 — HCM-013/014: salary data (effective-dated, append-only) and
+// payroll runs. earned = base net / fund days × worked days (from the
+// HCM-015 matrix) + bonuses − deductions. DRAFT → CONFIRMED (immutable
+// snapshot). Salary visibility is enforced server-side by permissions:
+// hcm.salary.read (salary circle), hcm.salary.contract (base salary only),
+// hcm.salary.manage, hcm.salary.management (management lock layer).
+// ---------------------------------------------------------------------------
+
+model EmployeeSalary {
+  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId   String   @map("tenant_id") @db.Uuid
+  employeeId String   @map("employee_id") @db.Uuid
+  netAmount  Decimal  @map("net_amount") @db.Decimal(18, 2)
+  currency   String   @db.Char(3)
+  validFrom  DateTime @map("valid_from") @db.Date
+  note       String?
+  createdBy  String?  @map("created_by")
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@unique([tenantId, employeeId, validFrom])
+  @@index([tenantId, employeeId])
+  @@map("employee_salary")
+}
+
+model PayrollRun {
+  id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId    String    @map("tenant_id") @db.Uuid
+  year        Int
+  month       Int
+  /// DRAFT (recomputable) or CONFIRMED (immutable snapshot).
+  status      String    @default("DRAFT")
+  fundDays    Int       @map("fund_days")
+  currency    String    @db.Char(3)
+  computedAt  DateTime  @map("computed_at")
+  confirmedAt DateTime? @map("confirmed_at")
+  confirmedBy String?   @map("confirmed_by")
+  version     Int       @default(1)
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+
+  tenant Tenant        @relation(fields: [tenantId], references: [id])
+  lines  PayrollLine[]
+
+  @@unique([tenantId, year, month])
+  @@map("payroll_run")
+}
+
+model PayrollLine {
+  id             String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId       String  @map("tenant_id") @db.Uuid
+  runId          String  @map("run_id") @db.Uuid
+  employeeId     String  @map("employee_id") @db.Uuid
+  employeeNumber String  @map("employee_number")
+  employeeName   String  @map("employee_name")
+  salaryLocked   Boolean @map("salary_locked")
+  salaryId       String  @map("salary_id") @db.Uuid
+  baseNet        Decimal @map("base_net") @db.Decimal(18, 2)
+  workedDays     Int     @map("worked_days")
+  fundDays       Int     @map("fund_days")
+  earned         Decimal @db.Decimal(18, 2)
+  bonuses        Decimal @db.Decimal(18, 2)
+  deductions     Decimal @db.Decimal(18, 2)
+  netTotal       Decimal @map("net_total") @db.Decimal(18, 2)
+
+  tenant Tenant     @relation(fields: [tenantId], references: [id])
+  run    PayrollRun @relation(fields: [runId], references: [id], onDelete: Cascade)
+
+  @@unique([tenantId, runId, employeeId])
+  @@map("payroll_line")
+}
+
+model PayrollAdjustment {
+  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId   String   @map("tenant_id") @db.Uuid
+  year       Int
+  month      Int
+  employeeId String   @map("employee_id") @db.Uuid
+  /// BONUS (adds) or DEDUCTION (subtracts).
+  kind       String
+  amount     Decimal  @db.Decimal(18, 2)
+  reason     String
+  requestKey String   @map("request_key")
+  createdBy  String?  @map("created_by")
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@unique([tenantId, requestKey])
+  @@index([tenantId, year, month])
+  @@map("payroll_adjustment")
 }

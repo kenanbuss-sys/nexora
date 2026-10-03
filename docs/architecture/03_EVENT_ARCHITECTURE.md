@@ -91,6 +91,7 @@ Rules: state change + outbox in one DB transaction; consumers idempotent; breaki
 | `payment.received` | FIN | Payment received/imported | paymentId |
 | `payment.matched` | FIN | Payment matched | paymentId |
 | `vat.return.filed` | FIN | VAT return filed for a legal-entity period (FIN-028) | legalEntityId, year, month, payableVat |
+| `payroll.confirmed` | HCM | Payroll run confirmed (no amounts) (HCM-013) | runId, year, month |
 | `budget.published` | FIN | Budget published | budgetId, version |
 | `integration.failed` | INT | Integration failed | connectionId, runId |
 | `integration.recovered` | INT | Integration recovered | connectionId |

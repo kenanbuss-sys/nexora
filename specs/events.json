@@ -700,6 +700,16 @@
       ]
     },
     {
+      "name": "payroll.confirmed",
+      "owner": "HCM",
+      "meaning": "Payroll run confirmed for a month (no amounts in payload) (HCM-013)",
+      "requiredPayload": [
+        "runId",
+        "year",
+        "month"
+      ]
+    },
+    {
       "name": "budget.published",
       "owner": "FIN",
       "meaning": "Budget published",

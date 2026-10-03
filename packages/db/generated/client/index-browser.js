@@ -1443,6 +1443,7 @@ exports.Prisma.EmployeeScalarFieldEnum = {
   userId: 'userId',
   skills: 'skills',
   hiredAt: 'hiredAt',
+  salaryLocked: 'salaryLocked',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -1988,6 +1989,65 @@ exports.Prisma.AttendancePeriodScalarFieldEnum = {
   lockedBy: 'lockedBy',
   unlockReason: 'unlockReason',
   updatedAt: 'updatedAt'
+};
+
+exports.Prisma.EmployeeSalaryScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  employeeId: 'employeeId',
+  netAmount: 'netAmount',
+  currency: 'currency',
+  validFrom: 'validFrom',
+  note: 'note',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.PayrollRunScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  year: 'year',
+  month: 'month',
+  status: 'status',
+  fundDays: 'fundDays',
+  currency: 'currency',
+  computedAt: 'computedAt',
+  confirmedAt: 'confirmedAt',
+  confirmedBy: 'confirmedBy',
+  version: 'version',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.PayrollLineScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  runId: 'runId',
+  employeeId: 'employeeId',
+  employeeNumber: 'employeeNumber',
+  employeeName: 'employeeName',
+  salaryLocked: 'salaryLocked',
+  salaryId: 'salaryId',
+  baseNet: 'baseNet',
+  workedDays: 'workedDays',
+  fundDays: 'fundDays',
+  earned: 'earned',
+  bonuses: 'bonuses',
+  deductions: 'deductions',
+  netTotal: 'netTotal'
+};
+
+exports.Prisma.PayrollAdjustmentScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  year: 'year',
+  month: 'month',
+  employeeId: 'employeeId',
+  kind: 'kind',
+  amount: 'amount',
+  reason: 'reason',
+  requestKey: 'requestKey',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -2597,7 +2657,11 @@ exports.Prisma.ModelName = {
   VatBookEntry: 'VatBookEntry',
   VatPeriod: 'VatPeriod',
   AttendanceDay: 'AttendanceDay',
-  AttendancePeriod: 'AttendancePeriod'
+  AttendancePeriod: 'AttendancePeriod',
+  EmployeeSalary: 'EmployeeSalary',
+  PayrollRun: 'PayrollRun',
+  PayrollLine: 'PayrollLine',
+  PayrollAdjustment: 'PayrollAdjustment'
 };
 
 /**
