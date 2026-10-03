@@ -12,6 +12,8 @@ import {
   type Column,
 } from '../../../components/ui';
 import { AttendanceMatrix } from './attendance-matrix';
+import { EmploymentContracts } from './contracts';
+import { EmployeeDocuments } from './employee-documents';
 
 /**
  * HCM (Sprint 223): employee list + profile, existing attendance
@@ -19,6 +21,7 @@ import { AttendanceMatrix } from './attendance-matrix';
  * Amounts of authority live on the server (hcm.read / hcm.manage /
  * approval.act); the UI merely hides what the caller may not do.
  * This screen does NOT claim full HR-platform coverage (ODL-005).
+ * Sprint 236 (HCM-016): contracts tab + private employee documents.
  */
 
 interface EmployeeView {
@@ -81,12 +84,14 @@ export default function HrPage() {
   const canRead = can('hcm.read');
   const canManage = can('hcm.manage');
   const canApprove = can('approval.act');
+  const canDocsRead = can('hcm.docs.read');
+  const canDocsManage = can('hcm.docs.manage');
 
   const [employees, setEmployees] = useState<EmployeeView[] | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
-  const [tab, setTab] = useState<'records' | 'matrix'>('records');
+  const [tab, setTab] = useState<'records' | 'matrix' | 'contracts'>('records');
   const [statusFilter, setStatusFilter] = useState<'ALL' | 'ACTIVE' | 'INACTIVE'>('ALL');
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [attendance, setAttendance] = useState<AttendanceView | null>(null);
@@ -254,6 +259,15 @@ export default function HrPage() {
           >
             Šihtarica
           </button>
+          <button
+            type="button"
+            role="tab"
+            aria-selected={tab === 'contracts'}
+            className={tab === 'contracts' ? 'btn btn-primary' : 'btn'}
+            onClick={() => setTab('contracts')}
+          >
+            Ugovori
+          </button>
         </div>
       ) : null}
 
@@ -261,6 +275,8 @@ export default function HrPage() {
         <EmptyState text="Nemate pristup evidenciji zaposlenih — zatražite od administratora ulogu s dozvolom hcm.read." />
       ) : tab === 'matrix' ? (
         <AttendanceMatrix canManage={canManage} />
+      ) : tab === 'contracts' ? (
+        <EmploymentContracts employees={employees} canManage={canManage} />
       ) : (
         <>
           <div className="grid-2">
@@ -541,6 +557,13 @@ export default function HrPage() {
                       </div>
                     </>
                   ) : null}
+
+                  <EmployeeDocuments
+                    key={selected.id}
+                    employeeId={selected.id}
+                    canRead={canDocsRead}
+                    canManage={canDocsManage}
+                  />
                 </>
               )}
             </div>
