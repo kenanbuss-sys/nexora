@@ -176,6 +176,7 @@ model Tenant {
   payrollRuns             PayrollRun[]
   payrollLines            PayrollLine[]
   payrollAdjustments      PayrollAdjustment[]
+  employmentContracts     EmploymentContract[]
 
   @@map("tenant")
 }
@@ -3920,4 +3921,47 @@ model PayrollAdjustment {
   @@unique([tenantId, requestKey])
   @@index([tenantId, year, month])
   @@map("payroll_adjustment")
+}
+
+// ---------------------------------------------------------------------------
+// Sprint 236 — HCM-016: employment contracts generated from DOC templates
+// (rendered text frozen at issue), expiry alerts and private employee
+// documents (stored through the COLLAB attachment store as a PRIVATE
+// entity type that the generic attachment API refuses).
+// ---------------------------------------------------------------------------
+
+model EmploymentContract {
+  id                String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId          String    @map("tenant_id") @db.Uuid
+  employeeId        String    @map("employee_id") @db.Uuid
+  contractNumber    String    @map("contract_number")
+  /// INDEFINITE or FIXED_TERM.
+  contractType      String    @map("contract_type")
+  startDate         DateTime  @map("start_date") @db.Date
+  endDate           DateTime? @map("end_date") @db.Date
+  position          String?
+  templateKey       String    @map("template_key")
+  templateVersion   Int       @map("template_version")
+  /// Rendered text, immutable after issue.
+  content           String
+  /// True when the template used salary placeholders (read needs salary scope).
+  containsSalary    Boolean   @map("contains_salary")
+  /// ISSUED or TERMINATED.
+  status            String    @default("ISSUED")
+  terminatedOn      DateTime? @map("terminated_on") @db.Date
+  terminationReason String?   @map("termination_reason")
+  expiryTaskId      String?   @map("expiry_task_id") @db.Uuid
+  requestKey        String    @map("request_key")
+  requestHash       String    @map("request_hash")
+  createdBy         String?   @map("created_by")
+  createdAt         DateTime  @default(now()) @map("created_at")
+  updatedAt         DateTime  @updatedAt @map("updated_at")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@unique([tenantId, contractNumber])
+  @@unique([tenantId, requestKey])
+  @@index([tenantId, employeeId])
+  @@index([tenantId, status, endDate])
+  @@map("employment_contract")
 }

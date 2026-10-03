@@ -23,10 +23,15 @@ import {
 import {
   AttendanceMatrixService,
   EmployeeService,
+  EmploymentContractService,
   PayrollService,
   WorkforceService,
 } from '@nexora/domain-hcm';
 import { PAYROLL_SERVICE, PayrollController } from './hcm/payroll.controller';
+import {
+  EMPLOYMENT_CONTRACT_SERVICE,
+  EmploymentContractController,
+} from './hcm/employment-contract.controller';
 import { ATTENDANCE_SERVICE, AttendanceController } from './hcm/attendance.controller';
 import { MaintenanceService, AssetService } from '@nexora/domain-eam';
 import {
@@ -442,6 +447,7 @@ export const REDIS = 'REDIS';
     WorkforceController,
     AttendanceController,
     PayrollController,
+    EmploymentContractController,
     OpsController,
     OpenApiController,
     AssetsController,
@@ -1154,6 +1160,46 @@ export const REDIS = 'REDIS';
           { workedDaysFor: (period, ctx) => attendance.workedDaysFor(period, ctx) },
         ),
       inject: [PRISMA, TENANT_SERVICE, APPROVAL_SERVICE, CONNECTOR_SERVICE, ATTENDANCE_SERVICE],
+    },
+    {
+      // HCM-016: templates (DOC), tasks (CORE) and the private document
+      // store (COLLAB) are reached through their owners' public services.
+      provide: EMPLOYMENT_CONTRACT_SERVICE,
+      useFactory: (
+        prisma: PrismaClient,
+        tenants: TenantService,
+        roles: RoleService,
+        templates: DocumentTemplateService,
+        tasks: TaskService,
+        collab: CollaborationService,
+      ) =>
+        new EmploymentContractService(
+          prisma,
+          {
+            getPermissionKeys: async (userId, tenantId) =>
+              (await roles.getEffectivePermissions(userId, tenantId))
+                .filter((g) => g.scopeType === 'TENANT')
+                .map((g) => g.permissionKey),
+          },
+          { getTemplate: (key, ctx) => templates.getTemplate(key, ctx) },
+          { createTaskInTx: (tx, tenantId, input) => tasks.createTaskInTx(tx, tenantId, input) },
+          {
+            storePrivateDocument: (input, ctx) => collab.storePrivateDocument(input, ctx),
+            listPrivateDocuments: (ownerType, entityId, ctx) =>
+              collab.listPrivateDocuments(ownerType, entityId, ctx),
+            readPrivateDocument: (ownerType, id, ctx) =>
+              collab.readPrivateDocument(ownerType, id, ctx),
+          },
+          { getEffectiveConfiguration: (t) => tenants.getEffectiveConfiguration(t) },
+        ),
+      inject: [
+        PRISMA,
+        TENANT_SERVICE,
+        ROLE_SERVICE,
+        TEMPLATE_SERVICE,
+        TASK_SERVICE,
+        COLLAB_SERVICE,
+      ],
     },
     {
       // HCM-013/014: salary policy reads effective permissions (IAM) and

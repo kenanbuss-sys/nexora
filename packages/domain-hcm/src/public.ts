@@ -21,3 +21,12 @@ export {
   type SalaryPermissionGate,
   type WorkedDaysGate,
 } from './payroll.service';
+export {
+  CONTRACT_PLACEHOLDERS,
+  EmploymentContractService,
+  HCM_DOC_PERMISSIONS,
+  type ContractTemplateGate,
+  type ExpiryTaskGate,
+  type PrivateDocumentGate,
+} from './contract.service';
+export { amountInWordsBs, integerInWordsBs } from './localization/amount-in-words-bs';

@@ -2050,6 +2050,30 @@ exports.Prisma.PayrollAdjustmentScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.EmploymentContractScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  employeeId: 'employeeId',
+  contractNumber: 'contractNumber',
+  contractType: 'contractType',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  position: 'position',
+  templateKey: 'templateKey',
+  templateVersion: 'templateVersion',
+  content: 'content',
+  containsSalary: 'containsSalary',
+  status: 'status',
+  terminatedOn: 'terminatedOn',
+  terminationReason: 'terminationReason',
+  expiryTaskId: 'expiryTaskId',
+  requestKey: 'requestKey',
+  requestHash: 'requestHash',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -2661,7 +2685,8 @@ exports.Prisma.ModelName = {
   EmployeeSalary: 'EmployeeSalary',
   PayrollRun: 'PayrollRun',
   PayrollLine: 'PayrollLine',
-  PayrollAdjustment: 'PayrollAdjustment'
+  PayrollAdjustment: 'PayrollAdjustment',
+  EmploymentContract: 'EmploymentContract'
 };
 
 /**

@@ -340,3 +340,16 @@ Backlog Faza 2, red 7. Vlasnik domena: HCM; DECISIONS HCM-014-D1. Migracija `202
 - [x] **Security review — 6 nalaza, svi ispravljeni**: scope flattening (org-scoped grant), zaključavanje nakon potvrde, curenje broja zaključanih/poruke greške, manage bez management nad zaključanim, platform-admin zaobilazak, guard-level permisije na write rutama
 - [x] Testovi: **sprint235 10/10** (2×) — politika (admin/contract/krug/upravljački), verzije plata, korekcije idempotentno, obračun tačan (2100/21×20=2000 +150 −50), potvrda (šihtarica, konkurentno → 1 event bez iznosa, kasne izmjene 409, otključavanje 409), listić + audit, zaključavanje nakon potvrde, org-scoped grant 403, tenant izolacija; regresija 234 10/10, 203 7/7, 072 4/4
 - Nije rađeno: porezi/doprinosi (BiH obračun bruto→neto), Excel import obračuna, PDF na serveru, JMBG/LK/banka zaštita (ostatak HCM-014 reda u FinTrack matrici), contract scope po poslovnicama (zaposleni nemaju poslovnicu), browser provjera /payroll
+
+# Sprint 236 — ZAVRŠEN 03.10.2026: ugovori o radu iz šablona + isticanje + dokumenti radnika (HCM-016)
+
+Backlog Faza 2, red 8. Vlasnik domena: HCM (šabloni DOC, zadaci CORE, storage COLLAB — kroz njihove javne servise); DECISIONS HCM-016-D1. Migracija `20260928000236_sprint_236_employment_contracts` (aditivna).
+
+- [x] Ugovor iz DOC šablona: whitelist polja (`GET /hcm/contracts/placeholders`), nepoznato polje → 400 s popisom; tekst + verzija šablona zamrznuti (nova verzija šablona ne mijenja izdati ugovor); broj `UR-GGGG-NNNN`; idempotentno izdavanje (requestKey + hash; drugi sadržaj → 409); određeno vrijeme traži datum kraja, neodređeno ga zabranjuje
+- [x] Plata u ugovoru (`salary.net`, `salary.netWords` — iznos slovima bs/KM, unit testovi 18/18) samo uz `hcm.salary.contract`/`read`; tekst takvog ugovora ostali vide kao „restricted" (sadržaj null); audit bez teksta
+- [x] Raskid s razlogom (audit); isticanje: lista (dani do isteka) + skeniranje koje kreira TAČNO jedan zadatak po ugovoru (FOR UPDATE + CAS; ponovljeno i konkurentno bez duplikata); prag `hcm.contractExpiryDays` (30)
+- [x] Upravljačko zaključavanje pokriva i ugovore i dokumente (bez `hcm.salary.management` → 404)
+- [x] Dokumenti radnika: PRIVATNI tip `hcm_employee` u collab store-u — generički `/attachments` list/download/OCR ih odbija (i po id-u); HCM rute s `hcm.docs.read`/`hcm.docs.manage`, 5MB, blokada html/skripti, audit svakog čitanja
+- [x] UI /hr tab „Ugovori" (isticanje, lista, detalj s tekstom i štampom, raskid, novi ugovor) + dokumenti radnika
+- [x] Testovi: **sprint236 8/8** — šablon/whitelist/zamrzavanje, plata + slovima + scope, validacija, isticanje + konkurentno skeniranje, raskid, upravljačko zaključavanje, privatni dokumenti (generički API 404/400, permisije, audit), tenant izolacija; regresija collab/priloga (016, 023, 045, 086, 135, 136, 151, 156, 227) i HCM (234, 235) zelena
+- Nije rađeno: PDF ugovora na serveru (štampa iz UI-ja), isticanje lične karte (model nema dokumente identiteta), e-potpis ugovora o radu (DOC signature port postoji — kasnije)

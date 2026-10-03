@@ -31,6 +31,16 @@ export const COLLAB_ENTITY_TYPES = [
 ] as const;
 export type CollabEntityType = (typeof COLLAB_ENTITY_TYPES)[number];
 
+/**
+ * Sprint 236: PRIVATE entity types — stored in the same attachment store,
+ * but only through the owning domain's methods below (which enforce their
+ * own access policy first). The generic attachment API never lists,
+ * downloads or OCRs them, even by attachment id.
+ */
+export const PRIVATE_ENTITY_TYPES = ['hcm_employee'] as const;
+export type PrivateEntityType = (typeof PRIVATE_ENTITY_TYPES)[number];
+const isPrivateType = (t: string) => (PRIVATE_ENTITY_TYPES as readonly string[]).includes(t);
+
 export interface CommentView {
   id: string;
   entityType: string;
@@ -325,8 +335,22 @@ export class CollaborationService {
     ctx: RequestContext,
   ): Promise<AttachmentView> {
     this.assertEntityType(input.entityType);
+    return this.storeAttachment(input, ctx);
+  }
+
+  private async storeAttachment(
+    input: {
+      entityType: string;
+      entityId: string;
+      fileName: string;
+      contentType: string;
+      dataBase64: string;
+    },
+    ctx: RequestContext,
+  ): Promise<AttachmentView> {
     // Sprint 227: izvršni/skriptni tipovi se odbijaju s razumljivom porukom.
-    const blockedType = /^(text\/html|application\/(x-sh|x-msdownload|x-executable|javascript|x-httpd-php))/i;
+    const blockedType =
+      /^(text\/html|application\/(x-sh|x-msdownload|x-executable|javascript|x-httpd-php))/i;
     if (blockedType.test(input.contentType)) {
       throw new DomainError(
         'VALIDATION_FAILED',
@@ -402,7 +426,9 @@ export class CollaborationService {
     const attachment = await this.prisma.attachment.findFirst({
       where: { id: attachmentId, tenantId: ctx.tenantId },
     });
-    if (!attachment) throw notFound('Attachment', attachmentId);
+    if (!attachment || isPrivateType(attachment.entityType)) {
+      throw notFound('Attachment', attachmentId);
+    }
     await this.assertDocumentAccess(attachment.entityType, ctx);
     const blob = await this.prisma.attachmentBlob.findFirst({
       where: { attachmentId: attachment.id, tenantId: ctx.tenantId },
@@ -410,6 +436,73 @@ export class CollaborationService {
     if (!blob) throw notFound('AttachmentBlob', attachmentId);
     return {
       ...this.toAttachmentView(attachment),
+      dataBase64: Buffer.from(blob.data).toString('base64'),
+    };
+  }
+
+  // ------------------------------------------------ private documents
+
+  private assertPrivateType(ownerType: string): void {
+    if (!isPrivateType(ownerType)) {
+      throw new DomainError('VALIDATION_FAILED', `Unsupported private entity type '${ownerType}'`);
+    }
+  }
+
+  /** Owner-domain only: the caller has already enforced its access policy. */
+  async storePrivateDocument(
+    input: {
+      ownerType: PrivateEntityType;
+      entityId: string;
+      fileName: string;
+      contentType: string;
+      dataBase64: string;
+    },
+    ctx: RequestContext,
+  ): Promise<AttachmentView> {
+    this.assertPrivateType(input.ownerType);
+    return this.storeAttachment(
+      {
+        entityType: input.ownerType,
+        entityId: input.entityId,
+        fileName: input.fileName,
+        contentType: input.contentType,
+        dataBase64: input.dataBase64,
+      },
+      ctx,
+    );
+  }
+
+  async listPrivateDocuments(
+    ownerType: PrivateEntityType,
+    entityId: string,
+    ctx: RequestContext,
+  ): Promise<AttachmentView[]> {
+    this.assertPrivateType(ownerType);
+    const rows = await this.prisma.attachment.findMany({
+      where: { tenantId: ctx.tenantId, entityType: ownerType, entityId },
+      orderBy: { createdAt: 'asc' },
+      take: 200,
+    });
+    return rows.map((a) => this.toAttachmentView(a));
+  }
+
+  async readPrivateDocument(
+    ownerType: PrivateEntityType,
+    attachmentId: string,
+    ctx: RequestContext,
+  ): Promise<AttachmentView & { entityId: string; dataBase64: string }> {
+    this.assertPrivateType(ownerType);
+    const attachment = await this.prisma.attachment.findFirst({
+      where: { id: attachmentId, tenantId: ctx.tenantId, entityType: ownerType },
+    });
+    if (!attachment) throw notFound('Attachment', attachmentId);
+    const blob = await this.prisma.attachmentBlob.findFirst({
+      where: { attachmentId: attachment.id, tenantId: ctx.tenantId },
+    });
+    if (!blob) throw notFound('AttachmentBlob', attachmentId);
+    return {
+      ...this.toAttachmentView(attachment),
+      entityId: attachment.entityId,
       dataBase64: Buffer.from(blob.data).toString('base64'),
     };
   }
@@ -427,7 +520,9 @@ export class CollaborationService {
     const attachment = await this.prisma.attachment.findFirst({
       where: { id: attachmentId, tenantId: ctx.tenantId },
     });
-    if (!attachment) throw notFound('Attachment', attachmentId);
+    if (!attachment || isPrivateType(attachment.entityType)) {
+      throw notFound('Attachment', attachmentId);
+    }
     await this.assertDocumentAccess(attachment.entityType, ctx);
     const blob = await this.prisma.attachmentBlob.findFirst({
       where: { attachmentId: attachment.id, tenantId: ctx.tenantId },
