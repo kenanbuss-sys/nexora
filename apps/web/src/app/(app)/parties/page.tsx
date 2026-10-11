@@ -10,6 +10,8 @@ import {
   LoadingState,
   type Column,
 } from '../../../components/ui';
+import { ChangeHistoryCard } from '../../../components/change-history';
+import { DuplicateCandidatesCard } from './duplicates';
 
 const PARTY_TYPE_LABELS: Record<string, string> = {
   ORGANIZATION: 'Organizacija',
@@ -37,11 +39,6 @@ interface PartyView {
   taxId: string | null;
   status: 'ACTIVE' | 'MERGED';
   mergedIntoId: string | null;
-}
-
-interface DuplicateGroup {
-  name: string;
-  partyIds: string[];
 }
 
 export default function PartiesPage() {
@@ -112,7 +109,7 @@ export default function PartiesPage() {
       .then((r) => setConsents(r.current))
       .catch(() => setConsents([]));
   }
-  const [duplicates, setDuplicates] = useState<DuplicateGroup[] | null>(null);
+  const [historyParty, setHistoryParty] = useState<string | null>(null);
   const [quality, setQuality] = useState<{
     checks: Array<{ key: string; label: string; count: number; samples: string[] }>;
     totalIssues: number;
@@ -141,9 +138,6 @@ export default function PartiesPage() {
 
   useEffect(() => {
     if (!can('mdm.steward')) return;
-    api<{ duplicates: DuplicateGroup[] }>('GET', '/api/v1/parties/duplicates')
-      .then((r) => setDuplicates(r.duplicates))
-      .catch(() => setDuplicates([]));
     api<{
       checks: Array<{ key: string; label: string; count: number; samples: string[] }>;
       totalIssues: number;
@@ -187,21 +181,6 @@ export default function PartiesPage() {
       setError(errorText(err));
     } finally {
       setBusy(false);
-    }
-  }
-
-  async function merge(winnerId: string, loserId: string) {
-    setError(null);
-    setNotice(null);
-    try {
-      await api('POST', '/api/v1/parties/merge', { winnerId, loserId });
-      setNotice('Partneri su spojeni.');
-      load(query);
-      api<{ duplicates: DuplicateGroup[] }>('GET', '/api/v1/parties/duplicates')
-        .then((r) => setDuplicates(r.duplicates))
-        .catch(() => undefined);
-    } catch (err: unknown) {
-      setError(errorText(err));
     }
   }
 
@@ -252,6 +231,18 @@ export default function PartiesPage() {
           >
             Saglasnosti
           </button>{' '}
+          {can('mdm.read') ? (
+            <>
+              <button
+                className="btn btn-sm"
+                type="button"
+                aria-pressed={historyParty === p.id}
+                onClick={() => setHistoryParty(historyParty === p.id ? null : p.id)}
+              >
+                Istorija
+              </button>{' '}
+            </>
+          ) : null}
           {can('mdm.steward') && p.partyType === 'PERSON' ? (
             <button
               className="btn btn-sm"
@@ -367,6 +358,17 @@ export default function PartiesPage() {
                   </div>
                 ))}
               </div>
+            </div>
+          ) : null}
+
+          {historyParty ? (
+            <div
+              style={{ marginTop: 12, borderTop: '1px solid var(--color-border)', paddingTop: 12 }}
+            >
+              <p className="muted" style={{ margin: '0 0 4px' }}>
+                {parties?.find((p) => p.id === historyParty)?.name ?? ''}
+              </p>
+              <ChangeHistoryCard entityType="party" entityId={historyParty} reloadKey={crList} />
             </div>
           ) : null}
         </div>
@@ -653,31 +655,8 @@ export default function PartiesPage() {
               ) : null}
             </div>
           ) : null}
-          {can('mdm.steward') && duplicates && duplicates.length > 0 ? (
-            <div className="card">
-              <h2>Mogući duplikati</h2>
-              {duplicates.map((group) => (
-                <div key={group.name} style={{ marginBottom: 10 }}>
-                  <strong>{group.name}</strong>
-                  <div className="muted mono" style={{ fontSize: 12 }}>
-                    {group.partyIds.length} zapisa
-                  </div>
-                  {can('mdm.merge') && group.partyIds.length >= 2 ? (
-                    <button
-                      className="btn btn-sm"
-                      style={{ marginTop: 4 }}
-                      onClick={() => {
-                        const [winner, loser] = group.partyIds as [string, string];
-                        void merge(winner, loser);
-                      }}
-                      type="button"
-                    >
-                      Spoji prva dva (zadrži najstariji)
-                    </button>
-                  ) : null}
-                </div>
-              ))}
-            </div>
+          {can('mdm.steward') ? (
+            <DuplicateCandidatesCard canMerge={can('mdm.merge')} onChanged={() => load(query)} />
           ) : null}
         </div>
       </div>

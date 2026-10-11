@@ -5,6 +5,7 @@ import { useParams } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 import { api, errorText } from '../../../../lib/api';
 import { EmptyState, ErrorState, LoadingState } from '../../../../components/ui';
+import { ChangeHistoryCard } from '../../../../components/change-history';
 import { useApp } from '../../app-shell';
 import { SkuCodesCard } from './sku-codes';
 
@@ -43,6 +44,20 @@ const SKU_LABEL: Record<SkuView['status'], string> = {
   DRAFT: 'Nacrt',
   ACTIVE: 'Aktivan',
   DISCONTINUED: 'Ukinut',
+};
+
+interface ReadinessView {
+  ready: boolean;
+  enforced: boolean;
+  checks: Array<{ key: string; ok: boolean; message: string }>;
+}
+
+/** Server check messages are technical English; known keys get a Bosnian label. */
+const READINESS_LABEL: Record<string, string> = {
+  description: 'Artikal ima opis',
+  category: 'Artikal ima kategoriju',
+  activeSku: 'Najmanje jedna SKU jedinica je aktivna',
+  barcode: 'Aktivne SKU jedinice imaju barkod',
 };
 
 const PRODUCT_LABEL: Record<ProductDetail['status'], string> = {
@@ -174,6 +189,18 @@ export default function ProductDetailPage() {
 
   useEffect(load, [load]);
 
+  const [readiness, setReadiness] = useState<ReadinessView | null>(null);
+  const [readinessError, setReadinessError] = useState<string | null>(null);
+  useEffect(() => {
+    api<ReadinessView>('GET', `/api/v1/products/${productId}/readiness`)
+      .then((r) => {
+        setReadiness(r);
+        setReadinessError(null);
+      })
+      .catch((e: unknown) => setReadinessError(errorText(e)));
+  }, [productId, notice]);
+  const publishBlocked = !!readiness && readiness.enforced && !readiness.ready;
+
   useEffect(() => {
     api<{ categories: CategoryView[] }>('GET', '/api/v1/catalog/categories')
       .then((r) => setCategories(r.categories))
@@ -235,7 +262,13 @@ export default function ProductDetailPage() {
             {product.status === 'DRAFT' && can('product.publish') ? (
               <button
                 className="btn btn-primary"
-                disabled={busy}
+                disabled={busy || publishBlocked}
+                title={
+                  publishBlocked
+                    ? 'Objava je blokirana: politika objave nije ispunjena (vidi Spremnost za objavu)'
+                    : undefined
+                }
+                aria-describedby={publishBlocked ? 'publish-blocked' : undefined}
                 onClick={() =>
                   run(() => api('POST', `/api/v1/products/${product.id}/publish`), 'Objavljeno.')
                 }
@@ -259,6 +292,56 @@ export default function ProductDetailPage() {
               </button>
             ) : null}
           </div>
+
+          {product.status === 'DRAFT' ? (
+            <div className="card" style={{ marginTop: 12 }}>
+              <h2>Spremnost za objavu</h2>
+              {readinessError ? <ErrorState text={readinessError} /> : null}
+              {!readinessError && !readiness ? <LoadingState text="Provjera spremnosti…" /> : null}
+              {readiness ? (
+                <>
+                  <p className="muted" style={{ marginTop: 0 }}>
+                    {readiness.enforced
+                      ? 'Politika objave je obavezna — artikal se može objaviti tek kada su sve provjere ispunjene.'
+                      : 'Politika objave je savjetodavna — provjere su preporuka i ne blokiraju objavu.'}
+                  </p>
+                  {readiness.checks.length === 0 ? (
+                    <EmptyState text="Nema definisanih provjera spremnosti." />
+                  ) : (
+                    <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+                      {readiness.checks.map((c) => (
+                        <li key={c.key} className="row" style={{ gap: 8, marginBottom: 4 }}>
+                          <span
+                            className={`badge ${c.ok ? 'badge-ok' : 'badge-danger'}`}
+                            aria-label={c.ok ? 'Ispunjeno' : 'Nije ispunjeno'}
+                          >
+                            {c.ok ? '✓' : '✗'}
+                          </span>
+                          <span>
+                            {READINESS_LABEL[c.key] ?? c.message}
+                            {!c.ok && READINESS_LABEL[c.key] ? (
+                              <span className="muted" style={{ fontSize: 12, marginLeft: 6 }}>
+                                ({c.message})
+                              </span>
+                            ) : null}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                  {publishBlocked ? (
+                    <p id="publish-blocked" className="alert alert-warn" style={{ marginTop: 8 }}>
+                      Objava je onemogućena dok sve obavezne provjere nisu ispunjene.
+                    </p>
+                  ) : readiness.ready ? (
+                    <p className="alert alert-ok" style={{ marginTop: 8 }}>
+                      Artikal je spreman za objavu.
+                    </p>
+                  ) : null}
+                </>
+              ) : null}
+            </div>
+          ) : null}
 
           <div className="card" style={{ marginTop: 16 }}>
             <h2>SKU jedinice</h2>
@@ -1282,6 +1365,12 @@ export default function ProductDetailPage() {
                   </tbody>
                 </table>
               ) : null}
+            </div>
+          ) : null}
+
+          {can('mdm.read') ? (
+            <div className="card">
+              <ChangeHistoryCard entityType="product" entityId={product.id} reloadKey={notice} />
             </div>
           ) : null}
         </>
