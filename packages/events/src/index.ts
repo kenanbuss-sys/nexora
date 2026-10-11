@@ -22,6 +22,7 @@ export const EVENT_TYPES = {
   APPROVAL_REJECTED: 'approval.rejected',
   PARTY_CREATED: 'party.created',
   PARTY_MERGED: 'party.merged',
+  ASSET_STRUCTURE_CHANGED: 'asset.structure.changed',
   PRODUCT_CREATED: 'product.created',
   SKU_ACTIVATED: 'sku.activated',
   STOCK_MOVED: 'stock.moved',

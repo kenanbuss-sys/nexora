@@ -16,6 +16,11 @@ const createAssetSchema = z.object({
   workCenterId: z.string().uuid().optional(),
   value: z.number().nonnegative().optional(),
   purchasedAt: z.string().datetime().optional(),
+  parentAssetId: z.string().uuid().optional(),
+});
+const setParentSchema = z.object({
+  parentAssetId: z.string().uuid().nullable(),
+  reason: z.string().min(3).max(300),
 });
 const assetStatusSchema = z.object({
   status: z.enum(['IN_SERVICE', 'UNDER_MAINTENANCE', 'RETIRED']),
@@ -42,6 +47,25 @@ export class AssetsController {
   async transition(@Param('id') id: string, @Body() body: unknown, @Ctx() ctx: RequestContext) {
     const input = parseBody(assetStatusSchema, body);
     return this.assets.transition(id, input.status, ctx);
+  }
+
+  /** EAM-002: install into / move to / remove from a parent asset. */
+  @Post(':id/parent')
+  @RequirePermission('asset.manage')
+  async setParent(@Param('id') id: string, @Body() body: unknown, @Ctx() ctx: RequestContext) {
+    return this.assets.setParent(id, parseBody(setParentSchema, body), ctx);
+  }
+
+  @Get(':id/tree')
+  @RequirePermission('asset.read')
+  async tree(@Param('id') id: string, @Ctx() ctx: RequestContext) {
+    return this.assets.tree(id, ctx);
+  }
+
+  @Get(':id/structure-history')
+  @RequirePermission('asset.read')
+  async structureHistory(@Param('id') id: string, @Ctx() ctx: RequestContext) {
+    return { changes: await this.assets.structureHistory(id, ctx) };
   }
 }
 

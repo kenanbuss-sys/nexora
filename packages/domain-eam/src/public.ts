@@ -1,7 +1,14 @@
 /**
  * @nexora/domain-eam public application interface.
  */
-export { AssetService, type AssetView } from './asset.service';
+export {
+  AssetService,
+  MAX_ASSET_DEPTH,
+  type AssetTree,
+  type AssetTreeNode,
+  type AssetView,
+  type StructureChangeView,
+} from './asset.service';
 export {
   MaintenanceService,
   type MaintenanceConfigGate,

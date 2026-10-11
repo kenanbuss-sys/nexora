@@ -54,6 +54,16 @@
       ]
     },
     {
+      "name": "asset.structure.changed",
+      "owner": "EAM",
+      "meaning": "Asset installed into, moved between or removed from a parent asset",
+      "requiredPayload": [
+        "assetId",
+        "fromParentId",
+        "toParentId"
+      ]
+    },
+    {
       "name": "customer.approved",
       "owner": "CRM",
       "meaning": "Customer onboarding approved",
