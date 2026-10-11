@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Inject, Param, Post, Put } from '@nestjs/common';
-import type { AdvancedPlanningService, PlanningService } from '@nexora/domain-plan';
+import type { AdvancedPlanningService, PlanningService, PromiseService } from '@nexora/domain-plan';
 import type { RequestContext } from '@nexora/tenancy';
 import { z } from 'zod';
 import { Ctx } from '../auth/ctx.decorator';
@@ -8,6 +8,14 @@ import { parseBody } from '../common/validate';
 
 export const PLANNING_SERVICE = 'PLANNING_SERVICE';
 export const ADVANCED_PLANNING_SERVICE = 'ADVANCED_PLANNING_SERVICE';
+export const PROMISE_SERVICE = 'PROMISE_SERVICE';
+
+const promiseSchema = z.object({
+  lines: z
+    .array(z.object({ skuId: z.string().uuid(), quantity: z.number().positive() }))
+    .min(1)
+    .max(200),
+});
 
 const policySchema = z.object({
   skuId: z.string().uuid(),
@@ -18,7 +26,17 @@ const policySchema = z.object({
 
 @Controller('api/v1/planning')
 export class PlanningController {
-  constructor(@Inject(PLANNING_SERVICE) private readonly planning: PlanningService) {}
+  constructor(
+    @Inject(PLANNING_SERVICE) private readonly planning: PlanningService,
+    @Inject(PROMISE_SERVICE) private readonly promises: PromiseService,
+  ) {}
+
+  /** PLAN-015: what-if promise for a basket (quote, phone enquiry) — read-only. */
+  @Post('promise')
+  @RequirePermission('plan.read')
+  async promise(@Body() body: unknown, @Ctx() ctx: RequestContext) {
+    return this.promises.promise(parseBody(promiseSchema, body), ctx);
+  }
 
   @Get('policies')
   @RequirePermission('plan.read')

@@ -1078,6 +1078,34 @@ export class InventoryService {
     });
   }
 
+  /**
+   * Public cross-domain gate (PLAN-015): stock that can still be promised
+   * per SKU, tenant-wide — on hand minus active reservations minus
+   * quarantine-blocked quantity.
+   */
+  async promisableStock(tenantId: string, skuIds: string[]): Promise<Map<string, number>> {
+    if (skuIds.length === 0) return new Map();
+    const rows = await this.prisma.$queryRaw<
+      Array<{ sku_id: string; on_hand: string | null; reserved: string | null }>
+    >`
+      SELECT s.sku_id::text AS sku_id,
+        (SELECT COALESCE(SUM(CASE WHEN m.movement_type IN ('RECEIPT','ADJUSTMENT_IN','TRANSFER_IN')
+                                  THEN m.quantity ELSE -m.quantity END), 0)
+           FROM "stock_movement" m
+          WHERE m.tenant_id = ${tenantId}::uuid AND m.sku_id = s.sku_id)::text AS on_hand,
+        (SELECT COALESCE(SUM(r.quantity), 0) FROM "stock_reservation" r
+          WHERE r.tenant_id = ${tenantId}::uuid AND r.sku_id = s.sku_id
+            AND r.status = 'ACTIVE')::text AS reserved
+      FROM unnest(${skuIds}::uuid[]) AS s(sku_id)`;
+    const held = this.holds ? await this.holds.activeHeldBySku(tenantId, skuIds) : new Map();
+    return new Map(
+      rows.map((r) => [
+        r.sku_id,
+        Math.max(0, Number(r.on_hand ?? 0) - Number(r.reserved ?? 0) - (held.get(r.sku_id) ?? 0)),
+      ]),
+    );
+  }
+
   async totalAvailability(
     skuId: string,
     ctx: RequestContext,

@@ -130,6 +130,34 @@ export class MesService {
   ) {}
 
   /**
+   * Public cross-domain gate (PLAN-015): open production per SKU — the
+   * remaining good quantity of work orders not yet completed/cancelled.
+   */
+  async openProduction(
+    tenantId: string,
+    skuIds: string[],
+  ): Promise<Array<{ skuId: string; quantity: number; woNumber: string; startedAt: Date | null }>> {
+    if (skuIds.length === 0) return [];
+    const orders = await this.prisma.workOrder.findMany({
+      where: {
+        tenantId,
+        skuId: { in: skuIds },
+        status: { in: ['PLANNED', 'RELEASED', 'IN_PROGRESS', 'PAUSED'] },
+      },
+      select: { skuId: true, quantity: true, goodQuantity: true, woNumber: true, startedAt: true },
+      take: 2000,
+    });
+    return orders
+      .map((o) => ({
+        skuId: o.skuId,
+        quantity: Math.max(0, Number(o.quantity) - Number(o.goodQuantity)),
+        woNumber: o.woNumber,
+        startedAt: o.startedAt,
+      }))
+      .filter((o) => o.quantity > 0);
+  }
+
+  /**
    * Backflush (MES-007): with mes.issueMode = 'backflush' in tenant
    * configuration, components are not issued when the order releases —
    * they are consumed at completion, scaled to what was actually

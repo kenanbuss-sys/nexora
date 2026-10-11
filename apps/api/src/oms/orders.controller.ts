@@ -169,6 +169,13 @@ export class OrdersController {
     return this.orders.promiseDates(id, ctx);
   }
 
+  /** PLAN-015: commit the engine's promise onto the order (audited). */
+  @Post(':id/promise/commit')
+  @RequirePermission('order.confirm')
+  async commitPromise(@Param('id') id: string, @Ctx() ctx: RequestContext) {
+    return this.orders.commitPromise(id, ctx);
+  }
+
   @Get(':id/logistics')
   @RequirePermission('order.read')
   async logistics(@Param('id') id: string, @Ctx() ctx: RequestContext) {

@@ -119,6 +119,30 @@ export interface LeadTimeGate {
   leadTimeFor(tenantId: string, skuId: string): Promise<number>;
 }
 
+/** Cross-domain contract (PLAN-015): the promise-date engine is owned by PLAN. */
+export interface PromiseGate {
+  promise(
+    input: {
+      lines: Array<{ skuId: string; quantity: number; reserved?: boolean | undefined }>;
+      competingDemand?: Map<string, number> | undefined;
+    },
+    ctx: RequestContext,
+  ): Promise<{
+    promisedAt: string;
+    lines: Array<{
+      skuId: string;
+      quantity: number;
+      availableNow: number;
+      promisedAt: string;
+      days: number;
+      source: string;
+      sources: Array<{ kind: string; reference: string | null; quantity: number; at: string }>;
+      leadTimeDays: number;
+      explanation: string;
+    }>;
+  }>;
+}
+
 /** Cross-domain contract: stock truth is owned by WMS. */
 export interface StockGate {
   reserveStock(
@@ -210,6 +234,47 @@ export class OrderService {
     private readonly loyalty?: LoyaltyGate,
   ) {}
 
+  private promises: PromiseGate | undefined;
+
+  /** Late binding: PLAN is wired after OMS (it reads OMS demand). */
+  bindPromiseGate(gate: PromiseGate): void {
+    this.promises = gate;
+  }
+
+  /**
+   * Public cross-domain gate (PLAN-015): unfulfilled BACKORDERED demand of
+   * open orders per SKU — the share earlier orders already claim from
+   * future supply. `excludeOrderId` leaves one order out; `before` keeps
+   * only orders created before that moment.
+   */
+  async openBackorders(
+    tenantId: string,
+    skuIds: string[],
+    opts: { excludeOrderId?: string | undefined; before?: Date | undefined } = {},
+  ): Promise<Map<string, number>> {
+    if (skuIds.length === 0) return new Map();
+    const lines = await this.prisma.salesOrderLine.findMany({
+      where: {
+        tenantId,
+        skuId: { in: skuIds },
+        backordered: true,
+        order: {
+          status: { in: ['CONFIRMED', 'ON_HOLD'] },
+          ...(opts.excludeOrderId ? { id: { not: opts.excludeOrderId } } : {}),
+          ...(opts.before ? { createdAt: { lt: opts.before } } : {}),
+        },
+      },
+      select: { skuId: true, quantity: true, fulfilledQty: true },
+      take: 5000,
+    });
+    const map = new Map<string, number>();
+    for (const l of lines) {
+      const open = Math.max(0, Number(l.quantity) - Number(l.fulfilledQty));
+      map.set(l.skuId, (map.get(l.skuId) ?? 0) + open);
+    }
+    return map;
+  }
+
   /**
    * Promise dates (CPQ-013/PLAN-015): per line, if free availability
    * covers the quantity the promise is tomorrow (handling); otherwise
@@ -231,9 +296,6 @@ export class OrderService {
       promisedAt: string;
     }>;
   }> {
-    if (!this.availability || !this.leadTimes) {
-      throw new DomainError('INVALID_STATE', 'Promise dates are not configured');
-    }
     const order = await this.prisma.salesOrder.findFirst({
       where: { id: orderId, tenantId: ctx.tenantId },
       include: { lines: true },
@@ -241,6 +303,10 @@ export class OrderService {
     if (!order) throw notFound('Order', orderId);
     if (order.lines.length === 0) {
       throw new DomainError('INVALID_STATE', 'Order has no lines');
+    }
+    if (this.promises) return this.enginePromise(order, ctx);
+    if (!this.availability || !this.leadTimes) {
+      throw new DomainError('INVALID_STATE', 'Promise dates are not configured');
     }
     const dayMs = 24 * 60 * 60 * 1000;
     const lines = [];
@@ -268,6 +334,159 @@ export class OrderService {
       });
     }
     return { orderPromise: new Date(latest).toISOString(), lines };
+  }
+
+  /**
+   * PLAN-015 through the promise engine: open (unfulfilled) quantity per
+   * line; reserved lines are already covered; older confirmed backorders
+   * of OTHER orders claim supply first.
+   */
+  private async enginePromise(
+    order: {
+      id: string;
+      status: string;
+      createdAt: Date;
+      lines: Array<{
+        id: string;
+        skuId: string;
+        description: string;
+        quantity: { toString(): string };
+        fulfilledQty: { toString(): string };
+        reservationId: string | null;
+        backordered: boolean;
+        promisedAt?: Date | null;
+      }>;
+    },
+    ctx: RequestContext,
+  ) {
+    const open = order.lines
+      .map((l) => ({
+        line: l,
+        quantity: Math.max(0, Number(l.quantity.toString()) - Number(l.fulfilledQty.toString())),
+      }))
+      .filter((l) => l.quantity > 0);
+    if (open.length === 0) {
+      throw new DomainError('INVALID_STATE', 'Every line is already fulfilled');
+    }
+    const skuIds = [...new Set(open.map((l) => l.line.skuId))];
+    const competingDemand = await this.openBackorders(ctx.tenantId, skuIds, {
+      excludeOrderId: order.id,
+      ...(order.status === 'DRAFT' ? {} : { before: order.createdAt }),
+    });
+    const result = await this.promises!.promise(
+      {
+        lines: open.map((l) => ({
+          skuId: l.line.skuId,
+          quantity: l.quantity,
+          reserved: !!l.line.reservationId && !l.line.backordered,
+        })),
+        competingDemand,
+      },
+      ctx,
+    );
+    return {
+      orderPromise: result.promisedAt,
+      lines: open.map((l, i) => {
+        const r = result.lines[i]!;
+        return {
+          lineId: l.line.id,
+          skuId: l.line.skuId,
+          description: l.line.description,
+          quantity: l.quantity,
+          fromStock: r.source === 'STOCK' || r.source === 'RESERVED',
+          leadTimeDays: r.leadTimeDays,
+          promisedAt: r.promisedAt,
+          availableNow: r.availableNow,
+          days: r.days,
+          source: r.source,
+          sources: r.sources,
+          explanation: r.explanation,
+          committedPromise: l.line.promisedAt ? l.line.promisedAt.toISOString() : null,
+        };
+      }),
+    };
+  }
+
+  /**
+   * Permission: order.confirm. Commits the current engine promise onto the
+   * order and its open lines (audited, on the timeline, outboxed). A later
+   * commit replaces it — the previous dates stay in the audit trail.
+   */
+  async commitPromise(
+    orderId: string,
+    ctx: RequestContext,
+  ): Promise<{
+    orderId: string;
+    promisedAt: string;
+    lines: Array<{ lineId: string; promisedAt: string }>;
+  }> {
+    if (!this.promises) throw new DomainError('INVALID_STATE', 'Promise dates are not configured');
+    const order = await this.prisma.salesOrder.findFirst({
+      where: { id: orderId, tenantId: ctx.tenantId },
+      include: { lines: true },
+    });
+    if (!order) throw notFound('Order', orderId);
+    if (!['DRAFT', 'CONFIRMED', 'ON_HOLD'].includes(order.status)) {
+      throw new DomainError('INVALID_STATE', `A ${order.status} order takes no promise`);
+    }
+    const computed = await this.enginePromise(order, ctx);
+    return this.prisma.$transaction(async (tx) => {
+      // CAS on updatedAt: a concurrent edit of the order invalidates this promise.
+      const touched = await tx.salesOrder.updateMany({
+        where: { id: order.id, tenantId: ctx.tenantId, updatedAt: order.updatedAt },
+        data: { promisedAt: new Date(computed.orderPromise) },
+      });
+      if (touched.count === 0) {
+        throw new DomainError('CONFLICT', 'The order changed meanwhile — recompute the promise');
+      }
+      for (const line of computed.lines) {
+        await tx.salesOrderLine.update({
+          where: { id: line.lineId },
+          data: { promisedAt: new Date(line.promisedAt) },
+        });
+      }
+      await tx.orderEvent.create({
+        data: {
+          tenantId: ctx.tenantId,
+          orderId: order.id,
+          eventType: 'PROMISE_COMMITTED',
+          note: `Promised ${computed.orderPromise.slice(0, 10)}`,
+          createdBy: ctx.userId ?? null,
+        },
+      });
+      await writeAudit(tx, {
+        tenantId: ctx.tenantId,
+        actorType: ctx.actorType,
+        actorId: ctx.userId,
+        action: 'order.promise.commit',
+        objectType: 'SalesOrder',
+        objectId: order.id,
+        source: 'api',
+        previousValues: { promisedAt: order.promisedAt ? order.promisedAt.toISOString() : null },
+        newValues: {
+          promisedAt: computed.orderPromise,
+          lines: computed.lines.map((l) => ({
+            lineId: l.lineId,
+            promisedAt: l.promisedAt,
+            source: l.source,
+          })),
+        },
+      });
+      await publishToOutbox(tx, {
+        tenantId: ctx.tenantId,
+        eventType: EVENT_TYPES.ORDER_PROMISE_COMMITTED,
+        aggregateType: 'SalesOrder',
+        aggregateId: order.id,
+        actorType: ctx.actorType,
+        actorId: ctx.userId,
+        payload: { orderId: order.id, promisedAt: computed.orderPromise },
+      });
+      return {
+        orderId: order.id,
+        promisedAt: computed.orderPromise,
+        lines: computed.lines.map((l) => ({ lineId: l.lineId, promisedAt: l.promisedAt })),
+      };
+    });
   }
 
   /**

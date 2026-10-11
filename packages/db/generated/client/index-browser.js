@@ -785,6 +785,7 @@ exports.Prisma.SalesOrderScalarFieldEnum = {
   channel: 'channel',
   requestKey: 'requestKey',
   requestHash: 'requestHash',
+  promisedAt: 'promisedAt',
   createdBy: 'createdBy',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -801,7 +802,8 @@ exports.Prisma.SalesOrderLineScalarFieldEnum = {
   lineTotal: 'lineTotal',
   reservationId: 'reservationId',
   backordered: 'backordered',
-  fulfilledQty: 'fulfilledQty'
+  fulfilledQty: 'fulfilledQty',
+  promisedAt: 'promisedAt'
 };
 
 exports.Prisma.OrderEventScalarFieldEnum = {

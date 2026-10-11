@@ -1506,6 +1506,8 @@ model SalesOrder {
   /// Content hash of the original request: a replay with the same key
   /// but different content is refused as a conflict.
   requestHash     String?          @map("request_hash")
+  /// Sprint 244 (PLAN-015): committed promise date (latest line).
+  promisedAt      DateTime?        @map("promised_at")
   createdBy       String?          @map("created_by")
   createdAt       DateTime         @default(now()) @map("created_at")
   updatedAt       DateTime         @updatedAt @map("updated_at")
@@ -1522,19 +1524,21 @@ model SalesOrder {
 }
 
 model SalesOrderLine {
-  id            String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  tenantId      String  @map("tenant_id") @db.Uuid
-  orderId       String  @map("order_id") @db.Uuid
-  skuId         String  @map("sku_id") @db.Uuid
+  id            String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId      String    @map("tenant_id") @db.Uuid
+  orderId       String    @map("order_id") @db.Uuid
+  skuId         String    @map("sku_id") @db.Uuid
   description   String
-  quantity      Decimal @db.Decimal(18, 6)
-  unitPrice     Decimal @map("unit_price") @db.Decimal(18, 4)
-  lineTotal     Decimal @map("line_total") @db.Decimal(18, 2)
-  reservationId String? @map("reservation_id") @db.Uuid
+  quantity      Decimal   @db.Decimal(18, 6)
+  unitPrice     Decimal   @map("unit_price") @db.Decimal(18, 4)
+  lineTotal     Decimal   @map("line_total") @db.Decimal(18, 2)
+  reservationId String?   @map("reservation_id") @db.Uuid
   /// Sprint 018 (OMS-006): confirmed without stock; released later.
-  backordered   Boolean @default(false)
+  backordered   Boolean   @default(false)
   /// Sprint 102 (OMS-005): shipped so far — split fulfillment.
-  fulfilledQty  Decimal @default(0) @map("fulfilled_qty") @db.Decimal(18, 6)
+  fulfilledQty  Decimal   @default(0) @map("fulfilled_qty") @db.Decimal(18, 6)
+  /// Sprint 244 (PLAN-015): committed line promise date.
+  promisedAt    DateTime? @map("promised_at")
 
   tenant Tenant     @relation(fields: [tenantId], references: [id])
   order  SalesOrder @relation(fields: [orderId], references: [id])

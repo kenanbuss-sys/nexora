@@ -88156,6 +88156,7 @@ export namespace Prisma {
     channel: string | null
     requestKey: string | null
     requestHash: string | null
+    promisedAt: Date | null
     createdBy: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -88177,6 +88178,7 @@ export namespace Prisma {
     channel: string | null
     requestKey: string | null
     requestHash: string | null
+    promisedAt: Date | null
     createdBy: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -88198,6 +88200,7 @@ export namespace Prisma {
     channel: number
     requestKey: number
     requestHash: number
+    promisedAt: number
     createdBy: number
     createdAt: number
     updatedAt: number
@@ -88229,6 +88232,7 @@ export namespace Prisma {
     channel?: true
     requestKey?: true
     requestHash?: true
+    promisedAt?: true
     createdBy?: true
     createdAt?: true
     updatedAt?: true
@@ -88250,6 +88254,7 @@ export namespace Prisma {
     channel?: true
     requestKey?: true
     requestHash?: true
+    promisedAt?: true
     createdBy?: true
     createdAt?: true
     updatedAt?: true
@@ -88271,6 +88276,7 @@ export namespace Prisma {
     channel?: true
     requestKey?: true
     requestHash?: true
+    promisedAt?: true
     createdBy?: true
     createdAt?: true
     updatedAt?: true
@@ -88379,6 +88385,7 @@ export namespace Prisma {
     channel: string
     requestKey: string | null
     requestHash: string | null
+    promisedAt: Date | null
     createdBy: string | null
     createdAt: Date
     updatedAt: Date
@@ -88419,6 +88426,7 @@ export namespace Prisma {
     channel?: boolean
     requestKey?: boolean
     requestHash?: boolean
+    promisedAt?: boolean
     createdBy?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -88444,6 +88452,7 @@ export namespace Prisma {
     channel?: boolean
     requestKey?: boolean
     requestHash?: boolean
+    promisedAt?: boolean
     createdBy?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -88466,6 +88475,7 @@ export namespace Prisma {
     channel?: boolean
     requestKey?: boolean
     requestHash?: boolean
+    promisedAt?: boolean
     createdBy?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -88488,12 +88498,13 @@ export namespace Prisma {
     channel?: boolean
     requestKey?: boolean
     requestHash?: boolean
+    promisedAt?: boolean
     createdBy?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type SalesOrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "orderNumber" | "accountId" | "quoteId" | "warehouseId" | "status" | "currency" | "total" | "holdReason" | "fulfillmentType" | "projectRef" | "channel" | "requestKey" | "requestHash" | "createdBy" | "createdAt" | "updatedAt", ExtArgs["result"]["salesOrder"]>
+  export type SalesOrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "orderNumber" | "accountId" | "quoteId" | "warehouseId" | "status" | "currency" | "total" | "holdReason" | "fulfillmentType" | "projectRef" | "channel" | "requestKey" | "requestHash" | "promisedAt" | "createdBy" | "createdAt" | "updatedAt", ExtArgs["result"]["salesOrder"]>
   export type SalesOrderInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     lines?: boolean | SalesOrder$linesArgs<ExtArgs>
@@ -88548,6 +88559,10 @@ export namespace Prisma {
        * but different content is refused as a conflict.
        */
       requestHash: string | null
+      /**
+       * Sprint 244 (PLAN-015): committed promise date (latest line).
+       */
+      promisedAt: Date | null
       createdBy: string | null
       createdAt: Date
       updatedAt: Date
@@ -88992,6 +89007,7 @@ export namespace Prisma {
     readonly channel: FieldRef<"SalesOrder", 'String'>
     readonly requestKey: FieldRef<"SalesOrder", 'String'>
     readonly requestHash: FieldRef<"SalesOrder", 'String'>
+    readonly promisedAt: FieldRef<"SalesOrder", 'DateTime'>
     readonly createdBy: FieldRef<"SalesOrder", 'String'>
     readonly createdAt: FieldRef<"SalesOrder", 'DateTime'>
     readonly updatedAt: FieldRef<"SalesOrder", 'DateTime'>
@@ -89495,6 +89511,7 @@ export namespace Prisma {
     reservationId: string | null
     backordered: boolean | null
     fulfilledQty: Decimal | null
+    promisedAt: Date | null
   }
 
   export type SalesOrderLineMaxAggregateOutputType = {
@@ -89509,6 +89526,7 @@ export namespace Prisma {
     reservationId: string | null
     backordered: boolean | null
     fulfilledQty: Decimal | null
+    promisedAt: Date | null
   }
 
   export type SalesOrderLineCountAggregateOutputType = {
@@ -89523,6 +89541,7 @@ export namespace Prisma {
     reservationId: number
     backordered: number
     fulfilledQty: number
+    promisedAt: number
     _all: number
   }
 
@@ -89553,6 +89572,7 @@ export namespace Prisma {
     reservationId?: true
     backordered?: true
     fulfilledQty?: true
+    promisedAt?: true
   }
 
   export type SalesOrderLineMaxAggregateInputType = {
@@ -89567,6 +89587,7 @@ export namespace Prisma {
     reservationId?: true
     backordered?: true
     fulfilledQty?: true
+    promisedAt?: true
   }
 
   export type SalesOrderLineCountAggregateInputType = {
@@ -89581,6 +89602,7 @@ export namespace Prisma {
     reservationId?: true
     backordered?: true
     fulfilledQty?: true
+    promisedAt?: true
     _all?: true
   }
 
@@ -89682,6 +89704,7 @@ export namespace Prisma {
     reservationId: string | null
     backordered: boolean
     fulfilledQty: Decimal
+    promisedAt: Date | null
     _count: SalesOrderLineCountAggregateOutputType | null
     _avg: SalesOrderLineAvgAggregateOutputType | null
     _sum: SalesOrderLineSumAggregateOutputType | null
@@ -89715,6 +89738,7 @@ export namespace Prisma {
     reservationId?: boolean
     backordered?: boolean
     fulfilledQty?: boolean
+    promisedAt?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     order?: boolean | SalesOrderDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["salesOrderLine"]>
@@ -89731,6 +89755,7 @@ export namespace Prisma {
     reservationId?: boolean
     backordered?: boolean
     fulfilledQty?: boolean
+    promisedAt?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     order?: boolean | SalesOrderDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["salesOrderLine"]>
@@ -89747,6 +89772,7 @@ export namespace Prisma {
     reservationId?: boolean
     backordered?: boolean
     fulfilledQty?: boolean
+    promisedAt?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     order?: boolean | SalesOrderDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["salesOrderLine"]>
@@ -89763,9 +89789,10 @@ export namespace Prisma {
     reservationId?: boolean
     backordered?: boolean
     fulfilledQty?: boolean
+    promisedAt?: boolean
   }
 
-  export type SalesOrderLineOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "orderId" | "skuId" | "description" | "quantity" | "unitPrice" | "lineTotal" | "reservationId" | "backordered" | "fulfilledQty", ExtArgs["result"]["salesOrderLine"]>
+  export type SalesOrderLineOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "orderId" | "skuId" | "description" | "quantity" | "unitPrice" | "lineTotal" | "reservationId" | "backordered" | "fulfilledQty" | "promisedAt", ExtArgs["result"]["salesOrderLine"]>
   export type SalesOrderLineInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     order?: boolean | SalesOrderDefaultArgs<ExtArgs>
@@ -89803,6 +89830,10 @@ export namespace Prisma {
        * Sprint 102 (OMS-005): shipped so far — split fulfillment.
        */
       fulfilledQty: Prisma.Decimal
+      /**
+       * Sprint 244 (PLAN-015): committed line promise date.
+       */
+      promisedAt: Date | null
     }, ExtArgs["result"]["salesOrderLine"]>
     composites: {}
   }
@@ -90239,6 +90270,7 @@ export namespace Prisma {
     readonly reservationId: FieldRef<"SalesOrderLine", 'String'>
     readonly backordered: FieldRef<"SalesOrderLine", 'Boolean'>
     readonly fulfilledQty: FieldRef<"SalesOrderLine", 'Decimal'>
+    readonly promisedAt: FieldRef<"SalesOrderLine", 'DateTime'>
   }
     
 
@@ -218788,6 +218820,7 @@ export namespace Prisma {
     channel: 'channel',
     requestKey: 'requestKey',
     requestHash: 'requestHash',
+    promisedAt: 'promisedAt',
     createdBy: 'createdBy',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -218807,7 +218840,8 @@ export namespace Prisma {
     lineTotal: 'lineTotal',
     reservationId: 'reservationId',
     backordered: 'backordered',
-    fulfilledQty: 'fulfilledQty'
+    fulfilledQty: 'fulfilledQty',
+    promisedAt: 'promisedAt'
   };
 
   export type SalesOrderLineScalarFieldEnum = (typeof SalesOrderLineScalarFieldEnum)[keyof typeof SalesOrderLineScalarFieldEnum]
@@ -226454,6 +226488,7 @@ export namespace Prisma {
     channel?: StringFilter<"SalesOrder"> | string
     requestKey?: StringNullableFilter<"SalesOrder"> | string | null
     requestHash?: StringNullableFilter<"SalesOrder"> | string | null
+    promisedAt?: DateTimeNullableFilter<"SalesOrder"> | Date | string | null
     createdBy?: StringNullableFilter<"SalesOrder"> | string | null
     createdAt?: DateTimeFilter<"SalesOrder"> | Date | string
     updatedAt?: DateTimeFilter<"SalesOrder"> | Date | string
@@ -226478,6 +226513,7 @@ export namespace Prisma {
     channel?: SortOrder
     requestKey?: SortOrderInput | SortOrder
     requestHash?: SortOrderInput | SortOrder
+    promisedAt?: SortOrderInput | SortOrder
     createdBy?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -226507,6 +226543,7 @@ export namespace Prisma {
     channel?: StringFilter<"SalesOrder"> | string
     requestKey?: StringNullableFilter<"SalesOrder"> | string | null
     requestHash?: StringNullableFilter<"SalesOrder"> | string | null
+    promisedAt?: DateTimeNullableFilter<"SalesOrder"> | Date | string | null
     createdBy?: StringNullableFilter<"SalesOrder"> | string | null
     createdAt?: DateTimeFilter<"SalesOrder"> | Date | string
     updatedAt?: DateTimeFilter<"SalesOrder"> | Date | string
@@ -226531,6 +226568,7 @@ export namespace Prisma {
     channel?: SortOrder
     requestKey?: SortOrderInput | SortOrder
     requestHash?: SortOrderInput | SortOrder
+    promisedAt?: SortOrderInput | SortOrder
     createdBy?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -226560,6 +226598,7 @@ export namespace Prisma {
     channel?: StringWithAggregatesFilter<"SalesOrder"> | string
     requestKey?: StringNullableWithAggregatesFilter<"SalesOrder"> | string | null
     requestHash?: StringNullableWithAggregatesFilter<"SalesOrder"> | string | null
+    promisedAt?: DateTimeNullableWithAggregatesFilter<"SalesOrder"> | Date | string | null
     createdBy?: StringNullableWithAggregatesFilter<"SalesOrder"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"SalesOrder"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"SalesOrder"> | Date | string
@@ -226580,6 +226619,7 @@ export namespace Prisma {
     reservationId?: UuidNullableFilter<"SalesOrderLine"> | string | null
     backordered?: BoolFilter<"SalesOrderLine"> | boolean
     fulfilledQty?: DecimalFilter<"SalesOrderLine"> | Decimal | DecimalJsLike | number | string
+    promisedAt?: DateTimeNullableFilter<"SalesOrderLine"> | Date | string | null
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
     order?: XOR<SalesOrderScalarRelationFilter, SalesOrderWhereInput>
   }
@@ -226596,6 +226636,7 @@ export namespace Prisma {
     reservationId?: SortOrderInput | SortOrder
     backordered?: SortOrder
     fulfilledQty?: SortOrder
+    promisedAt?: SortOrderInput | SortOrder
     tenant?: TenantOrderByWithRelationInput
     order?: SalesOrderOrderByWithRelationInput
   }
@@ -226615,6 +226656,7 @@ export namespace Prisma {
     reservationId?: UuidNullableFilter<"SalesOrderLine"> | string | null
     backordered?: BoolFilter<"SalesOrderLine"> | boolean
     fulfilledQty?: DecimalFilter<"SalesOrderLine"> | Decimal | DecimalJsLike | number | string
+    promisedAt?: DateTimeNullableFilter<"SalesOrderLine"> | Date | string | null
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
     order?: XOR<SalesOrderScalarRelationFilter, SalesOrderWhereInput>
   }, "id">
@@ -226631,6 +226673,7 @@ export namespace Prisma {
     reservationId?: SortOrderInput | SortOrder
     backordered?: SortOrder
     fulfilledQty?: SortOrder
+    promisedAt?: SortOrderInput | SortOrder
     _count?: SalesOrderLineCountOrderByAggregateInput
     _avg?: SalesOrderLineAvgOrderByAggregateInput
     _max?: SalesOrderLineMaxOrderByAggregateInput
@@ -226653,6 +226696,7 @@ export namespace Prisma {
     reservationId?: UuidNullableWithAggregatesFilter<"SalesOrderLine"> | string | null
     backordered?: BoolWithAggregatesFilter<"SalesOrderLine"> | boolean
     fulfilledQty?: DecimalWithAggregatesFilter<"SalesOrderLine"> | Decimal | DecimalJsLike | number | string
+    promisedAt?: DateTimeNullableWithAggregatesFilter<"SalesOrderLine"> | Date | string | null
   }
 
   export type OrderEventWhereInput = {
@@ -241197,6 +241241,7 @@ export namespace Prisma {
     channel?: string
     requestKey?: string | null
     requestHash?: string | null
+    promisedAt?: Date | string | null
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -241221,6 +241266,7 @@ export namespace Prisma {
     channel?: string
     requestKey?: string | null
     requestHash?: string | null
+    promisedAt?: Date | string | null
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -241243,6 +241289,7 @@ export namespace Prisma {
     channel?: StringFieldUpdateOperationsInput | string
     requestKey?: NullableStringFieldUpdateOperationsInput | string | null
     requestHash?: NullableStringFieldUpdateOperationsInput | string | null
+    promisedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -241267,6 +241314,7 @@ export namespace Prisma {
     channel?: StringFieldUpdateOperationsInput | string
     requestKey?: NullableStringFieldUpdateOperationsInput | string | null
     requestHash?: NullableStringFieldUpdateOperationsInput | string | null
+    promisedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -241290,6 +241338,7 @@ export namespace Prisma {
     channel?: string
     requestKey?: string | null
     requestHash?: string | null
+    promisedAt?: Date | string | null
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -241310,6 +241359,7 @@ export namespace Prisma {
     channel?: StringFieldUpdateOperationsInput | string
     requestKey?: NullableStringFieldUpdateOperationsInput | string | null
     requestHash?: NullableStringFieldUpdateOperationsInput | string | null
+    promisedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -241331,6 +241381,7 @@ export namespace Prisma {
     channel?: StringFieldUpdateOperationsInput | string
     requestKey?: NullableStringFieldUpdateOperationsInput | string | null
     requestHash?: NullableStringFieldUpdateOperationsInput | string | null
+    promisedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -241346,6 +241397,7 @@ export namespace Prisma {
     reservationId?: string | null
     backordered?: boolean
     fulfilledQty?: Decimal | DecimalJsLike | number | string
+    promisedAt?: Date | string | null
     tenant: TenantCreateNestedOneWithoutSalesOrderLinesInput
     order: SalesOrderCreateNestedOneWithoutLinesInput
   }
@@ -241362,6 +241414,7 @@ export namespace Prisma {
     reservationId?: string | null
     backordered?: boolean
     fulfilledQty?: Decimal | DecimalJsLike | number | string
+    promisedAt?: Date | string | null
   }
 
   export type SalesOrderLineUpdateInput = {
@@ -241374,6 +241427,7 @@ export namespace Prisma {
     reservationId?: NullableStringFieldUpdateOperationsInput | string | null
     backordered?: BoolFieldUpdateOperationsInput | boolean
     fulfilledQty?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    promisedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tenant?: TenantUpdateOneRequiredWithoutSalesOrderLinesNestedInput
     order?: SalesOrderUpdateOneRequiredWithoutLinesNestedInput
   }
@@ -241390,6 +241444,7 @@ export namespace Prisma {
     reservationId?: NullableStringFieldUpdateOperationsInput | string | null
     backordered?: BoolFieldUpdateOperationsInput | boolean
     fulfilledQty?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    promisedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type SalesOrderLineCreateManyInput = {
@@ -241404,6 +241459,7 @@ export namespace Prisma {
     reservationId?: string | null
     backordered?: boolean
     fulfilledQty?: Decimal | DecimalJsLike | number | string
+    promisedAt?: Date | string | null
   }
 
   export type SalesOrderLineUpdateManyMutationInput = {
@@ -241416,6 +241472,7 @@ export namespace Prisma {
     reservationId?: NullableStringFieldUpdateOperationsInput | string | null
     backordered?: BoolFieldUpdateOperationsInput | boolean
     fulfilledQty?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    promisedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type SalesOrderLineUncheckedUpdateManyInput = {
@@ -241430,6 +241487,7 @@ export namespace Prisma {
     reservationId?: NullableStringFieldUpdateOperationsInput | string | null
     backordered?: BoolFieldUpdateOperationsInput | boolean
     fulfilledQty?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    promisedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type OrderEventCreateInput = {
@@ -256507,6 +256565,7 @@ export namespace Prisma {
     channel?: SortOrder
     requestKey?: SortOrder
     requestHash?: SortOrder
+    promisedAt?: SortOrder
     createdBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -256532,6 +256591,7 @@ export namespace Prisma {
     channel?: SortOrder
     requestKey?: SortOrder
     requestHash?: SortOrder
+    promisedAt?: SortOrder
     createdBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -256553,6 +256613,7 @@ export namespace Prisma {
     channel?: SortOrder
     requestKey?: SortOrder
     requestHash?: SortOrder
+    promisedAt?: SortOrder
     createdBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -256599,6 +256660,7 @@ export namespace Prisma {
     reservationId?: SortOrder
     backordered?: SortOrder
     fulfilledQty?: SortOrder
+    promisedAt?: SortOrder
   }
 
   export type SalesOrderLineAvgOrderByAggregateInput = {
@@ -256620,6 +256682,7 @@ export namespace Prisma {
     reservationId?: SortOrder
     backordered?: SortOrder
     fulfilledQty?: SortOrder
+    promisedAt?: SortOrder
   }
 
   export type SalesOrderLineMinOrderByAggregateInput = {
@@ -256634,6 +256697,7 @@ export namespace Prisma {
     reservationId?: SortOrder
     backordered?: SortOrder
     fulfilledQty?: SortOrder
+    promisedAt?: SortOrder
   }
 
   export type SalesOrderLineSumOrderByAggregateInput = {
@@ -279004,6 +279068,7 @@ export namespace Prisma {
     channel?: string
     requestKey?: string | null
     requestHash?: string | null
+    promisedAt?: Date | string | null
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -279026,6 +279091,7 @@ export namespace Prisma {
     channel?: string
     requestKey?: string | null
     requestHash?: string | null
+    promisedAt?: Date | string | null
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -279053,6 +279119,7 @@ export namespace Prisma {
     reservationId?: string | null
     backordered?: boolean
     fulfilledQty?: Decimal | DecimalJsLike | number | string
+    promisedAt?: Date | string | null
     order: SalesOrderCreateNestedOneWithoutLinesInput
   }
 
@@ -279067,6 +279134,7 @@ export namespace Prisma {
     reservationId?: string | null
     backordered?: boolean
     fulfilledQty?: Decimal | DecimalJsLike | number | string
+    promisedAt?: Date | string | null
   }
 
   export type SalesOrderLineCreateOrConnectWithoutTenantInput = {
@@ -284114,6 +284182,7 @@ export namespace Prisma {
     channel?: StringFilter<"SalesOrder"> | string
     requestKey?: StringNullableFilter<"SalesOrder"> | string | null
     requestHash?: StringNullableFilter<"SalesOrder"> | string | null
+    promisedAt?: DateTimeNullableFilter<"SalesOrder"> | Date | string | null
     createdBy?: StringNullableFilter<"SalesOrder"> | string | null
     createdAt?: DateTimeFilter<"SalesOrder"> | Date | string
     updatedAt?: DateTimeFilter<"SalesOrder"> | Date | string
@@ -284150,6 +284219,7 @@ export namespace Prisma {
     reservationId?: UuidNullableFilter<"SalesOrderLine"> | string | null
     backordered?: BoolFilter<"SalesOrderLine"> | boolean
     fulfilledQty?: DecimalFilter<"SalesOrderLine"> | Decimal | DecimalJsLike | number | string
+    promisedAt?: DateTimeNullableFilter<"SalesOrderLine"> | Date | string | null
   }
 
   export type OrderEventUpsertWithWhereUniqueWithoutTenantInput = {
@@ -320412,6 +320482,7 @@ export namespace Prisma {
     reservationId?: string | null
     backordered?: boolean
     fulfilledQty?: Decimal | DecimalJsLike | number | string
+    promisedAt?: Date | string | null
     tenant: TenantCreateNestedOneWithoutSalesOrderLinesInput
   }
 
@@ -320426,6 +320497,7 @@ export namespace Prisma {
     reservationId?: string | null
     backordered?: boolean
     fulfilledQty?: Decimal | DecimalJsLike | number | string
+    promisedAt?: Date | string | null
   }
 
   export type SalesOrderLineCreateOrConnectWithoutOrderInput = {
@@ -321165,6 +321237,7 @@ export namespace Prisma {
     channel?: string
     requestKey?: string | null
     requestHash?: string | null
+    promisedAt?: Date | string | null
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -321188,6 +321261,7 @@ export namespace Prisma {
     channel?: string
     requestKey?: string | null
     requestHash?: string | null
+    promisedAt?: Date | string | null
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -321550,6 +321624,7 @@ export namespace Prisma {
     channel?: StringFieldUpdateOperationsInput | string
     requestKey?: NullableStringFieldUpdateOperationsInput | string | null
     requestHash?: NullableStringFieldUpdateOperationsInput | string | null
+    promisedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -321573,6 +321648,7 @@ export namespace Prisma {
     channel?: StringFieldUpdateOperationsInput | string
     requestKey?: NullableStringFieldUpdateOperationsInput | string | null
     requestHash?: NullableStringFieldUpdateOperationsInput | string | null
+    promisedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -361150,6 +361226,7 @@ export namespace Prisma {
     channel?: string
     requestKey?: string | null
     requestHash?: string | null
+    promisedAt?: Date | string | null
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -361173,6 +361250,7 @@ export namespace Prisma {
     channel?: string
     requestKey?: string | null
     requestHash?: string | null
+    promisedAt?: Date | string | null
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -361559,6 +361637,7 @@ export namespace Prisma {
     channel?: StringFieldUpdateOperationsInput | string
     requestKey?: NullableStringFieldUpdateOperationsInput | string | null
     requestHash?: NullableStringFieldUpdateOperationsInput | string | null
+    promisedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -361582,6 +361661,7 @@ export namespace Prisma {
     channel?: StringFieldUpdateOperationsInput | string
     requestKey?: NullableStringFieldUpdateOperationsInput | string | null
     requestHash?: NullableStringFieldUpdateOperationsInput | string | null
+    promisedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -393777,6 +393857,7 @@ export namespace Prisma {
     channel?: string
     requestKey?: string | null
     requestHash?: string | null
+    promisedAt?: Date | string | null
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -393793,6 +393874,7 @@ export namespace Prisma {
     reservationId?: string | null
     backordered?: boolean
     fulfilledQty?: Decimal | DecimalJsLike | number | string
+    promisedAt?: Date | string | null
   }
 
   export type OrderEventCreateManyTenantInput = {
@@ -396424,6 +396506,7 @@ export namespace Prisma {
     channel?: StringFieldUpdateOperationsInput | string
     requestKey?: NullableStringFieldUpdateOperationsInput | string | null
     requestHash?: NullableStringFieldUpdateOperationsInput | string | null
+    promisedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -396446,6 +396529,7 @@ export namespace Prisma {
     channel?: StringFieldUpdateOperationsInput | string
     requestKey?: NullableStringFieldUpdateOperationsInput | string | null
     requestHash?: NullableStringFieldUpdateOperationsInput | string | null
+    promisedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -396468,6 +396552,7 @@ export namespace Prisma {
     channel?: StringFieldUpdateOperationsInput | string
     requestKey?: NullableStringFieldUpdateOperationsInput | string | null
     requestHash?: NullableStringFieldUpdateOperationsInput | string | null
+    promisedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -396483,6 +396568,7 @@ export namespace Prisma {
     reservationId?: NullableStringFieldUpdateOperationsInput | string | null
     backordered?: BoolFieldUpdateOperationsInput | boolean
     fulfilledQty?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    promisedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     order?: SalesOrderUpdateOneRequiredWithoutLinesNestedInput
   }
 
@@ -396497,6 +396583,7 @@ export namespace Prisma {
     reservationId?: NullableStringFieldUpdateOperationsInput | string | null
     backordered?: BoolFieldUpdateOperationsInput | boolean
     fulfilledQty?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    promisedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type SalesOrderLineUncheckedUpdateManyWithoutTenantInput = {
@@ -396510,6 +396597,7 @@ export namespace Prisma {
     reservationId?: NullableStringFieldUpdateOperationsInput | string | null
     backordered?: BoolFieldUpdateOperationsInput | boolean
     fulfilledQty?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    promisedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type OrderEventUpdateWithoutTenantInput = {
@@ -401853,6 +401941,7 @@ export namespace Prisma {
     reservationId?: string | null
     backordered?: boolean
     fulfilledQty?: Decimal | DecimalJsLike | number | string
+    promisedAt?: Date | string | null
   }
 
   export type PackageCreateManyOrderInput = {
@@ -401877,6 +401966,7 @@ export namespace Prisma {
     reservationId?: NullableStringFieldUpdateOperationsInput | string | null
     backordered?: BoolFieldUpdateOperationsInput | boolean
     fulfilledQty?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    promisedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tenant?: TenantUpdateOneRequiredWithoutSalesOrderLinesNestedInput
   }
 
@@ -401891,6 +401981,7 @@ export namespace Prisma {
     reservationId?: NullableStringFieldUpdateOperationsInput | string | null
     backordered?: BoolFieldUpdateOperationsInput | boolean
     fulfilledQty?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    promisedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type SalesOrderLineUncheckedUpdateManyWithoutOrderInput = {
@@ -401904,6 +401995,7 @@ export namespace Prisma {
     reservationId?: NullableStringFieldUpdateOperationsInput | string | null
     backordered?: BoolFieldUpdateOperationsInput | boolean
     fulfilledQty?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    promisedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type PackageUpdateWithoutOrderInput = {

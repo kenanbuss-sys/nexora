@@ -66,7 +66,7 @@ import {
 import { PosService, ReturnsService, OrderService } from '@nexora/domain-oms';
 import { ContainerService, ProcurementService, RfqService } from '@nexora/domain-proc';
 import { EngOpsService, EngineeringService } from '@nexora/domain-eng';
-import { AdvancedPlanningService, PlanningService } from '@nexora/domain-plan';
+import { AdvancedPlanningService, PlanningService, PromiseService } from '@nexora/domain-plan';
 import { ShopFloorService, MesService } from '@nexora/domain-mes';
 import { LogisticsService } from '@nexora/domain-log';
 import { CopilotService, devAiAdapter, DevVisionAdapter, InsightsService } from '@nexora/domain-ai';
@@ -261,6 +261,7 @@ import {
   ADVANCED_PLANNING_SERVICE,
   AdvancedPlanningController,
   PLANNING_SERVICE,
+  PROMISE_SERVICE,
   PlanningController,
 } from './plan/plan.controller';
 import { MES_SERVICE, WorkOrdersController } from './mes/mes.controller';
@@ -1626,6 +1627,44 @@ export const REDIS = 'REDIS';
           getEffectiveConfiguration: (t) => tenants.getEffectiveConfiguration(t),
         }),
       inject: [PRISMA, TENANT_SERVICE],
+    },
+    {
+      // PLAN-015: promise engine; reads each domain through its public gate
+      // and is bound back into OMS (late binding — PLAN depends on OMS demand).
+      provide: PROMISE_SERVICE,
+      useFactory: (
+        prisma: PrismaClient,
+        tenants: TenantService,
+        advanced: AdvancedPlanningService,
+        inventory: InventoryService,
+        planning: PlanningService,
+        procurement: ProcurementService,
+        mes: MesService,
+        orders: OrderService,
+      ) => {
+        const promise = new PromiseService(
+          prisma,
+          { getEffectiveConfiguration: (t) => tenants.getEffectiveConfiguration(t) },
+          advanced,
+          { promisableStock: (t, ids) => inventory.promisableStock(t, ids) },
+          { leadTimeFor: (t, s) => planning.leadTimeFor(t, s) },
+          { openSupply: (t, ids) => procurement.openSupply(t, ids) },
+          { openProduction: (t, ids) => mes.openProduction(t, ids) },
+          { openBackorders: (t, ids) => orders.openBackorders(t, ids) },
+        );
+        orders.bindPromiseGate({ promise: (input, ctx) => promise.promise(input, ctx) });
+        return promise;
+      },
+      inject: [
+        PRISMA,
+        TENANT_SERVICE,
+        ADVANCED_PLANNING_SERVICE,
+        INVENTORY_SERVICE,
+        PLANNING_SERVICE,
+        PROCUREMENT_SERVICE,
+        MES_SERVICE,
+        ORDER_SERVICE,
+      ],
     },
     {
       provide: QUALITY_SERVICE,

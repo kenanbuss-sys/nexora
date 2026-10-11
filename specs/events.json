@@ -64,6 +64,15 @@
       ]
     },
     {
+      "name": "order.promise.committed",
+      "owner": "OMS",
+      "meaning": "Promise date (PLAN-015 engine) committed onto a sales order",
+      "requiredPayload": [
+        "orderId",
+        "promisedAt"
+      ]
+    },
+    {
       "name": "customer.approved",
       "owner": "CRM",
       "meaning": "Customer onboarding approved",

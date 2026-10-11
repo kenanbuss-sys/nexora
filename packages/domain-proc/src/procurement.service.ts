@@ -231,6 +231,41 @@ export class ProcurementService {
     private readonly policy?: ApprovalPolicyGate,
   ) {}
 
+  /**
+   * Public cross-domain gate (PLAN-015): open purchase supply per SKU —
+   * not yet received quantity of open POs with their expected date.
+   */
+  async openSupply(
+    tenantId: string,
+    skuIds: string[],
+  ): Promise<
+    Array<{ skuId: string; quantity: number; expectedAt: Date | null; reference: string }>
+  > {
+    if (skuIds.length === 0) return [];
+    const lines = await this.prisma.purchaseOrderLine.findMany({
+      where: {
+        tenantId,
+        skuId: { in: skuIds },
+        po: { status: { in: ['OPEN', 'PARTIALLY_RECEIVED'] } },
+      },
+      select: {
+        skuId: true,
+        quantity: true,
+        receivedQty: true,
+        po: { select: { poNumber: true, expectedAt: true } },
+      },
+      take: 2000,
+    });
+    return lines
+      .map((l) => ({
+        skuId: l.skuId,
+        quantity: Math.max(0, Number(l.quantity) - Number(l.receivedQty)),
+        expectedAt: l.po.expectedAt,
+        reference: l.po.poNumber,
+      }))
+      .filter((l) => l.quantity > 0);
+  }
+
   // -------------------------------------------------------------- suppliers
 
   async listSuppliers(ctx: RequestContext): Promise<SupplierView[]> {

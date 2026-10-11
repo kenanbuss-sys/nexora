@@ -23,6 +23,7 @@ export const EVENT_TYPES = {
   PARTY_CREATED: 'party.created',
   PARTY_MERGED: 'party.merged',
   ASSET_STRUCTURE_CHANGED: 'asset.structure.changed',
+  ORDER_PROMISE_COMMITTED: 'order.promise.committed',
   PRODUCT_CREATED: 'product.created',
   SKU_ACTIVATED: 'sku.activated',
   STOCK_MOVED: 'stock.moved',

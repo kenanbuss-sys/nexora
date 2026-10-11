@@ -13,3 +13,15 @@ export {
   type ForecastEntry,
   type PlanConfigGate,
 } from './advancedplanning.service';
+export {
+  PromiseService,
+  WorkingCalendar,
+  type PromiseDemandGate,
+  type PromiseLineInput,
+  type PromiseLineResult,
+  type PromiseProductionGate,
+  type PromiseResult,
+  type PromiseSource,
+  type PromiseStockGate,
+  type PromiseSupplyGate,
+} from './promise.service';
