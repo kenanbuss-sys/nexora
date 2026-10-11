@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { api, errorText } from '../../../lib/api';
-import { ErrorState, LoadingState } from '../../../components/ui';
+import { EmptyState, ErrorState, LoadingState } from '../../../components/ui';
 
 /**
  * WF-013 (Sprint 246): timski zadaci — "Moj dio" (checklista po izvršiocu),
@@ -14,7 +14,6 @@ import { ErrorState, LoadingState } from '../../../components/ui';
 export interface UserOption {
   id: string;
   displayName: string;
-  email?: string;
 }
 
 export interface ChecklistItem {
@@ -80,11 +79,9 @@ export function fmtDateTime(iso: string | null): string {
     : '—';
 }
 
-const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-
 /**
- * Višestruki izbor izvršilaca. Popis korisnika traži IAM pravo; bez njega
- * se nudi unos ID-jeva (server i dalje provjerava da su aktivni korisnici).
+ * Višestruki izbor izvršilaca iz GET /tasks/assignable-users (aktivni
+ * korisnici, task.manage); `null` = učitavanje. Server ponovo provjerava.
  */
 export function AssigneePicker({
   users,
@@ -92,46 +89,24 @@ export function AssigneePicker({
   onChange,
   idPrefix,
 }: {
-  users: UserOption[];
+  users: UserOption[] | null;
   value: string[];
   onChange: (ids: string[]) => void;
   idPrefix: string;
 }) {
   const [q, setQ] = useState('');
-  const [raw, setRaw] = useState(value.join('\n'));
 
+  if (users === null) return <LoadingState text="Učitavanje korisnika…" />;
   if (users.length === 0) {
     return (
       <div>
-        <label className="label" htmlFor={`${idPrefix}-ids`}>
-          Izvršioci (ID korisnika, jedan po redu)
-        </label>
-        <textarea
-          id={`${idPrefix}-ids`}
-          className="input"
-          rows={3}
-          value={raw}
-          onChange={(e) => {
-            setRaw(e.target.value);
-            onChange(
-              e.target.value
-                .split(/[\s,;]+/)
-                .map((s) => s.trim())
-                .filter((s) => UUID.test(s)),
-            );
-          }}
-        />
-        <p className="muted" style={{ fontSize: 12 }}>
-          Popis korisnika nije dostupan (potrebno pravo iam.user.manage). Prepoznato ID-jeva:{' '}
-          {value.length}.
-        </p>
+        <span className="label">Izvršioci</span>
+        <EmptyState text="Nema aktivnih korisnika kojima se može dodijeliti zadatak (ili popis nije dostupan)." />
       </div>
     );
   }
 
-  const shown = users.filter(
-    (u) => !q || `${u.displayName} ${u.email ?? ''}`.toLowerCase().includes(q.toLowerCase()),
-  );
+  const shown = users.filter((u) => !q || u.displayName.toLowerCase().includes(q.toLowerCase()));
   const toggle = (id: string) =>
     onChange(value.includes(id) ? value.filter((v) => v !== id) : [...value, id]);
 
@@ -140,6 +115,7 @@ export function AssigneePicker({
       <legend className="label">Izvršioci ({value.length} odabrano)</legend>
       {users.length > 8 ? (
         <input
+          id={`${idPrefix}-user-search`}
           className="input"
           style={{ marginBottom: 6 }}
           placeholder="Pretraga korisnika…"
@@ -530,7 +506,7 @@ export function TeamTaskForm({
   users,
   onCreated,
 }: {
-  users: UserOption[];
+  users: UserOption[] | null;
   onCreated: (message: string) => void;
 }) {
   const [title, setTitle] = useState('');

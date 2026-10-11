@@ -482,5 +482,5 @@ Red 3 potvrđenog redoslijeda. Vlasnik: CORE task engine (WF sposobnost). Migrac
 - [x] Periodični šabloni (dnevno, sedmično po danima, mjesečno s klampom na kraj mjeseca, rok HH:MM), upsert po šifri, deaktivacija; generisanje po datumu idempotentno (jedinstveni indeks), snimak naslova/liste/izvršilaca
 - [x] Dnevnik šablona po periodu: status po datumu, ko/kada, odgovori, „propušteno“; worker posao svakih sat za sve aktivne tenante
 - [x] Testovi: **sprint246 5/5** (na paralelnoj `enterprise_os_parallel_test` bazi dok traje puna regresija); 002, 066 zeleni
-- [ ] UI: moj dio (kontrolna lista za telefon), novi timski zadatak, periodični šabloni + dnevnik — u toku
+- [x] UI: moj dio (kontrolna lista za telefon), novi timski zadatak, periodični šabloni + dnevnik; napredak tima iz liste, izvršioci iz `assignable-users`; browser provjera otvorena
 - Nije rađeno: vremenska zona tenanta za rokove (v1 UTC)

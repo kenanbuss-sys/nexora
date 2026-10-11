@@ -12,7 +12,7 @@ import {
   LoadingState,
   type Column,
 } from '../../../components/ui';
-import { MyPartPanel, TeamTaskForm, type TeamTaskView, type UserOption } from './team-tasks';
+import { MyPartPanel, RULE_LABEL, TeamTaskForm, type UserOption } from './team-tasks';
 import { RecurringTasks } from './recurring-tasks';
 
 /**
@@ -22,8 +22,8 @@ import { RecurringTasks } from './recurring-tasks';
  * na serveru; UI samo prikazuje dozvoljene radnje.
  *
  * Sprint 246 (WF-013): timski zadaci (više izvršilaca, checklista, "Moj
- * dio") i periodični zadaci. Timski zadatak se prepoznaje preko
- * GET /tasks/:id/mine (samo izvršioci; 404 = obični zadatak).
+ * dio") i periodični zadaci. Timski zadatak nosi `team` sažetak u listi;
+ * checklista se učitava (GET /tasks/:id/mine) tek kad se otvori "Moj dio".
  */
 
 interface TaskView {
@@ -33,6 +33,13 @@ interface TaskView {
   status: 'OPEN' | 'DONE' | 'CANCELLED';
   assigneeUserId: string | null;
   dueAt: string | null;
+  /** Samo timski zadaci (WF-013): moj status i napredak tima. */
+  team?: {
+    myStatus: 'OPEN' | 'DONE' | null;
+    done: number;
+    total: number;
+    rule: 'ALL' | 'ANY';
+  } | null;
   relatedObjectType: string | null;
   relatedObjectId: string | null;
   createdAt: string;
@@ -76,7 +83,7 @@ export default function TasksPage() {
   const [description, setDescription] = useState('');
   const [dueAt, setDueAt] = useState('');
   const [assignee, setAssignee] = useState('');
-  const [team, setTeam] = useState<Record<string, TeamTaskView | null>>({});
+  const [assignable, setAssignable] = useState<UserOption[] | null>(null);
   const [myPart, setMyPart] = useState<string | null>(null);
   const [decide, setDecide] = useState<{
     approval: ApprovalView;
@@ -88,16 +95,6 @@ export default function TasksPage() {
       .then((r) => {
         setTasks(r.tasks);
         setError(null);
-        // Timski zadaci nemaju pojedinačnog izvršioca; /mine vraća checklistu
-        // i napredak samo izvršiocima (404 = obični nedodijeljeni zadatak).
-        const candidates = r.tasks.filter((t) => t.assigneeUserId === null);
-        void Promise.all(
-          candidates.map((t) =>
-            api<TeamTaskView>('GET', `/api/v1/tasks/${t.id}/mine`)
-              .then((v): [string, TeamTaskView | null] => [t.id, v])
-              .catch((): [string, TeamTaskView | null] => [t.id, null]),
-          ),
-        ).then((entries) => setTeam(Object.fromEntries(entries)));
       })
       .catch((e: unknown) => setError(errorText(e)));
     if (canApprove) {
@@ -115,6 +112,14 @@ export default function TasksPage() {
       .catch(() => setUsers([]));
   }, []);
 
+  useEffect(() => {
+    // Izvršioci timskih/periodičnih zadataka: aktivni korisnici (task.manage).
+    if (!canManage) return;
+    api<{ users: UserOption[] }>('GET', '/api/v1/tasks/assignable-users')
+      .then((r) => setAssignable(r.users))
+      .catch(() => setAssignable([]));
+  }, [canManage]);
+
   async function run(fn: () => Promise<unknown>, successText: string | null) {
     setBusy(true);
     setError(null);
@@ -130,17 +135,6 @@ export default function TasksPage() {
     }
   }
 
-  // Popis korisnika traži IAM pravo; bez njega "moj" status nije poznat,
-  // pa se ravna po filteru liste (server vraća idempotentan odgovor).
-  const me = users.find(
-    (u) => u.id === session.subject || (u.email && u.email === session.subject),
-  )?.id;
-  const myPartDone = (t: TaskView, v: TeamTaskView): boolean => {
-    const mine = me ? v.assignees.find((a) => a.userId === me) : undefined;
-    if (mine) return mine.status === 'DONE';
-    return t.status !== 'OPEN' || statusFilter === 'DONE';
-  };
-
   const overdue = (t: TaskView) =>
     t.status === 'OPEN' && t.dueAt !== null && new Date(t.dueAt).getTime() < Date.now();
 
@@ -151,14 +145,13 @@ export default function TasksPage() {
       render: (t) => (
         <span>
           {t.title}
-          {team[t.id] ? (
+          {t.team ? (
             <span
               className="badge badge-accent"
               style={{ marginLeft: 6 }}
-              title={`Timski zadatak — ${team[t.id]!.assignees.length} izvršilaca`}
+              title={`Timski zadatak — ${RULE_LABEL[t.team.rule]}`}
             >
-              Tim {team[t.id]!.assignees.filter((a) => a.status === 'DONE').length}/
-              {team[t.id]!.assignees.length}
+              Tim {t.team.done}/{t.team.total}
             </span>
           ) : null}
           {t.description ? (
@@ -211,11 +204,11 @@ export default function TasksPage() {
       header: '',
       align: 'right',
       render: (t) => {
-        const v = team[t.id];
-        if (v) {
-          return myPartDone(t, v) ? (
-            <span className="badge badge-ok">Moj dio završen</span>
-          ) : (
+        if (t.team) {
+          if (t.team.myStatus === 'DONE') {
+            return <span className="badge badge-ok">Moj dio završen</span>;
+          }
+          return t.team.myStatus === 'OPEN' && t.status === 'OPEN' ? (
             <button
               type="button"
               className="btn btn-sm btn-primary"
@@ -224,9 +217,8 @@ export default function TasksPage() {
             >
               Moj dio
             </button>
-          );
+          ) : null;
         }
-        if (t.assigneeUserId === null && !(t.id in team)) return null;
         return t.status === 'OPEN' && canManage ? (
           <button
             type="button"
@@ -260,7 +252,7 @@ export default function TasksPage() {
       {myPart ? (
         <MyPartPanel
           taskId={myPart}
-          users={users}
+          users={assignable ?? []}
           onClose={() => setMyPart(null)}
           onCompleted={(message) => {
             setMyPart(null);
@@ -421,7 +413,7 @@ export default function TasksPage() {
             kad svi završe ili kad završi prvi — zavisno od pravila.
           </p>
           <TeamTaskForm
-            users={users}
+            users={assignable}
             onCreated={(message) => {
               setError(null);
               setNotice(message);
@@ -431,7 +423,7 @@ export default function TasksPage() {
         </div>
       ) : null}
 
-      {canManage ? <RecurringTasks users={users} /> : null}
+      {canManage ? <RecurringTasks users={assignable} /> : null}
 
       {decide ? (
         <ConfirmDialog

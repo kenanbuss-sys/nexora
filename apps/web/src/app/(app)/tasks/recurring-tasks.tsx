@@ -120,7 +120,8 @@ function schedule(t: TemplateView): string {
   return `Dnevno u ${t.dueTime}`;
 }
 
-export function RecurringTasks({ users }: { users: UserOption[] }) {
+export function RecurringTasks({ users: pickable }: { users: UserOption[] | null }) {
+  const users = pickable ?? [];
   const [templates, setTemplates] = useState<TemplateView[] | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
@@ -456,7 +457,7 @@ export function RecurringTasks({ users }: { users: UserOption[] }) {
             </fieldset>
           ) : null}
           <AssigneePicker
-            users={users}
+            users={pickable}
             value={draft.assigneeUserIds}
             onChange={(ids) => setDraft({ ...draft, assigneeUserIds: ids })}
             idPrefix="rec"
