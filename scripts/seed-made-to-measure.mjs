@@ -23,6 +23,7 @@
  *   node scripts/seed-made-to-measure.mjs                       # generic example profile
  *   node scripts/seed-made-to-measure.mjs --profile ~/private/client/profile.json
  *   node scripts/seed-made-to-measure.mjs --profile p.json --pricelist ~/private/client/cjenovnik.xlsx
+ *   node scripts/seed-made-to-measure.mjs --profile p.json --dry-run   # only check the price-list mapping
  * Env: API_URL (default http://localhost:3001), DEV_AUTH_SECRET, DATABASE_URL (backdating only)
  */
 import { createHmac, randomUUID } from 'node:crypto';
@@ -104,6 +105,82 @@ const step = (title) => console.log(`\n▸ ${title}`);
 
 const platformToken = sign({ tenantSlug: 'platform', subject: 'ops|root', platformAdmin: true });
 console.log(`DEMO po mjeri — tenant "${SLUG}" @ ${API} (profil: ${profilePath})`);
+
+// ---------------------------------------------- 0) price list (parsed first)
+const PL = profile.priceList ?? {};
+const plFile =
+  expandHome(arg('--pricelist')) ??
+  (PL.file
+    ? isAbsolute(expandHome(PL.file))
+      ? expandHome(PL.file)
+      : resolve(dirname(profilePath), PL.file)
+    : null);
+if (!plFile || !existsSync(plFile)) {
+  console.error(`Cjenovnik nije pronađen: ${plFile}`);
+  process.exit(1);
+}
+const rawRows = plFile.toLowerCase().endsWith('.xlsx')
+  ? readXlsxRows(plFile, PL.sheet ?? undefined)
+  : readCsvRows(plFile);
+const rows = tableObjects(rawRows, PL.headerRow ?? 1);
+const col = PL.columns ?? {};
+const basisMap = PL.basisMap ?? { m2: 'AREA', m1: 'LENGTH', kom: 'PIECE' };
+const num = (v) => {
+  if (v === null || v === undefined || v === '') return null;
+  const n = typeof v === 'number' ? v : Number(String(v).replace(/\s/g, '').replace(',', '.'));
+  return Number.isFinite(n) ? n : null;
+};
+const products = [];
+const problems = [];
+rows.forEach((r, i) => {
+  const code = String(r[col.code] ?? '').trim();
+  const name = String(r[col.name] ?? '').trim();
+  const basis =
+    basisMap[
+      String(r[col.basis] ?? '')
+        .trim()
+        .toLowerCase()
+    ];
+  const price = num(r[col.price]);
+  if (!code && !name) return;
+  if (!code || !name || !basis || price === null || price <= 0) {
+    problems.push(
+      `red ${i + 1 + (PL.headerRow ?? 1)}: ${code || '?'} — ${!basis ? 'nepoznat obračun' : 'nedostaje šifra/naziv/cijena'}`,
+    );
+    return;
+  }
+  products.push({
+    code: code.replace(/[^A-Za-z0-9._-]/g, '-').slice(0, 40),
+    name: name.slice(0, 200),
+    group: String(r[col.group] ?? 'Ostalo').trim() || 'Ostalo',
+    basis,
+    price,
+    minBillable: num(r[col.minBillable]) ?? (basis === 'PIECE' ? 0 : 1),
+    maxWidthMm: num(r[col.maxWidthMm]),
+    maxHeightMm: num(r[col.maxHeightMm]),
+  });
+});
+if (products.length === 0) {
+  console.error('Cjenovnik nema nijednu ispravnu stavku. Provjeri "priceList.columns" u profilu.');
+  console.error(`Zaglavlja u fajlu: ${Object.keys(rows[0] ?? {}).join(' | ')}`);
+  process.exit(1);
+}
+console.log(
+  `- ${products.length} artikala iz ${plFile.split('/').pop()}${problems.length ? ` (${problems.length} preskočeno)` : ''}`,
+);
+problems.slice(0, 10).forEach((p) => console.log(`  ! ${p}`));
+if (args.includes('--dry-run')) {
+  console.log('\n--dry-run: prvih 5 stavki (ništa nije upisano):');
+  products
+    .slice(0, 5)
+    .forEach((p) =>
+      console.log(
+        `  ${p.code} | ${p.name} | ${p.group} | ${p.basis} | ${p.price} | min ${p.minBillable}`,
+      ),
+    );
+  console.log(`Zaglavlja u fajlu: ${Object.keys(rows[0] ?? {}).join(' | ')}`);
+  process.exit(0);
+}
 
 // ------------------------------------------------------------- 1) tenant
 step('Tenant');
@@ -280,68 +357,7 @@ console.log('- konta + BiH PDV paket');
 
 // ------------------------------------------------------- 4) price list
 step('Cjenovnik i artikli');
-const PL = profile.priceList ?? {};
-const plFile =
-  expandHome(arg('--pricelist')) ??
-  (PL.file
-    ? isAbsolute(expandHome(PL.file))
-      ? expandHome(PL.file)
-      : resolve(dirname(profilePath), PL.file)
-    : null);
-if (!plFile || !existsSync(plFile)) {
-  console.error(`Cjenovnik nije pronađen: ${plFile}`);
-  process.exit(1);
-}
-const rawRows = plFile.toLowerCase().endsWith('.xlsx')
-  ? readXlsxRows(plFile, PL.sheet ?? undefined)
-  : readCsvRows(plFile);
-const rows = tableObjects(rawRows, PL.headerRow ?? 1);
-const col = PL.columns ?? {};
-const basisMap = PL.basisMap ?? { m2: 'AREA', m1: 'LENGTH', kom: 'PIECE' };
-const num = (v) => {
-  if (v === null || v === undefined || v === '') return null;
-  const n = typeof v === 'number' ? v : Number(String(v).replace(/\s/g, '').replace(',', '.'));
-  return Number.isFinite(n) ? n : null;
-};
-const products = [];
-const problems = [];
-rows.forEach((r, i) => {
-  const code = String(r[col.code] ?? '').trim();
-  const name = String(r[col.name] ?? '').trim();
-  const basis =
-    basisMap[
-      String(r[col.basis] ?? '')
-        .trim()
-        .toLowerCase()
-    ];
-  const price = num(r[col.price]);
-  if (!code && !name) return;
-  if (!code || !name || !basis || price === null || price <= 0) {
-    problems.push(
-      `red ${i + 1 + (PL.headerRow ?? 1)}: ${code || '?'} — ${!basis ? 'nepoznat obračun' : 'nedostaje šifra/naziv/cijena'}`,
-    );
-    return;
-  }
-  products.push({
-    code: code.replace(/[^A-Za-z0-9._-]/g, '-').slice(0, 40),
-    name: name.slice(0, 200),
-    group: String(r[col.group] ?? 'Ostalo').trim() || 'Ostalo',
-    basis,
-    price,
-    minBillable: num(r[col.minBillable]) ?? (basis === 'PIECE' ? 0 : 1),
-    maxWidthMm: num(r[col.maxWidthMm]),
-    maxHeightMm: num(r[col.maxHeightMm]),
-  });
-});
-if (products.length === 0) {
-  console.error('Cjenovnik nema nijednu ispravnu stavku. Provjeri "priceList.columns" u profilu.');
-  console.error(`Zaglavlja u fajlu: ${Object.keys(rows[0] ?? {}).join(' | ')}`);
-  process.exit(1);
-}
-console.log(
-  `- ${products.length} artikala iz ${plFile.split('/').pop()}${problems.length ? ` (${problems.length} preskočeno)` : ''}`,
-);
-problems.slice(0, 10).forEach((p) => console.log(`  ! ${p}`));
+console.log(`- ${products.length} artikala`);
 
 const catalog = await call('GET', '/api/v1/products/search?q=', admin, undefined, { allow: [400] });
 const known = new Map((catalog.body.products ?? []).map((p) => [p.code, p]));

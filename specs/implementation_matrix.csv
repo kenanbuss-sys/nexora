@@ -77,7 +77,7 @@ CPQ-003,CPQ,Discount rules,P1,DONE,R1,,,"Rule-based automatic discounts: account
 CPQ-004,CPQ,Margin floors,P1,Implemented (Sprint 006),R1,,,Margin floor: discounts >20% require approval
 CPQ-005,CPQ,Discount approvals,P1,Implemented (Sprint 006),R1,,,Approvals through WF service (SoD enforced)
 CPQ-006,CPQ,Promotions,P1,DONE,R1,,,"Sprint 053: promotions with % discount, validity window, min total, redemption budget; audited."
-CPQ-007,CPQ,Product configurator,P1,Implemented (Sprint 143),R1,,,Config-driven models/options/constraints + priced configure
+CPQ-007,CPQ,Product configurator,P1,Implemented (Sprint 143),R1,,,"Config-driven models/options/constraints + priced configure | Sprint 247: proizvodi po mjeri (cpq.madeToMeasure) — m²/m1/kom s minimalnim obračunom po komadu, % i fiksne doplate, montaža po komadu/m², popust po cjenovnom nivou kupca; snimak specifikacije na stavci"
 CPQ-008,CPQ,Compatibility rules,P1,Implemented (Sprint 096),R1,,,
 CPQ-009,CPQ,Formula pricing,P1,Implemented (Sprint 097),R1,,,
 CPQ-010,CPQ,Cost-aware pricing,P1,Implemented (Sprint 092),R1,,,
@@ -276,11 +276,11 @@ SVC-002,SVC,Warranty,P2,DONE,R4+,,,Sprint 210: warranty windows per asset with a
 SVC-003,SVC,Service requests,P2,DONE,R4+,,,Sprint 210: numbered service requests (SR-) with priority and asset linkage.
 SVC-004,SVC,Service orders,P2,DONE,R4+,,,Sprint 210: service orders (SVO-) with PLANNED-SCHEDULED-IN_PROGRESS-DONE lifecycle.
 SVC-005,SVC,RMA,P2,DONE,R4+,,,Sprint 210: RMA lifecycle REQUESTED-APPROVED-RECEIVED-CLOSED; receiving books stock via the ledger.
-SVC-006,SVC,Field scheduling,P2,DONE,R4+,,,Sprint 210: field scheduling with two-hour slot conflict detection per technician.
+SVC-006,SVC,Field scheduling,P2,DONE,R4+,,,"Sprint 210: field scheduling with two-hour slot conflict detection per technician. | Sprint 248: termin mjerenja/montaže s ekipom (1–10) i vozilom, odbijanje preklapanja pod tenant lockom; sedmični raspored /installations"
 SVC-007,SVC,Skills-based assignment,P2,DONE,R4+,,,Sprint 210: skills-based assignment — order skillsRequired validated against HCM employee skills.
 SVC-008,SVC,Field mobile,P2,DONE,R4+,,,"Sprint 210: field mobile — technician my-orders queue, start/measure/parts/complete from the field."
 SVC-009,SVC,Measurements/surveys,P2,DONE,R4+,,,Sprint 210: measurements recorded during the visit on the audit trail (key/value/unit).
-SVC-010,SVC,Installation orders,P2,DONE,R4+,,,Sprint 210: installation orders hand new assets to the installed base on completion.
+SVC-010,SVC,Installation orders,P2,DONE,R4+,,,"Sprint 210: installation orders hand new assets to the installed base on completion. | Sprint 248: montaža vezana za prodajnu narudžbu (jedna po narudžbi, idempotentno)"
 SVC-011,SVC,Proof of service,P2,DONE,R4+,,,Sprint 210: proof of service — once-only customer sign-off with hashed PIN.
 SVC-012,SVC,Service parts,P2,DONE,R4+,,,"Sprint 210: service parts consumed through the stock ledger, idempotent per order+key."
 SVC-013,SVC,Customer approvals,P2,DONE,R4+,,,Sprint 210: customer approval through the approvals domain gates work start (configurable).

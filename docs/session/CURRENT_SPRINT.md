@@ -484,3 +484,15 @@ Red 3 potvrđenog redoslijeda. Vlasnik: CORE task engine (WF sposobnost). Migrac
 - [x] Testovi: **sprint246 5/5** (na paralelnoj `enterprise_os_parallel_test` bazi dok traje puna regresija); 002, 066 zeleni
 - [x] UI: moj dio (kontrolna lista za telefon), novi timski zadatak, periodični šabloni + dnevnik; napredak tima iz liste, izvršioci iz `assignable-users`; browser provjera otvorena
 - Nije rađeno: vremenska zona tenanta za rokove (v1 UTC)
+
+# Sprintovi 247–251 — ZAVRŠENI 11.10.2026: jedan tok „proizvodnja i montaža po mjeri“ (prvi stvarni klijent)
+
+Cilj vlasnika: ne novi moduli nego JEDAN tok koji klijent razumije. Opšti scenarij u kodu; podaci klijenta samo iz privatnog foldera (runbook: `docs/implementation/MADE_TO_MEASURE_ONBOARDING.md`).
+
+- [x] **247 CPQ po mjeri** (CPQ-007 dopuna): m²/m1/kom, minimalni obračun po komadu, % (RAL) i fiksne doplate, montaža po komadu/m² (bez popusta osim ako je uključeno), popust po nivou kupca; snimak specifikacije na stavci → narudžba. Migracija 249; sprint247 6/6; measured unit 5/5.
+- [x] **248 tok**: avansni račun + konačna umanjena za avans, auto-KIF, RN iz narudžbe s mjerama, mjerenje/montaža s ekipom i vozilom (bez preklapanja), stavke po mjeri se rezervišu/isporučuju u komadima. Migracija 250; sprint248 6/6.
+- [x] **249 moduli + početna po ulozi**: isključeni moduli gube API (service/finance grupe); `GET /home/today` sekcije po pravima. sprint249 5/5 (uklj. 7-dnevni pogled i pravila po mjeri za prodavača).
+- [x] **250 seeder** `scripts/seed-made-to-measure.mjs` + `scripts/lib/xlsx-lite.mjs` (bez zavisnosti; `node --test scripts/lib` 2/2): 3 poslovnice + VP, 40 DEMO kupaca, 6 mjeseci istorije u svim statusima, montaže ove sedmice, DEMO radnici, isključivanje modula; idempotentno, `--dry-run`.
+- [x] **251 ekrani + browser provjera** (Playwright, 5 uloga, 0 grešaka 5xx/JS): Moj posao danas, Vodič, Ponude (stavka po mjeri), Narudžbe (Tok narudžbe), Montaže (sedmica), Proizvodnja (Mjere). Ispravke iz provjere: prodavač nije mogao dodati stavku po mjeri (novi `GET /quotes/made-to-measure/rules`), SoD blokirao ulogu Knjigovodstvo (uplata → Uprava), RN s rutom se nije mogao završiti u seederu (operacije redom), bs formatiranje brojeva/datuma, nedjelja prikazuje narednu sedmicu.
+- Provjere: turbo typecheck ✓, lint 0 errors, web/api build ✓, prettier ✓.
+- Nije rađeno: vremenska zona tenanta; stvarni Bosfor cjenovnik nije viđen iz clouda (mapiranje kolona → `--dry-run` na Macu); 403 `organization/tree` za korisnike bez organization.read (pre-postojeće, obrađeno).

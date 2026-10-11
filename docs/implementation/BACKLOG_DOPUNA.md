@@ -69,6 +69,9 @@ FIN-028, FIN-033, HCM-015, HCM-013/014, HCM-016, HCM-017 (generalizovano), EAM-0
 | 8 | Porezi i doprinosi BiH na platu (bruto↔neto) kao lokalizacioni paket | HCM-013 dopuna | stvarni obračun plata |
 | 9 | Rate limiting javnih (anonimnih) ruta — Redis-backed, uz ADR | OPS (security review Sprint 238) | zaštita od opterećenja na /api/v1/public/* |
 
+### Ubačeno 11.10.2026 (vlasnik): prvi stvarni klijent — proizvodnja i montaža po mjeri
+Sprintovi 247–251 DONE (vidi CURRENT_SPRINT). Otvoreno za pilot: vremenska zona tenanta za termine; potvrda mapiranja stvarnog cjenovnika (`--dry-run`); DOC-013 djelimično pokriven vodičem po ulozi (`/guide`).
+
 ### Spušta se / ne prenosi (FinTrack/call-centar specifično ili niska vrijednost za ciljne kupce)
 - **Ne prenosi se:** lige/agenti/treneri (zamijenjeno generičkim razvojem zaposlenih), „Lotto" (ODL-003), DISC/Big5 dio HCM-020.
 - **P3, poslije pilota:** sastanci s AI agendom (WF-014 — generički zapisnik sastanaka ostaje opcija), kontrolni centar na TV ekranima (BI-016), glasovni asistent (AI-015), passkey (IAM-015), uputstva u aplikaciji (DOC-013), javni QR radnika (HCM-019).

@@ -98,9 +98,13 @@ export function readXlsxRows(path, sheetName) {
   const xml = files.get(sheet.path)?.().toString('utf8');
   if (!xml) throw new Error(`Sheet part ${sheet.path} missing`);
   const rows = [];
-  for (const row of xml.matchAll(/<row\b[^>]*>([\s\S]*?)<\/row>/g)) {
+  for (const row of xml.matchAll(/<row\b([^>]*)>([\s\S]*?)<\/row>/g)) {
+    // Rows are placed by their real number (r="…"): Excel omits empty rows,
+    // and headerRow counts sheet rows, not stored ones.
+    const rowNo = Number(/\br="(\d+)"/.exec(row[1])?.[1] ?? rows.length + 1);
+    while (rows.length < rowNo - 1) rows.push([]);
     const cells = [];
-    for (const c of row[1].matchAll(/<c\b([^>]*?)(?:\/>|>([\s\S]*?)<\/c>)/g)) {
+    for (const c of row[2].matchAll(/<c\b([^>]*?)(?:\/>|>([\s\S]*?)<\/c>)/g)) {
       const attrs = c[1];
       const body = c[2] ?? '';
       const ref = /r="([A-Z]+\d+)"/.exec(attrs)?.[1] ?? 'A1';

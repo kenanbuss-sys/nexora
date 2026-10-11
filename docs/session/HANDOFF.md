@@ -1,14 +1,13 @@
-# HANDOFF — 11.10.2026 (Sprintovi 232–246)
+# HANDOFF — 11.10.2026 (Sprintovi 232–251)
 
-Stanje: grana `claude/lucid-dijkstra-qywmaw` (osnova `docs/software-factory-md-v1` @ 88988f1; main netaknut).
-- 232 FIN-028 KUF/KIF+PDV; 233 FIN-033 prijedlozi knjiženja; 234 HCM-015 šihtarica; 235 HCM-013/014 plate; 236 HCM-016 ugovori; 237 HCM-017 obuka (generalizovano); 238 EAM-015/016 revers + QR.
-- **ODL-009 POTVRĐENO:** proizvodnja, komercijala, maloprodaja — bez call-centar pojmova; redoslijed u BACKLOG_DOPUNA §Re-prioritizacija.
-- **239 WMS-018:** serijski brojevi u kretanjima (serial_position/serial_movement), tokovi NBN/WMS/otprema, PIM consumer `pim.serial-registry`, UI unos skenerom.
-- **240 PIM-005/007:** GTIN kontrolna cifra, jedan prostor skeniranja (unit+pack, advisory lock), `GET /barcodes/resolve/:value`, JM na kretanju → baza (tačno ili 400), `entered_uom/quantity`.
-- **241 MDM-005/002:** kandidati duplikata (naziv/PIB/e-mail), „nije duplikat“, pregled + sigurno spajanje (`party.merged`), politika objave `pim.publishPolicy`, istorija promjena.
-- **242 QMS-005:** odluka komisije (5 vrsta dispozicije), preuzmi-pa-knjiži s ponovnim pokušajem. **243 EAM-002:** hijerarhija sredstava + istorija strukture. **244 PLAN-015:** motor roka isporuke, potvrda roka. **245 CSM-011:** slučaj ↔ narudžba, RMA iz slučaja. **246 WF-013:** timski + periodični zadaci.
-- Migracije 232–248 aditivne; parcijalni indeksi (233, 238) i CHECK-ovi (242, 243, 245) nisu u schema.prisma — čuvati.
+Stanje: grana `claude/lucid-dijkstra-qywmaw` (main netaknut). 232–246 završeni ranije (FIN/HCM/EAM/WMS/PIM/MDM/QMS/PLAN/CSM/WF — vidi PROJECT_STATE).
 
-Provjere: sprint239–246 zeleni; puna regresija zelena do 240, ciljane poslije; typecheck zelen.
+**247–251: tok „proizvodnja i montaža po mjeri“ (prvi stvarni klijent).**
+- CPQ po mjeri (`cpq.madeToMeasure`: m²/m1/kom, minimum, doplate, montaža, nivo kupca), avans + konačna faktura umanjena za avans + auto-KIF, RN iz narudžbe s mjerama, mjerenja/montaže s ekipom i vozilom, „Moj posao danas“ i Vodič po ulozi. Migracije 249/250 (aditivne; parcijalni unique i CHECK-ovi nisu u schema.prisma — čuvati).
+- Seeder `scripts/seed-made-to-measure.mjs` (profil JSON + XLSX/CSV, `--dry-run`, idempotentan). Runbook: `docs/implementation/MADE_TO_MEASURE_ONBOARDING.md`. Stvarni klijentski profil je SAMO privatan (nije u repou).
 
-Otvoreno: browser provjera novih ekrana; rate limiting javnih ruta (ADR); JM na stavkama NBN/narudžbi; porezi/doprinosi; AI-016. Sljedeće: HCM-018, pa EAM-017/OPS-019/AI-016/porezi. Paralelna test baza: enterprise_os_parallel_test.
+Provjere: sprint247 6/6, 248 6/6, 249 5/5, xlsx-lite 2/2; typecheck/lint/build zeleni; Playwright 5 uloga bez grešaka (tenant `sjenila-provjera4` u cloud bazi).
+
+Blokeri: `~/Downloads/NEXORA 2026/` (bundle, privatni folder) i Mac localhost nisu dostupni iz clouda — korisnik pokreće seeder na Macu; nazivi kolona Bosfor cjenovnika nepotvrđeni (`--dry-run`).
+
+Sljedeće: pilot — `--dry-run` + upis na Macu, pregled s klijentom; zatim vremenska zona tenanta za termine, pa HCM-018.
