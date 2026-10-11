@@ -344,6 +344,20 @@ export class TeamTaskService {
     return this.view(taskId, ctx.tenantId);
   }
 
+  /**
+   * The team task as one of its assignees sees it (checklist + everyone's
+   * progress) — no permission beyond being an assignee; others get 404.
+   */
+  async getForAssignee(taskId: string, ctx: RequestContext): Promise<TeamTaskView> {
+    const mine = ctx.userId
+      ? await this.prisma.taskAssignee.findFirst({
+          where: { tenantId: ctx.tenantId, taskId, userId: ctx.userId },
+        })
+      : null;
+    if (!mine) throw notFound('Task', taskId);
+    return this.view(taskId, ctx.tenantId);
+  }
+
   // ------------------------------------------------------------ templates
 
   private templateView(t: {

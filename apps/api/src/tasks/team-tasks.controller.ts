@@ -128,6 +128,12 @@ export class TeamTasksController {
     return this.teamTasks.getTask(id, ctx);
   }
 
+  /** The caller's view of a team task (assignees only; checklist + progress). */
+  @Get(':id/mine')
+  async mine(@Param('id') id: string, @Ctx() ctx: RequestContext) {
+    return this.teamTasks.getForAssignee(id, ctx);
+  }
+
   /** The caller completes their own part (assignees only). */
   @Post(':id/complete-mine')
   async completeMine(@Param('id') id: string, @Body() body: unknown, @Ctx() ctx: RequestContext) {
