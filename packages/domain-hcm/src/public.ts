@@ -16,6 +16,7 @@ export {
   type GrantedLeaveGate,
 } from './attendance.service';
 export {
+  DEFAULT_BONUS_TYPES,
   PayrollService,
   SALARY_PERMISSIONS,
   type SalaryPermissionGate,
@@ -30,3 +31,10 @@ export {
   type PrivateDocumentGate,
 } from './contract.service';
 export { amountInWordsBs, integerInWordsBs } from './localization/amount-in-words-bs';
+export {
+  DEFAULT_QUALIFICATION_LEVELS,
+  DEVELOPMENT_PERMISSIONS,
+  DevelopmentService,
+  TRAINING_ITEM_STATUSES,
+  type TrainingItemStatus,
+} from './development.service';

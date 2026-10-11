@@ -22,12 +22,14 @@ import {
 } from '@nexora/domain-doc';
 import {
   AttendanceMatrixService,
+  DevelopmentService,
   EmployeeService,
   EmploymentContractService,
   PayrollService,
   WorkforceService,
 } from '@nexora/domain-hcm';
 import { PAYROLL_SERVICE, PayrollController } from './hcm/payroll.controller';
+import { DEVELOPMENT_SERVICE, DevelopmentController } from './hcm/development.controller';
 import {
   EMPLOYMENT_CONTRACT_SERVICE,
   EmploymentContractController,
@@ -448,6 +450,7 @@ export const REDIS = 'REDIS';
     AttendanceController,
     PayrollController,
     EmploymentContractController,
+    DevelopmentController,
     OpsController,
     OpenApiController,
     AssetsController,
@@ -1160,6 +1163,22 @@ export const REDIS = 'REDIS';
           { workedDaysFor: (period, ctx) => attendance.workedDaysFor(period, ctx) },
         ),
       inject: [PRISMA, TENANT_SERVICE, APPROVAL_SERVICE, CONNECTOR_SERVICE, ATTENDANCE_SERVICE],
+    },
+    {
+      // HCM-017: mentor scope uses tenant-wide grants only (as salary access).
+      provide: DEVELOPMENT_SERVICE,
+      useFactory: (prisma: PrismaClient, tenants: TenantService, roles: RoleService) =>
+        new DevelopmentService(
+          prisma,
+          {
+            getPermissionKeys: async (userId, tenantId) =>
+              (await roles.getEffectivePermissions(userId, tenantId))
+                .filter((g) => g.scopeType === 'TENANT')
+                .map((g) => g.permissionKey),
+          },
+          { getEffectiveConfiguration: (t) => tenants.getEffectiveConfiguration(t) },
+        ),
+      inject: [PRISMA, TENANT_SERVICE, ROLE_SERVICE],
     },
     {
       // HCM-016: templates (DOC), tasks (CORE) and the private document

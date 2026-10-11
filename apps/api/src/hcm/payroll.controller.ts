@@ -27,6 +27,15 @@ const adjustmentSchema = periodSchema.extend({
   requestKey: z.string().regex(/^[A-Za-z0-9_.:-]{8,80}$/),
 });
 
+const bonusSchema = periodSchema.extend({
+  employeeId: z.string().uuid(),
+  bonusType: z.string().regex(/^[A-Z][A-Z0-9_]{1,29}$/),
+  amount: z.number().positive().max(1e9),
+  currency: z.string().regex(/^[A-Za-z]{3}$/),
+  reason: z.string().min(3).max(200),
+  requestKey: z.string().regex(/^[A-Za-z0-9_.:-]{8,80}$/),
+});
+
 /**
  * HCM-013/014 (Sprint 235) — salaries and payroll. Write routes carry a
  * guard-level salary permission (defence in depth); reads need hcm.read
@@ -61,6 +70,22 @@ export class PayrollController {
   @RequirePermission('hcm.salary.manage')
   async adjustment(@Body() body: unknown, @Ctx() ctx: RequestContext) {
     return this.payroll.addAdjustment(parseBody(adjustmentSchema, body), ctx);
+  }
+
+  @Post('bonuses')
+  @RequirePermission('hcm.salary.manage')
+  async bonus(@Body() body: unknown, @Ctx() ctx: RequestContext) {
+    return this.payroll.addBonus(parseBody(bonusSchema, body), ctx);
+  }
+
+  @Get('adjustments')
+  @RequirePermission('hcm.read')
+  async adjustments(
+    @Query('year') year: string,
+    @Query('month') month: string,
+    @Ctx() ctx: RequestContext,
+  ) {
+    return this.payroll.adjustments(parseBody(periodSchema, { year, month }), ctx);
   }
 
   @Get('runs')

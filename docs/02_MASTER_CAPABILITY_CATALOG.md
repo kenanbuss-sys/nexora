@@ -442,7 +442,7 @@ P0 foundation · P1 core enterprise · P2 advanced enterprise · P3 strategic/op
 | HCM-014 | Salary data + field-level salary permissions |
 | HCM-015 | Attendance status matrix + change audit + hours digest |
 | HCM-016 | Employment contract generation + expiry alerts |
-| HCM-017 | Incentives: bonuses, leagues, agent checklists + coaching |
+| HCM-017 | Incentives + employee development: typed bonuses, qualification levels, training plans, mentoring |
 | HCM-018 | Employee self-service portal (own data only) |
 | HCM-019 | Worker QR ID + limited public view |
 | HCM-020 | HR platform parity (evaluations, DISC/Big5, competencies) |

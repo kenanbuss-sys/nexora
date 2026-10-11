@@ -72,6 +72,19 @@ function weekdays(year: number, month: number): number {
   return n;
 }
 
+/** Default bonus catalog (data, generic); tenants configure their own (hcm.payroll.bonusTypes). */
+export const DEFAULT_BONUS_TYPES: Array<{
+  key: string;
+  label: string;
+  kind: 'BONUS' | 'DEDUCTION';
+}> = [
+  { key: 'STIMULATION', label: 'Stimulacija', kind: 'BONUS' },
+  { key: 'DESTIMULATION', label: 'Destimulacija', kind: 'DEDUCTION' },
+  { key: 'OVERTIME', label: 'Prekovremeni rad', kind: 'BONUS' },
+  { key: 'QUALITY_AWARD', label: 'Nagrada za kvalitet', kind: 'BONUS' },
+  { key: 'SALES_COMMISSION', label: 'Provizija od prodaje', kind: 'BONUS' },
+];
+
 export class PayrollService {
   constructor(
     private readonly prisma: PrismaClient,
@@ -119,7 +132,30 @@ export class PayrollService {
       payroll.fixedWorkDays <= 31
         ? payroll.fixedWorkDays
         : null;
-    return { currency, fixedWorkDays: fixed };
+    // HCM-017: typed bonuses and conversion rates (payroll currency per unit).
+    const bonusTypes = Array.isArray(payroll.bonusTypes)
+      ? (payroll.bonusTypes as unknown[])
+          .map((t) => t as { key?: unknown; label?: unknown; kind?: unknown })
+          .filter(
+            (t): t is { key: string; label: string; kind: 'BONUS' | 'DEDUCTION' } =>
+              typeof t.key === 'string' &&
+              /^[A-Z][A-Z0-9_]{1,29}$/.test(t.key) &&
+              typeof t.label === 'string' &&
+              (t.kind === 'BONUS' || t.kind === 'DEDUCTION'),
+          )
+      : [];
+    const rates: Record<string, number> = {};
+    if (payroll.rates && typeof payroll.rates === 'object') {
+      for (const [code, value] of Object.entries(payroll.rates as Record<string, unknown>)) {
+        if (/^[A-Z]{3}$/.test(code) && typeof value === 'number' && value > 0) rates[code] = value;
+      }
+    }
+    return {
+      currency,
+      fixedWorkDays: fixed,
+      bonusTypes: bonusTypes.length ? bonusTypes : DEFAULT_BONUS_TYPES,
+      rates,
+    };
   }
 
   private async employee(employeeId: string, ctx: RequestContext) {
@@ -317,6 +353,9 @@ export class PayrollService {
       amount: number;
       reason: string;
       requestKey: string;
+      bonus?:
+        | { type: string; originalAmount: number; originalCurrency: string; rate: number }
+        | undefined;
     },
     ctx: RequestContext,
   ): Promise<{ id: string; replay: boolean }> {
@@ -341,7 +380,8 @@ export class PayrollService {
         existing.year === input.year &&
         existing.month === input.month &&
         existing.kind === input.kind &&
-        cents(existing.amount) === amountC;
+        cents(existing.amount) === amountC &&
+        (existing.bonusType ?? null) === (input.bonus?.type ?? null);
       if (!same)
         throw new DomainError('CONFLICT', 'This requestKey was used for a different adjustment');
       return { id: existing.id, replay: true };
@@ -364,6 +404,14 @@ export class PayrollService {
           amount: money(amountC),
           reason: input.reason.trim(),
           requestKey: input.requestKey,
+          ...(input.bonus
+            ? {
+                bonusType: input.bonus.type,
+                originalAmount: money(cents(input.bonus.originalAmount)),
+                originalCurrency: input.bonus.originalCurrency,
+                rate: input.bonus.rate,
+              }
+            : {}),
           createdBy: ctx.userId ?? null,
         },
       });
@@ -386,6 +434,90 @@ export class PayrollService {
       }
       throw error;
     }
+  }
+
+  /**
+   * HCM-017: a typed bonus/deduction (catalog from configuration) in any
+   * configured currency, converted to the payroll currency with the
+   * configured rate and recorded as a payroll adjustment — so it flows
+   * into the payroll run. Salary permissions apply (amounts are salary data).
+   */
+  async addBonus(
+    input: {
+      year: number;
+      month: number;
+      employeeId: string;
+      bonusType: string;
+      amount: number;
+      currency: string;
+      reason: string;
+      requestKey: string;
+    },
+    ctx: RequestContext,
+  ): Promise<{ id: string; replay: boolean; amount: string; currency: string; rate: string }> {
+    const settings = await this.settings(ctx);
+    const type = settings.bonusTypes.find((t) => t.key === input.bonusType);
+    if (!type)
+      throw new DomainError('VALIDATION_FAILED', `Unknown bonus type '${input.bonusType}'`);
+    const currency = input.currency.toUpperCase();
+    const rate = currency === settings.currency ? 1 : settings.rates[currency];
+    if (!rate) {
+      throw new DomainError(
+        'VALIDATION_FAILED',
+        `No conversion rate ${currency}→${settings.currency} is configured (hcm.payroll.rates)`,
+      );
+    }
+    const convertedC = Math.round(cents(input.amount) * rate);
+    const result = await this.addAdjustment(
+      {
+        year: input.year,
+        month: input.month,
+        employeeId: input.employeeId,
+        kind: type.kind,
+        amount: convertedC / 100,
+        reason: `${type.label}: ${input.reason.trim()}`,
+        requestKey: input.requestKey,
+        bonus: { type: type.key, originalAmount: input.amount, originalCurrency: currency, rate },
+      },
+      ctx,
+    );
+    return {
+      ...result,
+      amount: money(convertedC),
+      currency: settings.currency,
+      rate: rate.toString(),
+    };
+  }
+
+  /** Adjustments of a month (salary circle; locked employees per policy). */
+  async adjustments(params: { year: number; month: number }, ctx: RequestContext) {
+    const access = await this.access(ctx);
+    if (!access.read) this.forbid(SALARY_PERMISSIONS.read);
+    monthBounds(params.year, params.month);
+    const rows = await this.prisma.payrollAdjustment.findMany({
+      where: { tenantId: ctx.tenantId, year: params.year, month: params.month },
+      orderBy: { createdAt: 'asc' },
+    });
+    const locked = access.management ? new Set<string>() : await this.lockedNow(ctx);
+    const settings = await this.settings(ctx);
+    return {
+      bonusTypes: settings.bonusTypes,
+      currency: settings.currency,
+      rows: rows
+        .filter((r) => !locked.has(r.employeeId))
+        .map((r) => ({
+          id: r.id,
+          employeeId: r.employeeId,
+          kind: r.kind,
+          bonusType: r.bonusType,
+          amount: Number(r.amount).toFixed(2),
+          originalAmount: r.originalAmount ? Number(r.originalAmount).toFixed(2) : null,
+          originalCurrency: r.originalCurrency,
+          rate: r.rate ? r.rate.toString() : null,
+          reason: r.reason,
+          createdAt: r.createdAt.toISOString(),
+        })),
+    };
   }
 
   // --------------------------------------------------------------- compute / confirm

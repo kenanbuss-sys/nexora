@@ -45,3 +45,29 @@ Jedan objedinjeni backlog: (a) nedostaci postojeće vizije, (b) FinTrack pokrić
 Voice asistent (AI-015), Control Center (BI-016), AI Direktor UI, uputstva u aplikaciji (DOC-013), registar odluka kroz GRC, playbook kroz checkliste (ODL-004), migracija stvarnih podataka (ODL-008 — poseban projekat s dry-run/kontrolne zbirove/rollback).
 
 Ne planiramo stotine sprintova unaprijed: obavezan je samo Sprint 211 (definisan); redoslijed faza 1→2→3 potvrditi nakon ODL-001/002/005.
+
+---
+
+## Re-prioritizacija 11.10.2026 — PRIJEDLOG (čeka potvrdu vlasnika)
+
+**Smjernica vlasnika (11.10.2026):** Nexora je softver za **proizvodnju, komercijalu (veleprodaja/distribucija) i maloprodajne markete** te velike kompanije van IT/call-centar svijeta. FinTrack paritet se prenosi samo kao **generička poslovna mogućnost**; pojmovi i podaci specifični za call-centar (lige, agenti, treneri, PCC, igrice, kartice…) se ne prenose (primjer: HCM-017 generalizovan u Sprintu 237).
+
+### Status faza 1–2 (urađeno na grani `claude/lucid-dijkstra-qywmaw`)
+FIN-028, FIN-033, HCM-015, HCM-013/014, HCM-016, HCM-017 (generalizovano) — DONE.
+
+### Predloženi redoslijed (najveća vrijednost za proizvodnju/komercijalu/maloprodaju prvo)
+
+| # | Stavka | ID | Zašto |
+|---|---|---|---|
+| 1 | Zaduženja opreme i alata (reversi, povrat, grupna zaduženja) + QR naljepnice i ograničen javni uvid | EAM-015, EAM-016 | alati, mašine, skeneri, kase — svakodnevno u pogonu i marketima |
+| 2 | Re-verifikacija „Partially implemented" sposobnosti bitnih za robu i proizvodnju | PIM-005 (barkod/GTIN), PIM-007 (JM), WMS-018 (serijski brojevi), MDM-002/005, QMS-005 (dispozicija), EAM-002 (hijerarhija sredstava), PLAN-015 (datum isporuke), CSM-011 | jezgro robnog i proizvodnog toka mora biti potpuno |
+| 3 | Zadaci s više izvršilaca + periodični zadaci (otvaranje/zatvaranje marketa, smjenske provjere, HACCP/ZNR) | WF-013 | operativna disciplina u pogonu i poslovnicama |
+| 4 | Samoposluga zaposlenih (svoji listići, šihtarica, odsustva, dokumenti) | HCM-018 | velike radne snage bez pristupa back-officeu |
+| 5 | Vozni park (gorivo, servisi, zaduženje vozila) — dopuna LOG-004 | EAM-017 | komercijala i distribucija |
+| 6 | Izvoz podataka po tenantu + proba povrata | OPS-019 | zahtjev velikih kompanija / pilot uslov |
+| 7 | Produkcijski AI vision provider (ulazne fakture, izvodi) | AI-016 | ubrzava knjigovodstvo; iza porta |
+| 8 | Porezi i doprinosi BiH na platu (bruto↔neto) kao lokalizacioni paket | HCM-013 dopuna | stvarni obračun plata |
+
+### Spušta se / ne prenosi (FinTrack/call-centar specifično ili niska vrijednost za ciljne kupce)
+- **Ne prenosi se:** lige/agenti/treneri (zamijenjeno generičkim razvojem zaposlenih), „Lotto" (ODL-003), DISC/Big5 dio HCM-020.
+- **P3, poslije pilota:** sastanci s AI agendom (WF-014 — generički zapisnik sastanaka ostaje opcija), kontrolni centar na TV ekranima (BI-016), glasovni asistent (AI-015), passkey (IAM-015), uputstva u aplikaciji (DOC-013), javni QR radnika (HCM-019).

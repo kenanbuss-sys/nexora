@@ -1444,6 +1444,8 @@ exports.Prisma.EmployeeScalarFieldEnum = {
   skills: 'skills',
   hiredAt: 'hiredAt',
   salaryLocked: 'salaryLocked',
+  mentorUserId: 'mentorUserId',
+  qualificationLevel: 'qualificationLevel',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -2046,6 +2048,10 @@ exports.Prisma.PayrollAdjustmentScalarFieldEnum = {
   amount: 'amount',
   reason: 'reason',
   requestKey: 'requestKey',
+  bonusType: 'bonusType',
+  originalAmount: 'originalAmount',
+  originalCurrency: 'originalCurrency',
+  rate: 'rate',
   createdBy: 'createdBy',
   createdAt: 'createdAt'
 };
@@ -2072,6 +2078,62 @@ exports.Prisma.EmploymentContractScalarFieldEnum = {
   createdBy: 'createdBy',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
+};
+
+exports.Prisma.TrainingPlanTemplateScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  key: 'key',
+  version: 'version',
+  name: 'name',
+  qualificationLevel: 'qualificationLevel',
+  items: 'items',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.TrainingPlanScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  employeeId: 'employeeId',
+  templateKey: 'templateKey',
+  templateVersion: 'templateVersion',
+  title: 'title',
+  status: 'status',
+  dueDate: 'dueDate',
+  recheckDate: 'recheckDate',
+  requestKey: 'requestKey',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  closedAt: 'closedAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.TrainingPlanItemScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  planId: 'planId',
+  itemKey: 'itemKey',
+  text: 'text',
+  status: 'status',
+  note: 'note',
+  version: 'version',
+  updatedBy: 'updatedBy',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.TrainingRecordScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  employeeId: 'employeeId',
+  mentorUserId: 'mentorUserId',
+  sessionDate: 'sessionDate',
+  topic: 'topic',
+  notes: 'notes',
+  outcome: 'outcome',
+  recheckDate: 'recheckDate',
+  requestKey: 'requestKey',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -2686,7 +2748,11 @@ exports.Prisma.ModelName = {
   PayrollRun: 'PayrollRun',
   PayrollLine: 'PayrollLine',
   PayrollAdjustment: 'PayrollAdjustment',
-  EmploymentContract: 'EmploymentContract'
+  EmploymentContract: 'EmploymentContract',
+  TrainingPlanTemplate: 'TrainingPlanTemplate',
+  TrainingPlan: 'TrainingPlan',
+  TrainingPlanItem: 'TrainingPlanItem',
+  TrainingRecord: 'TrainingRecord'
 };
 
 /**

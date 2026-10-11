@@ -353,3 +353,16 @@ Backlog Faza 2, red 8. Vlasnik domena: HCM (šabloni DOC, zadaci CORE, storage C
 - [x] UI /hr tab „Ugovori" (isticanje, lista, detalj s tekstom i štampom, raskid, novi ugovor) + dokumenti radnika
 - [x] Testovi: **sprint236 8/8** — šablon/whitelist/zamrzavanje, plata + slovima + scope, validacija, isticanje + konkurentno skeniranje, raskid, upravljačko zaključavanje, privatni dokumenti (generički API 404/400, permisije, audit), tenant izolacija; regresija collab/priloga (016, 023, 045, 086, 135, 136, 151, 156, 227) i HCM (234, 235) zelena
 - Nije rađeno: PDF ugovora na serveru (štampa iz UI-ja), isticanje lične karte (model nema dokumente identiteta), e-potpis ugovora o radu (DOC signature port postoji — kasnije)
+
+# Sprint 237 — ZAVRŠEN 11.10.2026: obuka i razvoj zaposlenih + tipizirani bonusi (HCM-017, generalizovano)
+
+Vlasnik 11.10.: proizvod je za proizvodnju, komercijalu i maloprodaju — call-centar pojmovi (lige, agenti, treneri) iz FinTracka se NE prenose; HCM-017 generalizovan (ODL-009). Migracija `20260928000237_sprint_237_employee_development` (aditivna).
+
+- [x] Nivoi kvalifikacije kao tenant konfiguracija (`hcm.qualificationLevels`; default Pripravnik → Operater → Samostalni radnik → Stručnjak → Instruktor); dodjela mentora i nivoa samo uz `hcm.development.manage` (audit staro→novo)
+- [x] Mentor-scope na serveru: `hcm.development.own` vidi i mijenja samo svoje zaposlene (ostali 404); važe samo tenant-wide grantovi; tenant-admin nema pristup po defaultu
+- [x] Verzionisani šabloni planova obuke po nivou (append-only); plan obuke po zaposlenom (podrazumijevani šablon po nivou, idempotentno pokretanje); 9 statusa stavki (Nije započeto … Osposobljen … Eskalirano rukovodiocu); optimistička verzija, audit staro→novo; zatvorene stavke (Završeno/Osposobljen) se ne vraćaju; zatvaranje plana tek kad su sve stavke zatvorene
+- [x] Pregled kašnjenja i ponovnih provjera po scope-u; evidencija obuke/mentorstva append-only (idempotentna)
+- [x] Tipizirani bonusi (`hcm.payroll.bonusTypes`; default Stimulacija, Destimulacija, Prekovremeni rad, Nagrada za kvalitet, Provizija od prodaje) s konverzijom valute (`hcm.payroll.rates`) u korekcije plate — ulaze u obračun; salary permisije važe
+- [x] UI: stranica „Obuka i razvoj" + „Bonus po tipu" na /payroll
+- [x] Testovi: **sprint237 8/8** (2×) — dodjela, mentor-scope, šabloni/nivo/idempotentnost, stavke (verzije, zatvorene, zatvaranje), pregled, evidencija, bonusi (konverzija 100 EUR → 195.58 BAM, replay, nepoznat tip/kurs 400, salary 403), tenant izolacija; regresija 203, 234, 235, 236 zelena
+- [x] Dokumentacija: popravljeno 56 pokvarenih redova u `specs/implementation_matrix.csv` (nazivi/bilješke sa zarezom bez navodnika); prijedlog re-prioritizacije backloga za proizvodnju/komercijalu/maloprodaju u BACKLOG_DOPUNA.md (čeka potvrdu)

@@ -177,6 +177,10 @@ model Tenant {
   payrollLines            PayrollLine[]
   payrollAdjustments      PayrollAdjustment[]
   employmentContracts     EmploymentContract[]
+  trainingPlanTemplates   TrainingPlanTemplate[]
+  trainingPlans           TrainingPlan[]
+  trainingPlanItems       TrainingPlanItem[]
+  trainingRecords         TrainingRecord[]
 
   @@map("tenant")
 }
@@ -2832,21 +2836,25 @@ enum EmployeeStatus {
 /// role/title, optional link to an app user, and a validated skills
 /// list for shop-floor assignment decisions.
 model Employee {
-  id             String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  tenantId       String         @map("tenant_id") @db.Uuid
-  employeeNumber String         @map("employee_number")
-  name           String
-  email          String?
-  title          String?
-  status         EmployeeStatus @default(ACTIVE)
-  userId         String?        @map("user_id") @db.Uuid
-  skills         Json?
-  hiredAt        DateTime?      @map("hired_at")
+  id                 String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId           String         @map("tenant_id") @db.Uuid
+  employeeNumber     String         @map("employee_number")
+  name               String
+  email              String?
+  title              String?
+  status             EmployeeStatus @default(ACTIVE)
+  userId             String?        @map("user_id") @db.Uuid
+  skills             Json?
+  hiredAt            DateTime?      @map("hired_at")
   /// Sprint 235 (HCM-014): management lock — salary data of this employee
   /// is visible/editable only with hcm.salary.management (extra layer).
-  salaryLocked   Boolean        @default(false) @map("salary_locked")
-  createdAt      DateTime       @default(now()) @map("created_at")
-  updatedAt      DateTime       @updatedAt @map("updated_at")
+  salaryLocked       Boolean        @default(false) @map("salary_locked")
+  /// Sprint 237 (HCM-017): assigned mentor/instructor (app user) and
+  /// qualification level (tenant-configured catalog).
+  mentorUserId       String?        @map("mentor_user_id") @db.Uuid
+  qualificationLevel String?        @map("qualification_level")
+  createdAt          DateTime       @default(now()) @map("created_at")
+  updatedAt          DateTime       @updatedAt @map("updated_at")
 
   tenant Tenant @relation(fields: [tenantId], references: [id])
 
@@ -3903,18 +3911,23 @@ model PayrollLine {
 }
 
 model PayrollAdjustment {
-  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  tenantId   String   @map("tenant_id") @db.Uuid
-  year       Int
-  month      Int
-  employeeId String   @map("employee_id") @db.Uuid
+  id               String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId         String   @map("tenant_id") @db.Uuid
+  year             Int
+  month            Int
+  employeeId       String   @map("employee_id") @db.Uuid
   /// BONUS (adds) or DEDUCTION (subtracts).
-  kind       String
-  amount     Decimal  @db.Decimal(18, 2)
-  reason     String
-  requestKey String   @map("request_key")
-  createdBy  String?  @map("created_by")
-  createdAt  DateTime @default(now()) @map("created_at")
+  kind             String
+  amount           Decimal  @db.Decimal(18, 2)
+  reason           String
+  requestKey       String   @map("request_key")
+  /// Sprint 237 (HCM-017): typed bonus with its original currency/rate.
+  bonusType        String?  @map("bonus_type")
+  originalAmount   Decimal? @map("original_amount") @db.Decimal(18, 2)
+  originalCurrency String?  @map("original_currency") @db.Char(3)
+  rate             Decimal? @db.Decimal(18, 6)
+  createdBy        String?  @map("created_by")
+  createdAt        DateTime @default(now()) @map("created_at")
 
   tenant Tenant @relation(fields: [tenantId], references: [id])
 
@@ -3964,4 +3977,93 @@ model EmploymentContract {
   @@index([tenantId, employeeId])
   @@index([tenantId, status, endDate])
   @@map("employment_contract")
+}
+
+// ---------------------------------------------------------------------------
+// Sprint 237 — HCM-017: employee development — versioned training-plan
+// templates (per qualification level), training plans per employee with
+// item statuses, training/mentoring records (append-only). Mentor scope
+// (hcm.development.own) is enforced server-side.
+// ---------------------------------------------------------------------------
+
+model TrainingPlanTemplate {
+  id                 String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId           String   @map("tenant_id") @db.Uuid
+  key                String
+  version            Int
+  name               String
+  qualificationLevel String?  @map("qualification_level")
+  /// [{ key, text }] — immutable per version.
+  items              Json
+  createdBy          String?  @map("created_by")
+  createdAt          DateTime @default(now()) @map("created_at")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@unique([tenantId, key, version])
+  @@map("training_plan_template")
+}
+
+model TrainingPlan {
+  id              String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId        String    @map("tenant_id") @db.Uuid
+  employeeId      String    @map("employee_id") @db.Uuid
+  templateKey     String    @map("template_key")
+  templateVersion Int       @map("template_version")
+  title           String
+  /// OPEN or CLOSED (only when every item is in a closed status).
+  status          String    @default("OPEN")
+  dueDate         DateTime  @map("due_date") @db.Date
+  recheckDate     DateTime? @map("recheck_date") @db.Date
+  requestKey      String    @map("request_key")
+  createdBy       String?   @map("created_by")
+  createdAt       DateTime  @default(now()) @map("created_at")
+  closedAt        DateTime? @map("closed_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
+
+  tenant Tenant             @relation(fields: [tenantId], references: [id])
+  items  TrainingPlanItem[]
+
+  @@unique([tenantId, requestKey])
+  @@index([tenantId, employeeId, status])
+  @@map("training_plan")
+}
+
+model TrainingPlanItem {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId  String   @map("tenant_id") @db.Uuid
+  planId    String   @map("plan_id") @db.Uuid
+  itemKey   String   @map("item_key")
+  text      String
+  status    String   @default("NOT_STARTED")
+  note      String?
+  version   Int      @default(1)
+  updatedBy String?  @map("updated_by")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  tenant Tenant       @relation(fields: [tenantId], references: [id])
+  plan   TrainingPlan @relation(fields: [planId], references: [id])
+
+  @@unique([tenantId, planId, itemKey])
+  @@map("training_plan_item")
+}
+
+model TrainingRecord {
+  id           String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId     String    @map("tenant_id") @db.Uuid
+  employeeId   String    @map("employee_id") @db.Uuid
+  mentorUserId String?   @map("mentor_user_id") @db.Uuid
+  sessionDate  DateTime  @map("session_date") @db.Date
+  topic        String
+  notes        String
+  outcome      String?
+  recheckDate  DateTime? @map("recheck_date") @db.Date
+  requestKey   String    @map("request_key")
+  createdAt    DateTime  @default(now()) @map("created_at")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@unique([tenantId, requestKey])
+  @@index([tenantId, employeeId])
+  @@map("training_record")
 }

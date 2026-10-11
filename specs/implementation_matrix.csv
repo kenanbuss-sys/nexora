@@ -171,18 +171,18 @@ ENG-001,ENG,Product revisions,P2,DONE,R2,,,
 ENG-002,ENG,Engineering BOM,P2,DONE,R2,,,
 ENG-003,ENG,Manufacturing BOM,P2,DONE,R2,,,
 ENG-004,ENG,Parametric BOM,P2,DONE,R2,,,Sprint 209: parametric BOM — line qty = base + factor x parameter from eng.parametric config rules.
-ENG-005,ENG,BOM alternatives,P2,DONE,R2,,,Sprint 209: BOM component alternates from config, validated against the SKU catalogue.
+ENG-005,ENG,BOM alternatives,P2,DONE,R2,,,"Sprint 209: BOM component alternates from config, validated against the SKU catalogue."
 ENG-006,ENG,Effective dates,P2,DONE,R2,,,
 ENG-007,ENG,Engineering change request,P2,DONE,R2,,,
 ENG-008,ENG,Engineering change order,P2,Implemented (Sprint 010),R2,,,Verified in Sprint 087 reconciliation: ECO request/decide with BOM linkage already shipped (engineering.service).
-ENG-009,ENG,Technical drawings,P2,DONE,R2,,,Sprint 209: technical drawing register per SKU — latest revision wins, audited.
+ENG-009,ENG,Technical drawings,P2,DONE,R2,,,"Sprint 209: technical drawing register per SKU — latest revision wins, audited."
 ENG-010,ENG,CAD/PDM hooks,P2,DONE,R2,,,Sprint 209: CAD/PDM hooks — released BOMs exported through connectors exactly once.
 ENG-011,ENG,Routing,P2,DONE,R2,,,
-ENG-012,ENG,Work instructions,P2,DONE,R2,,,Sprint 209: work instructions per routing operation, merged into the operator sheet.
+ENG-012,ENG,Work instructions,P2,DONE,R2,,,"Sprint 209: work instructions per routing operation, merged into the operator sheet."
 ENG-013,ENG,Standard times,P2,DONE,R2,,,
-ENG-014,ENG,Tooling requirements,P2,DONE,R2,,,Sprint 209: tooling requirements per routing operation, on the operator sheet.
+ENG-014,ENG,Tooling requirements,P2,DONE,R2,,,"Sprint 209: tooling requirements per routing operation, on the operator sheet."
 ENG-015,ENG,Compliance specifications,P2,DONE,R2,,,Sprint 209: compliance specifications per SKU with a required-vs-declared gap report.
-PLAN-001,PLAN,Demand planning,P2,DONE,R2,,,Sprint 208: demand planning — forecast entries per SKU and period, published as versions.
+PLAN-001,PLAN,Demand planning,P2,DONE,R2,,,"Sprint 208: demand planning — forecast entries per SKU and period, published as versions."
 PLAN-002,PLAN,Forecast versions,P2,DONE,R2,,,Sprint 208: forecast versions are immutable audited publications; history listable.
 PLAN-003,PLAN,S&OP,P2,DONE,R2,,,Sprint 208: S&OP — demand vs on-hand + open production per SKU with the gap to close.
 PLAN-004,PLAN,Safety stock,P2,DONE,R2,,,
@@ -248,7 +248,7 @@ QMS-003,QMS,In-process inspection,P2,DONE,R2,,,Sprint 076: in-process inspection
 QMS-004,QMS,Final inspection,P2,DONE,R2,,,Sprint 076: final inspection results with pass/fail and quantities before shipment.
 QMS-005,QMS,Disposition,P2,Partially implemented (Sprint 082),R2,,,Disposition = release/scrap decisions on quarantine holds; richer dispositions pending.
 QMS-006,QMS,Quarantine,P2,DONE,R2,,,"Sprint 082: quarantine holds — block reservation, quality releases or scraps (compensating ledger adjustment), audited."
-QMS-007,QMS,NCR,P2,DONE,R2,,,Sprint 076/201: NCRs with severity, defect codes and lifecycle to resolution.
+QMS-007,QMS,NCR,P2,DONE,R2,,,"Sprint 076/201: NCRs with severity, defect codes and lifecycle to resolution."
 QMS-008,QMS,CAPA,P2,DONE,R2,,,Sprint 201: CRITICAL NCR resolution spawns a CAPA task automatically.
 QMS-009,QMS,Root cause,P2,DONE,R2,,,Sprint 201: root cause (>=10 chars) mandatory for MAJOR/CRITICAL NCR resolution; stored on the NCR.
 QMS-010,QMS,Defect taxonomy,P2,DONE,R2,,,Sprint 201: defect taxonomy from qms.defectCodes config; validated on NCR creation and ranked in analytics.
@@ -256,36 +256,36 @@ QMS-011,QMS,Supplier quality,P2,DONE,R2,,,Sprint 149: supplier quality — vendo
 QMS-012,QMS,Certificates,P2,DONE,R2,,,Sprint 129: quality certificates as generated documents from templates (attachments on records).
 QMS-013,QMS,Calibration linkage,P2,DONE,R2,,,Sprint 201: calibration report from ver.tools config — due/overdue instruments per tenant.
 QMS-014,QMS,Quality audits,P2,DONE,R2,,,Sprint 200: quality audits run as GRC internal-audit register records.
-QMS-015,QMS,Quality analytics,P2,DONE,R2,,,Sprint 201: quality analytics — first-pass yield, NCRs by severity, top defect codes.
+QMS-015,QMS,Quality analytics,P2,DONE,R2,,,"Sprint 201: quality analytics — first-pass yield, NCRs by severity, top defect codes."
 EAM-001,EAM,Asset registry,P2,DONE,R4+,,,"Sprint 073: numbered asset registry with categories, serials, values; Assets page. Sprint 229: /assets rebuilt on the shared standard — detail with real service history, dialog actions."
 EAM-002,EAM,Asset hierarchy/history,P2,Partially implemented (Sprint 073),R4+,,,Lifecycle transitions audited (history in audit ledger); hierarchy pending.
-EAM-003,EAM,Preventive maintenance,P2,DONE,R4+,,,Sprint 202: preventive maintenance from eam.preventive config, idempotent per asset+period, tasks with checklists.
+EAM-003,EAM,Preventive maintenance,P2,DONE,R4+,,,"Sprint 202: preventive maintenance from eam.preventive config, idempotent per asset+period, tasks with checklists."
 EAM-004,EAM,Corrective maintenance,P2,DONE,R4+,,,Sprint 202: breakdown reporting moves the asset UNDER_MAINTENANCE and opens a corrective task. Sprint 229: breakdown/complete flow surfaced in the assets UI.
 EAM-005,EAM,Downtime,P2,DONE,R4+,,,Sprint 202: downtime measured between breakdown and completion audit events per asset.
 EAM-006,EAM,Spare parts,P2,DONE,R4+,,,Sprint 202: spare parts issued through the stock ledger (idempotent ISSUE per completion+SKU).
 EAM-007,EAM,Maintenance labor,P2,DONE,R4+,,,Sprint 202: labor hours captured on completion; cost = hours x configured labor rate.
 EAM-008,EAM,Maintenance checklists,P2,DONE,R4+,,,Sprint 202: checklists carried on preventive tasks from eam.preventive config.
-EAM-009,EAM,Meters/counters,P2,DONE,R4+,,,Sprint 202: meters/counters recorded idempotently per reading id, latest per meter reported.
+EAM-009,EAM,Meters/counters,P2,DONE,R4+,,,"Sprint 202: meters/counters recorded idempotently per reading id, latest per meter reported."
 EAM-010,EAM,Calibration,P2,DONE,R4+,,,Sprint 178/201: instrument calibration tracking via ver.tools with due-date reporting.
 EAM-011,EAM,Tool checkout,P2,DONE,R4+,,,Sprint 202: tool checkout OUT/IN with sequence guard from the audit trail.
 EAM-012,EAM,Asset warranty/contracts,P2,DONE,R4+,,,Sprint 202: warranty coverage from eam.warranties config surfaced in the asset report.
 EAM-013,EAM,Asset costs,P2,DONE,R4+,,,Sprint 202: asset cost roll-up from completed maintenance (labor + parts) in the asset report.
 EAM-014,EAM,Condition-monitoring hooks,P2,DONE,R4+,,,Sprint 202: meter readings are the condition-monitoring hook; thresholds evaluable by rules.
-SVC-001,SVC,Installed base,P2,DONE,R4+,,,Sprint 210: installed base per CRM account — assets with serial, location, install date.
+SVC-001,SVC,Installed base,P2,DONE,R4+,,,"Sprint 210: installed base per CRM account — assets with serial, location, install date."
 SVC-002,SVC,Warranty,P2,DONE,R4+,,,Sprint 210: warranty windows per asset with an expiring-warranty report (configurable notice days).
 SVC-003,SVC,Service requests,P2,DONE,R4+,,,Sprint 210: numbered service requests (SR-) with priority and asset linkage.
 SVC-004,SVC,Service orders,P2,DONE,R4+,,,Sprint 210: service orders (SVO-) with PLANNED-SCHEDULED-IN_PROGRESS-DONE lifecycle.
 SVC-005,SVC,RMA,P2,DONE,R4+,,,Sprint 210: RMA lifecycle REQUESTED-APPROVED-RECEIVED-CLOSED; receiving books stock via the ledger.
 SVC-006,SVC,Field scheduling,P2,DONE,R4+,,,Sprint 210: field scheduling with two-hour slot conflict detection per technician.
 SVC-007,SVC,Skills-based assignment,P2,DONE,R4+,,,Sprint 210: skills-based assignment — order skillsRequired validated against HCM employee skills.
-SVC-008,SVC,Field mobile,P2,DONE,R4+,,,Sprint 210: field mobile — technician my-orders queue, start/measure/parts/complete from the field.
+SVC-008,SVC,Field mobile,P2,DONE,R4+,,,"Sprint 210: field mobile — technician my-orders queue, start/measure/parts/complete from the field."
 SVC-009,SVC,Measurements/surveys,P2,DONE,R4+,,,Sprint 210: measurements recorded during the visit on the audit trail (key/value/unit).
 SVC-010,SVC,Installation orders,P2,DONE,R4+,,,Sprint 210: installation orders hand new assets to the installed base on completion.
 SVC-011,SVC,Proof of service,P2,DONE,R4+,,,Sprint 210: proof of service — once-only customer sign-off with hashed PIN.
-SVC-012,SVC,Service parts,P2,DONE,R4+,,,Sprint 210: service parts consumed through the stock ledger, idempotent per order+key.
+SVC-012,SVC,Service parts,P2,DONE,R4+,,,"Sprint 210: service parts consumed through the stock ledger, idempotent per order+key."
 SVC-013,SVC,Customer approvals,P2,DONE,R4+,,,Sprint 210: customer approval through the approvals domain gates work start (configurable).
 SVC-014,SVC,SLA,P2,DONE,R4+,,,Sprint 210: SLA due dates from svc.sla config per priority; overdue report.
-SVC-015,SVC,Service history,P2,DONE,R4+,,,Sprint 210: per-asset service history — requests, orders and consumed parts.
+SVC-015,SVC,Service history,P2,DONE,R4+,,,"Sprint 210: per-asset service history — requests, orders and consumed parts."
 LOG-001,LOG,Shipment planning,P2,Implemented (Sprint 190),R4+,,,Shipments with sequenced stops
 LOG-002,LOG,Carrier management,P2,Implemented (Sprint 190),R4+,,,Carriers as configuration + connector registry
 LOG-003,LOG,Courier adapters,P2,Implemented (Sprint 192),R4+,,,Courier connectors as carriers (INT-005)
@@ -301,29 +301,29 @@ LOG-012,LOG,Reverse logistics,P2,Implemented (Sprint 192),R4+,,,Exactly-once rev
 LOG-013,LOG,Freight cost,P2,Implemented (Sprint 191),R4+,,,Per-shipment cost + per-carrier report
 LOG-014,LOG,Dock scheduling,P2,Implemented (Sprint 192),R4+,,,Overlap-protected dock appointments
 LOG-015,LOG,Yard events,P2,Implemented (Sprint 192),R4+,,,Audited arrivals/departures
-PRJ-001,PRJ,Projects,P2,DONE,R4+,,,"Sprint 204: projects as governed custom-object register (code Sprint 226: dedicated /projects UI (list+detail, milestones complete, real-record financials, projectRef-linked orders).", status, budget, currency).
+PRJ-001,PRJ,Projects,P2,DONE,R4+,,,"Sprint 204: projects as governed custom-object register (code Sprint 226: dedicated /projects UI (list+detail, milestones complete, real-record financials, projectRef-linked orders)., status, budget, currency)."
 PRJ-002,PRJ,Sites,P2,DONE,R4+,,,Sprint 204: sites register linked to projects by code.
 PRJ-003,PRJ,Milestones,P2,DONE,R4+,,,Sprint 204: milestone register with due dates; idempotent completion on the audit trail.
 PRJ-004,PRJ,Budgets,P2,DONE,R4+,,,"Sprint 204: budgets on the project record; effective budget = budget + change orders. Sprint 226: dedicated /projects UI (list+detail, milestones complete, real-record financials, projectRef-linked orders)."
-PRJ-005,PRJ,Job costing,P2,DONE,R4+,,,"Sprint 204: job-cost ledger on audit events — labor/material/subcontract/other Sprint 226: dedicated /projects UI (list+detail, milestones complete, real-record financials, projectRef-linked orders).", idempotent per entry.
+PRJ-005,PRJ,Job costing,P2,DONE,R4+,,,"Sprint 204: job-cost ledger on audit events — labor/material/subcontract/other Sprint 226: dedicated /projects UI (list+detail, milestones complete, real-record financials, projectRef-linked orders)., idempotent per entry."
 PRJ-006,PRJ,Project procurement,P2,DONE,R4+,,,"Sprint 204: purchase orders linked read-only; PO totals join the job cost. Sprint 227: linked-PO list endpoint (audited links, purchase.read) + UI section."
-PRJ-007,PRJ,Project inventory,P2,DONE,R4+,,,Sprint 204: material issues to projects through the stock ledger (idempotent ISSUE), costed.
+PRJ-007,PRJ,Project inventory,P2,DONE,R4+,,,"Sprint 204: material issues to projects through the stock ledger (idempotent ISSUE), costed."
 PRJ-008,PRJ,Subcontractors,P2,DONE,R4+,,,Sprint 204: subcontractor costs as first-class job-cost entries per supplier engagement.
-PRJ-009,PRJ,Timesheets,P2,DONE,R4+,,,Sprint 204: timesheets — one line per employee/project/day, costed at prj.laborRate.
+PRJ-009,PRJ,Timesheets,P2,DONE,R4+,,,"Sprint 204: timesheets — one line per employee/project/day, costed at prj.laborRate."
 PRJ-010,PRJ,Project documents,P2,DONE,R4+,,,Sprint 204: project documents are attachments on the project record.
-PRJ-011,PRJ,Change orders,P2,DONE,R4+,,,Sprint 204: change orders with mandatory reason adjust the effective budget, idempotent per key.
+PRJ-011,PRJ,Change orders,P2,DONE,R4+,,,"Sprint 204: change orders with mandatory reason adjust the effective budget, idempotent per key."
 PRJ-012,PRJ,Project profitability,P2,DONE,R4+,,,Sprint 204: profitability — latest revenue vs total job cost with margin percent.
 HCM-001,HCM,Employee master,P2,DONE,R4+,,,"Sprint 072: numbered employee master with lifecycle, audited; People page."
-HCM-002,HCM,Shift planning,P2,DONE,R4+,,,Sprint 203: leave requests through the approvals domain, duplicate-safe per employee+range.
-HCM-003,HCM,Attendance,P2,DONE,R4+,,,"Sprint 203: time & attendance — idempotent Sprint 223: HCM UI on shared standard (attendance records, leave request/approval with SoD).", sequence-guarded clock events with paired-hours report.
+HCM-002,HCM,Shift planning,P2,DONE,R4+,,,"Sprint 203: leave requests through the approvals domain, duplicate-safe per employee+range."
+HCM-003,HCM,Attendance,P2,DONE,R4+,,,"Sprint 203: time & attendance — idempotent Sprint 223: HCM UI on shared standard (attendance records, leave request/approval with SoD)., sequence-guarded clock events with paired-hours report."
 HCM-004,HCM,Leave,P2,DONE,R4+,,,"Sprint 203: shift planning from hcm.shifts config with per-date roster (latest assignment wins). Sprint 223: HCM UI on shared standard (attendance records, leave request/approval with SoD)."
 HCM-005,HCM,Skills matrix,P2,DONE,R4+,,,"Sprint 072: validated, deduplicated skills list per employee, audited."
-HCM-006,HCM,Certifications,P2,DONE,R4+,,,Sprint 203: certifications with expiry flags, latest-set-wins audit history.
+HCM-006,HCM,Certifications,P2,DONE,R4+,,,"Sprint 203: certifications with expiry flags, latest-set-wins audit history."
 HCM-007,HCM,Training/LMS,P2,DONE,R4+,,,Sprint 203: trainings tracked as certifications with validity dates (renewal visible via expiry).
 HCM-008,HCM,Production labor capture,P2,DONE,R4+,,,Sprint 121: production labor capture via work-order operation assignment and completion.
 HCM-009,HCM,Performance metrics,P2,DONE,R4+,,,Sprint 203: performance snapshot — completed operations + attendance hours per employee.
 HCM-010,HCM,Onboarding/offboarding,P2,DONE,R4+,,,Sprint 172: onboarding/offboarding checklists spawn task sets from config.
-HCM-011,HCM,Safety/EHS hooks,P2,DONE,R4+,,,Sprint 200: safety/EHS via GRC registers (incidents, near-miss, PPE, safety checklists).
+HCM-011,HCM,Safety/EHS hooks,P2,DONE,R4+,,,"Sprint 200: safety/EHS via GRC registers (incidents, near-miss, PPE, safety checklists)."
 HCM-012,HCM,Payroll integration,P2,DONE,R4+,,,Sprint 203: payroll export pushed through a connector exactly once per period.
 DOC-001,DOC,Document templates,P1,Partially implemented (Sprint 002),R0/R1,,,Template storage (rendering later)
 DOC-002,DOC,PDF generation,P1,DONE,R0/R1,,,"Server-side PDF: quote, invoice, delivery note (Sprint 023)"
@@ -475,69 +475,69 @@ EXT-008,EXT,Connector marketplace,P2,Implemented (Sprint 198),R4+,,,Curated conn
 EXT-009,EXT,Compatibility policy,P2,Implemented (Sprint 197),R4+,,,Extension API version check
 EXT-010,EXT,Extension isolation/security,P2,Implemented (Sprint 197),R4+,,,Permission containment + data-only extensions
 CSM-001,CSM,Customer support cases,P2,DONE,R4+,,,"Sprint 064: numbered support cases with enforced lifecycle, priorities, account/order links, audited."
-CSM-002,CSM,Omnichannel case intake,P2,DONE,R4+,,,Sprint 205: omnichannel intake — channel validated against csm.channels, recorded on the audit trail, reported.
+CSM-002,CSM,Omnichannel case intake,P2,DONE,R4+,,,"Sprint 205: omnichannel intake — channel validated against csm.channels, recorded on the audit trail, reported."
 CSM-003,CSM,Case routing/assignment,P2,DONE,R4+,,,"Sprint 064: case assignment to active tenant users, audited."
-CSM-004,CSM,Customer complaint handling,P2,DONE,R4+,,,Sprint 205: complaint flagging with mandatory reason, priority lift and complaint report.
+CSM-004,CSM,Customer complaint handling,P2,DONE,R4+,,,"Sprint 205: complaint flagging with mandatory reason, priority lift and complaint report."
 CSM-005,CSM,SLA policies,P2,DONE,R4+,,,Sprint 083: priority-weighted case SLA overdue detection (URGENT 4h/HIGH 8h/NORMAL 24h/LOW 72h).
 CSM-006,CSM,Escalations,P2,DONE,R4+,,,Sprint 205: once-only escalation — URGENT priority plus an audited follow-up task.
 CSM-007,CSM,Case collaboration,P2,DONE,R4+,,,Sprint 205: threaded case comments on the audit trail (author + timestamp).
-CSM-008,CSM,Canned responses/templates,P2,DONE,R4+,,,Sprint 205: canned responses from csm.cannedResponses config, rendered per case with placeholders.
+CSM-008,CSM,Canned responses/templates,P2,DONE,R4+,,,"Sprint 205: canned responses from csm.cannedResponses config, rendered per case with placeholders."
 CSM-009,CSM,Knowledge base,P2,DONE,R4+,,,Sprint 205: knowledge base as governed custom-object register with text search.
 CSM-010,CSM,Customer support portal,P2,DONE,R4+,,,Sprint 205: portal is a first-class intake channel; B2B portal handles customer self-service.
 CSM-011,CSM,Case-to-order linkage,P2,Partially implemented (Sprint 064),R4+,,,Cases link to sales orders at creation; deeper order-context views pending.
 CSM-012,CSM,Case-to-service linkage,P2,DONE,R4+,,,Sprint 205: generic case linkage — service_request references on the audit trail.
-CSM-013,CSM,Case-to-RMA linkage,P2,DONE,R4+,,,Sprint 205: case-to-RMA linkage via audited references, duplicate-safe.
+CSM-013,CSM,Case-to-RMA linkage,P2,DONE,R4+,,,"Sprint 205: case-to-RMA linkage via audited references, duplicate-safe."
 CSM-014,CSM,Support analytics,P2,DONE,R4+,,,Sprint 083: case analytics — status counts + average resolution time; CRM page badges.
-CSM-015,CSM,Customer satisfaction feedback,P2,DONE,R4+,,,Sprint 205: CSAT ratings (1-5) once per resolved case, with average and distribution report.
-MKT-001,MKT,Campaigns,P3,DONE,R4+,,,Sprint 206: campaigns as governed custom-object register (channel, status, budget).
+CSM-015,CSM,Customer satisfaction feedback,P2,DONE,R4+,,,"Sprint 205: CSAT ratings (1-5) once per resolved case, with average and distribution report."
+MKT-001,MKT,Campaigns,P3,DONE,R4+,,,"Sprint 206: campaigns as governed custom-object register (channel, status, budget)."
 MKT-002,MKT,Audience segmentation,P3,DONE,R4+,,,Sprint 206: audience segments as config rules (all / with-orders / without-orders) over CRM accounts.
 MKT-003,MKT,Marketing lists,P3,DONE,R4+,,,Sprint 206: marketing lists materialize segments into audited audience snapshots.
-MKT-004,MKT,Campaign journeys,P3,DONE,R4+,,,Sprint 206: campaign journeys as ordered config steps with day offsets, sent step by step.
-MKT-005,MKT,Email/SMS/push campaign adapters,P3,DONE,R4+,,,Sprint 206: email/SMS/push sends through provider-neutral connectors, exactly-once per step+segment.
-MKT-006,MKT,Lead capture forms,P3,DONE,R4+,,,Sprint 206: lead-capture forms from config, validated, creating CRM leads once per submission.
-MKT-007,MKT,Promotion linkage,P3,DONE,R4+,,,Sprint 206: campaigns link to price lists for promotion pricing, duplicate-safe.
+MKT-004,MKT,Campaign journeys,P3,DONE,R4+,,,"Sprint 206: campaign journeys as ordered config steps with day offsets, sent step by step."
+MKT-005,MKT,Email/SMS/push campaign adapters,P3,DONE,R4+,,,"Sprint 206: email/SMS/push sends through provider-neutral connectors, exactly-once per step+segment."
+MKT-006,MKT,Lead capture forms,P3,DONE,R4+,,,"Sprint 206: lead-capture forms from config, validated, creating CRM leads once per submission."
+MKT-007,MKT,Promotion linkage,P3,DONE,R4+,,,"Sprint 206: campaigns link to price lists for promotion pricing, duplicate-safe."
 MKT-008,MKT,Coupon/audience targeting,P3,DONE,R4+,,,Sprint 206: coupons in config tied to campaigns; valid only while the campaign is active.
 MKT-009,MKT,Consent-aware communication,P3,DONE,R4+,,,Sprint 206: opt-in consent registry per account+channel on the audit trail; sends filter on it.
-MKT-010,MKT,Campaign attribution,P3,DONE,R4+,,,Sprint 206: order-to-campaign attribution, one campaign per order, audited.
-MKT-011,MKT,Marketing analytics,P3,DONE,R4+,,,Sprint 206: campaign analytics — sends, recipients, attributed orders and revenue.
+MKT-010,MKT,Campaign attribution,P3,DONE,R4+,,,"Sprint 206: order-to-campaign attribution, one campaign per order, audited."
+MKT-011,MKT,Marketing analytics,P3,DONE,R4+,,,"Sprint 206: campaign analytics — sends, recipients, attributed orders and revenue."
 MKT-012,MKT,Experiment/A-B hooks,P3,DONE,R4+,,,Sprint 206: deterministic A/B variant assignment (hash of tenant+campaign+subject).
-ESG-001,ESG,Energy consumption tracking,P3,DONE,R4+,,,Sprint 207: energy readings per facility/period/source, idempotent on the audit ledger.
-ESG-002,ESG,Waste tracking,P3,DONE,R4+,,,Sprint 207: waste entries per facility/period/kind with disposal route, idempotent.
-ESG-003,ESG,Material sustainability attributes,P3,DONE,R4+,,,Sprint 207: material sustainability attributes (recycled %, hazardous) from config joined to SKUs.
-ESG-004,ESG,Environmental KPI definitions,P3,DONE,R4+,,,Sprint 207: environmental KPI definitions in config (key, unit, target).
+ESG-001,ESG,Energy consumption tracking,P3,DONE,R4+,,,"Sprint 207: energy readings per facility/period/source, idempotent on the audit ledger."
+ESG-002,ESG,Waste tracking,P3,DONE,R4+,,,"Sprint 207: waste entries per facility/period/kind with disposal route, idempotent."
+ESG-003,ESG,Material sustainability attributes,P3,DONE,R4+,,,"Sprint 207: material sustainability attributes (recycled %, hazardous) from config joined to SKUs."
+ESG-004,ESG,Environmental KPI definitions,P3,DONE,R4+,,,"Sprint 207: environmental KPI definitions in config (key, unit, target)."
 ESG-005,ESG,Carbon/emissions data hooks,P3,DONE,R4+,,,Sprint 207: CO2 emissions computed from energy readings x configured factors per source.
-ESG-006,ESG,Supplier sustainability attributes,P3,DONE,R4+,,,Sprint 207: supplier sustainability ratings (1-5 + certification), latest wins, audited.
+ESG-006,ESG,Supplier sustainability attributes,P3,DONE,R4+,,,"Sprint 207: supplier sustainability ratings (1-5 + certification), latest wins, audited."
 ESG-007,ESG,Compliance evidence,P3,DONE,R4+,,,Sprint 207: compliance evidence as governed custom-object register with expiry flags.
 ESG-008,ESG,Sustainability targets,P3,DONE,R4+,,,Sprint 207: sustainability targets — caps and floors evaluated against measured actuals.
-ESG-009,ESG,ESG reporting hooks,P3,DONE,R4+,,,Sprint 207: ESG report export through connectors, exactly once per period.
-ESG-010,ESG,Operational sustainability analytics,P3,DONE,R4+,,,Sprint 207: operational analytics — energy, waste, recycling rate and CO2 per period.
+ESG-009,ESG,ESG reporting hooks,P3,DONE,R4+,,,"Sprint 207: ESG report export through connectors, exactly once per period."
+ESG-010,ESG,Operational sustainability analytics,P3,DONE,R4+,,,"Sprint 207: operational analytics — energy, waste, recycling rate and CO2 per period."
 FIN-023,FIN,General ledger (journal entries, posting workflow),DONE,PLANNED,R5,,Sprint 211: journal entries draft->posted with D=P invariant and per-legal-entity numbering (ADR-0001).
-FIN-024,FIN,Chart of accounts per legal entity + system account mapping,P1,DONE,R5,,,Sprint 211: 8-digit COA per legal entity with copy, system-account map and lazy partner analytics from MDM.
+FIN-024,FIN,Chart of accounts per legal entity + system account mapping,P1,DONE,R5,,,"Sprint 211: 8-digit COA per legal entity with copy, system-account map and lazy partner analytics from MDM."
 FIN-025,FIN,Opening balances + period/ledger lock,P1,DONE,R5,,,Sprint 211: opening-balance date guard + period lock per legal entity.
 FIN-026,FIN,Reversal/storno engine for posted entries,P1,DONE,R5,,,Sprint 211: mirrored storno as the only correction; posted entries immutable.
-FIN-027,FIN,Account/partner cards + IOS + external client card,P1,DONE,R5,,,Sprint 212: account/partner cards — opening cumulative, one row per posted entry, closing; storno pairs hidden by default (net zero); read-only.
+FIN-027,FIN,Account/partner cards + IOS + external client card,P1,DONE,R5,,,"Sprint 212: account/partner cards — opening cumulative, one row per posted entry, closing; storno pairs hidden by default (net zero); read-only."
 FIN-028,FIN,KUF/KIF + VAT ledger (BiH localization pack),P1,DONE,R5,,,"Sprint 232: paket accounting-bih kao podaci (efektivno-datirane PDV stope po pravnom licu, sistemska konta vat.output/vat.input/vat.settlement); KUF/KIF unos -> server obracun PDV-a + TACNO JEDAN proknjizen KUF/KIF nalog; idempotentan requestKey, duplikat dokumenta 409, veza na fakturu (tip/partner/iznos); storno = negativna stavka u tekucem periodu + storno naloga; PDV prijava = jedan nalog zatvaranja + vat.return.filed (outbox), period zatvoren; status uplate; uskladjenost knjiga<->GK; UI /vat. Nije: fiskalni/e-PDV adapter (FIN-021), XML/obrazac prijave, Excel export."
 FIN-029,FIN,Trial balance + GL reports + profit years,P2,DONE,R5,,,Sprint 212: trial balance per legal entity and period — opening/turnover/closing per account with balanced totals; reconciles with cards.
-FIN-030,FIN,Bank statement import + matching (vision via AI port),P1,DONE,R5,,,Sprint 213: import s kontrolnim zbirovima (saldo + broj stavki), duplikat 409, pregled pa izricita potvrda (period lock blokira), odbacivanje neproverenog; AI-016 vision port daje samo prijedlog.
-FIN-031,FIN,Payment allocation / open-item clearing,P1,DONE,R5,,,Sprint 213: alokacija stavke izvoda na fakturu kroz FIN-014 tok placanja (paidAmount), BEZ GL knjizenja; djelimicne alokacije, kontrola prekomjernog, idempotentan allocationKey, smjer priliv/odliv.
-FIN-032,FIN,Compensations + loan settlements with printed statement,P2,DONE,R5,,,Sprint 214: kompenzacija potrazivanja/obaveza partnera — djelimicni iznosi, pregled, izricita potvrda (FIN-014 uplate + JEDAN COMPENSATION nalog), stampani dokument, kontrolisano ponistenje (release uplata + storno) uz audit; period lock pre-check; loan settlements NISU pokriveni.
-FIN-033,FIN,AI posting proposals (precedent-based, draft-only),P2,DONE,R5,,,"Sprint 233: deterministicki prijedlog iz PROKNJIZENIH presedana pravnog lica (partner / kljucne rijeci), najcesci potpis konta+strana, iznosi po prosjecnom omjeru (D=P na cent), samo aktivna konta plana (tudje/neaktivno konto nikad — osoba bira); sigurnost racuna KOD (>=3 VISOKA, 1-2 SREDNJA, 0 NISKA); stornirani presedani ignorisani; prihvatanje = SAMO NACRT (nikad post) + audit provenance (hash, presedani); KUF/KIF asistent (konto + PDV stopa iz ranijih unosa partnera); UI /ledger + /vat. Bez LLM providera; vision unos faktura ostaje AI-016."
+FIN-030,FIN,Bank statement import + matching (vision via AI port),P1,DONE,R5,,,"Sprint 213: import s kontrolnim zbirovima (saldo + broj stavki), duplikat 409, pregled pa izricita potvrda (period lock blokira), odbacivanje neproverenog; AI-016 vision port daje samo prijedlog."
+FIN-031,FIN,Payment allocation / open-item clearing,P1,DONE,R5,,,"Sprint 213: alokacija stavke izvoda na fakturu kroz FIN-014 tok placanja (paidAmount), BEZ GL knjizenja; djelimicne alokacije, kontrola prekomjernog, idempotentan allocationKey, smjer priliv/odliv."
+FIN-032,FIN,Compensations + loan settlements with printed statement,P2,DONE,R5,,,"Sprint 214: kompenzacija potrazivanja/obaveza partnera — djelimicni iznosi, pregled, izricita potvrda (FIN-014 uplate + JEDAN COMPENSATION nalog), stampani dokument, kontrolisano ponistenje (release uplata + storno) uz audit; period lock pre-check; loan settlements NISU pokriveni."
+FIN-033,FIN,"AI posting proposals (precedent-based, draft-only)",P2,DONE,R5,,,"Sprint 233: deterministicki prijedlog iz PROKNJIZENIH presedana pravnog lica (partner / kljucne rijeci), najcesci potpis konta+strana, iznosi po prosjecnom omjeru (D=P na cent), samo aktivna konta plana (tudje/neaktivno konto nikad — osoba bira); sigurnost racuna KOD (>=3 VISOKA, 1-2 SREDNJA, 0 NISKA); stornirani presedani ignorisani; prihvatanje = SAMO NACRT (nikad post) + audit provenance (hash, presedani); KUF/KIF asistent (konto + PDV stopa iz ranijih unosa partnera); UI /ledger + /vat. Bez LLM providera; vision unos faktura ostaje AI-016."
 HCM-013,HCM,Payroll calculation + payslips,P1,DONE,R5,,,"Sprint 235: obracun = osnovica/fond dana x radni dani iz sihtarice (HCM-015) + bonusi - odbici; fond = radni dani mjeseca ili hcm.payroll.fixedWorkDays (konfiguracija); DRAFT preracunljiv, CONFIRMED nepromjenjiv snimak samo uz zakljucanu sihtaricu (FOR SHARE serijalizacija; otkljucavanje sihtarice poslije potvrde odbijeno); idempotentne korekcije; payroll.confirmed bez iznosa; listic (stampa, audit pregleda); UI /payroll. Nije: porezi/doprinosi, Excel import, PDF generisanje na serveru."
 HCM-014,HCM,Salary data + field-level salary permissions,P1,DONE,R5,,,"Sprint 235: efektivno-datirane verzije plate (append-only); politika na serveru: hcm.salary.read (salary krug), hcm.salary.contract (samo vazeca osnovica), hcm.salary.manage, hcm.salary.management (upravljacko zakljucavanje employee.salaryLocked - zakljucani nevidljivi/nepromjenjivi bez njega); tenant-admin NEMA plate po defaultu; audit bez iznosa. Nije: scope po poslovnicama za contract (zaposleni nemaju poslovnicu)."
 HCM-015,HCM,Attendance status matrix + change audit + hours digest,P1,DONE,R5,,,"Sprint 234 (ODL-002 = oba modela): sihtarica attendance_day po zaposlenom/danu kao izvor obracuna; katalog statusa i model (BOTH/MATRIX/CLOCK) su tenant konfiguracija; clock i odobreno odsustvo samo PREDLAZU status, primjena puni samo prazne dane (idempotentno); optimisticka verzija, audit staro->novo, kontrola izmjena; presjek (radni dani po countsAsWorked + clock sati); zakljucavanje mjeseca (FOR SHARE serijalizacija, otkljucavanje s razlogom); payroll export nosi workedDays; UI /hr Sihtarica."
 HCM-016,HCM,Employment contract generation + expiry alerts,P2,DONE,R5,,,"Sprint 236: ugovor o radu iz DOC sablona (whitelist polja, nepoznato -> 400), tekst i verzija sablona zamrznuti; plata + iznos slovima (bs, KM) samo uz hcm.salary.contract/read, tekst s platom vidljiv samo tom opsegu; upravljacko zakljucavanje pokriva ugovore i dokumente; idempotentno izdavanje; raskid s razlogom; lista isticanja + jedan zadatak po ugovoru (FOR UPDATE, idempotentno), hcm.contractExpiryDays (30); dokumenti radnika kao PRIVATNI tip u collab store-u (genericki API ih ne vidi), hcm.docs.read/manage, audit svakog citanja; UI /hr Ugovori. Nije: PDF na serveru (stampa iz UI), isticanje LK (nema polja)."
-HCM-017,HCM,Incentives: bonuses, leagues, agent checklists + coaching,P2,PLANNED,R5,,,FinTrack paritet: trener-scope server-side, rekontrole.
-HCM-018,HCM,Employee self-service portal (own data only),P2,PLANNED,R5,,,FinTrack paritet: plata zabranjena po dizajnu, rate-limit.
+HCM-017,HCM,"Incentives + employee development: typed bonuses, qualification levels, training plans, mentoring",P2,DONE,R5,,,"Sprint 237: generičko za proizvodnju/komercijalu/maloprodaju — nivoi kvalifikacije (tenant katalog; default Pripravnik..Instruktor), verzionisani šabloni planova obuke po nivou, plan obuke po zaposlenom (9 statusa stavki; zatvorene se ne vraćaju; zatvaranje tek kad su sve zatvorene), evidencija obuke/mentorstva append-only; mentor-scope na serveru (hcm.development.own samo svoji, .manage svi); tipizirani bonusi (Stimulacija/Destimulacija/Prekovremeni/Nagrada za kvalitet/Provizija od prodaje, konfigurabilno) s konverzijom valute u korekcije plate. FinTrack lige/agenti/call-centar pojmovi NAMJERNO nisu preneseni (vlasnik 11.10.2026)."
+HCM-018,HCM,Employee self-service portal (own data only),P2,PLANNED,R5,,,"FinTrack paritet: plata zabranjena po dizajnu, rate-limit."
 HCM-019,HCM,Worker QR ID + limited public view,P3,PLANNED,R5,,,FinTrack paritet: workers_qr_data.
-HCM-020,HCM,HR platform parity (evaluations, DISC/Big5, competencies),P1,BLOCKED,R5,,,BLOKIRANO (ODL-005): izvor kenanbuss-sys/xcalltech-hr nedostupan.
+HCM-020,HCM,"HR platform parity (evaluations, DISC/Big5, competencies)",P1,BLOCKED,R5,,,BLOKIRANO (ODL-005): izvor kenanbuss-sys/xcalltech-hr nedostupan.
 WF-013,WF,Multi-assignee tasks: per-person status + recurring logs,P1,PLANNED,R5,,,FinTrack paritet: zavrsen tek kad svi zavrse; dnevni log periodicnih.
-WF-014,WF,Meetings: agenda, minutes, decisions, carry-over (safe AI agenda),P2,PLANNED,R5,,,FinTrack paritet: whitelist izvora + code filter + review queue.
-EAM-015,EAM,Equipment custody: assignments, group receipts, returns,P1,PLANNED,R5,,,FinTrack paritet: zaduzenje_token, reversi, audit printa.
-EAM-016,EAM,Asset QR labels + limited public lookup,P2,PLANNED,R5,,,FinTrack paritet: server-side funkcija, samo neosjetljiva polja.
-EAM-017,EAM,Fleet management (fuel, services, vehicle custody, alerts),P2,PLANNED,R5,,,FinTrack paritet: total_km semantiku razjasniti (ne prenositi slijepo).
+WF-014,WF,"Meetings: agenda, minutes, decisions, carry-over (safe AI agenda)",P2,PLANNED,R5,,,FinTrack paritet: whitelist izvora + code filter + review queue.
+EAM-015,EAM,"Equipment custody: assignments, group receipts, returns",P1,PLANNED,R5,,,"FinTrack paritet: zaduzenje_token, reversi, audit printa."
+EAM-016,EAM,Asset QR labels + limited public lookup,P2,PLANNED,R5,,,"FinTrack paritet: server-side funkcija, samo neosjetljiva polja."
+EAM-017,EAM,"Fleet management (fuel, services, vehicle custody, alerts)",P2,PLANNED,R5,,,FinTrack paritet: total_km semantiku razjasniti (ne prenositi slijepo).
 BI-016,BI,Operational control center (multi-screen realtime),P3,PLANNED,R5,,,FinTrack paritet: povjerljivi mod iza permisije.
 AI-015,AI,Voice assistant over user-scoped tools,P3,PLANNED,R5,,,FinTrack paritet: alati pod korisnikovim pravima; STT/TTS adapteri.
-AI-016,AI,Document vision extraction port (invoices, statements),P1,PARTIAL,R5,,,Sprint 213: port + SAMO dev adapter (AI_VISION_DEV=1); produkcijska vision integracija NIJE implementirana; extract vraca iskljucivo prijedlog; rucni tok radi bez providera.
+AI-016,AI,"Document vision extraction port (invoices, statements)",P1,PARTIAL,R5,,,Sprint 213: port + SAMO dev adapter (AI_VISION_DEV=1); produkcijska vision integracija NIJE implementirana; extract vraca iskljucivo prijedlog; rucni tok radi bez providera.
 IAM-015,IAM,Passkey (WebAuthn) authentication,P3,PLANNED,R5,,,FinTrack paritet: uz postojeci step-up/TOTP tok.
-OPS-019,OPS,Per-tenant data export bundles + restore drill,P2,PLANNED,R5,,,FinTrack paritet: lista tabela iz seme, ne rucno.
+OPS-019,OPS,Per-tenant data export bundles + restore drill,P2,PLANNED,R5,,,"FinTrack paritet: lista tabela iz seme, ne rucno."
 DOC-013,DOC,In-app manuals with per-permission visibility,P3,PLANNED,R5,,,FinTrack paritet: Uputstva tab.

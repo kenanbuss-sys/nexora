@@ -888,6 +888,26 @@ export type PayrollAdjustment = $Result.DefaultSelection<Prisma.$PayrollAdjustme
  * 
  */
 export type EmploymentContract = $Result.DefaultSelection<Prisma.$EmploymentContractPayload>
+/**
+ * Model TrainingPlanTemplate
+ * 
+ */
+export type TrainingPlanTemplate = $Result.DefaultSelection<Prisma.$TrainingPlanTemplatePayload>
+/**
+ * Model TrainingPlan
+ * 
+ */
+export type TrainingPlan = $Result.DefaultSelection<Prisma.$TrainingPlanPayload>
+/**
+ * Model TrainingPlanItem
+ * 
+ */
+export type TrainingPlanItem = $Result.DefaultSelection<Prisma.$TrainingPlanItemPayload>
+/**
+ * Model TrainingRecord
+ * 
+ */
+export type TrainingRecord = $Result.DefaultSelection<Prisma.$TrainingRecordPayload>
 
 /**
  * Enums
@@ -3451,6 +3471,46 @@ export class PrismaClient<
     * ```
     */
   get employmentContract(): Prisma.EmploymentContractDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.trainingPlanTemplate`: Exposes CRUD operations for the **TrainingPlanTemplate** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more TrainingPlanTemplates
+    * const trainingPlanTemplates = await prisma.trainingPlanTemplate.findMany()
+    * ```
+    */
+  get trainingPlanTemplate(): Prisma.TrainingPlanTemplateDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.trainingPlan`: Exposes CRUD operations for the **TrainingPlan** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more TrainingPlans
+    * const trainingPlans = await prisma.trainingPlan.findMany()
+    * ```
+    */
+  get trainingPlan(): Prisma.TrainingPlanDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.trainingPlanItem`: Exposes CRUD operations for the **TrainingPlanItem** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more TrainingPlanItems
+    * const trainingPlanItems = await prisma.trainingPlanItem.findMany()
+    * ```
+    */
+  get trainingPlanItem(): Prisma.TrainingPlanItemDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.trainingRecord`: Exposes CRUD operations for the **TrainingRecord** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more TrainingRecords
+    * const trainingRecords = await prisma.trainingRecord.findMany()
+    * ```
+    */
+  get trainingRecord(): Prisma.TrainingRecordDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -4046,7 +4106,11 @@ export namespace Prisma {
     PayrollRun: 'PayrollRun',
     PayrollLine: 'PayrollLine',
     PayrollAdjustment: 'PayrollAdjustment',
-    EmploymentContract: 'EmploymentContract'
+    EmploymentContract: 'EmploymentContract',
+    TrainingPlanTemplate: 'TrainingPlanTemplate',
+    TrainingPlan: 'TrainingPlan',
+    TrainingPlanItem: 'TrainingPlanItem',
+    TrainingRecord: 'TrainingRecord'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -4065,7 +4129,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "tenant" | "tenantConfigurationVersion" | "legalEntity" | "businessUnit" | "branch" | "factory" | "user" | "userCredential" | "role" | "rolePermission" | "userRoleAssignment" | "auditEvent" | "outboxEvent" | "terminologyEntry" | "moduleActivation" | "customFieldDefinition" | "task" | "notification" | "workflowDefinition" | "workflowVersion" | "workflowInstance" | "ruleDefinition" | "ruleVersion" | "approval" | "processedEvent" | "documentTemplate" | "documentTemplateVersion" | "party" | "consentRecord" | "partyExternalIdentity" | "product" | "sku" | "barcode" | "uomConversion" | "warehouse" | "warehouseLocation" | "stockMovement" | "stockReservation" | "device" | "scanEvent" | "wmsOrder" | "wmsOrderLine" | "territory" | "salesTeam" | "salesTeamMember" | "crmAccount" | "lead" | "opportunity" | "crmActivity" | "priceList" | "priceListEntry" | "quote" | "packagingLevel" | "skuSubstitution" | "discountRule" | "quoteLine" | "salesOrder" | "salesOrderLine" | "orderEvent" | "supplier" | "purchaseRequisition" | "purchaseRequisitionLine" | "purchaseOrder" | "purchaseOrderLine" | "bom" | "bomLine" | "routing" | "routingOperation" | "engineeringChange" | "planningPolicy" | "mrpRun" | "mrpSuggestion" | "workOrder" | "workOrderOperation" | "qcPlan" | "qcPlanItem" | "qcInspection" | "qcInspectionItem" | "ncr" | "invoice" | "payment" | "portalUser" | "comment" | "attachment" | "attachmentBlob" | "numberSequence" | "exchangeRate" | "costCenter" | "budget" | "webhookSubscription" | "webhookDelivery" | "apiKey" | "securityEvent" | "productCategory" | "returnOrder" | "returnOrderLine" | "stockCount" | "stockCountLine" | "workCenter" | "downtimeEvent" | "promotion" | "promotionRedemption" | "bundleComponent" | "serialNumber" | "breakGlassGrant" | "masterDataRequest" | "loyaltyAccount" | "loyaltyTransaction" | "supportCase" | "contract" | "employee" | "asset" | "quarantineHold" | "rfq" | "rfqQuote" | "package" | "packageLine" | "landedCost" | "customObjectDefinition" | "customObjectRecord" | "frameworkAgreement" | "skuChannelContent" | "container" | "posSession" | "vehicle" | "driver" | "shipment" | "shipmentStop" | "dockAppointment" | "installedAsset" | "serviceRequest" | "serviceOrder" | "serviceOrderPart" | "rma" | "glAccount" | "glJournalEntry" | "glJournalLine" | "glSystemAccount" | "glOpeningBalanceDate" | "glPeriodLock" | "bankStatement" | "bankStatementLine" | "paymentAllocation" | "compensation" | "compensationLine" | "vatRate" | "vatBookEntry" | "vatPeriod" | "attendanceDay" | "attendancePeriod" | "employeeSalary" | "payrollRun" | "payrollLine" | "payrollAdjustment" | "employmentContract"
+      modelProps: "tenant" | "tenantConfigurationVersion" | "legalEntity" | "businessUnit" | "branch" | "factory" | "user" | "userCredential" | "role" | "rolePermission" | "userRoleAssignment" | "auditEvent" | "outboxEvent" | "terminologyEntry" | "moduleActivation" | "customFieldDefinition" | "task" | "notification" | "workflowDefinition" | "workflowVersion" | "workflowInstance" | "ruleDefinition" | "ruleVersion" | "approval" | "processedEvent" | "documentTemplate" | "documentTemplateVersion" | "party" | "consentRecord" | "partyExternalIdentity" | "product" | "sku" | "barcode" | "uomConversion" | "warehouse" | "warehouseLocation" | "stockMovement" | "stockReservation" | "device" | "scanEvent" | "wmsOrder" | "wmsOrderLine" | "territory" | "salesTeam" | "salesTeamMember" | "crmAccount" | "lead" | "opportunity" | "crmActivity" | "priceList" | "priceListEntry" | "quote" | "packagingLevel" | "skuSubstitution" | "discountRule" | "quoteLine" | "salesOrder" | "salesOrderLine" | "orderEvent" | "supplier" | "purchaseRequisition" | "purchaseRequisitionLine" | "purchaseOrder" | "purchaseOrderLine" | "bom" | "bomLine" | "routing" | "routingOperation" | "engineeringChange" | "planningPolicy" | "mrpRun" | "mrpSuggestion" | "workOrder" | "workOrderOperation" | "qcPlan" | "qcPlanItem" | "qcInspection" | "qcInspectionItem" | "ncr" | "invoice" | "payment" | "portalUser" | "comment" | "attachment" | "attachmentBlob" | "numberSequence" | "exchangeRate" | "costCenter" | "budget" | "webhookSubscription" | "webhookDelivery" | "apiKey" | "securityEvent" | "productCategory" | "returnOrder" | "returnOrderLine" | "stockCount" | "stockCountLine" | "workCenter" | "downtimeEvent" | "promotion" | "promotionRedemption" | "bundleComponent" | "serialNumber" | "breakGlassGrant" | "masterDataRequest" | "loyaltyAccount" | "loyaltyTransaction" | "supportCase" | "contract" | "employee" | "asset" | "quarantineHold" | "rfq" | "rfqQuote" | "package" | "packageLine" | "landedCost" | "customObjectDefinition" | "customObjectRecord" | "frameworkAgreement" | "skuChannelContent" | "container" | "posSession" | "vehicle" | "driver" | "shipment" | "shipmentStop" | "dockAppointment" | "installedAsset" | "serviceRequest" | "serviceOrder" | "serviceOrderPart" | "rma" | "glAccount" | "glJournalEntry" | "glJournalLine" | "glSystemAccount" | "glOpeningBalanceDate" | "glPeriodLock" | "bankStatement" | "bankStatementLine" | "paymentAllocation" | "compensation" | "compensationLine" | "vatRate" | "vatBookEntry" | "vatPeriod" | "attendanceDay" | "attendancePeriod" | "employeeSalary" | "payrollRun" | "payrollLine" | "payrollAdjustment" | "employmentContract" | "trainingPlanTemplate" | "trainingPlan" | "trainingPlanItem" | "trainingRecord"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -15539,6 +15603,302 @@ export namespace Prisma {
           }
         }
       }
+      TrainingPlanTemplate: {
+        payload: Prisma.$TrainingPlanTemplatePayload<ExtArgs>
+        fields: Prisma.TrainingPlanTemplateFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.TrainingPlanTemplateFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TrainingPlanTemplatePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.TrainingPlanTemplateFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TrainingPlanTemplatePayload>
+          }
+          findFirst: {
+            args: Prisma.TrainingPlanTemplateFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TrainingPlanTemplatePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.TrainingPlanTemplateFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TrainingPlanTemplatePayload>
+          }
+          findMany: {
+            args: Prisma.TrainingPlanTemplateFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TrainingPlanTemplatePayload>[]
+          }
+          create: {
+            args: Prisma.TrainingPlanTemplateCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TrainingPlanTemplatePayload>
+          }
+          createMany: {
+            args: Prisma.TrainingPlanTemplateCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.TrainingPlanTemplateCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TrainingPlanTemplatePayload>[]
+          }
+          delete: {
+            args: Prisma.TrainingPlanTemplateDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TrainingPlanTemplatePayload>
+          }
+          update: {
+            args: Prisma.TrainingPlanTemplateUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TrainingPlanTemplatePayload>
+          }
+          deleteMany: {
+            args: Prisma.TrainingPlanTemplateDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.TrainingPlanTemplateUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.TrainingPlanTemplateUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TrainingPlanTemplatePayload>[]
+          }
+          upsert: {
+            args: Prisma.TrainingPlanTemplateUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TrainingPlanTemplatePayload>
+          }
+          aggregate: {
+            args: Prisma.TrainingPlanTemplateAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTrainingPlanTemplate>
+          }
+          groupBy: {
+            args: Prisma.TrainingPlanTemplateGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TrainingPlanTemplateGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.TrainingPlanTemplateCountArgs<ExtArgs>
+            result: $Utils.Optional<TrainingPlanTemplateCountAggregateOutputType> | number
+          }
+        }
+      }
+      TrainingPlan: {
+        payload: Prisma.$TrainingPlanPayload<ExtArgs>
+        fields: Prisma.TrainingPlanFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.TrainingPlanFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TrainingPlanPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.TrainingPlanFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TrainingPlanPayload>
+          }
+          findFirst: {
+            args: Prisma.TrainingPlanFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TrainingPlanPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.TrainingPlanFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TrainingPlanPayload>
+          }
+          findMany: {
+            args: Prisma.TrainingPlanFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TrainingPlanPayload>[]
+          }
+          create: {
+            args: Prisma.TrainingPlanCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TrainingPlanPayload>
+          }
+          createMany: {
+            args: Prisma.TrainingPlanCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.TrainingPlanCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TrainingPlanPayload>[]
+          }
+          delete: {
+            args: Prisma.TrainingPlanDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TrainingPlanPayload>
+          }
+          update: {
+            args: Prisma.TrainingPlanUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TrainingPlanPayload>
+          }
+          deleteMany: {
+            args: Prisma.TrainingPlanDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.TrainingPlanUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.TrainingPlanUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TrainingPlanPayload>[]
+          }
+          upsert: {
+            args: Prisma.TrainingPlanUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TrainingPlanPayload>
+          }
+          aggregate: {
+            args: Prisma.TrainingPlanAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTrainingPlan>
+          }
+          groupBy: {
+            args: Prisma.TrainingPlanGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TrainingPlanGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.TrainingPlanCountArgs<ExtArgs>
+            result: $Utils.Optional<TrainingPlanCountAggregateOutputType> | number
+          }
+        }
+      }
+      TrainingPlanItem: {
+        payload: Prisma.$TrainingPlanItemPayload<ExtArgs>
+        fields: Prisma.TrainingPlanItemFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.TrainingPlanItemFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TrainingPlanItemPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.TrainingPlanItemFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TrainingPlanItemPayload>
+          }
+          findFirst: {
+            args: Prisma.TrainingPlanItemFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TrainingPlanItemPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.TrainingPlanItemFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TrainingPlanItemPayload>
+          }
+          findMany: {
+            args: Prisma.TrainingPlanItemFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TrainingPlanItemPayload>[]
+          }
+          create: {
+            args: Prisma.TrainingPlanItemCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TrainingPlanItemPayload>
+          }
+          createMany: {
+            args: Prisma.TrainingPlanItemCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.TrainingPlanItemCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TrainingPlanItemPayload>[]
+          }
+          delete: {
+            args: Prisma.TrainingPlanItemDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TrainingPlanItemPayload>
+          }
+          update: {
+            args: Prisma.TrainingPlanItemUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TrainingPlanItemPayload>
+          }
+          deleteMany: {
+            args: Prisma.TrainingPlanItemDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.TrainingPlanItemUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.TrainingPlanItemUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TrainingPlanItemPayload>[]
+          }
+          upsert: {
+            args: Prisma.TrainingPlanItemUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TrainingPlanItemPayload>
+          }
+          aggregate: {
+            args: Prisma.TrainingPlanItemAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTrainingPlanItem>
+          }
+          groupBy: {
+            args: Prisma.TrainingPlanItemGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TrainingPlanItemGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.TrainingPlanItemCountArgs<ExtArgs>
+            result: $Utils.Optional<TrainingPlanItemCountAggregateOutputType> | number
+          }
+        }
+      }
+      TrainingRecord: {
+        payload: Prisma.$TrainingRecordPayload<ExtArgs>
+        fields: Prisma.TrainingRecordFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.TrainingRecordFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TrainingRecordPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.TrainingRecordFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TrainingRecordPayload>
+          }
+          findFirst: {
+            args: Prisma.TrainingRecordFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TrainingRecordPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.TrainingRecordFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TrainingRecordPayload>
+          }
+          findMany: {
+            args: Prisma.TrainingRecordFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TrainingRecordPayload>[]
+          }
+          create: {
+            args: Prisma.TrainingRecordCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TrainingRecordPayload>
+          }
+          createMany: {
+            args: Prisma.TrainingRecordCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.TrainingRecordCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TrainingRecordPayload>[]
+          }
+          delete: {
+            args: Prisma.TrainingRecordDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TrainingRecordPayload>
+          }
+          update: {
+            args: Prisma.TrainingRecordUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TrainingRecordPayload>
+          }
+          deleteMany: {
+            args: Prisma.TrainingRecordDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.TrainingRecordUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.TrainingRecordUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TrainingRecordPayload>[]
+          }
+          upsert: {
+            args: Prisma.TrainingRecordUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TrainingRecordPayload>
+          }
+          aggregate: {
+            args: Prisma.TrainingRecordAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTrainingRecord>
+          }
+          groupBy: {
+            args: Prisma.TrainingRecordGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TrainingRecordGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.TrainingRecordCountArgs<ExtArgs>
+            result: $Utils.Optional<TrainingRecordCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -15790,6 +16150,10 @@ export namespace Prisma {
     payrollLine?: PayrollLineOmit
     payrollAdjustment?: PayrollAdjustmentOmit
     employmentContract?: EmploymentContractOmit
+    trainingPlanTemplate?: TrainingPlanTemplateOmit
+    trainingPlan?: TrainingPlanOmit
+    trainingPlanItem?: TrainingPlanItemOmit
+    trainingRecord?: TrainingRecordOmit
   }
 
   /* Types for Logging */
@@ -16007,6 +16371,10 @@ export namespace Prisma {
     payrollLines: number
     payrollAdjustments: number
     employmentContracts: number
+    trainingPlanTemplates: number
+    trainingPlans: number
+    trainingPlanItems: number
+    trainingRecords: number
   }
 
   export type TenantCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -16147,6 +16515,10 @@ export namespace Prisma {
     payrollLines?: boolean | TenantCountOutputTypeCountPayrollLinesArgs
     payrollAdjustments?: boolean | TenantCountOutputTypeCountPayrollAdjustmentsArgs
     employmentContracts?: boolean | TenantCountOutputTypeCountEmploymentContractsArgs
+    trainingPlanTemplates?: boolean | TenantCountOutputTypeCountTrainingPlanTemplatesArgs
+    trainingPlans?: boolean | TenantCountOutputTypeCountTrainingPlansArgs
+    trainingPlanItems?: boolean | TenantCountOutputTypeCountTrainingPlanItemsArgs
+    trainingRecords?: boolean | TenantCountOutputTypeCountTrainingRecordsArgs
   }
 
   // Custom InputTypes
@@ -17117,6 +17489,34 @@ export namespace Prisma {
    */
   export type TenantCountOutputTypeCountEmploymentContractsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: EmploymentContractWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountTrainingPlanTemplatesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TrainingPlanTemplateWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountTrainingPlansArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TrainingPlanWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountTrainingPlanItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TrainingPlanItemWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountTrainingRecordsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TrainingRecordWhereInput
   }
 
 
@@ -18860,6 +19260,37 @@ export namespace Prisma {
 
 
   /**
+   * Count Type TrainingPlanCountOutputType
+   */
+
+  export type TrainingPlanCountOutputType = {
+    items: number
+  }
+
+  export type TrainingPlanCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    items?: boolean | TrainingPlanCountOutputTypeCountItemsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * TrainingPlanCountOutputType without action
+   */
+  export type TrainingPlanCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TrainingPlanCountOutputType
+     */
+    select?: TrainingPlanCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * TrainingPlanCountOutputType without action
+   */
+  export type TrainingPlanCountOutputTypeCountItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TrainingPlanItemWhereInput
+  }
+
+
+  /**
    * Models
    */
 
@@ -19214,6 +19645,10 @@ export namespace Prisma {
     payrollLines?: boolean | Tenant$payrollLinesArgs<ExtArgs>
     payrollAdjustments?: boolean | Tenant$payrollAdjustmentsArgs<ExtArgs>
     employmentContracts?: boolean | Tenant$employmentContractsArgs<ExtArgs>
+    trainingPlanTemplates?: boolean | Tenant$trainingPlanTemplatesArgs<ExtArgs>
+    trainingPlans?: boolean | Tenant$trainingPlansArgs<ExtArgs>
+    trainingPlanItems?: boolean | Tenant$trainingPlanItemsArgs<ExtArgs>
+    trainingRecords?: boolean | Tenant$trainingRecordsArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["tenant"]>
 
@@ -19386,6 +19821,10 @@ export namespace Prisma {
     payrollLines?: boolean | Tenant$payrollLinesArgs<ExtArgs>
     payrollAdjustments?: boolean | Tenant$payrollAdjustmentsArgs<ExtArgs>
     employmentContracts?: boolean | Tenant$employmentContractsArgs<ExtArgs>
+    trainingPlanTemplates?: boolean | Tenant$trainingPlanTemplatesArgs<ExtArgs>
+    trainingPlans?: boolean | Tenant$trainingPlansArgs<ExtArgs>
+    trainingPlanItems?: boolean | Tenant$trainingPlanItemsArgs<ExtArgs>
+    trainingRecords?: boolean | Tenant$trainingRecordsArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type TenantIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -19531,6 +19970,10 @@ export namespace Prisma {
       payrollLines: Prisma.$PayrollLinePayload<ExtArgs>[]
       payrollAdjustments: Prisma.$PayrollAdjustmentPayload<ExtArgs>[]
       employmentContracts: Prisma.$EmploymentContractPayload<ExtArgs>[]
+      trainingPlanTemplates: Prisma.$TrainingPlanTemplatePayload<ExtArgs>[]
+      trainingPlans: Prisma.$TrainingPlanPayload<ExtArgs>[]
+      trainingPlanItems: Prisma.$TrainingPlanItemPayload<ExtArgs>[]
+      trainingRecords: Prisma.$TrainingRecordPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -20071,6 +20514,10 @@ export namespace Prisma {
     payrollLines<T extends Tenant$payrollLinesArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$payrollLinesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PayrollLinePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     payrollAdjustments<T extends Tenant$payrollAdjustmentsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$payrollAdjustmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PayrollAdjustmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     employmentContracts<T extends Tenant$employmentContractsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$employmentContractsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EmploymentContractPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    trainingPlanTemplates<T extends Tenant$trainingPlanTemplatesArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$trainingPlanTemplatesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TrainingPlanTemplatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    trainingPlans<T extends Tenant$trainingPlansArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$trainingPlansArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TrainingPlanPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    trainingPlanItems<T extends Tenant$trainingPlanItemsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$trainingPlanItemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TrainingPlanItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    trainingRecords<T extends Tenant$trainingRecordsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$trainingRecordsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TrainingRecordPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -23780,6 +24227,102 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: EmploymentContractScalarFieldEnum | EmploymentContractScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.trainingPlanTemplates
+   */
+  export type Tenant$trainingPlanTemplatesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TrainingPlanTemplate
+     */
+    select?: TrainingPlanTemplateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TrainingPlanTemplate
+     */
+    omit?: TrainingPlanTemplateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TrainingPlanTemplateInclude<ExtArgs> | null
+    where?: TrainingPlanTemplateWhereInput
+    orderBy?: TrainingPlanTemplateOrderByWithRelationInput | TrainingPlanTemplateOrderByWithRelationInput[]
+    cursor?: TrainingPlanTemplateWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TrainingPlanTemplateScalarFieldEnum | TrainingPlanTemplateScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.trainingPlans
+   */
+  export type Tenant$trainingPlansArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TrainingPlan
+     */
+    select?: TrainingPlanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TrainingPlan
+     */
+    omit?: TrainingPlanOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TrainingPlanInclude<ExtArgs> | null
+    where?: TrainingPlanWhereInput
+    orderBy?: TrainingPlanOrderByWithRelationInput | TrainingPlanOrderByWithRelationInput[]
+    cursor?: TrainingPlanWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TrainingPlanScalarFieldEnum | TrainingPlanScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.trainingPlanItems
+   */
+  export type Tenant$trainingPlanItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TrainingPlanItem
+     */
+    select?: TrainingPlanItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TrainingPlanItem
+     */
+    omit?: TrainingPlanItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TrainingPlanItemInclude<ExtArgs> | null
+    where?: TrainingPlanItemWhereInput
+    orderBy?: TrainingPlanItemOrderByWithRelationInput | TrainingPlanItemOrderByWithRelationInput[]
+    cursor?: TrainingPlanItemWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TrainingPlanItemScalarFieldEnum | TrainingPlanItemScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.trainingRecords
+   */
+  export type Tenant$trainingRecordsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TrainingRecord
+     */
+    select?: TrainingRecordSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TrainingRecord
+     */
+    omit?: TrainingRecordOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TrainingRecordInclude<ExtArgs> | null
+    where?: TrainingRecordWhereInput
+    orderBy?: TrainingRecordOrderByWithRelationInput | TrainingRecordOrderByWithRelationInput[]
+    cursor?: TrainingRecordWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TrainingRecordScalarFieldEnum | TrainingRecordScalarFieldEnum[]
   }
 
   /**
@@ -148801,6 +149344,8 @@ export namespace Prisma {
     userId: string | null
     hiredAt: Date | null
     salaryLocked: boolean | null
+    mentorUserId: string | null
+    qualificationLevel: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -148816,6 +149361,8 @@ export namespace Prisma {
     userId: string | null
     hiredAt: Date | null
     salaryLocked: boolean | null
+    mentorUserId: string | null
+    qualificationLevel: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -148832,6 +149379,8 @@ export namespace Prisma {
     skills: number
     hiredAt: number
     salaryLocked: number
+    mentorUserId: number
+    qualificationLevel: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -148849,6 +149398,8 @@ export namespace Prisma {
     userId?: true
     hiredAt?: true
     salaryLocked?: true
+    mentorUserId?: true
+    qualificationLevel?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -148864,6 +149415,8 @@ export namespace Prisma {
     userId?: true
     hiredAt?: true
     salaryLocked?: true
+    mentorUserId?: true
+    qualificationLevel?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -148880,6 +149433,8 @@ export namespace Prisma {
     skills?: true
     hiredAt?: true
     salaryLocked?: true
+    mentorUserId?: true
+    qualificationLevel?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -148969,6 +149524,8 @@ export namespace Prisma {
     skills: JsonValue | null
     hiredAt: Date | null
     salaryLocked: boolean
+    mentorUserId: string | null
+    qualificationLevel: string | null
     createdAt: Date
     updatedAt: Date
     _count: EmployeeCountAggregateOutputType | null
@@ -149002,6 +149559,8 @@ export namespace Prisma {
     skills?: boolean
     hiredAt?: boolean
     salaryLocked?: boolean
+    mentorUserId?: boolean
+    qualificationLevel?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
@@ -149019,6 +149578,8 @@ export namespace Prisma {
     skills?: boolean
     hiredAt?: boolean
     salaryLocked?: boolean
+    mentorUserId?: boolean
+    qualificationLevel?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
@@ -149036,6 +149597,8 @@ export namespace Prisma {
     skills?: boolean
     hiredAt?: boolean
     salaryLocked?: boolean
+    mentorUserId?: boolean
+    qualificationLevel?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
@@ -149053,11 +149616,13 @@ export namespace Prisma {
     skills?: boolean
     hiredAt?: boolean
     salaryLocked?: boolean
+    mentorUserId?: boolean
+    qualificationLevel?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type EmployeeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "employeeNumber" | "name" | "email" | "title" | "status" | "userId" | "skills" | "hiredAt" | "salaryLocked" | "createdAt" | "updatedAt", ExtArgs["result"]["employee"]>
+  export type EmployeeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "employeeNumber" | "name" | "email" | "title" | "status" | "userId" | "skills" | "hiredAt" | "salaryLocked" | "mentorUserId" | "qualificationLevel" | "createdAt" | "updatedAt", ExtArgs["result"]["employee"]>
   export type EmployeeInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
   }
@@ -149089,6 +149654,12 @@ export namespace Prisma {
        * is visible/editable only with hcm.salary.management (extra layer).
        */
       salaryLocked: boolean
+      /**
+       * Sprint 237 (HCM-017): assigned mentor/instructor (app user) and
+       * qualification level (tenant-configured catalog).
+       */
+      mentorUserId: string | null
+      qualificationLevel: string | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["employee"]>
@@ -149526,6 +150097,8 @@ export namespace Prisma {
     readonly skills: FieldRef<"Employee", 'Json'>
     readonly hiredAt: FieldRef<"Employee", 'DateTime'>
     readonly salaryLocked: FieldRef<"Employee", 'Boolean'>
+    readonly mentorUserId: FieldRef<"Employee", 'String'>
+    readonly qualificationLevel: FieldRef<"Employee", 'String'>
     readonly createdAt: FieldRef<"Employee", 'DateTime'>
     readonly updatedAt: FieldRef<"Employee", 'DateTime'>
   }
@@ -199583,12 +200156,16 @@ export namespace Prisma {
     year: number | null
     month: number | null
     amount: Decimal | null
+    originalAmount: Decimal | null
+    rate: Decimal | null
   }
 
   export type PayrollAdjustmentSumAggregateOutputType = {
     year: number | null
     month: number | null
     amount: Decimal | null
+    originalAmount: Decimal | null
+    rate: Decimal | null
   }
 
   export type PayrollAdjustmentMinAggregateOutputType = {
@@ -199601,6 +200178,10 @@ export namespace Prisma {
     amount: Decimal | null
     reason: string | null
     requestKey: string | null
+    bonusType: string | null
+    originalAmount: Decimal | null
+    originalCurrency: string | null
+    rate: Decimal | null
     createdBy: string | null
     createdAt: Date | null
   }
@@ -199615,6 +200196,10 @@ export namespace Prisma {
     amount: Decimal | null
     reason: string | null
     requestKey: string | null
+    bonusType: string | null
+    originalAmount: Decimal | null
+    originalCurrency: string | null
+    rate: Decimal | null
     createdBy: string | null
     createdAt: Date | null
   }
@@ -199629,6 +200214,10 @@ export namespace Prisma {
     amount: number
     reason: number
     requestKey: number
+    bonusType: number
+    originalAmount: number
+    originalCurrency: number
+    rate: number
     createdBy: number
     createdAt: number
     _all: number
@@ -199639,12 +200228,16 @@ export namespace Prisma {
     year?: true
     month?: true
     amount?: true
+    originalAmount?: true
+    rate?: true
   }
 
   export type PayrollAdjustmentSumAggregateInputType = {
     year?: true
     month?: true
     amount?: true
+    originalAmount?: true
+    rate?: true
   }
 
   export type PayrollAdjustmentMinAggregateInputType = {
@@ -199657,6 +200250,10 @@ export namespace Prisma {
     amount?: true
     reason?: true
     requestKey?: true
+    bonusType?: true
+    originalAmount?: true
+    originalCurrency?: true
+    rate?: true
     createdBy?: true
     createdAt?: true
   }
@@ -199671,6 +200268,10 @@ export namespace Prisma {
     amount?: true
     reason?: true
     requestKey?: true
+    bonusType?: true
+    originalAmount?: true
+    originalCurrency?: true
+    rate?: true
     createdBy?: true
     createdAt?: true
   }
@@ -199685,6 +200286,10 @@ export namespace Prisma {
     amount?: true
     reason?: true
     requestKey?: true
+    bonusType?: true
+    originalAmount?: true
+    originalCurrency?: true
+    rate?: true
     createdBy?: true
     createdAt?: true
     _all?: true
@@ -199786,6 +200391,10 @@ export namespace Prisma {
     amount: Decimal
     reason: string
     requestKey: string
+    bonusType: string | null
+    originalAmount: Decimal | null
+    originalCurrency: string | null
+    rate: Decimal | null
     createdBy: string | null
     createdAt: Date
     _count: PayrollAdjustmentCountAggregateOutputType | null
@@ -199819,6 +200428,10 @@ export namespace Prisma {
     amount?: boolean
     reason?: boolean
     requestKey?: boolean
+    bonusType?: boolean
+    originalAmount?: boolean
+    originalCurrency?: boolean
+    rate?: boolean
     createdBy?: boolean
     createdAt?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
@@ -199834,6 +200447,10 @@ export namespace Prisma {
     amount?: boolean
     reason?: boolean
     requestKey?: boolean
+    bonusType?: boolean
+    originalAmount?: boolean
+    originalCurrency?: boolean
+    rate?: boolean
     createdBy?: boolean
     createdAt?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
@@ -199849,6 +200466,10 @@ export namespace Prisma {
     amount?: boolean
     reason?: boolean
     requestKey?: boolean
+    bonusType?: boolean
+    originalAmount?: boolean
+    originalCurrency?: boolean
+    rate?: boolean
     createdBy?: boolean
     createdAt?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
@@ -199864,11 +200485,15 @@ export namespace Prisma {
     amount?: boolean
     reason?: boolean
     requestKey?: boolean
+    bonusType?: boolean
+    originalAmount?: boolean
+    originalCurrency?: boolean
+    rate?: boolean
     createdBy?: boolean
     createdAt?: boolean
   }
 
-  export type PayrollAdjustmentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "year" | "month" | "employeeId" | "kind" | "amount" | "reason" | "requestKey" | "createdBy" | "createdAt", ExtArgs["result"]["payrollAdjustment"]>
+  export type PayrollAdjustmentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "year" | "month" | "employeeId" | "kind" | "amount" | "reason" | "requestKey" | "bonusType" | "originalAmount" | "originalCurrency" | "rate" | "createdBy" | "createdAt", ExtArgs["result"]["payrollAdjustment"]>
   export type PayrollAdjustmentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
   }
@@ -199897,6 +200522,13 @@ export namespace Prisma {
       amount: Prisma.Decimal
       reason: string
       requestKey: string
+      /**
+       * Sprint 237 (HCM-017): typed bonus with its original currency/rate.
+       */
+      bonusType: string | null
+      originalAmount: Prisma.Decimal | null
+      originalCurrency: string | null
+      rate: Prisma.Decimal | null
       createdBy: string | null
       createdAt: Date
     }, ExtArgs["result"]["payrollAdjustment"]>
@@ -200332,6 +200964,10 @@ export namespace Prisma {
     readonly amount: FieldRef<"PayrollAdjustment", 'Decimal'>
     readonly reason: FieldRef<"PayrollAdjustment", 'String'>
     readonly requestKey: FieldRef<"PayrollAdjustment", 'String'>
+    readonly bonusType: FieldRef<"PayrollAdjustment", 'String'>
+    readonly originalAmount: FieldRef<"PayrollAdjustment", 'Decimal'>
+    readonly originalCurrency: FieldRef<"PayrollAdjustment", 'String'>
+    readonly rate: FieldRef<"PayrollAdjustment", 'Decimal'>
     readonly createdBy: FieldRef<"PayrollAdjustment", 'String'>
     readonly createdAt: FieldRef<"PayrollAdjustment", 'DateTime'>
   }
@@ -202061,6 +202697,4692 @@ export namespace Prisma {
 
 
   /**
+   * Model TrainingPlanTemplate
+   */
+
+  export type AggregateTrainingPlanTemplate = {
+    _count: TrainingPlanTemplateCountAggregateOutputType | null
+    _avg: TrainingPlanTemplateAvgAggregateOutputType | null
+    _sum: TrainingPlanTemplateSumAggregateOutputType | null
+    _min: TrainingPlanTemplateMinAggregateOutputType | null
+    _max: TrainingPlanTemplateMaxAggregateOutputType | null
+  }
+
+  export type TrainingPlanTemplateAvgAggregateOutputType = {
+    version: number | null
+  }
+
+  export type TrainingPlanTemplateSumAggregateOutputType = {
+    version: number | null
+  }
+
+  export type TrainingPlanTemplateMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    key: string | null
+    version: number | null
+    name: string | null
+    qualificationLevel: string | null
+    createdBy: string | null
+    createdAt: Date | null
+  }
+
+  export type TrainingPlanTemplateMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    key: string | null
+    version: number | null
+    name: string | null
+    qualificationLevel: string | null
+    createdBy: string | null
+    createdAt: Date | null
+  }
+
+  export type TrainingPlanTemplateCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    key: number
+    version: number
+    name: number
+    qualificationLevel: number
+    items: number
+    createdBy: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type TrainingPlanTemplateAvgAggregateInputType = {
+    version?: true
+  }
+
+  export type TrainingPlanTemplateSumAggregateInputType = {
+    version?: true
+  }
+
+  export type TrainingPlanTemplateMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    key?: true
+    version?: true
+    name?: true
+    qualificationLevel?: true
+    createdBy?: true
+    createdAt?: true
+  }
+
+  export type TrainingPlanTemplateMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    key?: true
+    version?: true
+    name?: true
+    qualificationLevel?: true
+    createdBy?: true
+    createdAt?: true
+  }
+
+  export type TrainingPlanTemplateCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    key?: true
+    version?: true
+    name?: true
+    qualificationLevel?: true
+    items?: true
+    createdBy?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type TrainingPlanTemplateAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TrainingPlanTemplate to aggregate.
+     */
+    where?: TrainingPlanTemplateWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TrainingPlanTemplates to fetch.
+     */
+    orderBy?: TrainingPlanTemplateOrderByWithRelationInput | TrainingPlanTemplateOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: TrainingPlanTemplateWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TrainingPlanTemplates from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TrainingPlanTemplates.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned TrainingPlanTemplates
+    **/
+    _count?: true | TrainingPlanTemplateCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: TrainingPlanTemplateAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: TrainingPlanTemplateSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TrainingPlanTemplateMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TrainingPlanTemplateMaxAggregateInputType
+  }
+
+  export type GetTrainingPlanTemplateAggregateType<T extends TrainingPlanTemplateAggregateArgs> = {
+        [P in keyof T & keyof AggregateTrainingPlanTemplate]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTrainingPlanTemplate[P]>
+      : GetScalarType<T[P], AggregateTrainingPlanTemplate[P]>
+  }
+
+
+
+
+  export type TrainingPlanTemplateGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TrainingPlanTemplateWhereInput
+    orderBy?: TrainingPlanTemplateOrderByWithAggregationInput | TrainingPlanTemplateOrderByWithAggregationInput[]
+    by: TrainingPlanTemplateScalarFieldEnum[] | TrainingPlanTemplateScalarFieldEnum
+    having?: TrainingPlanTemplateScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TrainingPlanTemplateCountAggregateInputType | true
+    _avg?: TrainingPlanTemplateAvgAggregateInputType
+    _sum?: TrainingPlanTemplateSumAggregateInputType
+    _min?: TrainingPlanTemplateMinAggregateInputType
+    _max?: TrainingPlanTemplateMaxAggregateInputType
+  }
+
+  export type TrainingPlanTemplateGroupByOutputType = {
+    id: string
+    tenantId: string
+    key: string
+    version: number
+    name: string
+    qualificationLevel: string | null
+    items: JsonValue
+    createdBy: string | null
+    createdAt: Date
+    _count: TrainingPlanTemplateCountAggregateOutputType | null
+    _avg: TrainingPlanTemplateAvgAggregateOutputType | null
+    _sum: TrainingPlanTemplateSumAggregateOutputType | null
+    _min: TrainingPlanTemplateMinAggregateOutputType | null
+    _max: TrainingPlanTemplateMaxAggregateOutputType | null
+  }
+
+  type GetTrainingPlanTemplateGroupByPayload<T extends TrainingPlanTemplateGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<TrainingPlanTemplateGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TrainingPlanTemplateGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TrainingPlanTemplateGroupByOutputType[P]>
+            : GetScalarType<T[P], TrainingPlanTemplateGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type TrainingPlanTemplateSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    key?: boolean
+    version?: boolean
+    name?: boolean
+    qualificationLevel?: boolean
+    items?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["trainingPlanTemplate"]>
+
+  export type TrainingPlanTemplateSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    key?: boolean
+    version?: boolean
+    name?: boolean
+    qualificationLevel?: boolean
+    items?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["trainingPlanTemplate"]>
+
+  export type TrainingPlanTemplateSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    key?: boolean
+    version?: boolean
+    name?: boolean
+    qualificationLevel?: boolean
+    items?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["trainingPlanTemplate"]>
+
+  export type TrainingPlanTemplateSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    key?: boolean
+    version?: boolean
+    name?: boolean
+    qualificationLevel?: boolean
+    items?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+  }
+
+  export type TrainingPlanTemplateOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "key" | "version" | "name" | "qualificationLevel" | "items" | "createdBy" | "createdAt", ExtArgs["result"]["trainingPlanTemplate"]>
+  export type TrainingPlanTemplateInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type TrainingPlanTemplateIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type TrainingPlanTemplateIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+
+  export type $TrainingPlanTemplatePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "TrainingPlanTemplate"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      key: string
+      version: number
+      name: string
+      qualificationLevel: string | null
+      /**
+       * [{ key, text }] — immutable per version.
+       */
+      items: Prisma.JsonValue
+      createdBy: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["trainingPlanTemplate"]>
+    composites: {}
+  }
+
+  type TrainingPlanTemplateGetPayload<S extends boolean | null | undefined | TrainingPlanTemplateDefaultArgs> = $Result.GetResult<Prisma.$TrainingPlanTemplatePayload, S>
+
+  type TrainingPlanTemplateCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<TrainingPlanTemplateFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: TrainingPlanTemplateCountAggregateInputType | true
+    }
+
+  export interface TrainingPlanTemplateDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['TrainingPlanTemplate'], meta: { name: 'TrainingPlanTemplate' } }
+    /**
+     * Find zero or one TrainingPlanTemplate that matches the filter.
+     * @param {TrainingPlanTemplateFindUniqueArgs} args - Arguments to find a TrainingPlanTemplate
+     * @example
+     * // Get one TrainingPlanTemplate
+     * const trainingPlanTemplate = await prisma.trainingPlanTemplate.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends TrainingPlanTemplateFindUniqueArgs>(args: SelectSubset<T, TrainingPlanTemplateFindUniqueArgs<ExtArgs>>): Prisma__TrainingPlanTemplateClient<$Result.GetResult<Prisma.$TrainingPlanTemplatePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one TrainingPlanTemplate that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {TrainingPlanTemplateFindUniqueOrThrowArgs} args - Arguments to find a TrainingPlanTemplate
+     * @example
+     * // Get one TrainingPlanTemplate
+     * const trainingPlanTemplate = await prisma.trainingPlanTemplate.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends TrainingPlanTemplateFindUniqueOrThrowArgs>(args: SelectSubset<T, TrainingPlanTemplateFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TrainingPlanTemplateClient<$Result.GetResult<Prisma.$TrainingPlanTemplatePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TrainingPlanTemplate that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TrainingPlanTemplateFindFirstArgs} args - Arguments to find a TrainingPlanTemplate
+     * @example
+     * // Get one TrainingPlanTemplate
+     * const trainingPlanTemplate = await prisma.trainingPlanTemplate.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends TrainingPlanTemplateFindFirstArgs>(args?: SelectSubset<T, TrainingPlanTemplateFindFirstArgs<ExtArgs>>): Prisma__TrainingPlanTemplateClient<$Result.GetResult<Prisma.$TrainingPlanTemplatePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TrainingPlanTemplate that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TrainingPlanTemplateFindFirstOrThrowArgs} args - Arguments to find a TrainingPlanTemplate
+     * @example
+     * // Get one TrainingPlanTemplate
+     * const trainingPlanTemplate = await prisma.trainingPlanTemplate.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends TrainingPlanTemplateFindFirstOrThrowArgs>(args?: SelectSubset<T, TrainingPlanTemplateFindFirstOrThrowArgs<ExtArgs>>): Prisma__TrainingPlanTemplateClient<$Result.GetResult<Prisma.$TrainingPlanTemplatePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more TrainingPlanTemplates that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TrainingPlanTemplateFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all TrainingPlanTemplates
+     * const trainingPlanTemplates = await prisma.trainingPlanTemplate.findMany()
+     * 
+     * // Get first 10 TrainingPlanTemplates
+     * const trainingPlanTemplates = await prisma.trainingPlanTemplate.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const trainingPlanTemplateWithIdOnly = await prisma.trainingPlanTemplate.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends TrainingPlanTemplateFindManyArgs>(args?: SelectSubset<T, TrainingPlanTemplateFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TrainingPlanTemplatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a TrainingPlanTemplate.
+     * @param {TrainingPlanTemplateCreateArgs} args - Arguments to create a TrainingPlanTemplate.
+     * @example
+     * // Create one TrainingPlanTemplate
+     * const TrainingPlanTemplate = await prisma.trainingPlanTemplate.create({
+     *   data: {
+     *     // ... data to create a TrainingPlanTemplate
+     *   }
+     * })
+     * 
+     */
+    create<T extends TrainingPlanTemplateCreateArgs>(args: SelectSubset<T, TrainingPlanTemplateCreateArgs<ExtArgs>>): Prisma__TrainingPlanTemplateClient<$Result.GetResult<Prisma.$TrainingPlanTemplatePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many TrainingPlanTemplates.
+     * @param {TrainingPlanTemplateCreateManyArgs} args - Arguments to create many TrainingPlanTemplates.
+     * @example
+     * // Create many TrainingPlanTemplates
+     * const trainingPlanTemplate = await prisma.trainingPlanTemplate.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends TrainingPlanTemplateCreateManyArgs>(args?: SelectSubset<T, TrainingPlanTemplateCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many TrainingPlanTemplates and returns the data saved in the database.
+     * @param {TrainingPlanTemplateCreateManyAndReturnArgs} args - Arguments to create many TrainingPlanTemplates.
+     * @example
+     * // Create many TrainingPlanTemplates
+     * const trainingPlanTemplate = await prisma.trainingPlanTemplate.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many TrainingPlanTemplates and only return the `id`
+     * const trainingPlanTemplateWithIdOnly = await prisma.trainingPlanTemplate.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends TrainingPlanTemplateCreateManyAndReturnArgs>(args?: SelectSubset<T, TrainingPlanTemplateCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TrainingPlanTemplatePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a TrainingPlanTemplate.
+     * @param {TrainingPlanTemplateDeleteArgs} args - Arguments to delete one TrainingPlanTemplate.
+     * @example
+     * // Delete one TrainingPlanTemplate
+     * const TrainingPlanTemplate = await prisma.trainingPlanTemplate.delete({
+     *   where: {
+     *     // ... filter to delete one TrainingPlanTemplate
+     *   }
+     * })
+     * 
+     */
+    delete<T extends TrainingPlanTemplateDeleteArgs>(args: SelectSubset<T, TrainingPlanTemplateDeleteArgs<ExtArgs>>): Prisma__TrainingPlanTemplateClient<$Result.GetResult<Prisma.$TrainingPlanTemplatePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one TrainingPlanTemplate.
+     * @param {TrainingPlanTemplateUpdateArgs} args - Arguments to update one TrainingPlanTemplate.
+     * @example
+     * // Update one TrainingPlanTemplate
+     * const trainingPlanTemplate = await prisma.trainingPlanTemplate.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends TrainingPlanTemplateUpdateArgs>(args: SelectSubset<T, TrainingPlanTemplateUpdateArgs<ExtArgs>>): Prisma__TrainingPlanTemplateClient<$Result.GetResult<Prisma.$TrainingPlanTemplatePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more TrainingPlanTemplates.
+     * @param {TrainingPlanTemplateDeleteManyArgs} args - Arguments to filter TrainingPlanTemplates to delete.
+     * @example
+     * // Delete a few TrainingPlanTemplates
+     * const { count } = await prisma.trainingPlanTemplate.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends TrainingPlanTemplateDeleteManyArgs>(args?: SelectSubset<T, TrainingPlanTemplateDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TrainingPlanTemplates.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TrainingPlanTemplateUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many TrainingPlanTemplates
+     * const trainingPlanTemplate = await prisma.trainingPlanTemplate.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends TrainingPlanTemplateUpdateManyArgs>(args: SelectSubset<T, TrainingPlanTemplateUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TrainingPlanTemplates and returns the data updated in the database.
+     * @param {TrainingPlanTemplateUpdateManyAndReturnArgs} args - Arguments to update many TrainingPlanTemplates.
+     * @example
+     * // Update many TrainingPlanTemplates
+     * const trainingPlanTemplate = await prisma.trainingPlanTemplate.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more TrainingPlanTemplates and only return the `id`
+     * const trainingPlanTemplateWithIdOnly = await prisma.trainingPlanTemplate.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends TrainingPlanTemplateUpdateManyAndReturnArgs>(args: SelectSubset<T, TrainingPlanTemplateUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TrainingPlanTemplatePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one TrainingPlanTemplate.
+     * @param {TrainingPlanTemplateUpsertArgs} args - Arguments to update or create a TrainingPlanTemplate.
+     * @example
+     * // Update or create a TrainingPlanTemplate
+     * const trainingPlanTemplate = await prisma.trainingPlanTemplate.upsert({
+     *   create: {
+     *     // ... data to create a TrainingPlanTemplate
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the TrainingPlanTemplate we want to update
+     *   }
+     * })
+     */
+    upsert<T extends TrainingPlanTemplateUpsertArgs>(args: SelectSubset<T, TrainingPlanTemplateUpsertArgs<ExtArgs>>): Prisma__TrainingPlanTemplateClient<$Result.GetResult<Prisma.$TrainingPlanTemplatePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of TrainingPlanTemplates.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TrainingPlanTemplateCountArgs} args - Arguments to filter TrainingPlanTemplates to count.
+     * @example
+     * // Count the number of TrainingPlanTemplates
+     * const count = await prisma.trainingPlanTemplate.count({
+     *   where: {
+     *     // ... the filter for the TrainingPlanTemplates we want to count
+     *   }
+     * })
+    **/
+    count<T extends TrainingPlanTemplateCountArgs>(
+      args?: Subset<T, TrainingPlanTemplateCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TrainingPlanTemplateCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a TrainingPlanTemplate.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TrainingPlanTemplateAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TrainingPlanTemplateAggregateArgs>(args: Subset<T, TrainingPlanTemplateAggregateArgs>): Prisma.PrismaPromise<GetTrainingPlanTemplateAggregateType<T>>
+
+    /**
+     * Group by TrainingPlanTemplate.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TrainingPlanTemplateGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends TrainingPlanTemplateGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: TrainingPlanTemplateGroupByArgs['orderBy'] }
+        : { orderBy?: TrainingPlanTemplateGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, TrainingPlanTemplateGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTrainingPlanTemplateGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the TrainingPlanTemplate model
+   */
+  readonly fields: TrainingPlanTemplateFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for TrainingPlanTemplate.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__TrainingPlanTemplateClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the TrainingPlanTemplate model
+   */
+  interface TrainingPlanTemplateFieldRefs {
+    readonly id: FieldRef<"TrainingPlanTemplate", 'String'>
+    readonly tenantId: FieldRef<"TrainingPlanTemplate", 'String'>
+    readonly key: FieldRef<"TrainingPlanTemplate", 'String'>
+    readonly version: FieldRef<"TrainingPlanTemplate", 'Int'>
+    readonly name: FieldRef<"TrainingPlanTemplate", 'String'>
+    readonly qualificationLevel: FieldRef<"TrainingPlanTemplate", 'String'>
+    readonly items: FieldRef<"TrainingPlanTemplate", 'Json'>
+    readonly createdBy: FieldRef<"TrainingPlanTemplate", 'String'>
+    readonly createdAt: FieldRef<"TrainingPlanTemplate", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * TrainingPlanTemplate findUnique
+   */
+  export type TrainingPlanTemplateFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TrainingPlanTemplate
+     */
+    select?: TrainingPlanTemplateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TrainingPlanTemplate
+     */
+    omit?: TrainingPlanTemplateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TrainingPlanTemplateInclude<ExtArgs> | null
+    /**
+     * Filter, which TrainingPlanTemplate to fetch.
+     */
+    where: TrainingPlanTemplateWhereUniqueInput
+  }
+
+  /**
+   * TrainingPlanTemplate findUniqueOrThrow
+   */
+  export type TrainingPlanTemplateFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TrainingPlanTemplate
+     */
+    select?: TrainingPlanTemplateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TrainingPlanTemplate
+     */
+    omit?: TrainingPlanTemplateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TrainingPlanTemplateInclude<ExtArgs> | null
+    /**
+     * Filter, which TrainingPlanTemplate to fetch.
+     */
+    where: TrainingPlanTemplateWhereUniqueInput
+  }
+
+  /**
+   * TrainingPlanTemplate findFirst
+   */
+  export type TrainingPlanTemplateFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TrainingPlanTemplate
+     */
+    select?: TrainingPlanTemplateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TrainingPlanTemplate
+     */
+    omit?: TrainingPlanTemplateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TrainingPlanTemplateInclude<ExtArgs> | null
+    /**
+     * Filter, which TrainingPlanTemplate to fetch.
+     */
+    where?: TrainingPlanTemplateWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TrainingPlanTemplates to fetch.
+     */
+    orderBy?: TrainingPlanTemplateOrderByWithRelationInput | TrainingPlanTemplateOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TrainingPlanTemplates.
+     */
+    cursor?: TrainingPlanTemplateWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TrainingPlanTemplates from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TrainingPlanTemplates.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TrainingPlanTemplates.
+     */
+    distinct?: TrainingPlanTemplateScalarFieldEnum | TrainingPlanTemplateScalarFieldEnum[]
+  }
+
+  /**
+   * TrainingPlanTemplate findFirstOrThrow
+   */
+  export type TrainingPlanTemplateFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TrainingPlanTemplate
+     */
+    select?: TrainingPlanTemplateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TrainingPlanTemplate
+     */
+    omit?: TrainingPlanTemplateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TrainingPlanTemplateInclude<ExtArgs> | null
+    /**
+     * Filter, which TrainingPlanTemplate to fetch.
+     */
+    where?: TrainingPlanTemplateWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TrainingPlanTemplates to fetch.
+     */
+    orderBy?: TrainingPlanTemplateOrderByWithRelationInput | TrainingPlanTemplateOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TrainingPlanTemplates.
+     */
+    cursor?: TrainingPlanTemplateWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TrainingPlanTemplates from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TrainingPlanTemplates.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TrainingPlanTemplates.
+     */
+    distinct?: TrainingPlanTemplateScalarFieldEnum | TrainingPlanTemplateScalarFieldEnum[]
+  }
+
+  /**
+   * TrainingPlanTemplate findMany
+   */
+  export type TrainingPlanTemplateFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TrainingPlanTemplate
+     */
+    select?: TrainingPlanTemplateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TrainingPlanTemplate
+     */
+    omit?: TrainingPlanTemplateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TrainingPlanTemplateInclude<ExtArgs> | null
+    /**
+     * Filter, which TrainingPlanTemplates to fetch.
+     */
+    where?: TrainingPlanTemplateWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TrainingPlanTemplates to fetch.
+     */
+    orderBy?: TrainingPlanTemplateOrderByWithRelationInput | TrainingPlanTemplateOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing TrainingPlanTemplates.
+     */
+    cursor?: TrainingPlanTemplateWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TrainingPlanTemplates from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TrainingPlanTemplates.
+     */
+    skip?: number
+    distinct?: TrainingPlanTemplateScalarFieldEnum | TrainingPlanTemplateScalarFieldEnum[]
+  }
+
+  /**
+   * TrainingPlanTemplate create
+   */
+  export type TrainingPlanTemplateCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TrainingPlanTemplate
+     */
+    select?: TrainingPlanTemplateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TrainingPlanTemplate
+     */
+    omit?: TrainingPlanTemplateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TrainingPlanTemplateInclude<ExtArgs> | null
+    /**
+     * The data needed to create a TrainingPlanTemplate.
+     */
+    data: XOR<TrainingPlanTemplateCreateInput, TrainingPlanTemplateUncheckedCreateInput>
+  }
+
+  /**
+   * TrainingPlanTemplate createMany
+   */
+  export type TrainingPlanTemplateCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many TrainingPlanTemplates.
+     */
+    data: TrainingPlanTemplateCreateManyInput | TrainingPlanTemplateCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * TrainingPlanTemplate createManyAndReturn
+   */
+  export type TrainingPlanTemplateCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TrainingPlanTemplate
+     */
+    select?: TrainingPlanTemplateSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TrainingPlanTemplate
+     */
+    omit?: TrainingPlanTemplateOmit<ExtArgs> | null
+    /**
+     * The data used to create many TrainingPlanTemplates.
+     */
+    data: TrainingPlanTemplateCreateManyInput | TrainingPlanTemplateCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TrainingPlanTemplateIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * TrainingPlanTemplate update
+   */
+  export type TrainingPlanTemplateUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TrainingPlanTemplate
+     */
+    select?: TrainingPlanTemplateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TrainingPlanTemplate
+     */
+    omit?: TrainingPlanTemplateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TrainingPlanTemplateInclude<ExtArgs> | null
+    /**
+     * The data needed to update a TrainingPlanTemplate.
+     */
+    data: XOR<TrainingPlanTemplateUpdateInput, TrainingPlanTemplateUncheckedUpdateInput>
+    /**
+     * Choose, which TrainingPlanTemplate to update.
+     */
+    where: TrainingPlanTemplateWhereUniqueInput
+  }
+
+  /**
+   * TrainingPlanTemplate updateMany
+   */
+  export type TrainingPlanTemplateUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update TrainingPlanTemplates.
+     */
+    data: XOR<TrainingPlanTemplateUpdateManyMutationInput, TrainingPlanTemplateUncheckedUpdateManyInput>
+    /**
+     * Filter which TrainingPlanTemplates to update
+     */
+    where?: TrainingPlanTemplateWhereInput
+    /**
+     * Limit how many TrainingPlanTemplates to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * TrainingPlanTemplate updateManyAndReturn
+   */
+  export type TrainingPlanTemplateUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TrainingPlanTemplate
+     */
+    select?: TrainingPlanTemplateSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TrainingPlanTemplate
+     */
+    omit?: TrainingPlanTemplateOmit<ExtArgs> | null
+    /**
+     * The data used to update TrainingPlanTemplates.
+     */
+    data: XOR<TrainingPlanTemplateUpdateManyMutationInput, TrainingPlanTemplateUncheckedUpdateManyInput>
+    /**
+     * Filter which TrainingPlanTemplates to update
+     */
+    where?: TrainingPlanTemplateWhereInput
+    /**
+     * Limit how many TrainingPlanTemplates to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TrainingPlanTemplateIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * TrainingPlanTemplate upsert
+   */
+  export type TrainingPlanTemplateUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TrainingPlanTemplate
+     */
+    select?: TrainingPlanTemplateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TrainingPlanTemplate
+     */
+    omit?: TrainingPlanTemplateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TrainingPlanTemplateInclude<ExtArgs> | null
+    /**
+     * The filter to search for the TrainingPlanTemplate to update in case it exists.
+     */
+    where: TrainingPlanTemplateWhereUniqueInput
+    /**
+     * In case the TrainingPlanTemplate found by the `where` argument doesn't exist, create a new TrainingPlanTemplate with this data.
+     */
+    create: XOR<TrainingPlanTemplateCreateInput, TrainingPlanTemplateUncheckedCreateInput>
+    /**
+     * In case the TrainingPlanTemplate was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<TrainingPlanTemplateUpdateInput, TrainingPlanTemplateUncheckedUpdateInput>
+  }
+
+  /**
+   * TrainingPlanTemplate delete
+   */
+  export type TrainingPlanTemplateDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TrainingPlanTemplate
+     */
+    select?: TrainingPlanTemplateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TrainingPlanTemplate
+     */
+    omit?: TrainingPlanTemplateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TrainingPlanTemplateInclude<ExtArgs> | null
+    /**
+     * Filter which TrainingPlanTemplate to delete.
+     */
+    where: TrainingPlanTemplateWhereUniqueInput
+  }
+
+  /**
+   * TrainingPlanTemplate deleteMany
+   */
+  export type TrainingPlanTemplateDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TrainingPlanTemplates to delete
+     */
+    where?: TrainingPlanTemplateWhereInput
+    /**
+     * Limit how many TrainingPlanTemplates to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * TrainingPlanTemplate without action
+   */
+  export type TrainingPlanTemplateDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TrainingPlanTemplate
+     */
+    select?: TrainingPlanTemplateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TrainingPlanTemplate
+     */
+    omit?: TrainingPlanTemplateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TrainingPlanTemplateInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model TrainingPlan
+   */
+
+  export type AggregateTrainingPlan = {
+    _count: TrainingPlanCountAggregateOutputType | null
+    _avg: TrainingPlanAvgAggregateOutputType | null
+    _sum: TrainingPlanSumAggregateOutputType | null
+    _min: TrainingPlanMinAggregateOutputType | null
+    _max: TrainingPlanMaxAggregateOutputType | null
+  }
+
+  export type TrainingPlanAvgAggregateOutputType = {
+    templateVersion: number | null
+  }
+
+  export type TrainingPlanSumAggregateOutputType = {
+    templateVersion: number | null
+  }
+
+  export type TrainingPlanMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    employeeId: string | null
+    templateKey: string | null
+    templateVersion: number | null
+    title: string | null
+    status: string | null
+    dueDate: Date | null
+    recheckDate: Date | null
+    requestKey: string | null
+    createdBy: string | null
+    createdAt: Date | null
+    closedAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type TrainingPlanMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    employeeId: string | null
+    templateKey: string | null
+    templateVersion: number | null
+    title: string | null
+    status: string | null
+    dueDate: Date | null
+    recheckDate: Date | null
+    requestKey: string | null
+    createdBy: string | null
+    createdAt: Date | null
+    closedAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type TrainingPlanCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    employeeId: number
+    templateKey: number
+    templateVersion: number
+    title: number
+    status: number
+    dueDate: number
+    recheckDate: number
+    requestKey: number
+    createdBy: number
+    createdAt: number
+    closedAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type TrainingPlanAvgAggregateInputType = {
+    templateVersion?: true
+  }
+
+  export type TrainingPlanSumAggregateInputType = {
+    templateVersion?: true
+  }
+
+  export type TrainingPlanMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    employeeId?: true
+    templateKey?: true
+    templateVersion?: true
+    title?: true
+    status?: true
+    dueDate?: true
+    recheckDate?: true
+    requestKey?: true
+    createdBy?: true
+    createdAt?: true
+    closedAt?: true
+    updatedAt?: true
+  }
+
+  export type TrainingPlanMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    employeeId?: true
+    templateKey?: true
+    templateVersion?: true
+    title?: true
+    status?: true
+    dueDate?: true
+    recheckDate?: true
+    requestKey?: true
+    createdBy?: true
+    createdAt?: true
+    closedAt?: true
+    updatedAt?: true
+  }
+
+  export type TrainingPlanCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    employeeId?: true
+    templateKey?: true
+    templateVersion?: true
+    title?: true
+    status?: true
+    dueDate?: true
+    recheckDate?: true
+    requestKey?: true
+    createdBy?: true
+    createdAt?: true
+    closedAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type TrainingPlanAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TrainingPlan to aggregate.
+     */
+    where?: TrainingPlanWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TrainingPlans to fetch.
+     */
+    orderBy?: TrainingPlanOrderByWithRelationInput | TrainingPlanOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: TrainingPlanWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TrainingPlans from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TrainingPlans.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned TrainingPlans
+    **/
+    _count?: true | TrainingPlanCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: TrainingPlanAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: TrainingPlanSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TrainingPlanMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TrainingPlanMaxAggregateInputType
+  }
+
+  export type GetTrainingPlanAggregateType<T extends TrainingPlanAggregateArgs> = {
+        [P in keyof T & keyof AggregateTrainingPlan]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTrainingPlan[P]>
+      : GetScalarType<T[P], AggregateTrainingPlan[P]>
+  }
+
+
+
+
+  export type TrainingPlanGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TrainingPlanWhereInput
+    orderBy?: TrainingPlanOrderByWithAggregationInput | TrainingPlanOrderByWithAggregationInput[]
+    by: TrainingPlanScalarFieldEnum[] | TrainingPlanScalarFieldEnum
+    having?: TrainingPlanScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TrainingPlanCountAggregateInputType | true
+    _avg?: TrainingPlanAvgAggregateInputType
+    _sum?: TrainingPlanSumAggregateInputType
+    _min?: TrainingPlanMinAggregateInputType
+    _max?: TrainingPlanMaxAggregateInputType
+  }
+
+  export type TrainingPlanGroupByOutputType = {
+    id: string
+    tenantId: string
+    employeeId: string
+    templateKey: string
+    templateVersion: number
+    title: string
+    status: string
+    dueDate: Date
+    recheckDate: Date | null
+    requestKey: string
+    createdBy: string | null
+    createdAt: Date
+    closedAt: Date | null
+    updatedAt: Date
+    _count: TrainingPlanCountAggregateOutputType | null
+    _avg: TrainingPlanAvgAggregateOutputType | null
+    _sum: TrainingPlanSumAggregateOutputType | null
+    _min: TrainingPlanMinAggregateOutputType | null
+    _max: TrainingPlanMaxAggregateOutputType | null
+  }
+
+  type GetTrainingPlanGroupByPayload<T extends TrainingPlanGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<TrainingPlanGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TrainingPlanGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TrainingPlanGroupByOutputType[P]>
+            : GetScalarType<T[P], TrainingPlanGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type TrainingPlanSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    employeeId?: boolean
+    templateKey?: boolean
+    templateVersion?: boolean
+    title?: boolean
+    status?: boolean
+    dueDate?: boolean
+    recheckDate?: boolean
+    requestKey?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    closedAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    items?: boolean | TrainingPlan$itemsArgs<ExtArgs>
+    _count?: boolean | TrainingPlanCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["trainingPlan"]>
+
+  export type TrainingPlanSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    employeeId?: boolean
+    templateKey?: boolean
+    templateVersion?: boolean
+    title?: boolean
+    status?: boolean
+    dueDate?: boolean
+    recheckDate?: boolean
+    requestKey?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    closedAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["trainingPlan"]>
+
+  export type TrainingPlanSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    employeeId?: boolean
+    templateKey?: boolean
+    templateVersion?: boolean
+    title?: boolean
+    status?: boolean
+    dueDate?: boolean
+    recheckDate?: boolean
+    requestKey?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    closedAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["trainingPlan"]>
+
+  export type TrainingPlanSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    employeeId?: boolean
+    templateKey?: boolean
+    templateVersion?: boolean
+    title?: boolean
+    status?: boolean
+    dueDate?: boolean
+    recheckDate?: boolean
+    requestKey?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    closedAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type TrainingPlanOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "employeeId" | "templateKey" | "templateVersion" | "title" | "status" | "dueDate" | "recheckDate" | "requestKey" | "createdBy" | "createdAt" | "closedAt" | "updatedAt", ExtArgs["result"]["trainingPlan"]>
+  export type TrainingPlanInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    items?: boolean | TrainingPlan$itemsArgs<ExtArgs>
+    _count?: boolean | TrainingPlanCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type TrainingPlanIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type TrainingPlanIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+
+  export type $TrainingPlanPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "TrainingPlan"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+      items: Prisma.$TrainingPlanItemPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      employeeId: string
+      templateKey: string
+      templateVersion: number
+      title: string
+      /**
+       * OPEN or CLOSED (only when every item is in a closed status).
+       */
+      status: string
+      dueDate: Date
+      recheckDate: Date | null
+      requestKey: string
+      createdBy: string | null
+      createdAt: Date
+      closedAt: Date | null
+      updatedAt: Date
+    }, ExtArgs["result"]["trainingPlan"]>
+    composites: {}
+  }
+
+  type TrainingPlanGetPayload<S extends boolean | null | undefined | TrainingPlanDefaultArgs> = $Result.GetResult<Prisma.$TrainingPlanPayload, S>
+
+  type TrainingPlanCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<TrainingPlanFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: TrainingPlanCountAggregateInputType | true
+    }
+
+  export interface TrainingPlanDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['TrainingPlan'], meta: { name: 'TrainingPlan' } }
+    /**
+     * Find zero or one TrainingPlan that matches the filter.
+     * @param {TrainingPlanFindUniqueArgs} args - Arguments to find a TrainingPlan
+     * @example
+     * // Get one TrainingPlan
+     * const trainingPlan = await prisma.trainingPlan.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends TrainingPlanFindUniqueArgs>(args: SelectSubset<T, TrainingPlanFindUniqueArgs<ExtArgs>>): Prisma__TrainingPlanClient<$Result.GetResult<Prisma.$TrainingPlanPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one TrainingPlan that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {TrainingPlanFindUniqueOrThrowArgs} args - Arguments to find a TrainingPlan
+     * @example
+     * // Get one TrainingPlan
+     * const trainingPlan = await prisma.trainingPlan.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends TrainingPlanFindUniqueOrThrowArgs>(args: SelectSubset<T, TrainingPlanFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TrainingPlanClient<$Result.GetResult<Prisma.$TrainingPlanPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TrainingPlan that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TrainingPlanFindFirstArgs} args - Arguments to find a TrainingPlan
+     * @example
+     * // Get one TrainingPlan
+     * const trainingPlan = await prisma.trainingPlan.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends TrainingPlanFindFirstArgs>(args?: SelectSubset<T, TrainingPlanFindFirstArgs<ExtArgs>>): Prisma__TrainingPlanClient<$Result.GetResult<Prisma.$TrainingPlanPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TrainingPlan that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TrainingPlanFindFirstOrThrowArgs} args - Arguments to find a TrainingPlan
+     * @example
+     * // Get one TrainingPlan
+     * const trainingPlan = await prisma.trainingPlan.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends TrainingPlanFindFirstOrThrowArgs>(args?: SelectSubset<T, TrainingPlanFindFirstOrThrowArgs<ExtArgs>>): Prisma__TrainingPlanClient<$Result.GetResult<Prisma.$TrainingPlanPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more TrainingPlans that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TrainingPlanFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all TrainingPlans
+     * const trainingPlans = await prisma.trainingPlan.findMany()
+     * 
+     * // Get first 10 TrainingPlans
+     * const trainingPlans = await prisma.trainingPlan.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const trainingPlanWithIdOnly = await prisma.trainingPlan.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends TrainingPlanFindManyArgs>(args?: SelectSubset<T, TrainingPlanFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TrainingPlanPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a TrainingPlan.
+     * @param {TrainingPlanCreateArgs} args - Arguments to create a TrainingPlan.
+     * @example
+     * // Create one TrainingPlan
+     * const TrainingPlan = await prisma.trainingPlan.create({
+     *   data: {
+     *     // ... data to create a TrainingPlan
+     *   }
+     * })
+     * 
+     */
+    create<T extends TrainingPlanCreateArgs>(args: SelectSubset<T, TrainingPlanCreateArgs<ExtArgs>>): Prisma__TrainingPlanClient<$Result.GetResult<Prisma.$TrainingPlanPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many TrainingPlans.
+     * @param {TrainingPlanCreateManyArgs} args - Arguments to create many TrainingPlans.
+     * @example
+     * // Create many TrainingPlans
+     * const trainingPlan = await prisma.trainingPlan.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends TrainingPlanCreateManyArgs>(args?: SelectSubset<T, TrainingPlanCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many TrainingPlans and returns the data saved in the database.
+     * @param {TrainingPlanCreateManyAndReturnArgs} args - Arguments to create many TrainingPlans.
+     * @example
+     * // Create many TrainingPlans
+     * const trainingPlan = await prisma.trainingPlan.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many TrainingPlans and only return the `id`
+     * const trainingPlanWithIdOnly = await prisma.trainingPlan.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends TrainingPlanCreateManyAndReturnArgs>(args?: SelectSubset<T, TrainingPlanCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TrainingPlanPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a TrainingPlan.
+     * @param {TrainingPlanDeleteArgs} args - Arguments to delete one TrainingPlan.
+     * @example
+     * // Delete one TrainingPlan
+     * const TrainingPlan = await prisma.trainingPlan.delete({
+     *   where: {
+     *     // ... filter to delete one TrainingPlan
+     *   }
+     * })
+     * 
+     */
+    delete<T extends TrainingPlanDeleteArgs>(args: SelectSubset<T, TrainingPlanDeleteArgs<ExtArgs>>): Prisma__TrainingPlanClient<$Result.GetResult<Prisma.$TrainingPlanPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one TrainingPlan.
+     * @param {TrainingPlanUpdateArgs} args - Arguments to update one TrainingPlan.
+     * @example
+     * // Update one TrainingPlan
+     * const trainingPlan = await prisma.trainingPlan.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends TrainingPlanUpdateArgs>(args: SelectSubset<T, TrainingPlanUpdateArgs<ExtArgs>>): Prisma__TrainingPlanClient<$Result.GetResult<Prisma.$TrainingPlanPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more TrainingPlans.
+     * @param {TrainingPlanDeleteManyArgs} args - Arguments to filter TrainingPlans to delete.
+     * @example
+     * // Delete a few TrainingPlans
+     * const { count } = await prisma.trainingPlan.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends TrainingPlanDeleteManyArgs>(args?: SelectSubset<T, TrainingPlanDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TrainingPlans.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TrainingPlanUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many TrainingPlans
+     * const trainingPlan = await prisma.trainingPlan.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends TrainingPlanUpdateManyArgs>(args: SelectSubset<T, TrainingPlanUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TrainingPlans and returns the data updated in the database.
+     * @param {TrainingPlanUpdateManyAndReturnArgs} args - Arguments to update many TrainingPlans.
+     * @example
+     * // Update many TrainingPlans
+     * const trainingPlan = await prisma.trainingPlan.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more TrainingPlans and only return the `id`
+     * const trainingPlanWithIdOnly = await prisma.trainingPlan.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends TrainingPlanUpdateManyAndReturnArgs>(args: SelectSubset<T, TrainingPlanUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TrainingPlanPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one TrainingPlan.
+     * @param {TrainingPlanUpsertArgs} args - Arguments to update or create a TrainingPlan.
+     * @example
+     * // Update or create a TrainingPlan
+     * const trainingPlan = await prisma.trainingPlan.upsert({
+     *   create: {
+     *     // ... data to create a TrainingPlan
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the TrainingPlan we want to update
+     *   }
+     * })
+     */
+    upsert<T extends TrainingPlanUpsertArgs>(args: SelectSubset<T, TrainingPlanUpsertArgs<ExtArgs>>): Prisma__TrainingPlanClient<$Result.GetResult<Prisma.$TrainingPlanPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of TrainingPlans.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TrainingPlanCountArgs} args - Arguments to filter TrainingPlans to count.
+     * @example
+     * // Count the number of TrainingPlans
+     * const count = await prisma.trainingPlan.count({
+     *   where: {
+     *     // ... the filter for the TrainingPlans we want to count
+     *   }
+     * })
+    **/
+    count<T extends TrainingPlanCountArgs>(
+      args?: Subset<T, TrainingPlanCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TrainingPlanCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a TrainingPlan.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TrainingPlanAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TrainingPlanAggregateArgs>(args: Subset<T, TrainingPlanAggregateArgs>): Prisma.PrismaPromise<GetTrainingPlanAggregateType<T>>
+
+    /**
+     * Group by TrainingPlan.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TrainingPlanGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends TrainingPlanGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: TrainingPlanGroupByArgs['orderBy'] }
+        : { orderBy?: TrainingPlanGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, TrainingPlanGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTrainingPlanGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the TrainingPlan model
+   */
+  readonly fields: TrainingPlanFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for TrainingPlan.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__TrainingPlanClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    items<T extends TrainingPlan$itemsArgs<ExtArgs> = {}>(args?: Subset<T, TrainingPlan$itemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TrainingPlanItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the TrainingPlan model
+   */
+  interface TrainingPlanFieldRefs {
+    readonly id: FieldRef<"TrainingPlan", 'String'>
+    readonly tenantId: FieldRef<"TrainingPlan", 'String'>
+    readonly employeeId: FieldRef<"TrainingPlan", 'String'>
+    readonly templateKey: FieldRef<"TrainingPlan", 'String'>
+    readonly templateVersion: FieldRef<"TrainingPlan", 'Int'>
+    readonly title: FieldRef<"TrainingPlan", 'String'>
+    readonly status: FieldRef<"TrainingPlan", 'String'>
+    readonly dueDate: FieldRef<"TrainingPlan", 'DateTime'>
+    readonly recheckDate: FieldRef<"TrainingPlan", 'DateTime'>
+    readonly requestKey: FieldRef<"TrainingPlan", 'String'>
+    readonly createdBy: FieldRef<"TrainingPlan", 'String'>
+    readonly createdAt: FieldRef<"TrainingPlan", 'DateTime'>
+    readonly closedAt: FieldRef<"TrainingPlan", 'DateTime'>
+    readonly updatedAt: FieldRef<"TrainingPlan", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * TrainingPlan findUnique
+   */
+  export type TrainingPlanFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TrainingPlan
+     */
+    select?: TrainingPlanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TrainingPlan
+     */
+    omit?: TrainingPlanOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TrainingPlanInclude<ExtArgs> | null
+    /**
+     * Filter, which TrainingPlan to fetch.
+     */
+    where: TrainingPlanWhereUniqueInput
+  }
+
+  /**
+   * TrainingPlan findUniqueOrThrow
+   */
+  export type TrainingPlanFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TrainingPlan
+     */
+    select?: TrainingPlanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TrainingPlan
+     */
+    omit?: TrainingPlanOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TrainingPlanInclude<ExtArgs> | null
+    /**
+     * Filter, which TrainingPlan to fetch.
+     */
+    where: TrainingPlanWhereUniqueInput
+  }
+
+  /**
+   * TrainingPlan findFirst
+   */
+  export type TrainingPlanFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TrainingPlan
+     */
+    select?: TrainingPlanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TrainingPlan
+     */
+    omit?: TrainingPlanOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TrainingPlanInclude<ExtArgs> | null
+    /**
+     * Filter, which TrainingPlan to fetch.
+     */
+    where?: TrainingPlanWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TrainingPlans to fetch.
+     */
+    orderBy?: TrainingPlanOrderByWithRelationInput | TrainingPlanOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TrainingPlans.
+     */
+    cursor?: TrainingPlanWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TrainingPlans from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TrainingPlans.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TrainingPlans.
+     */
+    distinct?: TrainingPlanScalarFieldEnum | TrainingPlanScalarFieldEnum[]
+  }
+
+  /**
+   * TrainingPlan findFirstOrThrow
+   */
+  export type TrainingPlanFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TrainingPlan
+     */
+    select?: TrainingPlanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TrainingPlan
+     */
+    omit?: TrainingPlanOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TrainingPlanInclude<ExtArgs> | null
+    /**
+     * Filter, which TrainingPlan to fetch.
+     */
+    where?: TrainingPlanWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TrainingPlans to fetch.
+     */
+    orderBy?: TrainingPlanOrderByWithRelationInput | TrainingPlanOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TrainingPlans.
+     */
+    cursor?: TrainingPlanWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TrainingPlans from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TrainingPlans.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TrainingPlans.
+     */
+    distinct?: TrainingPlanScalarFieldEnum | TrainingPlanScalarFieldEnum[]
+  }
+
+  /**
+   * TrainingPlan findMany
+   */
+  export type TrainingPlanFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TrainingPlan
+     */
+    select?: TrainingPlanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TrainingPlan
+     */
+    omit?: TrainingPlanOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TrainingPlanInclude<ExtArgs> | null
+    /**
+     * Filter, which TrainingPlans to fetch.
+     */
+    where?: TrainingPlanWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TrainingPlans to fetch.
+     */
+    orderBy?: TrainingPlanOrderByWithRelationInput | TrainingPlanOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing TrainingPlans.
+     */
+    cursor?: TrainingPlanWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TrainingPlans from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TrainingPlans.
+     */
+    skip?: number
+    distinct?: TrainingPlanScalarFieldEnum | TrainingPlanScalarFieldEnum[]
+  }
+
+  /**
+   * TrainingPlan create
+   */
+  export type TrainingPlanCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TrainingPlan
+     */
+    select?: TrainingPlanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TrainingPlan
+     */
+    omit?: TrainingPlanOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TrainingPlanInclude<ExtArgs> | null
+    /**
+     * The data needed to create a TrainingPlan.
+     */
+    data: XOR<TrainingPlanCreateInput, TrainingPlanUncheckedCreateInput>
+  }
+
+  /**
+   * TrainingPlan createMany
+   */
+  export type TrainingPlanCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many TrainingPlans.
+     */
+    data: TrainingPlanCreateManyInput | TrainingPlanCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * TrainingPlan createManyAndReturn
+   */
+  export type TrainingPlanCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TrainingPlan
+     */
+    select?: TrainingPlanSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TrainingPlan
+     */
+    omit?: TrainingPlanOmit<ExtArgs> | null
+    /**
+     * The data used to create many TrainingPlans.
+     */
+    data: TrainingPlanCreateManyInput | TrainingPlanCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TrainingPlanIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * TrainingPlan update
+   */
+  export type TrainingPlanUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TrainingPlan
+     */
+    select?: TrainingPlanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TrainingPlan
+     */
+    omit?: TrainingPlanOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TrainingPlanInclude<ExtArgs> | null
+    /**
+     * The data needed to update a TrainingPlan.
+     */
+    data: XOR<TrainingPlanUpdateInput, TrainingPlanUncheckedUpdateInput>
+    /**
+     * Choose, which TrainingPlan to update.
+     */
+    where: TrainingPlanWhereUniqueInput
+  }
+
+  /**
+   * TrainingPlan updateMany
+   */
+  export type TrainingPlanUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update TrainingPlans.
+     */
+    data: XOR<TrainingPlanUpdateManyMutationInput, TrainingPlanUncheckedUpdateManyInput>
+    /**
+     * Filter which TrainingPlans to update
+     */
+    where?: TrainingPlanWhereInput
+    /**
+     * Limit how many TrainingPlans to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * TrainingPlan updateManyAndReturn
+   */
+  export type TrainingPlanUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TrainingPlan
+     */
+    select?: TrainingPlanSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TrainingPlan
+     */
+    omit?: TrainingPlanOmit<ExtArgs> | null
+    /**
+     * The data used to update TrainingPlans.
+     */
+    data: XOR<TrainingPlanUpdateManyMutationInput, TrainingPlanUncheckedUpdateManyInput>
+    /**
+     * Filter which TrainingPlans to update
+     */
+    where?: TrainingPlanWhereInput
+    /**
+     * Limit how many TrainingPlans to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TrainingPlanIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * TrainingPlan upsert
+   */
+  export type TrainingPlanUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TrainingPlan
+     */
+    select?: TrainingPlanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TrainingPlan
+     */
+    omit?: TrainingPlanOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TrainingPlanInclude<ExtArgs> | null
+    /**
+     * The filter to search for the TrainingPlan to update in case it exists.
+     */
+    where: TrainingPlanWhereUniqueInput
+    /**
+     * In case the TrainingPlan found by the `where` argument doesn't exist, create a new TrainingPlan with this data.
+     */
+    create: XOR<TrainingPlanCreateInput, TrainingPlanUncheckedCreateInput>
+    /**
+     * In case the TrainingPlan was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<TrainingPlanUpdateInput, TrainingPlanUncheckedUpdateInput>
+  }
+
+  /**
+   * TrainingPlan delete
+   */
+  export type TrainingPlanDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TrainingPlan
+     */
+    select?: TrainingPlanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TrainingPlan
+     */
+    omit?: TrainingPlanOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TrainingPlanInclude<ExtArgs> | null
+    /**
+     * Filter which TrainingPlan to delete.
+     */
+    where: TrainingPlanWhereUniqueInput
+  }
+
+  /**
+   * TrainingPlan deleteMany
+   */
+  export type TrainingPlanDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TrainingPlans to delete
+     */
+    where?: TrainingPlanWhereInput
+    /**
+     * Limit how many TrainingPlans to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * TrainingPlan.items
+   */
+  export type TrainingPlan$itemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TrainingPlanItem
+     */
+    select?: TrainingPlanItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TrainingPlanItem
+     */
+    omit?: TrainingPlanItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TrainingPlanItemInclude<ExtArgs> | null
+    where?: TrainingPlanItemWhereInput
+    orderBy?: TrainingPlanItemOrderByWithRelationInput | TrainingPlanItemOrderByWithRelationInput[]
+    cursor?: TrainingPlanItemWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TrainingPlanItemScalarFieldEnum | TrainingPlanItemScalarFieldEnum[]
+  }
+
+  /**
+   * TrainingPlan without action
+   */
+  export type TrainingPlanDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TrainingPlan
+     */
+    select?: TrainingPlanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TrainingPlan
+     */
+    omit?: TrainingPlanOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TrainingPlanInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model TrainingPlanItem
+   */
+
+  export type AggregateTrainingPlanItem = {
+    _count: TrainingPlanItemCountAggregateOutputType | null
+    _avg: TrainingPlanItemAvgAggregateOutputType | null
+    _sum: TrainingPlanItemSumAggregateOutputType | null
+    _min: TrainingPlanItemMinAggregateOutputType | null
+    _max: TrainingPlanItemMaxAggregateOutputType | null
+  }
+
+  export type TrainingPlanItemAvgAggregateOutputType = {
+    version: number | null
+  }
+
+  export type TrainingPlanItemSumAggregateOutputType = {
+    version: number | null
+  }
+
+  export type TrainingPlanItemMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    planId: string | null
+    itemKey: string | null
+    text: string | null
+    status: string | null
+    note: string | null
+    version: number | null
+    updatedBy: string | null
+    updatedAt: Date | null
+  }
+
+  export type TrainingPlanItemMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    planId: string | null
+    itemKey: string | null
+    text: string | null
+    status: string | null
+    note: string | null
+    version: number | null
+    updatedBy: string | null
+    updatedAt: Date | null
+  }
+
+  export type TrainingPlanItemCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    planId: number
+    itemKey: number
+    text: number
+    status: number
+    note: number
+    version: number
+    updatedBy: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type TrainingPlanItemAvgAggregateInputType = {
+    version?: true
+  }
+
+  export type TrainingPlanItemSumAggregateInputType = {
+    version?: true
+  }
+
+  export type TrainingPlanItemMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    planId?: true
+    itemKey?: true
+    text?: true
+    status?: true
+    note?: true
+    version?: true
+    updatedBy?: true
+    updatedAt?: true
+  }
+
+  export type TrainingPlanItemMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    planId?: true
+    itemKey?: true
+    text?: true
+    status?: true
+    note?: true
+    version?: true
+    updatedBy?: true
+    updatedAt?: true
+  }
+
+  export type TrainingPlanItemCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    planId?: true
+    itemKey?: true
+    text?: true
+    status?: true
+    note?: true
+    version?: true
+    updatedBy?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type TrainingPlanItemAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TrainingPlanItem to aggregate.
+     */
+    where?: TrainingPlanItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TrainingPlanItems to fetch.
+     */
+    orderBy?: TrainingPlanItemOrderByWithRelationInput | TrainingPlanItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: TrainingPlanItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TrainingPlanItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TrainingPlanItems.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned TrainingPlanItems
+    **/
+    _count?: true | TrainingPlanItemCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: TrainingPlanItemAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: TrainingPlanItemSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TrainingPlanItemMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TrainingPlanItemMaxAggregateInputType
+  }
+
+  export type GetTrainingPlanItemAggregateType<T extends TrainingPlanItemAggregateArgs> = {
+        [P in keyof T & keyof AggregateTrainingPlanItem]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTrainingPlanItem[P]>
+      : GetScalarType<T[P], AggregateTrainingPlanItem[P]>
+  }
+
+
+
+
+  export type TrainingPlanItemGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TrainingPlanItemWhereInput
+    orderBy?: TrainingPlanItemOrderByWithAggregationInput | TrainingPlanItemOrderByWithAggregationInput[]
+    by: TrainingPlanItemScalarFieldEnum[] | TrainingPlanItemScalarFieldEnum
+    having?: TrainingPlanItemScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TrainingPlanItemCountAggregateInputType | true
+    _avg?: TrainingPlanItemAvgAggregateInputType
+    _sum?: TrainingPlanItemSumAggregateInputType
+    _min?: TrainingPlanItemMinAggregateInputType
+    _max?: TrainingPlanItemMaxAggregateInputType
+  }
+
+  export type TrainingPlanItemGroupByOutputType = {
+    id: string
+    tenantId: string
+    planId: string
+    itemKey: string
+    text: string
+    status: string
+    note: string | null
+    version: number
+    updatedBy: string | null
+    updatedAt: Date
+    _count: TrainingPlanItemCountAggregateOutputType | null
+    _avg: TrainingPlanItemAvgAggregateOutputType | null
+    _sum: TrainingPlanItemSumAggregateOutputType | null
+    _min: TrainingPlanItemMinAggregateOutputType | null
+    _max: TrainingPlanItemMaxAggregateOutputType | null
+  }
+
+  type GetTrainingPlanItemGroupByPayload<T extends TrainingPlanItemGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<TrainingPlanItemGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TrainingPlanItemGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TrainingPlanItemGroupByOutputType[P]>
+            : GetScalarType<T[P], TrainingPlanItemGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type TrainingPlanItemSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    planId?: boolean
+    itemKey?: boolean
+    text?: boolean
+    status?: boolean
+    note?: boolean
+    version?: boolean
+    updatedBy?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    plan?: boolean | TrainingPlanDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["trainingPlanItem"]>
+
+  export type TrainingPlanItemSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    planId?: boolean
+    itemKey?: boolean
+    text?: boolean
+    status?: boolean
+    note?: boolean
+    version?: boolean
+    updatedBy?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    plan?: boolean | TrainingPlanDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["trainingPlanItem"]>
+
+  export type TrainingPlanItemSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    planId?: boolean
+    itemKey?: boolean
+    text?: boolean
+    status?: boolean
+    note?: boolean
+    version?: boolean
+    updatedBy?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    plan?: boolean | TrainingPlanDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["trainingPlanItem"]>
+
+  export type TrainingPlanItemSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    planId?: boolean
+    itemKey?: boolean
+    text?: boolean
+    status?: boolean
+    note?: boolean
+    version?: boolean
+    updatedBy?: boolean
+    updatedAt?: boolean
+  }
+
+  export type TrainingPlanItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "planId" | "itemKey" | "text" | "status" | "note" | "version" | "updatedBy" | "updatedAt", ExtArgs["result"]["trainingPlanItem"]>
+  export type TrainingPlanItemInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    plan?: boolean | TrainingPlanDefaultArgs<ExtArgs>
+  }
+  export type TrainingPlanItemIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    plan?: boolean | TrainingPlanDefaultArgs<ExtArgs>
+  }
+  export type TrainingPlanItemIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    plan?: boolean | TrainingPlanDefaultArgs<ExtArgs>
+  }
+
+  export type $TrainingPlanItemPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "TrainingPlanItem"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+      plan: Prisma.$TrainingPlanPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      planId: string
+      itemKey: string
+      text: string
+      status: string
+      note: string | null
+      version: number
+      updatedBy: string | null
+      updatedAt: Date
+    }, ExtArgs["result"]["trainingPlanItem"]>
+    composites: {}
+  }
+
+  type TrainingPlanItemGetPayload<S extends boolean | null | undefined | TrainingPlanItemDefaultArgs> = $Result.GetResult<Prisma.$TrainingPlanItemPayload, S>
+
+  type TrainingPlanItemCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<TrainingPlanItemFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: TrainingPlanItemCountAggregateInputType | true
+    }
+
+  export interface TrainingPlanItemDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['TrainingPlanItem'], meta: { name: 'TrainingPlanItem' } }
+    /**
+     * Find zero or one TrainingPlanItem that matches the filter.
+     * @param {TrainingPlanItemFindUniqueArgs} args - Arguments to find a TrainingPlanItem
+     * @example
+     * // Get one TrainingPlanItem
+     * const trainingPlanItem = await prisma.trainingPlanItem.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends TrainingPlanItemFindUniqueArgs>(args: SelectSubset<T, TrainingPlanItemFindUniqueArgs<ExtArgs>>): Prisma__TrainingPlanItemClient<$Result.GetResult<Prisma.$TrainingPlanItemPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one TrainingPlanItem that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {TrainingPlanItemFindUniqueOrThrowArgs} args - Arguments to find a TrainingPlanItem
+     * @example
+     * // Get one TrainingPlanItem
+     * const trainingPlanItem = await prisma.trainingPlanItem.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends TrainingPlanItemFindUniqueOrThrowArgs>(args: SelectSubset<T, TrainingPlanItemFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TrainingPlanItemClient<$Result.GetResult<Prisma.$TrainingPlanItemPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TrainingPlanItem that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TrainingPlanItemFindFirstArgs} args - Arguments to find a TrainingPlanItem
+     * @example
+     * // Get one TrainingPlanItem
+     * const trainingPlanItem = await prisma.trainingPlanItem.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends TrainingPlanItemFindFirstArgs>(args?: SelectSubset<T, TrainingPlanItemFindFirstArgs<ExtArgs>>): Prisma__TrainingPlanItemClient<$Result.GetResult<Prisma.$TrainingPlanItemPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TrainingPlanItem that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TrainingPlanItemFindFirstOrThrowArgs} args - Arguments to find a TrainingPlanItem
+     * @example
+     * // Get one TrainingPlanItem
+     * const trainingPlanItem = await prisma.trainingPlanItem.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends TrainingPlanItemFindFirstOrThrowArgs>(args?: SelectSubset<T, TrainingPlanItemFindFirstOrThrowArgs<ExtArgs>>): Prisma__TrainingPlanItemClient<$Result.GetResult<Prisma.$TrainingPlanItemPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more TrainingPlanItems that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TrainingPlanItemFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all TrainingPlanItems
+     * const trainingPlanItems = await prisma.trainingPlanItem.findMany()
+     * 
+     * // Get first 10 TrainingPlanItems
+     * const trainingPlanItems = await prisma.trainingPlanItem.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const trainingPlanItemWithIdOnly = await prisma.trainingPlanItem.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends TrainingPlanItemFindManyArgs>(args?: SelectSubset<T, TrainingPlanItemFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TrainingPlanItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a TrainingPlanItem.
+     * @param {TrainingPlanItemCreateArgs} args - Arguments to create a TrainingPlanItem.
+     * @example
+     * // Create one TrainingPlanItem
+     * const TrainingPlanItem = await prisma.trainingPlanItem.create({
+     *   data: {
+     *     // ... data to create a TrainingPlanItem
+     *   }
+     * })
+     * 
+     */
+    create<T extends TrainingPlanItemCreateArgs>(args: SelectSubset<T, TrainingPlanItemCreateArgs<ExtArgs>>): Prisma__TrainingPlanItemClient<$Result.GetResult<Prisma.$TrainingPlanItemPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many TrainingPlanItems.
+     * @param {TrainingPlanItemCreateManyArgs} args - Arguments to create many TrainingPlanItems.
+     * @example
+     * // Create many TrainingPlanItems
+     * const trainingPlanItem = await prisma.trainingPlanItem.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends TrainingPlanItemCreateManyArgs>(args?: SelectSubset<T, TrainingPlanItemCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many TrainingPlanItems and returns the data saved in the database.
+     * @param {TrainingPlanItemCreateManyAndReturnArgs} args - Arguments to create many TrainingPlanItems.
+     * @example
+     * // Create many TrainingPlanItems
+     * const trainingPlanItem = await prisma.trainingPlanItem.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many TrainingPlanItems and only return the `id`
+     * const trainingPlanItemWithIdOnly = await prisma.trainingPlanItem.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends TrainingPlanItemCreateManyAndReturnArgs>(args?: SelectSubset<T, TrainingPlanItemCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TrainingPlanItemPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a TrainingPlanItem.
+     * @param {TrainingPlanItemDeleteArgs} args - Arguments to delete one TrainingPlanItem.
+     * @example
+     * // Delete one TrainingPlanItem
+     * const TrainingPlanItem = await prisma.trainingPlanItem.delete({
+     *   where: {
+     *     // ... filter to delete one TrainingPlanItem
+     *   }
+     * })
+     * 
+     */
+    delete<T extends TrainingPlanItemDeleteArgs>(args: SelectSubset<T, TrainingPlanItemDeleteArgs<ExtArgs>>): Prisma__TrainingPlanItemClient<$Result.GetResult<Prisma.$TrainingPlanItemPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one TrainingPlanItem.
+     * @param {TrainingPlanItemUpdateArgs} args - Arguments to update one TrainingPlanItem.
+     * @example
+     * // Update one TrainingPlanItem
+     * const trainingPlanItem = await prisma.trainingPlanItem.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends TrainingPlanItemUpdateArgs>(args: SelectSubset<T, TrainingPlanItemUpdateArgs<ExtArgs>>): Prisma__TrainingPlanItemClient<$Result.GetResult<Prisma.$TrainingPlanItemPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more TrainingPlanItems.
+     * @param {TrainingPlanItemDeleteManyArgs} args - Arguments to filter TrainingPlanItems to delete.
+     * @example
+     * // Delete a few TrainingPlanItems
+     * const { count } = await prisma.trainingPlanItem.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends TrainingPlanItemDeleteManyArgs>(args?: SelectSubset<T, TrainingPlanItemDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TrainingPlanItems.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TrainingPlanItemUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many TrainingPlanItems
+     * const trainingPlanItem = await prisma.trainingPlanItem.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends TrainingPlanItemUpdateManyArgs>(args: SelectSubset<T, TrainingPlanItemUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TrainingPlanItems and returns the data updated in the database.
+     * @param {TrainingPlanItemUpdateManyAndReturnArgs} args - Arguments to update many TrainingPlanItems.
+     * @example
+     * // Update many TrainingPlanItems
+     * const trainingPlanItem = await prisma.trainingPlanItem.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more TrainingPlanItems and only return the `id`
+     * const trainingPlanItemWithIdOnly = await prisma.trainingPlanItem.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends TrainingPlanItemUpdateManyAndReturnArgs>(args: SelectSubset<T, TrainingPlanItemUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TrainingPlanItemPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one TrainingPlanItem.
+     * @param {TrainingPlanItemUpsertArgs} args - Arguments to update or create a TrainingPlanItem.
+     * @example
+     * // Update or create a TrainingPlanItem
+     * const trainingPlanItem = await prisma.trainingPlanItem.upsert({
+     *   create: {
+     *     // ... data to create a TrainingPlanItem
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the TrainingPlanItem we want to update
+     *   }
+     * })
+     */
+    upsert<T extends TrainingPlanItemUpsertArgs>(args: SelectSubset<T, TrainingPlanItemUpsertArgs<ExtArgs>>): Prisma__TrainingPlanItemClient<$Result.GetResult<Prisma.$TrainingPlanItemPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of TrainingPlanItems.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TrainingPlanItemCountArgs} args - Arguments to filter TrainingPlanItems to count.
+     * @example
+     * // Count the number of TrainingPlanItems
+     * const count = await prisma.trainingPlanItem.count({
+     *   where: {
+     *     // ... the filter for the TrainingPlanItems we want to count
+     *   }
+     * })
+    **/
+    count<T extends TrainingPlanItemCountArgs>(
+      args?: Subset<T, TrainingPlanItemCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TrainingPlanItemCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a TrainingPlanItem.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TrainingPlanItemAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TrainingPlanItemAggregateArgs>(args: Subset<T, TrainingPlanItemAggregateArgs>): Prisma.PrismaPromise<GetTrainingPlanItemAggregateType<T>>
+
+    /**
+     * Group by TrainingPlanItem.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TrainingPlanItemGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends TrainingPlanItemGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: TrainingPlanItemGroupByArgs['orderBy'] }
+        : { orderBy?: TrainingPlanItemGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, TrainingPlanItemGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTrainingPlanItemGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the TrainingPlanItem model
+   */
+  readonly fields: TrainingPlanItemFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for TrainingPlanItem.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__TrainingPlanItemClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    plan<T extends TrainingPlanDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TrainingPlanDefaultArgs<ExtArgs>>): Prisma__TrainingPlanClient<$Result.GetResult<Prisma.$TrainingPlanPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the TrainingPlanItem model
+   */
+  interface TrainingPlanItemFieldRefs {
+    readonly id: FieldRef<"TrainingPlanItem", 'String'>
+    readonly tenantId: FieldRef<"TrainingPlanItem", 'String'>
+    readonly planId: FieldRef<"TrainingPlanItem", 'String'>
+    readonly itemKey: FieldRef<"TrainingPlanItem", 'String'>
+    readonly text: FieldRef<"TrainingPlanItem", 'String'>
+    readonly status: FieldRef<"TrainingPlanItem", 'String'>
+    readonly note: FieldRef<"TrainingPlanItem", 'String'>
+    readonly version: FieldRef<"TrainingPlanItem", 'Int'>
+    readonly updatedBy: FieldRef<"TrainingPlanItem", 'String'>
+    readonly updatedAt: FieldRef<"TrainingPlanItem", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * TrainingPlanItem findUnique
+   */
+  export type TrainingPlanItemFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TrainingPlanItem
+     */
+    select?: TrainingPlanItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TrainingPlanItem
+     */
+    omit?: TrainingPlanItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TrainingPlanItemInclude<ExtArgs> | null
+    /**
+     * Filter, which TrainingPlanItem to fetch.
+     */
+    where: TrainingPlanItemWhereUniqueInput
+  }
+
+  /**
+   * TrainingPlanItem findUniqueOrThrow
+   */
+  export type TrainingPlanItemFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TrainingPlanItem
+     */
+    select?: TrainingPlanItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TrainingPlanItem
+     */
+    omit?: TrainingPlanItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TrainingPlanItemInclude<ExtArgs> | null
+    /**
+     * Filter, which TrainingPlanItem to fetch.
+     */
+    where: TrainingPlanItemWhereUniqueInput
+  }
+
+  /**
+   * TrainingPlanItem findFirst
+   */
+  export type TrainingPlanItemFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TrainingPlanItem
+     */
+    select?: TrainingPlanItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TrainingPlanItem
+     */
+    omit?: TrainingPlanItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TrainingPlanItemInclude<ExtArgs> | null
+    /**
+     * Filter, which TrainingPlanItem to fetch.
+     */
+    where?: TrainingPlanItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TrainingPlanItems to fetch.
+     */
+    orderBy?: TrainingPlanItemOrderByWithRelationInput | TrainingPlanItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TrainingPlanItems.
+     */
+    cursor?: TrainingPlanItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TrainingPlanItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TrainingPlanItems.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TrainingPlanItems.
+     */
+    distinct?: TrainingPlanItemScalarFieldEnum | TrainingPlanItemScalarFieldEnum[]
+  }
+
+  /**
+   * TrainingPlanItem findFirstOrThrow
+   */
+  export type TrainingPlanItemFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TrainingPlanItem
+     */
+    select?: TrainingPlanItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TrainingPlanItem
+     */
+    omit?: TrainingPlanItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TrainingPlanItemInclude<ExtArgs> | null
+    /**
+     * Filter, which TrainingPlanItem to fetch.
+     */
+    where?: TrainingPlanItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TrainingPlanItems to fetch.
+     */
+    orderBy?: TrainingPlanItemOrderByWithRelationInput | TrainingPlanItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TrainingPlanItems.
+     */
+    cursor?: TrainingPlanItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TrainingPlanItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TrainingPlanItems.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TrainingPlanItems.
+     */
+    distinct?: TrainingPlanItemScalarFieldEnum | TrainingPlanItemScalarFieldEnum[]
+  }
+
+  /**
+   * TrainingPlanItem findMany
+   */
+  export type TrainingPlanItemFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TrainingPlanItem
+     */
+    select?: TrainingPlanItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TrainingPlanItem
+     */
+    omit?: TrainingPlanItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TrainingPlanItemInclude<ExtArgs> | null
+    /**
+     * Filter, which TrainingPlanItems to fetch.
+     */
+    where?: TrainingPlanItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TrainingPlanItems to fetch.
+     */
+    orderBy?: TrainingPlanItemOrderByWithRelationInput | TrainingPlanItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing TrainingPlanItems.
+     */
+    cursor?: TrainingPlanItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TrainingPlanItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TrainingPlanItems.
+     */
+    skip?: number
+    distinct?: TrainingPlanItemScalarFieldEnum | TrainingPlanItemScalarFieldEnum[]
+  }
+
+  /**
+   * TrainingPlanItem create
+   */
+  export type TrainingPlanItemCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TrainingPlanItem
+     */
+    select?: TrainingPlanItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TrainingPlanItem
+     */
+    omit?: TrainingPlanItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TrainingPlanItemInclude<ExtArgs> | null
+    /**
+     * The data needed to create a TrainingPlanItem.
+     */
+    data: XOR<TrainingPlanItemCreateInput, TrainingPlanItemUncheckedCreateInput>
+  }
+
+  /**
+   * TrainingPlanItem createMany
+   */
+  export type TrainingPlanItemCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many TrainingPlanItems.
+     */
+    data: TrainingPlanItemCreateManyInput | TrainingPlanItemCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * TrainingPlanItem createManyAndReturn
+   */
+  export type TrainingPlanItemCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TrainingPlanItem
+     */
+    select?: TrainingPlanItemSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TrainingPlanItem
+     */
+    omit?: TrainingPlanItemOmit<ExtArgs> | null
+    /**
+     * The data used to create many TrainingPlanItems.
+     */
+    data: TrainingPlanItemCreateManyInput | TrainingPlanItemCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TrainingPlanItemIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * TrainingPlanItem update
+   */
+  export type TrainingPlanItemUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TrainingPlanItem
+     */
+    select?: TrainingPlanItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TrainingPlanItem
+     */
+    omit?: TrainingPlanItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TrainingPlanItemInclude<ExtArgs> | null
+    /**
+     * The data needed to update a TrainingPlanItem.
+     */
+    data: XOR<TrainingPlanItemUpdateInput, TrainingPlanItemUncheckedUpdateInput>
+    /**
+     * Choose, which TrainingPlanItem to update.
+     */
+    where: TrainingPlanItemWhereUniqueInput
+  }
+
+  /**
+   * TrainingPlanItem updateMany
+   */
+  export type TrainingPlanItemUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update TrainingPlanItems.
+     */
+    data: XOR<TrainingPlanItemUpdateManyMutationInput, TrainingPlanItemUncheckedUpdateManyInput>
+    /**
+     * Filter which TrainingPlanItems to update
+     */
+    where?: TrainingPlanItemWhereInput
+    /**
+     * Limit how many TrainingPlanItems to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * TrainingPlanItem updateManyAndReturn
+   */
+  export type TrainingPlanItemUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TrainingPlanItem
+     */
+    select?: TrainingPlanItemSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TrainingPlanItem
+     */
+    omit?: TrainingPlanItemOmit<ExtArgs> | null
+    /**
+     * The data used to update TrainingPlanItems.
+     */
+    data: XOR<TrainingPlanItemUpdateManyMutationInput, TrainingPlanItemUncheckedUpdateManyInput>
+    /**
+     * Filter which TrainingPlanItems to update
+     */
+    where?: TrainingPlanItemWhereInput
+    /**
+     * Limit how many TrainingPlanItems to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TrainingPlanItemIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * TrainingPlanItem upsert
+   */
+  export type TrainingPlanItemUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TrainingPlanItem
+     */
+    select?: TrainingPlanItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TrainingPlanItem
+     */
+    omit?: TrainingPlanItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TrainingPlanItemInclude<ExtArgs> | null
+    /**
+     * The filter to search for the TrainingPlanItem to update in case it exists.
+     */
+    where: TrainingPlanItemWhereUniqueInput
+    /**
+     * In case the TrainingPlanItem found by the `where` argument doesn't exist, create a new TrainingPlanItem with this data.
+     */
+    create: XOR<TrainingPlanItemCreateInput, TrainingPlanItemUncheckedCreateInput>
+    /**
+     * In case the TrainingPlanItem was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<TrainingPlanItemUpdateInput, TrainingPlanItemUncheckedUpdateInput>
+  }
+
+  /**
+   * TrainingPlanItem delete
+   */
+  export type TrainingPlanItemDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TrainingPlanItem
+     */
+    select?: TrainingPlanItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TrainingPlanItem
+     */
+    omit?: TrainingPlanItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TrainingPlanItemInclude<ExtArgs> | null
+    /**
+     * Filter which TrainingPlanItem to delete.
+     */
+    where: TrainingPlanItemWhereUniqueInput
+  }
+
+  /**
+   * TrainingPlanItem deleteMany
+   */
+  export type TrainingPlanItemDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TrainingPlanItems to delete
+     */
+    where?: TrainingPlanItemWhereInput
+    /**
+     * Limit how many TrainingPlanItems to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * TrainingPlanItem without action
+   */
+  export type TrainingPlanItemDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TrainingPlanItem
+     */
+    select?: TrainingPlanItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TrainingPlanItem
+     */
+    omit?: TrainingPlanItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TrainingPlanItemInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model TrainingRecord
+   */
+
+  export type AggregateTrainingRecord = {
+    _count: TrainingRecordCountAggregateOutputType | null
+    _min: TrainingRecordMinAggregateOutputType | null
+    _max: TrainingRecordMaxAggregateOutputType | null
+  }
+
+  export type TrainingRecordMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    employeeId: string | null
+    mentorUserId: string | null
+    sessionDate: Date | null
+    topic: string | null
+    notes: string | null
+    outcome: string | null
+    recheckDate: Date | null
+    requestKey: string | null
+    createdAt: Date | null
+  }
+
+  export type TrainingRecordMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    employeeId: string | null
+    mentorUserId: string | null
+    sessionDate: Date | null
+    topic: string | null
+    notes: string | null
+    outcome: string | null
+    recheckDate: Date | null
+    requestKey: string | null
+    createdAt: Date | null
+  }
+
+  export type TrainingRecordCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    employeeId: number
+    mentorUserId: number
+    sessionDate: number
+    topic: number
+    notes: number
+    outcome: number
+    recheckDate: number
+    requestKey: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type TrainingRecordMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    employeeId?: true
+    mentorUserId?: true
+    sessionDate?: true
+    topic?: true
+    notes?: true
+    outcome?: true
+    recheckDate?: true
+    requestKey?: true
+    createdAt?: true
+  }
+
+  export type TrainingRecordMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    employeeId?: true
+    mentorUserId?: true
+    sessionDate?: true
+    topic?: true
+    notes?: true
+    outcome?: true
+    recheckDate?: true
+    requestKey?: true
+    createdAt?: true
+  }
+
+  export type TrainingRecordCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    employeeId?: true
+    mentorUserId?: true
+    sessionDate?: true
+    topic?: true
+    notes?: true
+    outcome?: true
+    recheckDate?: true
+    requestKey?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type TrainingRecordAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TrainingRecord to aggregate.
+     */
+    where?: TrainingRecordWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TrainingRecords to fetch.
+     */
+    orderBy?: TrainingRecordOrderByWithRelationInput | TrainingRecordOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: TrainingRecordWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TrainingRecords from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TrainingRecords.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned TrainingRecords
+    **/
+    _count?: true | TrainingRecordCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TrainingRecordMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TrainingRecordMaxAggregateInputType
+  }
+
+  export type GetTrainingRecordAggregateType<T extends TrainingRecordAggregateArgs> = {
+        [P in keyof T & keyof AggregateTrainingRecord]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTrainingRecord[P]>
+      : GetScalarType<T[P], AggregateTrainingRecord[P]>
+  }
+
+
+
+
+  export type TrainingRecordGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TrainingRecordWhereInput
+    orderBy?: TrainingRecordOrderByWithAggregationInput | TrainingRecordOrderByWithAggregationInput[]
+    by: TrainingRecordScalarFieldEnum[] | TrainingRecordScalarFieldEnum
+    having?: TrainingRecordScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TrainingRecordCountAggregateInputType | true
+    _min?: TrainingRecordMinAggregateInputType
+    _max?: TrainingRecordMaxAggregateInputType
+  }
+
+  export type TrainingRecordGroupByOutputType = {
+    id: string
+    tenantId: string
+    employeeId: string
+    mentorUserId: string | null
+    sessionDate: Date
+    topic: string
+    notes: string
+    outcome: string | null
+    recheckDate: Date | null
+    requestKey: string
+    createdAt: Date
+    _count: TrainingRecordCountAggregateOutputType | null
+    _min: TrainingRecordMinAggregateOutputType | null
+    _max: TrainingRecordMaxAggregateOutputType | null
+  }
+
+  type GetTrainingRecordGroupByPayload<T extends TrainingRecordGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<TrainingRecordGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TrainingRecordGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TrainingRecordGroupByOutputType[P]>
+            : GetScalarType<T[P], TrainingRecordGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type TrainingRecordSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    employeeId?: boolean
+    mentorUserId?: boolean
+    sessionDate?: boolean
+    topic?: boolean
+    notes?: boolean
+    outcome?: boolean
+    recheckDate?: boolean
+    requestKey?: boolean
+    createdAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["trainingRecord"]>
+
+  export type TrainingRecordSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    employeeId?: boolean
+    mentorUserId?: boolean
+    sessionDate?: boolean
+    topic?: boolean
+    notes?: boolean
+    outcome?: boolean
+    recheckDate?: boolean
+    requestKey?: boolean
+    createdAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["trainingRecord"]>
+
+  export type TrainingRecordSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    employeeId?: boolean
+    mentorUserId?: boolean
+    sessionDate?: boolean
+    topic?: boolean
+    notes?: boolean
+    outcome?: boolean
+    recheckDate?: boolean
+    requestKey?: boolean
+    createdAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["trainingRecord"]>
+
+  export type TrainingRecordSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    employeeId?: boolean
+    mentorUserId?: boolean
+    sessionDate?: boolean
+    topic?: boolean
+    notes?: boolean
+    outcome?: boolean
+    recheckDate?: boolean
+    requestKey?: boolean
+    createdAt?: boolean
+  }
+
+  export type TrainingRecordOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "employeeId" | "mentorUserId" | "sessionDate" | "topic" | "notes" | "outcome" | "recheckDate" | "requestKey" | "createdAt", ExtArgs["result"]["trainingRecord"]>
+  export type TrainingRecordInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type TrainingRecordIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type TrainingRecordIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+
+  export type $TrainingRecordPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "TrainingRecord"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      employeeId: string
+      mentorUserId: string | null
+      sessionDate: Date
+      topic: string
+      notes: string
+      outcome: string | null
+      recheckDate: Date | null
+      requestKey: string
+      createdAt: Date
+    }, ExtArgs["result"]["trainingRecord"]>
+    composites: {}
+  }
+
+  type TrainingRecordGetPayload<S extends boolean | null | undefined | TrainingRecordDefaultArgs> = $Result.GetResult<Prisma.$TrainingRecordPayload, S>
+
+  type TrainingRecordCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<TrainingRecordFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: TrainingRecordCountAggregateInputType | true
+    }
+
+  export interface TrainingRecordDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['TrainingRecord'], meta: { name: 'TrainingRecord' } }
+    /**
+     * Find zero or one TrainingRecord that matches the filter.
+     * @param {TrainingRecordFindUniqueArgs} args - Arguments to find a TrainingRecord
+     * @example
+     * // Get one TrainingRecord
+     * const trainingRecord = await prisma.trainingRecord.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends TrainingRecordFindUniqueArgs>(args: SelectSubset<T, TrainingRecordFindUniqueArgs<ExtArgs>>): Prisma__TrainingRecordClient<$Result.GetResult<Prisma.$TrainingRecordPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one TrainingRecord that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {TrainingRecordFindUniqueOrThrowArgs} args - Arguments to find a TrainingRecord
+     * @example
+     * // Get one TrainingRecord
+     * const trainingRecord = await prisma.trainingRecord.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends TrainingRecordFindUniqueOrThrowArgs>(args: SelectSubset<T, TrainingRecordFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TrainingRecordClient<$Result.GetResult<Prisma.$TrainingRecordPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TrainingRecord that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TrainingRecordFindFirstArgs} args - Arguments to find a TrainingRecord
+     * @example
+     * // Get one TrainingRecord
+     * const trainingRecord = await prisma.trainingRecord.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends TrainingRecordFindFirstArgs>(args?: SelectSubset<T, TrainingRecordFindFirstArgs<ExtArgs>>): Prisma__TrainingRecordClient<$Result.GetResult<Prisma.$TrainingRecordPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TrainingRecord that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TrainingRecordFindFirstOrThrowArgs} args - Arguments to find a TrainingRecord
+     * @example
+     * // Get one TrainingRecord
+     * const trainingRecord = await prisma.trainingRecord.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends TrainingRecordFindFirstOrThrowArgs>(args?: SelectSubset<T, TrainingRecordFindFirstOrThrowArgs<ExtArgs>>): Prisma__TrainingRecordClient<$Result.GetResult<Prisma.$TrainingRecordPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more TrainingRecords that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TrainingRecordFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all TrainingRecords
+     * const trainingRecords = await prisma.trainingRecord.findMany()
+     * 
+     * // Get first 10 TrainingRecords
+     * const trainingRecords = await prisma.trainingRecord.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const trainingRecordWithIdOnly = await prisma.trainingRecord.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends TrainingRecordFindManyArgs>(args?: SelectSubset<T, TrainingRecordFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TrainingRecordPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a TrainingRecord.
+     * @param {TrainingRecordCreateArgs} args - Arguments to create a TrainingRecord.
+     * @example
+     * // Create one TrainingRecord
+     * const TrainingRecord = await prisma.trainingRecord.create({
+     *   data: {
+     *     // ... data to create a TrainingRecord
+     *   }
+     * })
+     * 
+     */
+    create<T extends TrainingRecordCreateArgs>(args: SelectSubset<T, TrainingRecordCreateArgs<ExtArgs>>): Prisma__TrainingRecordClient<$Result.GetResult<Prisma.$TrainingRecordPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many TrainingRecords.
+     * @param {TrainingRecordCreateManyArgs} args - Arguments to create many TrainingRecords.
+     * @example
+     * // Create many TrainingRecords
+     * const trainingRecord = await prisma.trainingRecord.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends TrainingRecordCreateManyArgs>(args?: SelectSubset<T, TrainingRecordCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many TrainingRecords and returns the data saved in the database.
+     * @param {TrainingRecordCreateManyAndReturnArgs} args - Arguments to create many TrainingRecords.
+     * @example
+     * // Create many TrainingRecords
+     * const trainingRecord = await prisma.trainingRecord.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many TrainingRecords and only return the `id`
+     * const trainingRecordWithIdOnly = await prisma.trainingRecord.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends TrainingRecordCreateManyAndReturnArgs>(args?: SelectSubset<T, TrainingRecordCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TrainingRecordPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a TrainingRecord.
+     * @param {TrainingRecordDeleteArgs} args - Arguments to delete one TrainingRecord.
+     * @example
+     * // Delete one TrainingRecord
+     * const TrainingRecord = await prisma.trainingRecord.delete({
+     *   where: {
+     *     // ... filter to delete one TrainingRecord
+     *   }
+     * })
+     * 
+     */
+    delete<T extends TrainingRecordDeleteArgs>(args: SelectSubset<T, TrainingRecordDeleteArgs<ExtArgs>>): Prisma__TrainingRecordClient<$Result.GetResult<Prisma.$TrainingRecordPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one TrainingRecord.
+     * @param {TrainingRecordUpdateArgs} args - Arguments to update one TrainingRecord.
+     * @example
+     * // Update one TrainingRecord
+     * const trainingRecord = await prisma.trainingRecord.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends TrainingRecordUpdateArgs>(args: SelectSubset<T, TrainingRecordUpdateArgs<ExtArgs>>): Prisma__TrainingRecordClient<$Result.GetResult<Prisma.$TrainingRecordPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more TrainingRecords.
+     * @param {TrainingRecordDeleteManyArgs} args - Arguments to filter TrainingRecords to delete.
+     * @example
+     * // Delete a few TrainingRecords
+     * const { count } = await prisma.trainingRecord.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends TrainingRecordDeleteManyArgs>(args?: SelectSubset<T, TrainingRecordDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TrainingRecords.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TrainingRecordUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many TrainingRecords
+     * const trainingRecord = await prisma.trainingRecord.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends TrainingRecordUpdateManyArgs>(args: SelectSubset<T, TrainingRecordUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TrainingRecords and returns the data updated in the database.
+     * @param {TrainingRecordUpdateManyAndReturnArgs} args - Arguments to update many TrainingRecords.
+     * @example
+     * // Update many TrainingRecords
+     * const trainingRecord = await prisma.trainingRecord.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more TrainingRecords and only return the `id`
+     * const trainingRecordWithIdOnly = await prisma.trainingRecord.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends TrainingRecordUpdateManyAndReturnArgs>(args: SelectSubset<T, TrainingRecordUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TrainingRecordPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one TrainingRecord.
+     * @param {TrainingRecordUpsertArgs} args - Arguments to update or create a TrainingRecord.
+     * @example
+     * // Update or create a TrainingRecord
+     * const trainingRecord = await prisma.trainingRecord.upsert({
+     *   create: {
+     *     // ... data to create a TrainingRecord
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the TrainingRecord we want to update
+     *   }
+     * })
+     */
+    upsert<T extends TrainingRecordUpsertArgs>(args: SelectSubset<T, TrainingRecordUpsertArgs<ExtArgs>>): Prisma__TrainingRecordClient<$Result.GetResult<Prisma.$TrainingRecordPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of TrainingRecords.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TrainingRecordCountArgs} args - Arguments to filter TrainingRecords to count.
+     * @example
+     * // Count the number of TrainingRecords
+     * const count = await prisma.trainingRecord.count({
+     *   where: {
+     *     // ... the filter for the TrainingRecords we want to count
+     *   }
+     * })
+    **/
+    count<T extends TrainingRecordCountArgs>(
+      args?: Subset<T, TrainingRecordCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TrainingRecordCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a TrainingRecord.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TrainingRecordAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TrainingRecordAggregateArgs>(args: Subset<T, TrainingRecordAggregateArgs>): Prisma.PrismaPromise<GetTrainingRecordAggregateType<T>>
+
+    /**
+     * Group by TrainingRecord.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TrainingRecordGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends TrainingRecordGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: TrainingRecordGroupByArgs['orderBy'] }
+        : { orderBy?: TrainingRecordGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, TrainingRecordGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTrainingRecordGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the TrainingRecord model
+   */
+  readonly fields: TrainingRecordFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for TrainingRecord.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__TrainingRecordClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the TrainingRecord model
+   */
+  interface TrainingRecordFieldRefs {
+    readonly id: FieldRef<"TrainingRecord", 'String'>
+    readonly tenantId: FieldRef<"TrainingRecord", 'String'>
+    readonly employeeId: FieldRef<"TrainingRecord", 'String'>
+    readonly mentorUserId: FieldRef<"TrainingRecord", 'String'>
+    readonly sessionDate: FieldRef<"TrainingRecord", 'DateTime'>
+    readonly topic: FieldRef<"TrainingRecord", 'String'>
+    readonly notes: FieldRef<"TrainingRecord", 'String'>
+    readonly outcome: FieldRef<"TrainingRecord", 'String'>
+    readonly recheckDate: FieldRef<"TrainingRecord", 'DateTime'>
+    readonly requestKey: FieldRef<"TrainingRecord", 'String'>
+    readonly createdAt: FieldRef<"TrainingRecord", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * TrainingRecord findUnique
+   */
+  export type TrainingRecordFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TrainingRecord
+     */
+    select?: TrainingRecordSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TrainingRecord
+     */
+    omit?: TrainingRecordOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TrainingRecordInclude<ExtArgs> | null
+    /**
+     * Filter, which TrainingRecord to fetch.
+     */
+    where: TrainingRecordWhereUniqueInput
+  }
+
+  /**
+   * TrainingRecord findUniqueOrThrow
+   */
+  export type TrainingRecordFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TrainingRecord
+     */
+    select?: TrainingRecordSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TrainingRecord
+     */
+    omit?: TrainingRecordOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TrainingRecordInclude<ExtArgs> | null
+    /**
+     * Filter, which TrainingRecord to fetch.
+     */
+    where: TrainingRecordWhereUniqueInput
+  }
+
+  /**
+   * TrainingRecord findFirst
+   */
+  export type TrainingRecordFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TrainingRecord
+     */
+    select?: TrainingRecordSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TrainingRecord
+     */
+    omit?: TrainingRecordOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TrainingRecordInclude<ExtArgs> | null
+    /**
+     * Filter, which TrainingRecord to fetch.
+     */
+    where?: TrainingRecordWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TrainingRecords to fetch.
+     */
+    orderBy?: TrainingRecordOrderByWithRelationInput | TrainingRecordOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TrainingRecords.
+     */
+    cursor?: TrainingRecordWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TrainingRecords from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TrainingRecords.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TrainingRecords.
+     */
+    distinct?: TrainingRecordScalarFieldEnum | TrainingRecordScalarFieldEnum[]
+  }
+
+  /**
+   * TrainingRecord findFirstOrThrow
+   */
+  export type TrainingRecordFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TrainingRecord
+     */
+    select?: TrainingRecordSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TrainingRecord
+     */
+    omit?: TrainingRecordOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TrainingRecordInclude<ExtArgs> | null
+    /**
+     * Filter, which TrainingRecord to fetch.
+     */
+    where?: TrainingRecordWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TrainingRecords to fetch.
+     */
+    orderBy?: TrainingRecordOrderByWithRelationInput | TrainingRecordOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TrainingRecords.
+     */
+    cursor?: TrainingRecordWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TrainingRecords from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TrainingRecords.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TrainingRecords.
+     */
+    distinct?: TrainingRecordScalarFieldEnum | TrainingRecordScalarFieldEnum[]
+  }
+
+  /**
+   * TrainingRecord findMany
+   */
+  export type TrainingRecordFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TrainingRecord
+     */
+    select?: TrainingRecordSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TrainingRecord
+     */
+    omit?: TrainingRecordOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TrainingRecordInclude<ExtArgs> | null
+    /**
+     * Filter, which TrainingRecords to fetch.
+     */
+    where?: TrainingRecordWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TrainingRecords to fetch.
+     */
+    orderBy?: TrainingRecordOrderByWithRelationInput | TrainingRecordOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing TrainingRecords.
+     */
+    cursor?: TrainingRecordWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TrainingRecords from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TrainingRecords.
+     */
+    skip?: number
+    distinct?: TrainingRecordScalarFieldEnum | TrainingRecordScalarFieldEnum[]
+  }
+
+  /**
+   * TrainingRecord create
+   */
+  export type TrainingRecordCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TrainingRecord
+     */
+    select?: TrainingRecordSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TrainingRecord
+     */
+    omit?: TrainingRecordOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TrainingRecordInclude<ExtArgs> | null
+    /**
+     * The data needed to create a TrainingRecord.
+     */
+    data: XOR<TrainingRecordCreateInput, TrainingRecordUncheckedCreateInput>
+  }
+
+  /**
+   * TrainingRecord createMany
+   */
+  export type TrainingRecordCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many TrainingRecords.
+     */
+    data: TrainingRecordCreateManyInput | TrainingRecordCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * TrainingRecord createManyAndReturn
+   */
+  export type TrainingRecordCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TrainingRecord
+     */
+    select?: TrainingRecordSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TrainingRecord
+     */
+    omit?: TrainingRecordOmit<ExtArgs> | null
+    /**
+     * The data used to create many TrainingRecords.
+     */
+    data: TrainingRecordCreateManyInput | TrainingRecordCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TrainingRecordIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * TrainingRecord update
+   */
+  export type TrainingRecordUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TrainingRecord
+     */
+    select?: TrainingRecordSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TrainingRecord
+     */
+    omit?: TrainingRecordOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TrainingRecordInclude<ExtArgs> | null
+    /**
+     * The data needed to update a TrainingRecord.
+     */
+    data: XOR<TrainingRecordUpdateInput, TrainingRecordUncheckedUpdateInput>
+    /**
+     * Choose, which TrainingRecord to update.
+     */
+    where: TrainingRecordWhereUniqueInput
+  }
+
+  /**
+   * TrainingRecord updateMany
+   */
+  export type TrainingRecordUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update TrainingRecords.
+     */
+    data: XOR<TrainingRecordUpdateManyMutationInput, TrainingRecordUncheckedUpdateManyInput>
+    /**
+     * Filter which TrainingRecords to update
+     */
+    where?: TrainingRecordWhereInput
+    /**
+     * Limit how many TrainingRecords to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * TrainingRecord updateManyAndReturn
+   */
+  export type TrainingRecordUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TrainingRecord
+     */
+    select?: TrainingRecordSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TrainingRecord
+     */
+    omit?: TrainingRecordOmit<ExtArgs> | null
+    /**
+     * The data used to update TrainingRecords.
+     */
+    data: XOR<TrainingRecordUpdateManyMutationInput, TrainingRecordUncheckedUpdateManyInput>
+    /**
+     * Filter which TrainingRecords to update
+     */
+    where?: TrainingRecordWhereInput
+    /**
+     * Limit how many TrainingRecords to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TrainingRecordIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * TrainingRecord upsert
+   */
+  export type TrainingRecordUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TrainingRecord
+     */
+    select?: TrainingRecordSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TrainingRecord
+     */
+    omit?: TrainingRecordOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TrainingRecordInclude<ExtArgs> | null
+    /**
+     * The filter to search for the TrainingRecord to update in case it exists.
+     */
+    where: TrainingRecordWhereUniqueInput
+    /**
+     * In case the TrainingRecord found by the `where` argument doesn't exist, create a new TrainingRecord with this data.
+     */
+    create: XOR<TrainingRecordCreateInput, TrainingRecordUncheckedCreateInput>
+    /**
+     * In case the TrainingRecord was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<TrainingRecordUpdateInput, TrainingRecordUncheckedUpdateInput>
+  }
+
+  /**
+   * TrainingRecord delete
+   */
+  export type TrainingRecordDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TrainingRecord
+     */
+    select?: TrainingRecordSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TrainingRecord
+     */
+    omit?: TrainingRecordOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TrainingRecordInclude<ExtArgs> | null
+    /**
+     * Filter which TrainingRecord to delete.
+     */
+    where: TrainingRecordWhereUniqueInput
+  }
+
+  /**
+   * TrainingRecord deleteMany
+   */
+  export type TrainingRecordDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TrainingRecords to delete
+     */
+    where?: TrainingRecordWhereInput
+    /**
+     * Limit how many TrainingRecords to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * TrainingRecord without action
+   */
+  export type TrainingRecordDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TrainingRecord
+     */
+    select?: TrainingRecordSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TrainingRecord
+     */
+    omit?: TrainingRecordOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TrainingRecordInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -203727,6 +209049,8 @@ export namespace Prisma {
     skills: 'skills',
     hiredAt: 'hiredAt',
     salaryLocked: 'salaryLocked',
+    mentorUserId: 'mentorUserId',
+    qualificationLevel: 'qualificationLevel',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -204458,6 +209782,10 @@ export namespace Prisma {
     amount: 'amount',
     reason: 'reason',
     requestKey: 'requestKey',
+    bonusType: 'bonusType',
+    originalAmount: 'originalAmount',
+    originalCurrency: 'originalCurrency',
+    rate: 'rate',
     createdBy: 'createdBy',
     createdAt: 'createdAt'
   };
@@ -204490,6 +209818,74 @@ export namespace Prisma {
   };
 
   export type EmploymentContractScalarFieldEnum = (typeof EmploymentContractScalarFieldEnum)[keyof typeof EmploymentContractScalarFieldEnum]
+
+
+  export const TrainingPlanTemplateScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    key: 'key',
+    version: 'version',
+    name: 'name',
+    qualificationLevel: 'qualificationLevel',
+    items: 'items',
+    createdBy: 'createdBy',
+    createdAt: 'createdAt'
+  };
+
+  export type TrainingPlanTemplateScalarFieldEnum = (typeof TrainingPlanTemplateScalarFieldEnum)[keyof typeof TrainingPlanTemplateScalarFieldEnum]
+
+
+  export const TrainingPlanScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    employeeId: 'employeeId',
+    templateKey: 'templateKey',
+    templateVersion: 'templateVersion',
+    title: 'title',
+    status: 'status',
+    dueDate: 'dueDate',
+    recheckDate: 'recheckDate',
+    requestKey: 'requestKey',
+    createdBy: 'createdBy',
+    createdAt: 'createdAt',
+    closedAt: 'closedAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type TrainingPlanScalarFieldEnum = (typeof TrainingPlanScalarFieldEnum)[keyof typeof TrainingPlanScalarFieldEnum]
+
+
+  export const TrainingPlanItemScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    planId: 'planId',
+    itemKey: 'itemKey',
+    text: 'text',
+    status: 'status',
+    note: 'note',
+    version: 'version',
+    updatedBy: 'updatedBy',
+    updatedAt: 'updatedAt'
+  };
+
+  export type TrainingPlanItemScalarFieldEnum = (typeof TrainingPlanItemScalarFieldEnum)[keyof typeof TrainingPlanItemScalarFieldEnum]
+
+
+  export const TrainingRecordScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    employeeId: 'employeeId',
+    mentorUserId: 'mentorUserId',
+    sessionDate: 'sessionDate',
+    topic: 'topic',
+    notes: 'notes',
+    outcome: 'outcome',
+    recheckDate: 'recheckDate',
+    requestKey: 'requestKey',
+    createdAt: 'createdAt'
+  };
+
+  export type TrainingRecordScalarFieldEnum = (typeof TrainingRecordScalarFieldEnum)[keyof typeof TrainingRecordScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -205725,6 +211121,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineListRelationFilter
     payrollAdjustments?: PayrollAdjustmentListRelationFilter
     employmentContracts?: EmploymentContractListRelationFilter
+    trainingPlanTemplates?: TrainingPlanTemplateListRelationFilter
+    trainingPlans?: TrainingPlanListRelationFilter
+    trainingPlanItems?: TrainingPlanItemListRelationFilter
+    trainingRecords?: TrainingRecordListRelationFilter
   }
 
   export type TenantOrderByWithRelationInput = {
@@ -205872,6 +211272,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineOrderByRelationAggregateInput
     payrollAdjustments?: PayrollAdjustmentOrderByRelationAggregateInput
     employmentContracts?: EmploymentContractOrderByRelationAggregateInput
+    trainingPlanTemplates?: TrainingPlanTemplateOrderByRelationAggregateInput
+    trainingPlans?: TrainingPlanOrderByRelationAggregateInput
+    trainingPlanItems?: TrainingPlanItemOrderByRelationAggregateInput
+    trainingRecords?: TrainingRecordOrderByRelationAggregateInput
   }
 
   export type TenantWhereUniqueInput = Prisma.AtLeast<{
@@ -206022,6 +211426,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineListRelationFilter
     payrollAdjustments?: PayrollAdjustmentListRelationFilter
     employmentContracts?: EmploymentContractListRelationFilter
+    trainingPlanTemplates?: TrainingPlanTemplateListRelationFilter
+    trainingPlans?: TrainingPlanListRelationFilter
+    trainingPlanItems?: TrainingPlanItemListRelationFilter
+    trainingRecords?: TrainingRecordListRelationFilter
   }, "id" | "slug">
 
   export type TenantOrderByWithAggregationInput = {
@@ -214676,6 +220084,8 @@ export namespace Prisma {
     skills?: JsonNullableFilter<"Employee">
     hiredAt?: DateTimeNullableFilter<"Employee"> | Date | string | null
     salaryLocked?: BoolFilter<"Employee"> | boolean
+    mentorUserId?: UuidNullableFilter<"Employee"> | string | null
+    qualificationLevel?: StringNullableFilter<"Employee"> | string | null
     createdAt?: DateTimeFilter<"Employee"> | Date | string
     updatedAt?: DateTimeFilter<"Employee"> | Date | string
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
@@ -214693,6 +220103,8 @@ export namespace Prisma {
     skills?: SortOrderInput | SortOrder
     hiredAt?: SortOrderInput | SortOrder
     salaryLocked?: SortOrder
+    mentorUserId?: SortOrderInput | SortOrder
+    qualificationLevel?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     tenant?: TenantOrderByWithRelationInput
@@ -214714,6 +220126,8 @@ export namespace Prisma {
     skills?: JsonNullableFilter<"Employee">
     hiredAt?: DateTimeNullableFilter<"Employee"> | Date | string | null
     salaryLocked?: BoolFilter<"Employee"> | boolean
+    mentorUserId?: UuidNullableFilter<"Employee"> | string | null
+    qualificationLevel?: StringNullableFilter<"Employee"> | string | null
     createdAt?: DateTimeFilter<"Employee"> | Date | string
     updatedAt?: DateTimeFilter<"Employee"> | Date | string
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
@@ -214731,6 +220145,8 @@ export namespace Prisma {
     skills?: SortOrderInput | SortOrder
     hiredAt?: SortOrderInput | SortOrder
     salaryLocked?: SortOrder
+    mentorUserId?: SortOrderInput | SortOrder
+    qualificationLevel?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: EmployeeCountOrderByAggregateInput
@@ -214753,6 +220169,8 @@ export namespace Prisma {
     skills?: JsonNullableWithAggregatesFilter<"Employee">
     hiredAt?: DateTimeNullableWithAggregatesFilter<"Employee"> | Date | string | null
     salaryLocked?: BoolWithAggregatesFilter<"Employee"> | boolean
+    mentorUserId?: UuidNullableWithAggregatesFilter<"Employee"> | string | null
+    qualificationLevel?: StringNullableWithAggregatesFilter<"Employee"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Employee"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Employee"> | Date | string
   }
@@ -218544,6 +223962,10 @@ export namespace Prisma {
     amount?: DecimalFilter<"PayrollAdjustment"> | Decimal | DecimalJsLike | number | string
     reason?: StringFilter<"PayrollAdjustment"> | string
     requestKey?: StringFilter<"PayrollAdjustment"> | string
+    bonusType?: StringNullableFilter<"PayrollAdjustment"> | string | null
+    originalAmount?: DecimalNullableFilter<"PayrollAdjustment"> | Decimal | DecimalJsLike | number | string | null
+    originalCurrency?: StringNullableFilter<"PayrollAdjustment"> | string | null
+    rate?: DecimalNullableFilter<"PayrollAdjustment"> | Decimal | DecimalJsLike | number | string | null
     createdBy?: StringNullableFilter<"PayrollAdjustment"> | string | null
     createdAt?: DateTimeFilter<"PayrollAdjustment"> | Date | string
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
@@ -218559,6 +223981,10 @@ export namespace Prisma {
     amount?: SortOrder
     reason?: SortOrder
     requestKey?: SortOrder
+    bonusType?: SortOrderInput | SortOrder
+    originalAmount?: SortOrderInput | SortOrder
+    originalCurrency?: SortOrderInput | SortOrder
+    rate?: SortOrderInput | SortOrder
     createdBy?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     tenant?: TenantOrderByWithRelationInput
@@ -218578,6 +224004,10 @@ export namespace Prisma {
     amount?: DecimalFilter<"PayrollAdjustment"> | Decimal | DecimalJsLike | number | string
     reason?: StringFilter<"PayrollAdjustment"> | string
     requestKey?: StringFilter<"PayrollAdjustment"> | string
+    bonusType?: StringNullableFilter<"PayrollAdjustment"> | string | null
+    originalAmount?: DecimalNullableFilter<"PayrollAdjustment"> | Decimal | DecimalJsLike | number | string | null
+    originalCurrency?: StringNullableFilter<"PayrollAdjustment"> | string | null
+    rate?: DecimalNullableFilter<"PayrollAdjustment"> | Decimal | DecimalJsLike | number | string | null
     createdBy?: StringNullableFilter<"PayrollAdjustment"> | string | null
     createdAt?: DateTimeFilter<"PayrollAdjustment"> | Date | string
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
@@ -218593,6 +224023,10 @@ export namespace Prisma {
     amount?: SortOrder
     reason?: SortOrder
     requestKey?: SortOrder
+    bonusType?: SortOrderInput | SortOrder
+    originalAmount?: SortOrderInput | SortOrder
+    originalCurrency?: SortOrderInput | SortOrder
+    rate?: SortOrderInput | SortOrder
     createdBy?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     _count?: PayrollAdjustmentCountOrderByAggregateInput
@@ -218615,6 +224049,10 @@ export namespace Prisma {
     amount?: DecimalWithAggregatesFilter<"PayrollAdjustment"> | Decimal | DecimalJsLike | number | string
     reason?: StringWithAggregatesFilter<"PayrollAdjustment"> | string
     requestKey?: StringWithAggregatesFilter<"PayrollAdjustment"> | string
+    bonusType?: StringNullableWithAggregatesFilter<"PayrollAdjustment"> | string | null
+    originalAmount?: DecimalNullableWithAggregatesFilter<"PayrollAdjustment"> | Decimal | DecimalJsLike | number | string | null
+    originalCurrency?: StringNullableWithAggregatesFilter<"PayrollAdjustment"> | string | null
+    rate?: DecimalNullableWithAggregatesFilter<"PayrollAdjustment"> | Decimal | DecimalJsLike | number | string | null
     createdBy?: StringNullableWithAggregatesFilter<"PayrollAdjustment"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"PayrollAdjustment"> | Date | string
   }
@@ -218756,6 +224194,362 @@ export namespace Prisma {
     createdBy?: StringNullableWithAggregatesFilter<"EmploymentContract"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"EmploymentContract"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"EmploymentContract"> | Date | string
+  }
+
+  export type TrainingPlanTemplateWhereInput = {
+    AND?: TrainingPlanTemplateWhereInput | TrainingPlanTemplateWhereInput[]
+    OR?: TrainingPlanTemplateWhereInput[]
+    NOT?: TrainingPlanTemplateWhereInput | TrainingPlanTemplateWhereInput[]
+    id?: UuidFilter<"TrainingPlanTemplate"> | string
+    tenantId?: UuidFilter<"TrainingPlanTemplate"> | string
+    key?: StringFilter<"TrainingPlanTemplate"> | string
+    version?: IntFilter<"TrainingPlanTemplate"> | number
+    name?: StringFilter<"TrainingPlanTemplate"> | string
+    qualificationLevel?: StringNullableFilter<"TrainingPlanTemplate"> | string | null
+    items?: JsonFilter<"TrainingPlanTemplate">
+    createdBy?: StringNullableFilter<"TrainingPlanTemplate"> | string | null
+    createdAt?: DateTimeFilter<"TrainingPlanTemplate"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+  }
+
+  export type TrainingPlanTemplateOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    key?: SortOrder
+    version?: SortOrder
+    name?: SortOrder
+    qualificationLevel?: SortOrderInput | SortOrder
+    items?: SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+  }
+
+  export type TrainingPlanTemplateWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    tenantId_key_version?: TrainingPlanTemplateTenantIdKeyVersionCompoundUniqueInput
+    AND?: TrainingPlanTemplateWhereInput | TrainingPlanTemplateWhereInput[]
+    OR?: TrainingPlanTemplateWhereInput[]
+    NOT?: TrainingPlanTemplateWhereInput | TrainingPlanTemplateWhereInput[]
+    tenantId?: UuidFilter<"TrainingPlanTemplate"> | string
+    key?: StringFilter<"TrainingPlanTemplate"> | string
+    version?: IntFilter<"TrainingPlanTemplate"> | number
+    name?: StringFilter<"TrainingPlanTemplate"> | string
+    qualificationLevel?: StringNullableFilter<"TrainingPlanTemplate"> | string | null
+    items?: JsonFilter<"TrainingPlanTemplate">
+    createdBy?: StringNullableFilter<"TrainingPlanTemplate"> | string | null
+    createdAt?: DateTimeFilter<"TrainingPlanTemplate"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+  }, "id" | "tenantId_key_version">
+
+  export type TrainingPlanTemplateOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    key?: SortOrder
+    version?: SortOrder
+    name?: SortOrder
+    qualificationLevel?: SortOrderInput | SortOrder
+    items?: SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: TrainingPlanTemplateCountOrderByAggregateInput
+    _avg?: TrainingPlanTemplateAvgOrderByAggregateInput
+    _max?: TrainingPlanTemplateMaxOrderByAggregateInput
+    _min?: TrainingPlanTemplateMinOrderByAggregateInput
+    _sum?: TrainingPlanTemplateSumOrderByAggregateInput
+  }
+
+  export type TrainingPlanTemplateScalarWhereWithAggregatesInput = {
+    AND?: TrainingPlanTemplateScalarWhereWithAggregatesInput | TrainingPlanTemplateScalarWhereWithAggregatesInput[]
+    OR?: TrainingPlanTemplateScalarWhereWithAggregatesInput[]
+    NOT?: TrainingPlanTemplateScalarWhereWithAggregatesInput | TrainingPlanTemplateScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"TrainingPlanTemplate"> | string
+    tenantId?: UuidWithAggregatesFilter<"TrainingPlanTemplate"> | string
+    key?: StringWithAggregatesFilter<"TrainingPlanTemplate"> | string
+    version?: IntWithAggregatesFilter<"TrainingPlanTemplate"> | number
+    name?: StringWithAggregatesFilter<"TrainingPlanTemplate"> | string
+    qualificationLevel?: StringNullableWithAggregatesFilter<"TrainingPlanTemplate"> | string | null
+    items?: JsonWithAggregatesFilter<"TrainingPlanTemplate">
+    createdBy?: StringNullableWithAggregatesFilter<"TrainingPlanTemplate"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"TrainingPlanTemplate"> | Date | string
+  }
+
+  export type TrainingPlanWhereInput = {
+    AND?: TrainingPlanWhereInput | TrainingPlanWhereInput[]
+    OR?: TrainingPlanWhereInput[]
+    NOT?: TrainingPlanWhereInput | TrainingPlanWhereInput[]
+    id?: UuidFilter<"TrainingPlan"> | string
+    tenantId?: UuidFilter<"TrainingPlan"> | string
+    employeeId?: UuidFilter<"TrainingPlan"> | string
+    templateKey?: StringFilter<"TrainingPlan"> | string
+    templateVersion?: IntFilter<"TrainingPlan"> | number
+    title?: StringFilter<"TrainingPlan"> | string
+    status?: StringFilter<"TrainingPlan"> | string
+    dueDate?: DateTimeFilter<"TrainingPlan"> | Date | string
+    recheckDate?: DateTimeNullableFilter<"TrainingPlan"> | Date | string | null
+    requestKey?: StringFilter<"TrainingPlan"> | string
+    createdBy?: StringNullableFilter<"TrainingPlan"> | string | null
+    createdAt?: DateTimeFilter<"TrainingPlan"> | Date | string
+    closedAt?: DateTimeNullableFilter<"TrainingPlan"> | Date | string | null
+    updatedAt?: DateTimeFilter<"TrainingPlan"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    items?: TrainingPlanItemListRelationFilter
+  }
+
+  export type TrainingPlanOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    employeeId?: SortOrder
+    templateKey?: SortOrder
+    templateVersion?: SortOrder
+    title?: SortOrder
+    status?: SortOrder
+    dueDate?: SortOrder
+    recheckDate?: SortOrderInput | SortOrder
+    requestKey?: SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    closedAt?: SortOrderInput | SortOrder
+    updatedAt?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+    items?: TrainingPlanItemOrderByRelationAggregateInput
+  }
+
+  export type TrainingPlanWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    tenantId_requestKey?: TrainingPlanTenantIdRequestKeyCompoundUniqueInput
+    AND?: TrainingPlanWhereInput | TrainingPlanWhereInput[]
+    OR?: TrainingPlanWhereInput[]
+    NOT?: TrainingPlanWhereInput | TrainingPlanWhereInput[]
+    tenantId?: UuidFilter<"TrainingPlan"> | string
+    employeeId?: UuidFilter<"TrainingPlan"> | string
+    templateKey?: StringFilter<"TrainingPlan"> | string
+    templateVersion?: IntFilter<"TrainingPlan"> | number
+    title?: StringFilter<"TrainingPlan"> | string
+    status?: StringFilter<"TrainingPlan"> | string
+    dueDate?: DateTimeFilter<"TrainingPlan"> | Date | string
+    recheckDate?: DateTimeNullableFilter<"TrainingPlan"> | Date | string | null
+    requestKey?: StringFilter<"TrainingPlan"> | string
+    createdBy?: StringNullableFilter<"TrainingPlan"> | string | null
+    createdAt?: DateTimeFilter<"TrainingPlan"> | Date | string
+    closedAt?: DateTimeNullableFilter<"TrainingPlan"> | Date | string | null
+    updatedAt?: DateTimeFilter<"TrainingPlan"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    items?: TrainingPlanItemListRelationFilter
+  }, "id" | "tenantId_requestKey">
+
+  export type TrainingPlanOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    employeeId?: SortOrder
+    templateKey?: SortOrder
+    templateVersion?: SortOrder
+    title?: SortOrder
+    status?: SortOrder
+    dueDate?: SortOrder
+    recheckDate?: SortOrderInput | SortOrder
+    requestKey?: SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    closedAt?: SortOrderInput | SortOrder
+    updatedAt?: SortOrder
+    _count?: TrainingPlanCountOrderByAggregateInput
+    _avg?: TrainingPlanAvgOrderByAggregateInput
+    _max?: TrainingPlanMaxOrderByAggregateInput
+    _min?: TrainingPlanMinOrderByAggregateInput
+    _sum?: TrainingPlanSumOrderByAggregateInput
+  }
+
+  export type TrainingPlanScalarWhereWithAggregatesInput = {
+    AND?: TrainingPlanScalarWhereWithAggregatesInput | TrainingPlanScalarWhereWithAggregatesInput[]
+    OR?: TrainingPlanScalarWhereWithAggregatesInput[]
+    NOT?: TrainingPlanScalarWhereWithAggregatesInput | TrainingPlanScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"TrainingPlan"> | string
+    tenantId?: UuidWithAggregatesFilter<"TrainingPlan"> | string
+    employeeId?: UuidWithAggregatesFilter<"TrainingPlan"> | string
+    templateKey?: StringWithAggregatesFilter<"TrainingPlan"> | string
+    templateVersion?: IntWithAggregatesFilter<"TrainingPlan"> | number
+    title?: StringWithAggregatesFilter<"TrainingPlan"> | string
+    status?: StringWithAggregatesFilter<"TrainingPlan"> | string
+    dueDate?: DateTimeWithAggregatesFilter<"TrainingPlan"> | Date | string
+    recheckDate?: DateTimeNullableWithAggregatesFilter<"TrainingPlan"> | Date | string | null
+    requestKey?: StringWithAggregatesFilter<"TrainingPlan"> | string
+    createdBy?: StringNullableWithAggregatesFilter<"TrainingPlan"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"TrainingPlan"> | Date | string
+    closedAt?: DateTimeNullableWithAggregatesFilter<"TrainingPlan"> | Date | string | null
+    updatedAt?: DateTimeWithAggregatesFilter<"TrainingPlan"> | Date | string
+  }
+
+  export type TrainingPlanItemWhereInput = {
+    AND?: TrainingPlanItemWhereInput | TrainingPlanItemWhereInput[]
+    OR?: TrainingPlanItemWhereInput[]
+    NOT?: TrainingPlanItemWhereInput | TrainingPlanItemWhereInput[]
+    id?: UuidFilter<"TrainingPlanItem"> | string
+    tenantId?: UuidFilter<"TrainingPlanItem"> | string
+    planId?: UuidFilter<"TrainingPlanItem"> | string
+    itemKey?: StringFilter<"TrainingPlanItem"> | string
+    text?: StringFilter<"TrainingPlanItem"> | string
+    status?: StringFilter<"TrainingPlanItem"> | string
+    note?: StringNullableFilter<"TrainingPlanItem"> | string | null
+    version?: IntFilter<"TrainingPlanItem"> | number
+    updatedBy?: StringNullableFilter<"TrainingPlanItem"> | string | null
+    updatedAt?: DateTimeFilter<"TrainingPlanItem"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    plan?: XOR<TrainingPlanScalarRelationFilter, TrainingPlanWhereInput>
+  }
+
+  export type TrainingPlanItemOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    planId?: SortOrder
+    itemKey?: SortOrder
+    text?: SortOrder
+    status?: SortOrder
+    note?: SortOrderInput | SortOrder
+    version?: SortOrder
+    updatedBy?: SortOrderInput | SortOrder
+    updatedAt?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+    plan?: TrainingPlanOrderByWithRelationInput
+  }
+
+  export type TrainingPlanItemWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    tenantId_planId_itemKey?: TrainingPlanItemTenantIdPlanIdItemKeyCompoundUniqueInput
+    AND?: TrainingPlanItemWhereInput | TrainingPlanItemWhereInput[]
+    OR?: TrainingPlanItemWhereInput[]
+    NOT?: TrainingPlanItemWhereInput | TrainingPlanItemWhereInput[]
+    tenantId?: UuidFilter<"TrainingPlanItem"> | string
+    planId?: UuidFilter<"TrainingPlanItem"> | string
+    itemKey?: StringFilter<"TrainingPlanItem"> | string
+    text?: StringFilter<"TrainingPlanItem"> | string
+    status?: StringFilter<"TrainingPlanItem"> | string
+    note?: StringNullableFilter<"TrainingPlanItem"> | string | null
+    version?: IntFilter<"TrainingPlanItem"> | number
+    updatedBy?: StringNullableFilter<"TrainingPlanItem"> | string | null
+    updatedAt?: DateTimeFilter<"TrainingPlanItem"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    plan?: XOR<TrainingPlanScalarRelationFilter, TrainingPlanWhereInput>
+  }, "id" | "tenantId_planId_itemKey">
+
+  export type TrainingPlanItemOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    planId?: SortOrder
+    itemKey?: SortOrder
+    text?: SortOrder
+    status?: SortOrder
+    note?: SortOrderInput | SortOrder
+    version?: SortOrder
+    updatedBy?: SortOrderInput | SortOrder
+    updatedAt?: SortOrder
+    _count?: TrainingPlanItemCountOrderByAggregateInput
+    _avg?: TrainingPlanItemAvgOrderByAggregateInput
+    _max?: TrainingPlanItemMaxOrderByAggregateInput
+    _min?: TrainingPlanItemMinOrderByAggregateInput
+    _sum?: TrainingPlanItemSumOrderByAggregateInput
+  }
+
+  export type TrainingPlanItemScalarWhereWithAggregatesInput = {
+    AND?: TrainingPlanItemScalarWhereWithAggregatesInput | TrainingPlanItemScalarWhereWithAggregatesInput[]
+    OR?: TrainingPlanItemScalarWhereWithAggregatesInput[]
+    NOT?: TrainingPlanItemScalarWhereWithAggregatesInput | TrainingPlanItemScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"TrainingPlanItem"> | string
+    tenantId?: UuidWithAggregatesFilter<"TrainingPlanItem"> | string
+    planId?: UuidWithAggregatesFilter<"TrainingPlanItem"> | string
+    itemKey?: StringWithAggregatesFilter<"TrainingPlanItem"> | string
+    text?: StringWithAggregatesFilter<"TrainingPlanItem"> | string
+    status?: StringWithAggregatesFilter<"TrainingPlanItem"> | string
+    note?: StringNullableWithAggregatesFilter<"TrainingPlanItem"> | string | null
+    version?: IntWithAggregatesFilter<"TrainingPlanItem"> | number
+    updatedBy?: StringNullableWithAggregatesFilter<"TrainingPlanItem"> | string | null
+    updatedAt?: DateTimeWithAggregatesFilter<"TrainingPlanItem"> | Date | string
+  }
+
+  export type TrainingRecordWhereInput = {
+    AND?: TrainingRecordWhereInput | TrainingRecordWhereInput[]
+    OR?: TrainingRecordWhereInput[]
+    NOT?: TrainingRecordWhereInput | TrainingRecordWhereInput[]
+    id?: UuidFilter<"TrainingRecord"> | string
+    tenantId?: UuidFilter<"TrainingRecord"> | string
+    employeeId?: UuidFilter<"TrainingRecord"> | string
+    mentorUserId?: UuidNullableFilter<"TrainingRecord"> | string | null
+    sessionDate?: DateTimeFilter<"TrainingRecord"> | Date | string
+    topic?: StringFilter<"TrainingRecord"> | string
+    notes?: StringFilter<"TrainingRecord"> | string
+    outcome?: StringNullableFilter<"TrainingRecord"> | string | null
+    recheckDate?: DateTimeNullableFilter<"TrainingRecord"> | Date | string | null
+    requestKey?: StringFilter<"TrainingRecord"> | string
+    createdAt?: DateTimeFilter<"TrainingRecord"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+  }
+
+  export type TrainingRecordOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    employeeId?: SortOrder
+    mentorUserId?: SortOrderInput | SortOrder
+    sessionDate?: SortOrder
+    topic?: SortOrder
+    notes?: SortOrder
+    outcome?: SortOrderInput | SortOrder
+    recheckDate?: SortOrderInput | SortOrder
+    requestKey?: SortOrder
+    createdAt?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+  }
+
+  export type TrainingRecordWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    tenantId_requestKey?: TrainingRecordTenantIdRequestKeyCompoundUniqueInput
+    AND?: TrainingRecordWhereInput | TrainingRecordWhereInput[]
+    OR?: TrainingRecordWhereInput[]
+    NOT?: TrainingRecordWhereInput | TrainingRecordWhereInput[]
+    tenantId?: UuidFilter<"TrainingRecord"> | string
+    employeeId?: UuidFilter<"TrainingRecord"> | string
+    mentorUserId?: UuidNullableFilter<"TrainingRecord"> | string | null
+    sessionDate?: DateTimeFilter<"TrainingRecord"> | Date | string
+    topic?: StringFilter<"TrainingRecord"> | string
+    notes?: StringFilter<"TrainingRecord"> | string
+    outcome?: StringNullableFilter<"TrainingRecord"> | string | null
+    recheckDate?: DateTimeNullableFilter<"TrainingRecord"> | Date | string | null
+    requestKey?: StringFilter<"TrainingRecord"> | string
+    createdAt?: DateTimeFilter<"TrainingRecord"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+  }, "id" | "tenantId_requestKey">
+
+  export type TrainingRecordOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    employeeId?: SortOrder
+    mentorUserId?: SortOrderInput | SortOrder
+    sessionDate?: SortOrder
+    topic?: SortOrder
+    notes?: SortOrder
+    outcome?: SortOrderInput | SortOrder
+    recheckDate?: SortOrderInput | SortOrder
+    requestKey?: SortOrder
+    createdAt?: SortOrder
+    _count?: TrainingRecordCountOrderByAggregateInput
+    _max?: TrainingRecordMaxOrderByAggregateInput
+    _min?: TrainingRecordMinOrderByAggregateInput
+  }
+
+  export type TrainingRecordScalarWhereWithAggregatesInput = {
+    AND?: TrainingRecordScalarWhereWithAggregatesInput | TrainingRecordScalarWhereWithAggregatesInput[]
+    OR?: TrainingRecordScalarWhereWithAggregatesInput[]
+    NOT?: TrainingRecordScalarWhereWithAggregatesInput | TrainingRecordScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"TrainingRecord"> | string
+    tenantId?: UuidWithAggregatesFilter<"TrainingRecord"> | string
+    employeeId?: UuidWithAggregatesFilter<"TrainingRecord"> | string
+    mentorUserId?: UuidNullableWithAggregatesFilter<"TrainingRecord"> | string | null
+    sessionDate?: DateTimeWithAggregatesFilter<"TrainingRecord"> | Date | string
+    topic?: StringWithAggregatesFilter<"TrainingRecord"> | string
+    notes?: StringWithAggregatesFilter<"TrainingRecord"> | string
+    outcome?: StringNullableWithAggregatesFilter<"TrainingRecord"> | string | null
+    recheckDate?: DateTimeNullableWithAggregatesFilter<"TrainingRecord"> | Date | string | null
+    requestKey?: StringWithAggregatesFilter<"TrainingRecord"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"TrainingRecord"> | Date | string
   }
 
   export type TenantCreateInput = {
@@ -218903,6 +224697,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateInput = {
@@ -219050,6 +224848,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUpdateInput = {
@@ -219197,6 +224999,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateInput = {
@@ -219344,6 +225150,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateManyInput = {
@@ -228577,6 +234387,8 @@ export namespace Prisma {
     skills?: NullableJsonNullValueInput | InputJsonValue
     hiredAt?: Date | string | null
     salaryLocked?: boolean
+    mentorUserId?: string | null
+    qualificationLevel?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     tenant: TenantCreateNestedOneWithoutEmployeesInput
@@ -228594,6 +234406,8 @@ export namespace Prisma {
     skills?: NullableJsonNullValueInput | InputJsonValue
     hiredAt?: Date | string | null
     salaryLocked?: boolean
+    mentorUserId?: string | null
+    qualificationLevel?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -228609,6 +234423,8 @@ export namespace Prisma {
     skills?: NullableJsonNullValueInput | InputJsonValue
     hiredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     salaryLocked?: BoolFieldUpdateOperationsInput | boolean
+    mentorUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    qualificationLevel?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: TenantUpdateOneRequiredWithoutEmployeesNestedInput
@@ -228626,6 +234442,8 @@ export namespace Prisma {
     skills?: NullableJsonNullValueInput | InputJsonValue
     hiredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     salaryLocked?: BoolFieldUpdateOperationsInput | boolean
+    mentorUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    qualificationLevel?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -228642,6 +234460,8 @@ export namespace Prisma {
     skills?: NullableJsonNullValueInput | InputJsonValue
     hiredAt?: Date | string | null
     salaryLocked?: boolean
+    mentorUserId?: string | null
+    qualificationLevel?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -228657,6 +234477,8 @@ export namespace Prisma {
     skills?: NullableJsonNullValueInput | InputJsonValue
     hiredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     salaryLocked?: BoolFieldUpdateOperationsInput | boolean
+    mentorUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    qualificationLevel?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -228673,6 +234495,8 @@ export namespace Prisma {
     skills?: NullableJsonNullValueInput | InputJsonValue
     hiredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     salaryLocked?: BoolFieldUpdateOperationsInput | boolean
+    mentorUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    qualificationLevel?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -232804,6 +238628,10 @@ export namespace Prisma {
     amount: Decimal | DecimalJsLike | number | string
     reason: string
     requestKey: string
+    bonusType?: string | null
+    originalAmount?: Decimal | DecimalJsLike | number | string | null
+    originalCurrency?: string | null
+    rate?: Decimal | DecimalJsLike | number | string | null
     createdBy?: string | null
     createdAt?: Date | string
     tenant: TenantCreateNestedOneWithoutPayrollAdjustmentsInput
@@ -232819,6 +238647,10 @@ export namespace Prisma {
     amount: Decimal | DecimalJsLike | number | string
     reason: string
     requestKey: string
+    bonusType?: string | null
+    originalAmount?: Decimal | DecimalJsLike | number | string | null
+    originalCurrency?: string | null
+    rate?: Decimal | DecimalJsLike | number | string | null
     createdBy?: string | null
     createdAt?: Date | string
   }
@@ -232832,6 +238664,10 @@ export namespace Prisma {
     amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     reason?: StringFieldUpdateOperationsInput | string
     requestKey?: StringFieldUpdateOperationsInput | string
+    bonusType?: NullableStringFieldUpdateOperationsInput | string | null
+    originalAmount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    originalCurrency?: NullableStringFieldUpdateOperationsInput | string | null
+    rate?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: TenantUpdateOneRequiredWithoutPayrollAdjustmentsNestedInput
@@ -232847,6 +238683,10 @@ export namespace Prisma {
     amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     reason?: StringFieldUpdateOperationsInput | string
     requestKey?: StringFieldUpdateOperationsInput | string
+    bonusType?: NullableStringFieldUpdateOperationsInput | string | null
+    originalAmount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    originalCurrency?: NullableStringFieldUpdateOperationsInput | string | null
+    rate?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -232861,6 +238701,10 @@ export namespace Prisma {
     amount: Decimal | DecimalJsLike | number | string
     reason: string
     requestKey: string
+    bonusType?: string | null
+    originalAmount?: Decimal | DecimalJsLike | number | string | null
+    originalCurrency?: string | null
+    rate?: Decimal | DecimalJsLike | number | string | null
     createdBy?: string | null
     createdAt?: Date | string
   }
@@ -232874,6 +238718,10 @@ export namespace Prisma {
     amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     reason?: StringFieldUpdateOperationsInput | string
     requestKey?: StringFieldUpdateOperationsInput | string
+    bonusType?: NullableStringFieldUpdateOperationsInput | string | null
+    originalAmount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    originalCurrency?: NullableStringFieldUpdateOperationsInput | string | null
+    rate?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -232888,6 +238736,10 @@ export namespace Prisma {
     amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     reason?: StringFieldUpdateOperationsInput | string
     requestKey?: StringFieldUpdateOperationsInput | string
+    bonusType?: NullableStringFieldUpdateOperationsInput | string | null
+    originalAmount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    originalCurrency?: NullableStringFieldUpdateOperationsInput | string | null
+    rate?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -233057,6 +238909,397 @@ export namespace Prisma {
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TrainingPlanTemplateCreateInput = {
+    id?: string
+    key: string
+    version: number
+    name: string
+    qualificationLevel?: string | null
+    items: JsonNullValueInput | InputJsonValue
+    createdBy?: string | null
+    createdAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutTrainingPlanTemplatesInput
+  }
+
+  export type TrainingPlanTemplateUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    key: string
+    version: number
+    name: string
+    qualificationLevel?: string | null
+    items: JsonNullValueInput | InputJsonValue
+    createdBy?: string | null
+    createdAt?: Date | string
+  }
+
+  export type TrainingPlanTemplateUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    version?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    qualificationLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    items?: JsonNullValueInput | InputJsonValue
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutTrainingPlanTemplatesNestedInput
+  }
+
+  export type TrainingPlanTemplateUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    version?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    qualificationLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    items?: JsonNullValueInput | InputJsonValue
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TrainingPlanTemplateCreateManyInput = {
+    id?: string
+    tenantId: string
+    key: string
+    version: number
+    name: string
+    qualificationLevel?: string | null
+    items: JsonNullValueInput | InputJsonValue
+    createdBy?: string | null
+    createdAt?: Date | string
+  }
+
+  export type TrainingPlanTemplateUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    version?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    qualificationLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    items?: JsonNullValueInput | InputJsonValue
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TrainingPlanTemplateUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    version?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    qualificationLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    items?: JsonNullValueInput | InputJsonValue
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TrainingPlanCreateInput = {
+    id?: string
+    employeeId: string
+    templateKey: string
+    templateVersion: number
+    title: string
+    status?: string
+    dueDate: Date | string
+    recheckDate?: Date | string | null
+    requestKey: string
+    createdBy?: string | null
+    createdAt?: Date | string
+    closedAt?: Date | string | null
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutTrainingPlansInput
+    items?: TrainingPlanItemCreateNestedManyWithoutPlanInput
+  }
+
+  export type TrainingPlanUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    employeeId: string
+    templateKey: string
+    templateVersion: number
+    title: string
+    status?: string
+    dueDate: Date | string
+    recheckDate?: Date | string | null
+    requestKey: string
+    createdBy?: string | null
+    createdAt?: Date | string
+    closedAt?: Date | string | null
+    updatedAt?: Date | string
+    items?: TrainingPlanItemUncheckedCreateNestedManyWithoutPlanInput
+  }
+
+  export type TrainingPlanUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    templateKey?: StringFieldUpdateOperationsInput | string
+    templateVersion?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    recheckDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    requestKey?: StringFieldUpdateOperationsInput | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutTrainingPlansNestedInput
+    items?: TrainingPlanItemUpdateManyWithoutPlanNestedInput
+  }
+
+  export type TrainingPlanUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    templateKey?: StringFieldUpdateOperationsInput | string
+    templateVersion?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    recheckDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    requestKey?: StringFieldUpdateOperationsInput | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    items?: TrainingPlanItemUncheckedUpdateManyWithoutPlanNestedInput
+  }
+
+  export type TrainingPlanCreateManyInput = {
+    id?: string
+    tenantId: string
+    employeeId: string
+    templateKey: string
+    templateVersion: number
+    title: string
+    status?: string
+    dueDate: Date | string
+    recheckDate?: Date | string | null
+    requestKey: string
+    createdBy?: string | null
+    createdAt?: Date | string
+    closedAt?: Date | string | null
+    updatedAt?: Date | string
+  }
+
+  export type TrainingPlanUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    templateKey?: StringFieldUpdateOperationsInput | string
+    templateVersion?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    recheckDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    requestKey?: StringFieldUpdateOperationsInput | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TrainingPlanUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    templateKey?: StringFieldUpdateOperationsInput | string
+    templateVersion?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    recheckDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    requestKey?: StringFieldUpdateOperationsInput | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TrainingPlanItemCreateInput = {
+    id?: string
+    itemKey: string
+    text: string
+    status?: string
+    note?: string | null
+    version?: number
+    updatedBy?: string | null
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutTrainingPlanItemsInput
+    plan: TrainingPlanCreateNestedOneWithoutItemsInput
+  }
+
+  export type TrainingPlanItemUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    planId: string
+    itemKey: string
+    text: string
+    status?: string
+    note?: string | null
+    version?: number
+    updatedBy?: string | null
+    updatedAt?: Date | string
+  }
+
+  export type TrainingPlanItemUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    itemKey?: StringFieldUpdateOperationsInput | string
+    text?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    version?: IntFieldUpdateOperationsInput | number
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutTrainingPlanItemsNestedInput
+    plan?: TrainingPlanUpdateOneRequiredWithoutItemsNestedInput
+  }
+
+  export type TrainingPlanItemUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    planId?: StringFieldUpdateOperationsInput | string
+    itemKey?: StringFieldUpdateOperationsInput | string
+    text?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    version?: IntFieldUpdateOperationsInput | number
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TrainingPlanItemCreateManyInput = {
+    id?: string
+    tenantId: string
+    planId: string
+    itemKey: string
+    text: string
+    status?: string
+    note?: string | null
+    version?: number
+    updatedBy?: string | null
+    updatedAt?: Date | string
+  }
+
+  export type TrainingPlanItemUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    itemKey?: StringFieldUpdateOperationsInput | string
+    text?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    version?: IntFieldUpdateOperationsInput | number
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TrainingPlanItemUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    planId?: StringFieldUpdateOperationsInput | string
+    itemKey?: StringFieldUpdateOperationsInput | string
+    text?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    version?: IntFieldUpdateOperationsInput | number
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TrainingRecordCreateInput = {
+    id?: string
+    employeeId: string
+    mentorUserId?: string | null
+    sessionDate: Date | string
+    topic: string
+    notes: string
+    outcome?: string | null
+    recheckDate?: Date | string | null
+    requestKey: string
+    createdAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutTrainingRecordsInput
+  }
+
+  export type TrainingRecordUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    employeeId: string
+    mentorUserId?: string | null
+    sessionDate: Date | string
+    topic: string
+    notes: string
+    outcome?: string | null
+    recheckDate?: Date | string | null
+    requestKey: string
+    createdAt?: Date | string
+  }
+
+  export type TrainingRecordUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    mentorUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    sessionDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    topic?: StringFieldUpdateOperationsInput | string
+    notes?: StringFieldUpdateOperationsInput | string
+    outcome?: NullableStringFieldUpdateOperationsInput | string | null
+    recheckDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    requestKey?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutTrainingRecordsNestedInput
+  }
+
+  export type TrainingRecordUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    mentorUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    sessionDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    topic?: StringFieldUpdateOperationsInput | string
+    notes?: StringFieldUpdateOperationsInput | string
+    outcome?: NullableStringFieldUpdateOperationsInput | string | null
+    recheckDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    requestKey?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TrainingRecordCreateManyInput = {
+    id?: string
+    tenantId: string
+    employeeId: string
+    mentorUserId?: string | null
+    sessionDate: Date | string
+    topic: string
+    notes: string
+    outcome?: string | null
+    recheckDate?: Date | string | null
+    requestKey: string
+    createdAt?: Date | string
+  }
+
+  export type TrainingRecordUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    mentorUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    sessionDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    topic?: StringFieldUpdateOperationsInput | string
+    notes?: StringFieldUpdateOperationsInput | string
+    outcome?: NullableStringFieldUpdateOperationsInput | string | null
+    recheckDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    requestKey?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TrainingRecordUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    mentorUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    sessionDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    topic?: StringFieldUpdateOperationsInput | string
+    notes?: StringFieldUpdateOperationsInput | string
+    outcome?: NullableStringFieldUpdateOperationsInput | string | null
+    recheckDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    requestKey?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type UuidFilter<$PrismaModel = never> = {
@@ -233937,6 +240180,30 @@ export namespace Prisma {
     none?: EmploymentContractWhereInput
   }
 
+  export type TrainingPlanTemplateListRelationFilter = {
+    every?: TrainingPlanTemplateWhereInput
+    some?: TrainingPlanTemplateWhereInput
+    none?: TrainingPlanTemplateWhereInput
+  }
+
+  export type TrainingPlanListRelationFilter = {
+    every?: TrainingPlanWhereInput
+    some?: TrainingPlanWhereInput
+    none?: TrainingPlanWhereInput
+  }
+
+  export type TrainingPlanItemListRelationFilter = {
+    every?: TrainingPlanItemWhereInput
+    some?: TrainingPlanItemWhereInput
+    none?: TrainingPlanItemWhereInput
+  }
+
+  export type TrainingRecordListRelationFilter = {
+    every?: TrainingRecordWhereInput
+    some?: TrainingRecordWhereInput
+    none?: TrainingRecordWhereInput
+  }
+
   export type TenantConfigurationVersionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -234482,6 +240749,22 @@ export namespace Prisma {
   }
 
   export type EmploymentContractOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type TrainingPlanTemplateOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type TrainingPlanOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type TrainingPlanItemOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type TrainingRecordOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -241017,6 +247300,8 @@ export namespace Prisma {
     skills?: SortOrder
     hiredAt?: SortOrder
     salaryLocked?: SortOrder
+    mentorUserId?: SortOrder
+    qualificationLevel?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -241032,6 +247317,8 @@ export namespace Prisma {
     userId?: SortOrder
     hiredAt?: SortOrder
     salaryLocked?: SortOrder
+    mentorUserId?: SortOrder
+    qualificationLevel?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -241047,6 +247334,8 @@ export namespace Prisma {
     userId?: SortOrder
     hiredAt?: SortOrder
     salaryLocked?: SortOrder
+    mentorUserId?: SortOrder
+    qualificationLevel?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -243633,6 +249922,10 @@ export namespace Prisma {
     amount?: SortOrder
     reason?: SortOrder
     requestKey?: SortOrder
+    bonusType?: SortOrder
+    originalAmount?: SortOrder
+    originalCurrency?: SortOrder
+    rate?: SortOrder
     createdBy?: SortOrder
     createdAt?: SortOrder
   }
@@ -243641,6 +249934,8 @@ export namespace Prisma {
     year?: SortOrder
     month?: SortOrder
     amount?: SortOrder
+    originalAmount?: SortOrder
+    rate?: SortOrder
   }
 
   export type PayrollAdjustmentMaxOrderByAggregateInput = {
@@ -243653,6 +249948,10 @@ export namespace Prisma {
     amount?: SortOrder
     reason?: SortOrder
     requestKey?: SortOrder
+    bonusType?: SortOrder
+    originalAmount?: SortOrder
+    originalCurrency?: SortOrder
+    rate?: SortOrder
     createdBy?: SortOrder
     createdAt?: SortOrder
   }
@@ -243667,6 +249966,10 @@ export namespace Prisma {
     amount?: SortOrder
     reason?: SortOrder
     requestKey?: SortOrder
+    bonusType?: SortOrder
+    originalAmount?: SortOrder
+    originalCurrency?: SortOrder
+    rate?: SortOrder
     createdBy?: SortOrder
     createdAt?: SortOrder
   }
@@ -243675,6 +249978,8 @@ export namespace Prisma {
     year?: SortOrder
     month?: SortOrder
     amount?: SortOrder
+    originalAmount?: SortOrder
+    rate?: SortOrder
   }
 
   export type EmploymentContractTenantIdContractNumberCompoundUniqueInput = {
@@ -243765,6 +250070,223 @@ export namespace Prisma {
 
   export type EmploymentContractSumOrderByAggregateInput = {
     templateVersion?: SortOrder
+  }
+
+  export type TrainingPlanTemplateTenantIdKeyVersionCompoundUniqueInput = {
+    tenantId: string
+    key: string
+    version: number
+  }
+
+  export type TrainingPlanTemplateCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    key?: SortOrder
+    version?: SortOrder
+    name?: SortOrder
+    qualificationLevel?: SortOrder
+    items?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type TrainingPlanTemplateAvgOrderByAggregateInput = {
+    version?: SortOrder
+  }
+
+  export type TrainingPlanTemplateMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    key?: SortOrder
+    version?: SortOrder
+    name?: SortOrder
+    qualificationLevel?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type TrainingPlanTemplateMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    key?: SortOrder
+    version?: SortOrder
+    name?: SortOrder
+    qualificationLevel?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type TrainingPlanTemplateSumOrderByAggregateInput = {
+    version?: SortOrder
+  }
+
+  export type TrainingPlanTenantIdRequestKeyCompoundUniqueInput = {
+    tenantId: string
+    requestKey: string
+  }
+
+  export type TrainingPlanCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    employeeId?: SortOrder
+    templateKey?: SortOrder
+    templateVersion?: SortOrder
+    title?: SortOrder
+    status?: SortOrder
+    dueDate?: SortOrder
+    recheckDate?: SortOrder
+    requestKey?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    closedAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TrainingPlanAvgOrderByAggregateInput = {
+    templateVersion?: SortOrder
+  }
+
+  export type TrainingPlanMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    employeeId?: SortOrder
+    templateKey?: SortOrder
+    templateVersion?: SortOrder
+    title?: SortOrder
+    status?: SortOrder
+    dueDate?: SortOrder
+    recheckDate?: SortOrder
+    requestKey?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    closedAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TrainingPlanMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    employeeId?: SortOrder
+    templateKey?: SortOrder
+    templateVersion?: SortOrder
+    title?: SortOrder
+    status?: SortOrder
+    dueDate?: SortOrder
+    recheckDate?: SortOrder
+    requestKey?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    closedAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TrainingPlanSumOrderByAggregateInput = {
+    templateVersion?: SortOrder
+  }
+
+  export type TrainingPlanScalarRelationFilter = {
+    is?: TrainingPlanWhereInput
+    isNot?: TrainingPlanWhereInput
+  }
+
+  export type TrainingPlanItemTenantIdPlanIdItemKeyCompoundUniqueInput = {
+    tenantId: string
+    planId: string
+    itemKey: string
+  }
+
+  export type TrainingPlanItemCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    planId?: SortOrder
+    itemKey?: SortOrder
+    text?: SortOrder
+    status?: SortOrder
+    note?: SortOrder
+    version?: SortOrder
+    updatedBy?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TrainingPlanItemAvgOrderByAggregateInput = {
+    version?: SortOrder
+  }
+
+  export type TrainingPlanItemMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    planId?: SortOrder
+    itemKey?: SortOrder
+    text?: SortOrder
+    status?: SortOrder
+    note?: SortOrder
+    version?: SortOrder
+    updatedBy?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TrainingPlanItemMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    planId?: SortOrder
+    itemKey?: SortOrder
+    text?: SortOrder
+    status?: SortOrder
+    note?: SortOrder
+    version?: SortOrder
+    updatedBy?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TrainingPlanItemSumOrderByAggregateInput = {
+    version?: SortOrder
+  }
+
+  export type TrainingRecordTenantIdRequestKeyCompoundUniqueInput = {
+    tenantId: string
+    requestKey: string
+  }
+
+  export type TrainingRecordCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    employeeId?: SortOrder
+    mentorUserId?: SortOrder
+    sessionDate?: SortOrder
+    topic?: SortOrder
+    notes?: SortOrder
+    outcome?: SortOrder
+    recheckDate?: SortOrder
+    requestKey?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type TrainingRecordMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    employeeId?: SortOrder
+    mentorUserId?: SortOrder
+    sessionDate?: SortOrder
+    topic?: SortOrder
+    notes?: SortOrder
+    outcome?: SortOrder
+    recheckDate?: SortOrder
+    requestKey?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type TrainingRecordMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    employeeId?: SortOrder
+    mentorUserId?: SortOrder
+    sessionDate?: SortOrder
+    topic?: SortOrder
+    notes?: SortOrder
+    outcome?: SortOrder
+    recheckDate?: SortOrder
+    requestKey?: SortOrder
+    createdAt?: SortOrder
   }
 
   export type TenantConfigurationVersionCreateNestedManyWithoutTenantInput = {
@@ -244726,6 +251248,34 @@ export namespace Prisma {
     connect?: EmploymentContractWhereUniqueInput | EmploymentContractWhereUniqueInput[]
   }
 
+  export type TrainingPlanTemplateCreateNestedManyWithoutTenantInput = {
+    create?: XOR<TrainingPlanTemplateCreateWithoutTenantInput, TrainingPlanTemplateUncheckedCreateWithoutTenantInput> | TrainingPlanTemplateCreateWithoutTenantInput[] | TrainingPlanTemplateUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: TrainingPlanTemplateCreateOrConnectWithoutTenantInput | TrainingPlanTemplateCreateOrConnectWithoutTenantInput[]
+    createMany?: TrainingPlanTemplateCreateManyTenantInputEnvelope
+    connect?: TrainingPlanTemplateWhereUniqueInput | TrainingPlanTemplateWhereUniqueInput[]
+  }
+
+  export type TrainingPlanCreateNestedManyWithoutTenantInput = {
+    create?: XOR<TrainingPlanCreateWithoutTenantInput, TrainingPlanUncheckedCreateWithoutTenantInput> | TrainingPlanCreateWithoutTenantInput[] | TrainingPlanUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: TrainingPlanCreateOrConnectWithoutTenantInput | TrainingPlanCreateOrConnectWithoutTenantInput[]
+    createMany?: TrainingPlanCreateManyTenantInputEnvelope
+    connect?: TrainingPlanWhereUniqueInput | TrainingPlanWhereUniqueInput[]
+  }
+
+  export type TrainingPlanItemCreateNestedManyWithoutTenantInput = {
+    create?: XOR<TrainingPlanItemCreateWithoutTenantInput, TrainingPlanItemUncheckedCreateWithoutTenantInput> | TrainingPlanItemCreateWithoutTenantInput[] | TrainingPlanItemUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: TrainingPlanItemCreateOrConnectWithoutTenantInput | TrainingPlanItemCreateOrConnectWithoutTenantInput[]
+    createMany?: TrainingPlanItemCreateManyTenantInputEnvelope
+    connect?: TrainingPlanItemWhereUniqueInput | TrainingPlanItemWhereUniqueInput[]
+  }
+
+  export type TrainingRecordCreateNestedManyWithoutTenantInput = {
+    create?: XOR<TrainingRecordCreateWithoutTenantInput, TrainingRecordUncheckedCreateWithoutTenantInput> | TrainingRecordCreateWithoutTenantInput[] | TrainingRecordUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: TrainingRecordCreateOrConnectWithoutTenantInput | TrainingRecordCreateOrConnectWithoutTenantInput[]
+    createMany?: TrainingRecordCreateManyTenantInputEnvelope
+    connect?: TrainingRecordWhereUniqueInput | TrainingRecordWhereUniqueInput[]
+  }
+
   export type TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -245683,6 +252233,34 @@ export namespace Prisma {
     connectOrCreate?: EmploymentContractCreateOrConnectWithoutTenantInput | EmploymentContractCreateOrConnectWithoutTenantInput[]
     createMany?: EmploymentContractCreateManyTenantInputEnvelope
     connect?: EmploymentContractWhereUniqueInput | EmploymentContractWhereUniqueInput[]
+  }
+
+  export type TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<TrainingPlanTemplateCreateWithoutTenantInput, TrainingPlanTemplateUncheckedCreateWithoutTenantInput> | TrainingPlanTemplateCreateWithoutTenantInput[] | TrainingPlanTemplateUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: TrainingPlanTemplateCreateOrConnectWithoutTenantInput | TrainingPlanTemplateCreateOrConnectWithoutTenantInput[]
+    createMany?: TrainingPlanTemplateCreateManyTenantInputEnvelope
+    connect?: TrainingPlanTemplateWhereUniqueInput | TrainingPlanTemplateWhereUniqueInput[]
+  }
+
+  export type TrainingPlanUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<TrainingPlanCreateWithoutTenantInput, TrainingPlanUncheckedCreateWithoutTenantInput> | TrainingPlanCreateWithoutTenantInput[] | TrainingPlanUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: TrainingPlanCreateOrConnectWithoutTenantInput | TrainingPlanCreateOrConnectWithoutTenantInput[]
+    createMany?: TrainingPlanCreateManyTenantInputEnvelope
+    connect?: TrainingPlanWhereUniqueInput | TrainingPlanWhereUniqueInput[]
+  }
+
+  export type TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<TrainingPlanItemCreateWithoutTenantInput, TrainingPlanItemUncheckedCreateWithoutTenantInput> | TrainingPlanItemCreateWithoutTenantInput[] | TrainingPlanItemUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: TrainingPlanItemCreateOrConnectWithoutTenantInput | TrainingPlanItemCreateOrConnectWithoutTenantInput[]
+    createMany?: TrainingPlanItemCreateManyTenantInputEnvelope
+    connect?: TrainingPlanItemWhereUniqueInput | TrainingPlanItemWhereUniqueInput[]
+  }
+
+  export type TrainingRecordUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<TrainingRecordCreateWithoutTenantInput, TrainingRecordUncheckedCreateWithoutTenantInput> | TrainingRecordCreateWithoutTenantInput[] | TrainingRecordUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: TrainingRecordCreateOrConnectWithoutTenantInput | TrainingRecordCreateOrConnectWithoutTenantInput[]
+    createMany?: TrainingRecordCreateManyTenantInputEnvelope
+    connect?: TrainingRecordWhereUniqueInput | TrainingRecordWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -247623,6 +254201,62 @@ export namespace Prisma {
     deleteMany?: EmploymentContractScalarWhereInput | EmploymentContractScalarWhereInput[]
   }
 
+  export type TrainingPlanTemplateUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<TrainingPlanTemplateCreateWithoutTenantInput, TrainingPlanTemplateUncheckedCreateWithoutTenantInput> | TrainingPlanTemplateCreateWithoutTenantInput[] | TrainingPlanTemplateUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: TrainingPlanTemplateCreateOrConnectWithoutTenantInput | TrainingPlanTemplateCreateOrConnectWithoutTenantInput[]
+    upsert?: TrainingPlanTemplateUpsertWithWhereUniqueWithoutTenantInput | TrainingPlanTemplateUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: TrainingPlanTemplateCreateManyTenantInputEnvelope
+    set?: TrainingPlanTemplateWhereUniqueInput | TrainingPlanTemplateWhereUniqueInput[]
+    disconnect?: TrainingPlanTemplateWhereUniqueInput | TrainingPlanTemplateWhereUniqueInput[]
+    delete?: TrainingPlanTemplateWhereUniqueInput | TrainingPlanTemplateWhereUniqueInput[]
+    connect?: TrainingPlanTemplateWhereUniqueInput | TrainingPlanTemplateWhereUniqueInput[]
+    update?: TrainingPlanTemplateUpdateWithWhereUniqueWithoutTenantInput | TrainingPlanTemplateUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: TrainingPlanTemplateUpdateManyWithWhereWithoutTenantInput | TrainingPlanTemplateUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: TrainingPlanTemplateScalarWhereInput | TrainingPlanTemplateScalarWhereInput[]
+  }
+
+  export type TrainingPlanUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<TrainingPlanCreateWithoutTenantInput, TrainingPlanUncheckedCreateWithoutTenantInput> | TrainingPlanCreateWithoutTenantInput[] | TrainingPlanUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: TrainingPlanCreateOrConnectWithoutTenantInput | TrainingPlanCreateOrConnectWithoutTenantInput[]
+    upsert?: TrainingPlanUpsertWithWhereUniqueWithoutTenantInput | TrainingPlanUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: TrainingPlanCreateManyTenantInputEnvelope
+    set?: TrainingPlanWhereUniqueInput | TrainingPlanWhereUniqueInput[]
+    disconnect?: TrainingPlanWhereUniqueInput | TrainingPlanWhereUniqueInput[]
+    delete?: TrainingPlanWhereUniqueInput | TrainingPlanWhereUniqueInput[]
+    connect?: TrainingPlanWhereUniqueInput | TrainingPlanWhereUniqueInput[]
+    update?: TrainingPlanUpdateWithWhereUniqueWithoutTenantInput | TrainingPlanUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: TrainingPlanUpdateManyWithWhereWithoutTenantInput | TrainingPlanUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: TrainingPlanScalarWhereInput | TrainingPlanScalarWhereInput[]
+  }
+
+  export type TrainingPlanItemUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<TrainingPlanItemCreateWithoutTenantInput, TrainingPlanItemUncheckedCreateWithoutTenantInput> | TrainingPlanItemCreateWithoutTenantInput[] | TrainingPlanItemUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: TrainingPlanItemCreateOrConnectWithoutTenantInput | TrainingPlanItemCreateOrConnectWithoutTenantInput[]
+    upsert?: TrainingPlanItemUpsertWithWhereUniqueWithoutTenantInput | TrainingPlanItemUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: TrainingPlanItemCreateManyTenantInputEnvelope
+    set?: TrainingPlanItemWhereUniqueInput | TrainingPlanItemWhereUniqueInput[]
+    disconnect?: TrainingPlanItemWhereUniqueInput | TrainingPlanItemWhereUniqueInput[]
+    delete?: TrainingPlanItemWhereUniqueInput | TrainingPlanItemWhereUniqueInput[]
+    connect?: TrainingPlanItemWhereUniqueInput | TrainingPlanItemWhereUniqueInput[]
+    update?: TrainingPlanItemUpdateWithWhereUniqueWithoutTenantInput | TrainingPlanItemUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: TrainingPlanItemUpdateManyWithWhereWithoutTenantInput | TrainingPlanItemUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: TrainingPlanItemScalarWhereInput | TrainingPlanItemScalarWhereInput[]
+  }
+
+  export type TrainingRecordUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<TrainingRecordCreateWithoutTenantInput, TrainingRecordUncheckedCreateWithoutTenantInput> | TrainingRecordCreateWithoutTenantInput[] | TrainingRecordUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: TrainingRecordCreateOrConnectWithoutTenantInput | TrainingRecordCreateOrConnectWithoutTenantInput[]
+    upsert?: TrainingRecordUpsertWithWhereUniqueWithoutTenantInput | TrainingRecordUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: TrainingRecordCreateManyTenantInputEnvelope
+    set?: TrainingRecordWhereUniqueInput | TrainingRecordWhereUniqueInput[]
+    disconnect?: TrainingRecordWhereUniqueInput | TrainingRecordWhereUniqueInput[]
+    delete?: TrainingRecordWhereUniqueInput | TrainingRecordWhereUniqueInput[]
+    connect?: TrainingRecordWhereUniqueInput | TrainingRecordWhereUniqueInput[]
+    update?: TrainingRecordUpdateWithWhereUniqueWithoutTenantInput | TrainingRecordUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: TrainingRecordUpdateManyWithWhereWithoutTenantInput | TrainingRecordUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: TrainingRecordScalarWhereInput | TrainingRecordScalarWhereInput[]
+  }
+
   export type TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -249539,6 +256173,62 @@ export namespace Prisma {
     update?: EmploymentContractUpdateWithWhereUniqueWithoutTenantInput | EmploymentContractUpdateWithWhereUniqueWithoutTenantInput[]
     updateMany?: EmploymentContractUpdateManyWithWhereWithoutTenantInput | EmploymentContractUpdateManyWithWhereWithoutTenantInput[]
     deleteMany?: EmploymentContractScalarWhereInput | EmploymentContractScalarWhereInput[]
+  }
+
+  export type TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<TrainingPlanTemplateCreateWithoutTenantInput, TrainingPlanTemplateUncheckedCreateWithoutTenantInput> | TrainingPlanTemplateCreateWithoutTenantInput[] | TrainingPlanTemplateUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: TrainingPlanTemplateCreateOrConnectWithoutTenantInput | TrainingPlanTemplateCreateOrConnectWithoutTenantInput[]
+    upsert?: TrainingPlanTemplateUpsertWithWhereUniqueWithoutTenantInput | TrainingPlanTemplateUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: TrainingPlanTemplateCreateManyTenantInputEnvelope
+    set?: TrainingPlanTemplateWhereUniqueInput | TrainingPlanTemplateWhereUniqueInput[]
+    disconnect?: TrainingPlanTemplateWhereUniqueInput | TrainingPlanTemplateWhereUniqueInput[]
+    delete?: TrainingPlanTemplateWhereUniqueInput | TrainingPlanTemplateWhereUniqueInput[]
+    connect?: TrainingPlanTemplateWhereUniqueInput | TrainingPlanTemplateWhereUniqueInput[]
+    update?: TrainingPlanTemplateUpdateWithWhereUniqueWithoutTenantInput | TrainingPlanTemplateUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: TrainingPlanTemplateUpdateManyWithWhereWithoutTenantInput | TrainingPlanTemplateUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: TrainingPlanTemplateScalarWhereInput | TrainingPlanTemplateScalarWhereInput[]
+  }
+
+  export type TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<TrainingPlanCreateWithoutTenantInput, TrainingPlanUncheckedCreateWithoutTenantInput> | TrainingPlanCreateWithoutTenantInput[] | TrainingPlanUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: TrainingPlanCreateOrConnectWithoutTenantInput | TrainingPlanCreateOrConnectWithoutTenantInput[]
+    upsert?: TrainingPlanUpsertWithWhereUniqueWithoutTenantInput | TrainingPlanUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: TrainingPlanCreateManyTenantInputEnvelope
+    set?: TrainingPlanWhereUniqueInput | TrainingPlanWhereUniqueInput[]
+    disconnect?: TrainingPlanWhereUniqueInput | TrainingPlanWhereUniqueInput[]
+    delete?: TrainingPlanWhereUniqueInput | TrainingPlanWhereUniqueInput[]
+    connect?: TrainingPlanWhereUniqueInput | TrainingPlanWhereUniqueInput[]
+    update?: TrainingPlanUpdateWithWhereUniqueWithoutTenantInput | TrainingPlanUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: TrainingPlanUpdateManyWithWhereWithoutTenantInput | TrainingPlanUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: TrainingPlanScalarWhereInput | TrainingPlanScalarWhereInput[]
+  }
+
+  export type TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<TrainingPlanItemCreateWithoutTenantInput, TrainingPlanItemUncheckedCreateWithoutTenantInput> | TrainingPlanItemCreateWithoutTenantInput[] | TrainingPlanItemUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: TrainingPlanItemCreateOrConnectWithoutTenantInput | TrainingPlanItemCreateOrConnectWithoutTenantInput[]
+    upsert?: TrainingPlanItemUpsertWithWhereUniqueWithoutTenantInput | TrainingPlanItemUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: TrainingPlanItemCreateManyTenantInputEnvelope
+    set?: TrainingPlanItemWhereUniqueInput | TrainingPlanItemWhereUniqueInput[]
+    disconnect?: TrainingPlanItemWhereUniqueInput | TrainingPlanItemWhereUniqueInput[]
+    delete?: TrainingPlanItemWhereUniqueInput | TrainingPlanItemWhereUniqueInput[]
+    connect?: TrainingPlanItemWhereUniqueInput | TrainingPlanItemWhereUniqueInput[]
+    update?: TrainingPlanItemUpdateWithWhereUniqueWithoutTenantInput | TrainingPlanItemUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: TrainingPlanItemUpdateManyWithWhereWithoutTenantInput | TrainingPlanItemUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: TrainingPlanItemScalarWhereInput | TrainingPlanItemScalarWhereInput[]
+  }
+
+  export type TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<TrainingRecordCreateWithoutTenantInput, TrainingRecordUncheckedCreateWithoutTenantInput> | TrainingRecordCreateWithoutTenantInput[] | TrainingRecordUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: TrainingRecordCreateOrConnectWithoutTenantInput | TrainingRecordCreateOrConnectWithoutTenantInput[]
+    upsert?: TrainingRecordUpsertWithWhereUniqueWithoutTenantInput | TrainingRecordUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: TrainingRecordCreateManyTenantInputEnvelope
+    set?: TrainingRecordWhereUniqueInput | TrainingRecordWhereUniqueInput[]
+    disconnect?: TrainingRecordWhereUniqueInput | TrainingRecordWhereUniqueInput[]
+    delete?: TrainingRecordWhereUniqueInput | TrainingRecordWhereUniqueInput[]
+    connect?: TrainingRecordWhereUniqueInput | TrainingRecordWhereUniqueInput[]
+    update?: TrainingRecordUpdateWithWhereUniqueWithoutTenantInput | TrainingRecordUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: TrainingRecordUpdateManyWithWhereWithoutTenantInput | TrainingRecordUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: TrainingRecordScalarWhereInput | TrainingRecordScalarWhereInput[]
   }
 
   export type TenantCreateNestedOneWithoutConfigurationVersionsInput = {
@@ -255898,6 +262588,118 @@ export namespace Prisma {
     update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutEmploymentContractsInput, TenantUpdateWithoutEmploymentContractsInput>, TenantUncheckedUpdateWithoutEmploymentContractsInput>
   }
 
+  export type TenantCreateNestedOneWithoutTrainingPlanTemplatesInput = {
+    create?: XOR<TenantCreateWithoutTrainingPlanTemplatesInput, TenantUncheckedCreateWithoutTrainingPlanTemplatesInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutTrainingPlanTemplatesInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type TenantUpdateOneRequiredWithoutTrainingPlanTemplatesNestedInput = {
+    create?: XOR<TenantCreateWithoutTrainingPlanTemplatesInput, TenantUncheckedCreateWithoutTrainingPlanTemplatesInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutTrainingPlanTemplatesInput
+    upsert?: TenantUpsertWithoutTrainingPlanTemplatesInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutTrainingPlanTemplatesInput, TenantUpdateWithoutTrainingPlanTemplatesInput>, TenantUncheckedUpdateWithoutTrainingPlanTemplatesInput>
+  }
+
+  export type TenantCreateNestedOneWithoutTrainingPlansInput = {
+    create?: XOR<TenantCreateWithoutTrainingPlansInput, TenantUncheckedCreateWithoutTrainingPlansInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutTrainingPlansInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type TrainingPlanItemCreateNestedManyWithoutPlanInput = {
+    create?: XOR<TrainingPlanItemCreateWithoutPlanInput, TrainingPlanItemUncheckedCreateWithoutPlanInput> | TrainingPlanItemCreateWithoutPlanInput[] | TrainingPlanItemUncheckedCreateWithoutPlanInput[]
+    connectOrCreate?: TrainingPlanItemCreateOrConnectWithoutPlanInput | TrainingPlanItemCreateOrConnectWithoutPlanInput[]
+    createMany?: TrainingPlanItemCreateManyPlanInputEnvelope
+    connect?: TrainingPlanItemWhereUniqueInput | TrainingPlanItemWhereUniqueInput[]
+  }
+
+  export type TrainingPlanItemUncheckedCreateNestedManyWithoutPlanInput = {
+    create?: XOR<TrainingPlanItemCreateWithoutPlanInput, TrainingPlanItemUncheckedCreateWithoutPlanInput> | TrainingPlanItemCreateWithoutPlanInput[] | TrainingPlanItemUncheckedCreateWithoutPlanInput[]
+    connectOrCreate?: TrainingPlanItemCreateOrConnectWithoutPlanInput | TrainingPlanItemCreateOrConnectWithoutPlanInput[]
+    createMany?: TrainingPlanItemCreateManyPlanInputEnvelope
+    connect?: TrainingPlanItemWhereUniqueInput | TrainingPlanItemWhereUniqueInput[]
+  }
+
+  export type TenantUpdateOneRequiredWithoutTrainingPlansNestedInput = {
+    create?: XOR<TenantCreateWithoutTrainingPlansInput, TenantUncheckedCreateWithoutTrainingPlansInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutTrainingPlansInput
+    upsert?: TenantUpsertWithoutTrainingPlansInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutTrainingPlansInput, TenantUpdateWithoutTrainingPlansInput>, TenantUncheckedUpdateWithoutTrainingPlansInput>
+  }
+
+  export type TrainingPlanItemUpdateManyWithoutPlanNestedInput = {
+    create?: XOR<TrainingPlanItemCreateWithoutPlanInput, TrainingPlanItemUncheckedCreateWithoutPlanInput> | TrainingPlanItemCreateWithoutPlanInput[] | TrainingPlanItemUncheckedCreateWithoutPlanInput[]
+    connectOrCreate?: TrainingPlanItemCreateOrConnectWithoutPlanInput | TrainingPlanItemCreateOrConnectWithoutPlanInput[]
+    upsert?: TrainingPlanItemUpsertWithWhereUniqueWithoutPlanInput | TrainingPlanItemUpsertWithWhereUniqueWithoutPlanInput[]
+    createMany?: TrainingPlanItemCreateManyPlanInputEnvelope
+    set?: TrainingPlanItemWhereUniqueInput | TrainingPlanItemWhereUniqueInput[]
+    disconnect?: TrainingPlanItemWhereUniqueInput | TrainingPlanItemWhereUniqueInput[]
+    delete?: TrainingPlanItemWhereUniqueInput | TrainingPlanItemWhereUniqueInput[]
+    connect?: TrainingPlanItemWhereUniqueInput | TrainingPlanItemWhereUniqueInput[]
+    update?: TrainingPlanItemUpdateWithWhereUniqueWithoutPlanInput | TrainingPlanItemUpdateWithWhereUniqueWithoutPlanInput[]
+    updateMany?: TrainingPlanItemUpdateManyWithWhereWithoutPlanInput | TrainingPlanItemUpdateManyWithWhereWithoutPlanInput[]
+    deleteMany?: TrainingPlanItemScalarWhereInput | TrainingPlanItemScalarWhereInput[]
+  }
+
+  export type TrainingPlanItemUncheckedUpdateManyWithoutPlanNestedInput = {
+    create?: XOR<TrainingPlanItemCreateWithoutPlanInput, TrainingPlanItemUncheckedCreateWithoutPlanInput> | TrainingPlanItemCreateWithoutPlanInput[] | TrainingPlanItemUncheckedCreateWithoutPlanInput[]
+    connectOrCreate?: TrainingPlanItemCreateOrConnectWithoutPlanInput | TrainingPlanItemCreateOrConnectWithoutPlanInput[]
+    upsert?: TrainingPlanItemUpsertWithWhereUniqueWithoutPlanInput | TrainingPlanItemUpsertWithWhereUniqueWithoutPlanInput[]
+    createMany?: TrainingPlanItemCreateManyPlanInputEnvelope
+    set?: TrainingPlanItemWhereUniqueInput | TrainingPlanItemWhereUniqueInput[]
+    disconnect?: TrainingPlanItemWhereUniqueInput | TrainingPlanItemWhereUniqueInput[]
+    delete?: TrainingPlanItemWhereUniqueInput | TrainingPlanItemWhereUniqueInput[]
+    connect?: TrainingPlanItemWhereUniqueInput | TrainingPlanItemWhereUniqueInput[]
+    update?: TrainingPlanItemUpdateWithWhereUniqueWithoutPlanInput | TrainingPlanItemUpdateWithWhereUniqueWithoutPlanInput[]
+    updateMany?: TrainingPlanItemUpdateManyWithWhereWithoutPlanInput | TrainingPlanItemUpdateManyWithWhereWithoutPlanInput[]
+    deleteMany?: TrainingPlanItemScalarWhereInput | TrainingPlanItemScalarWhereInput[]
+  }
+
+  export type TenantCreateNestedOneWithoutTrainingPlanItemsInput = {
+    create?: XOR<TenantCreateWithoutTrainingPlanItemsInput, TenantUncheckedCreateWithoutTrainingPlanItemsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutTrainingPlanItemsInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type TrainingPlanCreateNestedOneWithoutItemsInput = {
+    create?: XOR<TrainingPlanCreateWithoutItemsInput, TrainingPlanUncheckedCreateWithoutItemsInput>
+    connectOrCreate?: TrainingPlanCreateOrConnectWithoutItemsInput
+    connect?: TrainingPlanWhereUniqueInput
+  }
+
+  export type TenantUpdateOneRequiredWithoutTrainingPlanItemsNestedInput = {
+    create?: XOR<TenantCreateWithoutTrainingPlanItemsInput, TenantUncheckedCreateWithoutTrainingPlanItemsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutTrainingPlanItemsInput
+    upsert?: TenantUpsertWithoutTrainingPlanItemsInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutTrainingPlanItemsInput, TenantUpdateWithoutTrainingPlanItemsInput>, TenantUncheckedUpdateWithoutTrainingPlanItemsInput>
+  }
+
+  export type TrainingPlanUpdateOneRequiredWithoutItemsNestedInput = {
+    create?: XOR<TrainingPlanCreateWithoutItemsInput, TrainingPlanUncheckedCreateWithoutItemsInput>
+    connectOrCreate?: TrainingPlanCreateOrConnectWithoutItemsInput
+    upsert?: TrainingPlanUpsertWithoutItemsInput
+    connect?: TrainingPlanWhereUniqueInput
+    update?: XOR<XOR<TrainingPlanUpdateToOneWithWhereWithoutItemsInput, TrainingPlanUpdateWithoutItemsInput>, TrainingPlanUncheckedUpdateWithoutItemsInput>
+  }
+
+  export type TenantCreateNestedOneWithoutTrainingRecordsInput = {
+    create?: XOR<TenantCreateWithoutTrainingRecordsInput, TenantUncheckedCreateWithoutTrainingRecordsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutTrainingRecordsInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type TenantUpdateOneRequiredWithoutTrainingRecordsNestedInput = {
+    create?: XOR<TenantCreateWithoutTrainingRecordsInput, TenantUncheckedCreateWithoutTrainingRecordsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutTrainingRecordsInput
+    upsert?: TenantUpsertWithoutTrainingRecordsInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutTrainingRecordsInput, TenantUpdateWithoutTrainingRecordsInput>, TenantUncheckedUpdateWithoutTrainingRecordsInput>
+  }
+
   export type NestedUuidFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -260586,6 +267388,8 @@ export namespace Prisma {
     skills?: NullableJsonNullValueInput | InputJsonValue
     hiredAt?: Date | string | null
     salaryLocked?: boolean
+    mentorUserId?: string | null
+    qualificationLevel?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -260601,6 +267405,8 @@ export namespace Prisma {
     skills?: NullableJsonNullValueInput | InputJsonValue
     hiredAt?: Date | string | null
     salaryLocked?: boolean
+    mentorUserId?: string | null
+    qualificationLevel?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -262086,6 +268892,10 @@ export namespace Prisma {
     amount: Decimal | DecimalJsLike | number | string
     reason: string
     requestKey: string
+    bonusType?: string | null
+    originalAmount?: Decimal | DecimalJsLike | number | string | null
+    originalCurrency?: string | null
+    rate?: Decimal | DecimalJsLike | number | string | null
     createdBy?: string | null
     createdAt?: Date | string
   }
@@ -262099,6 +268909,10 @@ export namespace Prisma {
     amount: Decimal | DecimalJsLike | number | string
     reason: string
     requestKey: string
+    bonusType?: string | null
+    originalAmount?: Decimal | DecimalJsLike | number | string | null
+    originalCurrency?: string | null
+    rate?: Decimal | DecimalJsLike | number | string | null
     createdBy?: string | null
     createdAt?: Date | string
   }
@@ -262166,6 +268980,152 @@ export namespace Prisma {
 
   export type EmploymentContractCreateManyTenantInputEnvelope = {
     data: EmploymentContractCreateManyTenantInput | EmploymentContractCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TrainingPlanTemplateCreateWithoutTenantInput = {
+    id?: string
+    key: string
+    version: number
+    name: string
+    qualificationLevel?: string | null
+    items: JsonNullValueInput | InputJsonValue
+    createdBy?: string | null
+    createdAt?: Date | string
+  }
+
+  export type TrainingPlanTemplateUncheckedCreateWithoutTenantInput = {
+    id?: string
+    key: string
+    version: number
+    name: string
+    qualificationLevel?: string | null
+    items: JsonNullValueInput | InputJsonValue
+    createdBy?: string | null
+    createdAt?: Date | string
+  }
+
+  export type TrainingPlanTemplateCreateOrConnectWithoutTenantInput = {
+    where: TrainingPlanTemplateWhereUniqueInput
+    create: XOR<TrainingPlanTemplateCreateWithoutTenantInput, TrainingPlanTemplateUncheckedCreateWithoutTenantInput>
+  }
+
+  export type TrainingPlanTemplateCreateManyTenantInputEnvelope = {
+    data: TrainingPlanTemplateCreateManyTenantInput | TrainingPlanTemplateCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TrainingPlanCreateWithoutTenantInput = {
+    id?: string
+    employeeId: string
+    templateKey: string
+    templateVersion: number
+    title: string
+    status?: string
+    dueDate: Date | string
+    recheckDate?: Date | string | null
+    requestKey: string
+    createdBy?: string | null
+    createdAt?: Date | string
+    closedAt?: Date | string | null
+    updatedAt?: Date | string
+    items?: TrainingPlanItemCreateNestedManyWithoutPlanInput
+  }
+
+  export type TrainingPlanUncheckedCreateWithoutTenantInput = {
+    id?: string
+    employeeId: string
+    templateKey: string
+    templateVersion: number
+    title: string
+    status?: string
+    dueDate: Date | string
+    recheckDate?: Date | string | null
+    requestKey: string
+    createdBy?: string | null
+    createdAt?: Date | string
+    closedAt?: Date | string | null
+    updatedAt?: Date | string
+    items?: TrainingPlanItemUncheckedCreateNestedManyWithoutPlanInput
+  }
+
+  export type TrainingPlanCreateOrConnectWithoutTenantInput = {
+    where: TrainingPlanWhereUniqueInput
+    create: XOR<TrainingPlanCreateWithoutTenantInput, TrainingPlanUncheckedCreateWithoutTenantInput>
+  }
+
+  export type TrainingPlanCreateManyTenantInputEnvelope = {
+    data: TrainingPlanCreateManyTenantInput | TrainingPlanCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TrainingPlanItemCreateWithoutTenantInput = {
+    id?: string
+    itemKey: string
+    text: string
+    status?: string
+    note?: string | null
+    version?: number
+    updatedBy?: string | null
+    updatedAt?: Date | string
+    plan: TrainingPlanCreateNestedOneWithoutItemsInput
+  }
+
+  export type TrainingPlanItemUncheckedCreateWithoutTenantInput = {
+    id?: string
+    planId: string
+    itemKey: string
+    text: string
+    status?: string
+    note?: string | null
+    version?: number
+    updatedBy?: string | null
+    updatedAt?: Date | string
+  }
+
+  export type TrainingPlanItemCreateOrConnectWithoutTenantInput = {
+    where: TrainingPlanItemWhereUniqueInput
+    create: XOR<TrainingPlanItemCreateWithoutTenantInput, TrainingPlanItemUncheckedCreateWithoutTenantInput>
+  }
+
+  export type TrainingPlanItemCreateManyTenantInputEnvelope = {
+    data: TrainingPlanItemCreateManyTenantInput | TrainingPlanItemCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TrainingRecordCreateWithoutTenantInput = {
+    id?: string
+    employeeId: string
+    mentorUserId?: string | null
+    sessionDate: Date | string
+    topic: string
+    notes: string
+    outcome?: string | null
+    recheckDate?: Date | string | null
+    requestKey: string
+    createdAt?: Date | string
+  }
+
+  export type TrainingRecordUncheckedCreateWithoutTenantInput = {
+    id?: string
+    employeeId: string
+    mentorUserId?: string | null
+    sessionDate: Date | string
+    topic: string
+    notes: string
+    outcome?: string | null
+    recheckDate?: Date | string | null
+    requestKey: string
+    createdAt?: Date | string
+  }
+
+  export type TrainingRecordCreateOrConnectWithoutTenantInput = {
+    where: TrainingRecordWhereUniqueInput
+    create: XOR<TrainingRecordCreateWithoutTenantInput, TrainingRecordUncheckedCreateWithoutTenantInput>
+  }
+
+  export type TrainingRecordCreateManyTenantInputEnvelope = {
+    data: TrainingRecordCreateManyTenantInput | TrainingRecordCreateManyTenantInput[]
     skipDuplicates?: boolean
   }
 
@@ -265163,6 +272123,8 @@ export namespace Prisma {
     skills?: JsonNullableFilter<"Employee">
     hiredAt?: DateTimeNullableFilter<"Employee"> | Date | string | null
     salaryLocked?: BoolFilter<"Employee"> | boolean
+    mentorUserId?: UuidNullableFilter<"Employee"> | string | null
+    qualificationLevel?: StringNullableFilter<"Employee"> | string | null
     createdAt?: DateTimeFilter<"Employee"> | Date | string
     updatedAt?: DateTimeFilter<"Employee"> | Date | string
   }
@@ -266496,6 +273458,10 @@ export namespace Prisma {
     amount?: DecimalFilter<"PayrollAdjustment"> | Decimal | DecimalJsLike | number | string
     reason?: StringFilter<"PayrollAdjustment"> | string
     requestKey?: StringFilter<"PayrollAdjustment"> | string
+    bonusType?: StringNullableFilter<"PayrollAdjustment"> | string | null
+    originalAmount?: DecimalNullableFilter<"PayrollAdjustment"> | Decimal | DecimalJsLike | number | string | null
+    originalCurrency?: StringNullableFilter<"PayrollAdjustment"> | string | null
+    rate?: DecimalNullableFilter<"PayrollAdjustment"> | Decimal | DecimalJsLike | number | string | null
     createdBy?: StringNullableFilter<"PayrollAdjustment"> | string | null
     createdAt?: DateTimeFilter<"PayrollAdjustment"> | Date | string
   }
@@ -266541,6 +273507,138 @@ export namespace Prisma {
     createdBy?: StringNullableFilter<"EmploymentContract"> | string | null
     createdAt?: DateTimeFilter<"EmploymentContract"> | Date | string
     updatedAt?: DateTimeFilter<"EmploymentContract"> | Date | string
+  }
+
+  export type TrainingPlanTemplateUpsertWithWhereUniqueWithoutTenantInput = {
+    where: TrainingPlanTemplateWhereUniqueInput
+    update: XOR<TrainingPlanTemplateUpdateWithoutTenantInput, TrainingPlanTemplateUncheckedUpdateWithoutTenantInput>
+    create: XOR<TrainingPlanTemplateCreateWithoutTenantInput, TrainingPlanTemplateUncheckedCreateWithoutTenantInput>
+  }
+
+  export type TrainingPlanTemplateUpdateWithWhereUniqueWithoutTenantInput = {
+    where: TrainingPlanTemplateWhereUniqueInput
+    data: XOR<TrainingPlanTemplateUpdateWithoutTenantInput, TrainingPlanTemplateUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type TrainingPlanTemplateUpdateManyWithWhereWithoutTenantInput = {
+    where: TrainingPlanTemplateScalarWhereInput
+    data: XOR<TrainingPlanTemplateUpdateManyMutationInput, TrainingPlanTemplateUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type TrainingPlanTemplateScalarWhereInput = {
+    AND?: TrainingPlanTemplateScalarWhereInput | TrainingPlanTemplateScalarWhereInput[]
+    OR?: TrainingPlanTemplateScalarWhereInput[]
+    NOT?: TrainingPlanTemplateScalarWhereInput | TrainingPlanTemplateScalarWhereInput[]
+    id?: UuidFilter<"TrainingPlanTemplate"> | string
+    tenantId?: UuidFilter<"TrainingPlanTemplate"> | string
+    key?: StringFilter<"TrainingPlanTemplate"> | string
+    version?: IntFilter<"TrainingPlanTemplate"> | number
+    name?: StringFilter<"TrainingPlanTemplate"> | string
+    qualificationLevel?: StringNullableFilter<"TrainingPlanTemplate"> | string | null
+    items?: JsonFilter<"TrainingPlanTemplate">
+    createdBy?: StringNullableFilter<"TrainingPlanTemplate"> | string | null
+    createdAt?: DateTimeFilter<"TrainingPlanTemplate"> | Date | string
+  }
+
+  export type TrainingPlanUpsertWithWhereUniqueWithoutTenantInput = {
+    where: TrainingPlanWhereUniqueInput
+    update: XOR<TrainingPlanUpdateWithoutTenantInput, TrainingPlanUncheckedUpdateWithoutTenantInput>
+    create: XOR<TrainingPlanCreateWithoutTenantInput, TrainingPlanUncheckedCreateWithoutTenantInput>
+  }
+
+  export type TrainingPlanUpdateWithWhereUniqueWithoutTenantInput = {
+    where: TrainingPlanWhereUniqueInput
+    data: XOR<TrainingPlanUpdateWithoutTenantInput, TrainingPlanUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type TrainingPlanUpdateManyWithWhereWithoutTenantInput = {
+    where: TrainingPlanScalarWhereInput
+    data: XOR<TrainingPlanUpdateManyMutationInput, TrainingPlanUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type TrainingPlanScalarWhereInput = {
+    AND?: TrainingPlanScalarWhereInput | TrainingPlanScalarWhereInput[]
+    OR?: TrainingPlanScalarWhereInput[]
+    NOT?: TrainingPlanScalarWhereInput | TrainingPlanScalarWhereInput[]
+    id?: UuidFilter<"TrainingPlan"> | string
+    tenantId?: UuidFilter<"TrainingPlan"> | string
+    employeeId?: UuidFilter<"TrainingPlan"> | string
+    templateKey?: StringFilter<"TrainingPlan"> | string
+    templateVersion?: IntFilter<"TrainingPlan"> | number
+    title?: StringFilter<"TrainingPlan"> | string
+    status?: StringFilter<"TrainingPlan"> | string
+    dueDate?: DateTimeFilter<"TrainingPlan"> | Date | string
+    recheckDate?: DateTimeNullableFilter<"TrainingPlan"> | Date | string | null
+    requestKey?: StringFilter<"TrainingPlan"> | string
+    createdBy?: StringNullableFilter<"TrainingPlan"> | string | null
+    createdAt?: DateTimeFilter<"TrainingPlan"> | Date | string
+    closedAt?: DateTimeNullableFilter<"TrainingPlan"> | Date | string | null
+    updatedAt?: DateTimeFilter<"TrainingPlan"> | Date | string
+  }
+
+  export type TrainingPlanItemUpsertWithWhereUniqueWithoutTenantInput = {
+    where: TrainingPlanItemWhereUniqueInput
+    update: XOR<TrainingPlanItemUpdateWithoutTenantInput, TrainingPlanItemUncheckedUpdateWithoutTenantInput>
+    create: XOR<TrainingPlanItemCreateWithoutTenantInput, TrainingPlanItemUncheckedCreateWithoutTenantInput>
+  }
+
+  export type TrainingPlanItemUpdateWithWhereUniqueWithoutTenantInput = {
+    where: TrainingPlanItemWhereUniqueInput
+    data: XOR<TrainingPlanItemUpdateWithoutTenantInput, TrainingPlanItemUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type TrainingPlanItemUpdateManyWithWhereWithoutTenantInput = {
+    where: TrainingPlanItemScalarWhereInput
+    data: XOR<TrainingPlanItemUpdateManyMutationInput, TrainingPlanItemUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type TrainingPlanItemScalarWhereInput = {
+    AND?: TrainingPlanItemScalarWhereInput | TrainingPlanItemScalarWhereInput[]
+    OR?: TrainingPlanItemScalarWhereInput[]
+    NOT?: TrainingPlanItemScalarWhereInput | TrainingPlanItemScalarWhereInput[]
+    id?: UuidFilter<"TrainingPlanItem"> | string
+    tenantId?: UuidFilter<"TrainingPlanItem"> | string
+    planId?: UuidFilter<"TrainingPlanItem"> | string
+    itemKey?: StringFilter<"TrainingPlanItem"> | string
+    text?: StringFilter<"TrainingPlanItem"> | string
+    status?: StringFilter<"TrainingPlanItem"> | string
+    note?: StringNullableFilter<"TrainingPlanItem"> | string | null
+    version?: IntFilter<"TrainingPlanItem"> | number
+    updatedBy?: StringNullableFilter<"TrainingPlanItem"> | string | null
+    updatedAt?: DateTimeFilter<"TrainingPlanItem"> | Date | string
+  }
+
+  export type TrainingRecordUpsertWithWhereUniqueWithoutTenantInput = {
+    where: TrainingRecordWhereUniqueInput
+    update: XOR<TrainingRecordUpdateWithoutTenantInput, TrainingRecordUncheckedUpdateWithoutTenantInput>
+    create: XOR<TrainingRecordCreateWithoutTenantInput, TrainingRecordUncheckedCreateWithoutTenantInput>
+  }
+
+  export type TrainingRecordUpdateWithWhereUniqueWithoutTenantInput = {
+    where: TrainingRecordWhereUniqueInput
+    data: XOR<TrainingRecordUpdateWithoutTenantInput, TrainingRecordUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type TrainingRecordUpdateManyWithWhereWithoutTenantInput = {
+    where: TrainingRecordScalarWhereInput
+    data: XOR<TrainingRecordUpdateManyMutationInput, TrainingRecordUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type TrainingRecordScalarWhereInput = {
+    AND?: TrainingRecordScalarWhereInput | TrainingRecordScalarWhereInput[]
+    OR?: TrainingRecordScalarWhereInput[]
+    NOT?: TrainingRecordScalarWhereInput | TrainingRecordScalarWhereInput[]
+    id?: UuidFilter<"TrainingRecord"> | string
+    tenantId?: UuidFilter<"TrainingRecord"> | string
+    employeeId?: UuidFilter<"TrainingRecord"> | string
+    mentorUserId?: UuidNullableFilter<"TrainingRecord"> | string | null
+    sessionDate?: DateTimeFilter<"TrainingRecord"> | Date | string
+    topic?: StringFilter<"TrainingRecord"> | string
+    notes?: StringFilter<"TrainingRecord"> | string
+    outcome?: StringNullableFilter<"TrainingRecord"> | string | null
+    recheckDate?: DateTimeNullableFilter<"TrainingRecord"> | Date | string | null
+    requestKey?: StringFilter<"TrainingRecord"> | string
+    createdAt?: DateTimeFilter<"TrainingRecord"> | Date | string
   }
 
   export type TenantCreateWithoutConfigurationVersionsInput = {
@@ -266687,6 +273785,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutConfigurationVersionsInput = {
@@ -266833,6 +273935,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutConfigurationVersionsInput = {
@@ -266995,6 +274101,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutConfigurationVersionsInput = {
@@ -267141,6 +274251,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutLegalEntitiesInput = {
@@ -267287,6 +274401,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLegalEntitiesInput = {
@@ -267433,6 +274551,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLegalEntitiesInput = {
@@ -267629,6 +274751,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLegalEntitiesInput = {
@@ -267775,6 +274901,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithWhereUniqueWithoutLegalEntityInput = {
@@ -267937,6 +275067,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBusinessUnitsInput = {
@@ -268083,6 +275217,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBusinessUnitsInput = {
@@ -268383,6 +275521,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBusinessUnitsInput = {
@@ -268529,6 +275671,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type LegalEntityUpsertWithoutBusinessUnitsInput = {
@@ -268787,6 +275933,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBranchesInput = {
@@ -268933,6 +276083,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBranchesInput = {
@@ -269124,6 +276278,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBranchesInput = {
@@ -269270,6 +276428,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithoutBranchesInput = {
@@ -269451,6 +276613,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutFactoriesInput = {
@@ -269597,6 +276763,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutFactoriesInput = {
@@ -269788,6 +276958,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutFactoriesInput = {
@@ -269934,6 +277108,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithoutFactoriesInput = {
@@ -270115,6 +277293,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutUsersInput = {
@@ -270261,6 +277443,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutUsersInput = {
@@ -270512,6 +277698,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutUsersInput = {
@@ -270658,6 +277848,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserRoleAssignmentUpsertWithWhereUniqueWithoutUserInput = {
@@ -270873,6 +278067,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutUserCredentialsInput = {
@@ -271019,6 +278217,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutUserCredentialsInput = {
@@ -271212,6 +278414,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutUserCredentialsInput = {
@@ -271358,6 +278564,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserUpsertWithoutCredentialInput = {
@@ -271541,6 +278751,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRolesInput = {
@@ -271687,6 +278901,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRolesInput = {
@@ -271899,6 +279117,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRolesInput = {
@@ -272045,6 +279267,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RolePermissionUpsertWithWhereUniqueWithoutRoleInput = {
@@ -272289,6 +279515,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoleAssignmentsInput = {
@@ -272435,6 +279665,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoleAssignmentsInput = {
@@ -272653,6 +279887,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoleAssignmentsInput = {
@@ -272799,6 +280037,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserUpsertWithoutRoleAssignmentsInput = {
@@ -273013,6 +280255,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAuditEventsInput = {
@@ -273159,6 +280405,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAuditEventsInput = {
@@ -273321,6 +280571,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAuditEventsInput = {
@@ -273467,6 +280721,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutOutboxEventsInput = {
@@ -273613,6 +280871,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOutboxEventsInput = {
@@ -273759,6 +281021,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOutboxEventsInput = {
@@ -273921,6 +281187,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOutboxEventsInput = {
@@ -274067,6 +281337,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutTerminologyEntriesInput = {
@@ -274213,6 +281487,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTerminologyEntriesInput = {
@@ -274359,6 +281637,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTerminologyEntriesInput = {
@@ -274521,6 +281803,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTerminologyEntriesInput = {
@@ -274667,6 +281953,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutModuleActivationsInput = {
@@ -274813,6 +282103,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutModuleActivationsInput = {
@@ -274959,6 +282253,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutModuleActivationsInput = {
@@ -275121,6 +282419,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutModuleActivationsInput = {
@@ -275267,6 +282569,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCustomFieldDefsInput = {
@@ -275413,6 +282719,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCustomFieldDefsInput = {
@@ -275559,6 +282869,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCustomFieldDefsInput = {
@@ -275721,6 +283035,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCustomFieldDefsInput = {
@@ -275867,6 +283185,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutTasksInput = {
@@ -276013,6 +283335,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTasksInput = {
@@ -276159,6 +283485,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTasksInput = {
@@ -276321,6 +283651,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTasksInput = {
@@ -276467,6 +283801,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutNotificationsInput = {
@@ -276613,6 +283951,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNotificationsInput = {
@@ -276759,6 +284101,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNotificationsInput = {
@@ -276921,6 +284267,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNotificationsInput = {
@@ -277067,6 +284417,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutWorkflowDefinitionsInput = {
@@ -277213,6 +284567,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkflowDefinitionsInput = {
@@ -277359,6 +284717,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkflowDefinitionsInput = {
@@ -277583,6 +284945,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkflowDefinitionsInput = {
@@ -277729,6 +285095,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkflowVersionUpsertWithWhereUniqueWithoutDefinitionInput = {
@@ -278133,6 +285503,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRuleDefinitionsInput = {
@@ -278279,6 +285653,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRuleDefinitionsInput = {
@@ -278469,6 +285847,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRuleDefinitionsInput = {
@@ -278615,6 +285997,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RuleVersionUpsertWithWhereUniqueWithoutRuleInput = {
@@ -278834,6 +286220,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutApprovalsInput = {
@@ -278980,6 +286370,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutApprovalsInput = {
@@ -279142,6 +286536,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutApprovalsInput = {
@@ -279288,6 +286686,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutProcessedEventsInput = {
@@ -279434,6 +286836,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProcessedEventsInput = {
@@ -279580,6 +286986,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProcessedEventsInput = {
@@ -279742,6 +287152,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProcessedEventsInput = {
@@ -279888,6 +287302,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutDocumentTemplatesInput = {
@@ -280034,6 +287452,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDocumentTemplatesInput = {
@@ -280180,6 +287602,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDocumentTemplatesInput = {
@@ -280368,6 +287794,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDocumentTemplatesInput = {
@@ -280514,6 +287944,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type DocumentTemplateVersionUpsertWithWhereUniqueWithoutTemplateInput = {
@@ -280736,6 +288170,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPartiesInput = {
@@ -280882,6 +288320,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPartiesInput = {
@@ -281225,6 +288667,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPartiesInput = {
@@ -281371,6 +288817,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PartyUpsertWithoutMergedPartiesInput = {
@@ -281638,6 +289088,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutConsentRecordsInput = {
@@ -281784,6 +289238,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutConsentRecordsInput = {
@@ -281985,6 +289443,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutConsentRecordsInput = {
@@ -282131,6 +289593,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PartyUpsertWithoutConsentRecordsInput = {
@@ -282406,6 +289872,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProductsInput = {
@@ -282552,6 +290022,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProductsInput = {
@@ -282778,6 +290252,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProductsInput = {
@@ -282924,6 +290402,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SkuUpsertWithWhereUniqueWithoutProductInput = {
@@ -283788,6 +291270,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWarehousesInput = {
@@ -283934,6 +291420,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWarehousesInput = {
@@ -284154,6 +291644,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWarehousesInput = {
@@ -284300,6 +291794,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WarehouseLocationUpsertWithWhereUniqueWithoutWarehouseInput = {
@@ -284536,6 +292034,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockMovementsInput = {
@@ -284682,6 +292184,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockMovementsInput = {
@@ -284844,6 +292350,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockMovementsInput = {
@@ -284990,6 +292500,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutStockReservationsInput = {
@@ -285136,6 +292650,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockReservationsInput = {
@@ -285282,6 +292800,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockReservationsInput = {
@@ -285444,6 +292966,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockReservationsInput = {
@@ -285590,6 +293116,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutDevicesInput = {
@@ -285736,6 +293266,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDevicesInput = {
@@ -285882,6 +293416,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDevicesInput = {
@@ -286044,6 +293582,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDevicesInput = {
@@ -286190,6 +293732,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutScanEventsInput = {
@@ -286336,6 +293882,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutScanEventsInput = {
@@ -286482,6 +294032,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutScanEventsInput = {
@@ -286644,6 +294198,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutScanEventsInput = {
@@ -286790,6 +294348,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutWmsOrdersInput = {
@@ -286936,6 +294498,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWmsOrdersInput = {
@@ -287082,6 +294648,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWmsOrdersInput = {
@@ -287270,6 +294840,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWmsOrdersInput = {
@@ -287416,6 +294990,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WmsOrderLineUpsertWithWhereUniqueWithoutOrderInput = {
@@ -287578,6 +295156,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWmsOrderLinesInput = {
@@ -287724,6 +295306,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWmsOrderLinesInput = {
@@ -287919,6 +295505,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWmsOrderLinesInput = {
@@ -288065,6 +295655,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WmsOrderUpsertWithoutLinesInput = {
@@ -288250,6 +295844,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTerritoriesInput = {
@@ -288396,6 +295994,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTerritoriesInput = {
@@ -288558,6 +296160,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTerritoriesInput = {
@@ -288704,6 +296310,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSalesTeamsInput = {
@@ -288850,6 +296460,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesTeamsInput = {
@@ -288996,6 +296610,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesTeamsInput = {
@@ -289182,6 +296800,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesTeamsInput = {
@@ -289328,6 +296950,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesTeamMemberUpsertWithWhereUniqueWithoutTeamInput = {
@@ -289490,6 +297116,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesTeamMembersInput = {
@@ -289636,6 +297266,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesTeamMembersInput = {
@@ -289819,6 +297453,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesTeamMembersInput = {
@@ -289965,6 +297603,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesTeamUpsertWithoutMembersInput = {
@@ -290138,6 +297780,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCrmAccountsInput = {
@@ -290284,6 +297930,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCrmAccountsInput = {
@@ -290446,6 +298096,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCrmAccountsInput = {
@@ -290592,6 +298246,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutLeadsInput = {
@@ -290738,6 +298396,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLeadsInput = {
@@ -290884,6 +298546,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLeadsInput = {
@@ -291046,6 +298712,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLeadsInput = {
@@ -291192,6 +298862,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutOpportunitiesInput = {
@@ -291338,6 +299012,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOpportunitiesInput = {
@@ -291484,6 +299162,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOpportunitiesInput = {
@@ -291646,6 +299328,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOpportunitiesInput = {
@@ -291792,6 +299478,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCrmActivitiesInput = {
@@ -291938,6 +299628,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCrmActivitiesInput = {
@@ -292084,6 +299778,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCrmActivitiesInput = {
@@ -292246,6 +299944,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCrmActivitiesInput = {
@@ -292392,6 +300094,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPriceListsInput = {
@@ -292538,6 +300244,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPriceListsInput = {
@@ -292684,6 +300394,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPriceListsInput = {
@@ -292872,6 +300586,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPriceListsInput = {
@@ -293018,6 +300736,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PriceListEntryUpsertWithWhereUniqueWithoutPriceListInput = {
@@ -293180,6 +300902,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPriceListEntriesInput = {
@@ -293326,6 +301052,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPriceListEntriesInput = {
@@ -293521,6 +301251,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPriceListEntriesInput = {
@@ -293667,6 +301401,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PriceListUpsertWithoutEntriesInput = {
@@ -293852,6 +301590,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQuotesInput = {
@@ -293998,6 +301740,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQuotesInput = {
@@ -294194,6 +301940,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQuotesInput = {
@@ -294340,6 +302090,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QuoteLineUpsertWithWhereUniqueWithoutQuoteInput = {
@@ -294502,6 +302256,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPackagingLevelsInput = {
@@ -294648,6 +302406,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPackagingLevelsInput = {
@@ -294869,6 +302631,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPackagingLevelsInput = {
@@ -295015,6 +302781,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SkuUpsertWithoutPackagingLevelsInput = {
@@ -295226,6 +302996,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSkuSubstitutionsInput = {
@@ -295372,6 +303146,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSkuSubstitutionsInput = {
@@ -295534,6 +303312,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSkuSubstitutionsInput = {
@@ -295680,6 +303462,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutDiscountRulesInput = {
@@ -295826,6 +303612,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDiscountRulesInput = {
@@ -295972,6 +303762,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDiscountRulesInput = {
@@ -296134,6 +303928,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDiscountRulesInput = {
@@ -296280,6 +304078,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutQuoteLinesInput = {
@@ -296426,6 +304228,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQuoteLinesInput = {
@@ -296572,6 +304378,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQuoteLinesInput = {
@@ -296781,6 +304591,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQuoteLinesInput = {
@@ -296927,6 +304741,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QuoteUpsertWithoutLinesInput = {
@@ -297126,6 +304944,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesOrdersInput = {
@@ -297272,6 +305094,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesOrdersInput = {
@@ -297506,6 +305332,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesOrdersInput = {
@@ -297652,6 +305482,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesOrderLineUpsertWithWhereUniqueWithoutOrderInput = {
@@ -297830,6 +305664,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesOrderLinesInput = {
@@ -297976,6 +305814,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesOrderLinesInput = {
@@ -298187,6 +306029,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesOrderLinesInput = {
@@ -298333,6 +306179,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesOrderUpsertWithoutLinesInput = {
@@ -298534,6 +306384,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOrderEventsInput = {
@@ -298680,6 +306534,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOrderEventsInput = {
@@ -298842,6 +306700,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOrderEventsInput = {
@@ -298988,6 +306850,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSuppliersInput = {
@@ -299134,6 +307000,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSuppliersInput = {
@@ -299280,6 +307150,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSuppliersInput = {
@@ -299442,6 +307316,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSuppliersInput = {
@@ -299588,6 +307466,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPurchaseRequisitionsInput = {
@@ -299734,6 +307616,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseRequisitionsInput = {
@@ -299880,6 +307766,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseRequisitionsInput = {
@@ -300072,6 +307962,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseRequisitionsInput = {
@@ -300218,6 +308112,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseRequisitionLineUpsertWithWhereUniqueWithoutRequisitionInput = {
@@ -300380,6 +308278,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseReqLinesInput = {
@@ -300526,6 +308428,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseReqLinesInput = {
@@ -300721,6 +308627,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseReqLinesInput = {
@@ -300867,6 +308777,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseRequisitionUpsertWithoutLinesInput = {
@@ -301052,6 +308966,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseOrdersInput = {
@@ -301198,6 +309116,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseOrdersInput = {
@@ -301458,6 +309380,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseOrdersInput = {
@@ -301604,6 +309530,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseOrderLineUpsertWithWhereUniqueWithoutPoInput = {
@@ -301798,6 +309728,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseOrderLinesInput = {
@@ -301944,6 +309878,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseOrderLinesInput = {
@@ -302147,6 +310085,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseOrderLinesInput = {
@@ -302293,6 +310235,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseOrderUpsertWithoutLinesInput = {
@@ -302486,6 +310432,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBomsInput = {
@@ -302632,6 +310582,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBomsInput = {
@@ -302824,6 +310778,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBomsInput = {
@@ -302970,6 +310928,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BomLineUpsertWithWhereUniqueWithoutBomInput = {
@@ -303132,6 +311094,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBomLinesInput = {
@@ -303278,6 +311244,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBomLinesInput = {
@@ -303471,6 +311441,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBomLinesInput = {
@@ -303617,6 +311591,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BomUpsertWithoutLinesInput = {
@@ -303800,6 +311778,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoutingsInput = {
@@ -303946,6 +311928,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoutingsInput = {
@@ -304140,6 +312126,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoutingsInput = {
@@ -304286,6 +312276,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RoutingOperationUpsertWithWhereUniqueWithoutRoutingInput = {
@@ -304448,6 +312442,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoutingOperationsInput = {
@@ -304594,6 +312592,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoutingOperationsInput = {
@@ -304783,6 +312785,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoutingOperationsInput = {
@@ -304929,6 +312935,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RoutingUpsertWithoutOperationsInput = {
@@ -305108,6 +313118,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutEngineeringChangesInput = {
@@ -305254,6 +313268,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutEngineeringChangesInput = {
@@ -305416,6 +313434,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutEngineeringChangesInput = {
@@ -305562,6 +313584,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPlanningPoliciesInput = {
@@ -305708,6 +313734,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPlanningPoliciesInput = {
@@ -305854,6 +313884,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPlanningPoliciesInput = {
@@ -306016,6 +314050,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPlanningPoliciesInput = {
@@ -306162,6 +314200,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutMrpRunsInput = {
@@ -306308,6 +314350,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutMrpRunsInput = {
@@ -306454,6 +314500,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutMrpRunsInput = {
@@ -306646,6 +314696,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutMrpRunsInput = {
@@ -306792,6 +314846,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type MrpSuggestionUpsertWithWhereUniqueWithoutRunInput = {
@@ -306954,6 +315012,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutMrpSuggestionsInput = {
@@ -307100,6 +315162,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutMrpSuggestionsInput = {
@@ -307287,6 +315353,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutMrpSuggestionsInput = {
@@ -307433,6 +315503,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type MrpRunUpsertWithoutSuggestionsInput = {
@@ -307610,6 +315684,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkOrdersInput = {
@@ -307756,6 +315834,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkOrdersInput = {
@@ -307954,6 +316036,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkOrdersInput = {
@@ -308100,6 +316186,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkOrderOperationUpsertWithWhereUniqueWithoutWorkOrderInput = {
@@ -308262,6 +316352,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkOrderOperationsInput = {
@@ -308408,6 +316502,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkOrderOperationsInput = {
@@ -308613,6 +316711,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkOrderOperationsInput = {
@@ -308759,6 +316861,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkOrderUpsertWithoutOperationsInput = {
@@ -308954,6 +317060,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcPlansInput = {
@@ -309100,6 +317210,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcPlansInput = {
@@ -309288,6 +317402,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcPlansInput = {
@@ -309434,6 +317552,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcPlanItemUpsertWithWhereUniqueWithoutPlanInput = {
@@ -309596,6 +317718,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcPlanItemsInput = {
@@ -309742,6 +317868,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcPlanItemsInput = {
@@ -309931,6 +318061,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcPlanItemsInput = {
@@ -310077,6 +318211,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcPlanUpsertWithoutItemsInput = {
@@ -310256,6 +318394,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcInspectionsInput = {
@@ -310402,6 +318544,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcInspectionsInput = {
@@ -310594,6 +318740,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcInspectionsInput = {
@@ -310740,6 +318890,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcInspectionItemUpsertWithWhereUniqueWithoutInspectionInput = {
@@ -310902,6 +319056,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcInspectionItemsInput = {
@@ -311048,6 +319206,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcInspectionItemsInput = {
@@ -311245,6 +319407,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcInspectionItemsInput = {
@@ -311391,6 +319557,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcInspectionUpsertWithoutItemsInput = {
@@ -311578,6 +319748,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNcrsInput = {
@@ -311724,6 +319898,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNcrsInput = {
@@ -311886,6 +320064,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNcrsInput = {
@@ -312032,6 +320214,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutInvoicesInput = {
@@ -312178,6 +320364,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutInvoicesInput = {
@@ -312324,6 +320514,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutInvoicesInput = {
@@ -312582,6 +320776,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutInvoicesInput = {
@@ -312728,6 +320926,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PaymentUpsertWithWhereUniqueWithoutInvoiceInput = {
@@ -312922,6 +321124,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPaymentsInput = {
@@ -313068,6 +321274,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPaymentsInput = {
@@ -313346,6 +321556,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPaymentsInput = {
@@ -313492,6 +321706,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type InvoiceUpsertWithoutPaymentsInput = {
@@ -313746,6 +321964,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPortalUsersInput = {
@@ -313892,6 +322114,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPortalUsersInput = {
@@ -314054,6 +322280,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPortalUsersInput = {
@@ -314200,6 +322430,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCommentsInput = {
@@ -314346,6 +322580,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCommentsInput = {
@@ -314492,6 +322730,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCommentsInput = {
@@ -314654,6 +322896,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCommentsInput = {
@@ -314800,6 +323046,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutAttachmentsInput = {
@@ -314946,6 +323196,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAttachmentsInput = {
@@ -315092,6 +323346,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAttachmentsInput = {
@@ -315271,6 +323529,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAttachmentsInput = {
@@ -315417,6 +323679,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type AttachmentBlobUpsertWithoutAttachmentInput = {
@@ -315586,6 +323852,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAttachmentBlobsInput = {
@@ -315732,6 +324002,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAttachmentBlobsInput = {
@@ -315925,6 +324199,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAttachmentBlobsInput = {
@@ -316071,6 +324349,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type AttachmentUpsertWithoutBlobInput = {
@@ -316254,6 +324536,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNumberSequencesInput = {
@@ -316400,6 +324686,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNumberSequencesInput = {
@@ -316562,6 +324852,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNumberSequencesInput = {
@@ -316708,6 +325002,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutExchangeRatesInput = {
@@ -316854,6 +325152,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutExchangeRatesInput = {
@@ -317000,6 +325302,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutExchangeRatesInput = {
@@ -317162,6 +325468,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutExchangeRatesInput = {
@@ -317308,6 +325618,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCostCentersInput = {
@@ -317454,6 +325768,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCostCentersInput = {
@@ -317600,6 +325918,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCostCentersInput = {
@@ -317790,6 +326112,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCostCentersInput = {
@@ -317936,6 +326262,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BudgetUpsertWithWhereUniqueWithoutCostCenterInput = {
@@ -318098,6 +326428,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBudgetsInput = {
@@ -318244,6 +326578,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBudgetsInput = {
@@ -318429,6 +326767,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBudgetsInput = {
@@ -318575,6 +326917,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type CostCenterUpsertWithoutBudgetsInput = {
@@ -318750,6 +327096,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWebhookSubscriptionsInput = {
@@ -318896,6 +327246,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWebhookSubscriptionsInput = {
@@ -319096,6 +327450,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWebhookSubscriptionsInput = {
@@ -319242,6 +327600,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WebhookDeliveryUpsertWithWhereUniqueWithoutSubscriptionInput = {
@@ -319404,6 +327766,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWebhookDeliveriesInput = {
@@ -319550,6 +327916,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWebhookDeliveriesInput = {
@@ -319739,6 +328109,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWebhookDeliveriesInput = {
@@ -319885,6 +328259,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WebhookSubscriptionUpsertWithoutDeliveriesInput = {
@@ -320064,6 +328442,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutApiKeysInput = {
@@ -320210,6 +328592,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutApiKeysInput = {
@@ -320372,6 +328758,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutApiKeysInput = {
@@ -320518,6 +328908,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSecurityEventsInput = {
@@ -320664,6 +329058,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSecurityEventsInput = {
@@ -320810,6 +329208,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSecurityEventsInput = {
@@ -320972,6 +329374,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSecurityEventsInput = {
@@ -321118,6 +329524,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutProductCategoriesInput = {
@@ -321264,6 +329674,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProductCategoriesInput = {
@@ -321410,6 +329824,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProductCategoriesInput = {
@@ -321623,6 +330041,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProductCategoriesInput = {
@@ -321769,6 +330191,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ProductCategoryUpsertWithoutChildrenInput = {
@@ -321960,6 +330386,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutReturnOrdersInput = {
@@ -322106,6 +330536,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutReturnOrdersInput = {
@@ -322296,6 +330730,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutReturnOrdersInput = {
@@ -322442,6 +330880,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ReturnOrderLineUpsertWithWhereUniqueWithoutReturnOrderInput = {
@@ -322604,6 +331046,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutReturnOrderLinesInput = {
@@ -322750,6 +331196,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutReturnOrderLinesInput = {
@@ -322947,6 +331397,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutReturnOrderLinesInput = {
@@ -323093,6 +331547,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ReturnOrderUpsertWithoutLinesInput = {
@@ -323280,6 +331738,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockCountsInput = {
@@ -323426,6 +331888,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockCountsInput = {
@@ -323614,6 +332080,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockCountsInput = {
@@ -323760,6 +332230,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type StockCountLineUpsertWithWhereUniqueWithoutCountInput = {
@@ -323922,6 +332396,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockCountLinesInput = {
@@ -324068,6 +332546,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockCountLinesInput = {
@@ -324263,6 +332745,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockCountLinesInput = {
@@ -324409,6 +332895,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type StockCountUpsertWithoutLinesInput = {
@@ -324594,6 +333084,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkCentersInput = {
@@ -324740,6 +333234,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkCentersInput = {
@@ -324934,6 +333432,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkCentersInput = {
@@ -325080,6 +333582,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type DowntimeEventUpsertWithWhereUniqueWithoutWorkCenterInput = {
@@ -325242,6 +333748,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDowntimeEventsInput = {
@@ -325388,6 +333898,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDowntimeEventsInput = {
@@ -325573,6 +334087,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDowntimeEventsInput = {
@@ -325719,6 +334237,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkCenterUpsertWithoutDowntimesInput = {
@@ -325894,6 +334416,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPromotionsInput = {
@@ -326040,6 +334566,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPromotionsInput = {
@@ -326228,6 +334758,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPromotionsInput = {
@@ -326374,6 +334908,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PromotionRedemptionUpsertWithWhereUniqueWithoutPromotionInput = {
@@ -327000,6 +335538,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBreakGlassGrantsInput = {
@@ -327146,6 +335688,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBreakGlassGrantsInput = {
@@ -327339,6 +335885,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBreakGlassGrantsInput = {
@@ -327485,6 +336035,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserUpsertWithoutBreakGlassGrantsInput = {
@@ -327668,6 +336222,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutMasterDataRequestsInput = {
@@ -327814,6 +336372,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutMasterDataRequestsInput = {
@@ -327976,6 +336538,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutMasterDataRequestsInput = {
@@ -328122,6 +336688,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutLoyaltyAccountsInput = {
@@ -328268,6 +336838,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLoyaltyAccountsInput = {
@@ -328414,6 +336988,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLoyaltyAccountsInput = {
@@ -328606,6 +337184,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLoyaltyAccountsInput = {
@@ -328752,6 +337334,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type LoyaltyTransactionUpsertWithWhereUniqueWithoutLoyaltyAccountInput = {
@@ -328980,6 +337566,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSupportCasesInput = {
@@ -329126,6 +337716,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSupportCasesInput = {
@@ -329288,6 +337882,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSupportCasesInput = {
@@ -329434,6 +338032,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutContractsInput = {
@@ -329580,6 +338182,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutContractsInput = {
@@ -329726,6 +338332,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutContractsInput = {
@@ -329927,6 +338537,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutContractsInput = {
@@ -330073,6 +338687,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PartyUpsertWithoutContractsInput = {
@@ -330264,6 +338882,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutEmployeesInput = {
@@ -330410,6 +339032,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutEmployeesInput = {
@@ -330572,6 +339198,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutEmployeesInput = {
@@ -330718,6 +339348,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutAssetsInput = {
@@ -330864,6 +339498,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAssetsInput = {
@@ -331010,6 +339648,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAssetsInput = {
@@ -331172,6 +339814,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAssetsInput = {
@@ -331318,6 +339964,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutQuarantineHoldsInput = {
@@ -331464,6 +340114,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQuarantineHoldsInput = {
@@ -331610,6 +340264,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQuarantineHoldsInput = {
@@ -331772,6 +340430,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQuarantineHoldsInput = {
@@ -331918,6 +340580,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutRfqsInput = {
@@ -332064,6 +340730,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRfqsInput = {
@@ -332210,6 +340880,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRfqsInput = {
@@ -332402,6 +341076,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRfqsInput = {
@@ -332548,6 +341226,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RfqQuoteUpsertWithWhereUniqueWithoutRfqInput = {
@@ -332796,6 +341478,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPackagesInput = {
@@ -332942,6 +341628,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPackagesInput = {
@@ -333177,6 +341867,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPackagesInput = {
@@ -333323,6 +342017,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesOrderUpsertWithoutPackagesInput = {
@@ -333619,6 +342317,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLandedCostsInput = {
@@ -333765,6 +342467,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLandedCostsInput = {
@@ -333968,6 +342674,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLandedCostsInput = {
@@ -334114,6 +342824,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseOrderUpsertWithoutLandedCostsInput = {
@@ -334307,6 +343021,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCustomObjectDefinitionsInput = {
@@ -334453,6 +343171,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCustomObjectDefinitionsInput = {
@@ -334643,6 +343365,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCustomObjectDefinitionsInput = {
@@ -334789,6 +343515,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type CustomObjectRecordUpsertWithWhereUniqueWithoutDefinitionInput = {
@@ -335028,6 +343758,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutFrameworkAgreementsInput = {
@@ -335174,6 +343908,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutFrameworkAgreementsInput = {
@@ -335336,6 +344074,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutFrameworkAgreementsInput = {
@@ -335482,6 +344224,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSkuChannelContentsInput = {
@@ -335628,6 +344374,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSkuChannelContentsInput = {
@@ -335774,6 +344524,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSkuChannelContentsInput = {
@@ -335995,6 +344749,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSkuChannelContentsInput = {
@@ -336141,6 +344899,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SkuUpsertWithoutChannelContentsInput = {
@@ -336352,6 +345114,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutContainersInput = {
@@ -336498,6 +345264,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutContainersInput = {
@@ -336701,6 +345471,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutContainersInput = {
@@ -336847,6 +345621,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseOrderUpsertWithoutContainersInput = {
@@ -337040,6 +345818,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPosSessionsInput = {
@@ -337186,6 +345968,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPosSessionsInput = {
@@ -337348,6 +346134,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPosSessionsInput = {
@@ -337494,6 +346284,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutVehiclesInput = {
@@ -337640,6 +346434,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutVehiclesInput = {
@@ -337786,6 +346584,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutVehiclesInput = {
@@ -337998,6 +346800,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutVehiclesInput = {
@@ -338144,6 +346950,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ShipmentUpsertWithWhereUniqueWithoutVehicleInput = {
@@ -338306,6 +347116,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDriversInput = {
@@ -338452,6 +347266,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDriversInput = {
@@ -338664,6 +347482,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDriversInput = {
@@ -338810,6 +347632,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ShipmentUpsertWithWhereUniqueWithoutDriverInput = {
@@ -338972,6 +347798,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutShipmentsInput = {
@@ -339118,6 +347948,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutShipmentsInput = {
@@ -339368,6 +348202,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutShipmentsInput = {
@@ -339514,6 +348352,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type VehicleUpsertWithoutShipmentsInput = {
@@ -339740,6 +348582,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutShipmentStopsInput = {
@@ -339886,6 +348732,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutShipmentStopsInput = {
@@ -340093,6 +348943,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutShipmentStopsInput = {
@@ -340239,6 +349093,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ShipmentUpsertWithoutStopsInput = {
@@ -340436,6 +349294,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDockAppointmentsInput = {
@@ -340582,6 +349444,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDockAppointmentsInput = {
@@ -340765,6 +349631,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDockAppointmentsInput = {
@@ -340911,6 +349781,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WarehouseUpsertWithoutDockAppointmentsInput = {
@@ -341084,6 +349958,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutInstalledAssetsInput = {
@@ -341230,6 +350108,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutInstalledAssetsInput = {
@@ -341480,6 +350362,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutInstalledAssetsInput = {
@@ -341626,6 +350512,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ServiceRequestUpsertWithWhereUniqueWithoutInstalledAssetInput = {
@@ -341804,6 +350694,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutServiceRequestsInput = {
@@ -341950,6 +350844,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutServiceRequestsInput = {
@@ -342197,6 +351095,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutServiceRequestsInput = {
@@ -342343,6 +351245,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type InstalledAssetUpsertWithoutServiceRequestsInput = {
@@ -342548,6 +351454,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutServiceOrdersInput = {
@@ -342694,6 +351604,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutServiceOrdersInput = {
@@ -342954,6 +351868,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutServiceOrdersInput = {
@@ -343100,6 +352018,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ServiceRequestUpsertWithoutServiceOrdersInput = {
@@ -343346,6 +352268,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutServiceOrderPartsInput = {
@@ -343492,6 +352418,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutServiceOrderPartsInput = {
@@ -343697,6 +352627,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutServiceOrderPartsInput = {
@@ -343843,6 +352777,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ServiceOrderUpsertWithoutPartsInput = {
@@ -344038,6 +352976,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRmasInput = {
@@ -344184,6 +353126,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRmasInput = {
@@ -344346,6 +353292,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRmasInput = {
@@ -344492,6 +353442,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutGlAccountsInput = {
@@ -344638,6 +353592,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutGlAccountsInput = {
@@ -344784,6 +353742,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutGlAccountsInput = {
@@ -344976,6 +353938,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutGlAccountsInput = {
@@ -345122,6 +354088,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type GlJournalLineUpsertWithWhereUniqueWithoutAccountInput = {
@@ -345284,6 +354254,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutGlJournalEntriesInput = {
@@ -345430,6 +354404,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutGlJournalEntriesInput = {
@@ -345622,6 +354600,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutGlJournalEntriesInput = {
@@ -345768,6 +354750,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type GlJournalLineUpsertWithWhereUniqueWithoutEntryInput = {
@@ -345930,6 +354916,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutGlJournalLinesInput = {
@@ -346076,6 +355066,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutGlJournalLinesInput = {
@@ -346308,6 +355302,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutGlJournalLinesInput = {
@@ -346454,6 +355452,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type GlJournalEntryUpsertWithoutLinesInput = {
@@ -346682,6 +355684,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutGlSystemAccountsInput = {
@@ -346828,6 +355834,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutGlSystemAccountsInput = {
@@ -346990,6 +356000,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutGlSystemAccountsInput = {
@@ -347136,6 +356150,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutGlOpeningBalanceDatesInput = {
@@ -347282,6 +356300,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutGlOpeningBalanceDatesInput = {
@@ -347428,6 +356450,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutGlOpeningBalanceDatesInput = {
@@ -347590,6 +356616,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutGlOpeningBalanceDatesInput = {
@@ -347736,6 +356766,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutGlPeriodLocksInput = {
@@ -347882,6 +356916,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutGlPeriodLocksInput = {
@@ -348028,6 +357066,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutGlPeriodLocksInput = {
@@ -348190,6 +357232,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutGlPeriodLocksInput = {
@@ -348336,6 +357382,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutBankStatementsInput = {
@@ -348482,6 +357532,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBankStatementsInput = {
@@ -348628,6 +357682,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBankStatementsInput = {
@@ -348830,6 +357888,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBankStatementsInput = {
@@ -348976,6 +358038,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BankStatementLineUpsertWithWhereUniqueWithoutStatementInput = {
@@ -349138,6 +358204,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBankStatementLinesInput = {
@@ -349284,6 +358354,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBankStatementLinesInput = {
@@ -349523,6 +358597,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBankStatementLinesInput = {
@@ -349669,6 +358747,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BankStatementUpsertWithoutLinesInput = {
@@ -349882,6 +358964,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPaymentAllocationsInput = {
@@ -350028,6 +359114,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPaymentAllocationsInput = {
@@ -350274,6 +359364,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPaymentAllocationsInput = {
@@ -350420,6 +359514,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BankStatementLineUpsertWithoutAllocationsInput = {
@@ -350662,6 +359760,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCompensationsInput = {
@@ -350808,6 +359910,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCompensationsInput = {
@@ -350998,6 +360104,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCompensationsInput = {
@@ -351144,6 +360254,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type CompensationLineUpsertWithWhereUniqueWithoutCompensationInput = {
@@ -351306,6 +360420,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCompensationLinesInput = {
@@ -351452,6 +360570,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCompensationLinesInput = {
@@ -351710,6 +360832,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCompensationLinesInput = {
@@ -351856,6 +360982,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type CompensationUpsertWithoutLinesInput = {
@@ -352110,6 +361240,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutVatRatesInput = {
@@ -352256,6 +361390,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutVatRatesInput = {
@@ -352418,6 +361556,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutVatRatesInput = {
@@ -352564,6 +361706,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutVatBookEntriesInput = {
@@ -352710,6 +361856,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutVatBookEntriesInput = {
@@ -352856,6 +362006,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutVatBookEntriesInput = {
@@ -353018,6 +362172,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutVatBookEntriesInput = {
@@ -353164,6 +362322,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutVatPeriodsInput = {
@@ -353310,6 +362472,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutVatPeriodsInput = {
@@ -353456,6 +362622,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutVatPeriodsInput = {
@@ -353618,6 +362788,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutVatPeriodsInput = {
@@ -353764,6 +362938,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutAttendanceDaysInput = {
@@ -353910,6 +363088,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAttendanceDaysInput = {
@@ -354056,6 +363238,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAttendanceDaysInput = {
@@ -354218,6 +363404,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAttendanceDaysInput = {
@@ -354364,6 +363554,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutAttendancePeriodsInput = {
@@ -354510,6 +363704,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAttendancePeriodsInput = {
@@ -354656,6 +363854,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAttendancePeriodsInput = {
@@ -354818,6 +364020,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAttendancePeriodsInput = {
@@ -354964,6 +364170,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutEmployeeSalariesInput = {
@@ -355110,6 +364320,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutEmployeeSalariesInput = {
@@ -355256,6 +364470,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutEmployeeSalariesInput = {
@@ -355418,6 +364636,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutEmployeeSalariesInput = {
@@ -355564,6 +364786,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPayrollRunsInput = {
@@ -355710,6 +364936,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPayrollRunsInput = {
@@ -355856,6 +365086,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPayrollRunsInput = {
@@ -356062,6 +365296,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPayrollRunsInput = {
@@ -356208,6 +365446,10 @@ export namespace Prisma {
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PayrollLineUpsertWithWhereUniqueWithoutRunInput = {
@@ -356370,6 +365612,10 @@ export namespace Prisma {
     payrollRuns?: PayrollRunCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPayrollLinesInput = {
@@ -356516,6 +365762,10 @@ export namespace Prisma {
     payrollRuns?: PayrollRunUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPayrollLinesInput = {
@@ -356713,6 +365963,10 @@ export namespace Prisma {
     payrollRuns?: PayrollRunUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPayrollLinesInput = {
@@ -356859,6 +366113,10 @@ export namespace Prisma {
     payrollRuns?: PayrollRunUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PayrollRunUpsertWithoutLinesInput = {
@@ -357046,6 +366304,10 @@ export namespace Prisma {
     payrollRuns?: PayrollRunCreateNestedManyWithoutTenantInput
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPayrollAdjustmentsInput = {
@@ -357192,6 +366454,10 @@ export namespace Prisma {
     payrollRuns?: PayrollRunUncheckedCreateNestedManyWithoutTenantInput
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPayrollAdjustmentsInput = {
@@ -357354,6 +366620,10 @@ export namespace Prisma {
     payrollRuns?: PayrollRunUpdateManyWithoutTenantNestedInput
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPayrollAdjustmentsInput = {
@@ -357500,6 +366770,10 @@ export namespace Prisma {
     payrollRuns?: PayrollRunUncheckedUpdateManyWithoutTenantNestedInput
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutEmploymentContractsInput = {
@@ -357646,6 +366920,10 @@ export namespace Prisma {
     payrollRuns?: PayrollRunCreateNestedManyWithoutTenantInput
     payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutEmploymentContractsInput = {
@@ -357792,6 +367070,10 @@ export namespace Prisma {
     payrollRuns?: PayrollRunUncheckedCreateNestedManyWithoutTenantInput
     payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
     payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutEmploymentContractsInput = {
@@ -357954,6 +367236,10 @@ export namespace Prisma {
     payrollRuns?: PayrollRunUpdateManyWithoutTenantNestedInput
     payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutEmploymentContractsInput = {
@@ -358100,6 +367386,2608 @@ export namespace Prisma {
     payrollRuns?: PayrollRunUncheckedUpdateManyWithoutTenantNestedInput
     payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
     payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantCreateWithoutTrainingPlanTemplatesInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    factories?: FactoryCreateNestedManyWithoutTenantInput
+    users?: UserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionCreateNestedManyWithoutTenantInput
+    tasks?: TaskCreateNestedManyWithoutTenantInput
+    notifications?: NotificationCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    products?: ProductCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountCreateNestedManyWithoutTenantInput
+    leads?: LeadCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryCreateNestedManyWithoutTenantInput
+    quotes?: QuoteCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
+    comments?: CommentCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
+    exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
+    breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
+    masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
+    supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
+    employees?: EmployeeCreateNestedManyWithoutTenantInput
+    assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
+    rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
+    containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
+    installedAssets?: InstalledAssetCreateNestedManyWithoutTenantInput
+    serviceRequests?: ServiceRequestCreateNestedManyWithoutTenantInput
+    serviceOrders?: ServiceOrderCreateNestedManyWithoutTenantInput
+    serviceOrderParts?: ServiceOrderPartCreateNestedManyWithoutTenantInput
+    rmas?: RmaCreateNestedManyWithoutTenantInput
+    glAccounts?: GlAccountCreateNestedManyWithoutTenantInput
+    glJournalEntries?: GlJournalEntryCreateNestedManyWithoutTenantInput
+    glJournalLines?: GlJournalLineCreateNestedManyWithoutTenantInput
+    glSystemAccounts?: GlSystemAccountCreateNestedManyWithoutTenantInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
+    glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
+    employeeSalaries?: EmployeeSalaryCreateNestedManyWithoutTenantInput
+    payrollRuns?: PayrollRunCreateNestedManyWithoutTenantInput
+    payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
+    payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
+    employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutTrainingPlanTemplatesInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityUncheckedCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    factories?: FactoryUncheckedCreateNestedManyWithoutTenantInput
+    users?: UserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventUncheckedCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventUncheckedCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryUncheckedCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationUncheckedCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutTenantInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalUncheckedCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventUncheckedCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    products?: ProductUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountUncheckedCreateNestedManyWithoutTenantInput
+    leads?: LeadUncheckedCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityUncheckedCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityUncheckedCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListUncheckedCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryUncheckedCreateNestedManyWithoutTenantInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineUncheckedCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderUncheckedCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventUncheckedCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierUncheckedCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
+    comments?: CommentUncheckedCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderUncheckedCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
+    exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
+    breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
+    masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
+    supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
+    employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
+    assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
+    rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
+    containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
+    installedAssets?: InstalledAssetUncheckedCreateNestedManyWithoutTenantInput
+    serviceRequests?: ServiceRequestUncheckedCreateNestedManyWithoutTenantInput
+    serviceOrders?: ServiceOrderUncheckedCreateNestedManyWithoutTenantInput
+    serviceOrderParts?: ServiceOrderPartUncheckedCreateNestedManyWithoutTenantInput
+    rmas?: RmaUncheckedCreateNestedManyWithoutTenantInput
+    glAccounts?: GlAccountUncheckedCreateNestedManyWithoutTenantInput
+    glJournalEntries?: GlJournalEntryUncheckedCreateNestedManyWithoutTenantInput
+    glJournalLines?: GlJournalLineUncheckedCreateNestedManyWithoutTenantInput
+    glSystemAccounts?: GlSystemAccountUncheckedCreateNestedManyWithoutTenantInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
+    glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
+    employeeSalaries?: EmployeeSalaryUncheckedCreateNestedManyWithoutTenantInput
+    payrollRuns?: PayrollRunUncheckedCreateNestedManyWithoutTenantInput
+    payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
+    payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
+    employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutTrainingPlanTemplatesInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutTrainingPlanTemplatesInput, TenantUncheckedCreateWithoutTrainingPlanTemplatesInput>
+  }
+
+  export type TenantUpsertWithoutTrainingPlanTemplatesInput = {
+    update: XOR<TenantUpdateWithoutTrainingPlanTemplatesInput, TenantUncheckedUpdateWithoutTrainingPlanTemplatesInput>
+    create: XOR<TenantCreateWithoutTrainingPlanTemplatesInput, TenantUncheckedCreateWithoutTrainingPlanTemplatesInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutTrainingPlanTemplatesInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutTrainingPlanTemplatesInput, TenantUncheckedUpdateWithoutTrainingPlanTemplatesInput>
+  }
+
+  export type TenantUpdateWithoutTrainingPlanTemplatesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUpdateManyWithoutTenantNestedInput
+    users?: UserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    products?: ProductUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUpdateManyWithoutTenantNestedInput
+    leads?: LeadUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
+    comments?: CommentUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
+    exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
+    breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
+    masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
+    supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
+    employees?: EmployeeUpdateManyWithoutTenantNestedInput
+    assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
+    rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
+    containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
+    installedAssets?: InstalledAssetUpdateManyWithoutTenantNestedInput
+    serviceRequests?: ServiceRequestUpdateManyWithoutTenantNestedInput
+    serviceOrders?: ServiceOrderUpdateManyWithoutTenantNestedInput
+    serviceOrderParts?: ServiceOrderPartUpdateManyWithoutTenantNestedInput
+    rmas?: RmaUpdateManyWithoutTenantNestedInput
+    glAccounts?: GlAccountUpdateManyWithoutTenantNestedInput
+    glJournalEntries?: GlJournalEntryUpdateManyWithoutTenantNestedInput
+    glJournalLines?: GlJournalLineUpdateManyWithoutTenantNestedInput
+    glSystemAccounts?: GlSystemAccountUpdateManyWithoutTenantNestedInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
+    glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
+    employeeSalaries?: EmployeeSalaryUpdateManyWithoutTenantNestedInput
+    payrollRuns?: PayrollRunUpdateManyWithoutTenantNestedInput
+    payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
+    payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
+    employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutTrainingPlanTemplatesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUncheckedUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUncheckedUpdateManyWithoutTenantNestedInput
+    users?: UserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUncheckedUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUncheckedUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUncheckedUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUncheckedUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUncheckedUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUncheckedUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    products?: ProductUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUncheckedUpdateManyWithoutTenantNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUncheckedUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUncheckedUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUncheckedUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUncheckedUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUncheckedUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
+    exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
+    breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
+    masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
+    supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
+    employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
+    assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
+    rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
+    containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
+    installedAssets?: InstalledAssetUncheckedUpdateManyWithoutTenantNestedInput
+    serviceRequests?: ServiceRequestUncheckedUpdateManyWithoutTenantNestedInput
+    serviceOrders?: ServiceOrderUncheckedUpdateManyWithoutTenantNestedInput
+    serviceOrderParts?: ServiceOrderPartUncheckedUpdateManyWithoutTenantNestedInput
+    rmas?: RmaUncheckedUpdateManyWithoutTenantNestedInput
+    glAccounts?: GlAccountUncheckedUpdateManyWithoutTenantNestedInput
+    glJournalEntries?: GlJournalEntryUncheckedUpdateManyWithoutTenantNestedInput
+    glJournalLines?: GlJournalLineUncheckedUpdateManyWithoutTenantNestedInput
+    glSystemAccounts?: GlSystemAccountUncheckedUpdateManyWithoutTenantNestedInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
+    glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
+    employeeSalaries?: EmployeeSalaryUncheckedUpdateManyWithoutTenantNestedInput
+    payrollRuns?: PayrollRunUncheckedUpdateManyWithoutTenantNestedInput
+    payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
+    payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
+    employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantCreateWithoutTrainingPlansInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    factories?: FactoryCreateNestedManyWithoutTenantInput
+    users?: UserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionCreateNestedManyWithoutTenantInput
+    tasks?: TaskCreateNestedManyWithoutTenantInput
+    notifications?: NotificationCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    products?: ProductCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountCreateNestedManyWithoutTenantInput
+    leads?: LeadCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryCreateNestedManyWithoutTenantInput
+    quotes?: QuoteCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
+    comments?: CommentCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
+    exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
+    breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
+    masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
+    supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
+    employees?: EmployeeCreateNestedManyWithoutTenantInput
+    assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
+    rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
+    containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
+    installedAssets?: InstalledAssetCreateNestedManyWithoutTenantInput
+    serviceRequests?: ServiceRequestCreateNestedManyWithoutTenantInput
+    serviceOrders?: ServiceOrderCreateNestedManyWithoutTenantInput
+    serviceOrderParts?: ServiceOrderPartCreateNestedManyWithoutTenantInput
+    rmas?: RmaCreateNestedManyWithoutTenantInput
+    glAccounts?: GlAccountCreateNestedManyWithoutTenantInput
+    glJournalEntries?: GlJournalEntryCreateNestedManyWithoutTenantInput
+    glJournalLines?: GlJournalLineCreateNestedManyWithoutTenantInput
+    glSystemAccounts?: GlSystemAccountCreateNestedManyWithoutTenantInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
+    glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
+    employeeSalaries?: EmployeeSalaryCreateNestedManyWithoutTenantInput
+    payrollRuns?: PayrollRunCreateNestedManyWithoutTenantInput
+    payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
+    payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
+    employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutTrainingPlansInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityUncheckedCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    factories?: FactoryUncheckedCreateNestedManyWithoutTenantInput
+    users?: UserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventUncheckedCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventUncheckedCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryUncheckedCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationUncheckedCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutTenantInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalUncheckedCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventUncheckedCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    products?: ProductUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountUncheckedCreateNestedManyWithoutTenantInput
+    leads?: LeadUncheckedCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityUncheckedCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityUncheckedCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListUncheckedCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryUncheckedCreateNestedManyWithoutTenantInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineUncheckedCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderUncheckedCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventUncheckedCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierUncheckedCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
+    comments?: CommentUncheckedCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderUncheckedCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
+    exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
+    breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
+    masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
+    supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
+    employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
+    assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
+    rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
+    containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
+    installedAssets?: InstalledAssetUncheckedCreateNestedManyWithoutTenantInput
+    serviceRequests?: ServiceRequestUncheckedCreateNestedManyWithoutTenantInput
+    serviceOrders?: ServiceOrderUncheckedCreateNestedManyWithoutTenantInput
+    serviceOrderParts?: ServiceOrderPartUncheckedCreateNestedManyWithoutTenantInput
+    rmas?: RmaUncheckedCreateNestedManyWithoutTenantInput
+    glAccounts?: GlAccountUncheckedCreateNestedManyWithoutTenantInput
+    glJournalEntries?: GlJournalEntryUncheckedCreateNestedManyWithoutTenantInput
+    glJournalLines?: GlJournalLineUncheckedCreateNestedManyWithoutTenantInput
+    glSystemAccounts?: GlSystemAccountUncheckedCreateNestedManyWithoutTenantInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
+    glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
+    employeeSalaries?: EmployeeSalaryUncheckedCreateNestedManyWithoutTenantInput
+    payrollRuns?: PayrollRunUncheckedCreateNestedManyWithoutTenantInput
+    payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
+    payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
+    employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutTrainingPlansInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutTrainingPlansInput, TenantUncheckedCreateWithoutTrainingPlansInput>
+  }
+
+  export type TrainingPlanItemCreateWithoutPlanInput = {
+    id?: string
+    itemKey: string
+    text: string
+    status?: string
+    note?: string | null
+    version?: number
+    updatedBy?: string | null
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutTrainingPlanItemsInput
+  }
+
+  export type TrainingPlanItemUncheckedCreateWithoutPlanInput = {
+    id?: string
+    tenantId: string
+    itemKey: string
+    text: string
+    status?: string
+    note?: string | null
+    version?: number
+    updatedBy?: string | null
+    updatedAt?: Date | string
+  }
+
+  export type TrainingPlanItemCreateOrConnectWithoutPlanInput = {
+    where: TrainingPlanItemWhereUniqueInput
+    create: XOR<TrainingPlanItemCreateWithoutPlanInput, TrainingPlanItemUncheckedCreateWithoutPlanInput>
+  }
+
+  export type TrainingPlanItemCreateManyPlanInputEnvelope = {
+    data: TrainingPlanItemCreateManyPlanInput | TrainingPlanItemCreateManyPlanInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TenantUpsertWithoutTrainingPlansInput = {
+    update: XOR<TenantUpdateWithoutTrainingPlansInput, TenantUncheckedUpdateWithoutTrainingPlansInput>
+    create: XOR<TenantCreateWithoutTrainingPlansInput, TenantUncheckedCreateWithoutTrainingPlansInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutTrainingPlansInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutTrainingPlansInput, TenantUncheckedUpdateWithoutTrainingPlansInput>
+  }
+
+  export type TenantUpdateWithoutTrainingPlansInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUpdateManyWithoutTenantNestedInput
+    users?: UserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    products?: ProductUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUpdateManyWithoutTenantNestedInput
+    leads?: LeadUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
+    comments?: CommentUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
+    exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
+    breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
+    masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
+    supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
+    employees?: EmployeeUpdateManyWithoutTenantNestedInput
+    assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
+    rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
+    containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
+    installedAssets?: InstalledAssetUpdateManyWithoutTenantNestedInput
+    serviceRequests?: ServiceRequestUpdateManyWithoutTenantNestedInput
+    serviceOrders?: ServiceOrderUpdateManyWithoutTenantNestedInput
+    serviceOrderParts?: ServiceOrderPartUpdateManyWithoutTenantNestedInput
+    rmas?: RmaUpdateManyWithoutTenantNestedInput
+    glAccounts?: GlAccountUpdateManyWithoutTenantNestedInput
+    glJournalEntries?: GlJournalEntryUpdateManyWithoutTenantNestedInput
+    glJournalLines?: GlJournalLineUpdateManyWithoutTenantNestedInput
+    glSystemAccounts?: GlSystemAccountUpdateManyWithoutTenantNestedInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
+    glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
+    employeeSalaries?: EmployeeSalaryUpdateManyWithoutTenantNestedInput
+    payrollRuns?: PayrollRunUpdateManyWithoutTenantNestedInput
+    payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
+    payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
+    employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutTrainingPlansInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUncheckedUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUncheckedUpdateManyWithoutTenantNestedInput
+    users?: UserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUncheckedUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUncheckedUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUncheckedUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUncheckedUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUncheckedUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUncheckedUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    products?: ProductUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUncheckedUpdateManyWithoutTenantNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUncheckedUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUncheckedUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUncheckedUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUncheckedUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUncheckedUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
+    exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
+    breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
+    masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
+    supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
+    employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
+    assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
+    rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
+    containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
+    installedAssets?: InstalledAssetUncheckedUpdateManyWithoutTenantNestedInput
+    serviceRequests?: ServiceRequestUncheckedUpdateManyWithoutTenantNestedInput
+    serviceOrders?: ServiceOrderUncheckedUpdateManyWithoutTenantNestedInput
+    serviceOrderParts?: ServiceOrderPartUncheckedUpdateManyWithoutTenantNestedInput
+    rmas?: RmaUncheckedUpdateManyWithoutTenantNestedInput
+    glAccounts?: GlAccountUncheckedUpdateManyWithoutTenantNestedInput
+    glJournalEntries?: GlJournalEntryUncheckedUpdateManyWithoutTenantNestedInput
+    glJournalLines?: GlJournalLineUncheckedUpdateManyWithoutTenantNestedInput
+    glSystemAccounts?: GlSystemAccountUncheckedUpdateManyWithoutTenantNestedInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
+    glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
+    employeeSalaries?: EmployeeSalaryUncheckedUpdateManyWithoutTenantNestedInput
+    payrollRuns?: PayrollRunUncheckedUpdateManyWithoutTenantNestedInput
+    payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
+    payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
+    employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TrainingPlanItemUpsertWithWhereUniqueWithoutPlanInput = {
+    where: TrainingPlanItemWhereUniqueInput
+    update: XOR<TrainingPlanItemUpdateWithoutPlanInput, TrainingPlanItemUncheckedUpdateWithoutPlanInput>
+    create: XOR<TrainingPlanItemCreateWithoutPlanInput, TrainingPlanItemUncheckedCreateWithoutPlanInput>
+  }
+
+  export type TrainingPlanItemUpdateWithWhereUniqueWithoutPlanInput = {
+    where: TrainingPlanItemWhereUniqueInput
+    data: XOR<TrainingPlanItemUpdateWithoutPlanInput, TrainingPlanItemUncheckedUpdateWithoutPlanInput>
+  }
+
+  export type TrainingPlanItemUpdateManyWithWhereWithoutPlanInput = {
+    where: TrainingPlanItemScalarWhereInput
+    data: XOR<TrainingPlanItemUpdateManyMutationInput, TrainingPlanItemUncheckedUpdateManyWithoutPlanInput>
+  }
+
+  export type TenantCreateWithoutTrainingPlanItemsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    factories?: FactoryCreateNestedManyWithoutTenantInput
+    users?: UserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionCreateNestedManyWithoutTenantInput
+    tasks?: TaskCreateNestedManyWithoutTenantInput
+    notifications?: NotificationCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    products?: ProductCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountCreateNestedManyWithoutTenantInput
+    leads?: LeadCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryCreateNestedManyWithoutTenantInput
+    quotes?: QuoteCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
+    comments?: CommentCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
+    exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
+    breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
+    masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
+    supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
+    employees?: EmployeeCreateNestedManyWithoutTenantInput
+    assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
+    rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
+    containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
+    installedAssets?: InstalledAssetCreateNestedManyWithoutTenantInput
+    serviceRequests?: ServiceRequestCreateNestedManyWithoutTenantInput
+    serviceOrders?: ServiceOrderCreateNestedManyWithoutTenantInput
+    serviceOrderParts?: ServiceOrderPartCreateNestedManyWithoutTenantInput
+    rmas?: RmaCreateNestedManyWithoutTenantInput
+    glAccounts?: GlAccountCreateNestedManyWithoutTenantInput
+    glJournalEntries?: GlJournalEntryCreateNestedManyWithoutTenantInput
+    glJournalLines?: GlJournalLineCreateNestedManyWithoutTenantInput
+    glSystemAccounts?: GlSystemAccountCreateNestedManyWithoutTenantInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
+    glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
+    employeeSalaries?: EmployeeSalaryCreateNestedManyWithoutTenantInput
+    payrollRuns?: PayrollRunCreateNestedManyWithoutTenantInput
+    payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
+    payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
+    employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutTrainingPlanItemsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityUncheckedCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    factories?: FactoryUncheckedCreateNestedManyWithoutTenantInput
+    users?: UserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventUncheckedCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventUncheckedCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryUncheckedCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationUncheckedCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutTenantInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalUncheckedCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventUncheckedCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    products?: ProductUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountUncheckedCreateNestedManyWithoutTenantInput
+    leads?: LeadUncheckedCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityUncheckedCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityUncheckedCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListUncheckedCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryUncheckedCreateNestedManyWithoutTenantInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineUncheckedCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderUncheckedCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventUncheckedCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierUncheckedCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
+    comments?: CommentUncheckedCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderUncheckedCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
+    exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
+    breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
+    masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
+    supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
+    employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
+    assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
+    rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
+    containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
+    installedAssets?: InstalledAssetUncheckedCreateNestedManyWithoutTenantInput
+    serviceRequests?: ServiceRequestUncheckedCreateNestedManyWithoutTenantInput
+    serviceOrders?: ServiceOrderUncheckedCreateNestedManyWithoutTenantInput
+    serviceOrderParts?: ServiceOrderPartUncheckedCreateNestedManyWithoutTenantInput
+    rmas?: RmaUncheckedCreateNestedManyWithoutTenantInput
+    glAccounts?: GlAccountUncheckedCreateNestedManyWithoutTenantInput
+    glJournalEntries?: GlJournalEntryUncheckedCreateNestedManyWithoutTenantInput
+    glJournalLines?: GlJournalLineUncheckedCreateNestedManyWithoutTenantInput
+    glSystemAccounts?: GlSystemAccountUncheckedCreateNestedManyWithoutTenantInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
+    glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
+    employeeSalaries?: EmployeeSalaryUncheckedCreateNestedManyWithoutTenantInput
+    payrollRuns?: PayrollRunUncheckedCreateNestedManyWithoutTenantInput
+    payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
+    payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
+    employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutTrainingPlanItemsInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutTrainingPlanItemsInput, TenantUncheckedCreateWithoutTrainingPlanItemsInput>
+  }
+
+  export type TrainingPlanCreateWithoutItemsInput = {
+    id?: string
+    employeeId: string
+    templateKey: string
+    templateVersion: number
+    title: string
+    status?: string
+    dueDate: Date | string
+    recheckDate?: Date | string | null
+    requestKey: string
+    createdBy?: string | null
+    createdAt?: Date | string
+    closedAt?: Date | string | null
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutTrainingPlansInput
+  }
+
+  export type TrainingPlanUncheckedCreateWithoutItemsInput = {
+    id?: string
+    tenantId: string
+    employeeId: string
+    templateKey: string
+    templateVersion: number
+    title: string
+    status?: string
+    dueDate: Date | string
+    recheckDate?: Date | string | null
+    requestKey: string
+    createdBy?: string | null
+    createdAt?: Date | string
+    closedAt?: Date | string | null
+    updatedAt?: Date | string
+  }
+
+  export type TrainingPlanCreateOrConnectWithoutItemsInput = {
+    where: TrainingPlanWhereUniqueInput
+    create: XOR<TrainingPlanCreateWithoutItemsInput, TrainingPlanUncheckedCreateWithoutItemsInput>
+  }
+
+  export type TenantUpsertWithoutTrainingPlanItemsInput = {
+    update: XOR<TenantUpdateWithoutTrainingPlanItemsInput, TenantUncheckedUpdateWithoutTrainingPlanItemsInput>
+    create: XOR<TenantCreateWithoutTrainingPlanItemsInput, TenantUncheckedCreateWithoutTrainingPlanItemsInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutTrainingPlanItemsInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutTrainingPlanItemsInput, TenantUncheckedUpdateWithoutTrainingPlanItemsInput>
+  }
+
+  export type TenantUpdateWithoutTrainingPlanItemsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUpdateManyWithoutTenantNestedInput
+    users?: UserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    products?: ProductUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUpdateManyWithoutTenantNestedInput
+    leads?: LeadUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
+    comments?: CommentUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
+    exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
+    breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
+    masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
+    supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
+    employees?: EmployeeUpdateManyWithoutTenantNestedInput
+    assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
+    rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
+    containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
+    installedAssets?: InstalledAssetUpdateManyWithoutTenantNestedInput
+    serviceRequests?: ServiceRequestUpdateManyWithoutTenantNestedInput
+    serviceOrders?: ServiceOrderUpdateManyWithoutTenantNestedInput
+    serviceOrderParts?: ServiceOrderPartUpdateManyWithoutTenantNestedInput
+    rmas?: RmaUpdateManyWithoutTenantNestedInput
+    glAccounts?: GlAccountUpdateManyWithoutTenantNestedInput
+    glJournalEntries?: GlJournalEntryUpdateManyWithoutTenantNestedInput
+    glJournalLines?: GlJournalLineUpdateManyWithoutTenantNestedInput
+    glSystemAccounts?: GlSystemAccountUpdateManyWithoutTenantNestedInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
+    glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
+    employeeSalaries?: EmployeeSalaryUpdateManyWithoutTenantNestedInput
+    payrollRuns?: PayrollRunUpdateManyWithoutTenantNestedInput
+    payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
+    payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
+    employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutTrainingPlanItemsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUncheckedUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUncheckedUpdateManyWithoutTenantNestedInput
+    users?: UserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUncheckedUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUncheckedUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUncheckedUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUncheckedUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUncheckedUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUncheckedUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    products?: ProductUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUncheckedUpdateManyWithoutTenantNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUncheckedUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUncheckedUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUncheckedUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUncheckedUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUncheckedUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
+    exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
+    breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
+    masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
+    supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
+    employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
+    assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
+    rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
+    containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
+    installedAssets?: InstalledAssetUncheckedUpdateManyWithoutTenantNestedInput
+    serviceRequests?: ServiceRequestUncheckedUpdateManyWithoutTenantNestedInput
+    serviceOrders?: ServiceOrderUncheckedUpdateManyWithoutTenantNestedInput
+    serviceOrderParts?: ServiceOrderPartUncheckedUpdateManyWithoutTenantNestedInput
+    rmas?: RmaUncheckedUpdateManyWithoutTenantNestedInput
+    glAccounts?: GlAccountUncheckedUpdateManyWithoutTenantNestedInput
+    glJournalEntries?: GlJournalEntryUncheckedUpdateManyWithoutTenantNestedInput
+    glJournalLines?: GlJournalLineUncheckedUpdateManyWithoutTenantNestedInput
+    glSystemAccounts?: GlSystemAccountUncheckedUpdateManyWithoutTenantNestedInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
+    glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
+    employeeSalaries?: EmployeeSalaryUncheckedUpdateManyWithoutTenantNestedInput
+    payrollRuns?: PayrollRunUncheckedUpdateManyWithoutTenantNestedInput
+    payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
+    payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
+    employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TrainingPlanUpsertWithoutItemsInput = {
+    update: XOR<TrainingPlanUpdateWithoutItemsInput, TrainingPlanUncheckedUpdateWithoutItemsInput>
+    create: XOR<TrainingPlanCreateWithoutItemsInput, TrainingPlanUncheckedCreateWithoutItemsInput>
+    where?: TrainingPlanWhereInput
+  }
+
+  export type TrainingPlanUpdateToOneWithWhereWithoutItemsInput = {
+    where?: TrainingPlanWhereInput
+    data: XOR<TrainingPlanUpdateWithoutItemsInput, TrainingPlanUncheckedUpdateWithoutItemsInput>
+  }
+
+  export type TrainingPlanUpdateWithoutItemsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    templateKey?: StringFieldUpdateOperationsInput | string
+    templateVersion?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    recheckDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    requestKey?: StringFieldUpdateOperationsInput | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutTrainingPlansNestedInput
+  }
+
+  export type TrainingPlanUncheckedUpdateWithoutItemsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    templateKey?: StringFieldUpdateOperationsInput | string
+    templateVersion?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    recheckDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    requestKey?: StringFieldUpdateOperationsInput | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TenantCreateWithoutTrainingRecordsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    factories?: FactoryCreateNestedManyWithoutTenantInput
+    users?: UserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionCreateNestedManyWithoutTenantInput
+    tasks?: TaskCreateNestedManyWithoutTenantInput
+    notifications?: NotificationCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    products?: ProductCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountCreateNestedManyWithoutTenantInput
+    leads?: LeadCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryCreateNestedManyWithoutTenantInput
+    quotes?: QuoteCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
+    comments?: CommentCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
+    exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
+    breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
+    masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
+    supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
+    employees?: EmployeeCreateNestedManyWithoutTenantInput
+    assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
+    rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
+    containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
+    installedAssets?: InstalledAssetCreateNestedManyWithoutTenantInput
+    serviceRequests?: ServiceRequestCreateNestedManyWithoutTenantInput
+    serviceOrders?: ServiceOrderCreateNestedManyWithoutTenantInput
+    serviceOrderParts?: ServiceOrderPartCreateNestedManyWithoutTenantInput
+    rmas?: RmaCreateNestedManyWithoutTenantInput
+    glAccounts?: GlAccountCreateNestedManyWithoutTenantInput
+    glJournalEntries?: GlJournalEntryCreateNestedManyWithoutTenantInput
+    glJournalLines?: GlJournalLineCreateNestedManyWithoutTenantInput
+    glSystemAccounts?: GlSystemAccountCreateNestedManyWithoutTenantInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
+    glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
+    employeeSalaries?: EmployeeSalaryCreateNestedManyWithoutTenantInput
+    payrollRuns?: PayrollRunCreateNestedManyWithoutTenantInput
+    payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
+    payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
+    employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutTrainingRecordsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityUncheckedCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    factories?: FactoryUncheckedCreateNestedManyWithoutTenantInput
+    users?: UserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventUncheckedCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventUncheckedCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryUncheckedCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationUncheckedCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutTenantInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalUncheckedCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventUncheckedCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    products?: ProductUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountUncheckedCreateNestedManyWithoutTenantInput
+    leads?: LeadUncheckedCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityUncheckedCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityUncheckedCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListUncheckedCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryUncheckedCreateNestedManyWithoutTenantInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineUncheckedCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderUncheckedCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventUncheckedCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierUncheckedCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
+    comments?: CommentUncheckedCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderUncheckedCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
+    exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
+    breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
+    masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
+    supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
+    employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
+    assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
+    rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
+    containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
+    installedAssets?: InstalledAssetUncheckedCreateNestedManyWithoutTenantInput
+    serviceRequests?: ServiceRequestUncheckedCreateNestedManyWithoutTenantInput
+    serviceOrders?: ServiceOrderUncheckedCreateNestedManyWithoutTenantInput
+    serviceOrderParts?: ServiceOrderPartUncheckedCreateNestedManyWithoutTenantInput
+    rmas?: RmaUncheckedCreateNestedManyWithoutTenantInput
+    glAccounts?: GlAccountUncheckedCreateNestedManyWithoutTenantInput
+    glJournalEntries?: GlJournalEntryUncheckedCreateNestedManyWithoutTenantInput
+    glJournalLines?: GlJournalLineUncheckedCreateNestedManyWithoutTenantInput
+    glSystemAccounts?: GlSystemAccountUncheckedCreateNestedManyWithoutTenantInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
+    glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
+    employeeSalaries?: EmployeeSalaryUncheckedCreateNestedManyWithoutTenantInput
+    payrollRuns?: PayrollRunUncheckedCreateNestedManyWithoutTenantInput
+    payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
+    payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
+    employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutTrainingRecordsInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutTrainingRecordsInput, TenantUncheckedCreateWithoutTrainingRecordsInput>
+  }
+
+  export type TenantUpsertWithoutTrainingRecordsInput = {
+    update: XOR<TenantUpdateWithoutTrainingRecordsInput, TenantUncheckedUpdateWithoutTrainingRecordsInput>
+    create: XOR<TenantCreateWithoutTrainingRecordsInput, TenantUncheckedCreateWithoutTrainingRecordsInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutTrainingRecordsInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutTrainingRecordsInput, TenantUncheckedUpdateWithoutTrainingRecordsInput>
+  }
+
+  export type TenantUpdateWithoutTrainingRecordsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUpdateManyWithoutTenantNestedInput
+    users?: UserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    products?: ProductUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUpdateManyWithoutTenantNestedInput
+    leads?: LeadUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
+    comments?: CommentUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
+    exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
+    breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
+    masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
+    supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
+    employees?: EmployeeUpdateManyWithoutTenantNestedInput
+    assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
+    rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
+    containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
+    installedAssets?: InstalledAssetUpdateManyWithoutTenantNestedInput
+    serviceRequests?: ServiceRequestUpdateManyWithoutTenantNestedInput
+    serviceOrders?: ServiceOrderUpdateManyWithoutTenantNestedInput
+    serviceOrderParts?: ServiceOrderPartUpdateManyWithoutTenantNestedInput
+    rmas?: RmaUpdateManyWithoutTenantNestedInput
+    glAccounts?: GlAccountUpdateManyWithoutTenantNestedInput
+    glJournalEntries?: GlJournalEntryUpdateManyWithoutTenantNestedInput
+    glJournalLines?: GlJournalLineUpdateManyWithoutTenantNestedInput
+    glSystemAccounts?: GlSystemAccountUpdateManyWithoutTenantNestedInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
+    glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
+    employeeSalaries?: EmployeeSalaryUpdateManyWithoutTenantNestedInput
+    payrollRuns?: PayrollRunUpdateManyWithoutTenantNestedInput
+    payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
+    payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
+    employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutTrainingRecordsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUncheckedUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUncheckedUpdateManyWithoutTenantNestedInput
+    users?: UserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUncheckedUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUncheckedUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUncheckedUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUncheckedUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUncheckedUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUncheckedUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    products?: ProductUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUncheckedUpdateManyWithoutTenantNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUncheckedUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUncheckedUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUncheckedUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUncheckedUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUncheckedUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
+    exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
+    breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
+    masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
+    supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
+    employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
+    assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
+    rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
+    containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
+    installedAssets?: InstalledAssetUncheckedUpdateManyWithoutTenantNestedInput
+    serviceRequests?: ServiceRequestUncheckedUpdateManyWithoutTenantNestedInput
+    serviceOrders?: ServiceOrderUncheckedUpdateManyWithoutTenantNestedInput
+    serviceOrderParts?: ServiceOrderPartUncheckedUpdateManyWithoutTenantNestedInput
+    rmas?: RmaUncheckedUpdateManyWithoutTenantNestedInput
+    glAccounts?: GlAccountUncheckedUpdateManyWithoutTenantNestedInput
+    glJournalEntries?: GlJournalEntryUncheckedUpdateManyWithoutTenantNestedInput
+    glJournalLines?: GlJournalLineUncheckedUpdateManyWithoutTenantNestedInput
+    glSystemAccounts?: GlSystemAccountUncheckedUpdateManyWithoutTenantNestedInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
+    glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
+    employeeSalaries?: EmployeeSalaryUncheckedUpdateManyWithoutTenantNestedInput
+    payrollRuns?: PayrollRunUncheckedUpdateManyWithoutTenantNestedInput
+    payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
+    payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
+    employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantConfigurationVersionCreateManyTenantInput = {
@@ -359176,6 +371064,8 @@ export namespace Prisma {
     skills?: NullableJsonNullValueInput | InputJsonValue
     hiredAt?: Date | string | null
     salaryLocked?: boolean
+    mentorUserId?: string | null
+    qualificationLevel?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -359709,6 +371599,10 @@ export namespace Prisma {
     amount: Decimal | DecimalJsLike | number | string
     reason: string
     requestKey: string
+    bonusType?: string | null
+    originalAmount?: Decimal | DecimalJsLike | number | string | null
+    originalCurrency?: string | null
+    rate?: Decimal | DecimalJsLike | number | string | null
     createdBy?: string | null
     createdAt?: Date | string
   }
@@ -359734,6 +371628,58 @@ export namespace Prisma {
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+  }
+
+  export type TrainingPlanTemplateCreateManyTenantInput = {
+    id?: string
+    key: string
+    version: number
+    name: string
+    qualificationLevel?: string | null
+    items: JsonNullValueInput | InputJsonValue
+    createdBy?: string | null
+    createdAt?: Date | string
+  }
+
+  export type TrainingPlanCreateManyTenantInput = {
+    id?: string
+    employeeId: string
+    templateKey: string
+    templateVersion: number
+    title: string
+    status?: string
+    dueDate: Date | string
+    recheckDate?: Date | string | null
+    requestKey: string
+    createdBy?: string | null
+    createdAt?: Date | string
+    closedAt?: Date | string | null
+    updatedAt?: Date | string
+  }
+
+  export type TrainingPlanItemCreateManyTenantInput = {
+    id?: string
+    planId: string
+    itemKey: string
+    text: string
+    status?: string
+    note?: string | null
+    version?: number
+    updatedBy?: string | null
+    updatedAt?: Date | string
+  }
+
+  export type TrainingRecordCreateManyTenantInput = {
+    id?: string
+    employeeId: string
+    mentorUserId?: string | null
+    sessionDate: Date | string
+    topic: string
+    notes: string
+    outcome?: string | null
+    recheckDate?: Date | string | null
+    requestKey: string
+    createdAt?: Date | string
   }
 
   export type TenantConfigurationVersionUpdateWithoutTenantInput = {
@@ -363034,6 +374980,8 @@ export namespace Prisma {
     skills?: NullableJsonNullValueInput | InputJsonValue
     hiredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     salaryLocked?: BoolFieldUpdateOperationsInput | boolean
+    mentorUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    qualificationLevel?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -363049,6 +374997,8 @@ export namespace Prisma {
     skills?: NullableJsonNullValueInput | InputJsonValue
     hiredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     salaryLocked?: BoolFieldUpdateOperationsInput | boolean
+    mentorUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    qualificationLevel?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -363064,6 +375014,8 @@ export namespace Prisma {
     skills?: NullableJsonNullValueInput | InputJsonValue
     hiredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     salaryLocked?: BoolFieldUpdateOperationsInput | boolean
+    mentorUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    qualificationLevel?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -364669,6 +376621,10 @@ export namespace Prisma {
     amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     reason?: StringFieldUpdateOperationsInput | string
     requestKey?: StringFieldUpdateOperationsInput | string
+    bonusType?: NullableStringFieldUpdateOperationsInput | string | null
+    originalAmount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    originalCurrency?: NullableStringFieldUpdateOperationsInput | string | null
+    rate?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -364682,6 +376638,10 @@ export namespace Prisma {
     amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     reason?: StringFieldUpdateOperationsInput | string
     requestKey?: StringFieldUpdateOperationsInput | string
+    bonusType?: NullableStringFieldUpdateOperationsInput | string | null
+    originalAmount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    originalCurrency?: NullableStringFieldUpdateOperationsInput | string | null
+    rate?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -364695,6 +376655,10 @@ export namespace Prisma {
     amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     reason?: StringFieldUpdateOperationsInput | string
     requestKey?: StringFieldUpdateOperationsInput | string
+    bonusType?: NullableStringFieldUpdateOperationsInput | string | null
+    originalAmount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    originalCurrency?: NullableStringFieldUpdateOperationsInput | string | null
+    rate?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -364766,6 +376730,164 @@ export namespace Prisma {
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TrainingPlanTemplateUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    version?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    qualificationLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    items?: JsonNullValueInput | InputJsonValue
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TrainingPlanTemplateUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    version?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    qualificationLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    items?: JsonNullValueInput | InputJsonValue
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TrainingPlanTemplateUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    version?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    qualificationLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    items?: JsonNullValueInput | InputJsonValue
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TrainingPlanUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    templateKey?: StringFieldUpdateOperationsInput | string
+    templateVersion?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    recheckDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    requestKey?: StringFieldUpdateOperationsInput | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    items?: TrainingPlanItemUpdateManyWithoutPlanNestedInput
+  }
+
+  export type TrainingPlanUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    templateKey?: StringFieldUpdateOperationsInput | string
+    templateVersion?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    recheckDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    requestKey?: StringFieldUpdateOperationsInput | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    items?: TrainingPlanItemUncheckedUpdateManyWithoutPlanNestedInput
+  }
+
+  export type TrainingPlanUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    templateKey?: StringFieldUpdateOperationsInput | string
+    templateVersion?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    recheckDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    requestKey?: StringFieldUpdateOperationsInput | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TrainingPlanItemUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    itemKey?: StringFieldUpdateOperationsInput | string
+    text?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    version?: IntFieldUpdateOperationsInput | number
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    plan?: TrainingPlanUpdateOneRequiredWithoutItemsNestedInput
+  }
+
+  export type TrainingPlanItemUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    planId?: StringFieldUpdateOperationsInput | string
+    itemKey?: StringFieldUpdateOperationsInput | string
+    text?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    version?: IntFieldUpdateOperationsInput | number
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TrainingPlanItemUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    planId?: StringFieldUpdateOperationsInput | string
+    itemKey?: StringFieldUpdateOperationsInput | string
+    text?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    version?: IntFieldUpdateOperationsInput | number
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TrainingRecordUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    mentorUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    sessionDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    topic?: StringFieldUpdateOperationsInput | string
+    notes?: StringFieldUpdateOperationsInput | string
+    outcome?: NullableStringFieldUpdateOperationsInput | string | null
+    recheckDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    requestKey?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TrainingRecordUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    mentorUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    sessionDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    topic?: StringFieldUpdateOperationsInput | string
+    notes?: StringFieldUpdateOperationsInput | string
+    outcome?: NullableStringFieldUpdateOperationsInput | string | null
+    recheckDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    requestKey?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TrainingRecordUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    mentorUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    sessionDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    topic?: StringFieldUpdateOperationsInput | string
+    notes?: StringFieldUpdateOperationsInput | string
+    outcome?: NullableStringFieldUpdateOperationsInput | string | null
+    recheckDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    requestKey?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type BusinessUnitCreateManyLegalEntityInput = {
@@ -367858,6 +379980,54 @@ export namespace Prisma {
     bonuses?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     deductions?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     netTotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+  }
+
+  export type TrainingPlanItemCreateManyPlanInput = {
+    id?: string
+    tenantId: string
+    itemKey: string
+    text: string
+    status?: string
+    note?: string | null
+    version?: number
+    updatedBy?: string | null
+    updatedAt?: Date | string
+  }
+
+  export type TrainingPlanItemUpdateWithoutPlanInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    itemKey?: StringFieldUpdateOperationsInput | string
+    text?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    version?: IntFieldUpdateOperationsInput | number
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutTrainingPlanItemsNestedInput
+  }
+
+  export type TrainingPlanItemUncheckedUpdateWithoutPlanInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    itemKey?: StringFieldUpdateOperationsInput | string
+    text?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    version?: IntFieldUpdateOperationsInput | number
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TrainingPlanItemUncheckedUpdateManyWithoutPlanInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    itemKey?: StringFieldUpdateOperationsInput | string
+    text?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    version?: IntFieldUpdateOperationsInput | number
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 
