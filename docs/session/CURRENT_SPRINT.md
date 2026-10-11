@@ -471,3 +471,16 @@ Red 2 potvrđenog redoslijeda (zadnja stavka). Vlasnik: CRM/CSM (slučaj, stavke
 - [x] Broj slučaja serijalizovan (istovremeno kreiranje bez duplikata)
 - [x] Testovi: **sprint245 5/5**; regresija povrata/slučajeva (028, 064, 071, 083, 188, 205) zelena
 - [x] UI: detalj slučaja (narudžba, pogođene stavke, RMA iz slučaja), reklamacije na narudžbi; browser provjera otvorena
+
+# Sprint 246 — ZAVRŠEN 11.10.2026: zadaci s više izvršilaca + periodični zadaci (WF-013)
+
+Red 3 potvrđenog redoslijeda. Vlasnik: CORE task engine (WF sposobnost). Migracija `…248_sprint_246_multi_assignee_recurring_tasks` (aditivna; parcijalni unique `task_template_occurrence_key` i CHECK-ovi nisu u schema.prisma — čuvati).
+
+- [x] Timski zadatak (`POST /tasks/team`): izvršioci (aktivni korisnici), pravilo ALL/ANY, rok, kontrolna lista; obavještenja izvršiocima
+- [x] `POST /tasks/:id/complete-mine` — samo izvršilac, svoj dio; obavezne stavke, „Nije OK“ traži napomenu; idempotentno; zaključan zadatak → zatvara se tačno jednom; stari `complete` odbijen za timske; `GET /tasks/:id/mine` za izvršioce
+- [x] Moja lista zadataka prati MOJ dio timskog zadatka
+- [x] Periodični šabloni (dnevno, sedmično po danima, mjesečno s klampom na kraj mjeseca, rok HH:MM), upsert po šifri, deaktivacija; generisanje po datumu idempotentno (jedinstveni indeks), snimak naslova/liste/izvršilaca
+- [x] Dnevnik šablona po periodu: status po datumu, ko/kada, odgovori, „propušteno“; worker posao svakih sat za sve aktivne tenante
+- [x] Testovi: **sprint246 5/5** (na paralelnoj `enterprise_os_parallel_test` bazi dok traje puna regresija); 002, 066 zeleni
+- [ ] UI: moj dio (kontrolna lista za telefon), novi timski zadatak, periodični šabloni + dnevnik — u toku
+- Nije rađeno: vremenska zona tenanta za rokove (v1 UTC)
