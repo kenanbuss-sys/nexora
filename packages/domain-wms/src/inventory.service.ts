@@ -41,6 +41,11 @@ export interface MovementInput {
   expiresAt?: Date | undefined;
   /** Sprint 239 (WMS-018): serialised units moved by this movement. */
   serials?: string[] | undefined;
+  /**
+   * Sprint 240 (PIM-007): UOM the quantity was entered in. Converted to
+   * the SKU's base UOM server-side; the ledger always books base units.
+   */
+  uom?: string | undefined;
 }
 
 export interface LotBalance {
@@ -64,6 +69,13 @@ export interface SkuGate {
     /** Sprint 239 (WMS-018): NONE | OPTIONAL | REQUIRED. */
     serialPolicy?: string;
   }>;
+  /** Sprint 240 (PIM-007): entered UOM -> base UOM, exact or refused. */
+  toBaseQuantity?(
+    tenantId: string,
+    skuId: string,
+    uom: string,
+    quantity: number,
+  ): Promise<{ baseQuantity: number; baseUom: string; factor: string }>;
 }
 
 const SERIAL_RE = /^[A-Za-z0-9][A-Za-z0-9._/-]{0,63}$/;
@@ -164,6 +176,8 @@ export class InventoryService {
       reason: string | null;
       idempotencyKey: string;
       occurredAt: string;
+      enteredUom: string | null;
+      enteredQuantity: string | null;
     }>
   > {
     const movements = await this.prisma.stockMovement.findMany({
@@ -184,6 +198,8 @@ export class InventoryService {
       reason: m.reason,
       idempotencyKey: m.idempotencyKey,
       occurredAt: m.occurredAt.toISOString(),
+      enteredUom: m.enteredUom,
+      enteredQuantity: m.enteredQuantity?.toString() ?? null,
     }));
   }
 
@@ -283,6 +299,28 @@ export class InventoryService {
     if (input.idempotencyKey.length < 8 || input.idempotencyKey.length > 128) {
       throw new DomainError('VALIDATION_FAILED', 'idempotencyKey must be 8-128 chars');
     }
+    // PIM-007: quantities entered in another UOM are converted to base
+    // units before any rule (stock check, serial count) is evaluated.
+    let entered: { uom: string; quantity: number; factor: string } | null = null;
+    if (input.uom !== undefined) {
+      if (!this.skuGate.toBaseQuantity) {
+        throw new DomainError('VALIDATION_FAILED', 'UOM conversion is not available');
+      }
+      const conversion = await this.skuGate.toBaseQuantity(
+        ctx.tenantId,
+        input.skuId,
+        input.uom,
+        input.quantity,
+      );
+      if (conversion.baseUom !== input.uom) {
+        entered = { uom: input.uom, quantity: input.quantity, factor: conversion.factor };
+        input = { ...input, quantity: conversion.baseQuantity };
+      }
+      if (!(input.quantity > 0)) {
+        throw new DomainError('VALIDATION_FAILED', 'Quantity must be positive');
+      }
+    }
+    let enteredApplied = false;
     const sku = await this.skuGate.getSkuState(ctx.tenantId, input.skuId);
     if (!sku.exists) throw notFound('Sku', input.skuId);
     if (!sku.active && input.movementType === 'RECEIPT') {
@@ -330,6 +368,10 @@ export class InventoryService {
           lotNumber: string | null,
           expiresAt: Date | null,
         ) => {
+          // The entered UOM/quantity describe the request: kept on the
+          // first row only (lot splits share it), like serials.
+          const enteredHere = entered && !enteredApplied ? entered : null;
+          enteredApplied = true;
           const movement = await tx.stockMovement.create({
             data: {
               tenantId: ctx.tenantId,
@@ -343,6 +385,8 @@ export class InventoryService {
               lotNumber,
               expiresAt,
               createdBy: ctx.userId ?? null,
+              enteredUom: enteredHere?.uom ?? null,
+              enteredQuantity: enteredHere?.quantity ?? null,
             },
           });
           await writeAudit(tx, {
@@ -358,6 +402,13 @@ export class InventoryService {
               quantity,
               skuId: input.skuId,
               ...(lotNumber ? { lotNumber } : {}),
+              ...(enteredHere
+                ? {
+                    enteredUom: enteredHere.uom,
+                    enteredQuantity: enteredHere.quantity,
+                    factor: enteredHere.factor,
+                  }
+                : {}),
             },
           });
           // WMS-018: serial positions move with the FIRST movement row of
@@ -381,6 +432,9 @@ export class InventoryService {
               lotNumber,
               movementType: input.movementType,
               ...(movedSerials ? { serials: movedSerials } : {}),
+              ...(enteredHere
+                ? { enteredUom: enteredHere.uom, enteredQuantity: enteredHere.quantity }
+                : {}),
               from: OUTBOUND.has(input.movementType) ? input.warehouseId : null,
               to: OUTBOUND.has(input.movementType) ? null : input.warehouseId,
             },

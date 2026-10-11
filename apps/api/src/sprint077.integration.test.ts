@@ -141,10 +141,10 @@ integration('Sprint 077 — material check', () => {
   });
 
   it('VER-007: a matching barcode verifies and the check is audited', async () => {
-    await api('POST', '/api/v1/barcodes', tokenA, { skuId, value: '3859890077001' });
+    await api('POST', '/api/v1/barcodes', tokenA, { skuId, value: '3859890077008' });
     const check = await api('POST', '/api/v1/scan-events/material-check', tokenA, {
       expectedSkuId: skuId,
-      barcode: '3859890077001',
+      barcode: '3859890077008',
     });
     expect(check.status).toBe(201);
     expect(check.body.skuMatch).toBe(true);
@@ -155,10 +155,10 @@ integration('Sprint 077 — material check', () => {
   });
 
   it('VER-007: a foreign or unknown barcode reports MISMATCH honestly', async () => {
-    await api('POST', '/api/v1/barcodes', tokenA, { skuId: scarceSkuId, value: '3859890077002' });
+    await api('POST', '/api/v1/barcodes', tokenA, { skuId: scarceSkuId, value: '3859890077015' });
     const wrong = await api('POST', '/api/v1/scan-events/material-check', tokenA, {
       expectedSkuId: skuId,
-      barcode: '3859890077002',
+      barcode: '3859890077015',
     });
     expect(wrong.body.skuMatch).toBe(false);
     expect(wrong.body.resolvedSkuId).toBe(scarceSkuId);
@@ -174,14 +174,14 @@ integration('Sprint 077 — material check', () => {
   it('VER-011: quantity checks compare expected vs counted', async () => {
     const check = await api('POST', '/api/v1/scan-events/material-check', tokenA, {
       expectedSkuId: skuId,
-      barcode: '3859890077001',
+      barcode: '3859890077008',
       expectedQty: 10,
       countedQty: 9,
     });
     expect(check.body.qtyMatch).toBe(false);
     const ok = await api('POST', '/api/v1/scan-events/material-check', tokenA, {
       expectedSkuId: skuId,
-      barcode: '3859890077001',
+      barcode: '3859890077008',
       expectedQty: 10,
       countedQty: 10,
     });

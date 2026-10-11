@@ -393,3 +393,16 @@ Red 2 potvrđenog redoslijeda (re-verifikacija djelimičnih). Vlasnik domena: WM
 - [x] UI: unos serijskih brojeva skenerom u tokovima prijema/otpreme/kretanja, sekcija „Serijski brojevi" (trace, evidentiranje postojeće zalihe)
 - [x] Testovi: **sprint239 7/7** — politika, jedinstvenost i konkurencija, izlaz/transfer + trace, NBN prijem + otprema narudžbe, evidentiranje postojeće zalihe, PIM consumer (ponovljena isporuka bez duplikata), tenant izolacija; puna regresijska serija (vidi ispod)
 - Nije rađeno: povrat kupca (RMA) i MES potrošnja serijskih komponenti; PIM-005 (barkod/GTIN) i PIM-007 (JM u transakcijama) — sljedeći sprint
+
+# Sprint 240 — ZAVRŠEN 11.10.2026: barkod/GTIN (PIM-005) + jedinice mjere u kretanjima (PIM-007)
+
+Red 2 potvrđenog redoslijeda. Vlasnik: PIM (barkodovi, konverzije — javni gate `toBaseQuantity`), WMS (knjiga u baznoj JM). Migracija `20260928000241_sprint_240_uom_entered_quantity` (aditivna, nullable).
+
+- [x] GTIN: GS1 kontrolna cifra za tip GTIN (8/12/13/14 cifara); dozvoljeni tipovi CODE128/CODE39/QR/DATAMATRIX/INTERNAL; nepoznat tip → 400
+- [x] Jedan prostor skeniranja: barkod jedinice ne smije biti barkod pakovanja i obrnuto — provjera u transakciji uz zaključavanje po (tenant, kod), i konkurentno tačno jedan uspjeh
+- [x] `GET /barcodes/resolve/:value` — UNIT / PACK / SKU_CODE + `unitsPerScan`; `GET /skus/:id/barcodes`; `POST /barcodes/:value/remove` (audit)
+- [x] Kretanje zaliha prima `uom`: konverzija u baznu JM (uom→baza množi, baza→uom dijeli), tačno na 6 decimala ili odbijeno; `entered_uom`/`entered_quantity` na kretanju (prvi red kod lot-podjele), u auditu i `stock.moved`
+- [x] Pravila (stanje, serijski brojevi) računaju se nad baznom količinom
+- [x] Testovi: **sprint240 8/8**, GTIN unit 3/3; fixture barkodovi u sprint003/005/041/077 ispravljeni na validne GTIN-e (zeleni)
+- [x] UI: barkodovi po SKU (tip, uklanjanje, GTIN hint), JM i sken u formi kretanja
+- Nije rađeno: JM na stavkama NBN/narudžbi; GS1-128 aplikacijski identifikatori

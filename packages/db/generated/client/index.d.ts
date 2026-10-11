@@ -64425,10 +64425,12 @@ export namespace Prisma {
 
   export type StockMovementAvgAggregateOutputType = {
     quantity: Decimal | null
+    enteredQuantity: Decimal | null
   }
 
   export type StockMovementSumAggregateOutputType = {
     quantity: Decimal | null
+    enteredQuantity: Decimal | null
   }
 
   export type StockMovementMinAggregateOutputType = {
@@ -64445,6 +64447,8 @@ export namespace Prisma {
     expiresAt: Date | null
     occurredAt: Date | null
     createdBy: string | null
+    enteredUom: string | null
+    enteredQuantity: Decimal | null
   }
 
   export type StockMovementMaxAggregateOutputType = {
@@ -64461,6 +64465,8 @@ export namespace Prisma {
     expiresAt: Date | null
     occurredAt: Date | null
     createdBy: string | null
+    enteredUom: string | null
+    enteredQuantity: Decimal | null
   }
 
   export type StockMovementCountAggregateOutputType = {
@@ -64477,16 +64483,20 @@ export namespace Prisma {
     expiresAt: number
     occurredAt: number
     createdBy: number
+    enteredUom: number
+    enteredQuantity: number
     _all: number
   }
 
 
   export type StockMovementAvgAggregateInputType = {
     quantity?: true
+    enteredQuantity?: true
   }
 
   export type StockMovementSumAggregateInputType = {
     quantity?: true
+    enteredQuantity?: true
   }
 
   export type StockMovementMinAggregateInputType = {
@@ -64503,6 +64513,8 @@ export namespace Prisma {
     expiresAt?: true
     occurredAt?: true
     createdBy?: true
+    enteredUom?: true
+    enteredQuantity?: true
   }
 
   export type StockMovementMaxAggregateInputType = {
@@ -64519,6 +64531,8 @@ export namespace Prisma {
     expiresAt?: true
     occurredAt?: true
     createdBy?: true
+    enteredUom?: true
+    enteredQuantity?: true
   }
 
   export type StockMovementCountAggregateInputType = {
@@ -64535,6 +64549,8 @@ export namespace Prisma {
     expiresAt?: true
     occurredAt?: true
     createdBy?: true
+    enteredUom?: true
+    enteredQuantity?: true
     _all?: true
   }
 
@@ -64638,6 +64654,8 @@ export namespace Prisma {
     expiresAt: Date | null
     occurredAt: Date
     createdBy: string | null
+    enteredUom: string | null
+    enteredQuantity: Decimal | null
     _count: StockMovementCountAggregateOutputType | null
     _avg: StockMovementAvgAggregateOutputType | null
     _sum: StockMovementSumAggregateOutputType | null
@@ -64673,6 +64691,8 @@ export namespace Prisma {
     expiresAt?: boolean
     occurredAt?: boolean
     createdBy?: boolean
+    enteredUom?: boolean
+    enteredQuantity?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["stockMovement"]>
 
@@ -64690,6 +64710,8 @@ export namespace Prisma {
     expiresAt?: boolean
     occurredAt?: boolean
     createdBy?: boolean
+    enteredUom?: boolean
+    enteredQuantity?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["stockMovement"]>
 
@@ -64707,6 +64729,8 @@ export namespace Prisma {
     expiresAt?: boolean
     occurredAt?: boolean
     createdBy?: boolean
+    enteredUom?: boolean
+    enteredQuantity?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["stockMovement"]>
 
@@ -64724,9 +64748,11 @@ export namespace Prisma {
     expiresAt?: boolean
     occurredAt?: boolean
     createdBy?: boolean
+    enteredUom?: boolean
+    enteredQuantity?: boolean
   }
 
-  export type StockMovementOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "warehouseId" | "locationId" | "skuId" | "movementType" | "quantity" | "reason" | "idempotencyKey" | "lotNumber" | "expiresAt" | "occurredAt" | "createdBy", ExtArgs["result"]["stockMovement"]>
+  export type StockMovementOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "warehouseId" | "locationId" | "skuId" | "movementType" | "quantity" | "reason" | "idempotencyKey" | "lotNumber" | "expiresAt" | "occurredAt" | "createdBy" | "enteredUom" | "enteredQuantity", ExtArgs["result"]["stockMovement"]>
   export type StockMovementInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
   }
@@ -64765,6 +64791,11 @@ export namespace Prisma {
       expiresAt: Date | null
       occurredAt: Date
       createdBy: string | null
+      /**
+       * Sprint 240 (PIM-007): UOM/quantity as entered; `quantity` is base.
+       */
+      enteredUom: string | null
+      enteredQuantity: Prisma.Decimal | null
     }, ExtArgs["result"]["stockMovement"]>
     composites: {}
   }
@@ -65202,6 +65233,8 @@ export namespace Prisma {
     readonly expiresAt: FieldRef<"StockMovement", 'DateTime'>
     readonly occurredAt: FieldRef<"StockMovement", 'DateTime'>
     readonly createdBy: FieldRef<"StockMovement", 'String'>
+    readonly enteredUom: FieldRef<"StockMovement", 'String'>
+    readonly enteredQuantity: FieldRef<"StockMovement", 'Decimal'>
   }
     
 
@@ -212975,7 +213008,9 @@ export namespace Prisma {
     lotNumber: 'lotNumber',
     expiresAt: 'expiresAt',
     occurredAt: 'occurredAt',
-    createdBy: 'createdBy'
+    createdBy: 'createdBy',
+    enteredUom: 'enteredUom',
+    enteredQuantity: 'enteredQuantity'
   };
 
   export type StockMovementScalarFieldEnum = (typeof StockMovementScalarFieldEnum)[keyof typeof StockMovementScalarFieldEnum]
@@ -219188,6 +219223,8 @@ export namespace Prisma {
     expiresAt?: DateTimeNullableFilter<"StockMovement"> | Date | string | null
     occurredAt?: DateTimeFilter<"StockMovement"> | Date | string
     createdBy?: StringNullableFilter<"StockMovement"> | string | null
+    enteredUom?: StringNullableFilter<"StockMovement"> | string | null
+    enteredQuantity?: DecimalNullableFilter<"StockMovement"> | Decimal | DecimalJsLike | number | string | null
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
   }
 
@@ -219205,6 +219242,8 @@ export namespace Prisma {
     expiresAt?: SortOrderInput | SortOrder
     occurredAt?: SortOrder
     createdBy?: SortOrderInput | SortOrder
+    enteredUom?: SortOrderInput | SortOrder
+    enteredQuantity?: SortOrderInput | SortOrder
     tenant?: TenantOrderByWithRelationInput
   }
 
@@ -219226,6 +219265,8 @@ export namespace Prisma {
     expiresAt?: DateTimeNullableFilter<"StockMovement"> | Date | string | null
     occurredAt?: DateTimeFilter<"StockMovement"> | Date | string
     createdBy?: StringNullableFilter<"StockMovement"> | string | null
+    enteredUom?: StringNullableFilter<"StockMovement"> | string | null
+    enteredQuantity?: DecimalNullableFilter<"StockMovement"> | Decimal | DecimalJsLike | number | string | null
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
   }, "id" | "tenantId_idempotencyKey">
 
@@ -219243,6 +219284,8 @@ export namespace Prisma {
     expiresAt?: SortOrderInput | SortOrder
     occurredAt?: SortOrder
     createdBy?: SortOrderInput | SortOrder
+    enteredUom?: SortOrderInput | SortOrder
+    enteredQuantity?: SortOrderInput | SortOrder
     _count?: StockMovementCountOrderByAggregateInput
     _avg?: StockMovementAvgOrderByAggregateInput
     _max?: StockMovementMaxOrderByAggregateInput
@@ -219267,6 +219310,8 @@ export namespace Prisma {
     expiresAt?: DateTimeNullableWithAggregatesFilter<"StockMovement"> | Date | string | null
     occurredAt?: DateTimeWithAggregatesFilter<"StockMovement"> | Date | string
     createdBy?: StringNullableWithAggregatesFilter<"StockMovement"> | string | null
+    enteredUom?: StringNullableWithAggregatesFilter<"StockMovement"> | string | null
+    enteredQuantity?: DecimalNullableWithAggregatesFilter<"StockMovement"> | Decimal | DecimalJsLike | number | string | null
   }
 
   export type StockReservationWhereInput = {
@@ -233387,6 +233432,8 @@ export namespace Prisma {
     expiresAt?: Date | string | null
     occurredAt?: Date | string
     createdBy?: string | null
+    enteredUom?: string | null
+    enteredQuantity?: Decimal | DecimalJsLike | number | string | null
     tenant: TenantCreateNestedOneWithoutStockMovementsInput
   }
 
@@ -233404,6 +233451,8 @@ export namespace Prisma {
     expiresAt?: Date | string | null
     occurredAt?: Date | string
     createdBy?: string | null
+    enteredUom?: string | null
+    enteredQuantity?: Decimal | DecimalJsLike | number | string | null
   }
 
   export type StockMovementUpdateInput = {
@@ -233419,6 +233468,8 @@ export namespace Prisma {
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     occurredAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    enteredUom?: NullableStringFieldUpdateOperationsInput | string | null
+    enteredQuantity?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     tenant?: TenantUpdateOneRequiredWithoutStockMovementsNestedInput
   }
 
@@ -233436,6 +233487,8 @@ export namespace Prisma {
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     occurredAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    enteredUom?: NullableStringFieldUpdateOperationsInput | string | null
+    enteredQuantity?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
   }
 
   export type StockMovementCreateManyInput = {
@@ -233452,6 +233505,8 @@ export namespace Prisma {
     expiresAt?: Date | string | null
     occurredAt?: Date | string
     createdBy?: string | null
+    enteredUom?: string | null
+    enteredQuantity?: Decimal | DecimalJsLike | number | string | null
   }
 
   export type StockMovementUpdateManyMutationInput = {
@@ -233467,6 +233522,8 @@ export namespace Prisma {
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     occurredAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    enteredUom?: NullableStringFieldUpdateOperationsInput | string | null
+    enteredQuantity?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
   }
 
   export type StockMovementUncheckedUpdateManyInput = {
@@ -233483,6 +233540,8 @@ export namespace Prisma {
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     occurredAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    enteredUom?: NullableStringFieldUpdateOperationsInput | string | null
+    enteredQuantity?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
   }
 
   export type StockReservationCreateInput = {
@@ -248848,10 +248907,13 @@ export namespace Prisma {
     expiresAt?: SortOrder
     occurredAt?: SortOrder
     createdBy?: SortOrder
+    enteredUom?: SortOrder
+    enteredQuantity?: SortOrder
   }
 
   export type StockMovementAvgOrderByAggregateInput = {
     quantity?: SortOrder
+    enteredQuantity?: SortOrder
   }
 
   export type StockMovementMaxOrderByAggregateInput = {
@@ -248868,6 +248930,8 @@ export namespace Prisma {
     expiresAt?: SortOrder
     occurredAt?: SortOrder
     createdBy?: SortOrder
+    enteredUom?: SortOrder
+    enteredQuantity?: SortOrder
   }
 
   export type StockMovementMinOrderByAggregateInput = {
@@ -248884,10 +248948,13 @@ export namespace Prisma {
     expiresAt?: SortOrder
     occurredAt?: SortOrder
     createdBy?: SortOrder
+    enteredUom?: SortOrder
+    enteredQuantity?: SortOrder
   }
 
   export type StockMovementSumOrderByAggregateInput = {
     quantity?: SortOrder
+    enteredQuantity?: SortOrder
   }
 
   export type EnumStockMovementTypeWithAggregatesFilter<$PrismaModel = never> = {
@@ -271272,6 +271339,8 @@ export namespace Prisma {
     expiresAt?: Date | string | null
     occurredAt?: Date | string
     createdBy?: string | null
+    enteredUom?: string | null
+    enteredQuantity?: Decimal | DecimalJsLike | number | string | null
   }
 
   export type StockMovementUncheckedCreateWithoutTenantInput = {
@@ -271287,6 +271356,8 @@ export namespace Prisma {
     expiresAt?: Date | string | null
     occurredAt?: Date | string
     createdBy?: string | null
+    enteredUom?: string | null
+    enteredQuantity?: Decimal | DecimalJsLike | number | string | null
   }
 
   export type StockMovementCreateOrConnectWithoutTenantInput = {
@@ -276316,6 +276387,8 @@ export namespace Prisma {
     expiresAt?: DateTimeNullableFilter<"StockMovement"> | Date | string | null
     occurredAt?: DateTimeFilter<"StockMovement"> | Date | string
     createdBy?: StringNullableFilter<"StockMovement"> | string | null
+    enteredUom?: StringNullableFilter<"StockMovement"> | string | null
+    enteredQuantity?: DecimalNullableFilter<"StockMovement"> | Decimal | DecimalJsLike | number | string | null
   }
 
   export type StockReservationUpsertWithWhereUniqueWithoutTenantInput = {
@@ -381733,6 +381806,8 @@ export namespace Prisma {
     expiresAt?: Date | string | null
     occurredAt?: Date | string
     createdBy?: string | null
+    enteredUom?: string | null
+    enteredQuantity?: Decimal | DecimalJsLike | number | string | null
   }
 
   export type StockReservationCreateManyTenantInput = {
@@ -383963,6 +384038,8 @@ export namespace Prisma {
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     occurredAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    enteredUom?: NullableStringFieldUpdateOperationsInput | string | null
+    enteredQuantity?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
   }
 
   export type StockMovementUncheckedUpdateWithoutTenantInput = {
@@ -383978,6 +384055,8 @@ export namespace Prisma {
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     occurredAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    enteredUom?: NullableStringFieldUpdateOperationsInput | string | null
+    enteredQuantity?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
   }
 
   export type StockMovementUncheckedUpdateManyWithoutTenantInput = {
@@ -383993,6 +384072,8 @@ export namespace Prisma {
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     occurredAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    enteredUom?: NullableStringFieldUpdateOperationsInput | string | null
+    enteredQuantity?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
   }
 
   export type StockReservationUpdateWithoutTenantInput = {

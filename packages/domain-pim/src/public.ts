@@ -2,8 +2,10 @@
  * @nexora/domain-pim public application interface.
  */
 export {
+  BARCODE_TYPES,
   CatalogService,
   type ChannelContentView,
+  type ScanResolution,
   type ProductView,
   type SkuView,
   type UomMasterGate,
@@ -21,4 +23,5 @@ export {
   type SubstitutionView,
 } from './substitution.service';
 export { BundleService, type BundleComponentView, type BundleView } from './bundle.service';
+export { GTIN_LENGTHS, gtinCheckDigit, isValidGtin } from './gtin';
 export { SERIAL_REGISTRY_CONSUMER, SerialService, type SerialView } from './serial.service';

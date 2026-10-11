@@ -521,7 +521,9 @@ exports.Prisma.StockMovementScalarFieldEnum = {
   lotNumber: 'lotNumber',
   expiresAt: 'expiresAt',
   occurredAt: 'occurredAt',
-  createdBy: 'createdBy'
+  createdBy: 'createdBy',
+  enteredUom: 'enteredUom',
+  enteredQuantity: 'enteredQuantity'
 };
 
 exports.Prisma.StockReservationScalarFieldEnum = {

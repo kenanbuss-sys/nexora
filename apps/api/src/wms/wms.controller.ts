@@ -56,6 +56,7 @@ const movementSchema = z.object({
   lotNumber: z.string().min(1).max(64).optional(),
   expiresAt: z.string().datetime().optional(),
   serials: z.array(z.string().min(1).max(64)).max(1000).optional(),
+  uom: z.string().min(1).max(16).optional(),
 });
 const reserveSchema = z.object({
   warehouseId: z.string().uuid(),

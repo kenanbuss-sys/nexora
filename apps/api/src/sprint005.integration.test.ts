@@ -106,7 +106,7 @@ integration('Sprint 005 — devices, verification, WMS execution', () => {
     });
     skuId = sku.body.id as string;
     await api('POST', `/api/v1/skus/${skuId}/activate`, tokenA);
-    await api('POST', '/api/v1/barcodes', tokenA, { skuId, value: '3859890000012' });
+    await api('POST', '/api/v1/barcodes', tokenA, { skuId, value: '3859890000013' });
 
     const wh1 = await api('POST', '/api/v1/warehouses', tokenA, { code: 'WH1', name: 'Main' });
     warehouseId = wh1.body.id as string;
@@ -166,7 +166,7 @@ integration('Sprint 005 — devices, verification, WMS execution', () => {
         {
           clientEventId: 'evt-00000001',
           kind: 'BARCODE',
-          value: '3859890000012',
+          value: '3859890000013',
           capturedAt: new Date().toISOString(),
         },
         {

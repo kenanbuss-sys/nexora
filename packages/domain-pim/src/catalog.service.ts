@@ -4,6 +4,8 @@ import { EVENT_TYPES, publishToOutbox } from '@nexora/events';
 import { DomainError, notFound } from '@nexora/kernel';
 import type { RequestContext } from '@nexora/tenancy';
 
+import { isValidGtin } from './gtin';
+
 /**
  * PIM — canonical product/SKU identity (PIM-*): products, SKUs, barcodes,
  * UOM conversions. Commercial/logistics identity only — engineering
@@ -28,6 +30,58 @@ export interface SkuView {
 
 const CODE_RE = /^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$/;
 const UOM_RE = /^[a-zA-Z][a-zA-Z0-9]{0,15}$/;
+
+/** PIM-005: supported symbologies; GTIN is check-digit validated. */
+export const BARCODE_TYPES = new Set(['GTIN', 'CODE128', 'CODE39', 'QR', 'DATAMATRIX', 'INTERNAL']);
+
+export interface ScanResolution {
+  kind: 'UNIT' | 'PACK' | 'SKU_CODE';
+  code: string;
+  skuId: string;
+  skuCode: string;
+  name: string;
+  baseUom: string;
+  status: string;
+  /** Base units represented by one scan of this code. */
+  unitsPerScan: string;
+  packName: string | null;
+  barcodeType: string | null;
+}
+
+function scanView(
+  kind: ScanResolution['kind'],
+  code: string,
+  sku: { id: string; code: string; name: string; baseUom: string; status: string },
+  unitsPerScan: string,
+  packName: string | null,
+  barcodeType: string | null,
+): ScanResolution {
+  return {
+    kind,
+    code,
+    skuId: sku.id,
+    skuCode: sku.code,
+    name: sku.name,
+    baseUom: sku.baseUom,
+    status: sku.status,
+    unitsPerScan,
+    packName,
+    barcodeType,
+  };
+}
+
+/**
+ * Unit and pack barcodes live in two tables but one scan namespace; a
+ * per-(tenant, code) transaction lock serialises the cross-table check.
+ */
+export async function lockScanCode(
+  tx: Prisma.TransactionClient,
+  tenantId: string,
+  value: string,
+): Promise<void> {
+  const key = `pim.scan:${tenantId}:${value}`;
+  await tx.$executeRaw`SELECT pg_advisory_xact_lock(hashtextextended(${key}, 0))`;
+}
 const CHANNEL_RE = /^[a-z][a-z0-9_-]{1,31}$/;
 
 export interface ChannelContentView {
@@ -388,7 +442,11 @@ export class CatalogService {
     });
   }
 
-  /** Permission: product.barcode.manage. Barcode value unique per tenant. */
+  /**
+   * Permission: product.barcode.manage. Barcode value unique per tenant
+   * across BOTH unit barcodes and pack barcodes (one scan namespace).
+   * Type GTIN (default) must carry a valid GS1 check digit (PIM-005).
+   */
   async assignBarcode(
     input: { skuId: string; value: string; barcodeType?: string | undefined },
     ctx: RequestContext,
@@ -397,35 +455,125 @@ export class CatalogService {
     if (!/^[0-9A-Za-z-]{4,64}$/.test(value)) {
       throw new DomainError('VALIDATION_FAILED', 'Invalid barcode value');
     }
-    return this.prisma.$transaction(async (tx) => {
-      const sku = await tx.sku.findFirst({ where: { id: input.skuId, tenantId: ctx.tenantId } });
-      if (!sku) throw notFound('Sku', input.skuId);
-      const existing = await tx.barcode.findUnique({
-        where: { tenantId_value: { tenantId: ctx.tenantId, value } },
+    const barcodeType = (input.barcodeType ?? 'GTIN').trim().toUpperCase();
+    if (!BARCODE_TYPES.has(barcodeType)) {
+      throw new DomainError('VALIDATION_FAILED', 'Unknown barcode type', {
+        allowed: [...BARCODE_TYPES],
       });
-      if (existing) {
+    }
+    if (barcodeType === 'GTIN' && !isValidGtin(value)) {
+      throw new DomainError(
+        'VALIDATION_FAILED',
+        'Not a valid GTIN (8/12/13/14 digits with a correct check digit)',
+        { value },
+      );
+    }
+    try {
+      return await this.prisma.$transaction(async (tx) => {
+        const sku = await tx.sku.findFirst({ where: { id: input.skuId, tenantId: ctx.tenantId } });
+        if (!sku) throw notFound('Sku', input.skuId);
+        await lockScanCode(tx, ctx.tenantId, value);
+        const [existing, pack] = await Promise.all([
+          tx.barcode.findUnique({
+            where: { tenantId_value: { tenantId: ctx.tenantId, value } },
+          }),
+          tx.packagingLevel.findUnique({
+            where: { tenantId_barcodeValue: { tenantId: ctx.tenantId, barcodeValue: value } },
+          }),
+        ]);
+        if (existing) {
+          throw new DomainError('CONFLICT', 'Barcode is already assigned in this tenant', { value });
+        }
+        if (pack) {
+          throw new DomainError('CONFLICT', 'This barcode already identifies a pack level', {
+            value,
+          });
+        }
+        await tx.barcode.create({
+          data: { tenantId: ctx.tenantId, skuId: sku.id, value, barcodeType },
+        });
+        await writeAudit(tx, {
+          tenantId: ctx.tenantId,
+          actorType: ctx.actorType,
+          actorId: ctx.userId,
+          action: 'sku.barcode.assign',
+          objectType: 'Sku',
+          objectId: sku.id,
+          source: 'api',
+          newValues: { barcode: value, barcodeType },
+        });
+        return { ok: true as const };
+      });
+    } catch (error) {
+      if ((error as { code?: string }).code === 'P2002') {
         throw new DomainError('CONFLICT', 'Barcode is already assigned in this tenant', { value });
       }
-      await tx.barcode.create({
-        data: {
-          tenantId: ctx.tenantId,
-          skuId: sku.id,
-          value,
-          barcodeType: input.barcodeType ?? 'GTIN',
-        },
+      throw error;
+    }
+  }
+
+  /** Permission: product.read. Unit barcodes of one SKU. */
+  async listBarcodes(
+    skuId: string,
+    ctx: RequestContext,
+  ): Promise<Array<{ value: string; barcodeType: string; createdAt: string }>> {
+    const sku = await this.prisma.sku.findFirst({ where: { id: skuId, tenantId: ctx.tenantId } });
+    if (!sku) throw notFound('Sku', skuId);
+    const rows = await this.prisma.barcode.findMany({
+      where: { tenantId: ctx.tenantId, skuId: sku.id },
+      orderBy: { createdAt: 'asc' },
+    });
+    return rows.map((b) => ({
+      value: b.value,
+      barcodeType: b.barcodeType,
+      createdAt: b.createdAt.toISOString(),
+    }));
+  }
+
+  /** Permission: product.barcode.manage. Unassigns a unit barcode (audited). */
+  async removeBarcode(value: string, ctx: RequestContext): Promise<void> {
+    await this.prisma.$transaction(async (tx) => {
+      const existing = await tx.barcode.findUnique({
+        where: { tenantId_value: { tenantId: ctx.tenantId, value: value.trim() } },
       });
+      if (!existing) throw notFound('Barcode', value);
+      await tx.barcode.delete({ where: { id: existing.id } });
       await writeAudit(tx, {
         tenantId: ctx.tenantId,
         actorType: ctx.actorType,
         actorId: ctx.userId,
-        action: 'sku.barcode.assign',
+        action: 'sku.barcode.remove',
         objectType: 'Sku',
-        objectId: sku.id,
+        objectId: existing.skuId,
         source: 'api',
-        newValues: { barcode: value },
+        previousValues: { barcode: existing.value, barcodeType: existing.barcodeType },
       });
-      return { ok: true as const };
     });
+  }
+
+  /**
+   * Permission: product.read. Unified scan resolver (PIM-005/007): a
+   * unit barcode, a pack barcode or a SKU code resolves to the SKU and
+   * the number of BASE units one scan represents.
+   */
+  async resolveScan(value: string, ctx: RequestContext): Promise<ScanResolution> {
+    const code = value.trim();
+    if (!code || code.length > 64) throw notFound('Barcode', value);
+    const unit = await this.prisma.barcode.findUnique({
+      where: { tenantId_value: { tenantId: ctx.tenantId, value: code } },
+      include: { sku: true },
+    });
+    if (unit) return scanView('UNIT', code, unit.sku, '1', null, unit.barcodeType);
+    const pack = await this.prisma.packagingLevel.findUnique({
+      where: { tenantId_barcodeValue: { tenantId: ctx.tenantId, barcodeValue: code } },
+      include: { sku: true },
+    });
+    if (pack) {
+      return scanView('PACK', code, pack.sku, pack.unitsPerPack.toString(), pack.name, null);
+    }
+    const sku = await this.prisma.sku.findFirst({ where: { tenantId: ctx.tenantId, code } });
+    if (sku) return scanView('SKU_CODE', code, sku, '1', null, null);
+    throw notFound('Barcode', code);
   }
 
   /** Scan-path lookup: barcode -> SKU (+product). */
@@ -519,16 +667,70 @@ export class CatalogService {
     lotTracked?: boolean;
     shelfLifeDays?: number | null;
     serialPolicy?: string;
+    baseUom?: string;
   }> {
     const sku = await this.prisma.sku.findFirst({ where: { id: skuId, tenantId } });
     if (!sku) return { exists: false, active: false };
     return {
       exists: true,
       active: sku.status === 'ACTIVE',
+      baseUom: sku.baseUom,
       lotTracked: sku.lotTracked,
       shelfLifeDays: sku.shelfLifeDays,
       serialPolicy: sku.serialPolicy,
     };
+  }
+
+  /**
+   * Public cross-domain gate (PIM-007): converts a quantity entered in
+   * `uom` into the SKU's base UOM. Uses the SKU's conversion uom->base
+   * (multiply) or base->uom (divide). The result must be exact at the
+   * ledger scale (6 decimals) — no silent rounding of stock.
+   */
+  async toBaseQuantity(
+    tenantId: string,
+    skuId: string,
+    uom: string,
+    quantity: number,
+  ): Promise<{ baseQuantity: number; baseUom: string; factor: string }> {
+    const sku = await this.prisma.sku.findFirst({ where: { id: skuId, tenantId } });
+    if (!sku) throw notFound('Sku', skuId);
+    if (uom === sku.baseUom) return { baseQuantity: quantity, baseUom: sku.baseUom, factor: '1' };
+    const conversions = await this.prisma.uomConversion.findMany({
+      where: {
+        tenantId,
+        skuId: sku.id,
+        OR: [
+          { fromUom: uom, toUom: sku.baseUom },
+          { fromUom: sku.baseUom, toUom: uom },
+        ],
+      },
+    });
+    const direct = conversions.find((c) => c.fromUom === uom);
+    const inverse = conversions.find((c) => c.fromUom === sku.baseUom);
+    let base: Prisma.Decimal;
+    let factor: string;
+    if (direct) {
+      base = direct.factor.mul(quantity);
+      factor = direct.factor.toString();
+    } else if (inverse) {
+      const Dec = inverse.factor.constructor as new (v: number) => Prisma.Decimal;
+      base = new Dec(quantity).div(inverse.factor);
+      factor = `1/${inverse.factor.toString()}`;
+    } else {
+      throw new DomainError('VALIDATION_FAILED', 'No conversion from this UOM to the base UOM', {
+        uom,
+        baseUom: sku.baseUom,
+      });
+    }
+    if (base.decimalPlaces() > 6) {
+      throw new DomainError(
+        'VALIDATION_FAILED',
+        'Quantity does not convert exactly into the base UOM',
+        { uom, quantity, baseUom: sku.baseUom },
+      );
+    }
+    return { baseQuantity: base.toNumber(), baseUom: sku.baseUom, factor };
   }
 
   /** Lot policy (PIM-010/012): governed, audited configuration. */

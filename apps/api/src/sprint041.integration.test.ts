@@ -105,7 +105,7 @@ integration('Sprint 041 — packaging hierarchy', () => {
     skuId = sku.body.id as string;
     await api('POST', `/api/v1/skus/${skuId}/activate`, tokenA);
     // A unit barcode occupies the shared namespace.
-    await api('POST', '/api/v1/barcodes', tokenA, { skuId, value: '3859000000017' });
+    await api('POST', '/api/v1/barcodes', tokenA, { skuId, value: '3859000000018' });
   }, 120_000);
 
   afterAll(async () => {
@@ -137,7 +137,7 @@ integration('Sprint 041 — packaging hierarchy', () => {
     const clash = await api('POST', `/api/v1/skus/${skuId}/packaging`, tokenA, {
       name: 'Clash',
       unitsPerPack: 6,
-      barcodeValue: '3859000000017',
+      barcodeValue: '3859000000018',
     });
     expect(clash.status).toBe(409);
 
@@ -152,7 +152,7 @@ integration('Sprint 041 — packaging hierarchy', () => {
   });
 
   it('PIM: barcode lookup resolves pack barcodes with the multiplier', async () => {
-    const unit = await api('GET', '/api/v1/barcodes/3859000000017', tokenA);
+    const unit = await api('GET', '/api/v1/barcodes/3859000000018', tokenA);
     expect(unit.status).toBe(200);
     expect(unit.body.code).toBe('PK41-STD');
     expect(unit.body.unitsPerPack).toBeUndefined();

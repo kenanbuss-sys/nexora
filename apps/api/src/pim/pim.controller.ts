@@ -328,6 +328,12 @@ export class SkusController {
     return this.catalog.setUomConversion({ skuId: id, ...input }, ctx);
   }
 
+  @Get(':id/barcodes')
+  @RequirePermission('product.read')
+  async listBarcodes(@Param('id') id: string, @Ctx() ctx: RequestContext) {
+    return { barcodes: await this.catalog.listBarcodes(id, ctx) };
+  }
+
   @Get(':id/uom-conversions')
   @RequirePermission('product.read')
   async getUom(@Param('id') id: string, @Ctx() ctx: RequestContext) {
@@ -378,6 +384,20 @@ export class BarcodesController {
   @RequirePermission('product.barcode.manage')
   async assign(@Body() body: unknown, @Ctx() ctx: RequestContext) {
     return this.catalog.assignBarcode(parseBody(assignBarcodeSchema, body), ctx);
+  }
+
+  /** PIM-005/007: unit barcode, pack barcode or SKU code -> SKU + base units per scan. */
+  @Get('resolve/:value')
+  @RequirePermission('product.read')
+  async resolve(@Param('value') value: string, @Ctx() ctx: RequestContext) {
+    return this.catalog.resolveScan(value, ctx);
+  }
+
+  @Post(':value/remove')
+  @RequirePermission('product.barcode.manage')
+  async remove(@Param('value') value: string, @Ctx() ctx: RequestContext) {
+    await this.catalog.removeBarcode(value, ctx);
+    return { ok: true };
   }
 
   /** Resolves unit barcodes and pack barcodes (with their multiplier). */

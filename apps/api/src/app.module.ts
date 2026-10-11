@@ -678,7 +678,11 @@ export const REDIS = 'REDIS';
         const holder: { quarantine: QuarantineService | null } = { quarantine: null };
         const inventory = new InventoryService(
           prisma,
-          { getSkuState: (tenantId, skuId) => catalog.getSkuState(tenantId, skuId) },
+          {
+            getSkuState: (tenantId, skuId) => catalog.getSkuState(tenantId, skuId),
+            toBaseQuantity: (tenantId, skuId, uom, quantity) =>
+              catalog.toBaseQuantity(tenantId, skuId, uom, quantity),
+          },
           {
             activeHeld: (t, w, sk) =>
               holder.quarantine ? holder.quarantine.activeHeld(t, w, sk) : Promise.resolve(0),

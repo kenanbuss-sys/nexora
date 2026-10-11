@@ -218,19 +218,19 @@ integration('Sprint 003 — MDM + PIM', () => {
     });
     const assigned = await api('POST', '/api/v1/barcodes', tokenA, {
       skuId: sku.body.id,
-      value: '3859890000015',
+      value: '3859890000013',
     });
     expect(assigned.status).toBe(201);
 
     // Same barcode again in the same tenant -> conflict.
     const conflict = await api('POST', '/api/v1/barcodes', tokenA, {
       skuId: sku.body.id,
-      value: '3859890000015',
+      value: '3859890000013',
     });
     expect(conflict.status).toBe(409);
 
     // Scan-path lookup returns the SKU.
-    const lookup = await api('GET', '/api/v1/barcodes/3859890000015', tokenA);
+    const lookup = await api('GET', '/api/v1/barcodes/3859890000013', tokenA);
     expect(lookup.body.code).toBe('DESK-01-OAK');
 
     // Another tenant can use the same value (tenant-scoped uniqueness)…
@@ -246,11 +246,11 @@ integration('Sprint 003 — MDM + PIM', () => {
     });
     const assignedB = await api('POST', '/api/v1/barcodes', tokenB, {
       skuId: skuB.body.id,
-      value: '3859890000015',
+      value: '3859890000013',
     });
     expect(assignedB.status).toBe(201);
     // …and lookups stay isolated.
-    const lookupB = await api('GET', '/api/v1/barcodes/3859890000015', tokenB);
+    const lookupB = await api('GET', '/api/v1/barcodes/3859890000013', tokenB);
     expect(lookupB.body.code).toBe('DESK-01-OAK');
     expect((lookupB.body as { id: string }).id).toBe(skuB.body.id);
   });

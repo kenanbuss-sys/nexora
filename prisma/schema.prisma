@@ -952,22 +952,25 @@ enum StockMovementType {
 /// Immutable inventory ledger: stock truth is the sum of movements.
 /// Corrections are new (reversal) movements; rows are never edited.
 model StockMovement {
-  id             String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  tenantId       String            @map("tenant_id") @db.Uuid
-  warehouseId    String            @map("warehouse_id") @db.Uuid
-  locationId     String?           @map("location_id") @db.Uuid
-  skuId          String            @map("sku_id") @db.Uuid
-  movementType   StockMovementType @map("movement_type")
+  id              String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId        String            @map("tenant_id") @db.Uuid
+  warehouseId     String            @map("warehouse_id") @db.Uuid
+  locationId      String?           @map("location_id") @db.Uuid
+  skuId           String            @map("sku_id") @db.Uuid
+  movementType    StockMovementType @map("movement_type")
   /// Always positive; the sign comes from movementType.
-  quantity       Decimal           @db.Decimal(18, 6)
-  reason         String?
+  quantity        Decimal           @db.Decimal(18, 6)
+  reason          String?
   /// Business idempotency key: duplicate submissions produce one stock effect.
-  idempotencyKey String            @map("idempotency_key")
+  idempotencyKey  String            @map("idempotency_key")
   /// Sprint 022 (WMS-017/019): lot dimension on the ledger.
-  lotNumber      String?           @map("lot_number")
-  expiresAt      DateTime?         @map("expires_at")
-  occurredAt     DateTime          @default(now()) @map("occurred_at")
-  createdBy      String?           @map("created_by")
+  lotNumber       String?           @map("lot_number")
+  expiresAt       DateTime?         @map("expires_at")
+  occurredAt      DateTime          @default(now()) @map("occurred_at")
+  createdBy       String?           @map("created_by")
+  /// Sprint 240 (PIM-007): UOM/quantity as entered; `quantity` is base.
+  enteredUom      String?           @map("entered_uom")
+  enteredQuantity Decimal?          @map("entered_quantity") @db.Decimal(18, 6)
 
   tenant Tenant @relation(fields: [tenantId], references: [id])
 

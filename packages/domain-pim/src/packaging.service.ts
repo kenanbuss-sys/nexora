@@ -3,6 +3,8 @@ import type { PrismaClient } from '@nexora/db';
 import { DomainError, notFound } from '@nexora/kernel';
 import type { RequestContext } from '@nexora/tenancy';
 
+import { lockScanCode } from './catalog.service';
+
 /**
  * Packaging hierarchy (PIM): pack levels above the base unit — a box of
  * 12, a pallet of 480 — each optionally carrying its own scannable
@@ -63,17 +65,22 @@ export class PackagingService {
     });
     if (!sku) throw notFound('Sku', input.skuId);
     const barcodeValue = input.barcodeValue?.trim() || null;
-    if (barcodeValue) {
-      // Pack barcodes share the scan namespace with unit barcodes.
-      const clash = await this.prisma.barcode.findUnique({
-        where: { tenantId_value: { tenantId: ctx.tenantId, value: barcodeValue } },
-      });
-      if (clash) {
-        throw new DomainError('CONFLICT', 'This barcode already identifies a unit SKU');
-      }
+    if (barcodeValue && !/^[0-9A-Za-z-]{4,64}$/.test(barcodeValue)) {
+      throw new DomainError('VALIDATION_FAILED', 'Invalid barcode value');
     }
     try {
       const level = await this.prisma.$transaction(async (tx) => {
+        if (barcodeValue) {
+          // Pack barcodes share the scan namespace with unit barcodes; the
+          // same lock as CatalogService.assignBarcode serialises the check.
+          await lockScanCode(tx, ctx.tenantId, barcodeValue);
+          const clash = await tx.barcode.findUnique({
+            where: { tenantId_value: { tenantId: ctx.tenantId, value: barcodeValue } },
+          });
+          if (clash) {
+            throw new DomainError('CONFLICT', 'This barcode already identifies a unit SKU');
+          }
+        }
         const created = await tx.packagingLevel.create({
           data: {
             tenantId: ctx.tenantId,
