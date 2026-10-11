@@ -7,12 +7,20 @@ import { useApp } from '../app-shell';
 import { CollabPanel } from '../collab-panel';
 import { downloadDocument } from '../../../lib/download';
 import {
+  ConfirmDialog,
   DataTable,
   EmptyState,
   ErrorState,
   LoadingState,
   type Column,
 } from '../../../components/ui';
+import {
+  SerialInput,
+  serialProblem,
+  serialsApplicable,
+  serialsPayload,
+  useSerialPolicies,
+} from '../../../components/serial-input';
 
 interface OrderLineView {
   id: string;
@@ -164,6 +172,13 @@ export default function OrdersPage() {
   const [returns, setReturns] = useState<ReturnView[]>([]);
   const [openOrder, setOpenOrder] = useState<string | null>(null);
   const [statusFilter, setStatusFilter] = useState<'' | OrderView['status']>('');
+  // WMS-018: partial shipment panel with per-line serials. The ship key is
+  // stable per opened panel, so a retry cannot post the issue twice.
+  const [shipOrder, setShipOrder] = useState('');
+  const [shipQty, setShipQty] = useState<Record<string, string>>({});
+  const [shipSerials, setShipSerials] = useState<Record<string, string[]>>({});
+  const [shipKey, setShipKey] = useState('');
+  const [confirmShip, setConfirmShip] = useState(false);
 
   const load = useCallback(() => {
     api<{ packages: typeof packages }>('GET', '/api/v1/packages')
@@ -216,7 +231,7 @@ export default function OrdersPage() {
     // eslint-disable-next-line
   }, []);
 
-  async function run(fn: () => Promise<unknown>, successText: string | null) {
+  async function run(fn: () => Promise<unknown>, successText: string | null): Promise<boolean> {
     setBusy(true);
     setError(null);
     setNotice(null);
@@ -224,8 +239,10 @@ export default function OrdersPage() {
       await fn();
       if (successText) setNotice(successText);
       load();
+      return true;
     } catch (e: unknown) {
       setError(errorText(e));
+      return false;
     } finally {
       setBusy(false);
     }
@@ -250,6 +267,31 @@ export default function OrdersPage() {
 
   const orderRows = (orders ?? []).filter((o) => !statusFilter || o.status === statusFilter);
   const opened = openOrder ? (orders ?? []).find((o) => o.id === openOrder) : undefined;
+  const shipping =
+    opened && opened.id === shipOrder && opened.status === 'CONFIRMED' ? opened : undefined;
+  const shipPolicyOf = useSerialPolicies(shipping ? shipping.lines.map((l) => l.skuId) : []);
+  const remainingOf = (l: OrderLineView) =>
+    Math.max(0, Number(l.quantity) - Number(l.fulfilledQty ?? 0));
+  const shipEntered = (shipping?.lines ?? [])
+    .map((l) => ({ line: l, qty: Number(shipQty[l.id] ?? 0), remaining: remainingOf(l) }))
+    .filter((x) => x.qty > 0);
+  const shipProblems = shipEntered
+    .map((x) => {
+      const problem = serialProblem(
+        shipPolicyOf(x.line.skuId),
+        x.qty,
+        shipSerials[x.line.id] ?? [],
+      );
+      return problem ? `${x.line.description}: ${problem}` : null;
+    })
+    .filter((p): p is string => p !== null);
+
+  function closeShip() {
+    setShipOrder('');
+    setShipQty({});
+    setShipSerials({});
+    setShipKey('');
+  }
 
   const orderColumns: Array<Column<OrderView>> = [
     {
@@ -712,6 +754,98 @@ export default function OrdersPage() {
                       </table>
                     ) : null}
 
+                    {shipping && shipping.id === o.id ? (
+                      <div
+                        style={{
+                          border: '1px solid var(--color-border)',
+                          borderRadius: 8,
+                          padding: 12,
+                          marginTop: 8,
+                        }}
+                      >
+                        <strong>Otprema stavki</strong>
+                        <div className="muted" style={{ fontSize: 12 }}>
+                          Izlaz robe iz skladišta narudžbe. Serijski brojevi moraju biti na zalihi u
+                          tom skladištu.
+                        </div>
+                        {o.lines.filter((l) => !l.backordered && remainingOf(l) > 0).length ===
+                        0 ? (
+                          <EmptyState text="Nema stavki za otpremu (sve otpremljene ili u zaostatku)." />
+                        ) : null}
+                        {o.lines
+                          .filter((l) => !l.backordered && remainingOf(l) > 0)
+                          .map((l) => {
+                            const linePolicy = shipPolicyOf(l.skuId);
+                            const lineQty = Number(shipQty[l.id] ?? 0);
+                            return (
+                              <div
+                                key={l.id}
+                                style={{
+                                  borderTop: '1px solid var(--color-border)',
+                                  paddingTop: 8,
+                                  marginTop: 8,
+                                }}
+                              >
+                                <div className="spread" style={{ flexWrap: 'wrap' }}>
+                                  <span>
+                                    {l.description}{' '}
+                                    <span className="muted" style={{ fontSize: 12 }}>
+                                      preostalo {remainingOf(l)}
+                                    </span>
+                                  </span>
+                                  <input
+                                    className="input"
+                                    style={{ maxWidth: 90 }}
+                                    type="number"
+                                    min="0"
+                                    step="any"
+                                    placeholder="Kol."
+                                    aria-label={`Količina za otpremu — ${l.description}`}
+                                    value={shipQty[l.id] ?? ''}
+                                    onChange={(e) =>
+                                      setShipQty((m) => ({ ...m, [l.id]: e.target.value }))
+                                    }
+                                  />
+                                </div>
+                                {lineQty > 0 && serialsApplicable(linePolicy) ? (
+                                  <SerialInput
+                                    value={shipSerials[l.id] ?? []}
+                                    onChange={(next) =>
+                                      setShipSerials((m) => ({ ...m, [l.id]: next }))
+                                    }
+                                    policy={linePolicy}
+                                    quantity={lineQty}
+                                    disabled={busy}
+                                    label={`Serijski brojevi — ${l.description}`}
+                                  />
+                                ) : null}
+                              </div>
+                            );
+                          })}
+                        {shipProblems.length > 0 ? (
+                          <div className="alert alert-error" role="alert">
+                            Otprema je blokirana dok se ne unesu serijski brojevi:
+                            {shipProblems.map((p) => (
+                              <div key={p}>{p}</div>
+                            ))}
+                          </div>
+                        ) : null}
+                        <div className="row" style={{ marginTop: 8 }}>
+                          <button
+                            className="btn btn-sm btn-primary"
+                            type="button"
+                            disabled={busy || shipEntered.length === 0 || shipProblems.length > 0}
+                            onClick={() => setConfirmShip(true)}
+                          >
+                            Otpremi
+                          </button>
+                          <button className="btn btn-sm" type="button" onClick={closeShip}>
+                            Zatvori
+                          </button>
+                        </div>
+                      </div>
+                    ) : null}
+
                     <div className="row" style={{ marginTop: 8 }}>
                       {o.status === 'DRAFT' && can('order.create') ? (
                         <>
@@ -858,6 +992,28 @@ export default function OrdersPage() {
                               type="button"
                             >
                               Ispuni (fulfilment)
+                            </button>
+                          ) : null}
+                          {can('order.confirm') && shipOrder !== o.id ? (
+                            <button
+                              className="btn btn-sm"
+                              disabled={busy}
+                              title="Djelimična otprema po stavkama, sa serijskim brojevima"
+                              onClick={() => {
+                                setShipOrder(o.id);
+                                setShipQty(
+                                  Object.fromEntries(
+                                    o.lines
+                                      .filter((l) => !l.backordered && remainingOf(l) > 0)
+                                      .map((l) => [l.id, String(remainingOf(l))]),
+                                  ),
+                                );
+                                setShipSerials({});
+                                setShipKey(`ship-${o.id.slice(0, 8)}-${Date.now()}`);
+                              }}
+                              type="button"
+                            >
+                              Otpremi stavke
                             </button>
                           ) : null}
                           {o.fulfillmentType === 'PICKUP' && can('order.confirm') ? (
@@ -1351,6 +1507,51 @@ export default function OrdersPage() {
           </div>
         ))}
       </div>
+      {confirmShip && shipping ? (
+        <ConfirmDialog
+          open
+          title={`Otprema — ${shipping.orderNumber}`}
+          consequence="Otprema knjiži izlaz zaliha (ISSUE) iz skladišta narudžbe. Idempotentan ključ — ponovni klik ne duplira otpremu."
+          confirmLabel="Otpremi"
+          busy={busy}
+          onCancel={() => setConfirmShip(false)}
+          onConfirm={() => {
+            const order = shipping;
+            void run(
+              () =>
+                api('POST', `/api/v1/orders/${order.id}/fulfill-lines`, {
+                  shipKey,
+                  lines: shipEntered.map((x) => ({
+                    lineId: x.line.id,
+                    quantity: x.qty,
+                    ...serialsPayload(shipPolicyOf(x.line.skuId), shipSerials[x.line.id] ?? []),
+                  })),
+                }),
+              'Stavke otpremljene — izlaz zaliha knjižen u ledgeru.',
+            ).then((ok) => {
+              setConfirmShip(false);
+              // On failure keep quantities and scanned serials for correction.
+              if (ok) closeShip();
+            });
+          }}
+        >
+          <div className="fact">
+            <span>Kupac</span>
+            <span>{accountName(shipping.accountId)}</span>
+          </div>
+          {shipEntered.map((x) => (
+            <div key={x.line.id} className="fact">
+              <span>{x.line.description}</span>
+              <span className="mono">
+                {x.qty} (preostalo {x.remaining})
+                {(shipSerials[x.line.id]?.length ?? 0) > 0
+                  ? ` · ${shipSerials[x.line.id]?.length} SN`
+                  : ''}
+              </span>
+            </div>
+          ))}
+        </ConfirmDialog>
+      ) : null}
     </main>
   );
 }

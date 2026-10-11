@@ -1,10 +1,17 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { Fragment, useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { api, errorText } from '../../../lib/api';
 import { ConfirmDialog, DataTable, EmptyState, LoadingState } from '../../../components/ui';
 import { useApp } from '../app-shell';
+import {
+  SerialInput,
+  serialProblem,
+  serialsApplicable,
+  serialsPayload,
+  useSerialPolicies,
+} from '../../../components/serial-input';
 
 interface SupplierPerformanceRow {
   supplierId: string;
@@ -42,6 +49,7 @@ interface RequisitionView {
 
 interface PoLineView {
   id: string;
+  skuId: string;
   description: string;
   quantity: string;
   unitPrice: string;
@@ -177,6 +185,7 @@ export default function ProcurementPage() {
   // Stabilan idempotentan ključ prijema po otvorenom PO panelu: ponovni
   // klik ili retry NE može udvostručiti prijem (ista kretanja u knjizi).
   const [receiveKey, setReceiveKey] = useState('');
+  const [receiveSerials, setReceiveSerials] = useState<Record<string, string[]>>({});
   const [confirmReceive, setConfirmReceive] = useState<PurchaseOrderView | null>(null);
   const [confirmSubmitReq, setConfirmSubmitReq] = useState<RequisitionView | null>(null);
   const [confirmCancelPo, setConfirmCancelPo] = useState<PurchaseOrderView | null>(null);
@@ -245,7 +254,7 @@ export default function ProcurementPage() {
     // eslint-disable-next-line
   }, []);
 
-  async function run(fn: () => Promise<unknown>, successText: string | null) {
+  async function run(fn: () => Promise<unknown>, successText: string | null): Promise<boolean> {
     setBusy(true);
     setError(null);
     setNotice(null);
@@ -253,12 +262,28 @@ export default function ProcurementPage() {
       await fn();
       if (successText) setNotice(successText);
       load();
+      return true;
     } catch (e: unknown) {
       setError(errorText(e));
+      return false;
     } finally {
       setBusy(false);
     }
   }
+
+  const receivingPo = pos.find((po) => po.id === receivePo);
+  const policyOf = useSerialPolicies(receivingPo ? receivingPo.lines.map((l) => l.skuId) : []);
+  const receiveProblems = (receivingPo?.lines ?? [])
+    .filter((l) => Number(receiveQty[l.id] ?? 0) > 0)
+    .map((l) => {
+      const problem = serialProblem(
+        policyOf(l.skuId),
+        Number(receiveQty[l.id]),
+        receiveSerials[l.id] ?? [],
+      );
+      return problem ? `${l.description}: ${problem}` : null;
+    })
+    .filter((p): p is string => p !== null);
 
   const supplierName = (id: string) =>
     suppliers.find((s) => s.id === id)?.partyName ?? id.slice(0, 8);
@@ -692,33 +717,58 @@ export default function ProcurementPage() {
                         </tr>
                       </thead>
                       <tbody>
-                        {po.lines.map((l) => (
-                          <tr key={l.id}>
-                            <td>{l.description}</td>
-                            <td className="mono">{Number(l.quantity)}</td>
-                            <td className="mono">{Number(l.receivedQty)}</td>
-                            <td className="mono">
-                              {Math.max(0, Number(l.quantity) - Number(l.receivedQty))}
-                            </td>
-                            {receivePo === po.id &&
-                            ['OPEN', 'PARTIALLY_RECEIVED'].includes(po.status) ? (
-                              <td style={{ textAlign: 'right' }}>
-                                <input
-                                  className="input"
-                                  style={{ maxWidth: 80 }}
-                                  type="number"
-                                  min="0"
-                                  step="any"
-                                  placeholder="Kol."
-                                  value={receiveQty[l.id] ?? ''}
-                                  onChange={(e) =>
-                                    setReceiveQty((m) => ({ ...m, [l.id]: e.target.value }))
-                                  }
-                                />
-                              </td>
-                            ) : null}
-                          </tr>
-                        ))}
+                        {po.lines.map((l) => {
+                          const receiving =
+                            receivePo === po.id &&
+                            ['OPEN', 'PARTIALLY_RECEIVED'].includes(po.status);
+                          const linePolicy = policyOf(l.skuId);
+                          const lineQty = Number(receiveQty[l.id] ?? 0);
+                          return (
+                            <Fragment key={l.id}>
+                              <tr>
+                                <td>{l.description}</td>
+                                <td className="mono">{Number(l.quantity)}</td>
+                                <td className="mono">{Number(l.receivedQty)}</td>
+                                <td className="mono">
+                                  {Math.max(0, Number(l.quantity) - Number(l.receivedQty))}
+                                </td>
+                                {receiving ? (
+                                  <td style={{ textAlign: 'right' }}>
+                                    <input
+                                      className="input"
+                                      style={{ maxWidth: 80 }}
+                                      type="number"
+                                      min="0"
+                                      step="any"
+                                      placeholder="Kol."
+                                      value={receiveQty[l.id] ?? ''}
+                                      onChange={(e) =>
+                                        setReceiveQty((m) => ({ ...m, [l.id]: e.target.value }))
+                                      }
+                                    />
+                                  </td>
+                                ) : null}
+                              </tr>
+                              {receiving && lineQty > 0 && serialsApplicable(linePolicy) ? (
+                                <tr>
+                                  <td colSpan={5}>
+                                    <SerialInput
+                                      value={receiveSerials[l.id] ?? []}
+                                      onChange={(next) =>
+                                        setReceiveSerials((m) => ({ ...m, [l.id]: next }))
+                                      }
+                                      policy={linePolicy}
+                                      quantity={lineQty}
+                                      disabled={busy}
+                                      label={`Serijski brojevi — ${l.description}`}
+                                      hint="Prijem: serijski broj ne smije već biti na zalihi ni u jednom skladištu."
+                                    />
+                                  </td>
+                                </tr>
+                              ) : null}
+                            </Fragment>
+                          );
+                        })}
                       </tbody>
                     </table>
                   ) : null}
@@ -729,7 +779,11 @@ export default function ProcurementPage() {
                         <>
                           <button
                             className="btn btn-sm btn-primary"
-                            disabled={busy || !Object.values(receiveQty).some((v) => Number(v) > 0)}
+                            disabled={
+                              busy ||
+                              !Object.values(receiveQty).some((v) => Number(v) > 0) ||
+                              receiveProblems.length > 0
+                            }
                             onClick={() => setConfirmReceive(po)}
                             type="button"
                           >
@@ -740,6 +794,7 @@ export default function ProcurementPage() {
                             onClick={() => {
                               setReceivePo('');
                               setReceiveQty({});
+                              setReceiveSerials({});
                             }}
                             type="button"
                           >
@@ -752,6 +807,7 @@ export default function ProcurementPage() {
                           onClick={() => {
                             setReceivePo(po.id);
                             setReceiveQty({});
+                            setReceiveSerials({});
                             setReceiveKey(`rcpt-${po.id.slice(0, 8)}-${Date.now()}`);
                           }}
                           type="button"
@@ -771,6 +827,14 @@ export default function ProcurementPage() {
                       </button>
                     ) : null}
                   </div>
+                  {receivePo === po.id && receiveProblems.length > 0 ? (
+                    <div className="alert alert-error" role="alert">
+                      Prijem je blokiran dok se ne unesu serijski brojevi:
+                      {receiveProblems.map((p) => (
+                        <div key={p}>{p}</div>
+                      ))}
+                    </div>
+                  ) : null}
                 </div>
               ))}
           </div>
@@ -1083,13 +1147,24 @@ export default function ProcurementPage() {
                     () =>
                       api('POST', `/api/v1/purchase-orders/${po.id}/receive`, {
                         receiptKey: receiveKey,
-                        lines: entered.map((x) => ({ lineId: x.line.id, quantity: x.qty })),
+                        lines: entered.map((x) => ({
+                          lineId: x.line.id,
+                          quantity: x.qty,
+                          ...serialsPayload(
+                            policyOf(x.line.skuId),
+                            receiveSerials[x.line.id] ?? [],
+                          ),
+                        })),
                       }),
                     'Roba zaprimljena — kretanja su u knjizi zaliha.',
-                  ).then(() => {
+                  ).then((ok) => {
                     setConfirmReceive(null);
+                    // On failure keep the scanned serials so a correction
+                    // does not mean scanning every unit again.
+                    if (!ok) return;
                     setReceivePo('');
                     setReceiveQty({});
+                    setReceiveSerials({});
                     setReceiveKey('');
                   });
                 }}
@@ -1103,6 +1178,9 @@ export default function ProcurementPage() {
                     <span>{x.line.description}</span>
                     <span className="mono">
                       prijem {x.qty} (preostalo {x.remaining})
+                      {(receiveSerials[x.line.id]?.length ?? 0) > 0
+                        ? ` · ${receiveSerials[x.line.id]?.length} SN`
+                        : ''}
                     </span>
                   </div>
                 ))}

@@ -1,8 +1,15 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { Fragment, useCallback, useEffect, useState } from 'react';
 import { api, errorText } from '../../../lib/api';
 import { useApp } from '../app-shell';
+import {
+  SerialInput,
+  serialProblem,
+  serialsApplicable,
+  serialsPayload,
+  useSerialPolicies,
+} from '../../../components/serial-input';
 
 interface LineView {
   id: string;
@@ -112,7 +119,7 @@ export default function OperationsPage() {
     // eslint-disable-next-line
   }, []);
 
-  async function run(fn: () => Promise<unknown>, successText: string | null) {
+  async function run(fn: () => Promise<unknown>, successText: string | null): Promise<boolean> {
     setBusy(true);
     setError(null);
     setNotice(null);
@@ -120,12 +127,26 @@ export default function OperationsPage() {
       await fn();
       if (successText) setNotice(successText);
       load();
+      return true;
     } catch (e: unknown) {
       setError(errorText(e));
+      return false;
     } finally {
       setBusy(false);
     }
   }
+
+  // WMS-018: serials per line being processed (stock-moving order types only).
+  const [lineSerials, setLineSerials] = useState<Record<string, string[]>>({});
+  const policyOf = useSerialPolicies(
+    (orders ?? [])
+      .filter((o) => o.status === 'IN_PROGRESS' && o.orderType !== 'COUNT')
+      .flatMap((o) => o.lines.map((l) => l.skuId)),
+  );
+  const processQty = (l: LineView) =>
+    Number(l.expectedQty) - Number(l.processedQty) > 0
+      ? Number(l.expectedQty) - Number(l.processedQty)
+      : Number(l.expectedQty);
 
   const whLabel = (id: string | null) =>
     id ? (warehouses.find((w) => w.id === id)?.code ?? id.slice(0, 8)) : '—';
@@ -197,38 +218,77 @@ export default function OperationsPage() {
               </div>
               <table className="table" style={{ marginTop: 8 }}>
                 <tbody>
-                  {o.lines.map((l) => (
-                    <tr key={l.id}>
-                      <td className="mono">{skuLabel(l.skuId)}</td>
-                      <td>
-                        {l.processedQty} / {l.expectedQty}
-                      </td>
-                      <td style={{ textAlign: 'right' }}>
-                        {o.status === 'IN_PROGRESS' ? (
-                          <button
-                            className="btn btn-sm"
-                            disabled={busy}
-                            onClick={() =>
-                              run(
-                                () =>
-                                  api('POST', `/api/v1/wms/orders/${o.id}/lines/${l.id}/process`, {
-                                    quantity:
-                                      Number(l.expectedQty) - Number(l.processedQty) > 0
-                                        ? Number(l.expectedQty) - Number(l.processedQty)
-                                        : Number(l.expectedQty),
-                                    idempotencyKey: randomKey(),
-                                  }),
-                                'Line processed.',
-                              )
-                            }
-                            type="button"
-                          >
-                            {o.orderType === 'COUNT' ? 'Confirm count' : 'Process remaining'}
-                          </button>
+                  {o.lines.map((l) => {
+                    const serialLine =
+                      o.status === 'IN_PROGRESS' &&
+                      o.orderType !== 'COUNT' &&
+                      serialsApplicable(policyOf(l.skuId));
+                    const policy = serialLine ? policyOf(l.skuId) : 'NONE';
+                    const serials = lineSerials[l.id] ?? [];
+                    const problem = serialProblem(policy, processQty(l), serials);
+                    return (
+                      <Fragment key={l.id}>
+                        <tr>
+                          <td className="mono">{skuLabel(l.skuId)}</td>
+                          <td>
+                            {l.processedQty} / {l.expectedQty}
+                          </td>
+                          <td style={{ textAlign: 'right' }}>
+                            {o.status === 'IN_PROGRESS' ? (
+                              <button
+                                className="btn btn-sm"
+                                disabled={busy || problem !== null}
+                                title={problem ?? undefined}
+                                onClick={() =>
+                                  void run(
+                                    () =>
+                                      api(
+                                        'POST',
+                                        `/api/v1/wms/orders/${o.id}/lines/${l.id}/process`,
+                                        {
+                                          quantity: processQty(l),
+                                          idempotencyKey: randomKey(),
+                                          ...serialsPayload(policy, serials),
+                                        },
+                                      ),
+                                    'Line processed.',
+                                  ).then((ok) => {
+                                    if (ok) setLineSerials((m) => ({ ...m, [l.id]: [] }));
+                                  })
+                                }
+                                type="button"
+                              >
+                                {o.orderType === 'COUNT' ? 'Confirm count' : 'Process remaining'}
+                              </button>
+                            ) : null}
+                          </td>
+                        </tr>
+                        {serialLine ? (
+                          <tr>
+                            <td colSpan={3}>
+                              <SerialInput
+                                value={serials}
+                                onChange={(next) => setLineSerials((m) => ({ ...m, [l.id]: next }))}
+                                policy={policy}
+                                quantity={processQty(l)}
+                                disabled={busy}
+                                hint={
+                                  o.orderType === 'RECEIVING'
+                                    ? 'Prijem: serijski broj ne smije već biti na zalihi ni u jednom skladištu.'
+                                    : 'Izlaz: serijski broj mora biti na zalihi u izvornom skladištu.'
+                                }
+                              />
+                              {problem ? (
+                                <div className="alert alert-error" role="alert">
+                                  {problem}
+                                </div>
+                              ) : null}
+                            </td>
+                          </tr>
                         ) : null}
-                      </td>
-                    </tr>
-                  ))}
+                      </Fragment>
+                    );
+                  })}
                 </tbody>
               </table>
             </div>
