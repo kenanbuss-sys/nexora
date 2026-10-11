@@ -459,3 +459,15 @@ Red 2 potvrđenog redoslijeda. Vlasnik: PLAN (izračun), OMS (potvrda roka na na
 - [x] Testovi: **sprint244 6/6**; regresija 018, 058, 063, 144, 208, 222 zelena
 - [x] UI: kartica „Rok isporuke“ na narudžbi (izvori, djelimično, potvrda roka) + alat „Provjera roka isporuke“ u planiranju; browser provjera otvorena
 - Nije rađeno: komponente BOM-a u CTP, rezervacija kapaciteta
+
+# Sprint 245 — ZAVRŠEN 11.10.2026: veza slučaja (reklamacije) s narudžbom (CSM-011)
+
+Red 2 potvrđenog redoslijeda (zadnja stavka). Vlasnik: CRM/CSM (slučaj, stavke, veze), OMS (narudžba, povrat — kroz gate). Migracija `…247_sprint_245_case_order_linkage` (aditivna; parcijalni unique `return_order_request_ref_key` i CHECK nisu u schema.prisma — čuvati).
+
+- [x] `POST /support-cases/:id/order` — kupac naslijeđen, tuđi kupac odbijen, promjena narudžbe odbijena dok postoje stavke
+- [x] `PUT /support-cases/:id/order-items` — pogođene stavke (količina ≤ naručena, vrsta problema iz `csm.orderIssueTypes`), zamjena cijele liste, audit
+- [x] `GET /support-cases/:id/order-context` — narudžba (stavke, isporučeno, rok, timeline), povrati, drugi slučajevi; `GET /support-cases/by-order/:orderId`
+- [x] `POST /support-cases/:id/returns` — RMA kroz OMS samo za povratne vrste problema, idempotentno (i istovremeno) po ključu; OMS: `request_ref`, zaključavanje narudžbe, serijalizovan RMA broj
+- [x] Broj slučaja serijalizovan (istovremeno kreiranje bez duplikata)
+- [x] Testovi: **sprint245 5/5**; regresija povrata/slučajeva (028, 064, 071, 083, 188, 205) zelena
+- [ ] UI: sekcija Narudžba na slučaju, pogođene stavke, RMA iz slučaja, reklamacije na narudžbi — u toku

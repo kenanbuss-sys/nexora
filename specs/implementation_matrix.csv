@@ -484,7 +484,7 @@ CSM-007,CSM,Case collaboration,P2,DONE,R4+,,,Sprint 205: threaded case comments 
 CSM-008,CSM,Canned responses/templates,P2,DONE,R4+,,,"Sprint 205: canned responses from csm.cannedResponses config, rendered per case with placeholders."
 CSM-009,CSM,Knowledge base,P2,DONE,R4+,,,Sprint 205: knowledge base as governed custom-object register with text search.
 CSM-010,CSM,Customer support portal,P2,DONE,R4+,,,Sprint 205: portal is a first-class intake channel; B2B portal handles customer self-service.
-CSM-011,CSM,Case-to-order linkage,P2,Partially implemented (Sprint 064),R4+,,,Cases link to sales orders at creation; deeper order-context views pending.
+CSM-011,CSM,Case-to-order linkage,P2,DONE,R4+,,,"Sprint 064 + Sprint 245: povezivanje slucaja s narudzbom (kupac naslijedjen, tudji kupac odbijen, promjena odbijena dok postoje stavke); pogodjene stavke (kolicina do narucene, vrsta problema iz csm.orderIssueTypes), audit; kontekst narudzbe na slucaju (stavke, isporuceno, rok, timeline, povrati, drugi slucajevi) kroz OMS gate; slucajevi po narudzbi; povrat (RMA) iz slucaja kroz OMS samo za povratne vrste problema, idempotentno po kljucu (OMS request_ref unique, zakljucavanje narudzbe); brojevi slucaja i RMA bez duplikata pod konkurencijom."
 CSM-012,CSM,Case-to-service linkage,P2,DONE,R4+,,,Sprint 205: generic case linkage — service_request references on the audit trail.
 CSM-013,CSM,Case-to-RMA linkage,P2,DONE,R4+,,,"Sprint 205: case-to-RMA linkage via audited references, duplicate-safe."
 CSM-014,CSM,Support analytics,P2,DONE,R4+,,,Sprint 083: case analytics — status counts + average resolution time; CRM page badges.
