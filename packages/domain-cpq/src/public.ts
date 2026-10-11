@@ -17,6 +17,7 @@ export {
   DISCOUNT_APPROVAL_THRESHOLD_PCT,
   QuoteService,
   type AccountGate,
+  type MadeToMeasureConfigGate,
   type CompatibilityGate,
   type CostGate,
   type ApprovalGate,
@@ -31,3 +32,12 @@ export {
   type ConfiguratorConfigGate,
   type ConfiguratorModel,
 } from './configurator.service';
+export {
+  computeMeasured,
+  parseMadeToMeasure,
+  type MadeToMeasureConfig,
+  type MeasureBasis,
+  type MeasuredBreakdown,
+  type MeasuredProductRule,
+  type SurchargeRule,
+} from './measured';

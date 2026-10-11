@@ -1417,7 +1417,10 @@ export const REDIS = 'REDIS';
         new QuoteService(
           prisma,
           pricing,
-          { getAccountState: (t, a) => crm.getAccountState(t, a) },
+          {
+            getAccountState: (t, a) => crm.getAccountState(t, a),
+            getPriceTier: (t, a) => crm.getPriceTier(t, a),
+          },
           {
             requestApproval: (input, ctx) => approvals.requestApproval(input, ctx),
             getApprovalStatus: (t, id) => approvals.getApprovalStatus(t, id),
@@ -1458,6 +1461,13 @@ export const REDIS = 'REDIS';
                 }
               }
               return pairs;
+            },
+          },
+          // Sprint 247: made-to-measure pricing rules (versioned config).
+          {
+            getMadeToMeasure: async (t) => {
+              const { config } = await tenants.getEffectiveConfiguration(t);
+              return (config as { cpq?: { madeToMeasure?: unknown } })?.cpq?.madeToMeasure;
             },
           },
         ),

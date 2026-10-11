@@ -1,5 +1,5 @@
 import { writeAudit, type AuditEntry } from '@nexora/audit';
-import type { PrismaClient, SalesOrderStatus } from '@nexora/db';
+import type { Prisma, PrismaClient, SalesOrderStatus } from '@nexora/db';
 import { EVENT_TYPES, publishToOutbox } from '@nexora/events';
 import { DomainError, notFound } from '@nexora/kernel';
 import type { RequestContext } from '@nexora/tenancy';
@@ -1335,6 +1335,8 @@ export class OrderService {
               quantity: l.quantity,
               unitPrice: l.netUnitPrice,
               lineTotal: l.lineTotal,
+              // Sprint 247: made-to-measure spec travels with the line.
+              ...(l.spec ? { spec: l.spec as Prisma.InputJsonValue } : {}),
             })),
           },
         },

@@ -45,6 +45,15 @@ const createDiscountRuleSchema = z.object({
   validTo: z.string().datetime().optional(),
 });
 const setActiveSchema = z.object({ active: z.boolean() });
+const measuredLineSchema = z.object({
+  skuId: z.string().uuid(),
+  widthMm: z.number().positive().max(100000),
+  heightMm: z.number().positive().max(100000).optional(),
+  pieces: z.number().int().min(1).max(10000),
+  surchargeCodes: z.array(z.string().min(1).max(40)).max(20).optional(),
+  discountPct: z.number().min(0).max(100).optional(),
+  note: z.string().max(200).optional(),
+});
 
 const addLineSchema = z.object({
   skuId: z.string().uuid(),
@@ -166,6 +175,18 @@ export class QuotesController {
   async addLine(@Param('id') id: string, @Body() body: unknown, @Ctx() ctx: RequestContext) {
     const input = parseBody(addLineSchema, body);
     return this.quotes.addLine({ quoteId: id, ...input }, ctx);
+  }
+
+  /** Sprint 247: made-to-measure line (dimensions, surcharges, installation). */
+  @Post(':id/measured-lines')
+  @RequirePermission('quote.create')
+  async addMeasuredLine(
+    @Param('id') id: string,
+    @Body() body: unknown,
+    @Ctx() ctx: RequestContext,
+  ) {
+    const input = parseBody(measuredLineSchema, body);
+    return this.quotes.addMeasuredLine({ quoteId: id, ...input }, ctx);
   }
 
   @Post(':id/submit')

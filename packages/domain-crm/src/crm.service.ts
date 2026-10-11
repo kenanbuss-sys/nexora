@@ -475,6 +475,49 @@ export class CrmService {
     return { exists: true, active: account.status === 'ACTIVE' };
   }
 
+  /** Public cross-domain gate (CPQ, Sprint 247): the account's price tier. */
+  async getPriceTier(tenantId: string, accountId: string): Promise<string | null> {
+    const account = await this.prisma.crmAccount.findFirst({
+      where: { id: accountId, tenantId },
+      select: { priceTier: true },
+    });
+    return account?.priceTier ?? null;
+  }
+
+  /**
+   * Permission: crm.manage (route). Sets the customer price tier — the
+   * discount level CPQ applies (percentages live in cpq.madeToMeasure).
+   * Audited; null clears it.
+   */
+  async setPriceTier(
+    accountId: string,
+    tier: string | null,
+    ctx: RequestContext,
+  ): Promise<{ accountId: string; priceTier: string | null }> {
+    if (tier !== null && !/^[A-Za-z0-9._-]{1,40}$/.test(tier)) {
+      throw new DomainError('VALIDATION_FAILED', 'Tier: 1-40 letters, digits, . _ -');
+    }
+    return this.prisma.$transaction(async (tx) => {
+      const account = await tx.crmAccount.findFirst({
+        where: { id: accountId, tenantId: ctx.tenantId },
+      });
+      if (!account) throw notFound('CrmAccount', accountId);
+      await tx.crmAccount.update({ where: { id: account.id }, data: { priceTier: tier } });
+      await writeAudit(tx, {
+        tenantId: ctx.tenantId,
+        actorType: ctx.actorType,
+        actorId: ctx.userId,
+        action: 'crm.account.price_tier',
+        objectType: 'CrmAccount',
+        objectId: account.id,
+        source: 'api',
+        previousValues: { priceTier: account.priceTier },
+        newValues: { priceTier: tier },
+      });
+      return { accountId: account.id, priceTier: tier };
+    });
+  }
+
   /** Emits customer.approved when an account is (re)activated — reserved for onboarding flows. */
   protected async emitCustomerApproved(accountId: string, ctx: RequestContext): Promise<void> {
     await this.prisma.$transaction(async (tx) => {

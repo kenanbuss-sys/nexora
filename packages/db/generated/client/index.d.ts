@@ -78384,6 +78384,7 @@ export namespace Prisma {
     creditHold: boolean | null
     paymentTermsDays: number | null
     territoryId: string | null
+    priceTier: string | null
     status: $Enums.CrmAccountStatus | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -78399,6 +78400,7 @@ export namespace Prisma {
     creditHold: boolean | null
     paymentTermsDays: number | null
     territoryId: string | null
+    priceTier: string | null
     status: $Enums.CrmAccountStatus | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -78415,6 +78417,7 @@ export namespace Prisma {
     paymentTermsDays: number
     tags: number
     territoryId: number
+    priceTier: number
     status: number
     createdAt: number
     updatedAt: number
@@ -78442,6 +78445,7 @@ export namespace Prisma {
     creditHold?: true
     paymentTermsDays?: true
     territoryId?: true
+    priceTier?: true
     status?: true
     createdAt?: true
     updatedAt?: true
@@ -78457,6 +78461,7 @@ export namespace Prisma {
     creditHold?: true
     paymentTermsDays?: true
     territoryId?: true
+    priceTier?: true
     status?: true
     createdAt?: true
     updatedAt?: true
@@ -78473,6 +78478,7 @@ export namespace Prisma {
     paymentTermsDays?: true
     tags?: true
     territoryId?: true
+    priceTier?: true
     status?: true
     createdAt?: true
     updatedAt?: true
@@ -78576,6 +78582,7 @@ export namespace Prisma {
     paymentTermsDays: number | null
     tags: string[]
     territoryId: string | null
+    priceTier: string | null
     status: $Enums.CrmAccountStatus
     createdAt: Date
     updatedAt: Date
@@ -78611,6 +78618,7 @@ export namespace Prisma {
     paymentTermsDays?: boolean
     tags?: boolean
     territoryId?: boolean
+    priceTier?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -78628,6 +78636,7 @@ export namespace Prisma {
     paymentTermsDays?: boolean
     tags?: boolean
     territoryId?: boolean
+    priceTier?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -78645,6 +78654,7 @@ export namespace Prisma {
     paymentTermsDays?: boolean
     tags?: boolean
     territoryId?: boolean
+    priceTier?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -78662,12 +78672,13 @@ export namespace Prisma {
     paymentTermsDays?: boolean
     tags?: boolean
     territoryId?: boolean
+    priceTier?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type CrmAccountOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "partyId" | "accountNumber" | "ownerUserId" | "creditLimit" | "creditHold" | "paymentTermsDays" | "tags" | "territoryId" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["crmAccount"]>
+  export type CrmAccountOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "partyId" | "accountNumber" | "ownerUserId" | "creditLimit" | "creditHold" | "paymentTermsDays" | "tags" | "territoryId" | "priceTier" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["crmAccount"]>
   export type CrmAccountInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
   }
@@ -78700,6 +78711,10 @@ export namespace Prisma {
        * Sprint 042 (CRM-005): sales territory assignment.
        */
       territoryId: string | null
+      /**
+       * Sprint 247: customer price tier (discount level), e.g. A, B, VELEPRODAJA.
+       */
+      priceTier: string | null
       status: $Enums.CrmAccountStatus
       createdAt: Date
       updatedAt: Date
@@ -79137,6 +79152,7 @@ export namespace Prisma {
     readonly paymentTermsDays: FieldRef<"CrmAccount", 'Int'>
     readonly tags: FieldRef<"CrmAccount", 'String[]'>
     readonly territoryId: FieldRef<"CrmAccount", 'String'>
+    readonly priceTier: FieldRef<"CrmAccount", 'String'>
     readonly status: FieldRef<"CrmAccount", 'CrmAccountStatus'>
     readonly createdAt: FieldRef<"CrmAccount", 'DateTime'>
     readonly updatedAt: FieldRef<"CrmAccount", 'DateTime'>
@@ -90117,6 +90133,7 @@ export namespace Prisma {
     discountPct: number
     netUnitPrice: number
     lineTotal: number
+    spec: number
     _all: number
   }
 
@@ -90174,6 +90191,7 @@ export namespace Prisma {
     discountPct?: true
     netUnitPrice?: true
     lineTotal?: true
+    spec?: true
     _all?: true
   }
 
@@ -90274,6 +90292,7 @@ export namespace Prisma {
     discountPct: Decimal
     netUnitPrice: Decimal
     lineTotal: Decimal
+    spec: JsonValue | null
     _count: QuoteLineCountAggregateOutputType | null
     _avg: QuoteLineAvgAggregateOutputType | null
     _sum: QuoteLineSumAggregateOutputType | null
@@ -90306,6 +90325,7 @@ export namespace Prisma {
     discountPct?: boolean
     netUnitPrice?: boolean
     lineTotal?: boolean
+    spec?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     quote?: boolean | QuoteDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["quoteLine"]>
@@ -90321,6 +90341,7 @@ export namespace Prisma {
     discountPct?: boolean
     netUnitPrice?: boolean
     lineTotal?: boolean
+    spec?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     quote?: boolean | QuoteDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["quoteLine"]>
@@ -90336,6 +90357,7 @@ export namespace Prisma {
     discountPct?: boolean
     netUnitPrice?: boolean
     lineTotal?: boolean
+    spec?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     quote?: boolean | QuoteDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["quoteLine"]>
@@ -90351,9 +90373,10 @@ export namespace Prisma {
     discountPct?: boolean
     netUnitPrice?: boolean
     lineTotal?: boolean
+    spec?: boolean
   }
 
-  export type QuoteLineOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "quoteId" | "skuId" | "description" | "quantity" | "listUnitPrice" | "discountPct" | "netUnitPrice" | "lineTotal", ExtArgs["result"]["quoteLine"]>
+  export type QuoteLineOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "quoteId" | "skuId" | "description" | "quantity" | "listUnitPrice" | "discountPct" | "netUnitPrice" | "lineTotal" | "spec", ExtArgs["result"]["quoteLine"]>
   export type QuoteLineInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     quote?: boolean | QuoteDefaultArgs<ExtArgs>
@@ -90384,6 +90407,10 @@ export namespace Prisma {
       discountPct: Prisma.Decimal
       netUnitPrice: Prisma.Decimal
       lineTotal: Prisma.Decimal
+      /**
+       * Sprint 247 (CPQ made-to-measure): dimensions + price breakdown snapshot.
+       */
+      spec: Prisma.JsonValue | null
     }, ExtArgs["result"]["quoteLine"]>
     composites: {}
   }
@@ -90819,6 +90846,7 @@ export namespace Prisma {
     readonly discountPct: FieldRef<"QuoteLine", 'Decimal'>
     readonly netUnitPrice: FieldRef<"QuoteLine", 'Decimal'>
     readonly lineTotal: FieldRef<"QuoteLine", 'Decimal'>
+    readonly spec: FieldRef<"QuoteLine", 'Json'>
   }
     
 
@@ -92654,6 +92682,7 @@ export namespace Prisma {
     reservationId: number
     backordered: number
     fulfilledQty: number
+    spec: number
     promisedAt: number
     _all: number
   }
@@ -92715,6 +92744,7 @@ export namespace Prisma {
     reservationId?: true
     backordered?: true
     fulfilledQty?: true
+    spec?: true
     promisedAt?: true
     _all?: true
   }
@@ -92817,6 +92847,7 @@ export namespace Prisma {
     reservationId: string | null
     backordered: boolean
     fulfilledQty: Decimal
+    spec: JsonValue | null
     promisedAt: Date | null
     _count: SalesOrderLineCountAggregateOutputType | null
     _avg: SalesOrderLineAvgAggregateOutputType | null
@@ -92851,6 +92882,7 @@ export namespace Prisma {
     reservationId?: boolean
     backordered?: boolean
     fulfilledQty?: boolean
+    spec?: boolean
     promisedAt?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     order?: boolean | SalesOrderDefaultArgs<ExtArgs>
@@ -92868,6 +92900,7 @@ export namespace Prisma {
     reservationId?: boolean
     backordered?: boolean
     fulfilledQty?: boolean
+    spec?: boolean
     promisedAt?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     order?: boolean | SalesOrderDefaultArgs<ExtArgs>
@@ -92885,6 +92918,7 @@ export namespace Prisma {
     reservationId?: boolean
     backordered?: boolean
     fulfilledQty?: boolean
+    spec?: boolean
     promisedAt?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     order?: boolean | SalesOrderDefaultArgs<ExtArgs>
@@ -92902,10 +92936,11 @@ export namespace Prisma {
     reservationId?: boolean
     backordered?: boolean
     fulfilledQty?: boolean
+    spec?: boolean
     promisedAt?: boolean
   }
 
-  export type SalesOrderLineOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "orderId" | "skuId" | "description" | "quantity" | "unitPrice" | "lineTotal" | "reservationId" | "backordered" | "fulfilledQty" | "promisedAt", ExtArgs["result"]["salesOrderLine"]>
+  export type SalesOrderLineOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "orderId" | "skuId" | "description" | "quantity" | "unitPrice" | "lineTotal" | "reservationId" | "backordered" | "fulfilledQty" | "spec" | "promisedAt", ExtArgs["result"]["salesOrderLine"]>
   export type SalesOrderLineInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     order?: boolean | SalesOrderDefaultArgs<ExtArgs>
@@ -92943,6 +92978,10 @@ export namespace Prisma {
        * Sprint 102 (OMS-005): shipped so far — split fulfillment.
        */
       fulfilledQty: Prisma.Decimal
+      /**
+       * Sprint 247: made-to-measure spec copied from the quote line.
+       */
+      spec: Prisma.JsonValue | null
       /**
        * Sprint 244 (PLAN-015): committed line promise date.
        */
@@ -93383,6 +93422,7 @@ export namespace Prisma {
     readonly reservationId: FieldRef<"SalesOrderLine", 'String'>
     readonly backordered: FieldRef<"SalesOrderLine", 'Boolean'>
     readonly fulfilledQty: FieldRef<"SalesOrderLine", 'Decimal'>
+    readonly spec: FieldRef<"SalesOrderLine", 'Json'>
     readonly promisedAt: FieldRef<"SalesOrderLine", 'DateTime'>
   }
     
@@ -224057,6 +224097,7 @@ export namespace Prisma {
     paymentTermsDays: 'paymentTermsDays',
     tags: 'tags',
     territoryId: 'territoryId',
+    priceTier: 'priceTier',
     status: 'status',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -224225,7 +224266,8 @@ export namespace Prisma {
     listUnitPrice: 'listUnitPrice',
     discountPct: 'discountPct',
     netUnitPrice: 'netUnitPrice',
-    lineTotal: 'lineTotal'
+    lineTotal: 'lineTotal',
+    spec: 'spec'
   };
 
   export type QuoteLineScalarFieldEnum = (typeof QuoteLineScalarFieldEnum)[keyof typeof QuoteLineScalarFieldEnum]
@@ -224268,6 +224310,7 @@ export namespace Prisma {
     reservationId: 'reservationId',
     backordered: 'backordered',
     fulfilledQty: 'fulfilledQty',
+    spec: 'spec',
     promisedAt: 'promisedAt'
   };
 
@@ -231225,6 +231268,7 @@ export namespace Prisma {
     paymentTermsDays?: IntNullableFilter<"CrmAccount"> | number | null
     tags?: StringNullableListFilter<"CrmAccount">
     territoryId?: UuidNullableFilter<"CrmAccount"> | string | null
+    priceTier?: StringNullableFilter<"CrmAccount"> | string | null
     status?: EnumCrmAccountStatusFilter<"CrmAccount"> | $Enums.CrmAccountStatus
     createdAt?: DateTimeFilter<"CrmAccount"> | Date | string
     updatedAt?: DateTimeFilter<"CrmAccount"> | Date | string
@@ -231242,6 +231286,7 @@ export namespace Prisma {
     paymentTermsDays?: SortOrderInput | SortOrder
     tags?: SortOrder
     territoryId?: SortOrderInput | SortOrder
+    priceTier?: SortOrderInput | SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -231264,6 +231309,7 @@ export namespace Prisma {
     paymentTermsDays?: IntNullableFilter<"CrmAccount"> | number | null
     tags?: StringNullableListFilter<"CrmAccount">
     territoryId?: UuidNullableFilter<"CrmAccount"> | string | null
+    priceTier?: StringNullableFilter<"CrmAccount"> | string | null
     status?: EnumCrmAccountStatusFilter<"CrmAccount"> | $Enums.CrmAccountStatus
     createdAt?: DateTimeFilter<"CrmAccount"> | Date | string
     updatedAt?: DateTimeFilter<"CrmAccount"> | Date | string
@@ -231281,6 +231327,7 @@ export namespace Prisma {
     paymentTermsDays?: SortOrderInput | SortOrder
     tags?: SortOrder
     territoryId?: SortOrderInput | SortOrder
+    priceTier?: SortOrderInput | SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -231305,6 +231352,7 @@ export namespace Prisma {
     paymentTermsDays?: IntNullableWithAggregatesFilter<"CrmAccount"> | number | null
     tags?: StringNullableListFilter<"CrmAccount">
     territoryId?: UuidNullableWithAggregatesFilter<"CrmAccount"> | string | null
+    priceTier?: StringNullableWithAggregatesFilter<"CrmAccount"> | string | null
     status?: EnumCrmAccountStatusWithAggregatesFilter<"CrmAccount"> | $Enums.CrmAccountStatus
     createdAt?: DateTimeWithAggregatesFilter<"CrmAccount"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"CrmAccount"> | Date | string
@@ -232104,6 +232152,7 @@ export namespace Prisma {
     discountPct?: DecimalFilter<"QuoteLine"> | Decimal | DecimalJsLike | number | string
     netUnitPrice?: DecimalFilter<"QuoteLine"> | Decimal | DecimalJsLike | number | string
     lineTotal?: DecimalFilter<"QuoteLine"> | Decimal | DecimalJsLike | number | string
+    spec?: JsonNullableFilter<"QuoteLine">
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
     quote?: XOR<QuoteScalarRelationFilter, QuoteWhereInput>
   }
@@ -232119,6 +232168,7 @@ export namespace Prisma {
     discountPct?: SortOrder
     netUnitPrice?: SortOrder
     lineTotal?: SortOrder
+    spec?: SortOrderInput | SortOrder
     tenant?: TenantOrderByWithRelationInput
     quote?: QuoteOrderByWithRelationInput
   }
@@ -232137,6 +232187,7 @@ export namespace Prisma {
     discountPct?: DecimalFilter<"QuoteLine"> | Decimal | DecimalJsLike | number | string
     netUnitPrice?: DecimalFilter<"QuoteLine"> | Decimal | DecimalJsLike | number | string
     lineTotal?: DecimalFilter<"QuoteLine"> | Decimal | DecimalJsLike | number | string
+    spec?: JsonNullableFilter<"QuoteLine">
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
     quote?: XOR<QuoteScalarRelationFilter, QuoteWhereInput>
   }, "id">
@@ -232152,6 +232203,7 @@ export namespace Prisma {
     discountPct?: SortOrder
     netUnitPrice?: SortOrder
     lineTotal?: SortOrder
+    spec?: SortOrderInput | SortOrder
     _count?: QuoteLineCountOrderByAggregateInput
     _avg?: QuoteLineAvgOrderByAggregateInput
     _max?: QuoteLineMaxOrderByAggregateInput
@@ -232173,6 +232225,7 @@ export namespace Prisma {
     discountPct?: DecimalWithAggregatesFilter<"QuoteLine"> | Decimal | DecimalJsLike | number | string
     netUnitPrice?: DecimalWithAggregatesFilter<"QuoteLine"> | Decimal | DecimalJsLike | number | string
     lineTotal?: DecimalWithAggregatesFilter<"QuoteLine"> | Decimal | DecimalJsLike | number | string
+    spec?: JsonNullableWithAggregatesFilter<"QuoteLine">
   }
 
   export type SalesOrderWhereInput = {
@@ -232325,6 +232378,7 @@ export namespace Prisma {
     reservationId?: UuidNullableFilter<"SalesOrderLine"> | string | null
     backordered?: BoolFilter<"SalesOrderLine"> | boolean
     fulfilledQty?: DecimalFilter<"SalesOrderLine"> | Decimal | DecimalJsLike | number | string
+    spec?: JsonNullableFilter<"SalesOrderLine">
     promisedAt?: DateTimeNullableFilter<"SalesOrderLine"> | Date | string | null
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
     order?: XOR<SalesOrderScalarRelationFilter, SalesOrderWhereInput>
@@ -232342,6 +232396,7 @@ export namespace Prisma {
     reservationId?: SortOrderInput | SortOrder
     backordered?: SortOrder
     fulfilledQty?: SortOrder
+    spec?: SortOrderInput | SortOrder
     promisedAt?: SortOrderInput | SortOrder
     tenant?: TenantOrderByWithRelationInput
     order?: SalesOrderOrderByWithRelationInput
@@ -232362,6 +232417,7 @@ export namespace Prisma {
     reservationId?: UuidNullableFilter<"SalesOrderLine"> | string | null
     backordered?: BoolFilter<"SalesOrderLine"> | boolean
     fulfilledQty?: DecimalFilter<"SalesOrderLine"> | Decimal | DecimalJsLike | number | string
+    spec?: JsonNullableFilter<"SalesOrderLine">
     promisedAt?: DateTimeNullableFilter<"SalesOrderLine"> | Date | string | null
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
     order?: XOR<SalesOrderScalarRelationFilter, SalesOrderWhereInput>
@@ -232379,6 +232435,7 @@ export namespace Prisma {
     reservationId?: SortOrderInput | SortOrder
     backordered?: SortOrder
     fulfilledQty?: SortOrder
+    spec?: SortOrderInput | SortOrder
     promisedAt?: SortOrderInput | SortOrder
     _count?: SalesOrderLineCountOrderByAggregateInput
     _avg?: SalesOrderLineAvgOrderByAggregateInput
@@ -232402,6 +232459,7 @@ export namespace Prisma {
     reservationId?: UuidNullableWithAggregatesFilter<"SalesOrderLine"> | string | null
     backordered?: BoolWithAggregatesFilter<"SalesOrderLine"> | boolean
     fulfilledQty?: DecimalWithAggregatesFilter<"SalesOrderLine"> | Decimal | DecimalJsLike | number | string
+    spec?: JsonNullableWithAggregatesFilter<"SalesOrderLine">
     promisedAt?: DateTimeNullableWithAggregatesFilter<"SalesOrderLine"> | Date | string | null
   }
 
@@ -246329,6 +246387,7 @@ export namespace Prisma {
     paymentTermsDays?: number | null
     tags?: CrmAccountCreatetagsInput | string[]
     territoryId?: string | null
+    priceTier?: string | null
     status?: $Enums.CrmAccountStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -246346,6 +246405,7 @@ export namespace Prisma {
     paymentTermsDays?: number | null
     tags?: CrmAccountCreatetagsInput | string[]
     territoryId?: string | null
+    priceTier?: string | null
     status?: $Enums.CrmAccountStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -246361,6 +246421,7 @@ export namespace Prisma {
     paymentTermsDays?: NullableIntFieldUpdateOperationsInput | number | null
     tags?: CrmAccountUpdatetagsInput | string[]
     territoryId?: NullableStringFieldUpdateOperationsInput | string | null
+    priceTier?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCrmAccountStatusFieldUpdateOperationsInput | $Enums.CrmAccountStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -246378,6 +246439,7 @@ export namespace Prisma {
     paymentTermsDays?: NullableIntFieldUpdateOperationsInput | number | null
     tags?: CrmAccountUpdatetagsInput | string[]
     territoryId?: NullableStringFieldUpdateOperationsInput | string | null
+    priceTier?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCrmAccountStatusFieldUpdateOperationsInput | $Enums.CrmAccountStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -246394,6 +246456,7 @@ export namespace Prisma {
     paymentTermsDays?: number | null
     tags?: CrmAccountCreatetagsInput | string[]
     territoryId?: string | null
+    priceTier?: string | null
     status?: $Enums.CrmAccountStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -246409,6 +246472,7 @@ export namespace Prisma {
     paymentTermsDays?: NullableIntFieldUpdateOperationsInput | number | null
     tags?: CrmAccountUpdatetagsInput | string[]
     territoryId?: NullableStringFieldUpdateOperationsInput | string | null
+    priceTier?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCrmAccountStatusFieldUpdateOperationsInput | $Enums.CrmAccountStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -246425,6 +246489,7 @@ export namespace Prisma {
     paymentTermsDays?: NullableIntFieldUpdateOperationsInput | number | null
     tags?: CrmAccountUpdatetagsInput | string[]
     territoryId?: NullableStringFieldUpdateOperationsInput | string | null
+    priceTier?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCrmAccountStatusFieldUpdateOperationsInput | $Enums.CrmAccountStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -247297,6 +247362,7 @@ export namespace Prisma {
     discountPct?: Decimal | DecimalJsLike | number | string
     netUnitPrice: Decimal | DecimalJsLike | number | string
     lineTotal: Decimal | DecimalJsLike | number | string
+    spec?: NullableJsonNullValueInput | InputJsonValue
     tenant: TenantCreateNestedOneWithoutQuoteLinesInput
     quote: QuoteCreateNestedOneWithoutLinesInput
   }
@@ -247312,6 +247378,7 @@ export namespace Prisma {
     discountPct?: Decimal | DecimalJsLike | number | string
     netUnitPrice: Decimal | DecimalJsLike | number | string
     lineTotal: Decimal | DecimalJsLike | number | string
+    spec?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type QuoteLineUpdateInput = {
@@ -247323,6 +247390,7 @@ export namespace Prisma {
     discountPct?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     netUnitPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     lineTotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    spec?: NullableJsonNullValueInput | InputJsonValue
     tenant?: TenantUpdateOneRequiredWithoutQuoteLinesNestedInput
     quote?: QuoteUpdateOneRequiredWithoutLinesNestedInput
   }
@@ -247338,6 +247406,7 @@ export namespace Prisma {
     discountPct?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     netUnitPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     lineTotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    spec?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type QuoteLineCreateManyInput = {
@@ -247351,6 +247420,7 @@ export namespace Prisma {
     discountPct?: Decimal | DecimalJsLike | number | string
     netUnitPrice: Decimal | DecimalJsLike | number | string
     lineTotal: Decimal | DecimalJsLike | number | string
+    spec?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type QuoteLineUpdateManyMutationInput = {
@@ -247362,6 +247432,7 @@ export namespace Prisma {
     discountPct?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     netUnitPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     lineTotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    spec?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type QuoteLineUncheckedUpdateManyInput = {
@@ -247375,6 +247446,7 @@ export namespace Prisma {
     discountPct?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     netUnitPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     lineTotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    spec?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type SalesOrderCreateInput = {
@@ -247548,6 +247620,7 @@ export namespace Prisma {
     reservationId?: string | null
     backordered?: boolean
     fulfilledQty?: Decimal | DecimalJsLike | number | string
+    spec?: NullableJsonNullValueInput | InputJsonValue
     promisedAt?: Date | string | null
     tenant: TenantCreateNestedOneWithoutSalesOrderLinesInput
     order: SalesOrderCreateNestedOneWithoutLinesInput
@@ -247565,6 +247638,7 @@ export namespace Prisma {
     reservationId?: string | null
     backordered?: boolean
     fulfilledQty?: Decimal | DecimalJsLike | number | string
+    spec?: NullableJsonNullValueInput | InputJsonValue
     promisedAt?: Date | string | null
   }
 
@@ -247578,6 +247652,7 @@ export namespace Prisma {
     reservationId?: NullableStringFieldUpdateOperationsInput | string | null
     backordered?: BoolFieldUpdateOperationsInput | boolean
     fulfilledQty?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    spec?: NullableJsonNullValueInput | InputJsonValue
     promisedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tenant?: TenantUpdateOneRequiredWithoutSalesOrderLinesNestedInput
     order?: SalesOrderUpdateOneRequiredWithoutLinesNestedInput
@@ -247595,6 +247670,7 @@ export namespace Prisma {
     reservationId?: NullableStringFieldUpdateOperationsInput | string | null
     backordered?: BoolFieldUpdateOperationsInput | boolean
     fulfilledQty?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    spec?: NullableJsonNullValueInput | InputJsonValue
     promisedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
@@ -247610,6 +247686,7 @@ export namespace Prisma {
     reservationId?: string | null
     backordered?: boolean
     fulfilledQty?: Decimal | DecimalJsLike | number | string
+    spec?: NullableJsonNullValueInput | InputJsonValue
     promisedAt?: Date | string | null
   }
 
@@ -247623,6 +247700,7 @@ export namespace Prisma {
     reservationId?: NullableStringFieldUpdateOperationsInput | string | null
     backordered?: BoolFieldUpdateOperationsInput | boolean
     fulfilledQty?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    spec?: NullableJsonNullValueInput | InputJsonValue
     promisedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
@@ -247638,6 +247716,7 @@ export namespace Prisma {
     reservationId?: NullableStringFieldUpdateOperationsInput | string | null
     backordered?: BoolFieldUpdateOperationsInput | boolean
     fulfilledQty?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    spec?: NullableJsonNullValueInput | InputJsonValue
     promisedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
@@ -262364,6 +262443,7 @@ export namespace Prisma {
     paymentTermsDays?: SortOrder
     tags?: SortOrder
     territoryId?: SortOrder
+    priceTier?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -262384,6 +262464,7 @@ export namespace Prisma {
     creditHold?: SortOrder
     paymentTermsDays?: SortOrder
     territoryId?: SortOrder
+    priceTier?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -262399,6 +262480,7 @@ export namespace Prisma {
     creditHold?: SortOrder
     paymentTermsDays?: SortOrder
     territoryId?: SortOrder
+    priceTier?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -262987,6 +263069,7 @@ export namespace Prisma {
     discountPct?: SortOrder
     netUnitPrice?: SortOrder
     lineTotal?: SortOrder
+    spec?: SortOrder
   }
 
   export type QuoteLineAvgOrderByAggregateInput = {
@@ -263166,6 +263249,7 @@ export namespace Prisma {
     reservationId?: SortOrder
     backordered?: SortOrder
     fulfilledQty?: SortOrder
+    spec?: SortOrder
     promisedAt?: SortOrder
   }
 
@@ -285728,6 +285812,7 @@ export namespace Prisma {
     paymentTermsDays?: number | null
     tags?: CrmAccountCreatetagsInput | string[]
     territoryId?: string | null
+    priceTier?: string | null
     status?: $Enums.CrmAccountStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -285743,6 +285828,7 @@ export namespace Prisma {
     paymentTermsDays?: number | null
     tags?: CrmAccountCreatetagsInput | string[]
     territoryId?: string | null
+    priceTier?: string | null
     status?: $Enums.CrmAccountStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -285995,6 +286081,7 @@ export namespace Prisma {
     discountPct?: Decimal | DecimalJsLike | number | string
     netUnitPrice: Decimal | DecimalJsLike | number | string
     lineTotal: Decimal | DecimalJsLike | number | string
+    spec?: NullableJsonNullValueInput | InputJsonValue
     quote: QuoteCreateNestedOneWithoutLinesInput
   }
 
@@ -286008,6 +286095,7 @@ export namespace Prisma {
     discountPct?: Decimal | DecimalJsLike | number | string
     netUnitPrice: Decimal | DecimalJsLike | number | string
     lineTotal: Decimal | DecimalJsLike | number | string
+    spec?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type QuoteLineCreateOrConnectWithoutTenantInput = {
@@ -286086,6 +286174,7 @@ export namespace Prisma {
     reservationId?: string | null
     backordered?: boolean
     fulfilledQty?: Decimal | DecimalJsLike | number | string
+    spec?: NullableJsonNullValueInput | InputJsonValue
     promisedAt?: Date | string | null
     order: SalesOrderCreateNestedOneWithoutLinesInput
   }
@@ -286101,6 +286190,7 @@ export namespace Prisma {
     reservationId?: string | null
     backordered?: boolean
     fulfilledQty?: Decimal | DecimalJsLike | number | string
+    spec?: NullableJsonNullValueInput | InputJsonValue
     promisedAt?: Date | string | null
   }
 
@@ -291030,6 +291120,7 @@ export namespace Prisma {
     paymentTermsDays?: IntNullableFilter<"CrmAccount"> | number | null
     tags?: StringNullableListFilter<"CrmAccount">
     territoryId?: UuidNullableFilter<"CrmAccount"> | string | null
+    priceTier?: StringNullableFilter<"CrmAccount"> | string | null
     status?: EnumCrmAccountStatusFilter<"CrmAccount"> | $Enums.CrmAccountStatus
     createdAt?: DateTimeFilter<"CrmAccount"> | Date | string
     updatedAt?: DateTimeFilter<"CrmAccount"> | Date | string
@@ -291267,6 +291358,7 @@ export namespace Prisma {
     discountPct?: DecimalFilter<"QuoteLine"> | Decimal | DecimalJsLike | number | string
     netUnitPrice?: DecimalFilter<"QuoteLine"> | Decimal | DecimalJsLike | number | string
     lineTotal?: DecimalFilter<"QuoteLine"> | Decimal | DecimalJsLike | number | string
+    spec?: JsonNullableFilter<"QuoteLine">
   }
 
   export type SalesOrderUpsertWithWhereUniqueWithoutTenantInput = {
@@ -291341,6 +291433,7 @@ export namespace Prisma {
     reservationId?: UuidNullableFilter<"SalesOrderLine"> | string | null
     backordered?: BoolFilter<"SalesOrderLine"> | boolean
     fulfilledQty?: DecimalFilter<"SalesOrderLine"> | Decimal | DecimalJsLike | number | string
+    spec?: JsonNullableFilter<"SalesOrderLine">
     promisedAt?: DateTimeNullableFilter<"SalesOrderLine"> | Date | string | null
   }
 
@@ -326521,6 +326614,7 @@ export namespace Prisma {
     discountPct?: Decimal | DecimalJsLike | number | string
     netUnitPrice: Decimal | DecimalJsLike | number | string
     lineTotal: Decimal | DecimalJsLike | number | string
+    spec?: NullableJsonNullValueInput | InputJsonValue
     tenant: TenantCreateNestedOneWithoutQuoteLinesInput
   }
 
@@ -326534,6 +326628,7 @@ export namespace Prisma {
     discountPct?: Decimal | DecimalJsLike | number | string
     netUnitPrice: Decimal | DecimalJsLike | number | string
     lineTotal: Decimal | DecimalJsLike | number | string
+    spec?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type QuoteLineCreateOrConnectWithoutQuoteInput = {
@@ -330096,6 +330191,7 @@ export namespace Prisma {
     reservationId?: string | null
     backordered?: boolean
     fulfilledQty?: Decimal | DecimalJsLike | number | string
+    spec?: NullableJsonNullValueInput | InputJsonValue
     promisedAt?: Date | string | null
     tenant: TenantCreateNestedOneWithoutSalesOrderLinesInput
   }
@@ -330111,6 +330207,7 @@ export namespace Prisma {
     reservationId?: string | null
     backordered?: boolean
     fulfilledQty?: Decimal | DecimalJsLike | number | string
+    spec?: NullableJsonNullValueInput | InputJsonValue
     promisedAt?: Date | string | null
   }
 
@@ -406326,6 +406423,7 @@ export namespace Prisma {
     paymentTermsDays?: number | null
     tags?: CrmAccountCreatetagsInput | string[]
     territoryId?: string | null
+    priceTier?: string | null
     status?: $Enums.CrmAccountStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -406423,6 +406521,7 @@ export namespace Prisma {
     discountPct?: Decimal | DecimalJsLike | number | string
     netUnitPrice: Decimal | DecimalJsLike | number | string
     lineTotal: Decimal | DecimalJsLike | number | string
+    spec?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type SalesOrderCreateManyTenantInput = {
@@ -406457,6 +406556,7 @@ export namespace Prisma {
     reservationId?: string | null
     backordered?: boolean
     fulfilledQty?: Decimal | DecimalJsLike | number | string
+    spec?: NullableJsonNullValueInput | InputJsonValue
     promisedAt?: Date | string | null
   }
 
@@ -408824,6 +408924,7 @@ export namespace Prisma {
     paymentTermsDays?: NullableIntFieldUpdateOperationsInput | number | null
     tags?: CrmAccountUpdatetagsInput | string[]
     territoryId?: NullableStringFieldUpdateOperationsInput | string | null
+    priceTier?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCrmAccountStatusFieldUpdateOperationsInput | $Enums.CrmAccountStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -408839,6 +408940,7 @@ export namespace Prisma {
     paymentTermsDays?: NullableIntFieldUpdateOperationsInput | number | null
     tags?: CrmAccountUpdatetagsInput | string[]
     territoryId?: NullableStringFieldUpdateOperationsInput | string | null
+    priceTier?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCrmAccountStatusFieldUpdateOperationsInput | $Enums.CrmAccountStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -408854,6 +408956,7 @@ export namespace Prisma {
     paymentTermsDays?: NullableIntFieldUpdateOperationsInput | number | null
     tags?: CrmAccountUpdatetagsInput | string[]
     territoryId?: NullableStringFieldUpdateOperationsInput | string | null
+    priceTier?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCrmAccountStatusFieldUpdateOperationsInput | $Enums.CrmAccountStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -409118,6 +409221,7 @@ export namespace Prisma {
     discountPct?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     netUnitPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     lineTotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    spec?: NullableJsonNullValueInput | InputJsonValue
     quote?: QuoteUpdateOneRequiredWithoutLinesNestedInput
   }
 
@@ -409131,6 +409235,7 @@ export namespace Prisma {
     discountPct?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     netUnitPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     lineTotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    spec?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type QuoteLineUncheckedUpdateManyWithoutTenantInput = {
@@ -409143,6 +409248,7 @@ export namespace Prisma {
     discountPct?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     netUnitPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     lineTotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    spec?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type SalesOrderUpdateWithoutTenantInput = {
@@ -409222,6 +409328,7 @@ export namespace Prisma {
     reservationId?: NullableStringFieldUpdateOperationsInput | string | null
     backordered?: BoolFieldUpdateOperationsInput | boolean
     fulfilledQty?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    spec?: NullableJsonNullValueInput | InputJsonValue
     promisedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     order?: SalesOrderUpdateOneRequiredWithoutLinesNestedInput
   }
@@ -409237,6 +409344,7 @@ export namespace Prisma {
     reservationId?: NullableStringFieldUpdateOperationsInput | string | null
     backordered?: BoolFieldUpdateOperationsInput | boolean
     fulfilledQty?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    spec?: NullableJsonNullValueInput | InputJsonValue
     promisedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
@@ -409251,6 +409359,7 @@ export namespace Prisma {
     reservationId?: NullableStringFieldUpdateOperationsInput | string | null
     backordered?: BoolFieldUpdateOperationsInput | boolean
     fulfilledQty?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    spec?: NullableJsonNullValueInput | InputJsonValue
     promisedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
@@ -414832,6 +414941,7 @@ export namespace Prisma {
     discountPct?: Decimal | DecimalJsLike | number | string
     netUnitPrice: Decimal | DecimalJsLike | number | string
     lineTotal: Decimal | DecimalJsLike | number | string
+    spec?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type QuoteLineUpdateWithoutQuoteInput = {
@@ -414843,6 +414953,7 @@ export namespace Prisma {
     discountPct?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     netUnitPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     lineTotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    spec?: NullableJsonNullValueInput | InputJsonValue
     tenant?: TenantUpdateOneRequiredWithoutQuoteLinesNestedInput
   }
 
@@ -414856,6 +414967,7 @@ export namespace Prisma {
     discountPct?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     netUnitPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     lineTotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    spec?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type QuoteLineUncheckedUpdateManyWithoutQuoteInput = {
@@ -414868,6 +414980,7 @@ export namespace Prisma {
     discountPct?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     netUnitPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     lineTotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    spec?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type SalesOrderLineCreateManyOrderInput = {
@@ -414881,6 +414994,7 @@ export namespace Prisma {
     reservationId?: string | null
     backordered?: boolean
     fulfilledQty?: Decimal | DecimalJsLike | number | string
+    spec?: NullableJsonNullValueInput | InputJsonValue
     promisedAt?: Date | string | null
   }
 
@@ -414906,6 +415020,7 @@ export namespace Prisma {
     reservationId?: NullableStringFieldUpdateOperationsInput | string | null
     backordered?: BoolFieldUpdateOperationsInput | boolean
     fulfilledQty?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    spec?: NullableJsonNullValueInput | InputJsonValue
     promisedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tenant?: TenantUpdateOneRequiredWithoutSalesOrderLinesNestedInput
   }
@@ -414921,6 +415036,7 @@ export namespace Prisma {
     reservationId?: NullableStringFieldUpdateOperationsInput | string | null
     backordered?: BoolFieldUpdateOperationsInput | boolean
     fulfilledQty?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    spec?: NullableJsonNullValueInput | InputJsonValue
     promisedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
@@ -414935,6 +415051,7 @@ export namespace Prisma {
     reservationId?: NullableStringFieldUpdateOperationsInput | string | null
     backordered?: BoolFieldUpdateOperationsInput | boolean
     fulfilledQty?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    spec?: NullableJsonNullValueInput | InputJsonValue
     promisedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 

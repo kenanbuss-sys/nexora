@@ -666,6 +666,7 @@ exports.Prisma.CrmAccountScalarFieldEnum = {
   paymentTermsDays: 'paymentTermsDays',
   tags: 'tags',
   territoryId: 'territoryId',
+  priceTier: 'priceTier',
   status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -804,7 +805,8 @@ exports.Prisma.QuoteLineScalarFieldEnum = {
   listUnitPrice: 'listUnitPrice',
   discountPct: 'discountPct',
   netUnitPrice: 'netUnitPrice',
-  lineTotal: 'lineTotal'
+  lineTotal: 'lineTotal',
+  spec: 'spec'
 };
 
 exports.Prisma.SalesOrderScalarFieldEnum = {
@@ -841,6 +843,7 @@ exports.Prisma.SalesOrderLineScalarFieldEnum = {
   reservationId: 'reservationId',
   backordered: 'backordered',
   fulfilledQty: 'fulfilledQty',
+  spec: 'spec',
   promisedAt: 'promisedAt'
 };
 

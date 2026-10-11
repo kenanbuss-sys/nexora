@@ -119,6 +119,14 @@ export class CrmAccountsController {
     return this.customer360.customer360(id, ctx);
   }
 
+  /** Sprint 247: customer price tier for CPQ tier discounts. */
+  @Post(':id/price-tier')
+  @RequirePermission('crm.manage')
+  async setPriceTier(@Param('id') id: string, @Body() body: unknown, @Ctx() ctx: RequestContext) {
+    const input = parseBody(z.object({ priceTier: z.string().min(1).max(40).nullable() }), body);
+    return this.crm.setPriceTier(id, input.priceTier, ctx);
+  }
+
   @Post(':id/credit')
   @RequirePermission('crm.manage')
   async setCredit(@Param('id') id: string, @Body() body: unknown, @Ctx() ctx: RequestContext) {

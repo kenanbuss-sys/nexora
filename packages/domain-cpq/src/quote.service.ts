@@ -1,8 +1,9 @@
 import { writeAudit } from '@nexora/audit';
-import type { PrismaClient, QuoteStatus } from '@nexora/db';
+import type { Prisma, PrismaClient, QuoteStatus } from '@nexora/db';
 import { EVENT_TYPES, publishToOutbox } from '@nexora/events';
 import { DomainError, notFound } from '@nexora/kernel';
 import type { RequestContext } from '@nexora/tenancy';
+import { computeMeasured, parseMadeToMeasure, type MeasuredBreakdown } from './measured';
 import type { PricingService } from './pricing.service';
 
 /**
@@ -27,6 +28,8 @@ export interface QuoteLineView {
   discountPct: string;
   netUnitPrice: string;
   lineTotal: string;
+  /** Made-to-measure breakdown (Sprint 247); null for ordinary lines. */
+  spec: MeasuredBreakdown | null;
 }
 
 export interface QuoteView {
@@ -52,6 +55,13 @@ export interface AccountGate {
     tenantId: string,
     accountId: string,
   ): Promise<{ exists: boolean; active: boolean }>;
+  /** Sprint 247: customer price tier (null when none). */
+  getPriceTier?(tenantId: string, accountId: string): Promise<string | null>;
+}
+
+/** Sprint 247: versioned tenant configuration `cpq.madeToMeasure`. */
+export interface MadeToMeasureConfigGate {
+  getMadeToMeasure(tenantId: string): Promise<unknown>;
 }
 
 /** Cross-domain contract: approvals are owned by WF. */
@@ -107,6 +117,7 @@ function toView(quote: {
     discountPct: { toString(): string };
     netUnitPrice: { toString(): string };
     lineTotal: { toString(): string };
+    spec?: unknown;
   }>;
 }): QuoteView {
   return {
@@ -132,6 +143,7 @@ function toView(quote: {
       discountPct: l.discountPct.toString(),
       netUnitPrice: l.netUnitPrice.toString(),
       lineTotal: l.lineTotal.toString(),
+      spec: (l.spec as MeasuredBreakdown | null | undefined) ?? null,
     })),
   };
 }
@@ -163,7 +175,152 @@ export class QuoteService {
     private readonly discounts?: DiscountGate,
     private readonly costs?: CostGate,
     private readonly compatibility?: CompatibilityGate,
+    private readonly madeToMeasure?: MadeToMeasureConfigGate,
   ) {}
+
+  /**
+   * Made-to-measure line (CPQ, Sprint 247): dimensions + pieces, billed by
+   * the product's basis (m², m1, piece) with a minimum per piece, chosen
+   * surcharges (%, per piece, per unit) and installation. Discount: an
+   * explicit one wins; otherwise the better of the rule-based discount and
+   * the customer's price-tier discount. The breakdown is snapshot on the
+   * line. Only in DRAFT.
+   */
+  async addMeasuredLine(
+    input: {
+      quoteId: string;
+      skuId: string;
+      widthMm: number;
+      heightMm?: number | undefined;
+      pieces: number;
+      surchargeCodes?: string[] | undefined;
+      discountPct?: number | undefined;
+      note?: string | undefined;
+    },
+    ctx: RequestContext,
+  ): Promise<QuoteView> {
+    if (!this.madeToMeasure) {
+      throw new DomainError('INVALID_STATE', 'Made-to-measure pricing is not configured');
+    }
+    if (input.discountPct !== undefined && (input.discountPct < 0 || input.discountPct > 100)) {
+      throw new DomainError('VALIDATION_FAILED', 'Discount must be between 0 and 100');
+    }
+    const quote = await this.prisma.quote.findFirst({
+      where: { id: input.quoteId, tenantId: ctx.tenantId },
+    });
+    if (!quote) throw notFound('Quote', input.quoteId);
+    if (quote.status !== 'DRAFT') {
+      throw new DomainError('INVALID_STATE', 'Lines can only change while the quote is a draft');
+    }
+    const sku = await this.skus.getSkuInfo(ctx.tenantId, input.skuId);
+    if (!sku || !sku.exists) throw notFound('Sku', input.skuId);
+    if (!sku.active) throw new DomainError('INVALID_STATE', 'SKU is not active');
+    const config = parseMadeToMeasure(await this.madeToMeasure.getMadeToMeasure(ctx.tenantId));
+    const rule = config.products.get(sku.code);
+    if (!rule) {
+      throw new DomainError(
+        'VALIDATION_FAILED',
+        `${sku.code} is not configured for made-to-measure pricing`,
+      );
+    }
+    // Billable quantity first (it selects the price tier of the list).
+    const probe = computeMeasured(
+      rule,
+      config,
+      {
+        widthMm: input.widthMm,
+        heightMm: input.heightMm,
+        pieces: input.pieces,
+        surchargeCodes: input.surchargeCodes ?? [],
+      },
+      0,
+      { pct: 0, source: 'NONE' },
+    );
+    const { unitPrice } = await this.pricing.resolvePrice(
+      quote.priceListId,
+      input.skuId,
+      probe.billableQuantity,
+      ctx,
+    );
+    let discount: { pct: number; source: MeasuredBreakdown['discountSource'] } = {
+      pct: 0,
+      source: 'NONE',
+    };
+    if (input.discountPct !== undefined) {
+      discount = { pct: input.discountPct, source: 'EXPLICIT' };
+    } else {
+      const ruleBased = this.discounts
+        ? await this.discounts.bestDiscount(
+            ctx.tenantId,
+            quote.accountId,
+            input.skuId,
+            probe.billableQuantity,
+          )
+        : null;
+      const tier = this.accounts.getPriceTier
+        ? await this.accounts.getPriceTier(ctx.tenantId, quote.accountId)
+        : null;
+      const tierPct = tier ? (config.tierDiscounts.get(tier) ?? 0) : 0;
+      if (ruleBased && ruleBased.percentage >= tierPct) {
+        discount = { pct: ruleBased.percentage, source: 'RULE' };
+      } else if (tierPct > 0) {
+        discount = { pct: tierPct, source: 'TIER' };
+      }
+    }
+    const breakdown = computeMeasured(
+      rule,
+      config,
+      {
+        widthMm: input.widthMm,
+        heightMm: input.heightMm,
+        pieces: input.pieces,
+        surchargeCodes: input.surchargeCodes ?? [],
+      },
+      Number(unitPrice),
+      discount,
+    );
+    // Cost floor (CPQ-010) on the discounted unit price of the goods.
+    if (this.costs) {
+      const cost = await this.costs.getStandardCost(ctx.tenantId, input.skuId);
+      if (cost !== null && cost > 0) {
+        const minMarginPct = await this.costs.getMinMarginPct(ctx.tenantId);
+        const floor = Math.round(cost * (1 + minMarginPct / 100) * 10000) / 10000;
+        const netUnit = Number(unitPrice) * (1 - discount.pct / 100);
+        if (netUnit < floor - 1e-9) {
+          throw new DomainError(
+            'INVALID_STATE',
+            `Net price ${netUnit} is below the cost floor ${floor} (cost ${cost} + ${minMarginPct}% margin)`,
+          );
+        }
+      }
+    }
+    const dims =
+      breakdown.basis === 'AREA'
+        ? `${breakdown.widthMm}×${breakdown.heightMm} mm`
+        : breakdown.basis === 'LENGTH'
+          ? `${breakdown.widthMm} mm`
+          : `${breakdown.pieces} kom`;
+    const note = input.note?.trim().slice(0, 200);
+    await this.prisma.quoteLine.create({
+      data: {
+        tenantId: ctx.tenantId,
+        quoteId: quote.id,
+        skuId: input.skuId,
+        description: `${sku.code} — ${sku.name} (${dims}, ${breakdown.pieces} kom)${note ? ` — ${note}` : ''}`,
+        quantity: breakdown.billableQuantity,
+        listUnitPrice: breakdown.unitPrice,
+        discountPct: discount.pct,
+        netUnitPrice:
+          breakdown.billableQuantity > 0
+            ? Math.round((breakdown.total / breakdown.billableQuantity) * 10000) / 10000
+            : 0,
+        lineTotal: breakdown.total,
+        spec: { ...breakdown, ...(note ? { note } : {}) } as unknown as Prisma.InputJsonValue,
+      },
+    });
+    await this.recomputeTotals(quote.id, ctx);
+    return this.getQuote(quote.id, ctx);
+  }
 
   async listQuotes(
     filter: { accountId?: string | undefined; status?: QuoteStatus | undefined },
@@ -374,7 +531,17 @@ export class QuoteService {
     if (quote.lines.length === 0) {
       throw new DomainError('VALIDATION_FAILED', 'A quote needs at least one line');
     }
-    const maxDiscount = Math.max(...quote.lines.map((l) => Number(l.discountPct)));
+    // Governed discounts (customer tier / discount rules on made-to-measure
+    // lines) are policy, not a salesperson's choice — they need no approval.
+    const maxDiscount = Math.max(
+      0,
+      ...quote.lines
+        .filter((l) => {
+          const source = (l.spec as { discountSource?: string } | null)?.discountSource;
+          return source !== 'TIER' && source !== 'RULE';
+        })
+        .map((l) => Number(l.discountPct)),
+    );
     const needsApproval = maxDiscount > DISCOUNT_APPROVAL_THRESHOLD_PCT;
 
     if (needsApproval) {
@@ -523,7 +690,12 @@ export class QuoteService {
     let subtotal = 0;
     let total = 0;
     for (const line of lines) {
-      subtotal += Number(line.listUnitPrice) * Number(line.quantity);
+      // Made-to-measure lines carry their gross (before discount) in the spec.
+      const spec = line.spec as { goodsGross?: number; installationGross?: number } | null;
+      subtotal +=
+        spec && typeof spec.goodsGross === 'number'
+          ? spec.goodsGross + (spec.installationGross ?? 0)
+          : Number(line.listUnitPrice) * Number(line.quantity);
       total += Number(line.lineTotal);
     }
     subtotal = Math.round(subtotal * 100) / 100;

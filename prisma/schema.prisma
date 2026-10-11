@@ -1271,6 +1271,8 @@ model CrmAccount {
   tags             String[]         @default([])
   /// Sprint 042 (CRM-005): sales territory assignment.
   territoryId      String?          @map("territory_id") @db.Uuid
+  /// Sprint 247: customer price tier (discount level), e.g. A, B, VELEPRODAJA.
+  priceTier        String?          @map("price_tier")
   status           CrmAccountStatus @default(ACTIVE)
   createdAt        DateTime         @default(now()) @map("created_at")
   updatedAt        DateTime         @updatedAt @map("updated_at")
@@ -1529,6 +1531,8 @@ model QuoteLine {
   discountPct   Decimal @default(0) @map("discount_pct") @db.Decimal(5, 2)
   netUnitPrice  Decimal @map("net_unit_price") @db.Decimal(18, 4)
   lineTotal     Decimal @map("line_total") @db.Decimal(18, 2)
+  /// Sprint 247 (CPQ made-to-measure): dimensions + price breakdown snapshot.
+  spec          Json?
 
   tenant Tenant @relation(fields: [tenantId], references: [id])
   quote  Quote  @relation(fields: [quoteId], references: [id])
@@ -1606,6 +1610,8 @@ model SalesOrderLine {
   backordered   Boolean   @default(false)
   /// Sprint 102 (OMS-005): shipped so far — split fulfillment.
   fulfilledQty  Decimal   @default(0) @map("fulfilled_qty") @db.Decimal(18, 6)
+  /// Sprint 247: made-to-measure spec copied from the quote line.
+  spec          Json?
   /// Sprint 244 (PLAN-015): committed line promise date.
   promisedAt    DateTime? @map("promised_at")
 
