@@ -103,6 +103,13 @@ export class ProductsController {
     return { products: await this.catalog.searchCatalog(q ?? '', ctx) };
   }
 
+  /** MDM-002: publish readiness checklist under the tenant's publish policy. */
+  @Get(':id/readiness')
+  @RequirePermission('product.read')
+  async readiness(@Param('id') id: string, @Ctx() ctx: RequestContext) {
+    return this.catalog.publishReadiness(id, ctx);
+  }
+
   @Get(':id')
   @RequirePermission('product.read')
   async get(@Param('id') id: string, @Ctx() ctx: RequestContext) {

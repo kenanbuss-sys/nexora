@@ -83,9 +83,14 @@ export class MasterDataApprovalService {
   async listRequests(
     status: MasterDataRequestStatus | undefined,
     ctx: RequestContext,
+    entity?: { entityType: string; entityId: string } | undefined,
   ): Promise<ChangeRequestView[]> {
     const rows = await this.prisma.masterDataRequest.findMany({
-      where: { tenantId: ctx.tenantId, ...(status ? { status } : {}) },
+      where: {
+        tenantId: ctx.tenantId,
+        ...(status ? { status } : {}),
+        ...(entity ? { entityType: entity.entityType, entityId: entity.entityId } : {}),
+      },
       orderBy: [{ createdAt: 'desc' }],
       take: 100,
     });

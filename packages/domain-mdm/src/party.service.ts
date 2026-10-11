@@ -20,6 +20,38 @@ export interface PartyView {
   mergedIntoId: string | null;
 }
 
+export type DuplicateReason = 'NAME' | 'TAX_ID' | 'EMAIL';
+
+export interface DuplicateCandidateGroup {
+  reason: DuplicateReason;
+  key: string;
+  parties: PartyView[];
+}
+
+/** Golden-record fields a steward may take over from the merged duplicate. */
+export type MergeField = 'name' | 'email' | 'taxId';
+export const MERGE_FIELDS: MergeField[] = ['name', 'email', 'taxId'];
+
+export interface MergePreview {
+  winner: PartyView;
+  loser: PartyView;
+  differences: Array<{ field: MergeField; winner: string | null; loser: string | null }>;
+  moves: { externalIdentities: number; redirects: number };
+  stays: { consents: number };
+  blockers: string[];
+}
+
+function orderPair(a: string, b: string): [string, string] {
+  return a < b ? [a, b] : [b, a];
+}
+
+function pick(
+  p: { name: string; email: string | null; taxId: string | null },
+  fields: MergeField[],
+): Record<string, string | null> {
+  return Object.fromEntries(fields.map((f) => [f, p[f]]));
+}
+
 export function normalizeName(name: string): string {
   return name.trim().toLowerCase().replace(/\s+/g, ' ');
 }
@@ -273,29 +305,248 @@ export class PartyService {
   }
 
   /**
-   * Merge loser into winner. The loser becomes MERGED with a preserved
-   * redirect; external identities move to the winner. Permission: mdm.merge.
+   * Duplicate candidates (MDM-005) with match reasons, computed in SQL so
+   * the normalisation has one definition:
+   * - NAME: lower-cased name without punctuation and legal-form suffixes
+   *   (d.o.o., d.d., s.p., ltd, gmbh, ...);
+   * - TAX_ID: tax/registration number without separators;
+   * - EMAIL: lower-cased e-mail.
+   * Groups whose every pair a steward dismissed are hidden.
    */
-  async mergeParty(winnerId: string, loserId: string, ctx: RequestContext): Promise<PartyView> {
+  async duplicateCandidates(ctx: RequestContext): Promise<DuplicateCandidateGroup[]> {
+    const rows = await this.prisma.$queryRaw<
+      Array<{ reason: DuplicateReason; key: string; ids: string[] }>
+    >`
+      WITH p AS (
+        SELECT id, name, email, tax_id,
+          btrim(regexp_replace(regexp_replace(
+            regexp_replace(lower(name), '[^[:alnum:]]+', ' ', 'g'),
+            '(^| )(d o o|doo|d d|dd|s p|sp|j d o o|ad|a d|ltd|llc|inc|gmbh|ag|sa|srl|spa|bv|plc)( |$)',
+            ' ', 'g'), ' +', ' ', 'g')) AS name_key,
+          upper(regexp_replace(coalesce(tax_id, ''), '[^[:alnum:]]', '', 'g')) AS tax_key,
+          lower(btrim(coalesce(email, ''))) AS email_key
+        FROM party
+        WHERE tenant_id = ${ctx.tenantId}::uuid AND status = 'ACTIVE'
+      )
+      SELECT 'NAME' AS reason, name_key AS key, array_agg(id::text ORDER BY id) AS ids
+        FROM p WHERE name_key <> '' GROUP BY name_key HAVING count(*) > 1
+      UNION ALL
+      SELECT 'TAX_ID', tax_key, array_agg(id::text ORDER BY id)
+        FROM p WHERE length(tax_key) >= 4 GROUP BY tax_key HAVING count(*) > 1
+      UNION ALL
+      SELECT 'EMAIL', email_key, array_agg(id::text ORDER BY id)
+        FROM p WHERE email_key <> '' GROUP BY email_key HAVING count(*) > 1
+      ORDER BY 1, 2
+      LIMIT 300
+    `;
+    if (rows.length === 0) return [];
+    const ids = [...new Set(rows.flatMap((r) => r.ids))];
+    const [parties, dismissals] = await Promise.all([
+      this.prisma.party.findMany({ where: { tenantId: ctx.tenantId, id: { in: ids } } }),
+      this.prisma.mdmDuplicateDismissal.findMany({
+        where: { tenantId: ctx.tenantId, entityType: 'party', aId: { in: ids } },
+        select: { aId: true, bId: true },
+      }),
+    ]);
+    const dismissed = new Set(dismissals.map((d) => `${d.aId}|${d.bId}`));
+    const byId = new Map(parties.map((p) => [p.id, p]));
+    const groups: DuplicateCandidateGroup[] = [];
+    for (const row of rows) {
+      let open = false;
+      for (let i = 0; i < row.ids.length && !open; i += 1) {
+        for (let j = i + 1; j < row.ids.length; j += 1) {
+          const [a, b] = orderPair(row.ids[i]!, row.ids[j]!);
+          if (!dismissed.has(`${a}|${b}`)) {
+            open = true;
+            break;
+          }
+        }
+      }
+      if (!open) continue;
+      groups.push({
+        reason: row.reason,
+        key: row.key,
+        parties: row.ids
+          .map((id) => byId.get(id))
+          .filter((p): p is NonNullable<typeof p> => !!p)
+          .map((p) => toView(p)),
+      });
+    }
+    return groups;
+  }
+
+  /** Permission: mdm.steward. Records "not a duplicate" for a pair (audited, idempotent). */
+  async dismissDuplicate(
+    input: { partyAId: string; partyBId: string; note?: string | undefined },
+    ctx: RequestContext,
+  ): Promise<{ ok: true; duplicate: boolean }> {
+    if (!ctx.userId) {
+      throw new DomainError('FORBIDDEN', 'A user session is required for steward decisions');
+    }
+    if (input.partyAId === input.partyBId) {
+      throw new DomainError('VALIDATION_FAILED', 'A pair needs two different parties');
+    }
+    const [aId, bId] = orderPair(input.partyAId.toLowerCase(), input.partyBId.toLowerCase());
+    const found = await this.prisma.party.count({
+      where: { tenantId: ctx.tenantId, id: { in: [aId, bId] } },
+    });
+    if (found !== 2) throw notFound('Party', `${aId},${bId}`);
+    try {
+      return await this.prisma.$transaction(async (tx) => {
+        const existing = await tx.mdmDuplicateDismissal.findUnique({
+          where: {
+            tenantId_entityType_aId_bId: { tenantId: ctx.tenantId, entityType: 'party', aId, bId },
+          },
+        });
+        if (existing) return { ok: true as const, duplicate: true };
+        const created = await tx.mdmDuplicateDismissal.create({
+          data: {
+            tenantId: ctx.tenantId,
+            entityType: 'party',
+            aId,
+            bId,
+            note: input.note?.trim() || null,
+            dismissedBy: ctx.userId!,
+          },
+        });
+        await writeAudit(tx, {
+          tenantId: ctx.tenantId,
+          actorType: ctx.actorType,
+          actorId: ctx.userId,
+          action: 'mdm.duplicate.dismiss',
+          objectType: 'MdmDuplicateDismissal',
+          objectId: created.id,
+          source: 'api',
+          newValues: { aId, bId },
+        });
+        return { ok: true as const, duplicate: false };
+      });
+    } catch (error) {
+      if ((error as { code?: string }).code === 'P2002') return { ok: true, duplicate: true };
+      throw error;
+    }
+  }
+
+  /**
+   * Permission: mdm.read. What a merge would do: both records, the fields
+   * that differ, and the MDM-owned references that move to the winner.
+   */
+  async mergePreview(
+    winnerId: string,
+    loserId: string,
+    ctx: RequestContext,
+  ): Promise<MergePreview> {
     if (winnerId === loserId) {
       throw new DomainError('VALIDATION_FAILED', 'Cannot merge a party into itself');
     }
-    return this.prisma.$transaction(async (tx) => {
-      const winner = await tx.party.findFirst({
-        where: { id: winnerId, tenantId: ctx.tenantId, status: 'ACTIVE' },
-      });
-      if (!winner) throw notFound('Party', winnerId);
-      const loser = await tx.party.findFirst({
-        where: { id: loserId, tenantId: ctx.tenantId, status: 'ACTIVE' },
-      });
-      if (!loser) throw notFound('Party', loserId);
+    const [winner, loser] = await Promise.all([
+      this.prisma.party.findFirst({ where: { id: winnerId, tenantId: ctx.tenantId } }),
+      this.prisma.party.findFirst({ where: { id: loserId, tenantId: ctx.tenantId } }),
+    ]);
+    if (!winner) throw notFound('Party', winnerId);
+    if (!loser) throw notFound('Party', loserId);
+    const [externalIdentities, redirects, consents] = await Promise.all([
+      this.prisma.partyExternalIdentity.count({
+        where: { tenantId: ctx.tenantId, partyId: loser.id },
+      }),
+      this.prisma.party.count({ where: { tenantId: ctx.tenantId, mergedIntoId: loser.id } }),
+      this.prisma.consentRecord.count({ where: { tenantId: ctx.tenantId, partyId: loser.id } }),
+    ]);
+    const blockers: string[] = [];
+    if (winner.status !== 'ACTIVE') blockers.push('The surviving party is not active');
+    if (loser.status !== 'ACTIVE') blockers.push('The duplicate is already merged');
+    if (winner.partyType !== loser.partyType) {
+      blockers.push('A person cannot be merged with an organisation');
+    }
+    const differences = MERGE_FIELDS.filter((f) => (winner[f] ?? null) !== (loser[f] ?? null)).map(
+      (f) => ({ field: f, winner: winner[f] ?? null, loser: loser[f] ?? null }),
+    );
+    return {
+      winner: toView(winner),
+      loser: toView(loser),
+      differences,
+      moves: { externalIdentities, redirects },
+      stays: { consents },
+      blockers,
+    };
+  }
 
+  /**
+   * Merge loser into winner (MDM-005). Permission: mdm.merge.
+   * - both rows locked (sorted order) so concurrent merges cannot form a
+   *   cycle or merge one record twice;
+   * - replay of the same merge is a no-op (`duplicate: true`);
+   * - survivorship: `takeFromLoser` copies chosen fields onto the winner;
+   * - earlier redirects into the loser are re-pointed to the winner (no
+   *   chains), external identities move, consent history stays with the
+   *   loser record (legal evidence), `party.merged` goes to the outbox.
+   */
+  async mergeParty(
+    winnerId: string,
+    loserId: string,
+    ctx: RequestContext,
+    options: { takeFromLoser?: MergeField[] | undefined } = {},
+  ): Promise<PartyView & { duplicate: boolean }> {
+    if (winnerId === loserId) {
+      throw new DomainError('VALIDATION_FAILED', 'Cannot merge a party into itself');
+    }
+    const take = [...new Set(options.takeFromLoser ?? [])];
+    for (const field of take) {
+      if (!MERGE_FIELDS.includes(field)) {
+        throw new DomainError('VALIDATION_FAILED', `Field ${String(field)} cannot be taken over`);
+      }
+    }
+    return this.prisma.$transaction(async (tx) => {
+      const [first, second] = orderPair(winnerId, loserId);
+      const locked = await tx.$queryRaw<Array<{ id: string }>>`
+        SELECT id::text AS id FROM party
+        WHERE tenant_id = ${ctx.tenantId}::uuid AND id IN (${first}::uuid, ${second}::uuid)
+        ORDER BY id FOR UPDATE`;
+      if (!locked.some((r) => r.id === winnerId)) throw notFound('Party', winnerId);
+      if (!locked.some((r) => r.id === loserId)) throw notFound('Party', loserId);
+      const winner = (await tx.party.findFirst({
+        where: { id: winnerId, tenantId: ctx.tenantId },
+      }))!;
+      const loser = (await tx.party.findFirst({ where: { id: loserId, tenantId: ctx.tenantId } }))!;
+
+      if (loser.status === 'MERGED' && loser.mergedIntoId === winner.id) {
+        return { ...toView(winner), duplicate: true };
+      }
+      if (winner.status !== 'ACTIVE') {
+        throw new DomainError('INVALID_STATE', 'The surviving party is not active');
+      }
+      if (loser.status !== 'ACTIVE') {
+        throw new DomainError('INVALID_STATE', 'This party is already merged into another one');
+      }
+      if (winner.partyType !== loser.partyType) {
+        throw new DomainError('INVALID_STATE', 'A person cannot be merged with an organisation');
+      }
+
+      const winnerChanges: Record<string, string | null> = {};
+      for (const field of take) {
+        if ((loser[field] ?? null) !== (winner[field] ?? null)) winnerChanges[field] = loser[field];
+      }
+      if (winnerChanges.name === null || winnerChanges.name === '') delete winnerChanges.name;
+      let survivor = winner;
+      if (Object.keys(winnerChanges).length > 0) {
+        survivor = await tx.party.update({
+          where: { id: winner.id },
+          data: {
+            ...winnerChanges,
+            ...(winnerChanges.name ? { normalizedName: normalizeName(winnerChanges.name) } : {}),
+          },
+        });
+      }
       await tx.party.update({
         where: { id: loser.id },
         data: { status: 'MERGED', mergedIntoId: winner.id },
       });
-      await tx.partyExternalIdentity.updateMany({
-        where: { partyId: loser.id },
+      const redirected = await tx.party.updateMany({
+        where: { tenantId: ctx.tenantId, mergedIntoId: loser.id, id: { not: loser.id } },
+        data: { mergedIntoId: winner.id },
+      });
+      const moved = await tx.partyExternalIdentity.updateMany({
+        where: { tenantId: ctx.tenantId, partyId: loser.id },
         data: { partyId: winner.id },
       });
       await writeAudit(tx, {
@@ -306,10 +557,28 @@ export class PartyService {
         objectType: 'Party',
         objectId: loser.id,
         source: 'api',
-        previousValues: { status: 'ACTIVE' },
-        newValues: { status: 'MERGED', mergedIntoId: winner.id },
+        previousValues: {
+          status: 'ACTIVE',
+          winner: pick(winner, Object.keys(winnerChanges) as MergeField[]),
+        } as Prisma.InputJsonValue,
+        newValues: {
+          status: 'MERGED',
+          mergedIntoId: winner.id,
+          takenFromLoser: winnerChanges,
+          redirectsRepointed: redirected.count,
+          externalIdentitiesMoved: moved.count,
+        } as Prisma.InputJsonValue,
       });
-      return toView(winner);
+      await publishToOutbox(tx, {
+        tenantId: ctx.tenantId,
+        eventType: EVENT_TYPES.PARTY_MERGED,
+        aggregateType: 'Party',
+        aggregateId: winner.id,
+        actorType: ctx.actorType,
+        actorId: ctx.userId,
+        payload: { winnerId: winner.id, loserId: loser.id },
+      });
+      return { ...toView(survivor), duplicate: false };
     });
   }
 

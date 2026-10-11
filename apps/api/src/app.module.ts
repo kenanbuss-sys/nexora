@@ -664,11 +664,14 @@ export const REDIS = 'REDIS';
     },
     {
       provide: CATALOG_SERVICE,
-      useFactory: (prisma: PrismaClient, uoms: UomService) =>
-        new CatalogService(prisma, {
-          assertValid: (tenantId, code) => uoms.assertValid(tenantId, code),
-        }),
-      inject: [PRISMA, UOM_SERVICE],
+      useFactory: (prisma: PrismaClient, uoms: UomService, tenants: TenantService) =>
+        new CatalogService(
+          prisma,
+          { assertValid: (tenantId, code) => uoms.assertValid(tenantId, code) },
+          // MDM-002: publish policy is versioned tenant configuration.
+          { getEffectiveConfiguration: (tenantId) => tenants.getEffectiveConfiguration(tenantId) },
+        ),
+      inject: [PRISMA, UOM_SERVICE, TENANT_SERVICE],
     },
     {
       provide: INVENTORY_SERVICE,

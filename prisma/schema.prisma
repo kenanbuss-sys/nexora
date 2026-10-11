@@ -185,6 +185,7 @@ model Tenant {
   equipmentCustodyLines   EquipmentCustodyLine[]
   serialPositions         SerialPosition[]
   serialMovements         SerialMovement[]
+  mdmDuplicateDismissals  MdmDuplicateDismissal[]
 
   @@map("tenant")
 }
@@ -2700,6 +2701,24 @@ enum MasterDataRequestStatus {
 /// master records travel as change requests holding the proposed
 /// payload; a steward other than the requester decides (SoD), and only
 /// approval applies the change through the owning domain.
+/// Sprint 241 (MDM-005): steward decision "not a duplicate" for a pair of
+/// records; ids are stored ordered (aId < bId) so a pair is unique.
+model MdmDuplicateDismissal {
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId    String   @map("tenant_id") @db.Uuid
+  entityType  String   @map("entity_type")
+  aId         String   @map("a_id") @db.Uuid
+  bId         String   @map("b_id") @db.Uuid
+  note        String?
+  dismissedBy String   @map("dismissed_by") @db.Uuid
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@unique([tenantId, entityType, aId, bId])
+  @@map("mdm_duplicate_dismissal")
+}
+
 model MasterDataRequest {
   id           String                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   tenantId     String                  @map("tenant_id") @db.Uuid

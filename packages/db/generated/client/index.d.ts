@@ -604,11 +604,18 @@ export type SerialNumber = $Result.DefaultSelection<Prisma.$SerialNumberPayload>
  */
 export type BreakGlassGrant = $Result.DefaultSelection<Prisma.$BreakGlassGrantPayload>
 /**
- * Model MasterDataRequest
+ * Model MdmDuplicateDismissal
  * Sprint 057 (MDM-006): master data approvals — governed changes to
  * master records travel as change requests holding the proposed
  * payload; a steward other than the requester decides (SoD), and only
  * approval applies the change through the owning domain.
+ * Sprint 241 (MDM-005): steward decision "not a duplicate" for a pair of
+ * records; ids are stored ordered (aId < bId) so a pair is unique.
+ */
+export type MdmDuplicateDismissal = $Result.DefaultSelection<Prisma.$MdmDuplicateDismissalPayload>
+/**
+ * Model MasterDataRequest
+ * 
  */
 export type MasterDataRequest = $Result.DefaultSelection<Prisma.$MasterDataRequestPayload>
 /**
@@ -2993,6 +3000,16 @@ export class PrismaClient<
   get breakGlassGrant(): Prisma.BreakGlassGrantDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.mdmDuplicateDismissal`: Exposes CRUD operations for the **MdmDuplicateDismissal** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more MdmDuplicateDismissals
+    * const mdmDuplicateDismissals = await prisma.mdmDuplicateDismissal.findMany()
+    * ```
+    */
+  get mdmDuplicateDismissal(): Prisma.MdmDuplicateDismissalDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.masterDataRequest`: Exposes CRUD operations for the **MasterDataRequest** model.
     * Example usage:
     * ```ts
@@ -4117,6 +4134,7 @@ export namespace Prisma {
     BundleComponent: 'BundleComponent',
     SerialNumber: 'SerialNumber',
     BreakGlassGrant: 'BreakGlassGrant',
+    MdmDuplicateDismissal: 'MdmDuplicateDismissal',
     MasterDataRequest: 'MasterDataRequest',
     LoyaltyAccount: 'LoyaltyAccount',
     LoyaltyTransaction: 'LoyaltyTransaction',
@@ -4193,7 +4211,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "tenant" | "tenantConfigurationVersion" | "legalEntity" | "businessUnit" | "branch" | "factory" | "user" | "userCredential" | "role" | "rolePermission" | "userRoleAssignment" | "auditEvent" | "outboxEvent" | "terminologyEntry" | "moduleActivation" | "customFieldDefinition" | "task" | "notification" | "workflowDefinition" | "workflowVersion" | "workflowInstance" | "ruleDefinition" | "ruleVersion" | "approval" | "processedEvent" | "documentTemplate" | "documentTemplateVersion" | "party" | "consentRecord" | "partyExternalIdentity" | "product" | "sku" | "barcode" | "uomConversion" | "warehouse" | "warehouseLocation" | "stockMovement" | "stockReservation" | "device" | "scanEvent" | "wmsOrder" | "wmsOrderLine" | "territory" | "salesTeam" | "salesTeamMember" | "crmAccount" | "lead" | "opportunity" | "crmActivity" | "priceList" | "priceListEntry" | "quote" | "packagingLevel" | "skuSubstitution" | "discountRule" | "quoteLine" | "salesOrder" | "salesOrderLine" | "orderEvent" | "supplier" | "purchaseRequisition" | "purchaseRequisitionLine" | "purchaseOrder" | "purchaseOrderLine" | "bom" | "bomLine" | "routing" | "routingOperation" | "engineeringChange" | "planningPolicy" | "mrpRun" | "mrpSuggestion" | "workOrder" | "workOrderOperation" | "qcPlan" | "qcPlanItem" | "qcInspection" | "qcInspectionItem" | "ncr" | "invoice" | "payment" | "portalUser" | "comment" | "attachment" | "attachmentBlob" | "numberSequence" | "exchangeRate" | "costCenter" | "budget" | "webhookSubscription" | "webhookDelivery" | "apiKey" | "securityEvent" | "productCategory" | "returnOrder" | "returnOrderLine" | "stockCount" | "stockCountLine" | "workCenter" | "downtimeEvent" | "promotion" | "promotionRedemption" | "bundleComponent" | "serialNumber" | "breakGlassGrant" | "masterDataRequest" | "loyaltyAccount" | "loyaltyTransaction" | "supportCase" | "contract" | "employee" | "asset" | "quarantineHold" | "rfq" | "rfqQuote" | "package" | "packageLine" | "landedCost" | "customObjectDefinition" | "customObjectRecord" | "frameworkAgreement" | "skuChannelContent" | "container" | "posSession" | "vehicle" | "driver" | "shipment" | "shipmentStop" | "dockAppointment" | "installedAsset" | "serviceRequest" | "serviceOrder" | "serviceOrderPart" | "rma" | "glAccount" | "glJournalEntry" | "glJournalLine" | "glSystemAccount" | "glOpeningBalanceDate" | "glPeriodLock" | "bankStatement" | "bankStatementLine" | "paymentAllocation" | "compensation" | "compensationLine" | "vatRate" | "vatBookEntry" | "vatPeriod" | "attendanceDay" | "attendancePeriod" | "employeeSalary" | "payrollRun" | "payrollLine" | "payrollAdjustment" | "employmentContract" | "trainingPlanTemplate" | "trainingPlan" | "trainingPlanItem" | "trainingRecord" | "equipmentCustody" | "equipmentCustodyLine" | "serialPosition" | "serialMovement"
+      modelProps: "tenant" | "tenantConfigurationVersion" | "legalEntity" | "businessUnit" | "branch" | "factory" | "user" | "userCredential" | "role" | "rolePermission" | "userRoleAssignment" | "auditEvent" | "outboxEvent" | "terminologyEntry" | "moduleActivation" | "customFieldDefinition" | "task" | "notification" | "workflowDefinition" | "workflowVersion" | "workflowInstance" | "ruleDefinition" | "ruleVersion" | "approval" | "processedEvent" | "documentTemplate" | "documentTemplateVersion" | "party" | "consentRecord" | "partyExternalIdentity" | "product" | "sku" | "barcode" | "uomConversion" | "warehouse" | "warehouseLocation" | "stockMovement" | "stockReservation" | "device" | "scanEvent" | "wmsOrder" | "wmsOrderLine" | "territory" | "salesTeam" | "salesTeamMember" | "crmAccount" | "lead" | "opportunity" | "crmActivity" | "priceList" | "priceListEntry" | "quote" | "packagingLevel" | "skuSubstitution" | "discountRule" | "quoteLine" | "salesOrder" | "salesOrderLine" | "orderEvent" | "supplier" | "purchaseRequisition" | "purchaseRequisitionLine" | "purchaseOrder" | "purchaseOrderLine" | "bom" | "bomLine" | "routing" | "routingOperation" | "engineeringChange" | "planningPolicy" | "mrpRun" | "mrpSuggestion" | "workOrder" | "workOrderOperation" | "qcPlan" | "qcPlanItem" | "qcInspection" | "qcInspectionItem" | "ncr" | "invoice" | "payment" | "portalUser" | "comment" | "attachment" | "attachmentBlob" | "numberSequence" | "exchangeRate" | "costCenter" | "budget" | "webhookSubscription" | "webhookDelivery" | "apiKey" | "securityEvent" | "productCategory" | "returnOrder" | "returnOrderLine" | "stockCount" | "stockCountLine" | "workCenter" | "downtimeEvent" | "promotion" | "promotionRedemption" | "bundleComponent" | "serialNumber" | "breakGlassGrant" | "mdmDuplicateDismissal" | "masterDataRequest" | "loyaltyAccount" | "loyaltyTransaction" | "supportCase" | "contract" | "employee" | "asset" | "quarantineHold" | "rfq" | "rfqQuote" | "package" | "packageLine" | "landedCost" | "customObjectDefinition" | "customObjectRecord" | "frameworkAgreement" | "skuChannelContent" | "container" | "posSession" | "vehicle" | "driver" | "shipment" | "shipmentStop" | "dockAppointment" | "installedAsset" | "serviceRequest" | "serviceOrder" | "serviceOrderPart" | "rma" | "glAccount" | "glJournalEntry" | "glJournalLine" | "glSystemAccount" | "glOpeningBalanceDate" | "glPeriodLock" | "bankStatement" | "bankStatementLine" | "paymentAllocation" | "compensation" | "compensationLine" | "vatRate" | "vatBookEntry" | "vatPeriod" | "attendanceDay" | "attendancePeriod" | "employeeSalary" | "payrollRun" | "payrollLine" | "payrollAdjustment" | "employmentContract" | "trainingPlanTemplate" | "trainingPlan" | "trainingPlanItem" | "trainingRecord" | "equipmentCustody" | "equipmentCustodyLine" | "serialPosition" | "serialMovement"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -11967,6 +11985,80 @@ export namespace Prisma {
           }
         }
       }
+      MdmDuplicateDismissal: {
+        payload: Prisma.$MdmDuplicateDismissalPayload<ExtArgs>
+        fields: Prisma.MdmDuplicateDismissalFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.MdmDuplicateDismissalFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MdmDuplicateDismissalPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.MdmDuplicateDismissalFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MdmDuplicateDismissalPayload>
+          }
+          findFirst: {
+            args: Prisma.MdmDuplicateDismissalFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MdmDuplicateDismissalPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.MdmDuplicateDismissalFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MdmDuplicateDismissalPayload>
+          }
+          findMany: {
+            args: Prisma.MdmDuplicateDismissalFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MdmDuplicateDismissalPayload>[]
+          }
+          create: {
+            args: Prisma.MdmDuplicateDismissalCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MdmDuplicateDismissalPayload>
+          }
+          createMany: {
+            args: Prisma.MdmDuplicateDismissalCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.MdmDuplicateDismissalCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MdmDuplicateDismissalPayload>[]
+          }
+          delete: {
+            args: Prisma.MdmDuplicateDismissalDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MdmDuplicateDismissalPayload>
+          }
+          update: {
+            args: Prisma.MdmDuplicateDismissalUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MdmDuplicateDismissalPayload>
+          }
+          deleteMany: {
+            args: Prisma.MdmDuplicateDismissalDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.MdmDuplicateDismissalUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.MdmDuplicateDismissalUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MdmDuplicateDismissalPayload>[]
+          }
+          upsert: {
+            args: Prisma.MdmDuplicateDismissalUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MdmDuplicateDismissalPayload>
+          }
+          aggregate: {
+            args: Prisma.MdmDuplicateDismissalAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateMdmDuplicateDismissal>
+          }
+          groupBy: {
+            args: Prisma.MdmDuplicateDismissalGroupByArgs<ExtArgs>
+            result: $Utils.Optional<MdmDuplicateDismissalGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.MdmDuplicateDismissalCountArgs<ExtArgs>
+            result: $Utils.Optional<MdmDuplicateDismissalCountAggregateOutputType> | number
+          }
+        }
+      }
       MasterDataRequest: {
         payload: Prisma.$MasterDataRequestPayload<ExtArgs>
         fields: Prisma.MasterDataRequestFieldRefs
@@ -16460,6 +16552,7 @@ export namespace Prisma {
     bundleComponent?: BundleComponentOmit
     serialNumber?: SerialNumberOmit
     breakGlassGrant?: BreakGlassGrantOmit
+    mdmDuplicateDismissal?: MdmDuplicateDismissalOmit
     masterDataRequest?: MasterDataRequestOmit
     loyaltyAccount?: LoyaltyAccountOmit
     loyaltyTransaction?: LoyaltyTransactionOmit
@@ -16743,6 +16836,7 @@ export namespace Prisma {
     equipmentCustodyLines: number
     serialPositions: number
     serialMovements: number
+    mdmDuplicateDismissals: number
   }
 
   export type TenantCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -16891,6 +16985,7 @@ export namespace Prisma {
     equipmentCustodyLines?: boolean | TenantCountOutputTypeCountEquipmentCustodyLinesArgs
     serialPositions?: boolean | TenantCountOutputTypeCountSerialPositionsArgs
     serialMovements?: boolean | TenantCountOutputTypeCountSerialMovementsArgs
+    mdmDuplicateDismissals?: boolean | TenantCountOutputTypeCountMdmDuplicateDismissalsArgs
   }
 
   // Custom InputTypes
@@ -17917,6 +18012,13 @@ export namespace Prisma {
    */
   export type TenantCountOutputTypeCountSerialMovementsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: SerialMovementWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountMdmDuplicateDismissalsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MdmDuplicateDismissalWhereInput
   }
 
 
@@ -20084,6 +20186,7 @@ export namespace Prisma {
     equipmentCustodyLines?: boolean | Tenant$equipmentCustodyLinesArgs<ExtArgs>
     serialPositions?: boolean | Tenant$serialPositionsArgs<ExtArgs>
     serialMovements?: boolean | Tenant$serialMovementsArgs<ExtArgs>
+    mdmDuplicateDismissals?: boolean | Tenant$mdmDuplicateDismissalsArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["tenant"]>
 
@@ -20264,6 +20367,7 @@ export namespace Prisma {
     equipmentCustodyLines?: boolean | Tenant$equipmentCustodyLinesArgs<ExtArgs>
     serialPositions?: boolean | Tenant$serialPositionsArgs<ExtArgs>
     serialMovements?: boolean | Tenant$serialMovementsArgs<ExtArgs>
+    mdmDuplicateDismissals?: boolean | Tenant$mdmDuplicateDismissalsArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type TenantIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -20417,6 +20521,7 @@ export namespace Prisma {
       equipmentCustodyLines: Prisma.$EquipmentCustodyLinePayload<ExtArgs>[]
       serialPositions: Prisma.$SerialPositionPayload<ExtArgs>[]
       serialMovements: Prisma.$SerialMovementPayload<ExtArgs>[]
+      mdmDuplicateDismissals: Prisma.$MdmDuplicateDismissalPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -20965,6 +21070,7 @@ export namespace Prisma {
     equipmentCustodyLines<T extends Tenant$equipmentCustodyLinesArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$equipmentCustodyLinesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EquipmentCustodyLinePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     serialPositions<T extends Tenant$serialPositionsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$serialPositionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SerialPositionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     serialMovements<T extends Tenant$serialMovementsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$serialMovementsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SerialMovementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    mdmDuplicateDismissals<T extends Tenant$mdmDuplicateDismissalsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$mdmDuplicateDismissalsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MdmDuplicateDismissalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -24866,6 +24972,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: SerialMovementScalarFieldEnum | SerialMovementScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.mdmDuplicateDismissals
+   */
+  export type Tenant$mdmDuplicateDismissalsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MdmDuplicateDismissal
+     */
+    select?: MdmDuplicateDismissalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MdmDuplicateDismissal
+     */
+    omit?: MdmDuplicateDismissalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MdmDuplicateDismissalInclude<ExtArgs> | null
+    where?: MdmDuplicateDismissalWhereInput
+    orderBy?: MdmDuplicateDismissalOrderByWithRelationInput | MdmDuplicateDismissalOrderByWithRelationInput[]
+    cursor?: MdmDuplicateDismissalWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: MdmDuplicateDismissalScalarFieldEnum | MdmDuplicateDismissalScalarFieldEnum[]
   }
 
   /**
@@ -144093,6 +144223,1103 @@ export namespace Prisma {
 
 
   /**
+   * Model MdmDuplicateDismissal
+   */
+
+  export type AggregateMdmDuplicateDismissal = {
+    _count: MdmDuplicateDismissalCountAggregateOutputType | null
+    _min: MdmDuplicateDismissalMinAggregateOutputType | null
+    _max: MdmDuplicateDismissalMaxAggregateOutputType | null
+  }
+
+  export type MdmDuplicateDismissalMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    entityType: string | null
+    aId: string | null
+    bId: string | null
+    note: string | null
+    dismissedBy: string | null
+    createdAt: Date | null
+  }
+
+  export type MdmDuplicateDismissalMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    entityType: string | null
+    aId: string | null
+    bId: string | null
+    note: string | null
+    dismissedBy: string | null
+    createdAt: Date | null
+  }
+
+  export type MdmDuplicateDismissalCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    entityType: number
+    aId: number
+    bId: number
+    note: number
+    dismissedBy: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type MdmDuplicateDismissalMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    entityType?: true
+    aId?: true
+    bId?: true
+    note?: true
+    dismissedBy?: true
+    createdAt?: true
+  }
+
+  export type MdmDuplicateDismissalMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    entityType?: true
+    aId?: true
+    bId?: true
+    note?: true
+    dismissedBy?: true
+    createdAt?: true
+  }
+
+  export type MdmDuplicateDismissalCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    entityType?: true
+    aId?: true
+    bId?: true
+    note?: true
+    dismissedBy?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type MdmDuplicateDismissalAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which MdmDuplicateDismissal to aggregate.
+     */
+    where?: MdmDuplicateDismissalWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MdmDuplicateDismissals to fetch.
+     */
+    orderBy?: MdmDuplicateDismissalOrderByWithRelationInput | MdmDuplicateDismissalOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: MdmDuplicateDismissalWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MdmDuplicateDismissals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MdmDuplicateDismissals.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned MdmDuplicateDismissals
+    **/
+    _count?: true | MdmDuplicateDismissalCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: MdmDuplicateDismissalMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: MdmDuplicateDismissalMaxAggregateInputType
+  }
+
+  export type GetMdmDuplicateDismissalAggregateType<T extends MdmDuplicateDismissalAggregateArgs> = {
+        [P in keyof T & keyof AggregateMdmDuplicateDismissal]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateMdmDuplicateDismissal[P]>
+      : GetScalarType<T[P], AggregateMdmDuplicateDismissal[P]>
+  }
+
+
+
+
+  export type MdmDuplicateDismissalGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MdmDuplicateDismissalWhereInput
+    orderBy?: MdmDuplicateDismissalOrderByWithAggregationInput | MdmDuplicateDismissalOrderByWithAggregationInput[]
+    by: MdmDuplicateDismissalScalarFieldEnum[] | MdmDuplicateDismissalScalarFieldEnum
+    having?: MdmDuplicateDismissalScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: MdmDuplicateDismissalCountAggregateInputType | true
+    _min?: MdmDuplicateDismissalMinAggregateInputType
+    _max?: MdmDuplicateDismissalMaxAggregateInputType
+  }
+
+  export type MdmDuplicateDismissalGroupByOutputType = {
+    id: string
+    tenantId: string
+    entityType: string
+    aId: string
+    bId: string
+    note: string | null
+    dismissedBy: string
+    createdAt: Date
+    _count: MdmDuplicateDismissalCountAggregateOutputType | null
+    _min: MdmDuplicateDismissalMinAggregateOutputType | null
+    _max: MdmDuplicateDismissalMaxAggregateOutputType | null
+  }
+
+  type GetMdmDuplicateDismissalGroupByPayload<T extends MdmDuplicateDismissalGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<MdmDuplicateDismissalGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof MdmDuplicateDismissalGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], MdmDuplicateDismissalGroupByOutputType[P]>
+            : GetScalarType<T[P], MdmDuplicateDismissalGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type MdmDuplicateDismissalSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    entityType?: boolean
+    aId?: boolean
+    bId?: boolean
+    note?: boolean
+    dismissedBy?: boolean
+    createdAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["mdmDuplicateDismissal"]>
+
+  export type MdmDuplicateDismissalSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    entityType?: boolean
+    aId?: boolean
+    bId?: boolean
+    note?: boolean
+    dismissedBy?: boolean
+    createdAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["mdmDuplicateDismissal"]>
+
+  export type MdmDuplicateDismissalSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    entityType?: boolean
+    aId?: boolean
+    bId?: boolean
+    note?: boolean
+    dismissedBy?: boolean
+    createdAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["mdmDuplicateDismissal"]>
+
+  export type MdmDuplicateDismissalSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    entityType?: boolean
+    aId?: boolean
+    bId?: boolean
+    note?: boolean
+    dismissedBy?: boolean
+    createdAt?: boolean
+  }
+
+  export type MdmDuplicateDismissalOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "entityType" | "aId" | "bId" | "note" | "dismissedBy" | "createdAt", ExtArgs["result"]["mdmDuplicateDismissal"]>
+  export type MdmDuplicateDismissalInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type MdmDuplicateDismissalIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type MdmDuplicateDismissalIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+
+  export type $MdmDuplicateDismissalPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "MdmDuplicateDismissal"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      entityType: string
+      aId: string
+      bId: string
+      note: string | null
+      dismissedBy: string
+      createdAt: Date
+    }, ExtArgs["result"]["mdmDuplicateDismissal"]>
+    composites: {}
+  }
+
+  type MdmDuplicateDismissalGetPayload<S extends boolean | null | undefined | MdmDuplicateDismissalDefaultArgs> = $Result.GetResult<Prisma.$MdmDuplicateDismissalPayload, S>
+
+  type MdmDuplicateDismissalCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<MdmDuplicateDismissalFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: MdmDuplicateDismissalCountAggregateInputType | true
+    }
+
+  export interface MdmDuplicateDismissalDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['MdmDuplicateDismissal'], meta: { name: 'MdmDuplicateDismissal' } }
+    /**
+     * Find zero or one MdmDuplicateDismissal that matches the filter.
+     * @param {MdmDuplicateDismissalFindUniqueArgs} args - Arguments to find a MdmDuplicateDismissal
+     * @example
+     * // Get one MdmDuplicateDismissal
+     * const mdmDuplicateDismissal = await prisma.mdmDuplicateDismissal.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends MdmDuplicateDismissalFindUniqueArgs>(args: SelectSubset<T, MdmDuplicateDismissalFindUniqueArgs<ExtArgs>>): Prisma__MdmDuplicateDismissalClient<$Result.GetResult<Prisma.$MdmDuplicateDismissalPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one MdmDuplicateDismissal that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {MdmDuplicateDismissalFindUniqueOrThrowArgs} args - Arguments to find a MdmDuplicateDismissal
+     * @example
+     * // Get one MdmDuplicateDismissal
+     * const mdmDuplicateDismissal = await prisma.mdmDuplicateDismissal.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends MdmDuplicateDismissalFindUniqueOrThrowArgs>(args: SelectSubset<T, MdmDuplicateDismissalFindUniqueOrThrowArgs<ExtArgs>>): Prisma__MdmDuplicateDismissalClient<$Result.GetResult<Prisma.$MdmDuplicateDismissalPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first MdmDuplicateDismissal that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MdmDuplicateDismissalFindFirstArgs} args - Arguments to find a MdmDuplicateDismissal
+     * @example
+     * // Get one MdmDuplicateDismissal
+     * const mdmDuplicateDismissal = await prisma.mdmDuplicateDismissal.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends MdmDuplicateDismissalFindFirstArgs>(args?: SelectSubset<T, MdmDuplicateDismissalFindFirstArgs<ExtArgs>>): Prisma__MdmDuplicateDismissalClient<$Result.GetResult<Prisma.$MdmDuplicateDismissalPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first MdmDuplicateDismissal that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MdmDuplicateDismissalFindFirstOrThrowArgs} args - Arguments to find a MdmDuplicateDismissal
+     * @example
+     * // Get one MdmDuplicateDismissal
+     * const mdmDuplicateDismissal = await prisma.mdmDuplicateDismissal.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends MdmDuplicateDismissalFindFirstOrThrowArgs>(args?: SelectSubset<T, MdmDuplicateDismissalFindFirstOrThrowArgs<ExtArgs>>): Prisma__MdmDuplicateDismissalClient<$Result.GetResult<Prisma.$MdmDuplicateDismissalPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more MdmDuplicateDismissals that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MdmDuplicateDismissalFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all MdmDuplicateDismissals
+     * const mdmDuplicateDismissals = await prisma.mdmDuplicateDismissal.findMany()
+     * 
+     * // Get first 10 MdmDuplicateDismissals
+     * const mdmDuplicateDismissals = await prisma.mdmDuplicateDismissal.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const mdmDuplicateDismissalWithIdOnly = await prisma.mdmDuplicateDismissal.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends MdmDuplicateDismissalFindManyArgs>(args?: SelectSubset<T, MdmDuplicateDismissalFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MdmDuplicateDismissalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a MdmDuplicateDismissal.
+     * @param {MdmDuplicateDismissalCreateArgs} args - Arguments to create a MdmDuplicateDismissal.
+     * @example
+     * // Create one MdmDuplicateDismissal
+     * const MdmDuplicateDismissal = await prisma.mdmDuplicateDismissal.create({
+     *   data: {
+     *     // ... data to create a MdmDuplicateDismissal
+     *   }
+     * })
+     * 
+     */
+    create<T extends MdmDuplicateDismissalCreateArgs>(args: SelectSubset<T, MdmDuplicateDismissalCreateArgs<ExtArgs>>): Prisma__MdmDuplicateDismissalClient<$Result.GetResult<Prisma.$MdmDuplicateDismissalPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many MdmDuplicateDismissals.
+     * @param {MdmDuplicateDismissalCreateManyArgs} args - Arguments to create many MdmDuplicateDismissals.
+     * @example
+     * // Create many MdmDuplicateDismissals
+     * const mdmDuplicateDismissal = await prisma.mdmDuplicateDismissal.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends MdmDuplicateDismissalCreateManyArgs>(args?: SelectSubset<T, MdmDuplicateDismissalCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many MdmDuplicateDismissals and returns the data saved in the database.
+     * @param {MdmDuplicateDismissalCreateManyAndReturnArgs} args - Arguments to create many MdmDuplicateDismissals.
+     * @example
+     * // Create many MdmDuplicateDismissals
+     * const mdmDuplicateDismissal = await prisma.mdmDuplicateDismissal.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many MdmDuplicateDismissals and only return the `id`
+     * const mdmDuplicateDismissalWithIdOnly = await prisma.mdmDuplicateDismissal.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends MdmDuplicateDismissalCreateManyAndReturnArgs>(args?: SelectSubset<T, MdmDuplicateDismissalCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MdmDuplicateDismissalPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a MdmDuplicateDismissal.
+     * @param {MdmDuplicateDismissalDeleteArgs} args - Arguments to delete one MdmDuplicateDismissal.
+     * @example
+     * // Delete one MdmDuplicateDismissal
+     * const MdmDuplicateDismissal = await prisma.mdmDuplicateDismissal.delete({
+     *   where: {
+     *     // ... filter to delete one MdmDuplicateDismissal
+     *   }
+     * })
+     * 
+     */
+    delete<T extends MdmDuplicateDismissalDeleteArgs>(args: SelectSubset<T, MdmDuplicateDismissalDeleteArgs<ExtArgs>>): Prisma__MdmDuplicateDismissalClient<$Result.GetResult<Prisma.$MdmDuplicateDismissalPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one MdmDuplicateDismissal.
+     * @param {MdmDuplicateDismissalUpdateArgs} args - Arguments to update one MdmDuplicateDismissal.
+     * @example
+     * // Update one MdmDuplicateDismissal
+     * const mdmDuplicateDismissal = await prisma.mdmDuplicateDismissal.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends MdmDuplicateDismissalUpdateArgs>(args: SelectSubset<T, MdmDuplicateDismissalUpdateArgs<ExtArgs>>): Prisma__MdmDuplicateDismissalClient<$Result.GetResult<Prisma.$MdmDuplicateDismissalPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more MdmDuplicateDismissals.
+     * @param {MdmDuplicateDismissalDeleteManyArgs} args - Arguments to filter MdmDuplicateDismissals to delete.
+     * @example
+     * // Delete a few MdmDuplicateDismissals
+     * const { count } = await prisma.mdmDuplicateDismissal.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends MdmDuplicateDismissalDeleteManyArgs>(args?: SelectSubset<T, MdmDuplicateDismissalDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more MdmDuplicateDismissals.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MdmDuplicateDismissalUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many MdmDuplicateDismissals
+     * const mdmDuplicateDismissal = await prisma.mdmDuplicateDismissal.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends MdmDuplicateDismissalUpdateManyArgs>(args: SelectSubset<T, MdmDuplicateDismissalUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more MdmDuplicateDismissals and returns the data updated in the database.
+     * @param {MdmDuplicateDismissalUpdateManyAndReturnArgs} args - Arguments to update many MdmDuplicateDismissals.
+     * @example
+     * // Update many MdmDuplicateDismissals
+     * const mdmDuplicateDismissal = await prisma.mdmDuplicateDismissal.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more MdmDuplicateDismissals and only return the `id`
+     * const mdmDuplicateDismissalWithIdOnly = await prisma.mdmDuplicateDismissal.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends MdmDuplicateDismissalUpdateManyAndReturnArgs>(args: SelectSubset<T, MdmDuplicateDismissalUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MdmDuplicateDismissalPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one MdmDuplicateDismissal.
+     * @param {MdmDuplicateDismissalUpsertArgs} args - Arguments to update or create a MdmDuplicateDismissal.
+     * @example
+     * // Update or create a MdmDuplicateDismissal
+     * const mdmDuplicateDismissal = await prisma.mdmDuplicateDismissal.upsert({
+     *   create: {
+     *     // ... data to create a MdmDuplicateDismissal
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the MdmDuplicateDismissal we want to update
+     *   }
+     * })
+     */
+    upsert<T extends MdmDuplicateDismissalUpsertArgs>(args: SelectSubset<T, MdmDuplicateDismissalUpsertArgs<ExtArgs>>): Prisma__MdmDuplicateDismissalClient<$Result.GetResult<Prisma.$MdmDuplicateDismissalPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of MdmDuplicateDismissals.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MdmDuplicateDismissalCountArgs} args - Arguments to filter MdmDuplicateDismissals to count.
+     * @example
+     * // Count the number of MdmDuplicateDismissals
+     * const count = await prisma.mdmDuplicateDismissal.count({
+     *   where: {
+     *     // ... the filter for the MdmDuplicateDismissals we want to count
+     *   }
+     * })
+    **/
+    count<T extends MdmDuplicateDismissalCountArgs>(
+      args?: Subset<T, MdmDuplicateDismissalCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], MdmDuplicateDismissalCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a MdmDuplicateDismissal.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MdmDuplicateDismissalAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends MdmDuplicateDismissalAggregateArgs>(args: Subset<T, MdmDuplicateDismissalAggregateArgs>): Prisma.PrismaPromise<GetMdmDuplicateDismissalAggregateType<T>>
+
+    /**
+     * Group by MdmDuplicateDismissal.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MdmDuplicateDismissalGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends MdmDuplicateDismissalGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: MdmDuplicateDismissalGroupByArgs['orderBy'] }
+        : { orderBy?: MdmDuplicateDismissalGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, MdmDuplicateDismissalGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetMdmDuplicateDismissalGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the MdmDuplicateDismissal model
+   */
+  readonly fields: MdmDuplicateDismissalFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for MdmDuplicateDismissal.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__MdmDuplicateDismissalClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the MdmDuplicateDismissal model
+   */
+  interface MdmDuplicateDismissalFieldRefs {
+    readonly id: FieldRef<"MdmDuplicateDismissal", 'String'>
+    readonly tenantId: FieldRef<"MdmDuplicateDismissal", 'String'>
+    readonly entityType: FieldRef<"MdmDuplicateDismissal", 'String'>
+    readonly aId: FieldRef<"MdmDuplicateDismissal", 'String'>
+    readonly bId: FieldRef<"MdmDuplicateDismissal", 'String'>
+    readonly note: FieldRef<"MdmDuplicateDismissal", 'String'>
+    readonly dismissedBy: FieldRef<"MdmDuplicateDismissal", 'String'>
+    readonly createdAt: FieldRef<"MdmDuplicateDismissal", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * MdmDuplicateDismissal findUnique
+   */
+  export type MdmDuplicateDismissalFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MdmDuplicateDismissal
+     */
+    select?: MdmDuplicateDismissalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MdmDuplicateDismissal
+     */
+    omit?: MdmDuplicateDismissalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MdmDuplicateDismissalInclude<ExtArgs> | null
+    /**
+     * Filter, which MdmDuplicateDismissal to fetch.
+     */
+    where: MdmDuplicateDismissalWhereUniqueInput
+  }
+
+  /**
+   * MdmDuplicateDismissal findUniqueOrThrow
+   */
+  export type MdmDuplicateDismissalFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MdmDuplicateDismissal
+     */
+    select?: MdmDuplicateDismissalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MdmDuplicateDismissal
+     */
+    omit?: MdmDuplicateDismissalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MdmDuplicateDismissalInclude<ExtArgs> | null
+    /**
+     * Filter, which MdmDuplicateDismissal to fetch.
+     */
+    where: MdmDuplicateDismissalWhereUniqueInput
+  }
+
+  /**
+   * MdmDuplicateDismissal findFirst
+   */
+  export type MdmDuplicateDismissalFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MdmDuplicateDismissal
+     */
+    select?: MdmDuplicateDismissalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MdmDuplicateDismissal
+     */
+    omit?: MdmDuplicateDismissalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MdmDuplicateDismissalInclude<ExtArgs> | null
+    /**
+     * Filter, which MdmDuplicateDismissal to fetch.
+     */
+    where?: MdmDuplicateDismissalWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MdmDuplicateDismissals to fetch.
+     */
+    orderBy?: MdmDuplicateDismissalOrderByWithRelationInput | MdmDuplicateDismissalOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for MdmDuplicateDismissals.
+     */
+    cursor?: MdmDuplicateDismissalWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MdmDuplicateDismissals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MdmDuplicateDismissals.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of MdmDuplicateDismissals.
+     */
+    distinct?: MdmDuplicateDismissalScalarFieldEnum | MdmDuplicateDismissalScalarFieldEnum[]
+  }
+
+  /**
+   * MdmDuplicateDismissal findFirstOrThrow
+   */
+  export type MdmDuplicateDismissalFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MdmDuplicateDismissal
+     */
+    select?: MdmDuplicateDismissalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MdmDuplicateDismissal
+     */
+    omit?: MdmDuplicateDismissalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MdmDuplicateDismissalInclude<ExtArgs> | null
+    /**
+     * Filter, which MdmDuplicateDismissal to fetch.
+     */
+    where?: MdmDuplicateDismissalWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MdmDuplicateDismissals to fetch.
+     */
+    orderBy?: MdmDuplicateDismissalOrderByWithRelationInput | MdmDuplicateDismissalOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for MdmDuplicateDismissals.
+     */
+    cursor?: MdmDuplicateDismissalWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MdmDuplicateDismissals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MdmDuplicateDismissals.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of MdmDuplicateDismissals.
+     */
+    distinct?: MdmDuplicateDismissalScalarFieldEnum | MdmDuplicateDismissalScalarFieldEnum[]
+  }
+
+  /**
+   * MdmDuplicateDismissal findMany
+   */
+  export type MdmDuplicateDismissalFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MdmDuplicateDismissal
+     */
+    select?: MdmDuplicateDismissalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MdmDuplicateDismissal
+     */
+    omit?: MdmDuplicateDismissalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MdmDuplicateDismissalInclude<ExtArgs> | null
+    /**
+     * Filter, which MdmDuplicateDismissals to fetch.
+     */
+    where?: MdmDuplicateDismissalWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MdmDuplicateDismissals to fetch.
+     */
+    orderBy?: MdmDuplicateDismissalOrderByWithRelationInput | MdmDuplicateDismissalOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing MdmDuplicateDismissals.
+     */
+    cursor?: MdmDuplicateDismissalWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MdmDuplicateDismissals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MdmDuplicateDismissals.
+     */
+    skip?: number
+    distinct?: MdmDuplicateDismissalScalarFieldEnum | MdmDuplicateDismissalScalarFieldEnum[]
+  }
+
+  /**
+   * MdmDuplicateDismissal create
+   */
+  export type MdmDuplicateDismissalCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MdmDuplicateDismissal
+     */
+    select?: MdmDuplicateDismissalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MdmDuplicateDismissal
+     */
+    omit?: MdmDuplicateDismissalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MdmDuplicateDismissalInclude<ExtArgs> | null
+    /**
+     * The data needed to create a MdmDuplicateDismissal.
+     */
+    data: XOR<MdmDuplicateDismissalCreateInput, MdmDuplicateDismissalUncheckedCreateInput>
+  }
+
+  /**
+   * MdmDuplicateDismissal createMany
+   */
+  export type MdmDuplicateDismissalCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many MdmDuplicateDismissals.
+     */
+    data: MdmDuplicateDismissalCreateManyInput | MdmDuplicateDismissalCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * MdmDuplicateDismissal createManyAndReturn
+   */
+  export type MdmDuplicateDismissalCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MdmDuplicateDismissal
+     */
+    select?: MdmDuplicateDismissalSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the MdmDuplicateDismissal
+     */
+    omit?: MdmDuplicateDismissalOmit<ExtArgs> | null
+    /**
+     * The data used to create many MdmDuplicateDismissals.
+     */
+    data: MdmDuplicateDismissalCreateManyInput | MdmDuplicateDismissalCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MdmDuplicateDismissalIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * MdmDuplicateDismissal update
+   */
+  export type MdmDuplicateDismissalUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MdmDuplicateDismissal
+     */
+    select?: MdmDuplicateDismissalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MdmDuplicateDismissal
+     */
+    omit?: MdmDuplicateDismissalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MdmDuplicateDismissalInclude<ExtArgs> | null
+    /**
+     * The data needed to update a MdmDuplicateDismissal.
+     */
+    data: XOR<MdmDuplicateDismissalUpdateInput, MdmDuplicateDismissalUncheckedUpdateInput>
+    /**
+     * Choose, which MdmDuplicateDismissal to update.
+     */
+    where: MdmDuplicateDismissalWhereUniqueInput
+  }
+
+  /**
+   * MdmDuplicateDismissal updateMany
+   */
+  export type MdmDuplicateDismissalUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update MdmDuplicateDismissals.
+     */
+    data: XOR<MdmDuplicateDismissalUpdateManyMutationInput, MdmDuplicateDismissalUncheckedUpdateManyInput>
+    /**
+     * Filter which MdmDuplicateDismissals to update
+     */
+    where?: MdmDuplicateDismissalWhereInput
+    /**
+     * Limit how many MdmDuplicateDismissals to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * MdmDuplicateDismissal updateManyAndReturn
+   */
+  export type MdmDuplicateDismissalUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MdmDuplicateDismissal
+     */
+    select?: MdmDuplicateDismissalSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the MdmDuplicateDismissal
+     */
+    omit?: MdmDuplicateDismissalOmit<ExtArgs> | null
+    /**
+     * The data used to update MdmDuplicateDismissals.
+     */
+    data: XOR<MdmDuplicateDismissalUpdateManyMutationInput, MdmDuplicateDismissalUncheckedUpdateManyInput>
+    /**
+     * Filter which MdmDuplicateDismissals to update
+     */
+    where?: MdmDuplicateDismissalWhereInput
+    /**
+     * Limit how many MdmDuplicateDismissals to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MdmDuplicateDismissalIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * MdmDuplicateDismissal upsert
+   */
+  export type MdmDuplicateDismissalUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MdmDuplicateDismissal
+     */
+    select?: MdmDuplicateDismissalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MdmDuplicateDismissal
+     */
+    omit?: MdmDuplicateDismissalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MdmDuplicateDismissalInclude<ExtArgs> | null
+    /**
+     * The filter to search for the MdmDuplicateDismissal to update in case it exists.
+     */
+    where: MdmDuplicateDismissalWhereUniqueInput
+    /**
+     * In case the MdmDuplicateDismissal found by the `where` argument doesn't exist, create a new MdmDuplicateDismissal with this data.
+     */
+    create: XOR<MdmDuplicateDismissalCreateInput, MdmDuplicateDismissalUncheckedCreateInput>
+    /**
+     * In case the MdmDuplicateDismissal was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<MdmDuplicateDismissalUpdateInput, MdmDuplicateDismissalUncheckedUpdateInput>
+  }
+
+  /**
+   * MdmDuplicateDismissal delete
+   */
+  export type MdmDuplicateDismissalDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MdmDuplicateDismissal
+     */
+    select?: MdmDuplicateDismissalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MdmDuplicateDismissal
+     */
+    omit?: MdmDuplicateDismissalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MdmDuplicateDismissalInclude<ExtArgs> | null
+    /**
+     * Filter which MdmDuplicateDismissal to delete.
+     */
+    where: MdmDuplicateDismissalWhereUniqueInput
+  }
+
+  /**
+   * MdmDuplicateDismissal deleteMany
+   */
+  export type MdmDuplicateDismissalDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which MdmDuplicateDismissals to delete
+     */
+    where?: MdmDuplicateDismissalWhereInput
+    /**
+     * Limit how many MdmDuplicateDismissals to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * MdmDuplicateDismissal without action
+   */
+  export type MdmDuplicateDismissalDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MdmDuplicateDismissal
+     */
+    select?: MdmDuplicateDismissalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MdmDuplicateDismissal
+     */
+    omit?: MdmDuplicateDismissalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MdmDuplicateDismissalInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model MasterDataRequest
    */
 
@@ -214059,6 +215286,20 @@ export namespace Prisma {
   export type BreakGlassGrantScalarFieldEnum = (typeof BreakGlassGrantScalarFieldEnum)[keyof typeof BreakGlassGrantScalarFieldEnum]
 
 
+  export const MdmDuplicateDismissalScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    entityType: 'entityType',
+    aId: 'aId',
+    bId: 'bId',
+    note: 'note',
+    dismissedBy: 'dismissedBy',
+    createdAt: 'createdAt'
+  };
+
+  export type MdmDuplicateDismissalScalarFieldEnum = (typeof MdmDuplicateDismissalScalarFieldEnum)[keyof typeof MdmDuplicateDismissalScalarFieldEnum]
+
+
   export const MasterDataRequestScalarFieldEnum: {
     id: 'id',
     tenantId: 'tenantId',
@@ -216297,6 +217538,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineListRelationFilter
     serialPositions?: SerialPositionListRelationFilter
     serialMovements?: SerialMovementListRelationFilter
+    mdmDuplicateDismissals?: MdmDuplicateDismissalListRelationFilter
   }
 
   export type TenantOrderByWithRelationInput = {
@@ -216452,6 +217694,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineOrderByRelationAggregateInput
     serialPositions?: SerialPositionOrderByRelationAggregateInput
     serialMovements?: SerialMovementOrderByRelationAggregateInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalOrderByRelationAggregateInput
   }
 
   export type TenantWhereUniqueInput = Prisma.AtLeast<{
@@ -216610,6 +217853,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineListRelationFilter
     serialPositions?: SerialPositionListRelationFilter
     serialMovements?: SerialMovementListRelationFilter
+    mdmDuplicateDismissals?: MdmDuplicateDismissalListRelationFilter
   }, "id" | "slug">
 
   export type TenantOrderByWithAggregationInput = {
@@ -224823,6 +226067,77 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"BreakGlassGrant"> | Date | string
   }
 
+  export type MdmDuplicateDismissalWhereInput = {
+    AND?: MdmDuplicateDismissalWhereInput | MdmDuplicateDismissalWhereInput[]
+    OR?: MdmDuplicateDismissalWhereInput[]
+    NOT?: MdmDuplicateDismissalWhereInput | MdmDuplicateDismissalWhereInput[]
+    id?: UuidFilter<"MdmDuplicateDismissal"> | string
+    tenantId?: UuidFilter<"MdmDuplicateDismissal"> | string
+    entityType?: StringFilter<"MdmDuplicateDismissal"> | string
+    aId?: UuidFilter<"MdmDuplicateDismissal"> | string
+    bId?: UuidFilter<"MdmDuplicateDismissal"> | string
+    note?: StringNullableFilter<"MdmDuplicateDismissal"> | string | null
+    dismissedBy?: UuidFilter<"MdmDuplicateDismissal"> | string
+    createdAt?: DateTimeFilter<"MdmDuplicateDismissal"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+  }
+
+  export type MdmDuplicateDismissalOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    entityType?: SortOrder
+    aId?: SortOrder
+    bId?: SortOrder
+    note?: SortOrderInput | SortOrder
+    dismissedBy?: SortOrder
+    createdAt?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+  }
+
+  export type MdmDuplicateDismissalWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    tenantId_entityType_aId_bId?: MdmDuplicateDismissalTenantIdEntityTypeAIdBIdCompoundUniqueInput
+    AND?: MdmDuplicateDismissalWhereInput | MdmDuplicateDismissalWhereInput[]
+    OR?: MdmDuplicateDismissalWhereInput[]
+    NOT?: MdmDuplicateDismissalWhereInput | MdmDuplicateDismissalWhereInput[]
+    tenantId?: UuidFilter<"MdmDuplicateDismissal"> | string
+    entityType?: StringFilter<"MdmDuplicateDismissal"> | string
+    aId?: UuidFilter<"MdmDuplicateDismissal"> | string
+    bId?: UuidFilter<"MdmDuplicateDismissal"> | string
+    note?: StringNullableFilter<"MdmDuplicateDismissal"> | string | null
+    dismissedBy?: UuidFilter<"MdmDuplicateDismissal"> | string
+    createdAt?: DateTimeFilter<"MdmDuplicateDismissal"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+  }, "id" | "tenantId_entityType_aId_bId">
+
+  export type MdmDuplicateDismissalOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    entityType?: SortOrder
+    aId?: SortOrder
+    bId?: SortOrder
+    note?: SortOrderInput | SortOrder
+    dismissedBy?: SortOrder
+    createdAt?: SortOrder
+    _count?: MdmDuplicateDismissalCountOrderByAggregateInput
+    _max?: MdmDuplicateDismissalMaxOrderByAggregateInput
+    _min?: MdmDuplicateDismissalMinOrderByAggregateInput
+  }
+
+  export type MdmDuplicateDismissalScalarWhereWithAggregatesInput = {
+    AND?: MdmDuplicateDismissalScalarWhereWithAggregatesInput | MdmDuplicateDismissalScalarWhereWithAggregatesInput[]
+    OR?: MdmDuplicateDismissalScalarWhereWithAggregatesInput[]
+    NOT?: MdmDuplicateDismissalScalarWhereWithAggregatesInput | MdmDuplicateDismissalScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"MdmDuplicateDismissal"> | string
+    tenantId?: UuidWithAggregatesFilter<"MdmDuplicateDismissal"> | string
+    entityType?: StringWithAggregatesFilter<"MdmDuplicateDismissal"> | string
+    aId?: UuidWithAggregatesFilter<"MdmDuplicateDismissal"> | string
+    bId?: UuidWithAggregatesFilter<"MdmDuplicateDismissal"> | string
+    note?: StringNullableWithAggregatesFilter<"MdmDuplicateDismissal"> | string | null
+    dismissedBy?: UuidWithAggregatesFilter<"MdmDuplicateDismissal"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"MdmDuplicateDismissal"> | Date | string
+  }
+
   export type MasterDataRequestWhereInput = {
     AND?: MasterDataRequestWhereInput | MasterDataRequestWhereInput[]
     OR?: MasterDataRequestWhereInput[]
@@ -230216,6 +231531,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateInput = {
@@ -230371,6 +231687,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUpdateInput = {
@@ -230526,6 +231843,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateInput = {
@@ -230681,6 +231999,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateManyInput = {
@@ -239436,6 +240755,82 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type MdmDuplicateDismissalCreateInput = {
+    id?: string
+    entityType: string
+    aId: string
+    bId: string
+    note?: string | null
+    dismissedBy: string
+    createdAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutMdmDuplicateDismissalsInput
+  }
+
+  export type MdmDuplicateDismissalUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    entityType: string
+    aId: string
+    bId: string
+    note?: string | null
+    dismissedBy: string
+    createdAt?: Date | string
+  }
+
+  export type MdmDuplicateDismissalUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    entityType?: StringFieldUpdateOperationsInput | string
+    aId?: StringFieldUpdateOperationsInput | string
+    bId?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    dismissedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutMdmDuplicateDismissalsNestedInput
+  }
+
+  export type MdmDuplicateDismissalUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    entityType?: StringFieldUpdateOperationsInput | string
+    aId?: StringFieldUpdateOperationsInput | string
+    bId?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    dismissedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MdmDuplicateDismissalCreateManyInput = {
+    id?: string
+    tenantId: string
+    entityType: string
+    aId: string
+    bId: string
+    note?: string | null
+    dismissedBy: string
+    createdAt?: Date | string
+  }
+
+  export type MdmDuplicateDismissalUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    entityType?: StringFieldUpdateOperationsInput | string
+    aId?: StringFieldUpdateOperationsInput | string
+    bId?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    dismissedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MdmDuplicateDismissalUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    entityType?: StringFieldUpdateOperationsInput | string
+    aId?: StringFieldUpdateOperationsInput | string
+    bId?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    dismissedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type MasterDataRequestCreateInput = {
     id?: string
     entityType: string
@@ -246118,6 +247513,12 @@ export namespace Prisma {
     none?: SerialMovementWhereInput
   }
 
+  export type MdmDuplicateDismissalListRelationFilter = {
+    every?: MdmDuplicateDismissalWhereInput
+    some?: MdmDuplicateDismissalWhereInput
+    none?: MdmDuplicateDismissalWhereInput
+  }
+
   export type TenantConfigurationVersionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -246695,6 +248096,10 @@ export namespace Prisma {
   }
 
   export type SerialMovementOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type MdmDuplicateDismissalOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -252879,6 +254284,46 @@ export namespace Prisma {
     createdAt?: SortOrder
   }
 
+  export type MdmDuplicateDismissalTenantIdEntityTypeAIdBIdCompoundUniqueInput = {
+    tenantId: string
+    entityType: string
+    aId: string
+    bId: string
+  }
+
+  export type MdmDuplicateDismissalCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    entityType?: SortOrder
+    aId?: SortOrder
+    bId?: SortOrder
+    note?: SortOrder
+    dismissedBy?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type MdmDuplicateDismissalMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    entityType?: SortOrder
+    aId?: SortOrder
+    bId?: SortOrder
+    note?: SortOrder
+    dismissedBy?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type MdmDuplicateDismissalMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    entityType?: SortOrder
+    aId?: SortOrder
+    bId?: SortOrder
+    note?: SortOrder
+    dismissedBy?: SortOrder
+    createdAt?: SortOrder
+  }
+
   export type EnumMasterDataRequestStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.MasterDataRequestStatus | EnumMasterDataRequestStatusFieldRefInput<$PrismaModel>
     in?: $Enums.MasterDataRequestStatus[] | ListEnumMasterDataRequestStatusFieldRefInput<$PrismaModel>
@@ -257425,6 +258870,13 @@ export namespace Prisma {
     connect?: SerialMovementWhereUniqueInput | SerialMovementWhereUniqueInput[]
   }
 
+  export type MdmDuplicateDismissalCreateNestedManyWithoutTenantInput = {
+    create?: XOR<MdmDuplicateDismissalCreateWithoutTenantInput, MdmDuplicateDismissalUncheckedCreateWithoutTenantInput> | MdmDuplicateDismissalCreateWithoutTenantInput[] | MdmDuplicateDismissalUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: MdmDuplicateDismissalCreateOrConnectWithoutTenantInput | MdmDuplicateDismissalCreateOrConnectWithoutTenantInput[]
+    createMany?: MdmDuplicateDismissalCreateManyTenantInputEnvelope
+    connect?: MdmDuplicateDismissalWhereUniqueInput | MdmDuplicateDismissalWhereUniqueInput[]
+  }
+
   export type TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -258438,6 +259890,13 @@ export namespace Prisma {
     connectOrCreate?: SerialMovementCreateOrConnectWithoutTenantInput | SerialMovementCreateOrConnectWithoutTenantInput[]
     createMany?: SerialMovementCreateManyTenantInputEnvelope
     connect?: SerialMovementWhereUniqueInput | SerialMovementWhereUniqueInput[]
+  }
+
+  export type MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<MdmDuplicateDismissalCreateWithoutTenantInput, MdmDuplicateDismissalUncheckedCreateWithoutTenantInput> | MdmDuplicateDismissalCreateWithoutTenantInput[] | MdmDuplicateDismissalUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: MdmDuplicateDismissalCreateOrConnectWithoutTenantInput | MdmDuplicateDismissalCreateOrConnectWithoutTenantInput[]
+    createMany?: MdmDuplicateDismissalCreateManyTenantInputEnvelope
+    connect?: MdmDuplicateDismissalWhereUniqueInput | MdmDuplicateDismissalWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -260490,6 +261949,20 @@ export namespace Prisma {
     deleteMany?: SerialMovementScalarWhereInput | SerialMovementScalarWhereInput[]
   }
 
+  export type MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<MdmDuplicateDismissalCreateWithoutTenantInput, MdmDuplicateDismissalUncheckedCreateWithoutTenantInput> | MdmDuplicateDismissalCreateWithoutTenantInput[] | MdmDuplicateDismissalUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: MdmDuplicateDismissalCreateOrConnectWithoutTenantInput | MdmDuplicateDismissalCreateOrConnectWithoutTenantInput[]
+    upsert?: MdmDuplicateDismissalUpsertWithWhereUniqueWithoutTenantInput | MdmDuplicateDismissalUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: MdmDuplicateDismissalCreateManyTenantInputEnvelope
+    set?: MdmDuplicateDismissalWhereUniqueInput | MdmDuplicateDismissalWhereUniqueInput[]
+    disconnect?: MdmDuplicateDismissalWhereUniqueInput | MdmDuplicateDismissalWhereUniqueInput[]
+    delete?: MdmDuplicateDismissalWhereUniqueInput | MdmDuplicateDismissalWhereUniqueInput[]
+    connect?: MdmDuplicateDismissalWhereUniqueInput | MdmDuplicateDismissalWhereUniqueInput[]
+    update?: MdmDuplicateDismissalUpdateWithWhereUniqueWithoutTenantInput | MdmDuplicateDismissalUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: MdmDuplicateDismissalUpdateManyWithWhereWithoutTenantInput | MdmDuplicateDismissalUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: MdmDuplicateDismissalScalarWhereInput | MdmDuplicateDismissalScalarWhereInput[]
+  }
+
   export type TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -262518,6 +263991,20 @@ export namespace Prisma {
     update?: SerialMovementUpdateWithWhereUniqueWithoutTenantInput | SerialMovementUpdateWithWhereUniqueWithoutTenantInput[]
     updateMany?: SerialMovementUpdateManyWithWhereWithoutTenantInput | SerialMovementUpdateManyWithWhereWithoutTenantInput[]
     deleteMany?: SerialMovementScalarWhereInput | SerialMovementScalarWhereInput[]
+  }
+
+  export type MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<MdmDuplicateDismissalCreateWithoutTenantInput, MdmDuplicateDismissalUncheckedCreateWithoutTenantInput> | MdmDuplicateDismissalCreateWithoutTenantInput[] | MdmDuplicateDismissalUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: MdmDuplicateDismissalCreateOrConnectWithoutTenantInput | MdmDuplicateDismissalCreateOrConnectWithoutTenantInput[]
+    upsert?: MdmDuplicateDismissalUpsertWithWhereUniqueWithoutTenantInput | MdmDuplicateDismissalUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: MdmDuplicateDismissalCreateManyTenantInputEnvelope
+    set?: MdmDuplicateDismissalWhereUniqueInput | MdmDuplicateDismissalWhereUniqueInput[]
+    disconnect?: MdmDuplicateDismissalWhereUniqueInput | MdmDuplicateDismissalWhereUniqueInput[]
+    delete?: MdmDuplicateDismissalWhereUniqueInput | MdmDuplicateDismissalWhereUniqueInput[]
+    connect?: MdmDuplicateDismissalWhereUniqueInput | MdmDuplicateDismissalWhereUniqueInput[]
+    update?: MdmDuplicateDismissalUpdateWithWhereUniqueWithoutTenantInput | MdmDuplicateDismissalUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: MdmDuplicateDismissalUpdateManyWithWhereWithoutTenantInput | MdmDuplicateDismissalUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: MdmDuplicateDismissalScalarWhereInput | MdmDuplicateDismissalScalarWhereInput[]
   }
 
   export type TenantCreateNestedOneWithoutConfigurationVersionsInput = {
@@ -267091,6 +268578,20 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutBreakGlassGrantsInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutBreakGlassGrantsInput, UserUpdateWithoutBreakGlassGrantsInput>, UserUncheckedUpdateWithoutBreakGlassGrantsInput>
+  }
+
+  export type TenantCreateNestedOneWithoutMdmDuplicateDismissalsInput = {
+    create?: XOR<TenantCreateWithoutMdmDuplicateDismissalsInput, TenantUncheckedCreateWithoutMdmDuplicateDismissalsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutMdmDuplicateDismissalsInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type TenantUpdateOneRequiredWithoutMdmDuplicateDismissalsNestedInput = {
+    create?: XOR<TenantCreateWithoutMdmDuplicateDismissalsInput, TenantUncheckedCreateWithoutMdmDuplicateDismissalsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutMdmDuplicateDismissalsInput
+    upsert?: TenantUpsertWithoutMdmDuplicateDismissalsInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutMdmDuplicateDismissalsInput, TenantUpdateWithoutMdmDuplicateDismissalsInput>, TenantUncheckedUpdateWithoutMdmDuplicateDismissalsInput>
   }
 
   export type TenantCreateNestedOneWithoutMasterDataRequestsInput = {
@@ -275668,6 +277169,36 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type MdmDuplicateDismissalCreateWithoutTenantInput = {
+    id?: string
+    entityType: string
+    aId: string
+    bId: string
+    note?: string | null
+    dismissedBy: string
+    createdAt?: Date | string
+  }
+
+  export type MdmDuplicateDismissalUncheckedCreateWithoutTenantInput = {
+    id?: string
+    entityType: string
+    aId: string
+    bId: string
+    note?: string | null
+    dismissedBy: string
+    createdAt?: Date | string
+  }
+
+  export type MdmDuplicateDismissalCreateOrConnectWithoutTenantInput = {
+    where: MdmDuplicateDismissalWhereUniqueInput
+    create: XOR<MdmDuplicateDismissalCreateWithoutTenantInput, MdmDuplicateDismissalUncheckedCreateWithoutTenantInput>
+  }
+
+  export type MdmDuplicateDismissalCreateManyTenantInputEnvelope = {
+    data: MdmDuplicateDismissalCreateManyTenantInput | MdmDuplicateDismissalCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
   export type TenantConfigurationVersionUpsertWithWhereUniqueWithoutTenantInput = {
     where: TenantConfigurationVersionWhereUniqueInput
     update: XOR<TenantConfigurationVersionUpdateWithoutTenantInput, TenantConfigurationVersionUncheckedUpdateWithoutTenantInput>
@@ -280308,6 +281839,36 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"SerialMovement"> | Date | string
   }
 
+  export type MdmDuplicateDismissalUpsertWithWhereUniqueWithoutTenantInput = {
+    where: MdmDuplicateDismissalWhereUniqueInput
+    update: XOR<MdmDuplicateDismissalUpdateWithoutTenantInput, MdmDuplicateDismissalUncheckedUpdateWithoutTenantInput>
+    create: XOR<MdmDuplicateDismissalCreateWithoutTenantInput, MdmDuplicateDismissalUncheckedCreateWithoutTenantInput>
+  }
+
+  export type MdmDuplicateDismissalUpdateWithWhereUniqueWithoutTenantInput = {
+    where: MdmDuplicateDismissalWhereUniqueInput
+    data: XOR<MdmDuplicateDismissalUpdateWithoutTenantInput, MdmDuplicateDismissalUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type MdmDuplicateDismissalUpdateManyWithWhereWithoutTenantInput = {
+    where: MdmDuplicateDismissalScalarWhereInput
+    data: XOR<MdmDuplicateDismissalUpdateManyMutationInput, MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type MdmDuplicateDismissalScalarWhereInput = {
+    AND?: MdmDuplicateDismissalScalarWhereInput | MdmDuplicateDismissalScalarWhereInput[]
+    OR?: MdmDuplicateDismissalScalarWhereInput[]
+    NOT?: MdmDuplicateDismissalScalarWhereInput | MdmDuplicateDismissalScalarWhereInput[]
+    id?: UuidFilter<"MdmDuplicateDismissal"> | string
+    tenantId?: UuidFilter<"MdmDuplicateDismissal"> | string
+    entityType?: StringFilter<"MdmDuplicateDismissal"> | string
+    aId?: UuidFilter<"MdmDuplicateDismissal"> | string
+    bId?: UuidFilter<"MdmDuplicateDismissal"> | string
+    note?: StringNullableFilter<"MdmDuplicateDismissal"> | string | null
+    dismissedBy?: UuidFilter<"MdmDuplicateDismissal"> | string
+    createdAt?: DateTimeFilter<"MdmDuplicateDismissal"> | Date | string
+  }
+
   export type TenantCreateWithoutConfigurationVersionsInput = {
     id?: string
     slug: string
@@ -280460,6 +282021,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutConfigurationVersionsInput = {
@@ -280614,6 +282176,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutConfigurationVersionsInput = {
@@ -280784,6 +282347,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutConfigurationVersionsInput = {
@@ -280938,6 +282502,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutLegalEntitiesInput = {
@@ -281092,6 +282657,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLegalEntitiesInput = {
@@ -281246,6 +282812,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLegalEntitiesInput = {
@@ -281450,6 +283017,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLegalEntitiesInput = {
@@ -281604,6 +283172,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithWhereUniqueWithoutLegalEntityInput = {
@@ -281774,6 +283343,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBusinessUnitsInput = {
@@ -281928,6 +283498,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBusinessUnitsInput = {
@@ -282236,6 +283807,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBusinessUnitsInput = {
@@ -282390,6 +283962,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type LegalEntityUpsertWithoutBusinessUnitsInput = {
@@ -282656,6 +284229,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBranchesInput = {
@@ -282810,6 +284384,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBranchesInput = {
@@ -283009,6 +284584,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBranchesInput = {
@@ -283163,6 +284739,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithoutBranchesInput = {
@@ -283352,6 +284929,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutFactoriesInput = {
@@ -283506,6 +285084,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutFactoriesInput = {
@@ -283705,6 +285284,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutFactoriesInput = {
@@ -283859,6 +285439,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithoutFactoriesInput = {
@@ -284048,6 +285629,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutUsersInput = {
@@ -284202,6 +285784,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutUsersInput = {
@@ -284461,6 +286044,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutUsersInput = {
@@ -284615,6 +286199,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserRoleAssignmentUpsertWithWhereUniqueWithoutUserInput = {
@@ -284838,6 +286423,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutUserCredentialsInput = {
@@ -284992,6 +286578,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutUserCredentialsInput = {
@@ -285193,6 +286780,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutUserCredentialsInput = {
@@ -285347,6 +286935,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserUpsertWithoutCredentialInput = {
@@ -285538,6 +287127,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRolesInput = {
@@ -285692,6 +287282,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRolesInput = {
@@ -285912,6 +287503,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRolesInput = {
@@ -286066,6 +287658,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RolePermissionUpsertWithWhereUniqueWithoutRoleInput = {
@@ -286318,6 +287911,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoleAssignmentsInput = {
@@ -286472,6 +288066,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoleAssignmentsInput = {
@@ -286698,6 +288293,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoleAssignmentsInput = {
@@ -286852,6 +288448,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserUpsertWithoutRoleAssignmentsInput = {
@@ -287074,6 +288671,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAuditEventsInput = {
@@ -287228,6 +288826,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAuditEventsInput = {
@@ -287398,6 +288997,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAuditEventsInput = {
@@ -287552,6 +289152,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutOutboxEventsInput = {
@@ -287706,6 +289307,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOutboxEventsInput = {
@@ -287860,6 +289462,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOutboxEventsInput = {
@@ -288030,6 +289633,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOutboxEventsInput = {
@@ -288184,6 +289788,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutTerminologyEntriesInput = {
@@ -288338,6 +289943,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTerminologyEntriesInput = {
@@ -288492,6 +290098,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTerminologyEntriesInput = {
@@ -288662,6 +290269,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTerminologyEntriesInput = {
@@ -288816,6 +290424,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutModuleActivationsInput = {
@@ -288970,6 +290579,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutModuleActivationsInput = {
@@ -289124,6 +290734,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutModuleActivationsInput = {
@@ -289294,6 +290905,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutModuleActivationsInput = {
@@ -289448,6 +291060,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCustomFieldDefsInput = {
@@ -289602,6 +291215,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCustomFieldDefsInput = {
@@ -289756,6 +291370,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCustomFieldDefsInput = {
@@ -289926,6 +291541,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCustomFieldDefsInput = {
@@ -290080,6 +291696,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutTasksInput = {
@@ -290234,6 +291851,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTasksInput = {
@@ -290388,6 +292006,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTasksInput = {
@@ -290558,6 +292177,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTasksInput = {
@@ -290712,6 +292332,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutNotificationsInput = {
@@ -290866,6 +292487,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNotificationsInput = {
@@ -291020,6 +292642,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNotificationsInput = {
@@ -291190,6 +292813,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNotificationsInput = {
@@ -291344,6 +292968,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutWorkflowDefinitionsInput = {
@@ -291498,6 +293123,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkflowDefinitionsInput = {
@@ -291652,6 +293278,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkflowDefinitionsInput = {
@@ -291884,6 +293511,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkflowDefinitionsInput = {
@@ -292038,6 +293666,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkflowVersionUpsertWithWhereUniqueWithoutDefinitionInput = {
@@ -292450,6 +294079,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRuleDefinitionsInput = {
@@ -292604,6 +294234,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRuleDefinitionsInput = {
@@ -292802,6 +294433,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRuleDefinitionsInput = {
@@ -292956,6 +294588,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RuleVersionUpsertWithWhereUniqueWithoutRuleInput = {
@@ -293183,6 +294816,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutApprovalsInput = {
@@ -293337,6 +294971,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutApprovalsInput = {
@@ -293507,6 +295142,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutApprovalsInput = {
@@ -293661,6 +295297,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutProcessedEventsInput = {
@@ -293815,6 +295452,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProcessedEventsInput = {
@@ -293969,6 +295607,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProcessedEventsInput = {
@@ -294139,6 +295778,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProcessedEventsInput = {
@@ -294293,6 +295933,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutDocumentTemplatesInput = {
@@ -294447,6 +296088,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDocumentTemplatesInput = {
@@ -294601,6 +296243,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDocumentTemplatesInput = {
@@ -294797,6 +296440,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDocumentTemplatesInput = {
@@ -294951,6 +296595,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type DocumentTemplateVersionUpsertWithWhereUniqueWithoutTemplateInput = {
@@ -295181,6 +296826,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPartiesInput = {
@@ -295335,6 +296981,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPartiesInput = {
@@ -295686,6 +297333,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPartiesInput = {
@@ -295840,6 +297488,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PartyUpsertWithoutMergedPartiesInput = {
@@ -296115,6 +297764,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutConsentRecordsInput = {
@@ -296269,6 +297919,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutConsentRecordsInput = {
@@ -296478,6 +298129,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutConsentRecordsInput = {
@@ -296632,6 +298284,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PartyUpsertWithoutConsentRecordsInput = {
@@ -296915,6 +298568,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProductsInput = {
@@ -297069,6 +298723,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProductsInput = {
@@ -297303,6 +298958,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProductsInput = {
@@ -297457,6 +299113,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SkuUpsertWithWhereUniqueWithoutProductInput = {
@@ -298329,6 +299986,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWarehousesInput = {
@@ -298483,6 +300141,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWarehousesInput = {
@@ -298711,6 +300370,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWarehousesInput = {
@@ -298865,6 +300525,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WarehouseLocationUpsertWithWhereUniqueWithoutWarehouseInput = {
@@ -299109,6 +300770,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockMovementsInput = {
@@ -299263,6 +300925,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockMovementsInput = {
@@ -299433,6 +301096,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockMovementsInput = {
@@ -299587,6 +301251,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutStockReservationsInput = {
@@ -299741,6 +301406,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockReservationsInput = {
@@ -299895,6 +301561,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockReservationsInput = {
@@ -300065,6 +301732,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockReservationsInput = {
@@ -300219,6 +301887,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutDevicesInput = {
@@ -300373,6 +302042,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDevicesInput = {
@@ -300527,6 +302197,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDevicesInput = {
@@ -300697,6 +302368,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDevicesInput = {
@@ -300851,6 +302523,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutScanEventsInput = {
@@ -301005,6 +302678,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutScanEventsInput = {
@@ -301159,6 +302833,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutScanEventsInput = {
@@ -301329,6 +303004,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutScanEventsInput = {
@@ -301483,6 +303159,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutWmsOrdersInput = {
@@ -301637,6 +303314,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWmsOrdersInput = {
@@ -301791,6 +303469,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWmsOrdersInput = {
@@ -301987,6 +303666,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWmsOrdersInput = {
@@ -302141,6 +303821,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WmsOrderLineUpsertWithWhereUniqueWithoutOrderInput = {
@@ -302311,6 +303992,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWmsOrderLinesInput = {
@@ -302465,6 +304147,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWmsOrderLinesInput = {
@@ -302668,6 +304351,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWmsOrderLinesInput = {
@@ -302822,6 +304506,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WmsOrderUpsertWithoutLinesInput = {
@@ -303015,6 +304700,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTerritoriesInput = {
@@ -303169,6 +304855,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTerritoriesInput = {
@@ -303339,6 +305026,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTerritoriesInput = {
@@ -303493,6 +305181,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSalesTeamsInput = {
@@ -303647,6 +305336,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesTeamsInput = {
@@ -303801,6 +305491,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesTeamsInput = {
@@ -303995,6 +305686,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesTeamsInput = {
@@ -304149,6 +305841,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesTeamMemberUpsertWithWhereUniqueWithoutTeamInput = {
@@ -304319,6 +306012,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesTeamMembersInput = {
@@ -304473,6 +306167,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesTeamMembersInput = {
@@ -304664,6 +306359,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesTeamMembersInput = {
@@ -304818,6 +306514,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesTeamUpsertWithoutMembersInput = {
@@ -304999,6 +306696,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCrmAccountsInput = {
@@ -305153,6 +306851,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCrmAccountsInput = {
@@ -305323,6 +307022,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCrmAccountsInput = {
@@ -305477,6 +307177,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutLeadsInput = {
@@ -305631,6 +307332,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLeadsInput = {
@@ -305785,6 +307487,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLeadsInput = {
@@ -305955,6 +307658,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLeadsInput = {
@@ -306109,6 +307813,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutOpportunitiesInput = {
@@ -306263,6 +307968,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOpportunitiesInput = {
@@ -306417,6 +308123,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOpportunitiesInput = {
@@ -306587,6 +308294,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOpportunitiesInput = {
@@ -306741,6 +308449,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCrmActivitiesInput = {
@@ -306895,6 +308604,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCrmActivitiesInput = {
@@ -307049,6 +308759,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCrmActivitiesInput = {
@@ -307219,6 +308930,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCrmActivitiesInput = {
@@ -307373,6 +309085,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPriceListsInput = {
@@ -307527,6 +309240,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPriceListsInput = {
@@ -307681,6 +309395,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPriceListsInput = {
@@ -307877,6 +309592,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPriceListsInput = {
@@ -308031,6 +309747,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PriceListEntryUpsertWithWhereUniqueWithoutPriceListInput = {
@@ -308201,6 +309918,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPriceListEntriesInput = {
@@ -308355,6 +310073,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPriceListEntriesInput = {
@@ -308558,6 +310277,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPriceListEntriesInput = {
@@ -308712,6 +310432,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PriceListUpsertWithoutEntriesInput = {
@@ -308905,6 +310626,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQuotesInput = {
@@ -309059,6 +310781,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQuotesInput = {
@@ -309263,6 +310986,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQuotesInput = {
@@ -309417,6 +311141,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QuoteLineUpsertWithWhereUniqueWithoutQuoteInput = {
@@ -309587,6 +311312,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPackagingLevelsInput = {
@@ -309741,6 +311467,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPackagingLevelsInput = {
@@ -309970,6 +311697,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPackagingLevelsInput = {
@@ -310124,6 +311852,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SkuUpsertWithoutPackagingLevelsInput = {
@@ -310343,6 +312072,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSkuSubstitutionsInput = {
@@ -310497,6 +312227,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSkuSubstitutionsInput = {
@@ -310667,6 +312398,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSkuSubstitutionsInput = {
@@ -310821,6 +312553,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutDiscountRulesInput = {
@@ -310975,6 +312708,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDiscountRulesInput = {
@@ -311129,6 +312863,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDiscountRulesInput = {
@@ -311299,6 +313034,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDiscountRulesInput = {
@@ -311453,6 +313189,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutQuoteLinesInput = {
@@ -311607,6 +313344,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQuoteLinesInput = {
@@ -311761,6 +313499,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQuoteLinesInput = {
@@ -311978,6 +313717,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQuoteLinesInput = {
@@ -312132,6 +313872,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QuoteUpsertWithoutLinesInput = {
@@ -312339,6 +314080,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesOrdersInput = {
@@ -312493,6 +314235,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesOrdersInput = {
@@ -312735,6 +314478,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesOrdersInput = {
@@ -312889,6 +314633,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesOrderLineUpsertWithWhereUniqueWithoutOrderInput = {
@@ -313075,6 +314820,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesOrderLinesInput = {
@@ -313229,6 +314975,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesOrderLinesInput = {
@@ -313448,6 +315195,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesOrderLinesInput = {
@@ -313602,6 +315350,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesOrderUpsertWithoutLinesInput = {
@@ -313811,6 +315560,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOrderEventsInput = {
@@ -313965,6 +315715,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOrderEventsInput = {
@@ -314135,6 +315886,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOrderEventsInput = {
@@ -314289,6 +316041,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSuppliersInput = {
@@ -314443,6 +316196,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSuppliersInput = {
@@ -314597,6 +316351,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSuppliersInput = {
@@ -314767,6 +316522,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSuppliersInput = {
@@ -314921,6 +316677,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPurchaseRequisitionsInput = {
@@ -315075,6 +316832,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseRequisitionsInput = {
@@ -315229,6 +316987,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseRequisitionsInput = {
@@ -315429,6 +317188,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseRequisitionsInput = {
@@ -315583,6 +317343,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseRequisitionLineUpsertWithWhereUniqueWithoutRequisitionInput = {
@@ -315753,6 +317514,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseReqLinesInput = {
@@ -315907,6 +317669,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseReqLinesInput = {
@@ -316110,6 +317873,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseReqLinesInput = {
@@ -316264,6 +318028,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseRequisitionUpsertWithoutLinesInput = {
@@ -316457,6 +318222,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseOrdersInput = {
@@ -316611,6 +318377,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseOrdersInput = {
@@ -316879,6 +318646,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseOrdersInput = {
@@ -317033,6 +318801,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseOrderLineUpsertWithWhereUniqueWithoutPoInput = {
@@ -317235,6 +319004,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseOrderLinesInput = {
@@ -317389,6 +319159,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseOrderLinesInput = {
@@ -317600,6 +319371,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseOrderLinesInput = {
@@ -317754,6 +319526,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseOrderUpsertWithoutLinesInput = {
@@ -317955,6 +319728,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBomsInput = {
@@ -318109,6 +319883,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBomsInput = {
@@ -318309,6 +320084,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBomsInput = {
@@ -318463,6 +320239,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BomLineUpsertWithWhereUniqueWithoutBomInput = {
@@ -318633,6 +320410,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBomLinesInput = {
@@ -318787,6 +320565,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBomLinesInput = {
@@ -318988,6 +320767,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBomLinesInput = {
@@ -319142,6 +320922,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BomUpsertWithoutLinesInput = {
@@ -319333,6 +321114,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoutingsInput = {
@@ -319487,6 +321269,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoutingsInput = {
@@ -319689,6 +321472,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoutingsInput = {
@@ -319843,6 +321627,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RoutingOperationUpsertWithWhereUniqueWithoutRoutingInput = {
@@ -320013,6 +321798,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoutingOperationsInput = {
@@ -320167,6 +321953,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoutingOperationsInput = {
@@ -320364,6 +322151,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoutingOperationsInput = {
@@ -320518,6 +322306,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RoutingUpsertWithoutOperationsInput = {
@@ -320705,6 +322494,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutEngineeringChangesInput = {
@@ -320859,6 +322649,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutEngineeringChangesInput = {
@@ -321029,6 +322820,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutEngineeringChangesInput = {
@@ -321183,6 +322975,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPlanningPoliciesInput = {
@@ -321337,6 +323130,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPlanningPoliciesInput = {
@@ -321491,6 +323285,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPlanningPoliciesInput = {
@@ -321661,6 +323456,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPlanningPoliciesInput = {
@@ -321815,6 +323611,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutMrpRunsInput = {
@@ -321969,6 +323766,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutMrpRunsInput = {
@@ -322123,6 +323921,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutMrpRunsInput = {
@@ -322323,6 +324122,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutMrpRunsInput = {
@@ -322477,6 +324277,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type MrpSuggestionUpsertWithWhereUniqueWithoutRunInput = {
@@ -322647,6 +324448,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutMrpSuggestionsInput = {
@@ -322801,6 +324603,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutMrpSuggestionsInput = {
@@ -322996,6 +324799,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutMrpSuggestionsInput = {
@@ -323150,6 +324954,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type MrpRunUpsertWithoutSuggestionsInput = {
@@ -323335,6 +325140,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkOrdersInput = {
@@ -323489,6 +325295,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkOrdersInput = {
@@ -323695,6 +325502,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkOrdersInput = {
@@ -323849,6 +325657,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkOrderOperationUpsertWithWhereUniqueWithoutWorkOrderInput = {
@@ -324019,6 +325828,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkOrderOperationsInput = {
@@ -324173,6 +325983,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkOrderOperationsInput = {
@@ -324386,6 +326197,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkOrderOperationsInput = {
@@ -324540,6 +326352,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkOrderUpsertWithoutOperationsInput = {
@@ -324743,6 +326556,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcPlansInput = {
@@ -324897,6 +326711,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcPlansInput = {
@@ -325093,6 +326908,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcPlansInput = {
@@ -325247,6 +327063,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcPlanItemUpsertWithWhereUniqueWithoutPlanInput = {
@@ -325417,6 +327234,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcPlanItemsInput = {
@@ -325571,6 +327389,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcPlanItemsInput = {
@@ -325768,6 +327587,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcPlanItemsInput = {
@@ -325922,6 +327742,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcPlanUpsertWithoutItemsInput = {
@@ -326109,6 +327930,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcInspectionsInput = {
@@ -326263,6 +328085,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcInspectionsInput = {
@@ -326463,6 +328286,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcInspectionsInput = {
@@ -326617,6 +328441,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcInspectionItemUpsertWithWhereUniqueWithoutInspectionInput = {
@@ -326787,6 +328612,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcInspectionItemsInput = {
@@ -326941,6 +328767,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcInspectionItemsInput = {
@@ -327146,6 +328973,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcInspectionItemsInput = {
@@ -327300,6 +329128,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcInspectionUpsertWithoutItemsInput = {
@@ -327495,6 +329324,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNcrsInput = {
@@ -327649,6 +329479,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNcrsInput = {
@@ -327819,6 +329650,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNcrsInput = {
@@ -327973,6 +329805,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutInvoicesInput = {
@@ -328127,6 +329960,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutInvoicesInput = {
@@ -328281,6 +330115,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutInvoicesInput = {
@@ -328547,6 +330382,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutInvoicesInput = {
@@ -328701,6 +330537,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PaymentUpsertWithWhereUniqueWithoutInvoiceInput = {
@@ -328903,6 +330740,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPaymentsInput = {
@@ -329057,6 +330895,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPaymentsInput = {
@@ -329343,6 +331182,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPaymentsInput = {
@@ -329497,6 +331337,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type InvoiceUpsertWithoutPaymentsInput = {
@@ -329759,6 +331600,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPortalUsersInput = {
@@ -329913,6 +331755,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPortalUsersInput = {
@@ -330083,6 +331926,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPortalUsersInput = {
@@ -330237,6 +332081,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCommentsInput = {
@@ -330391,6 +332236,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCommentsInput = {
@@ -330545,6 +332391,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCommentsInput = {
@@ -330715,6 +332562,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCommentsInput = {
@@ -330869,6 +332717,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutAttachmentsInput = {
@@ -331023,6 +332872,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAttachmentsInput = {
@@ -331177,6 +333027,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAttachmentsInput = {
@@ -331364,6 +333215,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAttachmentsInput = {
@@ -331518,6 +333370,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type AttachmentBlobUpsertWithoutAttachmentInput = {
@@ -331695,6 +333548,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAttachmentBlobsInput = {
@@ -331849,6 +333703,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAttachmentBlobsInput = {
@@ -332050,6 +333905,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAttachmentBlobsInput = {
@@ -332204,6 +334060,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type AttachmentUpsertWithoutBlobInput = {
@@ -332395,6 +334252,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNumberSequencesInput = {
@@ -332549,6 +334407,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNumberSequencesInput = {
@@ -332719,6 +334578,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNumberSequencesInput = {
@@ -332873,6 +334733,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutExchangeRatesInput = {
@@ -333027,6 +334888,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutExchangeRatesInput = {
@@ -333181,6 +335043,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutExchangeRatesInput = {
@@ -333351,6 +335214,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutExchangeRatesInput = {
@@ -333505,6 +335369,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCostCentersInput = {
@@ -333659,6 +335524,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCostCentersInput = {
@@ -333813,6 +335679,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCostCentersInput = {
@@ -334011,6 +335878,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCostCentersInput = {
@@ -334165,6 +336033,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BudgetUpsertWithWhereUniqueWithoutCostCenterInput = {
@@ -334335,6 +336204,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBudgetsInput = {
@@ -334489,6 +336359,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBudgetsInput = {
@@ -334682,6 +336553,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBudgetsInput = {
@@ -334836,6 +336708,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type CostCenterUpsertWithoutBudgetsInput = {
@@ -335019,6 +336892,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWebhookSubscriptionsInput = {
@@ -335173,6 +337047,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWebhookSubscriptionsInput = {
@@ -335381,6 +337256,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWebhookSubscriptionsInput = {
@@ -335535,6 +337411,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WebhookDeliveryUpsertWithWhereUniqueWithoutSubscriptionInput = {
@@ -335705,6 +337582,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWebhookDeliveriesInput = {
@@ -335859,6 +337737,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWebhookDeliveriesInput = {
@@ -336056,6 +337935,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWebhookDeliveriesInput = {
@@ -336210,6 +338090,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WebhookSubscriptionUpsertWithoutDeliveriesInput = {
@@ -336397,6 +338278,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutApiKeysInput = {
@@ -336551,6 +338433,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutApiKeysInput = {
@@ -336721,6 +338604,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutApiKeysInput = {
@@ -336875,6 +338759,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSecurityEventsInput = {
@@ -337029,6 +338914,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSecurityEventsInput = {
@@ -337183,6 +339069,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSecurityEventsInput = {
@@ -337353,6 +339240,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSecurityEventsInput = {
@@ -337507,6 +339395,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutProductCategoriesInput = {
@@ -337661,6 +339550,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProductCategoriesInput = {
@@ -337815,6 +339705,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProductCategoriesInput = {
@@ -338036,6 +339927,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProductCategoriesInput = {
@@ -338190,6 +340082,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ProductCategoryUpsertWithoutChildrenInput = {
@@ -338389,6 +340282,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutReturnOrdersInput = {
@@ -338543,6 +340437,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutReturnOrdersInput = {
@@ -338741,6 +340636,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutReturnOrdersInput = {
@@ -338895,6 +340791,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ReturnOrderLineUpsertWithWhereUniqueWithoutReturnOrderInput = {
@@ -339065,6 +340962,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutReturnOrderLinesInput = {
@@ -339219,6 +341117,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutReturnOrderLinesInput = {
@@ -339424,6 +341323,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutReturnOrderLinesInput = {
@@ -339578,6 +341478,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ReturnOrderUpsertWithoutLinesInput = {
@@ -339773,6 +341674,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockCountsInput = {
@@ -339927,6 +341829,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockCountsInput = {
@@ -340123,6 +342026,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockCountsInput = {
@@ -340277,6 +342181,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type StockCountLineUpsertWithWhereUniqueWithoutCountInput = {
@@ -340447,6 +342352,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockCountLinesInput = {
@@ -340601,6 +342507,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockCountLinesInput = {
@@ -340804,6 +342711,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockCountLinesInput = {
@@ -340958,6 +342866,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type StockCountUpsertWithoutLinesInput = {
@@ -341151,6 +343060,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkCentersInput = {
@@ -341305,6 +343215,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkCentersInput = {
@@ -341507,6 +343418,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkCentersInput = {
@@ -341661,6 +343573,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type DowntimeEventUpsertWithWhereUniqueWithoutWorkCenterInput = {
@@ -341831,6 +343744,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDowntimeEventsInput = {
@@ -341985,6 +343899,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDowntimeEventsInput = {
@@ -342178,6 +344093,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDowntimeEventsInput = {
@@ -342332,6 +344248,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkCenterUpsertWithoutDowntimesInput = {
@@ -342515,6 +344432,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPromotionsInput = {
@@ -342669,6 +344587,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPromotionsInput = {
@@ -342865,6 +344784,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPromotionsInput = {
@@ -343019,6 +344939,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PromotionRedemptionUpsertWithWhereUniqueWithoutPromotionInput = {
@@ -343653,6 +345574,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBreakGlassGrantsInput = {
@@ -343807,6 +345729,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBreakGlassGrantsInput = {
@@ -344008,6 +345931,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBreakGlassGrantsInput = {
@@ -344162,6 +346086,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserUpsertWithoutBreakGlassGrantsInput = {
@@ -344199,6 +346124,642 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     roleAssignments?: UserRoleAssignmentUncheckedUpdateManyWithoutUserNestedInput
     credential?: UserCredentialUncheckedUpdateOneWithoutUserNestedInput
+  }
+
+  export type TenantCreateWithoutMdmDuplicateDismissalsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    factories?: FactoryCreateNestedManyWithoutTenantInput
+    users?: UserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionCreateNestedManyWithoutTenantInput
+    tasks?: TaskCreateNestedManyWithoutTenantInput
+    notifications?: NotificationCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    products?: ProductCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountCreateNestedManyWithoutTenantInput
+    leads?: LeadCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryCreateNestedManyWithoutTenantInput
+    quotes?: QuoteCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
+    comments?: CommentCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
+    exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
+    breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
+    masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
+    supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
+    employees?: EmployeeCreateNestedManyWithoutTenantInput
+    assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
+    rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
+    containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
+    installedAssets?: InstalledAssetCreateNestedManyWithoutTenantInput
+    serviceRequests?: ServiceRequestCreateNestedManyWithoutTenantInput
+    serviceOrders?: ServiceOrderCreateNestedManyWithoutTenantInput
+    serviceOrderParts?: ServiceOrderPartCreateNestedManyWithoutTenantInput
+    rmas?: RmaCreateNestedManyWithoutTenantInput
+    glAccounts?: GlAccountCreateNestedManyWithoutTenantInput
+    glJournalEntries?: GlJournalEntryCreateNestedManyWithoutTenantInput
+    glJournalLines?: GlJournalLineCreateNestedManyWithoutTenantInput
+    glSystemAccounts?: GlSystemAccountCreateNestedManyWithoutTenantInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
+    glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
+    employeeSalaries?: EmployeeSalaryCreateNestedManyWithoutTenantInput
+    payrollRuns?: PayrollRunCreateNestedManyWithoutTenantInput
+    payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
+    payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
+    employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
+    equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
+    equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutMdmDuplicateDismissalsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityUncheckedCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    factories?: FactoryUncheckedCreateNestedManyWithoutTenantInput
+    users?: UserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventUncheckedCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventUncheckedCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryUncheckedCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationUncheckedCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutTenantInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalUncheckedCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventUncheckedCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    products?: ProductUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountUncheckedCreateNestedManyWithoutTenantInput
+    leads?: LeadUncheckedCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityUncheckedCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityUncheckedCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListUncheckedCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryUncheckedCreateNestedManyWithoutTenantInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineUncheckedCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderUncheckedCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventUncheckedCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierUncheckedCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
+    comments?: CommentUncheckedCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderUncheckedCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
+    exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
+    breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
+    masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
+    supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
+    employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
+    assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
+    rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
+    containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
+    installedAssets?: InstalledAssetUncheckedCreateNestedManyWithoutTenantInput
+    serviceRequests?: ServiceRequestUncheckedCreateNestedManyWithoutTenantInput
+    serviceOrders?: ServiceOrderUncheckedCreateNestedManyWithoutTenantInput
+    serviceOrderParts?: ServiceOrderPartUncheckedCreateNestedManyWithoutTenantInput
+    rmas?: RmaUncheckedCreateNestedManyWithoutTenantInput
+    glAccounts?: GlAccountUncheckedCreateNestedManyWithoutTenantInput
+    glJournalEntries?: GlJournalEntryUncheckedCreateNestedManyWithoutTenantInput
+    glJournalLines?: GlJournalLineUncheckedCreateNestedManyWithoutTenantInput
+    glSystemAccounts?: GlSystemAccountUncheckedCreateNestedManyWithoutTenantInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
+    glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
+    employeeSalaries?: EmployeeSalaryUncheckedCreateNestedManyWithoutTenantInput
+    payrollRuns?: PayrollRunUncheckedCreateNestedManyWithoutTenantInput
+    payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
+    payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
+    employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
+    equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
+    equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutMdmDuplicateDismissalsInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutMdmDuplicateDismissalsInput, TenantUncheckedCreateWithoutMdmDuplicateDismissalsInput>
+  }
+
+  export type TenantUpsertWithoutMdmDuplicateDismissalsInput = {
+    update: XOR<TenantUpdateWithoutMdmDuplicateDismissalsInput, TenantUncheckedUpdateWithoutMdmDuplicateDismissalsInput>
+    create: XOR<TenantCreateWithoutMdmDuplicateDismissalsInput, TenantUncheckedCreateWithoutMdmDuplicateDismissalsInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutMdmDuplicateDismissalsInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutMdmDuplicateDismissalsInput, TenantUncheckedUpdateWithoutMdmDuplicateDismissalsInput>
+  }
+
+  export type TenantUpdateWithoutMdmDuplicateDismissalsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUpdateManyWithoutTenantNestedInput
+    users?: UserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    products?: ProductUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUpdateManyWithoutTenantNestedInput
+    leads?: LeadUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
+    comments?: CommentUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
+    exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
+    breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
+    masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
+    supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
+    employees?: EmployeeUpdateManyWithoutTenantNestedInput
+    assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
+    rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
+    containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
+    installedAssets?: InstalledAssetUpdateManyWithoutTenantNestedInput
+    serviceRequests?: ServiceRequestUpdateManyWithoutTenantNestedInput
+    serviceOrders?: ServiceOrderUpdateManyWithoutTenantNestedInput
+    serviceOrderParts?: ServiceOrderPartUpdateManyWithoutTenantNestedInput
+    rmas?: RmaUpdateManyWithoutTenantNestedInput
+    glAccounts?: GlAccountUpdateManyWithoutTenantNestedInput
+    glJournalEntries?: GlJournalEntryUpdateManyWithoutTenantNestedInput
+    glJournalLines?: GlJournalLineUpdateManyWithoutTenantNestedInput
+    glSystemAccounts?: GlSystemAccountUpdateManyWithoutTenantNestedInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
+    glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
+    employeeSalaries?: EmployeeSalaryUpdateManyWithoutTenantNestedInput
+    payrollRuns?: PayrollRunUpdateManyWithoutTenantNestedInput
+    payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
+    payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
+    employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
+    equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
+    equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutMdmDuplicateDismissalsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUncheckedUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUncheckedUpdateManyWithoutTenantNestedInput
+    users?: UserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUncheckedUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUncheckedUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUncheckedUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUncheckedUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUncheckedUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUncheckedUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    products?: ProductUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUncheckedUpdateManyWithoutTenantNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUncheckedUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUncheckedUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUncheckedUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUncheckedUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUncheckedUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
+    exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
+    breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
+    masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
+    supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
+    employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
+    assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
+    rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
+    containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
+    installedAssets?: InstalledAssetUncheckedUpdateManyWithoutTenantNestedInput
+    serviceRequests?: ServiceRequestUncheckedUpdateManyWithoutTenantNestedInput
+    serviceOrders?: ServiceOrderUncheckedUpdateManyWithoutTenantNestedInput
+    serviceOrderParts?: ServiceOrderPartUncheckedUpdateManyWithoutTenantNestedInput
+    rmas?: RmaUncheckedUpdateManyWithoutTenantNestedInput
+    glAccounts?: GlAccountUncheckedUpdateManyWithoutTenantNestedInput
+    glJournalEntries?: GlJournalEntryUncheckedUpdateManyWithoutTenantNestedInput
+    glJournalLines?: GlJournalLineUncheckedUpdateManyWithoutTenantNestedInput
+    glSystemAccounts?: GlSystemAccountUncheckedUpdateManyWithoutTenantNestedInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
+    glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
+    employeeSalaries?: EmployeeSalaryUncheckedUpdateManyWithoutTenantNestedInput
+    payrollRuns?: PayrollRunUncheckedUpdateManyWithoutTenantNestedInput
+    payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
+    payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
+    employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
+    equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
+    equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutMasterDataRequestsInput = {
@@ -344353,6 +346914,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutMasterDataRequestsInput = {
@@ -344507,6 +347069,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutMasterDataRequestsInput = {
@@ -344677,6 +347240,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutMasterDataRequestsInput = {
@@ -344831,6 +347395,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutLoyaltyAccountsInput = {
@@ -344985,6 +347550,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLoyaltyAccountsInput = {
@@ -345139,6 +347705,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLoyaltyAccountsInput = {
@@ -345339,6 +347906,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLoyaltyAccountsInput = {
@@ -345493,6 +348061,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type LoyaltyTransactionUpsertWithWhereUniqueWithoutLoyaltyAccountInput = {
@@ -345729,6 +348298,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSupportCasesInput = {
@@ -345883,6 +348453,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSupportCasesInput = {
@@ -346053,6 +348624,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSupportCasesInput = {
@@ -346207,6 +348779,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutContractsInput = {
@@ -346361,6 +348934,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutContractsInput = {
@@ -346515,6 +349089,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutContractsInput = {
@@ -346724,6 +349299,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutContractsInput = {
@@ -346878,6 +349454,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PartyUpsertWithoutContractsInput = {
@@ -347077,6 +349654,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutEmployeesInput = {
@@ -347231,6 +349809,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutEmployeesInput = {
@@ -347401,6 +349980,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutEmployeesInput = {
@@ -347555,6 +350135,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutAssetsInput = {
@@ -347709,6 +350290,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAssetsInput = {
@@ -347863,6 +350445,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAssetsInput = {
@@ -348033,6 +350616,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAssetsInput = {
@@ -348187,6 +350771,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutQuarantineHoldsInput = {
@@ -348341,6 +350926,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQuarantineHoldsInput = {
@@ -348495,6 +351081,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQuarantineHoldsInput = {
@@ -348665,6 +351252,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQuarantineHoldsInput = {
@@ -348819,6 +351407,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutRfqsInput = {
@@ -348973,6 +351562,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRfqsInput = {
@@ -349127,6 +351717,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRfqsInput = {
@@ -349327,6 +351918,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRfqsInput = {
@@ -349481,6 +352073,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RfqQuoteUpsertWithWhereUniqueWithoutRfqInput = {
@@ -349737,6 +352330,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPackagesInput = {
@@ -349891,6 +352485,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPackagesInput = {
@@ -350134,6 +352729,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPackagesInput = {
@@ -350288,6 +352884,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesOrderUpsertWithoutPackagesInput = {
@@ -350592,6 +353189,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLandedCostsInput = {
@@ -350746,6 +353344,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLandedCostsInput = {
@@ -350957,6 +353556,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLandedCostsInput = {
@@ -351111,6 +353711,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseOrderUpsertWithoutLandedCostsInput = {
@@ -351312,6 +353913,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCustomObjectDefinitionsInput = {
@@ -351466,6 +354068,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCustomObjectDefinitionsInput = {
@@ -351664,6 +354267,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCustomObjectDefinitionsInput = {
@@ -351818,6 +354422,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type CustomObjectRecordUpsertWithWhereUniqueWithoutDefinitionInput = {
@@ -352065,6 +354670,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutFrameworkAgreementsInput = {
@@ -352219,6 +354825,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutFrameworkAgreementsInput = {
@@ -352389,6 +354996,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutFrameworkAgreementsInput = {
@@ -352543,6 +355151,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSkuChannelContentsInput = {
@@ -352697,6 +355306,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSkuChannelContentsInput = {
@@ -352851,6 +355461,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSkuChannelContentsInput = {
@@ -353080,6 +355691,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSkuChannelContentsInput = {
@@ -353234,6 +355846,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SkuUpsertWithoutChannelContentsInput = {
@@ -353453,6 +356066,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutContainersInput = {
@@ -353607,6 +356221,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutContainersInput = {
@@ -353818,6 +356433,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutContainersInput = {
@@ -353972,6 +356588,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseOrderUpsertWithoutContainersInput = {
@@ -354173,6 +356790,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPosSessionsInput = {
@@ -354327,6 +356945,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPosSessionsInput = {
@@ -354497,6 +357116,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPosSessionsInput = {
@@ -354651,6 +357271,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutVehiclesInput = {
@@ -354805,6 +357426,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutVehiclesInput = {
@@ -354959,6 +357581,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutVehiclesInput = {
@@ -355179,6 +357802,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutVehiclesInput = {
@@ -355333,6 +357957,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ShipmentUpsertWithWhereUniqueWithoutVehicleInput = {
@@ -355503,6 +358128,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDriversInput = {
@@ -355657,6 +358283,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDriversInput = {
@@ -355877,6 +358504,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDriversInput = {
@@ -356031,6 +358659,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ShipmentUpsertWithWhereUniqueWithoutDriverInput = {
@@ -356201,6 +358830,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutShipmentsInput = {
@@ -356355,6 +358985,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutShipmentsInput = {
@@ -356613,6 +359244,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutShipmentsInput = {
@@ -356767,6 +359399,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type VehicleUpsertWithoutShipmentsInput = {
@@ -357001,6 +359634,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutShipmentStopsInput = {
@@ -357155,6 +359789,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutShipmentStopsInput = {
@@ -357370,6 +360005,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutShipmentStopsInput = {
@@ -357524,6 +360160,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ShipmentUpsertWithoutStopsInput = {
@@ -357729,6 +360366,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDockAppointmentsInput = {
@@ -357883,6 +360521,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDockAppointmentsInput = {
@@ -358074,6 +360713,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDockAppointmentsInput = {
@@ -358228,6 +360868,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WarehouseUpsertWithoutDockAppointmentsInput = {
@@ -358409,6 +361050,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutInstalledAssetsInput = {
@@ -358563,6 +361205,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutInstalledAssetsInput = {
@@ -358821,6 +361464,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutInstalledAssetsInput = {
@@ -358975,6 +361619,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ServiceRequestUpsertWithWhereUniqueWithoutInstalledAssetInput = {
@@ -359161,6 +361806,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutServiceRequestsInput = {
@@ -359315,6 +361961,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutServiceRequestsInput = {
@@ -359570,6 +362217,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutServiceRequestsInput = {
@@ -359724,6 +362372,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type InstalledAssetUpsertWithoutServiceRequestsInput = {
@@ -359937,6 +362586,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutServiceOrdersInput = {
@@ -360091,6 +362741,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutServiceOrdersInput = {
@@ -360359,6 +363010,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutServiceOrdersInput = {
@@ -360513,6 +363165,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ServiceRequestUpsertWithoutServiceOrdersInput = {
@@ -360767,6 +363420,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutServiceOrderPartsInput = {
@@ -360921,6 +363575,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutServiceOrderPartsInput = {
@@ -361134,6 +363789,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutServiceOrderPartsInput = {
@@ -361288,6 +363944,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ServiceOrderUpsertWithoutPartsInput = {
@@ -361491,6 +364148,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRmasInput = {
@@ -361645,6 +364303,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRmasInput = {
@@ -361815,6 +364474,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRmasInput = {
@@ -361969,6 +364629,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutGlAccountsInput = {
@@ -362123,6 +364784,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutGlAccountsInput = {
@@ -362277,6 +364939,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutGlAccountsInput = {
@@ -362477,6 +365140,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutGlAccountsInput = {
@@ -362631,6 +365295,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type GlJournalLineUpsertWithWhereUniqueWithoutAccountInput = {
@@ -362801,6 +365466,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutGlJournalEntriesInput = {
@@ -362955,6 +365621,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutGlJournalEntriesInput = {
@@ -363155,6 +365822,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutGlJournalEntriesInput = {
@@ -363309,6 +365977,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type GlJournalLineUpsertWithWhereUniqueWithoutEntryInput = {
@@ -363479,6 +366148,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutGlJournalLinesInput = {
@@ -363633,6 +366303,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutGlJournalLinesInput = {
@@ -363873,6 +366544,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutGlJournalLinesInput = {
@@ -364027,6 +366699,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type GlJournalEntryUpsertWithoutLinesInput = {
@@ -364263,6 +366936,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutGlSystemAccountsInput = {
@@ -364417,6 +367091,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutGlSystemAccountsInput = {
@@ -364587,6 +367262,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutGlSystemAccountsInput = {
@@ -364741,6 +367417,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutGlOpeningBalanceDatesInput = {
@@ -364895,6 +367572,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutGlOpeningBalanceDatesInput = {
@@ -365049,6 +367727,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutGlOpeningBalanceDatesInput = {
@@ -365219,6 +367898,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutGlOpeningBalanceDatesInput = {
@@ -365373,6 +368053,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutGlPeriodLocksInput = {
@@ -365527,6 +368208,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutGlPeriodLocksInput = {
@@ -365681,6 +368363,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutGlPeriodLocksInput = {
@@ -365851,6 +368534,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutGlPeriodLocksInput = {
@@ -366005,6 +368689,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutBankStatementsInput = {
@@ -366159,6 +368844,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBankStatementsInput = {
@@ -366313,6 +368999,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBankStatementsInput = {
@@ -366523,6 +369210,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBankStatementsInput = {
@@ -366677,6 +369365,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BankStatementLineUpsertWithWhereUniqueWithoutStatementInput = {
@@ -366847,6 +369536,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBankStatementLinesInput = {
@@ -367001,6 +369691,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBankStatementLinesInput = {
@@ -367248,6 +369939,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBankStatementLinesInput = {
@@ -367402,6 +370094,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BankStatementUpsertWithoutLinesInput = {
@@ -367623,6 +370316,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPaymentAllocationsInput = {
@@ -367777,6 +370471,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPaymentAllocationsInput = {
@@ -368031,6 +370726,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPaymentAllocationsInput = {
@@ -368185,6 +370881,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BankStatementLineUpsertWithoutAllocationsInput = {
@@ -368435,6 +371132,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCompensationsInput = {
@@ -368589,6 +371287,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCompensationsInput = {
@@ -368787,6 +371486,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCompensationsInput = {
@@ -368941,6 +371641,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type CompensationLineUpsertWithWhereUniqueWithoutCompensationInput = {
@@ -369111,6 +371812,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCompensationLinesInput = {
@@ -369265,6 +371967,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCompensationLinesInput = {
@@ -369531,6 +372234,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCompensationLinesInput = {
@@ -369685,6 +372389,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type CompensationUpsertWithoutLinesInput = {
@@ -369947,6 +372652,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutVatRatesInput = {
@@ -370101,6 +372807,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutVatRatesInput = {
@@ -370271,6 +372978,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutVatRatesInput = {
@@ -370425,6 +373133,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutVatBookEntriesInput = {
@@ -370579,6 +373288,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutVatBookEntriesInput = {
@@ -370733,6 +373443,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutVatBookEntriesInput = {
@@ -370903,6 +373614,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutVatBookEntriesInput = {
@@ -371057,6 +373769,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutVatPeriodsInput = {
@@ -371211,6 +373924,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutVatPeriodsInput = {
@@ -371365,6 +374079,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutVatPeriodsInput = {
@@ -371535,6 +374250,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutVatPeriodsInput = {
@@ -371689,6 +374405,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutAttendanceDaysInput = {
@@ -371843,6 +374560,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAttendanceDaysInput = {
@@ -371997,6 +374715,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAttendanceDaysInput = {
@@ -372167,6 +374886,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAttendanceDaysInput = {
@@ -372321,6 +375041,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutAttendancePeriodsInput = {
@@ -372475,6 +375196,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAttendancePeriodsInput = {
@@ -372629,6 +375351,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAttendancePeriodsInput = {
@@ -372799,6 +375522,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAttendancePeriodsInput = {
@@ -372953,6 +375677,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutEmployeeSalariesInput = {
@@ -373107,6 +375832,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutEmployeeSalariesInput = {
@@ -373261,6 +375987,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutEmployeeSalariesInput = {
@@ -373431,6 +376158,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutEmployeeSalariesInput = {
@@ -373585,6 +376313,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPayrollRunsInput = {
@@ -373739,6 +376468,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPayrollRunsInput = {
@@ -373893,6 +376623,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPayrollRunsInput = {
@@ -374107,6 +376838,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPayrollRunsInput = {
@@ -374261,6 +376993,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PayrollLineUpsertWithWhereUniqueWithoutRunInput = {
@@ -374431,6 +377164,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPayrollLinesInput = {
@@ -374585,6 +377319,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPayrollLinesInput = {
@@ -374790,6 +377525,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPayrollLinesInput = {
@@ -374944,6 +377680,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PayrollRunUpsertWithoutLinesInput = {
@@ -375139,6 +377876,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPayrollAdjustmentsInput = {
@@ -375293,6 +378031,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPayrollAdjustmentsInput = {
@@ -375463,6 +378202,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPayrollAdjustmentsInput = {
@@ -375617,6 +378357,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutEmploymentContractsInput = {
@@ -375771,6 +378512,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutEmploymentContractsInput = {
@@ -375925,6 +378667,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutEmploymentContractsInput = {
@@ -376095,6 +378838,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutEmploymentContractsInput = {
@@ -376249,6 +378993,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutTrainingPlanTemplatesInput = {
@@ -376403,6 +379148,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTrainingPlanTemplatesInput = {
@@ -376557,6 +379303,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTrainingPlanTemplatesInput = {
@@ -376727,6 +379474,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTrainingPlanTemplatesInput = {
@@ -376881,6 +379629,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutTrainingPlansInput = {
@@ -377035,6 +379784,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTrainingPlansInput = {
@@ -377189,6 +379939,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTrainingPlansInput = {
@@ -377393,6 +380144,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTrainingPlansInput = {
@@ -377547,6 +380299,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TrainingPlanItemUpsertWithWhereUniqueWithoutPlanInput = {
@@ -377717,6 +380470,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTrainingPlanItemsInput = {
@@ -377871,6 +380625,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTrainingPlanItemsInput = {
@@ -378080,6 +380835,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTrainingPlanItemsInput = {
@@ -378234,6 +380990,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TrainingPlanUpsertWithoutItemsInput = {
@@ -378433,6 +381190,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTrainingRecordsInput = {
@@ -378587,6 +381345,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTrainingRecordsInput = {
@@ -378757,6 +381516,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTrainingRecordsInput = {
@@ -378911,6 +381671,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutEquipmentCustodiesInput = {
@@ -379065,6 +381826,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutEquipmentCustodiesInput = {
@@ -379219,6 +381981,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutEquipmentCustodiesInput = {
@@ -379423,6 +382186,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutEquipmentCustodiesInput = {
@@ -379577,6 +382341,7 @@ export namespace Prisma {
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type EquipmentCustodyLineUpsertWithWhereUniqueWithoutCustodyInput = {
@@ -379747,6 +382512,7 @@ export namespace Prisma {
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutEquipmentCustodyLinesInput = {
@@ -379901,6 +382667,7 @@ export namespace Prisma {
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutEquipmentCustodyLinesInput = {
@@ -380106,6 +382873,7 @@ export namespace Prisma {
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutEquipmentCustodyLinesInput = {
@@ -380260,6 +383028,7 @@ export namespace Prisma {
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type EquipmentCustodyUpsertWithoutLinesInput = {
@@ -380455,6 +383224,7 @@ export namespace Prisma {
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSerialPositionsInput = {
@@ -380609,6 +383379,7 @@ export namespace Prisma {
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSerialPositionsInput = {
@@ -380779,6 +383550,7 @@ export namespace Prisma {
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSerialPositionsInput = {
@@ -380933,6 +383705,7 @@ export namespace Prisma {
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSerialMovementsInput = {
@@ -381087,6 +383860,7 @@ export namespace Prisma {
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSerialMovementsInput = {
@@ -381241,6 +384015,7 @@ export namespace Prisma {
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSerialMovementsInput = {
@@ -381411,6 +384186,7 @@ export namespace Prisma {
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSerialMovementsInput = {
@@ -381565,6 +384341,7 @@ export namespace Prisma {
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantConfigurationVersionCreateManyTenantInput = {
@@ -383304,6 +386081,16 @@ export namespace Prisma {
     movementId: string
     skuId: string
     serial: string
+    createdAt?: Date | string
+  }
+
+  export type MdmDuplicateDismissalCreateManyTenantInput = {
+    id?: string
+    entityType: string
+    aId: string
+    bId: string
+    note?: string | null
+    dismissedBy: string
     createdAt?: Date | string
   }
 
@@ -388658,6 +391445,36 @@ export namespace Prisma {
     movementId?: StringFieldUpdateOperationsInput | string
     skuId?: StringFieldUpdateOperationsInput | string
     serial?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MdmDuplicateDismissalUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    entityType?: StringFieldUpdateOperationsInput | string
+    aId?: StringFieldUpdateOperationsInput | string
+    bId?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    dismissedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MdmDuplicateDismissalUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    entityType?: StringFieldUpdateOperationsInput | string
+    aId?: StringFieldUpdateOperationsInput | string
+    bId?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    dismissedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    entityType?: StringFieldUpdateOperationsInput | string
+    aId?: StringFieldUpdateOperationsInput | string
+    bId?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    dismissedBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

@@ -45,6 +45,15 @@
       ]
     },
     {
+      "name": "party.merged",
+      "owner": "MDM",
+      "meaning": "Duplicate party merged into a surviving canonical party (redirect preserved)",
+      "requiredPayload": [
+        "winnerId",
+        "loserId"
+      ]
+    },
+    {
       "name": "customer.approved",
       "owner": "CRM",
       "meaning": "Customer onboarding approved",

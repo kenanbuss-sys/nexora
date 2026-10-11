@@ -31,6 +31,29 @@ export interface SkuView {
 const CODE_RE = /^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$/;
 const UOM_RE = /^[a-zA-Z][a-zA-Z0-9]{0,15}$/;
 
+/** MDM-002: tenant publish policy; checks report always, block only when enforced. */
+export interface PublishPolicy {
+  enforce: boolean;
+  requireDescription: boolean;
+  requireCategory: boolean;
+  requireActiveSku: boolean;
+  requireBarcode: boolean;
+}
+
+export const DEFAULT_PUBLISH_POLICY: PublishPolicy = {
+  enforce: false,
+  requireDescription: true,
+  requireCategory: false,
+  requireActiveSku: true,
+  requireBarcode: false,
+};
+
+export interface PublishReadiness {
+  ready: boolean;
+  enforced: boolean;
+  checks: Array<{ key: string; ok: boolean; message: string }>;
+}
+
 /** PIM-005: supported symbologies; GTIN is check-digit validated. */
 export const BARCODE_TYPES = new Set(['GTIN', 'CODE128', 'CODE39', 'QR', 'DATAMATRIX', 'INTERNAL']);
 
@@ -122,7 +145,68 @@ export class CatalogService {
   constructor(
     private readonly prisma: PrismaClient,
     private readonly uoms?: UomMasterGate,
+    private readonly configuration?: {
+      getEffectiveConfiguration(tenantId: string): Promise<{ config: unknown }>;
+    },
   ) {}
+
+  /** MDM-002: tenant publish policy (versioned configuration `pim.publishPolicy`). */
+  private async publishPolicy(tenantId: string): Promise<PublishPolicy> {
+    const defaults: PublishPolicy = { ...DEFAULT_PUBLISH_POLICY };
+    if (!this.configuration) return defaults;
+    const { config } = await this.configuration.getEffectiveConfiguration(tenantId);
+    const pim = ((config as Record<string, unknown> | null)?.pim ?? {}) as Record<string, unknown>;
+    const raw = (pim.publishPolicy ?? {}) as Record<string, unknown>;
+    for (const key of Object.keys(defaults) as Array<keyof PublishPolicy>) {
+      if (typeof raw[key] === 'boolean') defaults[key] = raw[key] as boolean;
+    }
+    return defaults;
+  }
+
+  /**
+   * Permission: product.read. Publish readiness checklist (MDM-002). The
+   * checks always report; they BLOCK publishing only when the tenant's
+   * policy sets `enforce`.
+   */
+  async publishReadiness(productId: string, ctx: RequestContext): Promise<PublishReadiness> {
+    const product = await this.prisma.product.findFirst({
+      where: { id: productId, tenantId: ctx.tenantId },
+      include: { skus: { include: { barcodes: { select: { id: true } } } } },
+    });
+    if (!product) throw notFound('Product', productId);
+    const policy = await this.publishPolicy(ctx.tenantId);
+    const active = product.skus.filter((sku) => sku.status === 'ACTIVE');
+    const checks: PublishReadiness['checks'] = [];
+    if (policy.requireDescription) {
+      checks.push({
+        key: 'description',
+        ok: !!product.description?.trim(),
+        message: 'Product has a description',
+      });
+    }
+    if (policy.requireCategory) {
+      checks.push({ key: 'category', ok: !!product.categoryId, message: 'Product has a category' });
+    }
+    if (policy.requireActiveSku) {
+      checks.push({
+        key: 'activeSku',
+        ok: active.length > 0,
+        message: 'At least one SKU is active',
+      });
+    }
+    if (policy.requireBarcode) {
+      const missing = active.filter((sku) => sku.barcodes.length === 0).map((sku) => sku.code);
+      checks.push({
+        key: 'barcode',
+        ok: missing.length === 0,
+        message:
+          missing.length === 0
+            ? 'Every active SKU has a barcode'
+            : `Active SKUs without a barcode: ${missing.join(', ')}`,
+      });
+    }
+    return { ready: checks.every((c) => c.ok), enforced: policy.enforce, checks };
+  }
 
   /** Permission: product.manage. Emits product.created. */
   async createProduct(
@@ -180,6 +264,15 @@ export class CatalogService {
       }
       if (product.status === 'ARCHIVED') {
         throw new DomainError('INVALID_STATE', 'An archived product cannot be published');
+      }
+      const readiness = await this.publishReadiness(product.id, ctx);
+      if (readiness.enforced && !readiness.ready) {
+        const failing = readiness.checks.filter((c) => !c.ok);
+        throw new DomainError(
+          'INVALID_STATE',
+          `Publish policy not met: ${failing.map((c) => c.message).join('; ')}`,
+          { failing: failing.map((c) => c.key) },
+        );
       }
       const updated = await tx.product.update({
         where: { id: product.id },
@@ -482,7 +575,9 @@ export class CatalogService {
           }),
         ]);
         if (existing) {
-          throw new DomainError('CONFLICT', 'Barcode is already assigned in this tenant', { value });
+          throw new DomainError('CONFLICT', 'Barcode is already assigned in this tenant', {
+            value,
+          });
         }
         if (pack) {
           throw new DomainError('CONFLICT', 'This barcode already identifies a pack level', {

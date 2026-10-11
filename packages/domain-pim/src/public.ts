@@ -4,7 +4,10 @@
 export {
   BARCODE_TYPES,
   CatalogService,
+  DEFAULT_PUBLISH_POLICY,
   type ChannelContentView,
+  type PublishPolicy,
+  type PublishReadiness,
   type ScanResolution,
   type ProductView,
   type SkuView,

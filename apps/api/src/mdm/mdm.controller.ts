@@ -36,6 +36,15 @@ const createPartySchema = z.object({
 const mergeSchema = z.object({
   winnerId: z.string().uuid(),
   loserId: z.string().uuid(),
+  takeFromLoser: z
+    .array(z.enum(['name', 'email', 'taxId']))
+    .max(3)
+    .optional(),
+});
+const dismissSchema = z.object({
+  partyAId: z.string().uuid(),
+  partyBId: z.string().uuid(),
+  note: z.string().max(500).optional(),
 });
 const mapIdentitySchema = z.object({
   partyId: z.string().uuid(),
@@ -99,6 +108,55 @@ export class PartiesController {
     return { duplicates: await this.parties.findDuplicates(ctx) };
   }
 
+  /** MDM-005: candidate groups with match reason (NAME / TAX_ID / EMAIL). */
+  @Get('duplicate-candidates')
+  @RequirePermission('mdm.steward')
+  async duplicateCandidates(@Ctx() ctx: RequestContext) {
+    const groups = await this.parties.duplicateCandidates(ctx);
+    const hidden = await this.fieldPolicy.hiddenFields('party', ctx);
+    return {
+      groups: groups
+        // A group matched on a field the caller may not see is not shown.
+        .filter((g) => !(g.reason === 'EMAIL' && hidden.has('email')))
+        .filter((g) => !(g.reason === 'TAX_ID' && hidden.has('taxId')))
+        .map((g) => ({
+          ...g,
+          parties: g.parties.map((p) =>
+            this.fieldPolicy.redact(p as unknown as Record<string, unknown>, hidden),
+          ),
+        })),
+    };
+  }
+
+  @Post('duplicate-candidates/dismiss')
+  @RequirePermission('mdm.steward')
+  async dismissDuplicate(@Body() body: unknown, @Ctx() ctx: RequestContext) {
+    return this.parties.dismissDuplicate(parseBody(dismissSchema, body), ctx);
+  }
+
+  @Get('merge-preview')
+  @RequirePermission('mdm.merge')
+  async mergePreview(
+    @Ctx() ctx: RequestContext,
+    @Query('winnerId') winnerId?: string,
+    @Query('loserId') loserId?: string,
+  ) {
+    const q = parseBody(z.object({ winnerId: z.string().uuid(), loserId: z.string().uuid() }), {
+      winnerId,
+      loserId,
+    });
+    const preview = await this.parties.mergePreview(q.winnerId, q.loserId, ctx);
+    const hidden = await this.fieldPolicy.hiddenFields('party', ctx);
+    const redact = (v: unknown) =>
+      this.fieldPolicy.redact(v as unknown as Record<string, unknown>, hidden);
+    return {
+      ...preview,
+      winner: redact(preview.winner),
+      loser: redact(preview.loser),
+      differences: preview.differences.filter((d) => !hidden.has(d.field)),
+    };
+  }
+
   @Get('resolve/:sourceSystem/:externalId')
   @RequirePermission('mdm.read')
   async resolve(
@@ -134,7 +192,11 @@ export class PartiesController {
   @RequirePermission('mdm.merge')
   async merge(@Body() body: unknown, @Ctx() ctx: RequestContext) {
     const input = parseBody(mergeSchema, body);
-    return this.parties.mergeParty(input.winnerId, input.loserId, ctx);
+    const merged = await this.parties.mergeParty(input.winnerId, input.loserId, ctx, {
+      takeFromLoser: input.takeFromLoser,
+    });
+    const hidden = await this.fieldPolicy.hiddenFields('party', ctx);
+    return this.fieldPolicy.redact(merged as unknown as Record<string, unknown>, hidden);
   }
 
   @Post('external-identities')
@@ -162,11 +224,24 @@ export class ChangeRequestsController {
 
   @Get()
   @RequirePermission('mdm.read')
-  async list(@Ctx() ctx: RequestContext, @Query('status') status?: string) {
+  async list(
+    @Ctx() ctx: RequestContext,
+    @Query('status') status?: string,
+    @Query('entityType') entityType?: string,
+    @Query('entityId') entityId?: string,
+  ) {
     const parsed = status
       ? parseBody(z.enum(['PENDING', 'APPROVED', 'REJECTED']), status)
       : undefined;
-    return { requests: await this.approvals.listRequests(parsed, ctx) };
+    // MDM-002: change history of one governed record.
+    const entity =
+      entityType || entityId
+        ? parseBody(
+            z.object({ entityType: z.enum(['party', 'product']), entityId: z.string().uuid() }),
+            { entityType, entityId },
+          )
+        : undefined;
+    return { requests: await this.approvals.listRequests(parsed, ctx, entity) };
   }
 
   @Post()

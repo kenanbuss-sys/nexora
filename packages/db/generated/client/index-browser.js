@@ -1365,6 +1365,17 @@ exports.Prisma.BreakGlassGrantScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.MdmDuplicateDismissalScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  entityType: 'entityType',
+  aId: 'aId',
+  bId: 'bId',
+  note: 'note',
+  dismissedBy: 'dismissedBy',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.MasterDataRequestScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
@@ -2751,6 +2762,7 @@ exports.Prisma.ModelName = {
   BundleComponent: 'BundleComponent',
   SerialNumber: 'SerialNumber',
   BreakGlassGrant: 'BreakGlassGrant',
+  MdmDuplicateDismissal: 'MdmDuplicateDismissal',
   MasterDataRequest: 'MasterDataRequest',
   LoyaltyAccount: 'LoyaltyAccount',
   LoyaltyTransaction: 'LoyaltyTransaction',
