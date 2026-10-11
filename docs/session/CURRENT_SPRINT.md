@@ -446,3 +446,16 @@ Red 2 potvrđenog redoslijeda. Vlasnik: EAM. Migracija `…245_sprint_243_asset_
 - [x] Događaj `asset.structure.changed` + audit
 - [x] Testovi: **sprint243 5/5**; EAM regresija (072, 202, 238) zelena
 - [x] UI: struktura na /assets (stablo u listi, preci/komponente, ugradi/premjesti/demontiraj, istorija strukture, objašnjenje rashodovanja); browser provjera otvorena
+
+# Sprint 244 — ZAVRŠEN 11.10.2026: motor roka isporuke (PLAN-015)
+
+Red 2 potvrđenog redoslijeda. Vlasnik: PLAN (izračun), OMS (potvrda roka na narudžbi). Migracija `…246_sprint_244_order_promise` (aditivna).
+
+- [x] Vremenska linija ponude po SKU: slobodna zaliha (WMS gate `promisableStock`), otvorene NBN na očekivani datum (PROC `openSupply`), otvoreni radni nalozi na završetak iz konačnog rasporeda (MES `openProduction` + PLAN-011)
+- [x] Raniji potvrđeni zaostaci (OMS `openBackorders`) troše ponudu prvi; stavke iste narudžbe kumulativno; rezervisane stavke odmah
+- [x] CTP: puštena ruta + `plan.capacity` (zaostatak centra + obrada operacija redom); inače rok nabavke iz politike ili `plan.promise.defaultLeadTimeDays`
+- [x] Radni kalendar `plan.calendar` (radni dani, praznici); `plan.promise.handlingDays`; djelimično („odmah X“) i objašnjenje po stavci
+- [x] `POST /orders/:id/promise/commit` — rok na narudžbi i stavkama (CAS, audit, timeline, `order.promise.committed`); `POST /planning/promise` za upit bez narudžbe
+- [x] Testovi: **sprint244 6/6**; regresija 018, 058, 063, 144, 208, 222 zelena
+- [ ] UI: kartica „Rok isporuke“ na narudžbi + alat „Provjera roka isporuke“ u planiranju — u toku
+- Nije rađeno: komponente BOM-a u CTP, rezervacija kapaciteta
