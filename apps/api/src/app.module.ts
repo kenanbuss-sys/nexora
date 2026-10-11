@@ -35,7 +35,8 @@ import {
   EmploymentContractController,
 } from './hcm/employment-contract.controller';
 import { ATTENDANCE_SERVICE, AttendanceController } from './hcm/attendance.controller';
-import { MaintenanceService, AssetService } from '@nexora/domain-eam';
+import { MaintenanceService, AssetService, CustodyService } from '@nexora/domain-eam';
+import { CUSTODY_SERVICE, CustodyController, PublicQrController } from './eam/custody.controller';
 import {
   ConfiguratorService,
   DiscountRuleService,
@@ -454,6 +455,8 @@ export const REDIS = 'REDIS';
     OpsController,
     OpenApiController,
     AssetsController,
+    CustodyController,
+    PublicQrController,
     MaintenanceController,
     CrmLeadsController,
     CrmOpportunitiesController,
@@ -1271,6 +1274,21 @@ export const REDIS = 'REDIS';
           },
         ),
       inject: [PRISMA, TENANT_SERVICE],
+    },
+    {
+      // EAM-015/016: the holder (employee) is HCM-owned — read through a gate.
+      provide: CUSTODY_SERVICE,
+      useFactory: (prisma: PrismaClient) =>
+        new CustodyService(prisma, {
+          employee: async (employeeId, ctx) => {
+            const e = await prisma.employee.findFirst({
+              where: { id: employeeId, tenantId: ctx.tenantId },
+              select: { id: true, name: true, employeeNumber: true, status: true },
+            });
+            return e ? { ...e, status: String(e.status) } : null;
+          },
+        }),
+      inject: [PRISMA],
     },
     {
       provide: ASSET_SERVICE,

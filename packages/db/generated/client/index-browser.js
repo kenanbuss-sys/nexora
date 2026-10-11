@@ -1461,6 +1461,8 @@ exports.Prisma.AssetScalarFieldEnum = {
   status: 'status',
   value: 'value',
   purchasedAt: 'purchasedAt',
+  location: 'location',
+  qrToken: 'qrToken',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -2136,6 +2138,34 @@ exports.Prisma.TrainingRecordScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.EquipmentCustodyScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  custodyNumber: 'custodyNumber',
+  employeeId: 'employeeId',
+  status: 'status',
+  groupToken: 'groupToken',
+  note: 'note',
+  requestKey: 'requestKey',
+  requestHash: 'requestHash',
+  issuedAt: 'issuedAt',
+  issuedBy: 'issuedBy',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.EquipmentCustodyLineScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  custodyId: 'custodyId',
+  assetId: 'assetId',
+  assetNumber: 'assetNumber',
+  assetName: 'assetName',
+  returnedAt: 'returnedAt',
+  returnCondition: 'returnCondition',
+  returnNote: 'returnNote',
+  returnedBy: 'returnedBy'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -2752,7 +2782,9 @@ exports.Prisma.ModelName = {
   TrainingPlanTemplate: 'TrainingPlanTemplate',
   TrainingPlan: 'TrainingPlan',
   TrainingPlanItem: 'TrainingPlanItem',
-  TrainingRecord: 'TrainingRecord'
+  TrainingRecord: 'TrainingRecord',
+  EquipmentCustody: 'EquipmentCustody',
+  EquipmentCustodyLine: 'EquipmentCustodyLine'
 };
 
 /**

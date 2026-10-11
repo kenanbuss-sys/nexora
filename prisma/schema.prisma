@@ -181,6 +181,8 @@ model Tenant {
   trainingPlans           TrainingPlan[]
   trainingPlanItems       TrainingPlanItem[]
   trainingRecords         TrainingRecord[]
+  equipmentCustodies      EquipmentCustody[]
+  equipmentCustodyLines   EquipmentCustodyLine[]
 
   @@map("tenant")
 }
@@ -2883,11 +2885,16 @@ model Asset {
   status       AssetStatus @default(IN_SERVICE)
   value        Decimal?    @db.Decimal(18, 2)
   purchasedAt  DateTime?   @map("purchased_at")
+  /// Sprint 238 (EAM-015/016): where the asset is (free text, e.g. hall/line/store).
+  location     String?
+  /// Unguessable token for the limited public QR lookup (revocable).
+  qrToken      String?     @map("qr_token")
   createdAt    DateTime    @default(now()) @map("created_at")
   updatedAt    DateTime    @updatedAt @map("updated_at")
 
   tenant Tenant @relation(fields: [tenantId], references: [id])
 
+  @@unique([qrToken])
   @@unique([tenantId, assetNumber])
   @@index([tenantId, status])
   @@map("asset")
@@ -4066,4 +4073,58 @@ model TrainingRecord {
   @@unique([tenantId, requestKey])
   @@index([tenantId, employeeId])
   @@map("training_record")
+}
+
+// ---------------------------------------------------------------------------
+// Sprint 238 — EAM-015/016: equipment custody (revers): one custody document
+// issues one or more assets to an employee; lines are returned individually.
+// An asset can be in at most ONE open custody line (partial unique index in
+// the migration). A group token backs the QR on the printed revers.
+// ---------------------------------------------------------------------------
+
+model EquipmentCustody {
+  id            String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId      String   @map("tenant_id") @db.Uuid
+  custodyNumber String   @map("custody_number")
+  employeeId    String   @map("employee_id") @db.Uuid
+  /// OPEN, PARTIALLY_RETURNED or CLOSED (derived from lines).
+  status        String   @default("OPEN")
+  groupToken    String   @map("group_token")
+  note          String?
+  requestKey    String   @map("request_key")
+  requestHash   String   @map("request_hash")
+  issuedAt      DateTime @default(now()) @map("issued_at")
+  issuedBy      String?  @map("issued_by")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  tenant Tenant                 @relation(fields: [tenantId], references: [id])
+  lines  EquipmentCustodyLine[]
+
+  @@unique([tenantId, custodyNumber])
+  @@unique([tenantId, requestKey])
+  @@unique([groupToken])
+  @@index([tenantId, employeeId, status])
+  @@map("equipment_custody")
+}
+
+model EquipmentCustodyLine {
+  id              String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId        String    @map("tenant_id") @db.Uuid
+  custodyId       String    @map("custody_id") @db.Uuid
+  assetId         String    @map("asset_id") @db.Uuid
+  /// Snapshot for the printed revers.
+  assetNumber     String    @map("asset_number")
+  assetName       String    @map("asset_name")
+  returnedAt      DateTime? @map("returned_at")
+  /// OK, DAMAGED or LOST.
+  returnCondition String?   @map("return_condition")
+  returnNote      String?   @map("return_note")
+  returnedBy      String?   @map("returned_by")
+
+  tenant  Tenant           @relation(fields: [tenantId], references: [id])
+  custody EquipmentCustody @relation(fields: [custodyId], references: [id])
+
+  @@unique([tenantId, custodyId, assetId])
+  @@index([tenantId, assetId])
+  @@map("equipment_custody_line")
 }

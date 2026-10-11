@@ -48,7 +48,7 @@ Ne planiramo stotine sprintova unaprijed: obavezan je samo Sprint 211 (definisan
 
 ---
 
-## Re-prioritizacija 11.10.2026 — PRIJEDLOG (čeka potvrdu vlasnika)
+## Re-prioritizacija 11.10.2026 — POTVRĐENO (vlasnik, 11.10.2026)
 
 **Smjernica vlasnika (11.10.2026):** Nexora je softver za **proizvodnju, komercijalu (veleprodaja/distribucija) i maloprodajne markete** te velike kompanije van IT/call-centar svijeta. FinTrack paritet se prenosi samo kao **generička poslovna mogućnost**; pojmovi i podaci specifični za call-centar (lige, agenti, treneri, PCC, igrice, kartice…) se ne prenose (primjer: HCM-017 generalizovan u Sprintu 237).
 
