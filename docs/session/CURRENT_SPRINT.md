@@ -470,4 +470,4 @@ Red 2 potvrđenog redoslijeda (zadnja stavka). Vlasnik: CRM/CSM (slučaj, stavke
 - [x] `POST /support-cases/:id/returns` — RMA kroz OMS samo za povratne vrste problema, idempotentno (i istovremeno) po ključu; OMS: `request_ref`, zaključavanje narudžbe, serijalizovan RMA broj
 - [x] Broj slučaja serijalizovan (istovremeno kreiranje bez duplikata)
 - [x] Testovi: **sprint245 5/5**; regresija povrata/slučajeva (028, 064, 071, 083, 188, 205) zelena
-- [ ] UI: sekcija Narudžba na slučaju, pogođene stavke, RMA iz slučaja, reklamacije na narudžbi — u toku
+- [x] UI: detalj slučaja (narudžba, pogođene stavke, RMA iz slučaja), reklamacije na narudžbi; browser provjera otvorena

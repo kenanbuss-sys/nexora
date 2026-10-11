@@ -7,6 +7,7 @@ import { useApp } from '../app-shell';
 import { CollabPanel } from '../collab-panel';
 import { downloadDocument } from '../../../lib/download';
 import { OrderPromiseCard } from '../../../components/delivery-promise';
+import { OrderCasesSection } from '../../../components/case-order';
 import {
   ConfirmDialog,
   DataTable,
@@ -202,6 +203,13 @@ export default function OrdersPage() {
 
   useEffect(() => {
     load();
+    // CSM-011: a deep link (?order=<id>) from a support case opens the order.
+    try {
+      const fromLink = new URLSearchParams(window.location.search).get('order');
+      if (fromLink) setOpenOrder(fromLink);
+    } catch {
+      // no-op: the page works without the deep link
+    }
     api<{ accounts: AccountView[] }>('GET', '/api/v1/crm/accounts')
       .then((r) => setAccounts(r.accounts))
       .catch(() => undefined);
@@ -1267,6 +1275,7 @@ export default function OrdersPage() {
                     {discussion[o.id] ? (
                       <CollabPanel entityType="sales_order" entityId={o.id} />
                     ) : null}
+                    {can('crm.read') ? <OrderCasesSection orderId={o.id} lines={o.lines} /> : null}
                   </>
                 );
               })()}

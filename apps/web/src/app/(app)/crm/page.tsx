@@ -10,6 +10,7 @@ import {
   LoadingState,
   type Column,
 } from '../../../components/ui';
+import { CaseOrderPanel } from '../../../components/case-order';
 import { api, errorText } from '../../../lib/api';
 import { useApp } from '../app-shell';
 
@@ -164,8 +165,11 @@ export default function CrmPage() {
       subject: string;
       status: string;
       priority: string;
+      accountId: string | null;
+      orderId: string | null;
     }>
   >([]);
+  const [openCase, setOpenCase] = useState<string | null>(null);
   const [caseSubject, setCaseSubject] = useState('');
   const [caseStats, setCaseStats] = useState<{
     open: number;
@@ -257,6 +261,13 @@ export default function CrmPage() {
 
   useEffect(() => {
     load();
+    // CSM-011: a deep link (?case=<id>) from the order detail opens the case.
+    try {
+      const fromLink = new URLSearchParams(window.location.search).get('case');
+      if (fromLink) setOpenCase(fromLink);
+    } catch {
+      // no-op: the page works without the deep link
+    }
     api<{ parties: PartyOption[] }>('GET', '/api/v1/parties?q=')
       .then((r) => setParties(r.parties))
       .catch(() => undefined);
@@ -280,6 +291,13 @@ export default function CrmPage() {
 
   const accountName = (id: string) =>
     accounts?.find((a) => a.id === id)?.partyName ?? id.slice(0, 8);
+
+  const reloadCases = () => {
+    api<{ cases: typeof cases }>('GET', '/api/v1/support-cases')
+      .then((r) => setCases(r.cases))
+      .catch(() => undefined);
+  };
+  const openedCase = openCase ? cases.find((c) => c.id === openCase) : undefined;
 
   const leadColumns: Array<Column<LeadView>> = [
     {
@@ -991,26 +1009,73 @@ export default function CrmPage() {
                   {CASE_STATUS_LABELS[c.status] ?? c.status}
                 </span>
               </span>
-              {can('crm.manage') && CASE_NEXT[c.status] ? (
+              <span className="row">
                 <button
                   className="btn btn-sm"
-                  disabled={busy}
                   type="button"
-                  onClick={() =>
-                    run(async () => {
-                      await api('POST', `/api/v1/support-cases/${c.id}/transition`, {
-                        status: CASE_NEXT[c.status]!.to,
-                      });
-                      const r = await api<{ cases: typeof cases }>('GET', '/api/v1/support-cases');
-                      setCases(r.cases);
-                    }, 'Slučaj je ažuriran.')
-                  }
+                  aria-expanded={openCase === c.id}
+                  onClick={() => setOpenCase((prev) => (prev === c.id ? null : c.id))}
                 >
-                  {CASE_NEXT[c.status]!.label}
+                  {openCase === c.id ? 'Zatvori detalje' : 'Detalji'}
                 </button>
-              ) : null}
+                {can('crm.manage') && CASE_NEXT[c.status] ? (
+                  <button
+                    className="btn btn-sm"
+                    disabled={busy}
+                    type="button"
+                    onClick={() =>
+                      run(async () => {
+                        await api('POST', `/api/v1/support-cases/${c.id}/transition`, {
+                          status: CASE_NEXT[c.status]!.to,
+                        });
+                        const r = await api<{ cases: typeof cases }>(
+                          'GET',
+                          '/api/v1/support-cases',
+                        );
+                        setCases(r.cases);
+                      }, 'Slučaj je ažuriran.')
+                    }
+                  >
+                    {CASE_NEXT[c.status]!.label}
+                  </button>
+                ) : null}
+              </span>
             </div>
           ))}
+          {openCase && !openedCase && cases.length > 0 ? (
+            <EmptyState text="Odabrani slučaj nije pronađen." />
+          ) : null}
+          {openedCase ? (
+            <div
+              key={openedCase.id}
+              style={{
+                border: '1px solid var(--color-border)',
+                borderRadius: 8,
+                padding: 12,
+                margin: '8px 0 12px',
+              }}
+            >
+              <div className="spread">
+                <strong>
+                  <span className="mono">{openedCase.caseNumber}</span> {openedCase.subject}
+                </strong>
+                <span className="muted" style={{ fontSize: 12 }}>
+                  {openedCase.accountId ? accountName(openedCase.accountId) : 'Bez konta kupca'}
+                </span>
+              </div>
+              <CaseOrderPanel
+                caseId={openedCase.id}
+                caseNumber={openedCase.caseNumber}
+                caseStatus={openedCase.status}
+                accountId={openedCase.accountId}
+                canManage={can('crm.manage')}
+                canReturn={can('order.return')}
+                canReadOrders={can('order.read')}
+                onChanged={reloadCases}
+                onOpenCase={(id) => setOpenCase(id)}
+              />
+            </div>
+          ) : null}
           {can('crm.manage') ? (
             <form
               className="row"
