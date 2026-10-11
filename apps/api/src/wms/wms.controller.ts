@@ -276,8 +276,27 @@ const placeHoldSchema = z.object({
   skuId: z.string().uuid(),
   quantity: z.number().positive(),
   reason: z.string().min(1).max(300),
+  lotNumber: z.string().min(1).max(64).optional(),
+  ncrId: z.string().uuid().optional(),
 });
 const decideHoldSchema = z.object({ decision: z.enum(['RELEASE', 'SCRAP']) });
+const disposeSchema = z.object({
+  requestKey: z.string().min(8).max(128),
+  note: z.string().max(1000).optional(),
+  lines: z
+    .array(
+      z.object({
+        type: z.enum(['USE_AS_IS', 'SCRAP', 'RETURN_TO_SUPPLIER', 'REGRADE', 'REWORK']),
+        quantity: z.number().positive(),
+        targetSkuId: z.string().uuid().optional(),
+        targetQuantity: z.number().positive().optional(),
+        supplierRef: z.string().max(120).optional(),
+        serials: z.array(z.string().min(1).max(64)).max(1000).optional(),
+      }),
+    )
+    .min(1)
+    .max(20),
+});
 
 @Controller('api/v1/quarantine')
 export class QuarantineController {
@@ -300,6 +319,25 @@ export class QuarantineController {
   async decide(@Param('id') id: string, @Body() body: unknown, @Ctx() ctx: RequestContext) {
     const input = parseBody(decideHoldSchema, body);
     return this.quarantine.decide(id, input.decision, ctx);
+  }
+
+  /** QMS-005: material-review disposition (split into lines). */
+  @Post(':id/dispositions')
+  @RequirePermission('qc.approve')
+  async dispose(@Param('id') id: string, @Body() body: unknown, @Ctx() ctx: RequestContext) {
+    return this.quarantine.dispose(id, parseBody(disposeSchema, body), ctx);
+  }
+
+  @Get(':id/dispositions')
+  @RequirePermission('inventory.read')
+  async dispositions(@Param('id') id: string, @Ctx() ctx: RequestContext) {
+    return { dispositions: await this.quarantine.listDispositions(id, ctx) };
+  }
+
+  @Post('dispositions/:dispositionId/retry')
+  @RequirePermission('qc.approve')
+  async retry(@Param('dispositionId') dispositionId: string, @Ctx() ctx: RequestContext) {
+    return this.quarantine.retryDisposition(dispositionId, ctx);
   }
 }
 

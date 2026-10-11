@@ -1491,7 +1491,39 @@ exports.Prisma.QuarantineHoldScalarFieldEnum = {
   createdBy: 'createdBy',
   decidedBy: 'decidedBy',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  remainingQuantity: 'remainingQuantity',
+  lotNumber: 'lotNumber',
+  ncrId: 'ncrId',
+  parentHoldId: 'parentHoldId'
+};
+
+exports.Prisma.QuarantineDispositionScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  holdId: 'holdId',
+  requestKey: 'requestKey',
+  status: 'status',
+  note: 'note',
+  lastError: 'lastError',
+  decidedBy: 'decidedBy',
+  createdAt: 'createdAt',
+  postedAt: 'postedAt'
+};
+
+exports.Prisma.QuarantineDispositionLineScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  dispositionId: 'dispositionId',
+  lineNo: 'lineNo',
+  type: 'type',
+  quantity: 'quantity',
+  targetSkuId: 'targetSkuId',
+  targetQuantity: 'targetQuantity',
+  supplierRef: 'supplierRef',
+  reworkHoldId: 'reworkHoldId',
+  movementId: 'movementId',
+  targetMovementId: 'targetMovementId'
 };
 
 exports.Prisma.RfqScalarFieldEnum = {
@@ -2598,7 +2630,22 @@ exports.AssetStatus = exports.$Enums.AssetStatus = {
 exports.QuarantineStatus = exports.$Enums.QuarantineStatus = {
   ACTIVE: 'ACTIVE',
   RELEASED: 'RELEASED',
-  SCRAPPED: 'SCRAPPED'
+  SCRAPPED: 'SCRAPPED',
+  DISPOSED: 'DISPOSED'
+};
+
+exports.DispositionStatus = exports.$Enums.DispositionStatus = {
+  POSTING: 'POSTING',
+  POSTED: 'POSTED',
+  FAILED: 'FAILED'
+};
+
+exports.DispositionType = exports.$Enums.DispositionType = {
+  USE_AS_IS: 'USE_AS_IS',
+  SCRAP: 'SCRAP',
+  RETURN_TO_SUPPLIER: 'RETURN_TO_SUPPLIER',
+  REGRADE: 'REGRADE',
+  REWORK: 'REWORK'
 };
 
 exports.RfqStatus = exports.$Enums.RfqStatus = {
@@ -2771,6 +2818,8 @@ exports.Prisma.ModelName = {
   Employee: 'Employee',
   Asset: 'Asset',
   QuarantineHold: 'QuarantineHold',
+  QuarantineDisposition: 'QuarantineDisposition',
+  QuarantineDispositionLine: 'QuarantineDispositionLine',
   Rfq: 'Rfq',
   RfqQuote: 'RfqQuote',
   Package: 'Package',

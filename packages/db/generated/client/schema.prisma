@@ -186,6 +186,7 @@ model Tenant {
   serialPositions         SerialPosition[]
   serialMovements         SerialMovement[]
   mdmDuplicateDismissals  MdmDuplicateDismissal[]
+  quarantineDispositions  QuarantineDisposition[]
 
   @@map("tenant")
 }
@@ -2928,6 +2929,23 @@ enum QuarantineStatus {
   ACTIVE
   RELEASED
   SCRAPPED
+  /// Sprint 242 (QMS-005): fully disposed with mixed/other dispositions.
+  DISPOSED
+}
+
+/// Sprint 242 (QMS-005): material review dispositions.
+enum DispositionType {
+  USE_AS_IS
+  SCRAP
+  RETURN_TO_SUPPLIER
+  REGRADE
+  REWORK
+}
+
+enum DispositionStatus {
+  POSTING
+  POSTED
+  FAILED
 }
 
 /// Sprint 082 (QMS-006/WMS-006): quarantine holds — quantity of a SKU
@@ -2935,23 +2953,75 @@ enum QuarantineStatus {
 /// Holds subtract from availability everywhere; releasing or scrapping
 /// closes the hold (scrap posts a compensating ledger adjustment).
 model QuarantineHold {
-  id          String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  tenantId    String           @map("tenant_id") @db.Uuid
-  warehouseId String           @map("warehouse_id") @db.Uuid
-  skuId       String           @map("sku_id") @db.Uuid
-  quantity    Decimal          @db.Decimal(18, 6)
-  reason      String
-  status      QuarantineStatus @default(ACTIVE)
-  createdBy   String?          @map("created_by")
-  decidedBy   String?          @map("decided_by")
-  createdAt   DateTime         @default(now()) @map("created_at")
-  updatedAt   DateTime         @updatedAt @map("updated_at")
+  id                String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId          String           @map("tenant_id") @db.Uuid
+  warehouseId       String           @map("warehouse_id") @db.Uuid
+  skuId             String           @map("sku_id") @db.Uuid
+  quantity          Decimal          @db.Decimal(18, 6)
+  reason            String
+  status            QuarantineStatus @default(ACTIVE)
+  createdBy         String?          @map("created_by")
+  decidedBy         String?          @map("decided_by")
+  createdAt         DateTime         @default(now()) @map("created_at")
+  updatedAt         DateTime         @updatedAt @map("updated_at")
+  /// Sprint 242 (QMS-005): still undecided quantity (blocks availability).
+  remainingQuantity Decimal          @default(0) @map("remaining_quantity") @db.Decimal(18, 6)
+  lotNumber         String?          @map("lot_number")
+  /// QC-owned NCR this hold belongs to (validated through the QC gate).
+  ncrId             String?          @map("ncr_id") @db.Uuid
+  /// REWORK disposition: the hold this one was split from.
+  parentHoldId      String?          @map("parent_hold_id") @db.Uuid
 
-  tenant Tenant @relation(fields: [tenantId], references: [id])
+  tenant       Tenant                  @relation(fields: [tenantId], references: [id])
+  dispositions QuarantineDisposition[]
 
   @@index([tenantId, status])
   @@index([tenantId, warehouseId, skuId, status])
   @@map("quarantine_hold")
+}
+
+/// Sprint 242 (QMS-005): one material-review decision on a hold. Claimed
+/// atomically (hold remaining decreases), then ledger lines are posted
+/// with deterministic idempotency keys; FAILED decisions can be retried.
+model QuarantineDisposition {
+  id         String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId   String            @map("tenant_id") @db.Uuid
+  holdId     String            @map("hold_id") @db.Uuid
+  requestKey String            @map("request_key")
+  status     DispositionStatus @default(POSTING)
+  note       String?
+  lastError  String?           @map("last_error")
+  decidedBy  String?           @map("decided_by")
+  createdAt  DateTime          @default(now()) @map("created_at")
+  postedAt   DateTime?         @map("posted_at")
+
+  tenant Tenant                      @relation(fields: [tenantId], references: [id])
+  hold   QuarantineHold              @relation(fields: [holdId], references: [id])
+  lines  QuarantineDispositionLine[]
+
+  @@unique([tenantId, requestKey])
+  @@index([tenantId, holdId])
+  @@map("quarantine_disposition")
+}
+
+model QuarantineDispositionLine {
+  id               String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId         String          @map("tenant_id") @db.Uuid
+  dispositionId    String          @map("disposition_id") @db.Uuid
+  lineNo           Int             @map("line_no")
+  type             DispositionType
+  quantity         Decimal         @db.Decimal(18, 6)
+  targetSkuId      String?         @map("target_sku_id") @db.Uuid
+  targetQuantity   Decimal?        @map("target_quantity") @db.Decimal(18, 6)
+  supplierRef      String?         @map("supplier_ref")
+  reworkHoldId     String?         @map("rework_hold_id") @db.Uuid
+  movementId       String?         @map("movement_id") @db.Uuid
+  targetMovementId String?         @map("target_movement_id") @db.Uuid
+
+  disposition QuarantineDisposition @relation(fields: [dispositionId], references: [id])
+
+  @@unique([dispositionId, lineNo])
+  @@map("quarantine_disposition_line")
 }
 
 enum RfqStatus {

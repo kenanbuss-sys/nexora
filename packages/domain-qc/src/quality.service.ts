@@ -477,6 +477,17 @@ export class QualityService {
 
   // ------------------------------------------------------------------- NCRs
 
+  /** Public cross-domain gate (QMS-005): NCR identity for quarantine holds. */
+  async ncrRef(
+    tenantId: string,
+    ncrId: string,
+  ): Promise<{ id: string; ncrNumber: string; skuId: string; status: string } | null> {
+    const ncr = await this.prisma.ncr.findFirst({ where: { id: ncrId, tenantId } });
+    return ncr
+      ? { id: ncr.id, ncrNumber: ncr.ncrNumber, skuId: ncr.skuId, status: String(ncr.status) }
+      : null;
+  }
+
   async listNcrs(ctx: RequestContext): Promise<NcrView[]> {
     const rows = await this.prisma.ncr.findMany({
       where: { tenantId: ctx.tenantId },

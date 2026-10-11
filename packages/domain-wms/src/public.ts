@@ -12,7 +12,14 @@ export {
 } from './inventory.service';
 export { WmsOrderService, type WmsOrderLineView, type WmsOrderView } from './order.service';
 export { CountService, type CountLineView, type CountView } from './count.service';
-export { QuarantineService, type LedgerGate, type QuarantineView } from './quarantine.service';
+export {
+  QuarantineService,
+  type DispositionLineInput,
+  type DispositionView,
+  type LedgerGate,
+  type NcrGate,
+  type QuarantineView,
+} from './quarantine.service';
 export {
   PackingService,
   ssccCheckDigit,

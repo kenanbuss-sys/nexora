@@ -709,6 +709,20 @@ export const REDIS = 'REDIS';
             });
             return Number(position.onHand);
           },
+          lotOnHand: async (tenantId, warehouseId, skuId, lotNumber) => {
+            const lots = await inventory.lotBalances(warehouseId, skuId, {
+              tenantId,
+              tenantSlug: '',
+              tenantStatus: 'ACTIVE',
+              actorType: 'SERVICE',
+              userId: undefined,
+              userStatus: undefined,
+              platformAdmin: false,
+            });
+            const lot = lots.find((l) => l.lotNumber === lotNumber);
+            return lot ? Number(lot.onHand) : 0;
+          },
+          skuState: (tenantId, skuId) => catalog.getSkuState(tenantId, skuId),
         });
         (inventory as unknown as { __quarantine: QuarantineService }).__quarantine =
           holder.quarantine;
@@ -718,9 +732,14 @@ export const REDIS = 'REDIS';
     },
     {
       provide: QUARANTINE_SERVICE,
-      useFactory: (inventory: InventoryService) =>
-        (inventory as unknown as { __quarantine: QuarantineService }).__quarantine,
-      inject: [INVENTORY_SERVICE],
+      useFactory: (inventory: InventoryService, quality: QualityService) => {
+        const quarantine = (inventory as unknown as { __quarantine: QuarantineService })
+          .__quarantine;
+        // QMS-005: NCR identity is QC-owned — read through QC's gate.
+        quarantine.bindNcrGate({ ncrRef: (t, id) => quality.ncrRef(t, id) });
+        return quarantine;
+      },
+      inject: [INVENTORY_SERVICE, QUALITY_SERVICE],
     },
     {
       provide: WMS_ORDER_SERVICE,
