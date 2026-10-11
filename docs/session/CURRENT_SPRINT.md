@@ -404,5 +404,5 @@ Red 2 potvrđenog redoslijeda. Vlasnik: PIM (barkodovi, konverzije — javni gat
 - [x] Kretanje zaliha prima `uom`: konverzija u baznu JM (uom→baza množi, baza→uom dijeli), tačno na 6 decimala ili odbijeno; `entered_uom`/`entered_quantity` na kretanju (prvi red kod lot-podjele), u auditu i `stock.moved`
 - [x] Pravila (stanje, serijski brojevi) računaju se nad baznom količinom
 - [x] Testovi: **sprint240 8/8**, GTIN unit 3/3; fixture barkodovi u sprint003/005/041/077 ispravljeni na validne GTIN-e (zeleni)
-- [ ] UI: barkodovi po SKU (tip, uklanjanje, GTIN hint), JM i sken u formi kretanja — u toku
+- [x] UI: barkodovi po SKU (tip, uklanjanje, GTIN hint), forma konverzija JM, JM i sken u formi kretanja (web typecheck/build zeleni; browser provjera otvorena)
 - Nije rađeno: JM na stavkama NBN/narudžbi; GS1-128 aplikacijski identifikatori

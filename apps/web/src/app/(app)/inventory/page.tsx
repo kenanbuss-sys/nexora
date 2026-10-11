@@ -23,6 +23,27 @@ interface SkuOption {
   id: string;
   code: string;
   status: string;
+  baseUom: string;
+}
+
+interface UomConversion {
+  fromUom: string;
+  toUom: string;
+  factor: string;
+}
+
+/** GET /api/v1/barcodes/resolve/:value (PIM-005). */
+interface ResolvedCode {
+  kind: 'UNIT' | 'PACK' | 'SKU_CODE';
+  code: string;
+  skuId: string;
+  skuCode: string;
+  name: string;
+  baseUom: string;
+  status: string;
+  unitsPerScan: string;
+  packName: string | null;
+  barcodeType: string | null;
 }
 
 interface Position {
@@ -62,6 +83,8 @@ interface Movement {
   reason: string | null;
   idempotencyKey: string;
   occurredAt: string;
+  enteredUom?: string | null;
+  enteredQuantity?: string | null;
 }
 
 interface SerialTrace {
@@ -129,6 +152,39 @@ function typeLabel(code: string, map: Record<string, string>): string {
   return label ? `${code} · ${label}` : code;
 }
 
+/**
+ * Display-only preview of a quantity in the SKU base UOM (PIM-007). Mirrors
+ * the server: a direct uom->base conversion multiplies, base->uom divides.
+ * The server converts authoritatively and refuses inexact conversions.
+ */
+function toBaseQuantity(
+  quantity: number,
+  uom: string,
+  baseUom: string,
+  conversions: readonly UomConversion[],
+): number | null {
+  if (!Number.isFinite(quantity)) return null;
+  if (!uom || uom === baseUom) return quantity;
+  const direct = conversions.find((c) => c.fromUom === uom && c.toUom === baseUom);
+  if (direct) return Number(direct.factor) * quantity;
+  const inverse = conversions.find((c) => c.fromUom === baseUom && c.toUom === uom);
+  if (inverse && Number(inverse.factor) !== 0) return quantity / Number(inverse.factor);
+  return null;
+}
+
+/** Rounds away binary float noise before display / whole-number checks. */
+function tidy(n: number): number {
+  return Math.round(n * 1e9) / 1e9;
+}
+
+/** "24 pcs (2 box)" when the movement was entered in another UOM. */
+function movementQtyText(m: Movement, baseUom: string): string {
+  const base = baseUom ? `${m.quantity} ${baseUom}` : m.quantity;
+  return m.enteredUom && m.enteredQuantity !== null && m.enteredQuantity !== undefined
+    ? `${base} (${m.enteredQuantity} ${m.enteredUom})`
+    : base;
+}
+
 function randomKey(): string {
   return `ui-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
 }
@@ -184,6 +240,12 @@ export default function InventoryPage() {
   const [counts, setCounts] = useState<CountView[]>([]);
   const [countQty, setCountQty] = useState('');
   const [moveSerials, setMoveSerials] = useState<string[]>([]);
+  const [moveUom, setMoveUom] = useState('');
+  const [conversions, setConversions] = useState<UomConversion[]>([]);
+  const [scanValue, setScanValue] = useState('');
+  const [scanInfo, setScanInfo] = useState<ResolvedCode | null>(null);
+  const [scanError, setScanError] = useState<string | null>(null);
+  const [scanBusy, setScanBusy] = useState(false);
   const [snSku, setSnSku] = useState('');
   const [snWarehouse, setSnWarehouse] = useState('');
   const [snList, setSnList] = useState<Array<{ serial: string; warehouseId: string }> | null>(null);
@@ -214,14 +276,11 @@ export default function InventoryPage() {
       api<{ products: Array<{ id: string }> }>('GET', '/api/v1/products/search')
         .then(async (r) => {
           const details = await Promise.all(
-            r.products
-              .slice(0, 20)
-              .map((p) =>
-                api<{ skus: Array<{ id: string; code: string; status: string }> }>(
-                  'GET',
-                  `/api/v1/products/${p.id}`,
-                ),
-              ),
+            r.products.slice(0, 20).map((p) =>
+              api<{
+                skus: Array<{ id: string; code: string; status: string; baseUom: string }>;
+              }>('GET', `/api/v1/products/${p.id}`),
+            ),
           );
           const all = details.flatMap((d) => d.skus.map((s) => ({ ...s })));
           setSkus(all);
@@ -278,6 +337,59 @@ export default function InventoryPage() {
   }, [warehouseId, skuId]);
 
   useEffect(refresh, [refresh]);
+
+  // UOM conversions of the selected SKU feed the movement UOM select (PIM-007).
+  useEffect(() => {
+    setMoveUom('');
+    setConversions([]);
+    if (!skuId || !can('product.read')) return;
+    let cancelled = false;
+    api<{ conversions: UomConversion[] }>('GET', `/api/v1/skus/${skuId}/uom-conversions`)
+      .then((r) => {
+        if (!cancelled) setConversions(r.conversions);
+      })
+      .catch(() => {
+        if (!cancelled) setConversions([]);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [skuId]);
+
+  async function resolveScan(raw: string) {
+    const value = raw.trim();
+    if (!value) return;
+    setScanBusy(true);
+    setScanError(null);
+    setScanInfo(null);
+    try {
+      const r = await api<ResolvedCode>(
+        'GET',
+        `/api/v1/barcodes/resolve/${encodeURIComponent(value)}`,
+      );
+      setSkus((prev) =>
+        prev.some((s) => s.id === r.skuId)
+          ? prev
+          : [...prev, { id: r.skuId, code: r.skuCode, status: r.status, baseUom: r.baseUom }],
+      );
+      if (r.skuId !== skuId) {
+        setSkuId(r.skuId);
+        setMoveSerials([]);
+      }
+      setMoveUom('');
+      setQuantity(r.unitsPerScan);
+      setScanInfo(r);
+      setScanValue('');
+    } catch (e: unknown) {
+      setScanError(
+        e instanceof ApiRequestError && e.status === 404
+          ? `Kod „${value}" nije pronađen — nije barkod jedinice, barkod pakovanja niti šifra SKU-a.`
+          : errorText(e),
+      );
+    } finally {
+      setScanBusy(false);
+    }
+  }
 
   async function run(fn: () => Promise<unknown>, successText: string): Promise<boolean> {
     setBusy(true);
@@ -337,11 +449,35 @@ export default function InventoryPage() {
 
   const whLabel = (id: string) => warehouses?.find((w) => w.id === id)?.code ?? id.slice(0, 8);
   const movePolicy = policyOf(skuId);
-  const moveQty = Number(quantity);
-  const moveSerialProblem = serialProblem(movePolicy, moveQty, moveSerials);
+  const moveSku = skus.find((s) => s.id === skuId) ?? null;
+  const moveBaseUom = moveSku?.baseUom ?? '';
+  const moveUomOptions = moveBaseUom
+    ? [
+        ...new Set(
+          conversions
+            .filter((c) => c.fromUom === moveBaseUom || c.toUom === moveBaseUom)
+            .map((c) => (c.fromUom === moveBaseUom ? c.toUom : c.fromUom))
+            .filter((u) => u !== moveBaseUom),
+        ),
+      ]
+    : [];
+  const enteredQty = Number(quantity);
+  const nonBaseUom = moveUom !== '' && moveUom !== moveBaseUom;
+  const rawBaseQty = nonBaseUom
+    ? toBaseQuantity(enteredQty, moveUom, moveBaseUom, conversions)
+    : enteredQty;
+  const moveQty = rawBaseQty === null ? Number.NaN : tidy(rawBaseQty);
+  const moveUomProblem =
+    nonBaseUom && serialsApplicable(movePolicy) && quantity !== '' && !Number.isInteger(moveQty)
+      ? `Serijski praćen artikal: količina u osnovnoj JM mora biti cijeli broj (${
+          Number.isFinite(moveQty) ? `${moveQty} ${moveBaseUom}` : 'pretvorba nije poznata'
+        }). Promijenite količinu ili unesite u ${moveBaseUom}.`
+      : null;
+  const moveSerialProblem = moveUomProblem ?? serialProblem(movePolicy, moveQty, moveSerials);
   const onbPolicy = policyOf(onbSku);
 
   const skuLabel = (id: string) => skus.find((s) => s.id === id)?.code ?? id.slice(0, 8);
+  const skuLabelUom = (id: string) => skus.find((s) => s.id === id)?.baseUom ?? '';
 
   return (
     <main className="page">
@@ -384,6 +520,7 @@ export default function InventoryPage() {
               onChange={(e) => {
                 setSkuId(e.target.value);
                 setMoveSerials([]);
+                setScanInfo(null);
               }}
             >
               <option value="">Odaberi SKU…</option>
@@ -457,6 +594,7 @@ export default function InventoryPage() {
                       skuId,
                       movementType,
                       quantity: Number(quantity),
+                      ...(nonBaseUom ? { uom: moveUom } : {}),
                       idempotencyKey: randomKey(),
                       ...(reason ? { reason } : {}),
                       ...(lotNumber ? { lotNumber } : {}),
@@ -471,6 +609,57 @@ export default function InventoryPage() {
               }}
             >
               <h2>Knjiži kretanje</h2>
+              <label className="label" htmlFor="move-scan">
+                Skeniraj barkod ili šifru SKU-a
+              </label>
+              <div className="row">
+                <input
+                  id="move-scan"
+                  className="input mono"
+                  placeholder="Skenirajte ili upišite kod i pritisnite Enter"
+                  value={scanValue}
+                  onChange={(e) => setScanValue(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      e.preventDefault();
+                      void resolveScan(scanValue);
+                    }
+                  }}
+                  aria-describedby="move-scan-result"
+                  disabled={scanBusy}
+                  autoComplete="off"
+                />
+                <button
+                  type="button"
+                  className="btn"
+                  disabled={scanBusy || !scanValue.trim()}
+                  onClick={() => void resolveScan(scanValue)}
+                >
+                  {scanBusy ? 'Tražim…' : 'Pronađi'}
+                </button>
+              </div>
+              <div id="move-scan-result" role="status" aria-live="polite">
+                {scanError ? (
+                  <div className="alert alert-error" style={{ marginTop: 6 }}>
+                    {scanError}
+                  </div>
+                ) : null}
+                {scanInfo ? (
+                  <p className="muted" style={{ fontSize: 12.5, marginTop: 4 }}>
+                    <span className="mono">{scanInfo.skuCode}</span> — {scanInfo.name}
+                    {scanInfo.kind === 'PACK'
+                      ? ` · pakovanje ${scanInfo.packName ?? ''}`
+                      : scanInfo.kind === 'UNIT'
+                        ? ' · barkod jedinice'
+                        : ' · šifra SKU-a'}
+                    {' · '}
+                    <strong>
+                      1 sken = {scanInfo.unitsPerScan} {scanInfo.baseUom}
+                    </strong>
+                    {scanInfo.status !== 'ACTIVE' ? ` · status ${scanInfo.status}` : ''}
+                  </p>
+                ) : null}
+              </div>
               <label className="label">Tip</label>
               <select
                 className="select"
@@ -493,6 +682,41 @@ export default function InventoryPage() {
                 onChange={(e) => setQuantity(e.target.value)}
                 required
               />
+              {moveBaseUom ? (
+                <>
+                  <label className="label" htmlFor="move-uom">
+                    Jedinica mjere
+                  </label>
+                  <select
+                    id="move-uom"
+                    className="select"
+                    value={moveUom || moveBaseUom}
+                    onChange={(e) =>
+                      setMoveUom(e.target.value === moveBaseUom ? '' : e.target.value)
+                    }
+                    disabled={moveUomOptions.length === 0}
+                    aria-describedby="move-uom-preview"
+                  >
+                    <option value={moveBaseUom}>{moveBaseUom} (osnovna)</option>
+                    {moveUomOptions.map((u) => (
+                      <option key={u} value={u}>
+                        {u}
+                      </option>
+                    ))}
+                  </select>
+                  {nonBaseUom ? (
+                    <p
+                      id="move-uom-preview"
+                      className="muted"
+                      style={{ fontSize: 12.5, marginTop: 4 }}
+                    >
+                      {quantity !== '' && Number.isFinite(moveQty)
+                        ? `= ${moveQty} ${moveBaseUom} (pretvara server; neprecizne pretvorbe se odbijaju)`
+                        : 'Pretvorba u osnovnu JM nije poznata — server će odbiti unos.'}
+                    </p>
+                  ) : null}
+                </>
+              ) : null}
               <label className="label">Lot (obavezan pri prijemu lot-praćenih SKU-ova)</label>
               <input
                 className="input mono"
@@ -653,8 +877,8 @@ export default function InventoryPage() {
                 {
                   key: 'qty',
                   header: 'Količina',
-                  render: (m: Movement) => m.quantity,
-                  text: (m: Movement) => m.quantity,
+                  render: (m: Movement) => movementQtyText(m, skuLabelUom(skuId)),
+                  text: (m: Movement) => movementQtyText(m, skuLabelUom(skuId)),
                   align: 'right',
                 },
                 {

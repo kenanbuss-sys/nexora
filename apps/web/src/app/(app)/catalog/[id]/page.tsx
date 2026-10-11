@@ -6,6 +6,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { api, errorText } from '../../../../lib/api';
 import { EmptyState, ErrorState, LoadingState } from '../../../../components/ui';
 import { useApp } from '../../app-shell';
+import { SkuCodesCard } from './sku-codes';
 
 interface SkuView {
   id: string;
@@ -63,8 +64,6 @@ export default function ProductDetailPage() {
   const [skuName, setSkuName] = useState('');
   const [baseUom, setBaseUom] = useState('pcs');
   const [uoms, setUoms] = useState<Array<{ code: string; name: string }>>([]);
-  const [barcodeSku, setBarcodeSku] = useState('');
-  const [barcodeValue, setBarcodeValue] = useState('');
   const [categories, setCategories] = useState<CategoryView[]>([]);
   const [images, setImages] = useState<Array<{ id: string; fileName: string; src: string }>>([]);
   const [logSku, setLogSku] = useState('');
@@ -422,52 +421,14 @@ export default function ProductDetailPage() {
                 </button>
               </form>
             ) : null}
-
-            {can('product.barcode.manage') && product.skus.length > 0 ? (
-              <form
-                className="card"
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  void run(
-                    () =>
-                      api('POST', '/api/v1/barcodes', { skuId: barcodeSku, value: barcodeValue }),
-                    'Barkod je dodijeljen.',
-                  ).then(() => setBarcodeValue(''));
-                }}
-              >
-                <h2>Dodijeli barkod</h2>
-                <label className="label">SKU</label>
-                <select
-                  className="select"
-                  value={barcodeSku}
-                  onChange={(e) => setBarcodeSku(e.target.value)}
-                  required
-                >
-                  <option value="">Odaberite SKU…</option>
-                  {product.skus.map((s) => (
-                    <option key={s.id} value={s.id}>
-                      {s.code}
-                    </option>
-                  ))}
-                </select>
-                <label className="label">Vrijednost barkoda</label>
-                <input
-                  className="input mono"
-                  value={barcodeValue}
-                  onChange={(e) => setBarcodeValue(e.target.value)}
-                  required
-                />
-                <button
-                  className="btn btn-primary"
-                  style={{ marginTop: 14 }}
-                  disabled={busy}
-                  type="submit"
-                >
-                  Dodijeli
-                </button>
-              </form>
-            ) : null}
           </div>
+
+          <SkuCodesCard
+            skus={product.skus}
+            uoms={uoms}
+            canManageBarcodes={can('product.barcode.manage')}
+            canManageProduct={can('product.manage')}
+          />
 
           {can('collab.use') ? (
             <div className="card" style={{ marginTop: 16 }}>
