@@ -1021,3 +1021,101 @@ a.stat:hover {
     display: table;
   }
 }
+
+/* WF-013 (Sprint 246): scan-first checklist toggles and chips — tokens only. */
+.choice-row {
+  display: flex;
+  gap: 8px;
+}
+
+.choice {
+  flex: 1;
+  min-height: 48px;
+  padding: 10px 12px;
+  border: 2px solid var(--color-border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font: inherit;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.choice:focus-visible,
+.chip:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.choice-ok[aria-pressed='true'] {
+  background: var(--color-ok-soft);
+  border-color: var(--color-ok);
+  color: var(--color-ok);
+}
+
+.choice-fail[aria-pressed='true'] {
+  background: var(--color-danger-soft);
+  border-color: var(--color-danger);
+  color: var(--color-danger);
+}
+
+.check-item {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 12px;
+  margin-bottom: 10px;
+}
+
+.check-item-fail {
+  border-color: var(--color-danger);
+}
+
+.chip {
+  min-width: 44px;
+  min-height: 40px;
+  padding: 6px 10px;
+  border: 1px solid var(--color-border-strong);
+  border-radius: 999px;
+  background: var(--color-surface);
+  color: var(--color-text);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.chip[aria-pressed='true'] {
+  background: var(--color-accent-soft);
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.pick-list {
+  max-height: 220px;
+  overflow-y: auto;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 6px 10px;
+}
+
+.pick-list label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 36px;
+}
+
+.scroll-x {
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+.cell-missed {
+  background: var(--color-danger-soft);
+}
+
+.alert-warn {
+  background: var(--color-warn-soft);
+  color: var(--color-warn);
+  border: 1px solid color-mix(in srgb, var(--color-warn) 25%, transparent);
+}

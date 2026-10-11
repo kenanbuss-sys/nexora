@@ -12,12 +12,18 @@ import {
   LoadingState,
   type Column,
 } from '../../../components/ui';
+import { MyPartPanel, TeamTaskForm, type TeamTaskView, type UserOption } from './team-tasks';
+import { RecurringTasks } from './recurring-tasks';
 
 /**
  * Zadaci i odobrenja (Sprint 228): vlastiti/dodijeljeni zadaci s rokovima
  * i statusima, veza na poslovni zapis (npr. projekat) i odobri/odbij nad
  * postojećim approval domenom — SoD (zabrana samoodobravanja) i audit su
  * na serveru; UI samo prikazuje dozvoljene radnje.
+ *
+ * Sprint 246 (WF-013): timski zadaci (više izvršilaca, checklista, "Moj
+ * dio") i periodični zadaci. Timski zadatak se prepoznaje preko
+ * GET /tasks/:id/mine (samo izvršioci; 404 = obični zadatak).
  */
 
 interface TaskView {
@@ -38,11 +44,6 @@ interface ApprovalView {
   status: string;
   subjectObjectType: string;
   subjectObjectId: string;
-}
-
-interface UserOption {
-  id: string;
-  displayName: string;
 }
 
 const TASK_BADGE: Record<TaskView['status'], [string, string]> = {
@@ -75,6 +76,8 @@ export default function TasksPage() {
   const [description, setDescription] = useState('');
   const [dueAt, setDueAt] = useState('');
   const [assignee, setAssignee] = useState('');
+  const [team, setTeam] = useState<Record<string, TeamTaskView | null>>({});
+  const [myPart, setMyPart] = useState<string | null>(null);
   const [decide, setDecide] = useState<{
     approval: ApprovalView;
     decision: 'approve' | 'reject';
@@ -85,6 +88,16 @@ export default function TasksPage() {
       .then((r) => {
         setTasks(r.tasks);
         setError(null);
+        // Timski zadaci nemaju pojedinačnog izvršioca; /mine vraća checklistu
+        // i napredak samo izvršiocima (404 = obični nedodijeljeni zadatak).
+        const candidates = r.tasks.filter((t) => t.assigneeUserId === null);
+        void Promise.all(
+          candidates.map((t) =>
+            api<TeamTaskView>('GET', `/api/v1/tasks/${t.id}/mine`)
+              .then((v): [string, TeamTaskView | null] => [t.id, v])
+              .catch((): [string, TeamTaskView | null] => [t.id, null]),
+          ),
+        ).then((entries) => setTeam(Object.fromEntries(entries)));
       })
       .catch((e: unknown) => setError(errorText(e)));
     if (canApprove) {
@@ -117,6 +130,17 @@ export default function TasksPage() {
     }
   }
 
+  // Popis korisnika traži IAM pravo; bez njega "moj" status nije poznat,
+  // pa se ravna po filteru liste (server vraća idempotentan odgovor).
+  const me = users.find(
+    (u) => u.id === session.subject || (u.email && u.email === session.subject),
+  )?.id;
+  const myPartDone = (t: TaskView, v: TeamTaskView): boolean => {
+    const mine = me ? v.assignees.find((a) => a.userId === me) : undefined;
+    if (mine) return mine.status === 'DONE';
+    return t.status !== 'OPEN' || statusFilter === 'DONE';
+  };
+
   const overdue = (t: TaskView) =>
     t.status === 'OPEN' && t.dueAt !== null && new Date(t.dueAt).getTime() < Date.now();
 
@@ -127,6 +151,16 @@ export default function TasksPage() {
       render: (t) => (
         <span>
           {t.title}
+          {team[t.id] ? (
+            <span
+              className="badge badge-accent"
+              style={{ marginLeft: 6 }}
+              title={`Timski zadatak — ${team[t.id]!.assignees.length} izvršilaca`}
+            >
+              Tim {team[t.id]!.assignees.filter((a) => a.status === 'DONE').length}/
+              {team[t.id]!.assignees.length}
+            </span>
+          ) : null}
           {t.description ? (
             <span className="muted" style={{ display: 'block', fontSize: 12 }}>
               {t.description}
@@ -176,8 +210,24 @@ export default function TasksPage() {
       key: 'act',
       header: '',
       align: 'right',
-      render: (t) =>
-        t.status === 'OPEN' && canManage ? (
+      render: (t) => {
+        const v = team[t.id];
+        if (v) {
+          return myPartDone(t, v) ? (
+            <span className="badge badge-ok">Moj dio završen</span>
+          ) : (
+            <button
+              type="button"
+              className="btn btn-sm btn-primary"
+              disabled={busy}
+              onClick={() => setMyPart(t.id)}
+            >
+              Moj dio
+            </button>
+          );
+        }
+        if (t.assigneeUserId === null && !(t.id in team)) return null;
+        return t.status === 'OPEN' && canManage ? (
           <button
             type="button"
             className="btn btn-sm"
@@ -191,7 +241,8 @@ export default function TasksPage() {
           >
             Završi
           </button>
-        ) : null,
+        ) : null;
+      },
       text: () => '',
     },
   ];
@@ -205,6 +256,19 @@ export default function TasksPage() {
       </p>
       {error ? <ErrorState text={error} /> : null}
       {notice ? <div className="alert alert-ok">{notice}</div> : null}
+
+      {myPart ? (
+        <MyPartPanel
+          taskId={myPart}
+          users={users}
+          onClose={() => setMyPart(null)}
+          onCompleted={(message) => {
+            setMyPart(null);
+            setNotice(message);
+            load();
+          }}
+        />
+      ) : null}
 
       <div className="grid-2">
         <div className="card">
@@ -348,6 +412,26 @@ export default function TasksPage() {
           </p>
         </div>
       </div>
+
+      {canManage ? (
+        <div className="card" style={{ marginTop: 16 }}>
+          <h2>Novi timski zadatak</h2>
+          <p className="muted" style={{ fontSize: 12.5, marginTop: 0 }}>
+            Više izvršilaca, svako potvrđuje svoj dio (opcionalno uz checklistu). Zadatak se zatvara
+            kad svi završe ili kad završi prvi — zavisno od pravila.
+          </p>
+          <TeamTaskForm
+            users={users}
+            onCreated={(message) => {
+              setError(null);
+              setNotice(message);
+              load();
+            }}
+          />
+        </div>
+      ) : null}
+
+      {canManage ? <RecurringTasks users={users} /> : null}
 
       {decide ? (
         <ConfirmDialog
