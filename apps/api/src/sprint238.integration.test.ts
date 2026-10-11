@@ -255,7 +255,8 @@ integration('Sprint 238 — equipment custody + QR (EAM-015/016)', () => {
       name: 'Ručni skener',
       category: 'Alat',
       status: 'U upotrebi',
-      location: 'Hala 2 / Linija 3',
+      // Location is hidden unless the tenant opts in.
+      location: null,
       issued: true,
     });
     const text = JSON.stringify(pub.body);
@@ -263,6 +264,15 @@ integration('Sprint 238 — equipment custody + QR (EAM-015/016)', () => {
     expect(text).not.toContain('600');
     expect(text).not.toContain('Bravar');
     expect(text).not.toContain(asset.scanner!);
+
+    const raw = await app.inject({ method: 'GET', url: `/api/v1/public/qr/asset/${token}` });
+    expect(raw.headers['cache-control']).toBe('no-store');
+    expect(raw.headers['referrer-policy']).toBe('no-referrer');
+    await api('POST', '/api/v1/tenant/configuration', admin, {
+      config: { eam: { publicLookup: { showLocation: true } } },
+    });
+    const withLocation = await api('GET', `/api/v1/public/qr/asset/${token}`, null);
+    expect(withLocation.body.location).toBe('Hala 2 / Linija 3');
 
     const group = await api('GET', `/api/v1/public/qr/custody/${groupToken}`, null);
     expect(group.body).toMatchObject({ status: 'CLOSED' });
@@ -276,6 +286,56 @@ integration('Sprint 238 — equipment custody + QR (EAM-015/016)', () => {
       (await api('GET', `/api/v1/public/qr/asset/${rotated.body.qrToken as string}`, null)).status,
     ).toBe(404);
     expect((await api('GET', '/api/v1/public/qr/asset/x', null)).status).toBe(404);
+  });
+
+  it('REVIEW FIXES: revocable revers token, retired assets, suspended tenant, disabled module, audits', async () => {
+    const rotated = await api('POST', `${E}/custody/${custodyId}/qr`, admin, {});
+    const newGroup = rotated.body.groupToken as string;
+    expect(newGroup).not.toBe(groupToken);
+    expect((await api('GET', `/api/v1/public/qr/custody/${groupToken}`, null)).status).toBe(404);
+    expect((await api('GET', `/api/v1/public/qr/custody/${newGroup}`, null)).status).toBe(200);
+    const revoked = await api('POST', `${E}/custody/${custodyId}/qr`, admin, { revoke: true });
+    expect(revoked.body.groupToken).toBeNull();
+    expect((await api('GET', `/api/v1/public/qr/custody/${newGroup}`, null)).status).toBe(404);
+
+    const label = await api('POST', `${E}/assets/${asset.grinder}/qr`, admin, {});
+    const grinderToken = label.body.qrToken as string;
+    expect((await api('GET', `/api/v1/public/qr/asset/${grinderToken}`, null)).status).toBe(200);
+    await api('POST', `/api/v1/assets/${asset.grinder}/transition`, admin, { status: 'RETIRED' });
+    expect((await api('GET', `/api/v1/public/qr/asset/${grinderToken}`, null)).status).toBe(404);
+    expect((await api('POST', `${E}/assets/${asset.grinder}/qr`, admin, {})).status).toBe(409);
+
+    const drillToken = (await api('POST', `${E}/assets/${asset.drill}/qr`, admin, {})).body
+      .qrToken as string;
+    await prisma.moduleActivation.create({
+      data: { tenantId: tenantAId, moduleKey: 'assets', enabled: false },
+    });
+    expect((await api('GET', `/api/v1/public/qr/asset/${drillToken}`, null)).status).toBe(404);
+    expect((await api('GET', `${E}/custody`, admin)).status).toBe(403);
+    await prisma.moduleActivation.deleteMany({
+      where: { tenantId: tenantAId, moduleKey: 'assets' },
+    });
+    await prisma.tenant.update({ where: { id: tenantAId }, data: { status: 'SUSPENDED' } });
+    expect((await api('GET', `/api/v1/public/qr/asset/${drillToken}`, null)).status).toBe(404);
+    await prisma.tenant.update({ where: { id: tenantAId }, data: { status: 'ACTIVE' } });
+    expect((await api('GET', `/api/v1/public/qr/asset/${drillToken}`, null)).status).toBe(200);
+
+    const actions = (
+      await prisma.auditEvent.findMany({
+        where: { tenantId: tenantAId, action: { startsWith: 'eam.' } },
+        select: { action: true },
+      })
+    ).map((a) => a.action);
+    for (const a of [
+      'eam.asset.qr_issue',
+      'eam.asset.qr_rotate',
+      'eam.asset.qr_revoke',
+      'eam.asset.location',
+      'eam.custody.qr_rotate',
+      'eam.custody.qr_revoke',
+    ]) {
+      expect(actions).toContain(a);
+    }
   });
 
   it('AUTHZ + TENANT: reader cannot issue; other tenant sees nothing and cannot touch custody', async () => {
@@ -293,6 +353,18 @@ integration('Sprint 238 — equipment custody + QR (EAM-015/016)', () => {
       items: [{ assetId: asset.drill, condition: 'OK' }],
     });
     expect(ret.status).toBe(404);
+    expect((await api('POST', `${E}/assets/${asset.scanner}/qr`, reader, {})).status).toBe(403);
+    expect((await api('POST', `${E}/assets/${asset.scanner}/qr/revoke`, reader)).status).toBe(403);
+    expect((await api('GET', `${E}/assets/${asset.scanner}`, adminB)).status).toBe(404);
+    expect(
+      (await api('POST', `${E}/assets/${asset.scanner}/details`, adminB, { location: 'x' })).status,
+    ).toBe(404);
+    expect((await api('POST', `${E}/assets/${asset.scanner}/qr`, adminB, {})).status).toBe(404);
+    expect((await api('POST', `${E}/assets/${asset.scanner}/qr/revoke`, adminB)).status).toBe(404);
+    expect((await api('POST', `${E}/custody/${custodyId}/qr`, adminB, {})).status).toBe(404);
+    expect(
+      (await api('POST', `${E}/print-log`, adminB, { custodyId, kind: 'REVERS' })).status,
+    ).toBe(404);
     const cross = await api('POST', `${E}/custody`, adminB, {
       employeeId: worker,
       assetIds: [asset.grinder],

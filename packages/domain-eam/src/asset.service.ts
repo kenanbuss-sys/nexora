@@ -124,7 +124,11 @@ export class AssetService {
     if (!TRANSITIONS[row.status].includes(status)) {
       throw new DomainError('INVALID_STATE', `An asset cannot go from ${row.status} to ${status}`);
     }
-    const updated = await this.prisma.asset.update({ where: { id: row.id }, data: { status } });
+    // EAM-016: a retired asset's public QR label stops resolving.
+    const updated = await this.prisma.asset.update({
+      where: { id: row.id },
+      data: { status, ...(status === 'RETIRED' ? { qrToken: null } : {}) },
+    });
     await writeAudit(this.prisma, {
       tenantId: ctx.tenantId,
       actorType: ctx.actorType,

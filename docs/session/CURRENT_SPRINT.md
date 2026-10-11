@@ -366,3 +366,16 @@ Vlasnik 11.10.: proizvod je za proizvodnju, komercijalu i maloprodaju — call-c
 - [x] UI: stranica „Obuka i razvoj" + „Bonus po tipu" na /payroll
 - [x] Testovi: **sprint237 8/8** (2×) — dodjela, mentor-scope, šabloni/nivo/idempotentnost, stavke (verzije, zatvorene, zatvaranje), pregled, evidencija, bonusi (konverzija 100 EUR → 195.58 BAM, replay, nepoznat tip/kurs 400, salary 403), tenant izolacija; regresija 203, 234, 235, 236 zelena
 - [x] Dokumentacija: popravljeno 56 pokvarenih redova u `specs/implementation_matrix.csv` (nazivi/bilješke sa zarezom bez navodnika); prijedlog re-prioritizacije backloga za proizvodnju/komercijalu/maloprodaju u BACKLOG_DOPUNA.md (čeka potvrdu)
+
+# Sprint 238 — ZAVRŠEN 11.10.2026: zaduženja opreme i alata (revers) + QR naljepnice (EAM-015/016)
+
+Prvi sprint po potvrđenom redoslijedu (ODL-009). Vlasnik domena: EAM (zaposleni = HCM kroz gate). Migracije `20260928000238_sprint_238_equipment_custody` (+ parcijalni unique indeks „jedno otvoreno zaduženje po sredstvu" — čuvati pri regeneraciji) i `20260928000239_sprint_238_custody_token_revocable`.
+
+- [x] Revers `ZD-GGGG-NNNN`: više sredstava jednom aktivnom zaposlenom, idempotentno; sredstvo u najviše JEDNOM otvorenom zaduženju (indeks u bazi, i pod konkurencijom → tačno jedan uspjeh); rashodovano sredstvo / neaktivan radnik odbijeni
+- [x] Razduženje po stavci (OK / Oštećeno / Izgubljeno; napomena obavezna za ne-OK), idempotentno, status izveden (Zaduženo / Djelimično vraćeno / Razduženo), serijalizovano zaključavanjem reda
+- [x] Audit izdavanja, povrata i štampe (revers / naljepnica / popis); lokacija sredstva (audit)
+- [x] QR: 128-bit token po sredstvu i po reversu, rotacija/opoziv (audit); rashodovanje briše token; javni uvid `/api/v1/public/qr/*` bez prijave vraća samo neosjetljiva polja (organizacija, broj, naziv, kategorija, status, „zaduženo da/ne"; lokacija samo uz `eam.publicLookup.showLocation`), ne odgovara za suspendovan tenant ili isključen modul, `Cache-Control: no-store`, `Referrer-Policy: no-referrer`, `noindex`
+- [x] Ključ modula `assets` za assets/maintenance/equipment rute (opt-out)
+- [x] UI: /assets tabovi „Registar" i „Zaduženja" (novo zaduženje, razduženje, štampa reversa s QR-om), QR i naljepnica u detalju sredstva, javne stranice `/q/a/:token` i `/q/z/:token`; biblioteka `qrcode` (MIT) u web-u
+- [x] **Security review**: 0 kritičnih/visokih; 2 srednja + 4 niska ispravljena (opoziv grupnog tokena, suspendovan tenant/modul, zaglavlja, rashodovano sredstvo, konkurentni povrat, testovi); **rate limiting javnih ruta NIJE urađen** — traži novu infrastrukturu (Redis-backed limiter) i ADR → backlog
+- [x] Testovi: **sprint238 7/7** (2×); regresija 072, 202, 203, 227, 234 zelena

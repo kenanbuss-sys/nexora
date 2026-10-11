@@ -44,6 +44,9 @@ export class CustodyService {
   constructor(
     private readonly prisma: PrismaClient,
     private readonly employees: CustodyEmployeeGate,
+    private readonly configuration?: {
+      getEffectiveConfiguration(tenantId: string): Promise<{ config: unknown }>;
+    },
   ) {}
 
   private async audit(
@@ -98,6 +101,9 @@ export class CustodyService {
       where: { id: assetId, tenantId: ctx.tenantId },
     });
     if (!asset) throw notFound('Asset', assetId);
+    if (asset.status === 'RETIRED') {
+      throw new DomainError('INVALID_STATE', 'A retired asset gets no QR label');
+    }
     if (asset.qrToken && !rotate) return this.assetQrView(asset.id, ctx);
     const token = newToken();
     await this.prisma.asset.updateMany({
@@ -309,6 +315,9 @@ export class CustodyService {
       }
     }
     await this.prisma.$transaction(async (tx) => {
+      // Serialize concurrent returns of the same document so the derived
+      // status is computed from a consistent view.
+      await tx.$queryRaw`SELECT id FROM equipment_custody WHERE id = ${custody.id}::uuid FOR UPDATE`;
       let returned = 0;
       for (const item of input.items) {
         const line = byAsset.get(item.assetId)!;
@@ -440,6 +449,46 @@ export class CustodyService {
 
   // ------------------------------------------------------------ public lookup
 
+  /** The assets module is opt-out: only an explicit disabled row turns it off. */
+  private async publicEnabled(tenantId: string): Promise<boolean> {
+    const row = await this.prisma.moduleActivation.findFirst({
+      where: { tenantId, moduleKey: 'assets' },
+    });
+    return row?.enabled !== false;
+  }
+
+  private async publicShowsLocation(tenantId: string): Promise<boolean> {
+    if (!this.configuration) return false;
+    try {
+      const { config } = await this.configuration.getEffectiveConfiguration(tenantId);
+      const eam = ((config as Record<string, unknown>).eam ?? {}) as Record<string, unknown>;
+      const lookup = (eam.publicLookup ?? {}) as Record<string, unknown>;
+      return lookup.showLocation === true;
+    } catch {
+      return false;
+    }
+  }
+
+  /** Rotate (new token) or revoke (no token) the revers QR. Audited. */
+  async setCustodyToken(input: { custodyId: string; revoke: boolean }, ctx: RequestContext) {
+    const c = await this.prisma.equipmentCustody.findFirst({
+      where: { id: input.custodyId, tenantId: ctx.tenantId },
+    });
+    if (!c) throw notFound('EquipmentCustody', input.custodyId);
+    await this.prisma.equipmentCustody.updateMany({
+      where: { id: c.id, tenantId: ctx.tenantId },
+      data: { groupToken: input.revoke ? null : newToken() },
+    });
+    await this.audit(
+      input.revoke ? 'eam.custody.qr_revoke' : 'eam.custody.qr_rotate',
+      'EquipmentCustody',
+      c.id,
+      {},
+      ctx,
+    );
+    return this.view(c.id, ctx);
+  }
+
   /**
    * Anonymous QR lookup: by token only, NO tenant context from the caller.
    * Returns strictly non-sensitive fields.
@@ -447,10 +496,11 @@ export class CustodyService {
   async publicAsset(token: string) {
     if (!TOKEN_RE.test(token)) throw notFound('Asset', 'token');
     const asset = await this.prisma.asset.findFirst({
-      where: { qrToken: token },
+      where: { qrToken: token, tenant: { status: 'ACTIVE' } },
       include: { tenant: { select: { name: true } } },
     });
-    if (!asset) throw notFound('Asset', 'token');
+    if (!asset || !(await this.publicEnabled(asset.tenantId))) throw notFound('Asset', 'token');
+    const showLocation = await this.publicShowsLocation(asset.tenantId);
     const issued = await this.prisma.equipmentCustodyLine.count({
       where: { tenantId: asset.tenantId, assetId: asset.id, returnedAt: null },
     });
@@ -460,7 +510,8 @@ export class CustodyService {
       name: asset.name,
       category: asset.category,
       status: STATUS_LABELS[asset.status] ?? asset.status,
-      location: asset.location,
+      // Location is shown only when the tenant opts in (eam.publicLookup.showLocation).
+      location: showLocation ? asset.location : null,
       issued: issued > 0,
     };
   }
@@ -468,10 +519,10 @@ export class CustodyService {
   async publicCustody(token: string) {
     if (!TOKEN_RE.test(token)) throw notFound('EquipmentCustody', 'token');
     const c = await this.prisma.equipmentCustody.findFirst({
-      where: { groupToken: token },
+      where: { groupToken: token, tenant: { status: 'ACTIVE' } },
       include: { lines: { orderBy: { assetNumber: 'asc' } }, tenant: { select: { name: true } } },
     });
-    if (!c) throw notFound('EquipmentCustody', 'token');
+    if (!c || !(await this.publicEnabled(c.tenantId))) throw notFound('EquipmentCustody', 'token');
     return {
       organization: c.tenant.name,
       custodyNumber: c.custodyNumber,

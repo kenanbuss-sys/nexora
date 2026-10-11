@@ -1278,17 +1278,21 @@ export const REDIS = 'REDIS';
     {
       // EAM-015/016: the holder (employee) is HCM-owned — read through a gate.
       provide: CUSTODY_SERVICE,
-      useFactory: (prisma: PrismaClient) =>
-        new CustodyService(prisma, {
-          employee: async (employeeId, ctx) => {
-            const e = await prisma.employee.findFirst({
-              where: { id: employeeId, tenantId: ctx.tenantId },
-              select: { id: true, name: true, employeeNumber: true, status: true },
-            });
-            return e ? { ...e, status: String(e.status) } : null;
+      useFactory: (prisma: PrismaClient, tenants: TenantService) =>
+        new CustodyService(
+          prisma,
+          {
+            employee: async (employeeId, ctx) => {
+              const e = await prisma.employee.findFirst({
+                where: { id: employeeId, tenantId: ctx.tenantId },
+                select: { id: true, name: true, employeeNumber: true, status: true },
+              });
+              return e ? { ...e, status: String(e.status) } : null;
+            },
           },
-        }),
-      inject: [PRISMA],
+          { getEffectiveConfiguration: (t) => tenants.getEffectiveConfiguration(t) },
+        ),
+      inject: [PRISMA, TENANT_SERVICE],
     },
     {
       provide: ASSET_SERVICE,

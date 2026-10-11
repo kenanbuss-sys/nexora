@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
-import { api, errorText } from '../../../lib/api';
+import { api } from '../../../lib/api';
 import { useApp } from '../app-shell';
 import {
   ConfirmDialog,
@@ -11,13 +11,20 @@ import {
   LoadingState,
   type Column,
 } from '../../../components/ui';
+import { AssetEquipment } from './asset-equipment';
+import { EquipmentCustody } from './custody';
+import { eamErrorText } from './equipment-common';
 
 /**
  * Oprema i održavanje (Sprint 229, EAM): lista i detalj sredstava,
  * kvarovi → održavanje → završetak s troškom, zaduženje alata (upisom
- * imena — model NEMA lokaciju ni FK na zaposlenog; FinTrack QR/zaduženja
- * NISU pokriveni ovim ekranom i ostaju u backlogu) i preventivni ciklus.
+ * imena) i preventivni ciklus.
+ * Sprint 238 (EAM-015/016): tab "Zaduženja" (revers po zaposlenom s
+ * razduženjem po stavci) te lokacija, trenutni zadužilac i QR oznaka u
+ * detalju sredstva; štampa reversa/naljepnice se auditira.
  */
+
+type Tab = 'registry' | 'custody';
 
 interface AssetView {
   id: string;
@@ -54,6 +61,8 @@ export default function AssetsPage() {
   const [report, setReport] = useState<AssetReport | null>(null);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [statusFilter, setStatusFilter] = useState('ALL');
+  const [tab, setTab] = useState<Tab>('registry');
+  const [custodyFocus, setCustodyFocus] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
@@ -82,7 +91,7 @@ export default function AssetsPage() {
         setAssets(r.assets);
         setError(null);
       })
-      .catch((e: unknown) => setError(errorText(e)));
+      .catch((e: unknown) => setError(eamErrorText(e)));
   }, [canRead]);
   useEffect(load, [load]);
 
@@ -104,7 +113,7 @@ export default function AssetsPage() {
       load();
       if (selectedId) openAsset(selectedId);
     } catch (e: unknown) {
-      setError(errorText(e));
+      setError(eamErrorText(e));
     } finally {
       setBusy(false);
     }
@@ -113,6 +122,18 @@ export default function AssetsPage() {
   const selected = (assets ?? []).find((a) => a.id === selectedId) ?? null;
   const filtered = (assets ?? []).filter(
     (a) => statusFilter === 'ALL' || a.status === statusFilter,
+  );
+
+  const tabButton = (t: Tab, label: string) => (
+    <button
+      type="button"
+      role="tab"
+      aria-selected={tab === t}
+      className={tab === t ? 'btn btn-primary' : 'btn'}
+      onClick={() => setTab(t)}
+    >
+      {label}
+    </button>
   );
 
   const columns: Array<Column<AssetView>> = [
@@ -152,8 +173,9 @@ export default function AssetsPage() {
     <main className="page">
       <h1>Oprema i imovina</h1>
       <p className="page-sub">
-        Registar sredstava sa servisnim tokom: kvar → održavanje → završetak s troškom, zaduženje
-        alata i preventivni ciklus. Troškovi dolaze iz stvarnih zapisa održavanja.
+        Registar sredstava sa servisnim tokom: kvar → održavanje → završetak s troškom, zaduženja
+        opreme (revers) s QR oznakama i preventivni ciklus. Troškovi dolaze iz stvarnih zapisa
+        održavanja.
       </p>
       {error ? <ErrorState text={error} /> : null}
       {notice ? <div className="alert alert-ok">{notice}</div> : null}
@@ -161,6 +183,22 @@ export default function AssetsPage() {
       {!canRead ? (
         <EmptyState text="Nemate pristup imovini — zatražite od administratora ulogu s dozvolom asset.read." />
       ) : (
+        <div className="row" role="tablist" aria-label="Prikaz" style={{ marginBottom: 16 }}>
+          {tabButton('registry', 'Registar')}
+          {tabButton('custody', 'Zaduženja')}
+        </div>
+      )}
+
+      {canRead && tab === 'custody' ? (
+        <EquipmentCustody
+          assets={assets}
+          canManage={canManage}
+          focusId={custodyFocus}
+          onChanged={load}
+        />
+      ) : null}
+
+      {canRead && tab === 'registry' ? (
         <div className="grid-2">
           <div className="card">
             <h2>Sredstva</h2>
@@ -286,6 +324,16 @@ export default function AssetsPage() {
                     {STATUS_META[selected.status][0]}
                   </span>
                 </div>
+                <AssetEquipment
+                  key={`${selected.id}-${selected.status}`}
+                  assetId={selected.id}
+                  retired={selected.status === 'RETIRED'}
+                  canManage={canManage}
+                  onOpenCustody={(id) => {
+                    setCustodyFocus(id);
+                    setTab('custody');
+                  }}
+                />
 
                 <h3 style={{ marginTop: 16, marginBottom: 6 }}>Servisna historija</h3>
                 {report === null ? (
@@ -376,8 +424,8 @@ export default function AssetsPage() {
                       </button>
                     </div>
                     <p className="muted" style={{ fontSize: 12, marginTop: 8 }}>
-                      Zaduženje se evidentira upisom imena (auditirano). Model nema lokaciju ni QR
-                      zaduženja — evidentirano u backlogu, ne prikazuje se izmišljeno.
+                      Zaduži/Razduži ovdje je brza evidencija upisom imena (auditirano). Revers po
+                      zaposlenom s razduženjem po stavci vodi se u tabu Zaduženja.
                     </p>
                   </>
                 ) : null}
@@ -385,7 +433,7 @@ export default function AssetsPage() {
             )}
           </div>
         </div>
-      )}
+      ) : null}
 
       {breakdownFor ? (
         <ConfirmDialog

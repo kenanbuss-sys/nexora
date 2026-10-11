@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Inject, Param, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Header, Inject, Param, Post, Query } from '@nestjs/common';
 import { PRINT_KINDS, RETURN_CONDITIONS, type CustodyService } from '@nexora/domain-eam';
 import type { RequestContext } from '@nexora/tenancy';
 import { z } from 'zod';
@@ -85,6 +85,16 @@ export class CustodyController {
     return this.custody.returnItems({ custodyId: parseBody(UUID, id), ...input }, ctx);
   }
 
+  @Post('custody/:id/qr')
+  @RequirePermission('asset.manage')
+  async custodyQr(@Param('id') id: string, @Body() body: unknown, @Ctx() ctx: RequestContext) {
+    const input = parseBody(z.object({ revoke: z.boolean().optional() }), body ?? {});
+    return this.custody.setCustodyToken(
+      { custodyId: parseBody(UUID, id), revoke: input.revoke === true },
+      ctx,
+    );
+  }
+
   @Post('print-log')
   @RequirePermission('asset.read')
   async print(@Body() body: unknown, @Ctx() ctx: RequestContext) {
@@ -132,11 +142,17 @@ export class PublicQrController {
   constructor(@Inject(CUSTODY_SERVICE) private readonly custody: CustodyService) {}
 
   @Get('asset/:token')
+  @Header('Cache-Control', 'no-store')
+  @Header('Referrer-Policy', 'no-referrer')
+  @Header('X-Robots-Tag', 'noindex, nofollow')
   async asset(@Param('token') token: string) {
     return this.custody.publicAsset(token);
   }
 
   @Get('custody/:token')
+  @Header('Cache-Control', 'no-store')
+  @Header('Referrer-Policy', 'no-referrer')
+  @Header('X-Robots-Tag', 'noindex, nofollow')
   async custodyGroup(@Param('token') token: string) {
     return this.custody.publicCustody(token);
   }

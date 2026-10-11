@@ -55,6 +55,10 @@ export const MODULE_ROUTE_MAP: Array<[string, string]> = [
   ['connectors', 'integrations'],
   ['portal', 'portal'],
   ['portal-users', 'portal'],
+  // Sprint 238: asset management (registry, maintenance, custody).
+  ['assets', 'assets'],
+  ['maintenance', 'assets'],
+  ['equipment', 'assets'],
 ];
 
 export function moduleForPath(path: string): string | null {

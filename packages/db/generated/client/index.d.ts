@@ -207882,7 +207882,7 @@ export namespace Prisma {
     custodyNumber: string
     employeeId: string
     status: string
-    groupToken: string
+    groupToken: string | null
     note: string | null
     requestKey: string
     requestHash: string
@@ -208001,7 +208001,10 @@ export namespace Prisma {
        * OPEN, PARTIALLY_RETURNED or CLOSED (derived from lines).
        */
       status: string
-      groupToken: string
+      /**
+       * Revocable (null = revoked); backs the QR on the printed revers.
+       */
+      groupToken: string | null
       note: string | null
       requestKey: string
       requestHash: string
@@ -227251,7 +227254,7 @@ export namespace Prisma {
     custodyNumber?: StringFilter<"EquipmentCustody"> | string
     employeeId?: UuidFilter<"EquipmentCustody"> | string
     status?: StringFilter<"EquipmentCustody"> | string
-    groupToken?: StringFilter<"EquipmentCustody"> | string
+    groupToken?: StringNullableFilter<"EquipmentCustody"> | string | null
     note?: StringNullableFilter<"EquipmentCustody"> | string | null
     requestKey?: StringFilter<"EquipmentCustody"> | string
     requestHash?: StringFilter<"EquipmentCustody"> | string
@@ -227268,7 +227271,7 @@ export namespace Prisma {
     custodyNumber?: SortOrder
     employeeId?: SortOrder
     status?: SortOrder
-    groupToken?: SortOrder
+    groupToken?: SortOrderInput | SortOrder
     note?: SortOrderInput | SortOrder
     requestKey?: SortOrder
     requestHash?: SortOrder
@@ -227307,7 +227310,7 @@ export namespace Prisma {
     custodyNumber?: SortOrder
     employeeId?: SortOrder
     status?: SortOrder
-    groupToken?: SortOrder
+    groupToken?: SortOrderInput | SortOrder
     note?: SortOrderInput | SortOrder
     requestKey?: SortOrder
     requestHash?: SortOrder
@@ -227328,7 +227331,7 @@ export namespace Prisma {
     custodyNumber?: StringWithAggregatesFilter<"EquipmentCustody"> | string
     employeeId?: UuidWithAggregatesFilter<"EquipmentCustody"> | string
     status?: StringWithAggregatesFilter<"EquipmentCustody"> | string
-    groupToken?: StringWithAggregatesFilter<"EquipmentCustody"> | string
+    groupToken?: StringNullableWithAggregatesFilter<"EquipmentCustody"> | string | null
     note?: StringNullableWithAggregatesFilter<"EquipmentCustody"> | string | null
     requestKey?: StringWithAggregatesFilter<"EquipmentCustody"> | string
     requestHash?: StringWithAggregatesFilter<"EquipmentCustody"> | string
@@ -242198,7 +242201,7 @@ export namespace Prisma {
     custodyNumber: string
     employeeId: string
     status?: string
-    groupToken: string
+    groupToken?: string | null
     note?: string | null
     requestKey: string
     requestHash: string
@@ -242215,7 +242218,7 @@ export namespace Prisma {
     custodyNumber: string
     employeeId: string
     status?: string
-    groupToken: string
+    groupToken?: string | null
     note?: string | null
     requestKey: string
     requestHash: string
@@ -242230,7 +242233,7 @@ export namespace Prisma {
     custodyNumber?: StringFieldUpdateOperationsInput | string
     employeeId?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
-    groupToken?: StringFieldUpdateOperationsInput | string
+    groupToken?: NullableStringFieldUpdateOperationsInput | string | null
     note?: NullableStringFieldUpdateOperationsInput | string | null
     requestKey?: StringFieldUpdateOperationsInput | string
     requestHash?: StringFieldUpdateOperationsInput | string
@@ -242247,7 +242250,7 @@ export namespace Prisma {
     custodyNumber?: StringFieldUpdateOperationsInput | string
     employeeId?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
-    groupToken?: StringFieldUpdateOperationsInput | string
+    groupToken?: NullableStringFieldUpdateOperationsInput | string | null
     note?: NullableStringFieldUpdateOperationsInput | string | null
     requestKey?: StringFieldUpdateOperationsInput | string
     requestHash?: StringFieldUpdateOperationsInput | string
@@ -242263,7 +242266,7 @@ export namespace Prisma {
     custodyNumber: string
     employeeId: string
     status?: string
-    groupToken: string
+    groupToken?: string | null
     note?: string | null
     requestKey: string
     requestHash: string
@@ -242277,7 +242280,7 @@ export namespace Prisma {
     custodyNumber?: StringFieldUpdateOperationsInput | string
     employeeId?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
-    groupToken?: StringFieldUpdateOperationsInput | string
+    groupToken?: NullableStringFieldUpdateOperationsInput | string | null
     note?: NullableStringFieldUpdateOperationsInput | string | null
     requestKey?: StringFieldUpdateOperationsInput | string
     requestHash?: StringFieldUpdateOperationsInput | string
@@ -242292,7 +242295,7 @@ export namespace Prisma {
     custodyNumber?: StringFieldUpdateOperationsInput | string
     employeeId?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
-    groupToken?: StringFieldUpdateOperationsInput | string
+    groupToken?: NullableStringFieldUpdateOperationsInput | string | null
     note?: NullableStringFieldUpdateOperationsInput | string | null
     requestKey?: StringFieldUpdateOperationsInput | string
     requestHash?: StringFieldUpdateOperationsInput | string
@@ -272525,7 +272528,7 @@ export namespace Prisma {
     custodyNumber: string
     employeeId: string
     status?: string
-    groupToken: string
+    groupToken?: string | null
     note?: string | null
     requestKey: string
     requestHash: string
@@ -272540,7 +272543,7 @@ export namespace Prisma {
     custodyNumber: string
     employeeId: string
     status?: string
-    groupToken: string
+    groupToken?: string | null
     note?: string | null
     requestKey: string
     requestHash: string
@@ -277133,7 +277136,7 @@ export namespace Prisma {
     custodyNumber?: StringFilter<"EquipmentCustody"> | string
     employeeId?: UuidFilter<"EquipmentCustody"> | string
     status?: StringFilter<"EquipmentCustody"> | string
-    groupToken?: StringFilter<"EquipmentCustody"> | string
+    groupToken?: StringNullableFilter<"EquipmentCustody"> | string | null
     note?: StringNullableFilter<"EquipmentCustody"> | string | null
     requestKey?: StringFilter<"EquipmentCustody"> | string
     requestHash?: StringFilter<"EquipmentCustody"> | string
@@ -375639,7 +375642,7 @@ export namespace Prisma {
     custodyNumber: string
     employeeId: string
     status?: string
-    groupToken: string
+    groupToken?: string | null
     note?: string | null
     requestKey: string
     requestHash: string
@@ -375655,7 +375658,7 @@ export namespace Prisma {
     custodyNumber: string
     employeeId: string
     status?: string
-    groupToken: string
+    groupToken?: string | null
     note?: string | null
     requestKey: string
     requestHash: string
@@ -376000,7 +376003,7 @@ export namespace Prisma {
     custodyNumber?: StringFieldUpdateOperationsInput | string
     employeeId?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
-    groupToken?: StringFieldUpdateOperationsInput | string
+    groupToken?: NullableStringFieldUpdateOperationsInput | string | null
     note?: NullableStringFieldUpdateOperationsInput | string | null
     requestKey?: StringFieldUpdateOperationsInput | string
     requestHash?: StringFieldUpdateOperationsInput | string
@@ -376016,7 +376019,7 @@ export namespace Prisma {
     custodyNumber?: StringFieldUpdateOperationsInput | string
     employeeId?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
-    groupToken?: StringFieldUpdateOperationsInput | string
+    groupToken?: NullableStringFieldUpdateOperationsInput | string | null
     note?: NullableStringFieldUpdateOperationsInput | string | null
     requestKey?: StringFieldUpdateOperationsInput | string
     requestHash?: StringFieldUpdateOperationsInput | string
@@ -377724,7 +377727,7 @@ export namespace Prisma {
     custodyNumber: string
     employeeId: string
     status?: string
-    groupToken: string
+    groupToken?: string | null
     note?: string | null
     requestKey: string
     requestHash: string
@@ -382964,7 +382967,7 @@ export namespace Prisma {
     custodyNumber?: StringFieldUpdateOperationsInput | string
     employeeId?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
-    groupToken?: StringFieldUpdateOperationsInput | string
+    groupToken?: NullableStringFieldUpdateOperationsInput | string | null
     note?: NullableStringFieldUpdateOperationsInput | string | null
     requestKey?: StringFieldUpdateOperationsInput | string
     requestHash?: StringFieldUpdateOperationsInput | string
@@ -382979,7 +382982,7 @@ export namespace Prisma {
     custodyNumber?: StringFieldUpdateOperationsInput | string
     employeeId?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
-    groupToken?: StringFieldUpdateOperationsInput | string
+    groupToken?: NullableStringFieldUpdateOperationsInput | string | null
     note?: NullableStringFieldUpdateOperationsInput | string | null
     requestKey?: StringFieldUpdateOperationsInput | string
     requestHash?: StringFieldUpdateOperationsInput | string
@@ -382994,7 +382997,7 @@ export namespace Prisma {
     custodyNumber?: StringFieldUpdateOperationsInput | string
     employeeId?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
-    groupToken?: StringFieldUpdateOperationsInput | string
+    groupToken?: NullableStringFieldUpdateOperationsInput | string | null
     note?: NullableStringFieldUpdateOperationsInput | string | null
     requestKey?: StringFieldUpdateOperationsInput | string
     requestHash?: StringFieldUpdateOperationsInput | string

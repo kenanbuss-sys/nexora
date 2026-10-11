@@ -53,7 +53,7 @@ Ne planiramo stotine sprintova unaprijed: obavezan je samo Sprint 211 (definisan
 **Smjernica vlasnika (11.10.2026):** Nexora je softver za **proizvodnju, komercijalu (veleprodaja/distribucija) i maloprodajne markete** te velike kompanije van IT/call-centar svijeta. FinTrack paritet se prenosi samo kao **generička poslovna mogućnost**; pojmovi i podaci specifični za call-centar (lige, agenti, treneri, PCC, igrice, kartice…) se ne prenose (primjer: HCM-017 generalizovan u Sprintu 237).
 
 ### Status faza 1–2 (urađeno na grani `claude/lucid-dijkstra-qywmaw`)
-FIN-028, FIN-033, HCM-015, HCM-013/014, HCM-016, HCM-017 (generalizovano) — DONE.
+FIN-028, FIN-033, HCM-015, HCM-013/014, HCM-016, HCM-017 (generalizovano), EAM-015/016 (Sprint 238) — DONE.
 
 ### Predloženi redoslijed (najveća vrijednost za proizvodnju/komercijalu/maloprodaju prvo)
 
@@ -67,6 +67,7 @@ FIN-028, FIN-033, HCM-015, HCM-013/014, HCM-016, HCM-017 (generalizovano) — DO
 | 6 | Izvoz podataka po tenantu + proba povrata | OPS-019 | zahtjev velikih kompanija / pilot uslov |
 | 7 | Produkcijski AI vision provider (ulazne fakture, izvodi) | AI-016 | ubrzava knjigovodstvo; iza porta |
 | 8 | Porezi i doprinosi BiH na platu (bruto↔neto) kao lokalizacioni paket | HCM-013 dopuna | stvarni obračun plata |
+| 9 | Rate limiting javnih (anonimnih) ruta — Redis-backed, uz ADR | OPS (security review Sprint 238) | zaštita od opterećenja na /api/v1/public/* |
 
 ### Spušta se / ne prenosi (FinTrack/call-centar specifično ili niska vrijednost za ciljne kupce)
 - **Ne prenosi se:** lige/agenti/treneri (zamijenjeno generičkim razvojem zaposlenih), „Lotto" (ODL-003), DISC/Big5 dio HCM-020.

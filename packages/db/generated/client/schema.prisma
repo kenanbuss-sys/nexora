@@ -4089,7 +4089,8 @@ model EquipmentCustody {
   employeeId    String   @map("employee_id") @db.Uuid
   /// OPEN, PARTIALLY_RETURNED or CLOSED (derived from lines).
   status        String   @default("OPEN")
-  groupToken    String   @map("group_token")
+  /// Revocable (null = revoked); backs the QR on the printed revers.
+  groupToken    String?  @map("group_token")
   note          String?
   requestKey    String   @map("request_key")
   requestHash   String   @map("request_hash")

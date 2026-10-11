@@ -995,3 +995,29 @@ a.stat:hover {
 .btn-danger:hover {
   filter: brightness(0.94);
 }
+
+/* ----------------------------------------- Audited print (Sprint 238) */
+/* Print-only content (revers, QR label) is mounted as a direct child of
+ * <body> just before window.print(); on paper it replaces the app chrome. */
+.print-area {
+  display: none;
+}
+
+@media print {
+  body:has(> .print-area) > :not(.print-area) {
+    display: none !important;
+  }
+
+  body:has(> .print-area) {
+    background: var(--color-surface);
+  }
+
+  .print-area {
+    display: block;
+    color: var(--color-text);
+  }
+
+  .print-area .table {
+    display: table;
+  }
+}
