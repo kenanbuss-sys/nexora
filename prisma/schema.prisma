@@ -188,6 +188,8 @@ model Tenant {
   mdmDuplicateDismissals  MdmDuplicateDismissal[]
   quarantineDispositions  QuarantineDisposition[]
   assetStructureChanges   AssetStructureChange[]
+  supportCaseOrderItems   SupportCaseOrderItem[]
+  supportCaseReturns      SupportCaseReturn[]
 
   @@map("tenant")
 }
@@ -2451,6 +2453,8 @@ model ReturnOrder {
   id           String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   tenantId     String       @map("tenant_id") @db.Uuid
   rmaNumber    String       @map("rma_number")
+  /// Sprint 245: caller idempotency reference (e.g. case:<id>:<key>).
+  requestRef   String?      @map("request_ref")
   orderId      String       @map("order_id") @db.Uuid
   accountId    String       @map("account_id") @db.Uuid
   warehouseId  String       @map("warehouse_id") @db.Uuid
@@ -2822,7 +2826,47 @@ model SupportCase {
   @@unique([tenantId, caseNumber])
   @@index([tenantId, status])
   @@index([tenantId, accountId])
+  @@index([tenantId, orderId])
   @@map("support_case")
+}
+
+/// Sprint 245 (CSM-011): which order lines a case is about, how many units
+/// and what went wrong (issue types from csm.orderIssueTypes).
+model SupportCaseOrderItem {
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId    String   @map("tenant_id") @db.Uuid
+  caseId      String   @map("case_id") @db.Uuid
+  orderId     String   @map("order_id") @db.Uuid
+  orderLineId String   @map("order_line_id") @db.Uuid
+  quantity    Decimal  @db.Decimal(18, 6)
+  issueType   String   @map("issue_type")
+  note        String?
+  createdBy   String?  @map("created_by")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@unique([caseId, orderLineId])
+  @@index([tenantId, orderId])
+  @@map("support_case_order_item")
+}
+
+/// Sprint 245 (CSM-011): returns (RMA) opened from a case through OMS.
+model SupportCaseReturn {
+  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId   String   @map("tenant_id") @db.Uuid
+  caseId     String   @map("case_id") @db.Uuid
+  returnId   String   @map("return_id") @db.Uuid
+  rmaNumber  String   @map("rma_number")
+  requestKey String   @map("request_key")
+  createdBy  String?  @map("created_by")
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@unique([tenantId, requestKey])
+  @@index([tenantId, caseId])
+  @@map("support_case_return")
 }
 
 enum ContractStatus {

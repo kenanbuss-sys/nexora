@@ -157,6 +157,9 @@ export class SupportCaseService {
       if (!order) throw notFound('SalesOrder', input.orderId);
     }
     return this.prisma.$transaction(async (tx) => {
+      // Numbering is count-based: serialise creates per tenant.
+      const numberKey = `csm.case.number:${ctx.tenantId}`;
+      await tx.$executeRaw`SELECT pg_advisory_xact_lock(hashtextextended(${numberKey}, 0))`;
       const count = await tx.supportCase.count({ where: { tenantId: ctx.tenantId } });
       const created = await tx.supportCase.create({
         data: {

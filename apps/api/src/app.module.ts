@@ -1,4 +1,5 @@
 import type { OnApplicationShutdown } from '@nestjs/common';
+import { CASE_ORDER_SERVICE, CaseOrderController } from './crm/case-order.controller';
 import { Inject, Module } from '@nestjs/common';
 import { APP_FILTER, APP_GUARD } from '@nestjs/core';
 import type { Env } from '@nexora/config';
@@ -48,6 +49,7 @@ import {
   CaseOpsService,
   OnboardingService,
   SupportCaseService,
+  CaseOrderService,
   LoyaltyService,
   CrmService,
   Customer360Service,
@@ -441,6 +443,7 @@ export const REDIS = 'REDIS';
     CrmAccountsController,
     LoyaltyController,
     SupportCasesController,
+    CaseOrderController,
     CaseOpsController,
     MarketingController,
     EsgController,
@@ -1929,6 +1932,26 @@ export const REDIS = 'REDIS';
       provide: POS_SERVICE,
       useFactory: (prisma: PrismaClient, orders: OrderService) => new PosService(prisma, orders),
       inject: [PRISMA, ORDER_SERVICE],
+    },
+    {
+      // CSM-011: case <-> order through OMS's public gates (orders, returns).
+      provide: CASE_ORDER_SERVICE,
+      useFactory: (
+        prisma: PrismaClient,
+        orders: OrderService,
+        returns: ReturnsService,
+        tenants: TenantService,
+      ) =>
+        new CaseOrderService(
+          prisma,
+          { orderContext: (t, id) => orders.orderContext(t, id) },
+          {
+            requestReturn: (input, ctx) => returns.requestReturn(input, ctx),
+            returnsForOrder: (t, id) => returns.returnsForOrder(t, id),
+          },
+          { getEffectiveConfiguration: (t) => tenants.getEffectiveConfiguration(t) },
+        ),
+      inject: [PRISMA, ORDER_SERVICE, RETURNS_SERVICE, TENANT_SERVICE],
     },
     {
       provide: RETURNS_SERVICE,

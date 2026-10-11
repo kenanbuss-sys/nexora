@@ -20,6 +20,14 @@ export {
 export { LOYALTY_EARN_DIVISOR, LoyaltyService, type LoyaltyView } from './loyalty.service';
 export { SupportCaseService, type SupportCaseView } from './case.service';
 export {
+  CaseOrderService,
+  DEFAULT_ORDER_ISSUE_TYPES,
+  DEFAULT_RETURNABLE_ISSUE_TYPES,
+  type CaseOrderContextGate,
+  type CaseOrderItemInput,
+  type CaseReturnGate,
+} from './case-order.service';
+export {
   DEFAULT_ONBOARDING_STEPS,
   OnboardingService,
   type OnboardingStatus,

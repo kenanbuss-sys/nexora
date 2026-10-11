@@ -1246,6 +1246,7 @@ exports.Prisma.ReturnOrderScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
   rmaNumber: 'rmaNumber',
+  requestRef: 'requestRef',
   orderId: 'orderId',
   accountId: 'accountId',
   warehouseId: 'warehouseId',
@@ -1428,6 +1429,30 @@ exports.Prisma.SupportCaseScalarFieldEnum = {
   createdBy: 'createdBy',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
+};
+
+exports.Prisma.SupportCaseOrderItemScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  caseId: 'caseId',
+  orderId: 'orderId',
+  orderLineId: 'orderLineId',
+  quantity: 'quantity',
+  issueType: 'issueType',
+  note: 'note',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.SupportCaseReturnScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  caseId: 'caseId',
+  returnId: 'returnId',
+  rmaNumber: 'rmaNumber',
+  requestKey: 'requestKey',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.ContractScalarFieldEnum = {
@@ -2829,6 +2854,8 @@ exports.Prisma.ModelName = {
   LoyaltyAccount: 'LoyaltyAccount',
   LoyaltyTransaction: 'LoyaltyTransaction',
   SupportCase: 'SupportCase',
+  SupportCaseOrderItem: 'SupportCaseOrderItem',
+  SupportCaseReturn: 'SupportCaseReturn',
   Contract: 'Contract',
   Employee: 'Employee',
   Asset: 'Asset',

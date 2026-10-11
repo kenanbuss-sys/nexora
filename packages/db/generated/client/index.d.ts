@@ -641,6 +641,17 @@ export type LoyaltyTransaction = $Result.DefaultSelection<Prisma.$LoyaltyTransac
  */
 export type SupportCase = $Result.DefaultSelection<Prisma.$SupportCasePayload>
 /**
+ * Model SupportCaseOrderItem
+ * Sprint 245 (CSM-011): which order lines a case is about, how many units
+ * and what went wrong (issue types from csm.orderIssueTypes).
+ */
+export type SupportCaseOrderItem = $Result.DefaultSelection<Prisma.$SupportCaseOrderItemPayload>
+/**
+ * Model SupportCaseReturn
+ * Sprint 245 (CSM-011): returns (RMA) opened from a case through OMS.
+ */
+export type SupportCaseReturn = $Result.DefaultSelection<Prisma.$SupportCaseReturnPayload>
+/**
  * Model Contract
  * Sprint 067 (DOC-007/009): contract repository — numbered contracts
  * against a master-data party with validity, value and a renewal
@@ -3097,6 +3108,26 @@ export class PrismaClient<
   get supportCase(): Prisma.SupportCaseDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.supportCaseOrderItem`: Exposes CRUD operations for the **SupportCaseOrderItem** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more SupportCaseOrderItems
+    * const supportCaseOrderItems = await prisma.supportCaseOrderItem.findMany()
+    * ```
+    */
+  get supportCaseOrderItem(): Prisma.SupportCaseOrderItemDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.supportCaseReturn`: Exposes CRUD operations for the **SupportCaseReturn** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more SupportCaseReturns
+    * const supportCaseReturns = await prisma.supportCaseReturn.findMany()
+    * ```
+    */
+  get supportCaseReturn(): Prisma.SupportCaseReturnDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.contract`: Exposes CRUD operations for the **Contract** model.
     * Example usage:
     * ```ts
@@ -4216,6 +4247,8 @@ export namespace Prisma {
     LoyaltyAccount: 'LoyaltyAccount',
     LoyaltyTransaction: 'LoyaltyTransaction',
     SupportCase: 'SupportCase',
+    SupportCaseOrderItem: 'SupportCaseOrderItem',
+    SupportCaseReturn: 'SupportCaseReturn',
     Contract: 'Contract',
     Employee: 'Employee',
     Asset: 'Asset',
@@ -4291,7 +4324,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "tenant" | "tenantConfigurationVersion" | "legalEntity" | "businessUnit" | "branch" | "factory" | "user" | "userCredential" | "role" | "rolePermission" | "userRoleAssignment" | "auditEvent" | "outboxEvent" | "terminologyEntry" | "moduleActivation" | "customFieldDefinition" | "task" | "notification" | "workflowDefinition" | "workflowVersion" | "workflowInstance" | "ruleDefinition" | "ruleVersion" | "approval" | "processedEvent" | "documentTemplate" | "documentTemplateVersion" | "party" | "consentRecord" | "partyExternalIdentity" | "product" | "sku" | "barcode" | "uomConversion" | "warehouse" | "warehouseLocation" | "stockMovement" | "stockReservation" | "device" | "scanEvent" | "wmsOrder" | "wmsOrderLine" | "territory" | "salesTeam" | "salesTeamMember" | "crmAccount" | "lead" | "opportunity" | "crmActivity" | "priceList" | "priceListEntry" | "quote" | "packagingLevel" | "skuSubstitution" | "discountRule" | "quoteLine" | "salesOrder" | "salesOrderLine" | "orderEvent" | "supplier" | "purchaseRequisition" | "purchaseRequisitionLine" | "purchaseOrder" | "purchaseOrderLine" | "bom" | "bomLine" | "routing" | "routingOperation" | "engineeringChange" | "planningPolicy" | "mrpRun" | "mrpSuggestion" | "workOrder" | "workOrderOperation" | "qcPlan" | "qcPlanItem" | "qcInspection" | "qcInspectionItem" | "ncr" | "invoice" | "payment" | "portalUser" | "comment" | "attachment" | "attachmentBlob" | "numberSequence" | "exchangeRate" | "costCenter" | "budget" | "webhookSubscription" | "webhookDelivery" | "apiKey" | "securityEvent" | "productCategory" | "returnOrder" | "returnOrderLine" | "stockCount" | "stockCountLine" | "workCenter" | "downtimeEvent" | "promotion" | "promotionRedemption" | "bundleComponent" | "serialNumber" | "breakGlassGrant" | "mdmDuplicateDismissal" | "masterDataRequest" | "loyaltyAccount" | "loyaltyTransaction" | "supportCase" | "contract" | "employee" | "asset" | "assetStructureChange" | "quarantineHold" | "quarantineDisposition" | "quarantineDispositionLine" | "rfq" | "rfqQuote" | "package" | "packageLine" | "landedCost" | "customObjectDefinition" | "customObjectRecord" | "frameworkAgreement" | "skuChannelContent" | "container" | "posSession" | "vehicle" | "driver" | "shipment" | "shipmentStop" | "dockAppointment" | "installedAsset" | "serviceRequest" | "serviceOrder" | "serviceOrderPart" | "rma" | "glAccount" | "glJournalEntry" | "glJournalLine" | "glSystemAccount" | "glOpeningBalanceDate" | "glPeriodLock" | "bankStatement" | "bankStatementLine" | "paymentAllocation" | "compensation" | "compensationLine" | "vatRate" | "vatBookEntry" | "vatPeriod" | "attendanceDay" | "attendancePeriod" | "employeeSalary" | "payrollRun" | "payrollLine" | "payrollAdjustment" | "employmentContract" | "trainingPlanTemplate" | "trainingPlan" | "trainingPlanItem" | "trainingRecord" | "equipmentCustody" | "equipmentCustodyLine" | "serialPosition" | "serialMovement"
+      modelProps: "tenant" | "tenantConfigurationVersion" | "legalEntity" | "businessUnit" | "branch" | "factory" | "user" | "userCredential" | "role" | "rolePermission" | "userRoleAssignment" | "auditEvent" | "outboxEvent" | "terminologyEntry" | "moduleActivation" | "customFieldDefinition" | "task" | "notification" | "workflowDefinition" | "workflowVersion" | "workflowInstance" | "ruleDefinition" | "ruleVersion" | "approval" | "processedEvent" | "documentTemplate" | "documentTemplateVersion" | "party" | "consentRecord" | "partyExternalIdentity" | "product" | "sku" | "barcode" | "uomConversion" | "warehouse" | "warehouseLocation" | "stockMovement" | "stockReservation" | "device" | "scanEvent" | "wmsOrder" | "wmsOrderLine" | "territory" | "salesTeam" | "salesTeamMember" | "crmAccount" | "lead" | "opportunity" | "crmActivity" | "priceList" | "priceListEntry" | "quote" | "packagingLevel" | "skuSubstitution" | "discountRule" | "quoteLine" | "salesOrder" | "salesOrderLine" | "orderEvent" | "supplier" | "purchaseRequisition" | "purchaseRequisitionLine" | "purchaseOrder" | "purchaseOrderLine" | "bom" | "bomLine" | "routing" | "routingOperation" | "engineeringChange" | "planningPolicy" | "mrpRun" | "mrpSuggestion" | "workOrder" | "workOrderOperation" | "qcPlan" | "qcPlanItem" | "qcInspection" | "qcInspectionItem" | "ncr" | "invoice" | "payment" | "portalUser" | "comment" | "attachment" | "attachmentBlob" | "numberSequence" | "exchangeRate" | "costCenter" | "budget" | "webhookSubscription" | "webhookDelivery" | "apiKey" | "securityEvent" | "productCategory" | "returnOrder" | "returnOrderLine" | "stockCount" | "stockCountLine" | "workCenter" | "downtimeEvent" | "promotion" | "promotionRedemption" | "bundleComponent" | "serialNumber" | "breakGlassGrant" | "mdmDuplicateDismissal" | "masterDataRequest" | "loyaltyAccount" | "loyaltyTransaction" | "supportCase" | "supportCaseOrderItem" | "supportCaseReturn" | "contract" | "employee" | "asset" | "assetStructureChange" | "quarantineHold" | "quarantineDisposition" | "quarantineDispositionLine" | "rfq" | "rfqQuote" | "package" | "packageLine" | "landedCost" | "customObjectDefinition" | "customObjectRecord" | "frameworkAgreement" | "skuChannelContent" | "container" | "posSession" | "vehicle" | "driver" | "shipment" | "shipmentStop" | "dockAppointment" | "installedAsset" | "serviceRequest" | "serviceOrder" | "serviceOrderPart" | "rma" | "glAccount" | "glJournalEntry" | "glJournalLine" | "glSystemAccount" | "glOpeningBalanceDate" | "glPeriodLock" | "bankStatement" | "bankStatementLine" | "paymentAllocation" | "compensation" | "compensationLine" | "vatRate" | "vatBookEntry" | "vatPeriod" | "attendanceDay" | "attendancePeriod" | "employeeSalary" | "payrollRun" | "payrollLine" | "payrollAdjustment" | "employmentContract" | "trainingPlanTemplate" | "trainingPlan" | "trainingPlanItem" | "trainingRecord" | "equipmentCustody" | "equipmentCustodyLine" | "serialPosition" | "serialMovement"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -12435,6 +12468,154 @@ export namespace Prisma {
           }
         }
       }
+      SupportCaseOrderItem: {
+        payload: Prisma.$SupportCaseOrderItemPayload<ExtArgs>
+        fields: Prisma.SupportCaseOrderItemFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SupportCaseOrderItemFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SupportCaseOrderItemPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SupportCaseOrderItemFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SupportCaseOrderItemPayload>
+          }
+          findFirst: {
+            args: Prisma.SupportCaseOrderItemFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SupportCaseOrderItemPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SupportCaseOrderItemFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SupportCaseOrderItemPayload>
+          }
+          findMany: {
+            args: Prisma.SupportCaseOrderItemFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SupportCaseOrderItemPayload>[]
+          }
+          create: {
+            args: Prisma.SupportCaseOrderItemCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SupportCaseOrderItemPayload>
+          }
+          createMany: {
+            args: Prisma.SupportCaseOrderItemCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.SupportCaseOrderItemCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SupportCaseOrderItemPayload>[]
+          }
+          delete: {
+            args: Prisma.SupportCaseOrderItemDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SupportCaseOrderItemPayload>
+          }
+          update: {
+            args: Prisma.SupportCaseOrderItemUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SupportCaseOrderItemPayload>
+          }
+          deleteMany: {
+            args: Prisma.SupportCaseOrderItemDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SupportCaseOrderItemUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.SupportCaseOrderItemUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SupportCaseOrderItemPayload>[]
+          }
+          upsert: {
+            args: Prisma.SupportCaseOrderItemUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SupportCaseOrderItemPayload>
+          }
+          aggregate: {
+            args: Prisma.SupportCaseOrderItemAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSupportCaseOrderItem>
+          }
+          groupBy: {
+            args: Prisma.SupportCaseOrderItemGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SupportCaseOrderItemGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SupportCaseOrderItemCountArgs<ExtArgs>
+            result: $Utils.Optional<SupportCaseOrderItemCountAggregateOutputType> | number
+          }
+        }
+      }
+      SupportCaseReturn: {
+        payload: Prisma.$SupportCaseReturnPayload<ExtArgs>
+        fields: Prisma.SupportCaseReturnFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SupportCaseReturnFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SupportCaseReturnPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SupportCaseReturnFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SupportCaseReturnPayload>
+          }
+          findFirst: {
+            args: Prisma.SupportCaseReturnFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SupportCaseReturnPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SupportCaseReturnFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SupportCaseReturnPayload>
+          }
+          findMany: {
+            args: Prisma.SupportCaseReturnFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SupportCaseReturnPayload>[]
+          }
+          create: {
+            args: Prisma.SupportCaseReturnCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SupportCaseReturnPayload>
+          }
+          createMany: {
+            args: Prisma.SupportCaseReturnCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.SupportCaseReturnCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SupportCaseReturnPayload>[]
+          }
+          delete: {
+            args: Prisma.SupportCaseReturnDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SupportCaseReturnPayload>
+          }
+          update: {
+            args: Prisma.SupportCaseReturnUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SupportCaseReturnPayload>
+          }
+          deleteMany: {
+            args: Prisma.SupportCaseReturnDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SupportCaseReturnUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.SupportCaseReturnUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SupportCaseReturnPayload>[]
+          }
+          upsert: {
+            args: Prisma.SupportCaseReturnUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SupportCaseReturnPayload>
+          }
+          aggregate: {
+            args: Prisma.SupportCaseReturnAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSupportCaseReturn>
+          }
+          groupBy: {
+            args: Prisma.SupportCaseReturnGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SupportCaseReturnGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SupportCaseReturnCountArgs<ExtArgs>
+            result: $Utils.Optional<SupportCaseReturnCountAggregateOutputType> | number
+          }
+        }
+      }
       Contract: {
         payload: Prisma.$ContractPayload<ExtArgs>
         fields: Prisma.ContractFieldRefs
@@ -16859,6 +17040,8 @@ export namespace Prisma {
     loyaltyAccount?: LoyaltyAccountOmit
     loyaltyTransaction?: LoyaltyTransactionOmit
     supportCase?: SupportCaseOmit
+    supportCaseOrderItem?: SupportCaseOrderItemOmit
+    supportCaseReturn?: SupportCaseReturnOmit
     contract?: ContractOmit
     employee?: EmployeeOmit
     asset?: AssetOmit
@@ -17144,6 +17327,8 @@ export namespace Prisma {
     mdmDuplicateDismissals: number
     quarantineDispositions: number
     assetStructureChanges: number
+    supportCaseOrderItems: number
+    supportCaseReturns: number
   }
 
   export type TenantCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -17295,6 +17480,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: boolean | TenantCountOutputTypeCountMdmDuplicateDismissalsArgs
     quarantineDispositions?: boolean | TenantCountOutputTypeCountQuarantineDispositionsArgs
     assetStructureChanges?: boolean | TenantCountOutputTypeCountAssetStructureChangesArgs
+    supportCaseOrderItems?: boolean | TenantCountOutputTypeCountSupportCaseOrderItemsArgs
+    supportCaseReturns?: boolean | TenantCountOutputTypeCountSupportCaseReturnsArgs
   }
 
   // Custom InputTypes
@@ -18342,6 +18529,20 @@ export namespace Prisma {
    */
   export type TenantCountOutputTypeCountAssetStructureChangesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: AssetStructureChangeWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountSupportCaseOrderItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SupportCaseOrderItemWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountSupportCaseReturnsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SupportCaseReturnWhereInput
   }
 
 
@@ -20623,6 +20824,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: boolean | Tenant$mdmDuplicateDismissalsArgs<ExtArgs>
     quarantineDispositions?: boolean | Tenant$quarantineDispositionsArgs<ExtArgs>
     assetStructureChanges?: boolean | Tenant$assetStructureChangesArgs<ExtArgs>
+    supportCaseOrderItems?: boolean | Tenant$supportCaseOrderItemsArgs<ExtArgs>
+    supportCaseReturns?: boolean | Tenant$supportCaseReturnsArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["tenant"]>
 
@@ -20806,6 +21009,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: boolean | Tenant$mdmDuplicateDismissalsArgs<ExtArgs>
     quarantineDispositions?: boolean | Tenant$quarantineDispositionsArgs<ExtArgs>
     assetStructureChanges?: boolean | Tenant$assetStructureChangesArgs<ExtArgs>
+    supportCaseOrderItems?: boolean | Tenant$supportCaseOrderItemsArgs<ExtArgs>
+    supportCaseReturns?: boolean | Tenant$supportCaseReturnsArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type TenantIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -20962,6 +21167,8 @@ export namespace Prisma {
       mdmDuplicateDismissals: Prisma.$MdmDuplicateDismissalPayload<ExtArgs>[]
       quarantineDispositions: Prisma.$QuarantineDispositionPayload<ExtArgs>[]
       assetStructureChanges: Prisma.$AssetStructureChangePayload<ExtArgs>[]
+      supportCaseOrderItems: Prisma.$SupportCaseOrderItemPayload<ExtArgs>[]
+      supportCaseReturns: Prisma.$SupportCaseReturnPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -21513,6 +21720,8 @@ export namespace Prisma {
     mdmDuplicateDismissals<T extends Tenant$mdmDuplicateDismissalsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$mdmDuplicateDismissalsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MdmDuplicateDismissalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     quarantineDispositions<T extends Tenant$quarantineDispositionsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$quarantineDispositionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuarantineDispositionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     assetStructureChanges<T extends Tenant$assetStructureChangesArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$assetStructureChangesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssetStructureChangePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    supportCaseOrderItems<T extends Tenant$supportCaseOrderItemsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$supportCaseOrderItemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SupportCaseOrderItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    supportCaseReturns<T extends Tenant$supportCaseReturnsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$supportCaseReturnsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SupportCaseReturnPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -25486,6 +25695,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: AssetStructureChangeScalarFieldEnum | AssetStructureChangeScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.supportCaseOrderItems
+   */
+  export type Tenant$supportCaseOrderItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SupportCaseOrderItem
+     */
+    select?: SupportCaseOrderItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SupportCaseOrderItem
+     */
+    omit?: SupportCaseOrderItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SupportCaseOrderItemInclude<ExtArgs> | null
+    where?: SupportCaseOrderItemWhereInput
+    orderBy?: SupportCaseOrderItemOrderByWithRelationInput | SupportCaseOrderItemOrderByWithRelationInput[]
+    cursor?: SupportCaseOrderItemWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SupportCaseOrderItemScalarFieldEnum | SupportCaseOrderItemScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.supportCaseReturns
+   */
+  export type Tenant$supportCaseReturnsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SupportCaseReturn
+     */
+    select?: SupportCaseReturnSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SupportCaseReturn
+     */
+    omit?: SupportCaseReturnOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SupportCaseReturnInclude<ExtArgs> | null
+    where?: SupportCaseReturnWhereInput
+    orderBy?: SupportCaseReturnOrderByWithRelationInput | SupportCaseReturnOrderByWithRelationInput[]
+    cursor?: SupportCaseReturnWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SupportCaseReturnScalarFieldEnum | SupportCaseReturnScalarFieldEnum[]
   }
 
   /**
@@ -132256,6 +132513,7 @@ export namespace Prisma {
     id: string | null
     tenantId: string | null
     rmaNumber: string | null
+    requestRef: string | null
     orderId: string | null
     accountId: string | null
     warehouseId: string | null
@@ -132271,6 +132529,7 @@ export namespace Prisma {
     id: string | null
     tenantId: string | null
     rmaNumber: string | null
+    requestRef: string | null
     orderId: string | null
     accountId: string | null
     warehouseId: string | null
@@ -132286,6 +132545,7 @@ export namespace Prisma {
     id: number
     tenantId: number
     rmaNumber: number
+    requestRef: number
     orderId: number
     accountId: number
     warehouseId: number
@@ -132303,6 +132563,7 @@ export namespace Prisma {
     id?: true
     tenantId?: true
     rmaNumber?: true
+    requestRef?: true
     orderId?: true
     accountId?: true
     warehouseId?: true
@@ -132318,6 +132579,7 @@ export namespace Prisma {
     id?: true
     tenantId?: true
     rmaNumber?: true
+    requestRef?: true
     orderId?: true
     accountId?: true
     warehouseId?: true
@@ -132333,6 +132595,7 @@ export namespace Prisma {
     id?: true
     tenantId?: true
     rmaNumber?: true
+    requestRef?: true
     orderId?: true
     accountId?: true
     warehouseId?: true
@@ -132421,6 +132684,7 @@ export namespace Prisma {
     id: string
     tenantId: string
     rmaNumber: string
+    requestRef: string | null
     orderId: string
     accountId: string
     warehouseId: string
@@ -132453,6 +132717,7 @@ export namespace Prisma {
     id?: boolean
     tenantId?: boolean
     rmaNumber?: boolean
+    requestRef?: boolean
     orderId?: boolean
     accountId?: boolean
     warehouseId?: boolean
@@ -132471,6 +132736,7 @@ export namespace Prisma {
     id?: boolean
     tenantId?: boolean
     rmaNumber?: boolean
+    requestRef?: boolean
     orderId?: boolean
     accountId?: boolean
     warehouseId?: boolean
@@ -132487,6 +132753,7 @@ export namespace Prisma {
     id?: boolean
     tenantId?: boolean
     rmaNumber?: boolean
+    requestRef?: boolean
     orderId?: boolean
     accountId?: boolean
     warehouseId?: boolean
@@ -132503,6 +132770,7 @@ export namespace Prisma {
     id?: boolean
     tenantId?: boolean
     rmaNumber?: boolean
+    requestRef?: boolean
     orderId?: boolean
     accountId?: boolean
     warehouseId?: boolean
@@ -132514,7 +132782,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type ReturnOrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "rmaNumber" | "orderId" | "accountId" | "warehouseId" | "status" | "reason" | "decisionNote" | "createdBy" | "createdAt" | "updatedAt", ExtArgs["result"]["returnOrder"]>
+  export type ReturnOrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "rmaNumber" | "requestRef" | "orderId" | "accountId" | "warehouseId" | "status" | "reason" | "decisionNote" | "createdBy" | "createdAt" | "updatedAt", ExtArgs["result"]["returnOrder"]>
   export type ReturnOrderInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     lines?: boolean | ReturnOrder$linesArgs<ExtArgs>
@@ -132537,6 +132805,10 @@ export namespace Prisma {
       id: string
       tenantId: string
       rmaNumber: string
+      /**
+       * Sprint 245: caller idempotency reference (e.g. case:<id>:<key>).
+       */
+      requestRef: string | null
       orderId: string
       accountId: string
       warehouseId: string
@@ -132974,6 +133246,7 @@ export namespace Prisma {
     readonly id: FieldRef<"ReturnOrder", 'String'>
     readonly tenantId: FieldRef<"ReturnOrder", 'String'>
     readonly rmaNumber: FieldRef<"ReturnOrder", 'String'>
+    readonly requestRef: FieldRef<"ReturnOrder", 'String'>
     readonly orderId: FieldRef<"ReturnOrder", 'String'>
     readonly accountId: FieldRef<"ReturnOrder", 'String'>
     readonly warehouseId: FieldRef<"ReturnOrder", 'String'>
@@ -150424,6 +150697,2260 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: SupportCaseInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model SupportCaseOrderItem
+   */
+
+  export type AggregateSupportCaseOrderItem = {
+    _count: SupportCaseOrderItemCountAggregateOutputType | null
+    _avg: SupportCaseOrderItemAvgAggregateOutputType | null
+    _sum: SupportCaseOrderItemSumAggregateOutputType | null
+    _min: SupportCaseOrderItemMinAggregateOutputType | null
+    _max: SupportCaseOrderItemMaxAggregateOutputType | null
+  }
+
+  export type SupportCaseOrderItemAvgAggregateOutputType = {
+    quantity: Decimal | null
+  }
+
+  export type SupportCaseOrderItemSumAggregateOutputType = {
+    quantity: Decimal | null
+  }
+
+  export type SupportCaseOrderItemMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    caseId: string | null
+    orderId: string | null
+    orderLineId: string | null
+    quantity: Decimal | null
+    issueType: string | null
+    note: string | null
+    createdBy: string | null
+    createdAt: Date | null
+  }
+
+  export type SupportCaseOrderItemMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    caseId: string | null
+    orderId: string | null
+    orderLineId: string | null
+    quantity: Decimal | null
+    issueType: string | null
+    note: string | null
+    createdBy: string | null
+    createdAt: Date | null
+  }
+
+  export type SupportCaseOrderItemCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    caseId: number
+    orderId: number
+    orderLineId: number
+    quantity: number
+    issueType: number
+    note: number
+    createdBy: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type SupportCaseOrderItemAvgAggregateInputType = {
+    quantity?: true
+  }
+
+  export type SupportCaseOrderItemSumAggregateInputType = {
+    quantity?: true
+  }
+
+  export type SupportCaseOrderItemMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    caseId?: true
+    orderId?: true
+    orderLineId?: true
+    quantity?: true
+    issueType?: true
+    note?: true
+    createdBy?: true
+    createdAt?: true
+  }
+
+  export type SupportCaseOrderItemMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    caseId?: true
+    orderId?: true
+    orderLineId?: true
+    quantity?: true
+    issueType?: true
+    note?: true
+    createdBy?: true
+    createdAt?: true
+  }
+
+  export type SupportCaseOrderItemCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    caseId?: true
+    orderId?: true
+    orderLineId?: true
+    quantity?: true
+    issueType?: true
+    note?: true
+    createdBy?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type SupportCaseOrderItemAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SupportCaseOrderItem to aggregate.
+     */
+    where?: SupportCaseOrderItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SupportCaseOrderItems to fetch.
+     */
+    orderBy?: SupportCaseOrderItemOrderByWithRelationInput | SupportCaseOrderItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SupportCaseOrderItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SupportCaseOrderItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SupportCaseOrderItems.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned SupportCaseOrderItems
+    **/
+    _count?: true | SupportCaseOrderItemCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: SupportCaseOrderItemAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: SupportCaseOrderItemSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SupportCaseOrderItemMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SupportCaseOrderItemMaxAggregateInputType
+  }
+
+  export type GetSupportCaseOrderItemAggregateType<T extends SupportCaseOrderItemAggregateArgs> = {
+        [P in keyof T & keyof AggregateSupportCaseOrderItem]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSupportCaseOrderItem[P]>
+      : GetScalarType<T[P], AggregateSupportCaseOrderItem[P]>
+  }
+
+
+
+
+  export type SupportCaseOrderItemGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SupportCaseOrderItemWhereInput
+    orderBy?: SupportCaseOrderItemOrderByWithAggregationInput | SupportCaseOrderItemOrderByWithAggregationInput[]
+    by: SupportCaseOrderItemScalarFieldEnum[] | SupportCaseOrderItemScalarFieldEnum
+    having?: SupportCaseOrderItemScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SupportCaseOrderItemCountAggregateInputType | true
+    _avg?: SupportCaseOrderItemAvgAggregateInputType
+    _sum?: SupportCaseOrderItemSumAggregateInputType
+    _min?: SupportCaseOrderItemMinAggregateInputType
+    _max?: SupportCaseOrderItemMaxAggregateInputType
+  }
+
+  export type SupportCaseOrderItemGroupByOutputType = {
+    id: string
+    tenantId: string
+    caseId: string
+    orderId: string
+    orderLineId: string
+    quantity: Decimal
+    issueType: string
+    note: string | null
+    createdBy: string | null
+    createdAt: Date
+    _count: SupportCaseOrderItemCountAggregateOutputType | null
+    _avg: SupportCaseOrderItemAvgAggregateOutputType | null
+    _sum: SupportCaseOrderItemSumAggregateOutputType | null
+    _min: SupportCaseOrderItemMinAggregateOutputType | null
+    _max: SupportCaseOrderItemMaxAggregateOutputType | null
+  }
+
+  type GetSupportCaseOrderItemGroupByPayload<T extends SupportCaseOrderItemGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SupportCaseOrderItemGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SupportCaseOrderItemGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SupportCaseOrderItemGroupByOutputType[P]>
+            : GetScalarType<T[P], SupportCaseOrderItemGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SupportCaseOrderItemSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    caseId?: boolean
+    orderId?: boolean
+    orderLineId?: boolean
+    quantity?: boolean
+    issueType?: boolean
+    note?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["supportCaseOrderItem"]>
+
+  export type SupportCaseOrderItemSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    caseId?: boolean
+    orderId?: boolean
+    orderLineId?: boolean
+    quantity?: boolean
+    issueType?: boolean
+    note?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["supportCaseOrderItem"]>
+
+  export type SupportCaseOrderItemSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    caseId?: boolean
+    orderId?: boolean
+    orderLineId?: boolean
+    quantity?: boolean
+    issueType?: boolean
+    note?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["supportCaseOrderItem"]>
+
+  export type SupportCaseOrderItemSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    caseId?: boolean
+    orderId?: boolean
+    orderLineId?: boolean
+    quantity?: boolean
+    issueType?: boolean
+    note?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+  }
+
+  export type SupportCaseOrderItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "caseId" | "orderId" | "orderLineId" | "quantity" | "issueType" | "note" | "createdBy" | "createdAt", ExtArgs["result"]["supportCaseOrderItem"]>
+  export type SupportCaseOrderItemInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type SupportCaseOrderItemIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type SupportCaseOrderItemIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+
+  export type $SupportCaseOrderItemPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "SupportCaseOrderItem"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      caseId: string
+      orderId: string
+      orderLineId: string
+      quantity: Prisma.Decimal
+      issueType: string
+      note: string | null
+      createdBy: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["supportCaseOrderItem"]>
+    composites: {}
+  }
+
+  type SupportCaseOrderItemGetPayload<S extends boolean | null | undefined | SupportCaseOrderItemDefaultArgs> = $Result.GetResult<Prisma.$SupportCaseOrderItemPayload, S>
+
+  type SupportCaseOrderItemCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<SupportCaseOrderItemFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: SupportCaseOrderItemCountAggregateInputType | true
+    }
+
+  export interface SupportCaseOrderItemDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['SupportCaseOrderItem'], meta: { name: 'SupportCaseOrderItem' } }
+    /**
+     * Find zero or one SupportCaseOrderItem that matches the filter.
+     * @param {SupportCaseOrderItemFindUniqueArgs} args - Arguments to find a SupportCaseOrderItem
+     * @example
+     * // Get one SupportCaseOrderItem
+     * const supportCaseOrderItem = await prisma.supportCaseOrderItem.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SupportCaseOrderItemFindUniqueArgs>(args: SelectSubset<T, SupportCaseOrderItemFindUniqueArgs<ExtArgs>>): Prisma__SupportCaseOrderItemClient<$Result.GetResult<Prisma.$SupportCaseOrderItemPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one SupportCaseOrderItem that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {SupportCaseOrderItemFindUniqueOrThrowArgs} args - Arguments to find a SupportCaseOrderItem
+     * @example
+     * // Get one SupportCaseOrderItem
+     * const supportCaseOrderItem = await prisma.supportCaseOrderItem.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SupportCaseOrderItemFindUniqueOrThrowArgs>(args: SelectSubset<T, SupportCaseOrderItemFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SupportCaseOrderItemClient<$Result.GetResult<Prisma.$SupportCaseOrderItemPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SupportCaseOrderItem that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SupportCaseOrderItemFindFirstArgs} args - Arguments to find a SupportCaseOrderItem
+     * @example
+     * // Get one SupportCaseOrderItem
+     * const supportCaseOrderItem = await prisma.supportCaseOrderItem.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SupportCaseOrderItemFindFirstArgs>(args?: SelectSubset<T, SupportCaseOrderItemFindFirstArgs<ExtArgs>>): Prisma__SupportCaseOrderItemClient<$Result.GetResult<Prisma.$SupportCaseOrderItemPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SupportCaseOrderItem that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SupportCaseOrderItemFindFirstOrThrowArgs} args - Arguments to find a SupportCaseOrderItem
+     * @example
+     * // Get one SupportCaseOrderItem
+     * const supportCaseOrderItem = await prisma.supportCaseOrderItem.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SupportCaseOrderItemFindFirstOrThrowArgs>(args?: SelectSubset<T, SupportCaseOrderItemFindFirstOrThrowArgs<ExtArgs>>): Prisma__SupportCaseOrderItemClient<$Result.GetResult<Prisma.$SupportCaseOrderItemPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more SupportCaseOrderItems that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SupportCaseOrderItemFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all SupportCaseOrderItems
+     * const supportCaseOrderItems = await prisma.supportCaseOrderItem.findMany()
+     * 
+     * // Get first 10 SupportCaseOrderItems
+     * const supportCaseOrderItems = await prisma.supportCaseOrderItem.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const supportCaseOrderItemWithIdOnly = await prisma.supportCaseOrderItem.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends SupportCaseOrderItemFindManyArgs>(args?: SelectSubset<T, SupportCaseOrderItemFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SupportCaseOrderItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a SupportCaseOrderItem.
+     * @param {SupportCaseOrderItemCreateArgs} args - Arguments to create a SupportCaseOrderItem.
+     * @example
+     * // Create one SupportCaseOrderItem
+     * const SupportCaseOrderItem = await prisma.supportCaseOrderItem.create({
+     *   data: {
+     *     // ... data to create a SupportCaseOrderItem
+     *   }
+     * })
+     * 
+     */
+    create<T extends SupportCaseOrderItemCreateArgs>(args: SelectSubset<T, SupportCaseOrderItemCreateArgs<ExtArgs>>): Prisma__SupportCaseOrderItemClient<$Result.GetResult<Prisma.$SupportCaseOrderItemPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many SupportCaseOrderItems.
+     * @param {SupportCaseOrderItemCreateManyArgs} args - Arguments to create many SupportCaseOrderItems.
+     * @example
+     * // Create many SupportCaseOrderItems
+     * const supportCaseOrderItem = await prisma.supportCaseOrderItem.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SupportCaseOrderItemCreateManyArgs>(args?: SelectSubset<T, SupportCaseOrderItemCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many SupportCaseOrderItems and returns the data saved in the database.
+     * @param {SupportCaseOrderItemCreateManyAndReturnArgs} args - Arguments to create many SupportCaseOrderItems.
+     * @example
+     * // Create many SupportCaseOrderItems
+     * const supportCaseOrderItem = await prisma.supportCaseOrderItem.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many SupportCaseOrderItems and only return the `id`
+     * const supportCaseOrderItemWithIdOnly = await prisma.supportCaseOrderItem.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends SupportCaseOrderItemCreateManyAndReturnArgs>(args?: SelectSubset<T, SupportCaseOrderItemCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SupportCaseOrderItemPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a SupportCaseOrderItem.
+     * @param {SupportCaseOrderItemDeleteArgs} args - Arguments to delete one SupportCaseOrderItem.
+     * @example
+     * // Delete one SupportCaseOrderItem
+     * const SupportCaseOrderItem = await prisma.supportCaseOrderItem.delete({
+     *   where: {
+     *     // ... filter to delete one SupportCaseOrderItem
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SupportCaseOrderItemDeleteArgs>(args: SelectSubset<T, SupportCaseOrderItemDeleteArgs<ExtArgs>>): Prisma__SupportCaseOrderItemClient<$Result.GetResult<Prisma.$SupportCaseOrderItemPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one SupportCaseOrderItem.
+     * @param {SupportCaseOrderItemUpdateArgs} args - Arguments to update one SupportCaseOrderItem.
+     * @example
+     * // Update one SupportCaseOrderItem
+     * const supportCaseOrderItem = await prisma.supportCaseOrderItem.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SupportCaseOrderItemUpdateArgs>(args: SelectSubset<T, SupportCaseOrderItemUpdateArgs<ExtArgs>>): Prisma__SupportCaseOrderItemClient<$Result.GetResult<Prisma.$SupportCaseOrderItemPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more SupportCaseOrderItems.
+     * @param {SupportCaseOrderItemDeleteManyArgs} args - Arguments to filter SupportCaseOrderItems to delete.
+     * @example
+     * // Delete a few SupportCaseOrderItems
+     * const { count } = await prisma.supportCaseOrderItem.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SupportCaseOrderItemDeleteManyArgs>(args?: SelectSubset<T, SupportCaseOrderItemDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SupportCaseOrderItems.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SupportCaseOrderItemUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many SupportCaseOrderItems
+     * const supportCaseOrderItem = await prisma.supportCaseOrderItem.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SupportCaseOrderItemUpdateManyArgs>(args: SelectSubset<T, SupportCaseOrderItemUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SupportCaseOrderItems and returns the data updated in the database.
+     * @param {SupportCaseOrderItemUpdateManyAndReturnArgs} args - Arguments to update many SupportCaseOrderItems.
+     * @example
+     * // Update many SupportCaseOrderItems
+     * const supportCaseOrderItem = await prisma.supportCaseOrderItem.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more SupportCaseOrderItems and only return the `id`
+     * const supportCaseOrderItemWithIdOnly = await prisma.supportCaseOrderItem.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends SupportCaseOrderItemUpdateManyAndReturnArgs>(args: SelectSubset<T, SupportCaseOrderItemUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SupportCaseOrderItemPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one SupportCaseOrderItem.
+     * @param {SupportCaseOrderItemUpsertArgs} args - Arguments to update or create a SupportCaseOrderItem.
+     * @example
+     * // Update or create a SupportCaseOrderItem
+     * const supportCaseOrderItem = await prisma.supportCaseOrderItem.upsert({
+     *   create: {
+     *     // ... data to create a SupportCaseOrderItem
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the SupportCaseOrderItem we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SupportCaseOrderItemUpsertArgs>(args: SelectSubset<T, SupportCaseOrderItemUpsertArgs<ExtArgs>>): Prisma__SupportCaseOrderItemClient<$Result.GetResult<Prisma.$SupportCaseOrderItemPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of SupportCaseOrderItems.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SupportCaseOrderItemCountArgs} args - Arguments to filter SupportCaseOrderItems to count.
+     * @example
+     * // Count the number of SupportCaseOrderItems
+     * const count = await prisma.supportCaseOrderItem.count({
+     *   where: {
+     *     // ... the filter for the SupportCaseOrderItems we want to count
+     *   }
+     * })
+    **/
+    count<T extends SupportCaseOrderItemCountArgs>(
+      args?: Subset<T, SupportCaseOrderItemCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SupportCaseOrderItemCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a SupportCaseOrderItem.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SupportCaseOrderItemAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SupportCaseOrderItemAggregateArgs>(args: Subset<T, SupportCaseOrderItemAggregateArgs>): Prisma.PrismaPromise<GetSupportCaseOrderItemAggregateType<T>>
+
+    /**
+     * Group by SupportCaseOrderItem.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SupportCaseOrderItemGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SupportCaseOrderItemGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SupportCaseOrderItemGroupByArgs['orderBy'] }
+        : { orderBy?: SupportCaseOrderItemGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SupportCaseOrderItemGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSupportCaseOrderItemGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the SupportCaseOrderItem model
+   */
+  readonly fields: SupportCaseOrderItemFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for SupportCaseOrderItem.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SupportCaseOrderItemClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the SupportCaseOrderItem model
+   */
+  interface SupportCaseOrderItemFieldRefs {
+    readonly id: FieldRef<"SupportCaseOrderItem", 'String'>
+    readonly tenantId: FieldRef<"SupportCaseOrderItem", 'String'>
+    readonly caseId: FieldRef<"SupportCaseOrderItem", 'String'>
+    readonly orderId: FieldRef<"SupportCaseOrderItem", 'String'>
+    readonly orderLineId: FieldRef<"SupportCaseOrderItem", 'String'>
+    readonly quantity: FieldRef<"SupportCaseOrderItem", 'Decimal'>
+    readonly issueType: FieldRef<"SupportCaseOrderItem", 'String'>
+    readonly note: FieldRef<"SupportCaseOrderItem", 'String'>
+    readonly createdBy: FieldRef<"SupportCaseOrderItem", 'String'>
+    readonly createdAt: FieldRef<"SupportCaseOrderItem", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * SupportCaseOrderItem findUnique
+   */
+  export type SupportCaseOrderItemFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SupportCaseOrderItem
+     */
+    select?: SupportCaseOrderItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SupportCaseOrderItem
+     */
+    omit?: SupportCaseOrderItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SupportCaseOrderItemInclude<ExtArgs> | null
+    /**
+     * Filter, which SupportCaseOrderItem to fetch.
+     */
+    where: SupportCaseOrderItemWhereUniqueInput
+  }
+
+  /**
+   * SupportCaseOrderItem findUniqueOrThrow
+   */
+  export type SupportCaseOrderItemFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SupportCaseOrderItem
+     */
+    select?: SupportCaseOrderItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SupportCaseOrderItem
+     */
+    omit?: SupportCaseOrderItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SupportCaseOrderItemInclude<ExtArgs> | null
+    /**
+     * Filter, which SupportCaseOrderItem to fetch.
+     */
+    where: SupportCaseOrderItemWhereUniqueInput
+  }
+
+  /**
+   * SupportCaseOrderItem findFirst
+   */
+  export type SupportCaseOrderItemFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SupportCaseOrderItem
+     */
+    select?: SupportCaseOrderItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SupportCaseOrderItem
+     */
+    omit?: SupportCaseOrderItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SupportCaseOrderItemInclude<ExtArgs> | null
+    /**
+     * Filter, which SupportCaseOrderItem to fetch.
+     */
+    where?: SupportCaseOrderItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SupportCaseOrderItems to fetch.
+     */
+    orderBy?: SupportCaseOrderItemOrderByWithRelationInput | SupportCaseOrderItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SupportCaseOrderItems.
+     */
+    cursor?: SupportCaseOrderItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SupportCaseOrderItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SupportCaseOrderItems.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SupportCaseOrderItems.
+     */
+    distinct?: SupportCaseOrderItemScalarFieldEnum | SupportCaseOrderItemScalarFieldEnum[]
+  }
+
+  /**
+   * SupportCaseOrderItem findFirstOrThrow
+   */
+  export type SupportCaseOrderItemFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SupportCaseOrderItem
+     */
+    select?: SupportCaseOrderItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SupportCaseOrderItem
+     */
+    omit?: SupportCaseOrderItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SupportCaseOrderItemInclude<ExtArgs> | null
+    /**
+     * Filter, which SupportCaseOrderItem to fetch.
+     */
+    where?: SupportCaseOrderItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SupportCaseOrderItems to fetch.
+     */
+    orderBy?: SupportCaseOrderItemOrderByWithRelationInput | SupportCaseOrderItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SupportCaseOrderItems.
+     */
+    cursor?: SupportCaseOrderItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SupportCaseOrderItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SupportCaseOrderItems.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SupportCaseOrderItems.
+     */
+    distinct?: SupportCaseOrderItemScalarFieldEnum | SupportCaseOrderItemScalarFieldEnum[]
+  }
+
+  /**
+   * SupportCaseOrderItem findMany
+   */
+  export type SupportCaseOrderItemFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SupportCaseOrderItem
+     */
+    select?: SupportCaseOrderItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SupportCaseOrderItem
+     */
+    omit?: SupportCaseOrderItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SupportCaseOrderItemInclude<ExtArgs> | null
+    /**
+     * Filter, which SupportCaseOrderItems to fetch.
+     */
+    where?: SupportCaseOrderItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SupportCaseOrderItems to fetch.
+     */
+    orderBy?: SupportCaseOrderItemOrderByWithRelationInput | SupportCaseOrderItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing SupportCaseOrderItems.
+     */
+    cursor?: SupportCaseOrderItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SupportCaseOrderItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SupportCaseOrderItems.
+     */
+    skip?: number
+    distinct?: SupportCaseOrderItemScalarFieldEnum | SupportCaseOrderItemScalarFieldEnum[]
+  }
+
+  /**
+   * SupportCaseOrderItem create
+   */
+  export type SupportCaseOrderItemCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SupportCaseOrderItem
+     */
+    select?: SupportCaseOrderItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SupportCaseOrderItem
+     */
+    omit?: SupportCaseOrderItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SupportCaseOrderItemInclude<ExtArgs> | null
+    /**
+     * The data needed to create a SupportCaseOrderItem.
+     */
+    data: XOR<SupportCaseOrderItemCreateInput, SupportCaseOrderItemUncheckedCreateInput>
+  }
+
+  /**
+   * SupportCaseOrderItem createMany
+   */
+  export type SupportCaseOrderItemCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many SupportCaseOrderItems.
+     */
+    data: SupportCaseOrderItemCreateManyInput | SupportCaseOrderItemCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * SupportCaseOrderItem createManyAndReturn
+   */
+  export type SupportCaseOrderItemCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SupportCaseOrderItem
+     */
+    select?: SupportCaseOrderItemSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SupportCaseOrderItem
+     */
+    omit?: SupportCaseOrderItemOmit<ExtArgs> | null
+    /**
+     * The data used to create many SupportCaseOrderItems.
+     */
+    data: SupportCaseOrderItemCreateManyInput | SupportCaseOrderItemCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SupportCaseOrderItemIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * SupportCaseOrderItem update
+   */
+  export type SupportCaseOrderItemUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SupportCaseOrderItem
+     */
+    select?: SupportCaseOrderItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SupportCaseOrderItem
+     */
+    omit?: SupportCaseOrderItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SupportCaseOrderItemInclude<ExtArgs> | null
+    /**
+     * The data needed to update a SupportCaseOrderItem.
+     */
+    data: XOR<SupportCaseOrderItemUpdateInput, SupportCaseOrderItemUncheckedUpdateInput>
+    /**
+     * Choose, which SupportCaseOrderItem to update.
+     */
+    where: SupportCaseOrderItemWhereUniqueInput
+  }
+
+  /**
+   * SupportCaseOrderItem updateMany
+   */
+  export type SupportCaseOrderItemUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update SupportCaseOrderItems.
+     */
+    data: XOR<SupportCaseOrderItemUpdateManyMutationInput, SupportCaseOrderItemUncheckedUpdateManyInput>
+    /**
+     * Filter which SupportCaseOrderItems to update
+     */
+    where?: SupportCaseOrderItemWhereInput
+    /**
+     * Limit how many SupportCaseOrderItems to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * SupportCaseOrderItem updateManyAndReturn
+   */
+  export type SupportCaseOrderItemUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SupportCaseOrderItem
+     */
+    select?: SupportCaseOrderItemSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SupportCaseOrderItem
+     */
+    omit?: SupportCaseOrderItemOmit<ExtArgs> | null
+    /**
+     * The data used to update SupportCaseOrderItems.
+     */
+    data: XOR<SupportCaseOrderItemUpdateManyMutationInput, SupportCaseOrderItemUncheckedUpdateManyInput>
+    /**
+     * Filter which SupportCaseOrderItems to update
+     */
+    where?: SupportCaseOrderItemWhereInput
+    /**
+     * Limit how many SupportCaseOrderItems to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SupportCaseOrderItemIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * SupportCaseOrderItem upsert
+   */
+  export type SupportCaseOrderItemUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SupportCaseOrderItem
+     */
+    select?: SupportCaseOrderItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SupportCaseOrderItem
+     */
+    omit?: SupportCaseOrderItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SupportCaseOrderItemInclude<ExtArgs> | null
+    /**
+     * The filter to search for the SupportCaseOrderItem to update in case it exists.
+     */
+    where: SupportCaseOrderItemWhereUniqueInput
+    /**
+     * In case the SupportCaseOrderItem found by the `where` argument doesn't exist, create a new SupportCaseOrderItem with this data.
+     */
+    create: XOR<SupportCaseOrderItemCreateInput, SupportCaseOrderItemUncheckedCreateInput>
+    /**
+     * In case the SupportCaseOrderItem was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SupportCaseOrderItemUpdateInput, SupportCaseOrderItemUncheckedUpdateInput>
+  }
+
+  /**
+   * SupportCaseOrderItem delete
+   */
+  export type SupportCaseOrderItemDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SupportCaseOrderItem
+     */
+    select?: SupportCaseOrderItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SupportCaseOrderItem
+     */
+    omit?: SupportCaseOrderItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SupportCaseOrderItemInclude<ExtArgs> | null
+    /**
+     * Filter which SupportCaseOrderItem to delete.
+     */
+    where: SupportCaseOrderItemWhereUniqueInput
+  }
+
+  /**
+   * SupportCaseOrderItem deleteMany
+   */
+  export type SupportCaseOrderItemDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SupportCaseOrderItems to delete
+     */
+    where?: SupportCaseOrderItemWhereInput
+    /**
+     * Limit how many SupportCaseOrderItems to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * SupportCaseOrderItem without action
+   */
+  export type SupportCaseOrderItemDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SupportCaseOrderItem
+     */
+    select?: SupportCaseOrderItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SupportCaseOrderItem
+     */
+    omit?: SupportCaseOrderItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SupportCaseOrderItemInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model SupportCaseReturn
+   */
+
+  export type AggregateSupportCaseReturn = {
+    _count: SupportCaseReturnCountAggregateOutputType | null
+    _min: SupportCaseReturnMinAggregateOutputType | null
+    _max: SupportCaseReturnMaxAggregateOutputType | null
+  }
+
+  export type SupportCaseReturnMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    caseId: string | null
+    returnId: string | null
+    rmaNumber: string | null
+    requestKey: string | null
+    createdBy: string | null
+    createdAt: Date | null
+  }
+
+  export type SupportCaseReturnMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    caseId: string | null
+    returnId: string | null
+    rmaNumber: string | null
+    requestKey: string | null
+    createdBy: string | null
+    createdAt: Date | null
+  }
+
+  export type SupportCaseReturnCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    caseId: number
+    returnId: number
+    rmaNumber: number
+    requestKey: number
+    createdBy: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type SupportCaseReturnMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    caseId?: true
+    returnId?: true
+    rmaNumber?: true
+    requestKey?: true
+    createdBy?: true
+    createdAt?: true
+  }
+
+  export type SupportCaseReturnMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    caseId?: true
+    returnId?: true
+    rmaNumber?: true
+    requestKey?: true
+    createdBy?: true
+    createdAt?: true
+  }
+
+  export type SupportCaseReturnCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    caseId?: true
+    returnId?: true
+    rmaNumber?: true
+    requestKey?: true
+    createdBy?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type SupportCaseReturnAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SupportCaseReturn to aggregate.
+     */
+    where?: SupportCaseReturnWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SupportCaseReturns to fetch.
+     */
+    orderBy?: SupportCaseReturnOrderByWithRelationInput | SupportCaseReturnOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SupportCaseReturnWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SupportCaseReturns from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SupportCaseReturns.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned SupportCaseReturns
+    **/
+    _count?: true | SupportCaseReturnCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SupportCaseReturnMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SupportCaseReturnMaxAggregateInputType
+  }
+
+  export type GetSupportCaseReturnAggregateType<T extends SupportCaseReturnAggregateArgs> = {
+        [P in keyof T & keyof AggregateSupportCaseReturn]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSupportCaseReturn[P]>
+      : GetScalarType<T[P], AggregateSupportCaseReturn[P]>
+  }
+
+
+
+
+  export type SupportCaseReturnGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SupportCaseReturnWhereInput
+    orderBy?: SupportCaseReturnOrderByWithAggregationInput | SupportCaseReturnOrderByWithAggregationInput[]
+    by: SupportCaseReturnScalarFieldEnum[] | SupportCaseReturnScalarFieldEnum
+    having?: SupportCaseReturnScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SupportCaseReturnCountAggregateInputType | true
+    _min?: SupportCaseReturnMinAggregateInputType
+    _max?: SupportCaseReturnMaxAggregateInputType
+  }
+
+  export type SupportCaseReturnGroupByOutputType = {
+    id: string
+    tenantId: string
+    caseId: string
+    returnId: string
+    rmaNumber: string
+    requestKey: string
+    createdBy: string | null
+    createdAt: Date
+    _count: SupportCaseReturnCountAggregateOutputType | null
+    _min: SupportCaseReturnMinAggregateOutputType | null
+    _max: SupportCaseReturnMaxAggregateOutputType | null
+  }
+
+  type GetSupportCaseReturnGroupByPayload<T extends SupportCaseReturnGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SupportCaseReturnGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SupportCaseReturnGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SupportCaseReturnGroupByOutputType[P]>
+            : GetScalarType<T[P], SupportCaseReturnGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SupportCaseReturnSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    caseId?: boolean
+    returnId?: boolean
+    rmaNumber?: boolean
+    requestKey?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["supportCaseReturn"]>
+
+  export type SupportCaseReturnSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    caseId?: boolean
+    returnId?: boolean
+    rmaNumber?: boolean
+    requestKey?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["supportCaseReturn"]>
+
+  export type SupportCaseReturnSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    caseId?: boolean
+    returnId?: boolean
+    rmaNumber?: boolean
+    requestKey?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["supportCaseReturn"]>
+
+  export type SupportCaseReturnSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    caseId?: boolean
+    returnId?: boolean
+    rmaNumber?: boolean
+    requestKey?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+  }
+
+  export type SupportCaseReturnOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "caseId" | "returnId" | "rmaNumber" | "requestKey" | "createdBy" | "createdAt", ExtArgs["result"]["supportCaseReturn"]>
+  export type SupportCaseReturnInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type SupportCaseReturnIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type SupportCaseReturnIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+
+  export type $SupportCaseReturnPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "SupportCaseReturn"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      caseId: string
+      returnId: string
+      rmaNumber: string
+      requestKey: string
+      createdBy: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["supportCaseReturn"]>
+    composites: {}
+  }
+
+  type SupportCaseReturnGetPayload<S extends boolean | null | undefined | SupportCaseReturnDefaultArgs> = $Result.GetResult<Prisma.$SupportCaseReturnPayload, S>
+
+  type SupportCaseReturnCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<SupportCaseReturnFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: SupportCaseReturnCountAggregateInputType | true
+    }
+
+  export interface SupportCaseReturnDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['SupportCaseReturn'], meta: { name: 'SupportCaseReturn' } }
+    /**
+     * Find zero or one SupportCaseReturn that matches the filter.
+     * @param {SupportCaseReturnFindUniqueArgs} args - Arguments to find a SupportCaseReturn
+     * @example
+     * // Get one SupportCaseReturn
+     * const supportCaseReturn = await prisma.supportCaseReturn.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SupportCaseReturnFindUniqueArgs>(args: SelectSubset<T, SupportCaseReturnFindUniqueArgs<ExtArgs>>): Prisma__SupportCaseReturnClient<$Result.GetResult<Prisma.$SupportCaseReturnPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one SupportCaseReturn that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {SupportCaseReturnFindUniqueOrThrowArgs} args - Arguments to find a SupportCaseReturn
+     * @example
+     * // Get one SupportCaseReturn
+     * const supportCaseReturn = await prisma.supportCaseReturn.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SupportCaseReturnFindUniqueOrThrowArgs>(args: SelectSubset<T, SupportCaseReturnFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SupportCaseReturnClient<$Result.GetResult<Prisma.$SupportCaseReturnPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SupportCaseReturn that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SupportCaseReturnFindFirstArgs} args - Arguments to find a SupportCaseReturn
+     * @example
+     * // Get one SupportCaseReturn
+     * const supportCaseReturn = await prisma.supportCaseReturn.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SupportCaseReturnFindFirstArgs>(args?: SelectSubset<T, SupportCaseReturnFindFirstArgs<ExtArgs>>): Prisma__SupportCaseReturnClient<$Result.GetResult<Prisma.$SupportCaseReturnPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SupportCaseReturn that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SupportCaseReturnFindFirstOrThrowArgs} args - Arguments to find a SupportCaseReturn
+     * @example
+     * // Get one SupportCaseReturn
+     * const supportCaseReturn = await prisma.supportCaseReturn.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SupportCaseReturnFindFirstOrThrowArgs>(args?: SelectSubset<T, SupportCaseReturnFindFirstOrThrowArgs<ExtArgs>>): Prisma__SupportCaseReturnClient<$Result.GetResult<Prisma.$SupportCaseReturnPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more SupportCaseReturns that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SupportCaseReturnFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all SupportCaseReturns
+     * const supportCaseReturns = await prisma.supportCaseReturn.findMany()
+     * 
+     * // Get first 10 SupportCaseReturns
+     * const supportCaseReturns = await prisma.supportCaseReturn.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const supportCaseReturnWithIdOnly = await prisma.supportCaseReturn.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends SupportCaseReturnFindManyArgs>(args?: SelectSubset<T, SupportCaseReturnFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SupportCaseReturnPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a SupportCaseReturn.
+     * @param {SupportCaseReturnCreateArgs} args - Arguments to create a SupportCaseReturn.
+     * @example
+     * // Create one SupportCaseReturn
+     * const SupportCaseReturn = await prisma.supportCaseReturn.create({
+     *   data: {
+     *     // ... data to create a SupportCaseReturn
+     *   }
+     * })
+     * 
+     */
+    create<T extends SupportCaseReturnCreateArgs>(args: SelectSubset<T, SupportCaseReturnCreateArgs<ExtArgs>>): Prisma__SupportCaseReturnClient<$Result.GetResult<Prisma.$SupportCaseReturnPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many SupportCaseReturns.
+     * @param {SupportCaseReturnCreateManyArgs} args - Arguments to create many SupportCaseReturns.
+     * @example
+     * // Create many SupportCaseReturns
+     * const supportCaseReturn = await prisma.supportCaseReturn.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SupportCaseReturnCreateManyArgs>(args?: SelectSubset<T, SupportCaseReturnCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many SupportCaseReturns and returns the data saved in the database.
+     * @param {SupportCaseReturnCreateManyAndReturnArgs} args - Arguments to create many SupportCaseReturns.
+     * @example
+     * // Create many SupportCaseReturns
+     * const supportCaseReturn = await prisma.supportCaseReturn.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many SupportCaseReturns and only return the `id`
+     * const supportCaseReturnWithIdOnly = await prisma.supportCaseReturn.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends SupportCaseReturnCreateManyAndReturnArgs>(args?: SelectSubset<T, SupportCaseReturnCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SupportCaseReturnPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a SupportCaseReturn.
+     * @param {SupportCaseReturnDeleteArgs} args - Arguments to delete one SupportCaseReturn.
+     * @example
+     * // Delete one SupportCaseReturn
+     * const SupportCaseReturn = await prisma.supportCaseReturn.delete({
+     *   where: {
+     *     // ... filter to delete one SupportCaseReturn
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SupportCaseReturnDeleteArgs>(args: SelectSubset<T, SupportCaseReturnDeleteArgs<ExtArgs>>): Prisma__SupportCaseReturnClient<$Result.GetResult<Prisma.$SupportCaseReturnPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one SupportCaseReturn.
+     * @param {SupportCaseReturnUpdateArgs} args - Arguments to update one SupportCaseReturn.
+     * @example
+     * // Update one SupportCaseReturn
+     * const supportCaseReturn = await prisma.supportCaseReturn.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SupportCaseReturnUpdateArgs>(args: SelectSubset<T, SupportCaseReturnUpdateArgs<ExtArgs>>): Prisma__SupportCaseReturnClient<$Result.GetResult<Prisma.$SupportCaseReturnPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more SupportCaseReturns.
+     * @param {SupportCaseReturnDeleteManyArgs} args - Arguments to filter SupportCaseReturns to delete.
+     * @example
+     * // Delete a few SupportCaseReturns
+     * const { count } = await prisma.supportCaseReturn.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SupportCaseReturnDeleteManyArgs>(args?: SelectSubset<T, SupportCaseReturnDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SupportCaseReturns.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SupportCaseReturnUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many SupportCaseReturns
+     * const supportCaseReturn = await prisma.supportCaseReturn.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SupportCaseReturnUpdateManyArgs>(args: SelectSubset<T, SupportCaseReturnUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SupportCaseReturns and returns the data updated in the database.
+     * @param {SupportCaseReturnUpdateManyAndReturnArgs} args - Arguments to update many SupportCaseReturns.
+     * @example
+     * // Update many SupportCaseReturns
+     * const supportCaseReturn = await prisma.supportCaseReturn.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more SupportCaseReturns and only return the `id`
+     * const supportCaseReturnWithIdOnly = await prisma.supportCaseReturn.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends SupportCaseReturnUpdateManyAndReturnArgs>(args: SelectSubset<T, SupportCaseReturnUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SupportCaseReturnPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one SupportCaseReturn.
+     * @param {SupportCaseReturnUpsertArgs} args - Arguments to update or create a SupportCaseReturn.
+     * @example
+     * // Update or create a SupportCaseReturn
+     * const supportCaseReturn = await prisma.supportCaseReturn.upsert({
+     *   create: {
+     *     // ... data to create a SupportCaseReturn
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the SupportCaseReturn we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SupportCaseReturnUpsertArgs>(args: SelectSubset<T, SupportCaseReturnUpsertArgs<ExtArgs>>): Prisma__SupportCaseReturnClient<$Result.GetResult<Prisma.$SupportCaseReturnPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of SupportCaseReturns.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SupportCaseReturnCountArgs} args - Arguments to filter SupportCaseReturns to count.
+     * @example
+     * // Count the number of SupportCaseReturns
+     * const count = await prisma.supportCaseReturn.count({
+     *   where: {
+     *     // ... the filter for the SupportCaseReturns we want to count
+     *   }
+     * })
+    **/
+    count<T extends SupportCaseReturnCountArgs>(
+      args?: Subset<T, SupportCaseReturnCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SupportCaseReturnCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a SupportCaseReturn.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SupportCaseReturnAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SupportCaseReturnAggregateArgs>(args: Subset<T, SupportCaseReturnAggregateArgs>): Prisma.PrismaPromise<GetSupportCaseReturnAggregateType<T>>
+
+    /**
+     * Group by SupportCaseReturn.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SupportCaseReturnGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SupportCaseReturnGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SupportCaseReturnGroupByArgs['orderBy'] }
+        : { orderBy?: SupportCaseReturnGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SupportCaseReturnGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSupportCaseReturnGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the SupportCaseReturn model
+   */
+  readonly fields: SupportCaseReturnFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for SupportCaseReturn.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SupportCaseReturnClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the SupportCaseReturn model
+   */
+  interface SupportCaseReturnFieldRefs {
+    readonly id: FieldRef<"SupportCaseReturn", 'String'>
+    readonly tenantId: FieldRef<"SupportCaseReturn", 'String'>
+    readonly caseId: FieldRef<"SupportCaseReturn", 'String'>
+    readonly returnId: FieldRef<"SupportCaseReturn", 'String'>
+    readonly rmaNumber: FieldRef<"SupportCaseReturn", 'String'>
+    readonly requestKey: FieldRef<"SupportCaseReturn", 'String'>
+    readonly createdBy: FieldRef<"SupportCaseReturn", 'String'>
+    readonly createdAt: FieldRef<"SupportCaseReturn", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * SupportCaseReturn findUnique
+   */
+  export type SupportCaseReturnFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SupportCaseReturn
+     */
+    select?: SupportCaseReturnSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SupportCaseReturn
+     */
+    omit?: SupportCaseReturnOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SupportCaseReturnInclude<ExtArgs> | null
+    /**
+     * Filter, which SupportCaseReturn to fetch.
+     */
+    where: SupportCaseReturnWhereUniqueInput
+  }
+
+  /**
+   * SupportCaseReturn findUniqueOrThrow
+   */
+  export type SupportCaseReturnFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SupportCaseReturn
+     */
+    select?: SupportCaseReturnSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SupportCaseReturn
+     */
+    omit?: SupportCaseReturnOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SupportCaseReturnInclude<ExtArgs> | null
+    /**
+     * Filter, which SupportCaseReturn to fetch.
+     */
+    where: SupportCaseReturnWhereUniqueInput
+  }
+
+  /**
+   * SupportCaseReturn findFirst
+   */
+  export type SupportCaseReturnFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SupportCaseReturn
+     */
+    select?: SupportCaseReturnSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SupportCaseReturn
+     */
+    omit?: SupportCaseReturnOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SupportCaseReturnInclude<ExtArgs> | null
+    /**
+     * Filter, which SupportCaseReturn to fetch.
+     */
+    where?: SupportCaseReturnWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SupportCaseReturns to fetch.
+     */
+    orderBy?: SupportCaseReturnOrderByWithRelationInput | SupportCaseReturnOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SupportCaseReturns.
+     */
+    cursor?: SupportCaseReturnWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SupportCaseReturns from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SupportCaseReturns.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SupportCaseReturns.
+     */
+    distinct?: SupportCaseReturnScalarFieldEnum | SupportCaseReturnScalarFieldEnum[]
+  }
+
+  /**
+   * SupportCaseReturn findFirstOrThrow
+   */
+  export type SupportCaseReturnFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SupportCaseReturn
+     */
+    select?: SupportCaseReturnSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SupportCaseReturn
+     */
+    omit?: SupportCaseReturnOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SupportCaseReturnInclude<ExtArgs> | null
+    /**
+     * Filter, which SupportCaseReturn to fetch.
+     */
+    where?: SupportCaseReturnWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SupportCaseReturns to fetch.
+     */
+    orderBy?: SupportCaseReturnOrderByWithRelationInput | SupportCaseReturnOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SupportCaseReturns.
+     */
+    cursor?: SupportCaseReturnWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SupportCaseReturns from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SupportCaseReturns.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SupportCaseReturns.
+     */
+    distinct?: SupportCaseReturnScalarFieldEnum | SupportCaseReturnScalarFieldEnum[]
+  }
+
+  /**
+   * SupportCaseReturn findMany
+   */
+  export type SupportCaseReturnFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SupportCaseReturn
+     */
+    select?: SupportCaseReturnSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SupportCaseReturn
+     */
+    omit?: SupportCaseReturnOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SupportCaseReturnInclude<ExtArgs> | null
+    /**
+     * Filter, which SupportCaseReturns to fetch.
+     */
+    where?: SupportCaseReturnWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SupportCaseReturns to fetch.
+     */
+    orderBy?: SupportCaseReturnOrderByWithRelationInput | SupportCaseReturnOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing SupportCaseReturns.
+     */
+    cursor?: SupportCaseReturnWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SupportCaseReturns from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SupportCaseReturns.
+     */
+    skip?: number
+    distinct?: SupportCaseReturnScalarFieldEnum | SupportCaseReturnScalarFieldEnum[]
+  }
+
+  /**
+   * SupportCaseReturn create
+   */
+  export type SupportCaseReturnCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SupportCaseReturn
+     */
+    select?: SupportCaseReturnSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SupportCaseReturn
+     */
+    omit?: SupportCaseReturnOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SupportCaseReturnInclude<ExtArgs> | null
+    /**
+     * The data needed to create a SupportCaseReturn.
+     */
+    data: XOR<SupportCaseReturnCreateInput, SupportCaseReturnUncheckedCreateInput>
+  }
+
+  /**
+   * SupportCaseReturn createMany
+   */
+  export type SupportCaseReturnCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many SupportCaseReturns.
+     */
+    data: SupportCaseReturnCreateManyInput | SupportCaseReturnCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * SupportCaseReturn createManyAndReturn
+   */
+  export type SupportCaseReturnCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SupportCaseReturn
+     */
+    select?: SupportCaseReturnSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SupportCaseReturn
+     */
+    omit?: SupportCaseReturnOmit<ExtArgs> | null
+    /**
+     * The data used to create many SupportCaseReturns.
+     */
+    data: SupportCaseReturnCreateManyInput | SupportCaseReturnCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SupportCaseReturnIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * SupportCaseReturn update
+   */
+  export type SupportCaseReturnUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SupportCaseReturn
+     */
+    select?: SupportCaseReturnSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SupportCaseReturn
+     */
+    omit?: SupportCaseReturnOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SupportCaseReturnInclude<ExtArgs> | null
+    /**
+     * The data needed to update a SupportCaseReturn.
+     */
+    data: XOR<SupportCaseReturnUpdateInput, SupportCaseReturnUncheckedUpdateInput>
+    /**
+     * Choose, which SupportCaseReturn to update.
+     */
+    where: SupportCaseReturnWhereUniqueInput
+  }
+
+  /**
+   * SupportCaseReturn updateMany
+   */
+  export type SupportCaseReturnUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update SupportCaseReturns.
+     */
+    data: XOR<SupportCaseReturnUpdateManyMutationInput, SupportCaseReturnUncheckedUpdateManyInput>
+    /**
+     * Filter which SupportCaseReturns to update
+     */
+    where?: SupportCaseReturnWhereInput
+    /**
+     * Limit how many SupportCaseReturns to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * SupportCaseReturn updateManyAndReturn
+   */
+  export type SupportCaseReturnUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SupportCaseReturn
+     */
+    select?: SupportCaseReturnSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SupportCaseReturn
+     */
+    omit?: SupportCaseReturnOmit<ExtArgs> | null
+    /**
+     * The data used to update SupportCaseReturns.
+     */
+    data: XOR<SupportCaseReturnUpdateManyMutationInput, SupportCaseReturnUncheckedUpdateManyInput>
+    /**
+     * Filter which SupportCaseReturns to update
+     */
+    where?: SupportCaseReturnWhereInput
+    /**
+     * Limit how many SupportCaseReturns to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SupportCaseReturnIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * SupportCaseReturn upsert
+   */
+  export type SupportCaseReturnUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SupportCaseReturn
+     */
+    select?: SupportCaseReturnSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SupportCaseReturn
+     */
+    omit?: SupportCaseReturnOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SupportCaseReturnInclude<ExtArgs> | null
+    /**
+     * The filter to search for the SupportCaseReturn to update in case it exists.
+     */
+    where: SupportCaseReturnWhereUniqueInput
+    /**
+     * In case the SupportCaseReturn found by the `where` argument doesn't exist, create a new SupportCaseReturn with this data.
+     */
+    create: XOR<SupportCaseReturnCreateInput, SupportCaseReturnUncheckedCreateInput>
+    /**
+     * In case the SupportCaseReturn was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SupportCaseReturnUpdateInput, SupportCaseReturnUncheckedUpdateInput>
+  }
+
+  /**
+   * SupportCaseReturn delete
+   */
+  export type SupportCaseReturnDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SupportCaseReturn
+     */
+    select?: SupportCaseReturnSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SupportCaseReturn
+     */
+    omit?: SupportCaseReturnOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SupportCaseReturnInclude<ExtArgs> | null
+    /**
+     * Filter which SupportCaseReturn to delete.
+     */
+    where: SupportCaseReturnWhereUniqueInput
+  }
+
+  /**
+   * SupportCaseReturn deleteMany
+   */
+  export type SupportCaseReturnDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SupportCaseReturns to delete
+     */
+    where?: SupportCaseReturnWhereInput
+    /**
+     * Limit how many SupportCaseReturns to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * SupportCaseReturn without action
+   */
+  export type SupportCaseReturnDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SupportCaseReturn
+     */
+    select?: SupportCaseReturnSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SupportCaseReturn
+     */
+    omit?: SupportCaseReturnOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SupportCaseReturnInclude<ExtArgs> | null
   }
 
 
@@ -219395,6 +221922,7 @@ export namespace Prisma {
     id: 'id',
     tenantId: 'tenantId',
     rmaNumber: 'rmaNumber',
+    requestRef: 'requestRef',
     orderId: 'orderId',
     accountId: 'accountId',
     warehouseId: 'warehouseId',
@@ -219625,6 +222153,36 @@ export namespace Prisma {
   };
 
   export type SupportCaseScalarFieldEnum = (typeof SupportCaseScalarFieldEnum)[keyof typeof SupportCaseScalarFieldEnum]
+
+
+  export const SupportCaseOrderItemScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    caseId: 'caseId',
+    orderId: 'orderId',
+    orderLineId: 'orderLineId',
+    quantity: 'quantity',
+    issueType: 'issueType',
+    note: 'note',
+    createdBy: 'createdBy',
+    createdAt: 'createdAt'
+  };
+
+  export type SupportCaseOrderItemScalarFieldEnum = (typeof SupportCaseOrderItemScalarFieldEnum)[keyof typeof SupportCaseOrderItemScalarFieldEnum]
+
+
+  export const SupportCaseReturnScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    caseId: 'caseId',
+    returnId: 'returnId',
+    rmaNumber: 'rmaNumber',
+    requestKey: 'requestKey',
+    createdBy: 'createdBy',
+    createdAt: 'createdAt'
+  };
+
+  export type SupportCaseReturnScalarFieldEnum = (typeof SupportCaseReturnScalarFieldEnum)[keyof typeof SupportCaseReturnScalarFieldEnum]
 
 
   export const ContractScalarFieldEnum: {
@@ -221886,6 +224444,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalListRelationFilter
     quarantineDispositions?: QuarantineDispositionListRelationFilter
     assetStructureChanges?: AssetStructureChangeListRelationFilter
+    supportCaseOrderItems?: SupportCaseOrderItemListRelationFilter
+    supportCaseReturns?: SupportCaseReturnListRelationFilter
   }
 
   export type TenantOrderByWithRelationInput = {
@@ -222044,6 +224604,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalOrderByRelationAggregateInput
     quarantineDispositions?: QuarantineDispositionOrderByRelationAggregateInput
     assetStructureChanges?: AssetStructureChangeOrderByRelationAggregateInput
+    supportCaseOrderItems?: SupportCaseOrderItemOrderByRelationAggregateInput
+    supportCaseReturns?: SupportCaseReturnOrderByRelationAggregateInput
   }
 
   export type TenantWhereUniqueInput = Prisma.AtLeast<{
@@ -222205,6 +224767,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalListRelationFilter
     quarantineDispositions?: QuarantineDispositionListRelationFilter
     assetStructureChanges?: AssetStructureChangeListRelationFilter
+    supportCaseOrderItems?: SupportCaseOrderItemListRelationFilter
+    supportCaseReturns?: SupportCaseReturnListRelationFilter
   }, "id" | "slug">
 
   export type TenantOrderByWithAggregationInput = {
@@ -229598,6 +232162,7 @@ export namespace Prisma {
     id?: UuidFilter<"ReturnOrder"> | string
     tenantId?: UuidFilter<"ReturnOrder"> | string
     rmaNumber?: StringFilter<"ReturnOrder"> | string
+    requestRef?: StringNullableFilter<"ReturnOrder"> | string | null
     orderId?: UuidFilter<"ReturnOrder"> | string
     accountId?: UuidFilter<"ReturnOrder"> | string
     warehouseId?: UuidFilter<"ReturnOrder"> | string
@@ -229615,6 +232180,7 @@ export namespace Prisma {
     id?: SortOrder
     tenantId?: SortOrder
     rmaNumber?: SortOrder
+    requestRef?: SortOrderInput | SortOrder
     orderId?: SortOrder
     accountId?: SortOrder
     warehouseId?: SortOrder
@@ -229636,6 +232202,7 @@ export namespace Prisma {
     NOT?: ReturnOrderWhereInput | ReturnOrderWhereInput[]
     tenantId?: UuidFilter<"ReturnOrder"> | string
     rmaNumber?: StringFilter<"ReturnOrder"> | string
+    requestRef?: StringNullableFilter<"ReturnOrder"> | string | null
     orderId?: UuidFilter<"ReturnOrder"> | string
     accountId?: UuidFilter<"ReturnOrder"> | string
     warehouseId?: UuidFilter<"ReturnOrder"> | string
@@ -229653,6 +232220,7 @@ export namespace Prisma {
     id?: SortOrder
     tenantId?: SortOrder
     rmaNumber?: SortOrder
+    requestRef?: SortOrderInput | SortOrder
     orderId?: SortOrder
     accountId?: SortOrder
     warehouseId?: SortOrder
@@ -229674,6 +232242,7 @@ export namespace Prisma {
     id?: UuidWithAggregatesFilter<"ReturnOrder"> | string
     tenantId?: UuidWithAggregatesFilter<"ReturnOrder"> | string
     rmaNumber?: StringWithAggregatesFilter<"ReturnOrder"> | string
+    requestRef?: StringNullableWithAggregatesFilter<"ReturnOrder"> | string | null
     orderId?: UuidWithAggregatesFilter<"ReturnOrder"> | string
     accountId?: UuidWithAggregatesFilter<"ReturnOrder"> | string
     warehouseId?: UuidWithAggregatesFilter<"ReturnOrder"> | string
@@ -230827,6 +233396,160 @@ export namespace Prisma {
     createdBy?: StringNullableWithAggregatesFilter<"SupportCase"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"SupportCase"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"SupportCase"> | Date | string
+  }
+
+  export type SupportCaseOrderItemWhereInput = {
+    AND?: SupportCaseOrderItemWhereInput | SupportCaseOrderItemWhereInput[]
+    OR?: SupportCaseOrderItemWhereInput[]
+    NOT?: SupportCaseOrderItemWhereInput | SupportCaseOrderItemWhereInput[]
+    id?: UuidFilter<"SupportCaseOrderItem"> | string
+    tenantId?: UuidFilter<"SupportCaseOrderItem"> | string
+    caseId?: UuidFilter<"SupportCaseOrderItem"> | string
+    orderId?: UuidFilter<"SupportCaseOrderItem"> | string
+    orderLineId?: UuidFilter<"SupportCaseOrderItem"> | string
+    quantity?: DecimalFilter<"SupportCaseOrderItem"> | Decimal | DecimalJsLike | number | string
+    issueType?: StringFilter<"SupportCaseOrderItem"> | string
+    note?: StringNullableFilter<"SupportCaseOrderItem"> | string | null
+    createdBy?: StringNullableFilter<"SupportCaseOrderItem"> | string | null
+    createdAt?: DateTimeFilter<"SupportCaseOrderItem"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+  }
+
+  export type SupportCaseOrderItemOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    caseId?: SortOrder
+    orderId?: SortOrder
+    orderLineId?: SortOrder
+    quantity?: SortOrder
+    issueType?: SortOrder
+    note?: SortOrderInput | SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+  }
+
+  export type SupportCaseOrderItemWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    caseId_orderLineId?: SupportCaseOrderItemCaseIdOrderLineIdCompoundUniqueInput
+    AND?: SupportCaseOrderItemWhereInput | SupportCaseOrderItemWhereInput[]
+    OR?: SupportCaseOrderItemWhereInput[]
+    NOT?: SupportCaseOrderItemWhereInput | SupportCaseOrderItemWhereInput[]
+    tenantId?: UuidFilter<"SupportCaseOrderItem"> | string
+    caseId?: UuidFilter<"SupportCaseOrderItem"> | string
+    orderId?: UuidFilter<"SupportCaseOrderItem"> | string
+    orderLineId?: UuidFilter<"SupportCaseOrderItem"> | string
+    quantity?: DecimalFilter<"SupportCaseOrderItem"> | Decimal | DecimalJsLike | number | string
+    issueType?: StringFilter<"SupportCaseOrderItem"> | string
+    note?: StringNullableFilter<"SupportCaseOrderItem"> | string | null
+    createdBy?: StringNullableFilter<"SupportCaseOrderItem"> | string | null
+    createdAt?: DateTimeFilter<"SupportCaseOrderItem"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+  }, "id" | "caseId_orderLineId">
+
+  export type SupportCaseOrderItemOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    caseId?: SortOrder
+    orderId?: SortOrder
+    orderLineId?: SortOrder
+    quantity?: SortOrder
+    issueType?: SortOrder
+    note?: SortOrderInput | SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: SupportCaseOrderItemCountOrderByAggregateInput
+    _avg?: SupportCaseOrderItemAvgOrderByAggregateInput
+    _max?: SupportCaseOrderItemMaxOrderByAggregateInput
+    _min?: SupportCaseOrderItemMinOrderByAggregateInput
+    _sum?: SupportCaseOrderItemSumOrderByAggregateInput
+  }
+
+  export type SupportCaseOrderItemScalarWhereWithAggregatesInput = {
+    AND?: SupportCaseOrderItemScalarWhereWithAggregatesInput | SupportCaseOrderItemScalarWhereWithAggregatesInput[]
+    OR?: SupportCaseOrderItemScalarWhereWithAggregatesInput[]
+    NOT?: SupportCaseOrderItemScalarWhereWithAggregatesInput | SupportCaseOrderItemScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"SupportCaseOrderItem"> | string
+    tenantId?: UuidWithAggregatesFilter<"SupportCaseOrderItem"> | string
+    caseId?: UuidWithAggregatesFilter<"SupportCaseOrderItem"> | string
+    orderId?: UuidWithAggregatesFilter<"SupportCaseOrderItem"> | string
+    orderLineId?: UuidWithAggregatesFilter<"SupportCaseOrderItem"> | string
+    quantity?: DecimalWithAggregatesFilter<"SupportCaseOrderItem"> | Decimal | DecimalJsLike | number | string
+    issueType?: StringWithAggregatesFilter<"SupportCaseOrderItem"> | string
+    note?: StringNullableWithAggregatesFilter<"SupportCaseOrderItem"> | string | null
+    createdBy?: StringNullableWithAggregatesFilter<"SupportCaseOrderItem"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"SupportCaseOrderItem"> | Date | string
+  }
+
+  export type SupportCaseReturnWhereInput = {
+    AND?: SupportCaseReturnWhereInput | SupportCaseReturnWhereInput[]
+    OR?: SupportCaseReturnWhereInput[]
+    NOT?: SupportCaseReturnWhereInput | SupportCaseReturnWhereInput[]
+    id?: UuidFilter<"SupportCaseReturn"> | string
+    tenantId?: UuidFilter<"SupportCaseReturn"> | string
+    caseId?: UuidFilter<"SupportCaseReturn"> | string
+    returnId?: UuidFilter<"SupportCaseReturn"> | string
+    rmaNumber?: StringFilter<"SupportCaseReturn"> | string
+    requestKey?: StringFilter<"SupportCaseReturn"> | string
+    createdBy?: StringNullableFilter<"SupportCaseReturn"> | string | null
+    createdAt?: DateTimeFilter<"SupportCaseReturn"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+  }
+
+  export type SupportCaseReturnOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    caseId?: SortOrder
+    returnId?: SortOrder
+    rmaNumber?: SortOrder
+    requestKey?: SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+  }
+
+  export type SupportCaseReturnWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    tenantId_requestKey?: SupportCaseReturnTenantIdRequestKeyCompoundUniqueInput
+    AND?: SupportCaseReturnWhereInput | SupportCaseReturnWhereInput[]
+    OR?: SupportCaseReturnWhereInput[]
+    NOT?: SupportCaseReturnWhereInput | SupportCaseReturnWhereInput[]
+    tenantId?: UuidFilter<"SupportCaseReturn"> | string
+    caseId?: UuidFilter<"SupportCaseReturn"> | string
+    returnId?: UuidFilter<"SupportCaseReturn"> | string
+    rmaNumber?: StringFilter<"SupportCaseReturn"> | string
+    requestKey?: StringFilter<"SupportCaseReturn"> | string
+    createdBy?: StringNullableFilter<"SupportCaseReturn"> | string | null
+    createdAt?: DateTimeFilter<"SupportCaseReturn"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+  }, "id" | "tenantId_requestKey">
+
+  export type SupportCaseReturnOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    caseId?: SortOrder
+    returnId?: SortOrder
+    rmaNumber?: SortOrder
+    requestKey?: SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: SupportCaseReturnCountOrderByAggregateInput
+    _max?: SupportCaseReturnMaxOrderByAggregateInput
+    _min?: SupportCaseReturnMinOrderByAggregateInput
+  }
+
+  export type SupportCaseReturnScalarWhereWithAggregatesInput = {
+    AND?: SupportCaseReturnScalarWhereWithAggregatesInput | SupportCaseReturnScalarWhereWithAggregatesInput[]
+    OR?: SupportCaseReturnScalarWhereWithAggregatesInput[]
+    NOT?: SupportCaseReturnScalarWhereWithAggregatesInput | SupportCaseReturnScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"SupportCaseReturn"> | string
+    tenantId?: UuidWithAggregatesFilter<"SupportCaseReturn"> | string
+    caseId?: UuidWithAggregatesFilter<"SupportCaseReturn"> | string
+    returnId?: UuidWithAggregatesFilter<"SupportCaseReturn"> | string
+    rmaNumber?: StringWithAggregatesFilter<"SupportCaseReturn"> | string
+    requestKey?: StringWithAggregatesFilter<"SupportCaseReturn"> | string
+    createdBy?: StringNullableWithAggregatesFilter<"SupportCaseReturn"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"SupportCaseReturn"> | Date | string
   }
 
   export type ContractWhereInput = {
@@ -236196,6 +238919,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateInput = {
@@ -236354,6 +239079,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUpdateInput = {
@@ -236512,6 +239239,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateInput = {
@@ -236670,6 +239399,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateManyInput = {
@@ -244567,6 +247298,7 @@ export namespace Prisma {
   export type ReturnOrderCreateInput = {
     id?: string
     rmaNumber: string
+    requestRef?: string | null
     orderId: string
     accountId: string
     warehouseId: string
@@ -244584,6 +247316,7 @@ export namespace Prisma {
     id?: string
     tenantId: string
     rmaNumber: string
+    requestRef?: string | null
     orderId: string
     accountId: string
     warehouseId: string
@@ -244599,6 +247332,7 @@ export namespace Prisma {
   export type ReturnOrderUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     rmaNumber?: StringFieldUpdateOperationsInput | string
+    requestRef?: NullableStringFieldUpdateOperationsInput | string | null
     orderId?: StringFieldUpdateOperationsInput | string
     accountId?: StringFieldUpdateOperationsInput | string
     warehouseId?: StringFieldUpdateOperationsInput | string
@@ -244616,6 +247350,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     tenantId?: StringFieldUpdateOperationsInput | string
     rmaNumber?: StringFieldUpdateOperationsInput | string
+    requestRef?: NullableStringFieldUpdateOperationsInput | string | null
     orderId?: StringFieldUpdateOperationsInput | string
     accountId?: StringFieldUpdateOperationsInput | string
     warehouseId?: StringFieldUpdateOperationsInput | string
@@ -244632,6 +247367,7 @@ export namespace Prisma {
     id?: string
     tenantId: string
     rmaNumber: string
+    requestRef?: string | null
     orderId: string
     accountId: string
     warehouseId: string
@@ -244646,6 +247382,7 @@ export namespace Prisma {
   export type ReturnOrderUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     rmaNumber?: StringFieldUpdateOperationsInput | string
+    requestRef?: NullableStringFieldUpdateOperationsInput | string | null
     orderId?: StringFieldUpdateOperationsInput | string
     accountId?: StringFieldUpdateOperationsInput | string
     warehouseId?: StringFieldUpdateOperationsInput | string
@@ -244661,6 +247398,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     tenantId?: StringFieldUpdateOperationsInput | string
     rmaNumber?: StringFieldUpdateOperationsInput | string
+    requestRef?: NullableStringFieldUpdateOperationsInput | string | null
     orderId?: StringFieldUpdateOperationsInput | string
     accountId?: StringFieldUpdateOperationsInput | string
     warehouseId?: StringFieldUpdateOperationsInput | string
@@ -245877,6 +248615,172 @@ export namespace Prisma {
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SupportCaseOrderItemCreateInput = {
+    id?: string
+    caseId: string
+    orderId: string
+    orderLineId: string
+    quantity: Decimal | DecimalJsLike | number | string
+    issueType: string
+    note?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutSupportCaseOrderItemsInput
+  }
+
+  export type SupportCaseOrderItemUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    caseId: string
+    orderId: string
+    orderLineId: string
+    quantity: Decimal | DecimalJsLike | number | string
+    issueType: string
+    note?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+  }
+
+  export type SupportCaseOrderItemUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    caseId?: StringFieldUpdateOperationsInput | string
+    orderId?: StringFieldUpdateOperationsInput | string
+    orderLineId?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    issueType?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutSupportCaseOrderItemsNestedInput
+  }
+
+  export type SupportCaseOrderItemUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    caseId?: StringFieldUpdateOperationsInput | string
+    orderId?: StringFieldUpdateOperationsInput | string
+    orderLineId?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    issueType?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SupportCaseOrderItemCreateManyInput = {
+    id?: string
+    tenantId: string
+    caseId: string
+    orderId: string
+    orderLineId: string
+    quantity: Decimal | DecimalJsLike | number | string
+    issueType: string
+    note?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+  }
+
+  export type SupportCaseOrderItemUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    caseId?: StringFieldUpdateOperationsInput | string
+    orderId?: StringFieldUpdateOperationsInput | string
+    orderLineId?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    issueType?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SupportCaseOrderItemUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    caseId?: StringFieldUpdateOperationsInput | string
+    orderId?: StringFieldUpdateOperationsInput | string
+    orderLineId?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    issueType?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SupportCaseReturnCreateInput = {
+    id?: string
+    caseId: string
+    returnId: string
+    rmaNumber: string
+    requestKey: string
+    createdBy?: string | null
+    createdAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutSupportCaseReturnsInput
+  }
+
+  export type SupportCaseReturnUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    caseId: string
+    returnId: string
+    rmaNumber: string
+    requestKey: string
+    createdBy?: string | null
+    createdAt?: Date | string
+  }
+
+  export type SupportCaseReturnUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    caseId?: StringFieldUpdateOperationsInput | string
+    returnId?: StringFieldUpdateOperationsInput | string
+    rmaNumber?: StringFieldUpdateOperationsInput | string
+    requestKey?: StringFieldUpdateOperationsInput | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutSupportCaseReturnsNestedInput
+  }
+
+  export type SupportCaseReturnUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    caseId?: StringFieldUpdateOperationsInput | string
+    returnId?: StringFieldUpdateOperationsInput | string
+    rmaNumber?: StringFieldUpdateOperationsInput | string
+    requestKey?: StringFieldUpdateOperationsInput | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SupportCaseReturnCreateManyInput = {
+    id?: string
+    tenantId: string
+    caseId: string
+    returnId: string
+    rmaNumber: string
+    requestKey: string
+    createdBy?: string | null
+    createdAt?: Date | string
+  }
+
+  export type SupportCaseReturnUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    caseId?: StringFieldUpdateOperationsInput | string
+    returnId?: StringFieldUpdateOperationsInput | string
+    rmaNumber?: StringFieldUpdateOperationsInput | string
+    requestKey?: StringFieldUpdateOperationsInput | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SupportCaseReturnUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    caseId?: StringFieldUpdateOperationsInput | string
+    returnId?: StringFieldUpdateOperationsInput | string
+    rmaNumber?: StringFieldUpdateOperationsInput | string
+    requestKey?: StringFieldUpdateOperationsInput | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ContractCreateInput = {
@@ -252543,6 +255447,18 @@ export namespace Prisma {
     none?: AssetStructureChangeWhereInput
   }
 
+  export type SupportCaseOrderItemListRelationFilter = {
+    every?: SupportCaseOrderItemWhereInput
+    some?: SupportCaseOrderItemWhereInput
+    none?: SupportCaseOrderItemWhereInput
+  }
+
+  export type SupportCaseReturnListRelationFilter = {
+    every?: SupportCaseReturnWhereInput
+    some?: SupportCaseReturnWhereInput
+    none?: SupportCaseReturnWhereInput
+  }
+
   export type TenantConfigurationVersionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -253132,6 +256048,14 @@ export namespace Prisma {
   }
 
   export type AssetStructureChangeOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type SupportCaseOrderItemOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type SupportCaseReturnOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -258766,6 +261690,7 @@ export namespace Prisma {
     id?: SortOrder
     tenantId?: SortOrder
     rmaNumber?: SortOrder
+    requestRef?: SortOrder
     orderId?: SortOrder
     accountId?: SortOrder
     warehouseId?: SortOrder
@@ -258781,6 +261706,7 @@ export namespace Prisma {
     id?: SortOrder
     tenantId?: SortOrder
     rmaNumber?: SortOrder
+    requestRef?: SortOrder
     orderId?: SortOrder
     accountId?: SortOrder
     warehouseId?: SortOrder
@@ -258796,6 +261722,7 @@ export namespace Prisma {
     id?: SortOrder
     tenantId?: SortOrder
     rmaNumber?: SortOrder
+    requestRef?: SortOrder
     orderId?: SortOrder
     accountId?: SortOrder
     warehouseId?: SortOrder
@@ -259612,6 +262539,96 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumSupportCasePriorityFilter<$PrismaModel>
     _max?: NestedEnumSupportCasePriorityFilter<$PrismaModel>
+  }
+
+  export type SupportCaseOrderItemCaseIdOrderLineIdCompoundUniqueInput = {
+    caseId: string
+    orderLineId: string
+  }
+
+  export type SupportCaseOrderItemCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    caseId?: SortOrder
+    orderId?: SortOrder
+    orderLineId?: SortOrder
+    quantity?: SortOrder
+    issueType?: SortOrder
+    note?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type SupportCaseOrderItemAvgOrderByAggregateInput = {
+    quantity?: SortOrder
+  }
+
+  export type SupportCaseOrderItemMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    caseId?: SortOrder
+    orderId?: SortOrder
+    orderLineId?: SortOrder
+    quantity?: SortOrder
+    issueType?: SortOrder
+    note?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type SupportCaseOrderItemMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    caseId?: SortOrder
+    orderId?: SortOrder
+    orderLineId?: SortOrder
+    quantity?: SortOrder
+    issueType?: SortOrder
+    note?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type SupportCaseOrderItemSumOrderByAggregateInput = {
+    quantity?: SortOrder
+  }
+
+  export type SupportCaseReturnTenantIdRequestKeyCompoundUniqueInput = {
+    tenantId: string
+    requestKey: string
+  }
+
+  export type SupportCaseReturnCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    caseId?: SortOrder
+    returnId?: SortOrder
+    rmaNumber?: SortOrder
+    requestKey?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type SupportCaseReturnMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    caseId?: SortOrder
+    returnId?: SortOrder
+    rmaNumber?: SortOrder
+    requestKey?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type SupportCaseReturnMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    caseId?: SortOrder
+    returnId?: SortOrder
+    rmaNumber?: SortOrder
+    requestKey?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
   }
 
   export type EnumContractStatusFilter<$PrismaModel = never> = {
@@ -264150,6 +267167,20 @@ export namespace Prisma {
     connect?: AssetStructureChangeWhereUniqueInput | AssetStructureChangeWhereUniqueInput[]
   }
 
+  export type SupportCaseOrderItemCreateNestedManyWithoutTenantInput = {
+    create?: XOR<SupportCaseOrderItemCreateWithoutTenantInput, SupportCaseOrderItemUncheckedCreateWithoutTenantInput> | SupportCaseOrderItemCreateWithoutTenantInput[] | SupportCaseOrderItemUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: SupportCaseOrderItemCreateOrConnectWithoutTenantInput | SupportCaseOrderItemCreateOrConnectWithoutTenantInput[]
+    createMany?: SupportCaseOrderItemCreateManyTenantInputEnvelope
+    connect?: SupportCaseOrderItemWhereUniqueInput | SupportCaseOrderItemWhereUniqueInput[]
+  }
+
+  export type SupportCaseReturnCreateNestedManyWithoutTenantInput = {
+    create?: XOR<SupportCaseReturnCreateWithoutTenantInput, SupportCaseReturnUncheckedCreateWithoutTenantInput> | SupportCaseReturnCreateWithoutTenantInput[] | SupportCaseReturnUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: SupportCaseReturnCreateOrConnectWithoutTenantInput | SupportCaseReturnCreateOrConnectWithoutTenantInput[]
+    createMany?: SupportCaseReturnCreateManyTenantInputEnvelope
+    connect?: SupportCaseReturnWhereUniqueInput | SupportCaseReturnWhereUniqueInput[]
+  }
+
   export type TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -265184,6 +268215,20 @@ export namespace Prisma {
     connectOrCreate?: AssetStructureChangeCreateOrConnectWithoutTenantInput | AssetStructureChangeCreateOrConnectWithoutTenantInput[]
     createMany?: AssetStructureChangeCreateManyTenantInputEnvelope
     connect?: AssetStructureChangeWhereUniqueInput | AssetStructureChangeWhereUniqueInput[]
+  }
+
+  export type SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<SupportCaseOrderItemCreateWithoutTenantInput, SupportCaseOrderItemUncheckedCreateWithoutTenantInput> | SupportCaseOrderItemCreateWithoutTenantInput[] | SupportCaseOrderItemUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: SupportCaseOrderItemCreateOrConnectWithoutTenantInput | SupportCaseOrderItemCreateOrConnectWithoutTenantInput[]
+    createMany?: SupportCaseOrderItemCreateManyTenantInputEnvelope
+    connect?: SupportCaseOrderItemWhereUniqueInput | SupportCaseOrderItemWhereUniqueInput[]
+  }
+
+  export type SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<SupportCaseReturnCreateWithoutTenantInput, SupportCaseReturnUncheckedCreateWithoutTenantInput> | SupportCaseReturnCreateWithoutTenantInput[] | SupportCaseReturnUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: SupportCaseReturnCreateOrConnectWithoutTenantInput | SupportCaseReturnCreateOrConnectWithoutTenantInput[]
+    createMany?: SupportCaseReturnCreateManyTenantInputEnvelope
+    connect?: SupportCaseReturnWhereUniqueInput | SupportCaseReturnWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -267278,6 +270323,34 @@ export namespace Prisma {
     deleteMany?: AssetStructureChangeScalarWhereInput | AssetStructureChangeScalarWhereInput[]
   }
 
+  export type SupportCaseOrderItemUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<SupportCaseOrderItemCreateWithoutTenantInput, SupportCaseOrderItemUncheckedCreateWithoutTenantInput> | SupportCaseOrderItemCreateWithoutTenantInput[] | SupportCaseOrderItemUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: SupportCaseOrderItemCreateOrConnectWithoutTenantInput | SupportCaseOrderItemCreateOrConnectWithoutTenantInput[]
+    upsert?: SupportCaseOrderItemUpsertWithWhereUniqueWithoutTenantInput | SupportCaseOrderItemUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: SupportCaseOrderItemCreateManyTenantInputEnvelope
+    set?: SupportCaseOrderItemWhereUniqueInput | SupportCaseOrderItemWhereUniqueInput[]
+    disconnect?: SupportCaseOrderItemWhereUniqueInput | SupportCaseOrderItemWhereUniqueInput[]
+    delete?: SupportCaseOrderItemWhereUniqueInput | SupportCaseOrderItemWhereUniqueInput[]
+    connect?: SupportCaseOrderItemWhereUniqueInput | SupportCaseOrderItemWhereUniqueInput[]
+    update?: SupportCaseOrderItemUpdateWithWhereUniqueWithoutTenantInput | SupportCaseOrderItemUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: SupportCaseOrderItemUpdateManyWithWhereWithoutTenantInput | SupportCaseOrderItemUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: SupportCaseOrderItemScalarWhereInput | SupportCaseOrderItemScalarWhereInput[]
+  }
+
+  export type SupportCaseReturnUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<SupportCaseReturnCreateWithoutTenantInput, SupportCaseReturnUncheckedCreateWithoutTenantInput> | SupportCaseReturnCreateWithoutTenantInput[] | SupportCaseReturnUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: SupportCaseReturnCreateOrConnectWithoutTenantInput | SupportCaseReturnCreateOrConnectWithoutTenantInput[]
+    upsert?: SupportCaseReturnUpsertWithWhereUniqueWithoutTenantInput | SupportCaseReturnUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: SupportCaseReturnCreateManyTenantInputEnvelope
+    set?: SupportCaseReturnWhereUniqueInput | SupportCaseReturnWhereUniqueInput[]
+    disconnect?: SupportCaseReturnWhereUniqueInput | SupportCaseReturnWhereUniqueInput[]
+    delete?: SupportCaseReturnWhereUniqueInput | SupportCaseReturnWhereUniqueInput[]
+    connect?: SupportCaseReturnWhereUniqueInput | SupportCaseReturnWhereUniqueInput[]
+    update?: SupportCaseReturnUpdateWithWhereUniqueWithoutTenantInput | SupportCaseReturnUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: SupportCaseReturnUpdateManyWithWhereWithoutTenantInput | SupportCaseReturnUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: SupportCaseReturnScalarWhereInput | SupportCaseReturnScalarWhereInput[]
+  }
+
   export type TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -269348,6 +272421,34 @@ export namespace Prisma {
     update?: AssetStructureChangeUpdateWithWhereUniqueWithoutTenantInput | AssetStructureChangeUpdateWithWhereUniqueWithoutTenantInput[]
     updateMany?: AssetStructureChangeUpdateManyWithWhereWithoutTenantInput | AssetStructureChangeUpdateManyWithWhereWithoutTenantInput[]
     deleteMany?: AssetStructureChangeScalarWhereInput | AssetStructureChangeScalarWhereInput[]
+  }
+
+  export type SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<SupportCaseOrderItemCreateWithoutTenantInput, SupportCaseOrderItemUncheckedCreateWithoutTenantInput> | SupportCaseOrderItemCreateWithoutTenantInput[] | SupportCaseOrderItemUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: SupportCaseOrderItemCreateOrConnectWithoutTenantInput | SupportCaseOrderItemCreateOrConnectWithoutTenantInput[]
+    upsert?: SupportCaseOrderItemUpsertWithWhereUniqueWithoutTenantInput | SupportCaseOrderItemUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: SupportCaseOrderItemCreateManyTenantInputEnvelope
+    set?: SupportCaseOrderItemWhereUniqueInput | SupportCaseOrderItemWhereUniqueInput[]
+    disconnect?: SupportCaseOrderItemWhereUniqueInput | SupportCaseOrderItemWhereUniqueInput[]
+    delete?: SupportCaseOrderItemWhereUniqueInput | SupportCaseOrderItemWhereUniqueInput[]
+    connect?: SupportCaseOrderItemWhereUniqueInput | SupportCaseOrderItemWhereUniqueInput[]
+    update?: SupportCaseOrderItemUpdateWithWhereUniqueWithoutTenantInput | SupportCaseOrderItemUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: SupportCaseOrderItemUpdateManyWithWhereWithoutTenantInput | SupportCaseOrderItemUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: SupportCaseOrderItemScalarWhereInput | SupportCaseOrderItemScalarWhereInput[]
+  }
+
+  export type SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<SupportCaseReturnCreateWithoutTenantInput, SupportCaseReturnUncheckedCreateWithoutTenantInput> | SupportCaseReturnCreateWithoutTenantInput[] | SupportCaseReturnUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: SupportCaseReturnCreateOrConnectWithoutTenantInput | SupportCaseReturnCreateOrConnectWithoutTenantInput[]
+    upsert?: SupportCaseReturnUpsertWithWhereUniqueWithoutTenantInput | SupportCaseReturnUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: SupportCaseReturnCreateManyTenantInputEnvelope
+    set?: SupportCaseReturnWhereUniqueInput | SupportCaseReturnWhereUniqueInput[]
+    disconnect?: SupportCaseReturnWhereUniqueInput | SupportCaseReturnWhereUniqueInput[]
+    delete?: SupportCaseReturnWhereUniqueInput | SupportCaseReturnWhereUniqueInput[]
+    connect?: SupportCaseReturnWhereUniqueInput | SupportCaseReturnWhereUniqueInput[]
+    update?: SupportCaseReturnUpdateWithWhereUniqueWithoutTenantInput | SupportCaseReturnUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: SupportCaseReturnUpdateManyWithWhereWithoutTenantInput | SupportCaseReturnUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: SupportCaseReturnScalarWhereInput | SupportCaseReturnScalarWhereInput[]
   }
 
   export type TenantCreateNestedOneWithoutConfigurationVersionsInput = {
@@ -274045,6 +277146,34 @@ export namespace Prisma {
     upsert?: TenantUpsertWithoutSupportCasesInput
     connect?: TenantWhereUniqueInput
     update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutSupportCasesInput, TenantUpdateWithoutSupportCasesInput>, TenantUncheckedUpdateWithoutSupportCasesInput>
+  }
+
+  export type TenantCreateNestedOneWithoutSupportCaseOrderItemsInput = {
+    create?: XOR<TenantCreateWithoutSupportCaseOrderItemsInput, TenantUncheckedCreateWithoutSupportCaseOrderItemsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutSupportCaseOrderItemsInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type TenantUpdateOneRequiredWithoutSupportCaseOrderItemsNestedInput = {
+    create?: XOR<TenantCreateWithoutSupportCaseOrderItemsInput, TenantUncheckedCreateWithoutSupportCaseOrderItemsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutSupportCaseOrderItemsInput
+    upsert?: TenantUpsertWithoutSupportCaseOrderItemsInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutSupportCaseOrderItemsInput, TenantUpdateWithoutSupportCaseOrderItemsInput>, TenantUncheckedUpdateWithoutSupportCaseOrderItemsInput>
+  }
+
+  export type TenantCreateNestedOneWithoutSupportCaseReturnsInput = {
+    create?: XOR<TenantCreateWithoutSupportCaseReturnsInput, TenantUncheckedCreateWithoutSupportCaseReturnsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutSupportCaseReturnsInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type TenantUpdateOneRequiredWithoutSupportCaseReturnsNestedInput = {
+    create?: XOR<TenantCreateWithoutSupportCaseReturnsInput, TenantUncheckedCreateWithoutSupportCaseReturnsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutSupportCaseReturnsInput
+    upsert?: TenantUpsertWithoutSupportCaseReturnsInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutSupportCaseReturnsInput, TenantUpdateWithoutSupportCaseReturnsInput>, TenantUncheckedUpdateWithoutSupportCaseReturnsInput>
   }
 
   export type TenantCreateNestedOneWithoutContractsInput = {
@@ -280318,6 +283447,7 @@ export namespace Prisma {
   export type ReturnOrderCreateWithoutTenantInput = {
     id?: string
     rmaNumber: string
+    requestRef?: string | null
     orderId: string
     accountId: string
     warehouseId: string
@@ -280333,6 +283463,7 @@ export namespace Prisma {
   export type ReturnOrderUncheckedCreateWithoutTenantInput = {
     id?: string
     rmaNumber: string
+    requestRef?: string | null
     orderId: string
     accountId: string
     warehouseId: string
@@ -282995,6 +286126,70 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type SupportCaseOrderItemCreateWithoutTenantInput = {
+    id?: string
+    caseId: string
+    orderId: string
+    orderLineId: string
+    quantity: Decimal | DecimalJsLike | number | string
+    issueType: string
+    note?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+  }
+
+  export type SupportCaseOrderItemUncheckedCreateWithoutTenantInput = {
+    id?: string
+    caseId: string
+    orderId: string
+    orderLineId: string
+    quantity: Decimal | DecimalJsLike | number | string
+    issueType: string
+    note?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+  }
+
+  export type SupportCaseOrderItemCreateOrConnectWithoutTenantInput = {
+    where: SupportCaseOrderItemWhereUniqueInput
+    create: XOR<SupportCaseOrderItemCreateWithoutTenantInput, SupportCaseOrderItemUncheckedCreateWithoutTenantInput>
+  }
+
+  export type SupportCaseOrderItemCreateManyTenantInputEnvelope = {
+    data: SupportCaseOrderItemCreateManyTenantInput | SupportCaseOrderItemCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type SupportCaseReturnCreateWithoutTenantInput = {
+    id?: string
+    caseId: string
+    returnId: string
+    rmaNumber: string
+    requestKey: string
+    createdBy?: string | null
+    createdAt?: Date | string
+  }
+
+  export type SupportCaseReturnUncheckedCreateWithoutTenantInput = {
+    id?: string
+    caseId: string
+    returnId: string
+    rmaNumber: string
+    requestKey: string
+    createdBy?: string | null
+    createdAt?: Date | string
+  }
+
+  export type SupportCaseReturnCreateOrConnectWithoutTenantInput = {
+    where: SupportCaseReturnWhereUniqueInput
+    create: XOR<SupportCaseReturnCreateWithoutTenantInput, SupportCaseReturnUncheckedCreateWithoutTenantInput>
+  }
+
+  export type SupportCaseReturnCreateManyTenantInputEnvelope = {
+    data: SupportCaseReturnCreateManyTenantInput | SupportCaseReturnCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
   export type TenantConfigurationVersionUpsertWithWhereUniqueWithoutTenantInput = {
     where: TenantConfigurationVersionWhereUniqueInput
     update: XOR<TenantConfigurationVersionUpdateWithoutTenantInput, TenantConfigurationVersionUncheckedUpdateWithoutTenantInput>
@@ -285336,6 +288531,7 @@ export namespace Prisma {
     id?: UuidFilter<"ReturnOrder"> | string
     tenantId?: UuidFilter<"ReturnOrder"> | string
     rmaNumber?: StringFilter<"ReturnOrder"> | string
+    requestRef?: StringNullableFilter<"ReturnOrder"> | string | null
     orderId?: UuidFilter<"ReturnOrder"> | string
     accountId?: UuidFilter<"ReturnOrder"> | string
     warehouseId?: UuidFilter<"ReturnOrder"> | string
@@ -287734,6 +290930,68 @@ export namespace Prisma {
     effectiveAt?: DateTimeFilter<"AssetStructureChange"> | Date | string
   }
 
+  export type SupportCaseOrderItemUpsertWithWhereUniqueWithoutTenantInput = {
+    where: SupportCaseOrderItemWhereUniqueInput
+    update: XOR<SupportCaseOrderItemUpdateWithoutTenantInput, SupportCaseOrderItemUncheckedUpdateWithoutTenantInput>
+    create: XOR<SupportCaseOrderItemCreateWithoutTenantInput, SupportCaseOrderItemUncheckedCreateWithoutTenantInput>
+  }
+
+  export type SupportCaseOrderItemUpdateWithWhereUniqueWithoutTenantInput = {
+    where: SupportCaseOrderItemWhereUniqueInput
+    data: XOR<SupportCaseOrderItemUpdateWithoutTenantInput, SupportCaseOrderItemUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type SupportCaseOrderItemUpdateManyWithWhereWithoutTenantInput = {
+    where: SupportCaseOrderItemScalarWhereInput
+    data: XOR<SupportCaseOrderItemUpdateManyMutationInput, SupportCaseOrderItemUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type SupportCaseOrderItemScalarWhereInput = {
+    AND?: SupportCaseOrderItemScalarWhereInput | SupportCaseOrderItemScalarWhereInput[]
+    OR?: SupportCaseOrderItemScalarWhereInput[]
+    NOT?: SupportCaseOrderItemScalarWhereInput | SupportCaseOrderItemScalarWhereInput[]
+    id?: UuidFilter<"SupportCaseOrderItem"> | string
+    tenantId?: UuidFilter<"SupportCaseOrderItem"> | string
+    caseId?: UuidFilter<"SupportCaseOrderItem"> | string
+    orderId?: UuidFilter<"SupportCaseOrderItem"> | string
+    orderLineId?: UuidFilter<"SupportCaseOrderItem"> | string
+    quantity?: DecimalFilter<"SupportCaseOrderItem"> | Decimal | DecimalJsLike | number | string
+    issueType?: StringFilter<"SupportCaseOrderItem"> | string
+    note?: StringNullableFilter<"SupportCaseOrderItem"> | string | null
+    createdBy?: StringNullableFilter<"SupportCaseOrderItem"> | string | null
+    createdAt?: DateTimeFilter<"SupportCaseOrderItem"> | Date | string
+  }
+
+  export type SupportCaseReturnUpsertWithWhereUniqueWithoutTenantInput = {
+    where: SupportCaseReturnWhereUniqueInput
+    update: XOR<SupportCaseReturnUpdateWithoutTenantInput, SupportCaseReturnUncheckedUpdateWithoutTenantInput>
+    create: XOR<SupportCaseReturnCreateWithoutTenantInput, SupportCaseReturnUncheckedCreateWithoutTenantInput>
+  }
+
+  export type SupportCaseReturnUpdateWithWhereUniqueWithoutTenantInput = {
+    where: SupportCaseReturnWhereUniqueInput
+    data: XOR<SupportCaseReturnUpdateWithoutTenantInput, SupportCaseReturnUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type SupportCaseReturnUpdateManyWithWhereWithoutTenantInput = {
+    where: SupportCaseReturnScalarWhereInput
+    data: XOR<SupportCaseReturnUpdateManyMutationInput, SupportCaseReturnUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type SupportCaseReturnScalarWhereInput = {
+    AND?: SupportCaseReturnScalarWhereInput | SupportCaseReturnScalarWhereInput[]
+    OR?: SupportCaseReturnScalarWhereInput[]
+    NOT?: SupportCaseReturnScalarWhereInput | SupportCaseReturnScalarWhereInput[]
+    id?: UuidFilter<"SupportCaseReturn"> | string
+    tenantId?: UuidFilter<"SupportCaseReturn"> | string
+    caseId?: UuidFilter<"SupportCaseReturn"> | string
+    returnId?: UuidFilter<"SupportCaseReturn"> | string
+    rmaNumber?: StringFilter<"SupportCaseReturn"> | string
+    requestKey?: StringFilter<"SupportCaseReturn"> | string
+    createdBy?: StringNullableFilter<"SupportCaseReturn"> | string | null
+    createdAt?: DateTimeFilter<"SupportCaseReturn"> | Date | string
+  }
+
   export type TenantCreateWithoutConfigurationVersionsInput = {
     id?: string
     slug: string
@@ -287889,6 +291147,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutConfigurationVersionsInput = {
@@ -288046,6 +291306,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutConfigurationVersionsInput = {
@@ -288219,6 +291481,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutConfigurationVersionsInput = {
@@ -288376,6 +291640,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutLegalEntitiesInput = {
@@ -288533,6 +291799,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLegalEntitiesInput = {
@@ -288690,6 +291958,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLegalEntitiesInput = {
@@ -288897,6 +292167,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLegalEntitiesInput = {
@@ -289054,6 +292326,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithWhereUniqueWithoutLegalEntityInput = {
@@ -289227,6 +292501,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBusinessUnitsInput = {
@@ -289384,6 +292660,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBusinessUnitsInput = {
@@ -289695,6 +292973,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBusinessUnitsInput = {
@@ -289852,6 +293132,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type LegalEntityUpsertWithoutBusinessUnitsInput = {
@@ -290121,6 +293403,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBranchesInput = {
@@ -290278,6 +293562,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBranchesInput = {
@@ -290480,6 +293766,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBranchesInput = {
@@ -290637,6 +293925,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithoutBranchesInput = {
@@ -290829,6 +294119,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutFactoriesInput = {
@@ -290986,6 +294278,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutFactoriesInput = {
@@ -291188,6 +294482,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutFactoriesInput = {
@@ -291345,6 +294641,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithoutFactoriesInput = {
@@ -291537,6 +294835,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutUsersInput = {
@@ -291694,6 +294994,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutUsersInput = {
@@ -291956,6 +295258,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutUsersInput = {
@@ -292113,6 +295417,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserRoleAssignmentUpsertWithWhereUniqueWithoutUserInput = {
@@ -292339,6 +295645,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutUserCredentialsInput = {
@@ -292496,6 +295804,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutUserCredentialsInput = {
@@ -292700,6 +296010,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutUserCredentialsInput = {
@@ -292857,6 +296169,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserUpsertWithoutCredentialInput = {
@@ -293051,6 +296365,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRolesInput = {
@@ -293208,6 +296524,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRolesInput = {
@@ -293431,6 +296749,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRolesInput = {
@@ -293588,6 +296908,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RolePermissionUpsertWithWhereUniqueWithoutRoleInput = {
@@ -293843,6 +297165,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoleAssignmentsInput = {
@@ -294000,6 +297324,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoleAssignmentsInput = {
@@ -294229,6 +297555,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoleAssignmentsInput = {
@@ -294386,6 +297714,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserUpsertWithoutRoleAssignmentsInput = {
@@ -294611,6 +297941,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAuditEventsInput = {
@@ -294768,6 +298100,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAuditEventsInput = {
@@ -294941,6 +298275,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAuditEventsInput = {
@@ -295098,6 +298434,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutOutboxEventsInput = {
@@ -295255,6 +298593,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOutboxEventsInput = {
@@ -295412,6 +298752,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOutboxEventsInput = {
@@ -295585,6 +298927,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOutboxEventsInput = {
@@ -295742,6 +299086,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutTerminologyEntriesInput = {
@@ -295899,6 +299245,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTerminologyEntriesInput = {
@@ -296056,6 +299404,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTerminologyEntriesInput = {
@@ -296229,6 +299579,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTerminologyEntriesInput = {
@@ -296386,6 +299738,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutModuleActivationsInput = {
@@ -296543,6 +299897,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutModuleActivationsInput = {
@@ -296700,6 +300056,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutModuleActivationsInput = {
@@ -296873,6 +300231,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutModuleActivationsInput = {
@@ -297030,6 +300390,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCustomFieldDefsInput = {
@@ -297187,6 +300549,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCustomFieldDefsInput = {
@@ -297344,6 +300708,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCustomFieldDefsInput = {
@@ -297517,6 +300883,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCustomFieldDefsInput = {
@@ -297674,6 +301042,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutTasksInput = {
@@ -297831,6 +301201,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTasksInput = {
@@ -297988,6 +301360,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTasksInput = {
@@ -298161,6 +301535,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTasksInput = {
@@ -298318,6 +301694,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutNotificationsInput = {
@@ -298475,6 +301853,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNotificationsInput = {
@@ -298632,6 +302012,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNotificationsInput = {
@@ -298805,6 +302187,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNotificationsInput = {
@@ -298962,6 +302346,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutWorkflowDefinitionsInput = {
@@ -299119,6 +302505,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkflowDefinitionsInput = {
@@ -299276,6 +302664,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkflowDefinitionsInput = {
@@ -299511,6 +302901,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkflowDefinitionsInput = {
@@ -299668,6 +303060,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkflowVersionUpsertWithWhereUniqueWithoutDefinitionInput = {
@@ -300083,6 +303477,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRuleDefinitionsInput = {
@@ -300240,6 +303636,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRuleDefinitionsInput = {
@@ -300441,6 +303839,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRuleDefinitionsInput = {
@@ -300598,6 +303998,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RuleVersionUpsertWithWhereUniqueWithoutRuleInput = {
@@ -300828,6 +304230,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutApprovalsInput = {
@@ -300985,6 +304389,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutApprovalsInput = {
@@ -301158,6 +304564,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutApprovalsInput = {
@@ -301315,6 +304723,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutProcessedEventsInput = {
@@ -301472,6 +304882,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProcessedEventsInput = {
@@ -301629,6 +305041,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProcessedEventsInput = {
@@ -301802,6 +305216,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProcessedEventsInput = {
@@ -301959,6 +305375,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutDocumentTemplatesInput = {
@@ -302116,6 +305534,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDocumentTemplatesInput = {
@@ -302273,6 +305693,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDocumentTemplatesInput = {
@@ -302472,6 +305894,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDocumentTemplatesInput = {
@@ -302629,6 +306053,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type DocumentTemplateVersionUpsertWithWhereUniqueWithoutTemplateInput = {
@@ -302862,6 +306288,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPartiesInput = {
@@ -303019,6 +306447,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPartiesInput = {
@@ -303373,6 +306803,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPartiesInput = {
@@ -303530,6 +306962,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PartyUpsertWithoutMergedPartiesInput = {
@@ -303808,6 +307242,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutConsentRecordsInput = {
@@ -303965,6 +307401,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutConsentRecordsInput = {
@@ -304177,6 +307615,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutConsentRecordsInput = {
@@ -304334,6 +307774,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PartyUpsertWithoutConsentRecordsInput = {
@@ -304620,6 +308062,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProductsInput = {
@@ -304777,6 +308221,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProductsInput = {
@@ -305014,6 +308460,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProductsInput = {
@@ -305171,6 +308619,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SkuUpsertWithWhereUniqueWithoutProductInput = {
@@ -306046,6 +309496,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWarehousesInput = {
@@ -306203,6 +309655,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWarehousesInput = {
@@ -306434,6 +309888,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWarehousesInput = {
@@ -306591,6 +310047,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WarehouseLocationUpsertWithWhereUniqueWithoutWarehouseInput = {
@@ -306838,6 +310296,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockMovementsInput = {
@@ -306995,6 +310455,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockMovementsInput = {
@@ -307168,6 +310630,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockMovementsInput = {
@@ -307325,6 +310789,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutStockReservationsInput = {
@@ -307482,6 +310948,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockReservationsInput = {
@@ -307639,6 +311107,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockReservationsInput = {
@@ -307812,6 +311282,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockReservationsInput = {
@@ -307969,6 +311441,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutDevicesInput = {
@@ -308126,6 +311600,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDevicesInput = {
@@ -308283,6 +311759,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDevicesInput = {
@@ -308456,6 +311934,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDevicesInput = {
@@ -308613,6 +312093,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutScanEventsInput = {
@@ -308770,6 +312252,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutScanEventsInput = {
@@ -308927,6 +312411,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutScanEventsInput = {
@@ -309100,6 +312586,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutScanEventsInput = {
@@ -309257,6 +312745,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutWmsOrdersInput = {
@@ -309414,6 +312904,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWmsOrdersInput = {
@@ -309571,6 +313063,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWmsOrdersInput = {
@@ -309770,6 +313264,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWmsOrdersInput = {
@@ -309927,6 +313423,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WmsOrderLineUpsertWithWhereUniqueWithoutOrderInput = {
@@ -310100,6 +313598,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWmsOrderLinesInput = {
@@ -310257,6 +313757,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWmsOrderLinesInput = {
@@ -310463,6 +313965,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWmsOrderLinesInput = {
@@ -310620,6 +314124,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WmsOrderUpsertWithoutLinesInput = {
@@ -310816,6 +314322,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTerritoriesInput = {
@@ -310973,6 +314481,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTerritoriesInput = {
@@ -311146,6 +314656,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTerritoriesInput = {
@@ -311303,6 +314815,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSalesTeamsInput = {
@@ -311460,6 +314974,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesTeamsInput = {
@@ -311617,6 +315133,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesTeamsInput = {
@@ -311814,6 +315332,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesTeamsInput = {
@@ -311971,6 +315491,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesTeamMemberUpsertWithWhereUniqueWithoutTeamInput = {
@@ -312144,6 +315666,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesTeamMembersInput = {
@@ -312301,6 +315825,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesTeamMembersInput = {
@@ -312495,6 +316021,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesTeamMembersInput = {
@@ -312652,6 +316180,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesTeamUpsertWithoutMembersInput = {
@@ -312836,6 +316366,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCrmAccountsInput = {
@@ -312993,6 +316525,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCrmAccountsInput = {
@@ -313166,6 +316700,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCrmAccountsInput = {
@@ -313323,6 +316859,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutLeadsInput = {
@@ -313480,6 +317018,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLeadsInput = {
@@ -313637,6 +317177,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLeadsInput = {
@@ -313810,6 +317352,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLeadsInput = {
@@ -313967,6 +317511,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutOpportunitiesInput = {
@@ -314124,6 +317670,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOpportunitiesInput = {
@@ -314281,6 +317829,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOpportunitiesInput = {
@@ -314454,6 +318004,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOpportunitiesInput = {
@@ -314611,6 +318163,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCrmActivitiesInput = {
@@ -314768,6 +318322,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCrmActivitiesInput = {
@@ -314925,6 +318481,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCrmActivitiesInput = {
@@ -315098,6 +318656,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCrmActivitiesInput = {
@@ -315255,6 +318815,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPriceListsInput = {
@@ -315412,6 +318974,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPriceListsInput = {
@@ -315569,6 +319133,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPriceListsInput = {
@@ -315768,6 +319334,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPriceListsInput = {
@@ -315925,6 +319493,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PriceListEntryUpsertWithWhereUniqueWithoutPriceListInput = {
@@ -316098,6 +319668,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPriceListEntriesInput = {
@@ -316255,6 +319827,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPriceListEntriesInput = {
@@ -316461,6 +320035,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPriceListEntriesInput = {
@@ -316618,6 +320194,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PriceListUpsertWithoutEntriesInput = {
@@ -316814,6 +320392,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQuotesInput = {
@@ -316971,6 +320551,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQuotesInput = {
@@ -317178,6 +320760,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQuotesInput = {
@@ -317335,6 +320919,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QuoteLineUpsertWithWhereUniqueWithoutQuoteInput = {
@@ -317508,6 +321094,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPackagingLevelsInput = {
@@ -317665,6 +321253,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPackagingLevelsInput = {
@@ -317897,6 +321487,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPackagingLevelsInput = {
@@ -318054,6 +321646,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SkuUpsertWithoutPackagingLevelsInput = {
@@ -318276,6 +321870,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSkuSubstitutionsInput = {
@@ -318433,6 +322029,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSkuSubstitutionsInput = {
@@ -318606,6 +322204,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSkuSubstitutionsInput = {
@@ -318763,6 +322363,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutDiscountRulesInput = {
@@ -318920,6 +322522,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDiscountRulesInput = {
@@ -319077,6 +322681,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDiscountRulesInput = {
@@ -319250,6 +322856,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDiscountRulesInput = {
@@ -319407,6 +323015,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutQuoteLinesInput = {
@@ -319564,6 +323174,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQuoteLinesInput = {
@@ -319721,6 +323333,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQuoteLinesInput = {
@@ -319941,6 +323555,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQuoteLinesInput = {
@@ -320098,6 +323714,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QuoteUpsertWithoutLinesInput = {
@@ -320308,6 +323926,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesOrdersInput = {
@@ -320465,6 +324085,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesOrdersInput = {
@@ -320712,6 +324334,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesOrdersInput = {
@@ -320869,6 +324493,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesOrderLineUpsertWithWhereUniqueWithoutOrderInput = {
@@ -321058,6 +324684,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesOrderLinesInput = {
@@ -321215,6 +324843,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesOrderLinesInput = {
@@ -321439,6 +325069,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesOrderLinesInput = {
@@ -321596,6 +325228,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesOrderUpsertWithoutLinesInput = {
@@ -321810,6 +325444,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOrderEventsInput = {
@@ -321967,6 +325603,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOrderEventsInput = {
@@ -322140,6 +325778,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOrderEventsInput = {
@@ -322297,6 +325937,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSuppliersInput = {
@@ -322454,6 +326096,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSuppliersInput = {
@@ -322611,6 +326255,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSuppliersInput = {
@@ -322784,6 +326430,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSuppliersInput = {
@@ -322941,6 +326589,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPurchaseRequisitionsInput = {
@@ -323098,6 +326748,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseRequisitionsInput = {
@@ -323255,6 +326907,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseRequisitionsInput = {
@@ -323458,6 +327112,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseRequisitionsInput = {
@@ -323615,6 +327271,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseRequisitionLineUpsertWithWhereUniqueWithoutRequisitionInput = {
@@ -323788,6 +327446,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseReqLinesInput = {
@@ -323945,6 +327605,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseReqLinesInput = {
@@ -324151,6 +327813,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseReqLinesInput = {
@@ -324308,6 +327972,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseRequisitionUpsertWithoutLinesInput = {
@@ -324504,6 +328170,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseOrdersInput = {
@@ -324661,6 +328329,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseOrdersInput = {
@@ -324932,6 +328602,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseOrdersInput = {
@@ -325089,6 +328761,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseOrderLineUpsertWithWhereUniqueWithoutPoInput = {
@@ -325294,6 +328968,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseOrderLinesInput = {
@@ -325451,6 +329127,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseOrderLinesInput = {
@@ -325665,6 +329343,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseOrderLinesInput = {
@@ -325822,6 +329502,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseOrderUpsertWithoutLinesInput = {
@@ -326026,6 +329708,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBomsInput = {
@@ -326183,6 +329867,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBomsInput = {
@@ -326386,6 +330072,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBomsInput = {
@@ -326543,6 +330231,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BomLineUpsertWithWhereUniqueWithoutBomInput = {
@@ -326716,6 +330406,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBomLinesInput = {
@@ -326873,6 +330565,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBomLinesInput = {
@@ -327077,6 +330771,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBomLinesInput = {
@@ -327234,6 +330930,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BomUpsertWithoutLinesInput = {
@@ -327428,6 +331126,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoutingsInput = {
@@ -327585,6 +331285,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoutingsInput = {
@@ -327790,6 +331492,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoutingsInput = {
@@ -327947,6 +331651,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RoutingOperationUpsertWithWhereUniqueWithoutRoutingInput = {
@@ -328120,6 +331826,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoutingOperationsInput = {
@@ -328277,6 +331985,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoutingOperationsInput = {
@@ -328477,6 +332187,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoutingOperationsInput = {
@@ -328634,6 +332346,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RoutingUpsertWithoutOperationsInput = {
@@ -328824,6 +332538,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutEngineeringChangesInput = {
@@ -328981,6 +332697,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutEngineeringChangesInput = {
@@ -329154,6 +332872,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutEngineeringChangesInput = {
@@ -329311,6 +333031,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPlanningPoliciesInput = {
@@ -329468,6 +333190,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPlanningPoliciesInput = {
@@ -329625,6 +333349,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPlanningPoliciesInput = {
@@ -329798,6 +333524,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPlanningPoliciesInput = {
@@ -329955,6 +333683,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutMrpRunsInput = {
@@ -330112,6 +333842,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutMrpRunsInput = {
@@ -330269,6 +334001,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutMrpRunsInput = {
@@ -330472,6 +334206,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutMrpRunsInput = {
@@ -330629,6 +334365,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type MrpSuggestionUpsertWithWhereUniqueWithoutRunInput = {
@@ -330802,6 +334540,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutMrpSuggestionsInput = {
@@ -330959,6 +334699,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutMrpSuggestionsInput = {
@@ -331157,6 +334899,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutMrpSuggestionsInput = {
@@ -331314,6 +335058,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type MrpRunUpsertWithoutSuggestionsInput = {
@@ -331502,6 +335248,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkOrdersInput = {
@@ -331659,6 +335407,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkOrdersInput = {
@@ -331868,6 +335618,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkOrdersInput = {
@@ -332025,6 +335777,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkOrderOperationUpsertWithWhereUniqueWithoutWorkOrderInput = {
@@ -332198,6 +335952,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkOrderOperationsInput = {
@@ -332355,6 +336111,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkOrderOperationsInput = {
@@ -332571,6 +336329,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkOrderOperationsInput = {
@@ -332728,6 +336488,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkOrderUpsertWithoutOperationsInput = {
@@ -332934,6 +336696,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcPlansInput = {
@@ -333091,6 +336855,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcPlansInput = {
@@ -333290,6 +337056,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcPlansInput = {
@@ -333447,6 +337215,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcPlanItemUpsertWithWhereUniqueWithoutPlanInput = {
@@ -333620,6 +337390,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcPlanItemsInput = {
@@ -333777,6 +337549,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcPlanItemsInput = {
@@ -333977,6 +337751,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcPlanItemsInput = {
@@ -334134,6 +337910,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcPlanUpsertWithoutItemsInput = {
@@ -334324,6 +338102,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcInspectionsInput = {
@@ -334481,6 +338261,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcInspectionsInput = {
@@ -334684,6 +338466,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcInspectionsInput = {
@@ -334841,6 +338625,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcInspectionItemUpsertWithWhereUniqueWithoutInspectionInput = {
@@ -335014,6 +338800,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcInspectionItemsInput = {
@@ -335171,6 +338959,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcInspectionItemsInput = {
@@ -335379,6 +339169,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcInspectionItemsInput = {
@@ -335536,6 +339328,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcInspectionUpsertWithoutItemsInput = {
@@ -335734,6 +339528,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNcrsInput = {
@@ -335891,6 +339687,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNcrsInput = {
@@ -336064,6 +339862,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNcrsInput = {
@@ -336221,6 +340021,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutInvoicesInput = {
@@ -336378,6 +340180,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutInvoicesInput = {
@@ -336535,6 +340339,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutInvoicesInput = {
@@ -336804,6 +340610,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutInvoicesInput = {
@@ -336961,6 +340769,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PaymentUpsertWithWhereUniqueWithoutInvoiceInput = {
@@ -337166,6 +340976,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPaymentsInput = {
@@ -337323,6 +341135,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPaymentsInput = {
@@ -337612,6 +341426,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPaymentsInput = {
@@ -337769,6 +341585,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type InvoiceUpsertWithoutPaymentsInput = {
@@ -338034,6 +341852,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPortalUsersInput = {
@@ -338191,6 +342011,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPortalUsersInput = {
@@ -338364,6 +342186,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPortalUsersInput = {
@@ -338521,6 +342345,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCommentsInput = {
@@ -338678,6 +342504,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCommentsInput = {
@@ -338835,6 +342663,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCommentsInput = {
@@ -339008,6 +342838,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCommentsInput = {
@@ -339165,6 +342997,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutAttachmentsInput = {
@@ -339322,6 +343156,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAttachmentsInput = {
@@ -339479,6 +343315,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAttachmentsInput = {
@@ -339669,6 +343507,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAttachmentsInput = {
@@ -339826,6 +343666,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type AttachmentBlobUpsertWithoutAttachmentInput = {
@@ -340006,6 +343848,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAttachmentBlobsInput = {
@@ -340163,6 +344007,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAttachmentBlobsInput = {
@@ -340367,6 +344213,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAttachmentBlobsInput = {
@@ -340524,6 +344372,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type AttachmentUpsertWithoutBlobInput = {
@@ -340718,6 +344568,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNumberSequencesInput = {
@@ -340875,6 +344727,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNumberSequencesInput = {
@@ -341048,6 +344902,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNumberSequencesInput = {
@@ -341205,6 +345061,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutExchangeRatesInput = {
@@ -341362,6 +345220,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutExchangeRatesInput = {
@@ -341519,6 +345379,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutExchangeRatesInput = {
@@ -341692,6 +345554,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutExchangeRatesInput = {
@@ -341849,6 +345713,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCostCentersInput = {
@@ -342006,6 +345872,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCostCentersInput = {
@@ -342163,6 +346031,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCostCentersInput = {
@@ -342364,6 +346234,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCostCentersInput = {
@@ -342521,6 +346393,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BudgetUpsertWithWhereUniqueWithoutCostCenterInput = {
@@ -342694,6 +346568,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBudgetsInput = {
@@ -342851,6 +346727,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBudgetsInput = {
@@ -343047,6 +346925,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBudgetsInput = {
@@ -343204,6 +347084,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type CostCenterUpsertWithoutBudgetsInput = {
@@ -343390,6 +347272,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWebhookSubscriptionsInput = {
@@ -343547,6 +347431,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWebhookSubscriptionsInput = {
@@ -343758,6 +347644,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWebhookSubscriptionsInput = {
@@ -343915,6 +347803,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WebhookDeliveryUpsertWithWhereUniqueWithoutSubscriptionInput = {
@@ -344088,6 +347978,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWebhookDeliveriesInput = {
@@ -344245,6 +348137,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWebhookDeliveriesInput = {
@@ -344445,6 +348339,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWebhookDeliveriesInput = {
@@ -344602,6 +348498,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WebhookSubscriptionUpsertWithoutDeliveriesInput = {
@@ -344792,6 +348690,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutApiKeysInput = {
@@ -344949,6 +348849,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutApiKeysInput = {
@@ -345122,6 +349024,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutApiKeysInput = {
@@ -345279,6 +349183,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSecurityEventsInput = {
@@ -345436,6 +349342,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSecurityEventsInput = {
@@ -345593,6 +349501,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSecurityEventsInput = {
@@ -345766,6 +349676,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSecurityEventsInput = {
@@ -345923,6 +349835,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutProductCategoriesInput = {
@@ -346080,6 +349994,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProductCategoriesInput = {
@@ -346237,6 +350153,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProductCategoriesInput = {
@@ -346461,6 +350379,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProductCategoriesInput = {
@@ -346618,6 +350538,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ProductCategoryUpsertWithoutChildrenInput = {
@@ -346820,6 +350742,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutReturnOrdersInput = {
@@ -346977,6 +350901,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutReturnOrdersInput = {
@@ -347178,6 +351104,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutReturnOrdersInput = {
@@ -347335,6 +351263,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ReturnOrderLineUpsertWithWhereUniqueWithoutReturnOrderInput = {
@@ -347508,6 +351438,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutReturnOrderLinesInput = {
@@ -347665,6 +351597,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutReturnOrderLinesInput = {
@@ -347675,6 +351609,7 @@ export namespace Prisma {
   export type ReturnOrderCreateWithoutLinesInput = {
     id?: string
     rmaNumber: string
+    requestRef?: string | null
     orderId: string
     accountId: string
     warehouseId: string
@@ -347691,6 +351626,7 @@ export namespace Prisma {
     id?: string
     tenantId: string
     rmaNumber: string
+    requestRef?: string | null
     orderId: string
     accountId: string
     warehouseId: string
@@ -347873,6 +351809,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutReturnOrderLinesInput = {
@@ -348030,6 +351968,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ReturnOrderUpsertWithoutLinesInput = {
@@ -348046,6 +351986,7 @@ export namespace Prisma {
   export type ReturnOrderUpdateWithoutLinesInput = {
     id?: StringFieldUpdateOperationsInput | string
     rmaNumber?: StringFieldUpdateOperationsInput | string
+    requestRef?: NullableStringFieldUpdateOperationsInput | string | null
     orderId?: StringFieldUpdateOperationsInput | string
     accountId?: StringFieldUpdateOperationsInput | string
     warehouseId?: StringFieldUpdateOperationsInput | string
@@ -348062,6 +352003,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     tenantId?: StringFieldUpdateOperationsInput | string
     rmaNumber?: StringFieldUpdateOperationsInput | string
+    requestRef?: NullableStringFieldUpdateOperationsInput | string | null
     orderId?: StringFieldUpdateOperationsInput | string
     accountId?: StringFieldUpdateOperationsInput | string
     warehouseId?: StringFieldUpdateOperationsInput | string
@@ -348228,6 +352170,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockCountsInput = {
@@ -348385,6 +352329,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockCountsInput = {
@@ -348584,6 +352530,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockCountsInput = {
@@ -348741,6 +352689,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type StockCountLineUpsertWithWhereUniqueWithoutCountInput = {
@@ -348914,6 +352864,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockCountLinesInput = {
@@ -349071,6 +353023,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockCountLinesInput = {
@@ -349277,6 +353231,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockCountLinesInput = {
@@ -349434,6 +353390,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type StockCountUpsertWithoutLinesInput = {
@@ -349630,6 +353588,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkCentersInput = {
@@ -349787,6 +353747,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkCentersInput = {
@@ -349992,6 +353954,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkCentersInput = {
@@ -350149,6 +354113,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type DowntimeEventUpsertWithWhereUniqueWithoutWorkCenterInput = {
@@ -350322,6 +354288,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDowntimeEventsInput = {
@@ -350479,6 +354447,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDowntimeEventsInput = {
@@ -350675,6 +354645,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDowntimeEventsInput = {
@@ -350832,6 +354804,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkCenterUpsertWithoutDowntimesInput = {
@@ -351018,6 +354992,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPromotionsInput = {
@@ -351175,6 +355151,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPromotionsInput = {
@@ -351374,6 +355352,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPromotionsInput = {
@@ -351531,6 +355511,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PromotionRedemptionUpsertWithWhereUniqueWithoutPromotionInput = {
@@ -352168,6 +356150,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBreakGlassGrantsInput = {
@@ -352325,6 +356309,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBreakGlassGrantsInput = {
@@ -352529,6 +356515,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBreakGlassGrantsInput = {
@@ -352686,6 +356674,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserUpsertWithoutBreakGlassGrantsInput = {
@@ -352880,6 +356870,8 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutMdmDuplicateDismissalsInput = {
@@ -353037,6 +357029,8 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutMdmDuplicateDismissalsInput = {
@@ -353210,6 +357204,8 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutMdmDuplicateDismissalsInput = {
@@ -353367,6 +357363,8 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutMasterDataRequestsInput = {
@@ -353524,6 +357522,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutMasterDataRequestsInput = {
@@ -353681,6 +357681,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutMasterDataRequestsInput = {
@@ -353854,6 +357856,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutMasterDataRequestsInput = {
@@ -354011,6 +358015,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutLoyaltyAccountsInput = {
@@ -354168,6 +358174,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLoyaltyAccountsInput = {
@@ -354325,6 +358333,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLoyaltyAccountsInput = {
@@ -354528,6 +358538,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLoyaltyAccountsInput = {
@@ -354685,6 +358697,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type LoyaltyTransactionUpsertWithWhereUniqueWithoutLoyaltyAccountInput = {
@@ -354924,6 +358938,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSupportCasesInput = {
@@ -355081,6 +359097,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSupportCasesInput = {
@@ -355254,6 +359272,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSupportCasesInput = {
@@ -355411,6 +359431,1312 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantCreateWithoutSupportCaseOrderItemsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    factories?: FactoryCreateNestedManyWithoutTenantInput
+    users?: UserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionCreateNestedManyWithoutTenantInput
+    tasks?: TaskCreateNestedManyWithoutTenantInput
+    notifications?: NotificationCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    products?: ProductCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountCreateNestedManyWithoutTenantInput
+    leads?: LeadCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryCreateNestedManyWithoutTenantInput
+    quotes?: QuoteCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
+    comments?: CommentCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
+    exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
+    breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
+    masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
+    supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
+    employees?: EmployeeCreateNestedManyWithoutTenantInput
+    assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
+    rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
+    containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
+    installedAssets?: InstalledAssetCreateNestedManyWithoutTenantInput
+    serviceRequests?: ServiceRequestCreateNestedManyWithoutTenantInput
+    serviceOrders?: ServiceOrderCreateNestedManyWithoutTenantInput
+    serviceOrderParts?: ServiceOrderPartCreateNestedManyWithoutTenantInput
+    rmas?: RmaCreateNestedManyWithoutTenantInput
+    glAccounts?: GlAccountCreateNestedManyWithoutTenantInput
+    glJournalEntries?: GlJournalEntryCreateNestedManyWithoutTenantInput
+    glJournalLines?: GlJournalLineCreateNestedManyWithoutTenantInput
+    glSystemAccounts?: GlSystemAccountCreateNestedManyWithoutTenantInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
+    glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
+    employeeSalaries?: EmployeeSalaryCreateNestedManyWithoutTenantInput
+    payrollRuns?: PayrollRunCreateNestedManyWithoutTenantInput
+    payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
+    payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
+    employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
+    equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
+    equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
+    quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutSupportCaseOrderItemsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityUncheckedCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    factories?: FactoryUncheckedCreateNestedManyWithoutTenantInput
+    users?: UserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventUncheckedCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventUncheckedCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryUncheckedCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationUncheckedCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutTenantInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalUncheckedCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventUncheckedCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    products?: ProductUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountUncheckedCreateNestedManyWithoutTenantInput
+    leads?: LeadUncheckedCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityUncheckedCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityUncheckedCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListUncheckedCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryUncheckedCreateNestedManyWithoutTenantInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineUncheckedCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderUncheckedCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventUncheckedCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierUncheckedCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
+    comments?: CommentUncheckedCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderUncheckedCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
+    exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
+    breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
+    masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
+    supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
+    employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
+    assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
+    rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
+    containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
+    installedAssets?: InstalledAssetUncheckedCreateNestedManyWithoutTenantInput
+    serviceRequests?: ServiceRequestUncheckedCreateNestedManyWithoutTenantInput
+    serviceOrders?: ServiceOrderUncheckedCreateNestedManyWithoutTenantInput
+    serviceOrderParts?: ServiceOrderPartUncheckedCreateNestedManyWithoutTenantInput
+    rmas?: RmaUncheckedCreateNestedManyWithoutTenantInput
+    glAccounts?: GlAccountUncheckedCreateNestedManyWithoutTenantInput
+    glJournalEntries?: GlJournalEntryUncheckedCreateNestedManyWithoutTenantInput
+    glJournalLines?: GlJournalLineUncheckedCreateNestedManyWithoutTenantInput
+    glSystemAccounts?: GlSystemAccountUncheckedCreateNestedManyWithoutTenantInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
+    glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
+    employeeSalaries?: EmployeeSalaryUncheckedCreateNestedManyWithoutTenantInput
+    payrollRuns?: PayrollRunUncheckedCreateNestedManyWithoutTenantInput
+    payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
+    payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
+    employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
+    equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
+    equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
+    quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutSupportCaseOrderItemsInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutSupportCaseOrderItemsInput, TenantUncheckedCreateWithoutSupportCaseOrderItemsInput>
+  }
+
+  export type TenantUpsertWithoutSupportCaseOrderItemsInput = {
+    update: XOR<TenantUpdateWithoutSupportCaseOrderItemsInput, TenantUncheckedUpdateWithoutSupportCaseOrderItemsInput>
+    create: XOR<TenantCreateWithoutSupportCaseOrderItemsInput, TenantUncheckedCreateWithoutSupportCaseOrderItemsInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutSupportCaseOrderItemsInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutSupportCaseOrderItemsInput, TenantUncheckedUpdateWithoutSupportCaseOrderItemsInput>
+  }
+
+  export type TenantUpdateWithoutSupportCaseOrderItemsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUpdateManyWithoutTenantNestedInput
+    users?: UserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    products?: ProductUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUpdateManyWithoutTenantNestedInput
+    leads?: LeadUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
+    comments?: CommentUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
+    exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
+    breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
+    masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
+    supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
+    employees?: EmployeeUpdateManyWithoutTenantNestedInput
+    assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
+    rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
+    containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
+    installedAssets?: InstalledAssetUpdateManyWithoutTenantNestedInput
+    serviceRequests?: ServiceRequestUpdateManyWithoutTenantNestedInput
+    serviceOrders?: ServiceOrderUpdateManyWithoutTenantNestedInput
+    serviceOrderParts?: ServiceOrderPartUpdateManyWithoutTenantNestedInput
+    rmas?: RmaUpdateManyWithoutTenantNestedInput
+    glAccounts?: GlAccountUpdateManyWithoutTenantNestedInput
+    glJournalEntries?: GlJournalEntryUpdateManyWithoutTenantNestedInput
+    glJournalLines?: GlJournalLineUpdateManyWithoutTenantNestedInput
+    glSystemAccounts?: GlSystemAccountUpdateManyWithoutTenantNestedInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
+    glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
+    employeeSalaries?: EmployeeSalaryUpdateManyWithoutTenantNestedInput
+    payrollRuns?: PayrollRunUpdateManyWithoutTenantNestedInput
+    payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
+    payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
+    employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
+    equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
+    equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
+    quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutSupportCaseOrderItemsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUncheckedUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUncheckedUpdateManyWithoutTenantNestedInput
+    users?: UserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUncheckedUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUncheckedUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUncheckedUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUncheckedUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUncheckedUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUncheckedUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    products?: ProductUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUncheckedUpdateManyWithoutTenantNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUncheckedUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUncheckedUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUncheckedUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUncheckedUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUncheckedUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
+    exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
+    breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
+    masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
+    supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
+    employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
+    assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
+    rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
+    containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
+    installedAssets?: InstalledAssetUncheckedUpdateManyWithoutTenantNestedInput
+    serviceRequests?: ServiceRequestUncheckedUpdateManyWithoutTenantNestedInput
+    serviceOrders?: ServiceOrderUncheckedUpdateManyWithoutTenantNestedInput
+    serviceOrderParts?: ServiceOrderPartUncheckedUpdateManyWithoutTenantNestedInput
+    rmas?: RmaUncheckedUpdateManyWithoutTenantNestedInput
+    glAccounts?: GlAccountUncheckedUpdateManyWithoutTenantNestedInput
+    glJournalEntries?: GlJournalEntryUncheckedUpdateManyWithoutTenantNestedInput
+    glJournalLines?: GlJournalLineUncheckedUpdateManyWithoutTenantNestedInput
+    glSystemAccounts?: GlSystemAccountUncheckedUpdateManyWithoutTenantNestedInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
+    glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
+    employeeSalaries?: EmployeeSalaryUncheckedUpdateManyWithoutTenantNestedInput
+    payrollRuns?: PayrollRunUncheckedUpdateManyWithoutTenantNestedInput
+    payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
+    payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
+    employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
+    equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
+    equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantCreateWithoutSupportCaseReturnsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    factories?: FactoryCreateNestedManyWithoutTenantInput
+    users?: UserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionCreateNestedManyWithoutTenantInput
+    tasks?: TaskCreateNestedManyWithoutTenantInput
+    notifications?: NotificationCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    products?: ProductCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountCreateNestedManyWithoutTenantInput
+    leads?: LeadCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryCreateNestedManyWithoutTenantInput
+    quotes?: QuoteCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
+    comments?: CommentCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
+    exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
+    breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
+    masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
+    supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
+    employees?: EmployeeCreateNestedManyWithoutTenantInput
+    assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
+    rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
+    containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
+    installedAssets?: InstalledAssetCreateNestedManyWithoutTenantInput
+    serviceRequests?: ServiceRequestCreateNestedManyWithoutTenantInput
+    serviceOrders?: ServiceOrderCreateNestedManyWithoutTenantInput
+    serviceOrderParts?: ServiceOrderPartCreateNestedManyWithoutTenantInput
+    rmas?: RmaCreateNestedManyWithoutTenantInput
+    glAccounts?: GlAccountCreateNestedManyWithoutTenantInput
+    glJournalEntries?: GlJournalEntryCreateNestedManyWithoutTenantInput
+    glJournalLines?: GlJournalLineCreateNestedManyWithoutTenantInput
+    glSystemAccounts?: GlSystemAccountCreateNestedManyWithoutTenantInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
+    glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
+    employeeSalaries?: EmployeeSalaryCreateNestedManyWithoutTenantInput
+    payrollRuns?: PayrollRunCreateNestedManyWithoutTenantInput
+    payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
+    payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
+    employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
+    equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
+    equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
+    quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutSupportCaseReturnsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityUncheckedCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    factories?: FactoryUncheckedCreateNestedManyWithoutTenantInput
+    users?: UserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventUncheckedCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventUncheckedCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryUncheckedCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationUncheckedCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutTenantInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalUncheckedCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventUncheckedCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    products?: ProductUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountUncheckedCreateNestedManyWithoutTenantInput
+    leads?: LeadUncheckedCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityUncheckedCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityUncheckedCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListUncheckedCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryUncheckedCreateNestedManyWithoutTenantInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineUncheckedCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderUncheckedCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventUncheckedCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierUncheckedCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
+    comments?: CommentUncheckedCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderUncheckedCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
+    exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
+    breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
+    masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
+    supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
+    employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
+    assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
+    rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
+    containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
+    installedAssets?: InstalledAssetUncheckedCreateNestedManyWithoutTenantInput
+    serviceRequests?: ServiceRequestUncheckedCreateNestedManyWithoutTenantInput
+    serviceOrders?: ServiceOrderUncheckedCreateNestedManyWithoutTenantInput
+    serviceOrderParts?: ServiceOrderPartUncheckedCreateNestedManyWithoutTenantInput
+    rmas?: RmaUncheckedCreateNestedManyWithoutTenantInput
+    glAccounts?: GlAccountUncheckedCreateNestedManyWithoutTenantInput
+    glJournalEntries?: GlJournalEntryUncheckedCreateNestedManyWithoutTenantInput
+    glJournalLines?: GlJournalLineUncheckedCreateNestedManyWithoutTenantInput
+    glSystemAccounts?: GlSystemAccountUncheckedCreateNestedManyWithoutTenantInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
+    glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
+    employeeSalaries?: EmployeeSalaryUncheckedCreateNestedManyWithoutTenantInput
+    payrollRuns?: PayrollRunUncheckedCreateNestedManyWithoutTenantInput
+    payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
+    payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
+    employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
+    equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
+    equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
+    quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutSupportCaseReturnsInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutSupportCaseReturnsInput, TenantUncheckedCreateWithoutSupportCaseReturnsInput>
+  }
+
+  export type TenantUpsertWithoutSupportCaseReturnsInput = {
+    update: XOR<TenantUpdateWithoutSupportCaseReturnsInput, TenantUncheckedUpdateWithoutSupportCaseReturnsInput>
+    create: XOR<TenantCreateWithoutSupportCaseReturnsInput, TenantUncheckedCreateWithoutSupportCaseReturnsInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutSupportCaseReturnsInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutSupportCaseReturnsInput, TenantUncheckedUpdateWithoutSupportCaseReturnsInput>
+  }
+
+  export type TenantUpdateWithoutSupportCaseReturnsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUpdateManyWithoutTenantNestedInput
+    users?: UserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    products?: ProductUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUpdateManyWithoutTenantNestedInput
+    leads?: LeadUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
+    comments?: CommentUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
+    exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
+    breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
+    masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
+    supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
+    employees?: EmployeeUpdateManyWithoutTenantNestedInput
+    assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
+    rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
+    containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
+    installedAssets?: InstalledAssetUpdateManyWithoutTenantNestedInput
+    serviceRequests?: ServiceRequestUpdateManyWithoutTenantNestedInput
+    serviceOrders?: ServiceOrderUpdateManyWithoutTenantNestedInput
+    serviceOrderParts?: ServiceOrderPartUpdateManyWithoutTenantNestedInput
+    rmas?: RmaUpdateManyWithoutTenantNestedInput
+    glAccounts?: GlAccountUpdateManyWithoutTenantNestedInput
+    glJournalEntries?: GlJournalEntryUpdateManyWithoutTenantNestedInput
+    glJournalLines?: GlJournalLineUpdateManyWithoutTenantNestedInput
+    glSystemAccounts?: GlSystemAccountUpdateManyWithoutTenantNestedInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
+    glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
+    employeeSalaries?: EmployeeSalaryUpdateManyWithoutTenantNestedInput
+    payrollRuns?: PayrollRunUpdateManyWithoutTenantNestedInput
+    payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
+    payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
+    employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
+    equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
+    equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
+    quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutSupportCaseReturnsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUncheckedUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUncheckedUpdateManyWithoutTenantNestedInput
+    users?: UserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUncheckedUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUncheckedUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUncheckedUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUncheckedUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUncheckedUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUncheckedUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    products?: ProductUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUncheckedUpdateManyWithoutTenantNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUncheckedUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUncheckedUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUncheckedUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUncheckedUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUncheckedUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
+    exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
+    breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
+    masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
+    supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
+    employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
+    assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
+    rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
+    containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
+    installedAssets?: InstalledAssetUncheckedUpdateManyWithoutTenantNestedInput
+    serviceRequests?: ServiceRequestUncheckedUpdateManyWithoutTenantNestedInput
+    serviceOrders?: ServiceOrderUncheckedUpdateManyWithoutTenantNestedInput
+    serviceOrderParts?: ServiceOrderPartUncheckedUpdateManyWithoutTenantNestedInput
+    rmas?: RmaUncheckedUpdateManyWithoutTenantNestedInput
+    glAccounts?: GlAccountUncheckedUpdateManyWithoutTenantNestedInput
+    glJournalEntries?: GlJournalEntryUncheckedUpdateManyWithoutTenantNestedInput
+    glJournalLines?: GlJournalLineUncheckedUpdateManyWithoutTenantNestedInput
+    glSystemAccounts?: GlSystemAccountUncheckedUpdateManyWithoutTenantNestedInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
+    glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
+    employeeSalaries?: EmployeeSalaryUncheckedUpdateManyWithoutTenantNestedInput
+    payrollRuns?: PayrollRunUncheckedUpdateManyWithoutTenantNestedInput
+    payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
+    payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
+    employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
+    equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
+    equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutContractsInput = {
@@ -355568,6 +360894,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutContractsInput = {
@@ -355725,6 +361053,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutContractsInput = {
@@ -355937,6 +361267,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutContractsInput = {
@@ -356094,6 +361426,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PartyUpsertWithoutContractsInput = {
@@ -356296,6 +361630,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutEmployeesInput = {
@@ -356453,6 +361789,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutEmployeesInput = {
@@ -356626,6 +361964,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutEmployeesInput = {
@@ -356783,6 +362123,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutAssetsInput = {
@@ -356940,6 +362282,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAssetsInput = {
@@ -357097,6 +362441,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAssetsInput = {
@@ -357357,6 +362703,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAssetsInput = {
@@ -357514,6 +362862,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type AssetUpsertWithoutChildrenInput = {
@@ -357734,6 +363084,8 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAssetStructureChangesInput = {
@@ -357891,6 +363243,8 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAssetStructureChangesInput = {
@@ -358064,6 +363418,8 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAssetStructureChangesInput = {
@@ -358221,6 +363577,8 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutQuarantineHoldsInput = {
@@ -358378,6 +363736,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQuarantineHoldsInput = {
@@ -358535,6 +363895,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQuarantineHoldsInput = {
@@ -358879,6 +364241,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQuarantineHoldsInput = {
@@ -359036,6 +364400,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QuarantineDispositionUpsertWithWhereUniqueWithoutHoldInput = {
@@ -359311,6 +364677,8 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQuarantineDispositionsInput = {
@@ -359468,6 +364836,8 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQuarantineDispositionsInput = {
@@ -359726,6 +365096,8 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQuarantineDispositionsInput = {
@@ -359883,6 +365255,8 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QuarantineHoldUpsertWithoutDispositionsInput = {
@@ -360271,6 +365645,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRfqsInput = {
@@ -360428,6 +365804,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRfqsInput = {
@@ -360631,6 +366009,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRfqsInput = {
@@ -360788,6 +366168,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RfqQuoteUpsertWithWhereUniqueWithoutRfqInput = {
@@ -361047,6 +366429,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPackagesInput = {
@@ -361204,6 +366588,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPackagesInput = {
@@ -361452,6 +366838,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPackagesInput = {
@@ -361609,6 +366997,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesOrderUpsertWithoutPackagesInput = {
@@ -361918,6 +367308,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLandedCostsInput = {
@@ -362075,6 +367467,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLandedCostsInput = {
@@ -362289,6 +367683,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLandedCostsInput = {
@@ -362446,6 +367842,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseOrderUpsertWithoutLandedCostsInput = {
@@ -362650,6 +368048,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCustomObjectDefinitionsInput = {
@@ -362807,6 +368207,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCustomObjectDefinitionsInput = {
@@ -363008,6 +368410,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCustomObjectDefinitionsInput = {
@@ -363165,6 +368569,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type CustomObjectRecordUpsertWithWhereUniqueWithoutDefinitionInput = {
@@ -363415,6 +368821,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutFrameworkAgreementsInput = {
@@ -363572,6 +368980,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutFrameworkAgreementsInput = {
@@ -363745,6 +369155,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutFrameworkAgreementsInput = {
@@ -363902,6 +369314,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSkuChannelContentsInput = {
@@ -364059,6 +369473,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSkuChannelContentsInput = {
@@ -364216,6 +369632,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSkuChannelContentsInput = {
@@ -364448,6 +369866,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSkuChannelContentsInput = {
@@ -364605,6 +370025,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SkuUpsertWithoutChannelContentsInput = {
@@ -364827,6 +370249,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutContainersInput = {
@@ -364984,6 +370408,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutContainersInput = {
@@ -365198,6 +370624,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutContainersInput = {
@@ -365355,6 +370783,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseOrderUpsertWithoutContainersInput = {
@@ -365559,6 +370989,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPosSessionsInput = {
@@ -365716,6 +371148,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPosSessionsInput = {
@@ -365889,6 +371323,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPosSessionsInput = {
@@ -366046,6 +371482,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutVehiclesInput = {
@@ -366203,6 +371641,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutVehiclesInput = {
@@ -366360,6 +371800,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutVehiclesInput = {
@@ -366583,6 +372025,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutVehiclesInput = {
@@ -366740,6 +372184,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ShipmentUpsertWithWhereUniqueWithoutVehicleInput = {
@@ -366913,6 +372359,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDriversInput = {
@@ -367070,6 +372518,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDriversInput = {
@@ -367293,6 +372743,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDriversInput = {
@@ -367450,6 +372902,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ShipmentUpsertWithWhereUniqueWithoutDriverInput = {
@@ -367623,6 +373077,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutShipmentsInput = {
@@ -367780,6 +373236,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutShipmentsInput = {
@@ -368041,6 +373499,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutShipmentsInput = {
@@ -368198,6 +373658,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type VehicleUpsertWithoutShipmentsInput = {
@@ -368435,6 +373897,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutShipmentStopsInput = {
@@ -368592,6 +374056,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutShipmentStopsInput = {
@@ -368810,6 +374276,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutShipmentStopsInput = {
@@ -368967,6 +374435,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ShipmentUpsertWithoutStopsInput = {
@@ -369175,6 +374645,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDockAppointmentsInput = {
@@ -369332,6 +374804,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDockAppointmentsInput = {
@@ -369526,6 +375000,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDockAppointmentsInput = {
@@ -369683,6 +375159,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WarehouseUpsertWithoutDockAppointmentsInput = {
@@ -369867,6 +375345,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutInstalledAssetsInput = {
@@ -370024,6 +375504,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutInstalledAssetsInput = {
@@ -370285,6 +375767,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutInstalledAssetsInput = {
@@ -370442,6 +375926,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ServiceRequestUpsertWithWhereUniqueWithoutInstalledAssetInput = {
@@ -370631,6 +376117,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutServiceRequestsInput = {
@@ -370788,6 +376276,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutServiceRequestsInput = {
@@ -371046,6 +376536,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutServiceRequestsInput = {
@@ -371203,6 +376695,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type InstalledAssetUpsertWithoutServiceRequestsInput = {
@@ -371419,6 +376913,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutServiceOrdersInput = {
@@ -371576,6 +377072,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutServiceOrdersInput = {
@@ -371847,6 +377345,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutServiceOrdersInput = {
@@ -372004,6 +377504,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ServiceRequestUpsertWithoutServiceOrdersInput = {
@@ -372261,6 +377763,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutServiceOrderPartsInput = {
@@ -372418,6 +377922,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutServiceOrderPartsInput = {
@@ -372634,6 +378140,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutServiceOrderPartsInput = {
@@ -372791,6 +378299,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ServiceOrderUpsertWithoutPartsInput = {
@@ -372997,6 +378507,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRmasInput = {
@@ -373154,6 +378666,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRmasInput = {
@@ -373327,6 +378841,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRmasInput = {
@@ -373484,6 +379000,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutGlAccountsInput = {
@@ -373641,6 +379159,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutGlAccountsInput = {
@@ -373798,6 +379318,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutGlAccountsInput = {
@@ -374001,6 +379523,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutGlAccountsInput = {
@@ -374158,6 +379682,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type GlJournalLineUpsertWithWhereUniqueWithoutAccountInput = {
@@ -374331,6 +379857,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutGlJournalEntriesInput = {
@@ -374488,6 +380016,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutGlJournalEntriesInput = {
@@ -374691,6 +380221,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutGlJournalEntriesInput = {
@@ -374848,6 +380380,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type GlJournalLineUpsertWithWhereUniqueWithoutEntryInput = {
@@ -375021,6 +380555,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutGlJournalLinesInput = {
@@ -375178,6 +380714,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutGlJournalLinesInput = {
@@ -375421,6 +380959,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutGlJournalLinesInput = {
@@ -375578,6 +381118,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type GlJournalEntryUpsertWithoutLinesInput = {
@@ -375817,6 +381359,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutGlSystemAccountsInput = {
@@ -375974,6 +381518,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutGlSystemAccountsInput = {
@@ -376147,6 +381693,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutGlSystemAccountsInput = {
@@ -376304,6 +381852,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutGlOpeningBalanceDatesInput = {
@@ -376461,6 +382011,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutGlOpeningBalanceDatesInput = {
@@ -376618,6 +382170,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutGlOpeningBalanceDatesInput = {
@@ -376791,6 +382345,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutGlOpeningBalanceDatesInput = {
@@ -376948,6 +382504,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutGlPeriodLocksInput = {
@@ -377105,6 +382663,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutGlPeriodLocksInput = {
@@ -377262,6 +382822,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutGlPeriodLocksInput = {
@@ -377435,6 +382997,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutGlPeriodLocksInput = {
@@ -377592,6 +383156,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutBankStatementsInput = {
@@ -377749,6 +383315,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBankStatementsInput = {
@@ -377906,6 +383474,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBankStatementsInput = {
@@ -378119,6 +383689,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBankStatementsInput = {
@@ -378276,6 +383848,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BankStatementLineUpsertWithWhereUniqueWithoutStatementInput = {
@@ -378449,6 +384023,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBankStatementLinesInput = {
@@ -378606,6 +384182,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBankStatementLinesInput = {
@@ -378856,6 +384434,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBankStatementLinesInput = {
@@ -379013,6 +384593,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BankStatementUpsertWithoutLinesInput = {
@@ -379237,6 +384819,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPaymentAllocationsInput = {
@@ -379394,6 +384978,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPaymentAllocationsInput = {
@@ -379651,6 +385237,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPaymentAllocationsInput = {
@@ -379808,6 +385396,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BankStatementLineUpsertWithoutAllocationsInput = {
@@ -380061,6 +385651,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCompensationsInput = {
@@ -380218,6 +385810,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCompensationsInput = {
@@ -380419,6 +386013,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCompensationsInput = {
@@ -380576,6 +386172,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type CompensationLineUpsertWithWhereUniqueWithoutCompensationInput = {
@@ -380749,6 +386347,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCompensationLinesInput = {
@@ -380906,6 +386506,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCompensationLinesInput = {
@@ -381175,6 +386777,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCompensationLinesInput = {
@@ -381332,6 +386936,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type CompensationUpsertWithoutLinesInput = {
@@ -381597,6 +387203,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutVatRatesInput = {
@@ -381754,6 +387362,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutVatRatesInput = {
@@ -381927,6 +387537,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutVatRatesInput = {
@@ -382084,6 +387696,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutVatBookEntriesInput = {
@@ -382241,6 +387855,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutVatBookEntriesInput = {
@@ -382398,6 +388014,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutVatBookEntriesInput = {
@@ -382571,6 +388189,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutVatBookEntriesInput = {
@@ -382728,6 +388348,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutVatPeriodsInput = {
@@ -382885,6 +388507,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutVatPeriodsInput = {
@@ -383042,6 +388666,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutVatPeriodsInput = {
@@ -383215,6 +388841,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutVatPeriodsInput = {
@@ -383372,6 +389000,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutAttendanceDaysInput = {
@@ -383529,6 +389159,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAttendanceDaysInput = {
@@ -383686,6 +389318,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAttendanceDaysInput = {
@@ -383859,6 +389493,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAttendanceDaysInput = {
@@ -384016,6 +389652,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutAttendancePeriodsInput = {
@@ -384173,6 +389811,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAttendancePeriodsInput = {
@@ -384330,6 +389970,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAttendancePeriodsInput = {
@@ -384503,6 +390145,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAttendancePeriodsInput = {
@@ -384660,6 +390304,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutEmployeeSalariesInput = {
@@ -384817,6 +390463,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutEmployeeSalariesInput = {
@@ -384974,6 +390622,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutEmployeeSalariesInput = {
@@ -385147,6 +390797,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutEmployeeSalariesInput = {
@@ -385304,6 +390956,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPayrollRunsInput = {
@@ -385461,6 +391115,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPayrollRunsInput = {
@@ -385618,6 +391274,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPayrollRunsInput = {
@@ -385835,6 +391493,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPayrollRunsInput = {
@@ -385992,6 +391652,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PayrollLineUpsertWithWhereUniqueWithoutRunInput = {
@@ -386165,6 +391827,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPayrollLinesInput = {
@@ -386322,6 +391986,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPayrollLinesInput = {
@@ -386530,6 +392196,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPayrollLinesInput = {
@@ -386687,6 +392355,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PayrollRunUpsertWithoutLinesInput = {
@@ -386885,6 +392555,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPayrollAdjustmentsInput = {
@@ -387042,6 +392714,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPayrollAdjustmentsInput = {
@@ -387215,6 +392889,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPayrollAdjustmentsInput = {
@@ -387372,6 +393048,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutEmploymentContractsInput = {
@@ -387529,6 +393207,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutEmploymentContractsInput = {
@@ -387686,6 +393366,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutEmploymentContractsInput = {
@@ -387859,6 +393541,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutEmploymentContractsInput = {
@@ -388016,6 +393700,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutTrainingPlanTemplatesInput = {
@@ -388173,6 +393859,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTrainingPlanTemplatesInput = {
@@ -388330,6 +394018,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTrainingPlanTemplatesInput = {
@@ -388503,6 +394193,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTrainingPlanTemplatesInput = {
@@ -388660,6 +394352,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutTrainingPlansInput = {
@@ -388817,6 +394511,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTrainingPlansInput = {
@@ -388974,6 +394670,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTrainingPlansInput = {
@@ -389181,6 +394879,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTrainingPlansInput = {
@@ -389338,6 +395038,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TrainingPlanItemUpsertWithWhereUniqueWithoutPlanInput = {
@@ -389511,6 +395213,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTrainingPlanItemsInput = {
@@ -389668,6 +395372,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTrainingPlanItemsInput = {
@@ -389880,6 +395586,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTrainingPlanItemsInput = {
@@ -390037,6 +395745,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TrainingPlanUpsertWithoutItemsInput = {
@@ -390239,6 +395949,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTrainingRecordsInput = {
@@ -390396,6 +396108,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTrainingRecordsInput = {
@@ -390569,6 +396283,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTrainingRecordsInput = {
@@ -390726,6 +396442,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutEquipmentCustodiesInput = {
@@ -390883,6 +396601,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutEquipmentCustodiesInput = {
@@ -391040,6 +396760,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutEquipmentCustodiesInput = {
@@ -391247,6 +396969,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutEquipmentCustodiesInput = {
@@ -391404,6 +397128,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type EquipmentCustodyLineUpsertWithWhereUniqueWithoutCustodyInput = {
@@ -391577,6 +397303,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutEquipmentCustodyLinesInput = {
@@ -391734,6 +397462,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutEquipmentCustodyLinesInput = {
@@ -391942,6 +397672,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutEquipmentCustodyLinesInput = {
@@ -392099,6 +397831,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type EquipmentCustodyUpsertWithoutLinesInput = {
@@ -392297,6 +398031,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSerialPositionsInput = {
@@ -392454,6 +398190,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSerialPositionsInput = {
@@ -392627,6 +398365,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSerialPositionsInput = {
@@ -392784,6 +398524,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSerialMovementsInput = {
@@ -392941,6 +398683,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSerialMovementsInput = {
@@ -393098,6 +398842,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSerialMovementsInput = {
@@ -393271,6 +399017,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSerialMovementsInput = {
@@ -393428,6 +399176,8 @@ export namespace Prisma {
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantConfigurationVersionCreateManyTenantInput = {
@@ -394271,6 +400021,7 @@ export namespace Prisma {
   export type ReturnOrderCreateManyTenantInput = {
     id?: string
     rmaNumber: string
+    requestRef?: string | null
     orderId: string
     accountId: string
     warehouseId: string
@@ -395207,6 +400958,28 @@ export namespace Prisma {
     reason: string
     changedBy?: string | null
     effectiveAt?: Date | string
+  }
+
+  export type SupportCaseOrderItemCreateManyTenantInput = {
+    id?: string
+    caseId: string
+    orderId: string
+    orderLineId: string
+    quantity: Decimal | DecimalJsLike | number | string
+    issueType: string
+    note?: string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+  }
+
+  export type SupportCaseReturnCreateManyTenantInput = {
+    id?: string
+    caseId: string
+    returnId: string
+    rmaNumber: string
+    requestKey: string
+    createdBy?: string | null
+    createdAt?: Date | string
   }
 
   export type TenantConfigurationVersionUpdateWithoutTenantInput = {
@@ -397812,6 +403585,7 @@ export namespace Prisma {
   export type ReturnOrderUpdateWithoutTenantInput = {
     id?: StringFieldUpdateOperationsInput | string
     rmaNumber?: StringFieldUpdateOperationsInput | string
+    requestRef?: NullableStringFieldUpdateOperationsInput | string | null
     orderId?: StringFieldUpdateOperationsInput | string
     accountId?: StringFieldUpdateOperationsInput | string
     warehouseId?: StringFieldUpdateOperationsInput | string
@@ -397827,6 +403601,7 @@ export namespace Prisma {
   export type ReturnOrderUncheckedUpdateWithoutTenantInput = {
     id?: StringFieldUpdateOperationsInput | string
     rmaNumber?: StringFieldUpdateOperationsInput | string
+    requestRef?: NullableStringFieldUpdateOperationsInput | string | null
     orderId?: StringFieldUpdateOperationsInput | string
     accountId?: StringFieldUpdateOperationsInput | string
     warehouseId?: StringFieldUpdateOperationsInput | string
@@ -397842,6 +403617,7 @@ export namespace Prisma {
   export type ReturnOrderUncheckedUpdateManyWithoutTenantInput = {
     id?: StringFieldUpdateOperationsInput | string
     rmaNumber?: StringFieldUpdateOperationsInput | string
+    requestRef?: NullableStringFieldUpdateOperationsInput | string | null
     orderId?: StringFieldUpdateOperationsInput | string
     accountId?: StringFieldUpdateOperationsInput | string
     warehouseId?: StringFieldUpdateOperationsInput | string
@@ -400688,6 +406464,72 @@ export namespace Prisma {
     reason?: StringFieldUpdateOperationsInput | string
     changedBy?: NullableStringFieldUpdateOperationsInput | string | null
     effectiveAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SupportCaseOrderItemUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    caseId?: StringFieldUpdateOperationsInput | string
+    orderId?: StringFieldUpdateOperationsInput | string
+    orderLineId?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    issueType?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SupportCaseOrderItemUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    caseId?: StringFieldUpdateOperationsInput | string
+    orderId?: StringFieldUpdateOperationsInput | string
+    orderLineId?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    issueType?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SupportCaseOrderItemUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    caseId?: StringFieldUpdateOperationsInput | string
+    orderId?: StringFieldUpdateOperationsInput | string
+    orderLineId?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    issueType?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SupportCaseReturnUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    caseId?: StringFieldUpdateOperationsInput | string
+    returnId?: StringFieldUpdateOperationsInput | string
+    rmaNumber?: StringFieldUpdateOperationsInput | string
+    requestKey?: StringFieldUpdateOperationsInput | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SupportCaseReturnUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    caseId?: StringFieldUpdateOperationsInput | string
+    returnId?: StringFieldUpdateOperationsInput | string
+    rmaNumber?: StringFieldUpdateOperationsInput | string
+    requestKey?: StringFieldUpdateOperationsInput | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SupportCaseReturnUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    caseId?: StringFieldUpdateOperationsInput | string
+    returnId?: StringFieldUpdateOperationsInput | string
+    rmaNumber?: StringFieldUpdateOperationsInput | string
+    requestKey?: StringFieldUpdateOperationsInput | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type BusinessUnitCreateManyLegalEntityInput = {

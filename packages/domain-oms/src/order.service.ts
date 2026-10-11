@@ -242,6 +242,72 @@ export class OrderService {
   }
 
   /**
+   * Public cross-domain gate (CSM-011): what a support agent needs to see
+   * about one order — header, lines with fulfilment and promise, and the
+   * latest timeline events. Null when the order is not in this tenant.
+   */
+  async orderContext(
+    tenantId: string,
+    orderId: string,
+  ): Promise<{
+    id: string;
+    orderNumber: string;
+    accountId: string;
+    status: string;
+    currency: string;
+    total: string;
+    fulfillmentType: string;
+    createdAt: string;
+    promisedAt: string | null;
+    lines: Array<{
+      id: string;
+      skuId: string;
+      description: string;
+      quantity: string;
+      fulfilledQty: string;
+      backordered: boolean;
+      promisedAt: string | null;
+    }>;
+    timeline: Array<{ eventType: string; note: string | null; createdAt: string }>;
+  } | null> {
+    const order = await this.prisma.salesOrder.findFirst({
+      where: { id: orderId, tenantId },
+      include: { lines: true },
+    });
+    if (!order) return null;
+    const events = await this.prisma.orderEvent.findMany({
+      where: { tenantId, orderId: order.id },
+      orderBy: { createdAt: 'desc' },
+      take: 20,
+    });
+    return {
+      id: order.id,
+      orderNumber: order.orderNumber,
+      accountId: order.accountId,
+      status: order.status,
+      currency: order.currency,
+      total: order.total.toString(),
+      fulfillmentType: order.fulfillmentType,
+      createdAt: order.createdAt.toISOString(),
+      promisedAt: order.promisedAt ? order.promisedAt.toISOString() : null,
+      lines: order.lines.map((l) => ({
+        id: l.id,
+        skuId: l.skuId,
+        description: l.description,
+        quantity: l.quantity.toString(),
+        fulfilledQty: l.fulfilledQty.toString(),
+        backordered: l.backordered,
+        promisedAt: l.promisedAt ? l.promisedAt.toISOString() : null,
+      })),
+      timeline: events.map((e) => ({
+        eventType: e.eventType,
+        note: e.note,
+        createdAt: e.createdAt.toISOString(),
+      })),
+    };
+  }
+
+  /**
    * Public cross-domain gate (PLAN-015): unfulfilled BACKORDERED demand of
    * open orders per SKU — the share earlier orders already claim from
    * future supply. `excludeOrderId` leaves one order out; `before` keeps
