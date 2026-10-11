@@ -131,10 +131,20 @@ export class TaskService {
 
   async completeTask(taskId: string, ctx: RequestContext): Promise<TaskView> {
     return this.prisma.$transaction(async (tx) => {
-      const task = await tx.task.findFirst({ where: { id: taskId, tenantId: ctx.tenantId } });
+      const task = await tx.task.findFirst({
+        where: { id: taskId, tenantId: ctx.tenantId },
+        include: { _count: { select: { assignees: true } } },
+      });
       if (!task) throw notFound('Task', taskId);
       if (task.status !== 'OPEN') {
         throw new DomainError('INVALID_STATE', `Task is already ${task.status}`);
+      }
+      // WF-013: a team task closes through its assignees, never wholesale.
+      if (task._count.assignees > 0) {
+        throw new DomainError(
+          'INVALID_STATE',
+          'This task has several assignees — each completes their own part',
+        );
       }
       const updated = await tx.task.update({ where: { id: task.id }, data: { status: 'DONE' } });
       await writeAudit(tx, {
@@ -157,13 +167,24 @@ export class TaskService {
     ctx: RequestContext,
     status: 'OPEN' | 'DONE' | 'ALL' = 'OPEN',
   ): Promise<TaskView[]> {
+    const me = ctx.userId ?? '00000000-0000-0000-0000-000000000000';
     const tasks = await this.prisma.task.findMany({
       where: {
         tenantId: ctx.tenantId,
-        ...(status === 'ALL' ? {} : { status }),
         OR: [
-          { assigneeUserId: ctx.userId ?? '00000000-0000-0000-0000-000000000000' },
-          { assigneeUserId: null },
+          // Single-assignee (or unassigned, non-team) tasks.
+          {
+            ...(status === 'ALL' ? {} : { status }),
+            assignees: { none: {} },
+            OR: [{ assigneeUserId: me }, { assigneeUserId: null }],
+          },
+          // WF-013 team tasks: MY part decides what I see as open/done.
+          {
+            assignees: {
+              some: { userId: me, ...(status === 'ALL' ? {} : { status }) },
+            },
+            ...(status === 'OPEN' ? { status: 'OPEN' as const } : {}),
+          },
         ],
       },
       orderBy: { createdAt: 'asc' },

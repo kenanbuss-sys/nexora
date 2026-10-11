@@ -305,6 +305,44 @@ exports.Prisma.TaskScalarFieldEnum = {
   relatedObjectId: 'relatedObjectId',
   createdByUserId: 'createdByUserId',
   createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  completionRule: 'completionRule',
+  completedAt: 'completedAt',
+  templateId: 'templateId',
+  occurrenceDate: 'occurrenceDate',
+  checklist: 'checklist'
+};
+
+exports.Prisma.TaskAssigneeScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  taskId: 'taskId',
+  userId: 'userId',
+  status: 'status',
+  completedAt: 'completedAt',
+  completedBy: 'completedBy',
+  note: 'note',
+  results: 'results'
+};
+
+exports.Prisma.RecurringTaskTemplateScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  code: 'code',
+  title: 'title',
+  description: 'description',
+  frequency: 'frequency',
+  weekdays: 'weekdays',
+  dayOfMonth: 'dayOfMonth',
+  dueTime: 'dueTime',
+  assigneeUserIds: 'assigneeUserIds',
+  completionRule: 'completionRule',
+  checklist: 'checklist',
+  relatedObjectType: 'relatedObjectType',
+  relatedObjectId: 'relatedObjectId',
+  active: 'active',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
 
@@ -2761,6 +2799,8 @@ exports.Prisma.ModelName = {
   ModuleActivation: 'ModuleActivation',
   CustomFieldDefinition: 'CustomFieldDefinition',
   Task: 'Task',
+  TaskAssignee: 'TaskAssignee',
+  RecurringTaskTemplate: 'RecurringTaskTemplate',
   Notification: 'Notification',
   WorkflowDefinition: 'WorkflowDefinition',
   WorkflowVersion: 'WorkflowVersion',

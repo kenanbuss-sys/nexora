@@ -1,4 +1,5 @@
 import type { OnApplicationShutdown } from '@nestjs/common';
+import { TEAM_TASK_SERVICE, TeamTasksController } from './tasks/team-tasks.controller';
 import { CASE_ORDER_SERVICE, CaseOrderController } from './crm/case-order.controller';
 import { Inject, Module } from '@nestjs/common';
 import { APP_FILTER, APP_GUARD } from '@nestjs/core';
@@ -12,6 +13,7 @@ import {
   ImportExportService,
   OrganizationService,
   TaskService,
+  TeamTaskService,
   TenantService,
   CustomObjectService,
 } from '@nexora/domain-core';
@@ -415,6 +417,7 @@ export const REDIS = 'REDIS';
     CustomObjectsController,
     VocabularyController,
     TasksController,
+    TeamTasksController,
     InboxController,
     NotificationsController,
     WorkflowsController,
@@ -1668,6 +1671,11 @@ export const REDIS = 'REDIS';
         MES_SERVICE,
         ORDER_SERVICE,
       ],
+    },
+    {
+      provide: TEAM_TASK_SERVICE,
+      useFactory: (prisma: PrismaClient) => new TeamTaskService(prisma),
+      inject: [PRISMA],
     },
     {
       provide: QUALITY_SERVICE,

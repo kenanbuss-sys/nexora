@@ -9,6 +9,7 @@ import { Queue, Worker } from 'bullmq';
 import { IntegrationService } from '@nexora/domain-int';
 import { dispatchPendingOutbox } from './outbox';
 import { SerialService } from '@nexora/domain-pim';
+import { TeamTaskService } from '@nexora/domain-core';
 import { createRuleEngineConsumer } from './rule-engine';
 
 /**
@@ -19,6 +20,7 @@ import { createRuleEngineConsumer } from './rule-engine';
 const HEARTBEAT_QUEUE = 'system.heartbeat';
 const OUTBOX_QUEUE = 'system.outbox-dispatch';
 const WEBHOOK_QUEUE = 'system.webhook-dispatch';
+const RECURRING_TASKS_QUEUE = 'system.recurring-tasks';
 
 async function main(): Promise<void> {
   const env = loadEnv();
@@ -67,6 +69,39 @@ async function main(): Promise<void> {
     { connection },
   );
 
+  // WF-013 (Sprint 246): recurring task occurrences, idempotent per
+  // template + date, so an hourly run (and restarts) never duplicates.
+  const teamTasks = new TeamTaskService(prisma);
+  const recurringQueue = new Queue(RECURRING_TASKS_QUEUE, { connection });
+  await recurringQueue.upsertJobScheduler('recurring-tasks', { every: 3_600_000 });
+  const recurringWorker = new Worker(
+    RECURRING_TASKS_QUEUE,
+    async () =>
+      runWithCorrelationId(undefined, async () => {
+        const tenants = await prisma.tenant.findMany({
+          where: { status: 'ACTIVE' },
+          select: { id: true, slug: true },
+        });
+        for (const tenant of tenants) {
+          const result = await teamTasks.generate(new Date(), {
+            tenantId: tenant.id,
+            tenantSlug: tenant.slug,
+            tenantStatus: 'ACTIVE',
+            actorType: 'SERVICE',
+            userId: undefined,
+            userStatus: undefined,
+            platformAdmin: false,
+          });
+          if (result.created > 0 || result.skipped.length > 0) {
+            console.log(
+              `[nexora-worker] recurring tasks tenant=${tenant.id} created=${result.created} skipped=${result.skipped.length}`,
+            );
+          }
+        }
+      }),
+    { connection },
+  );
+
   const outboxQueue = new Queue(OUTBOX_QUEUE, { connection });
   await outboxQueue.upsertJobScheduler('outbox-dispatch', { every: 5_000 });
   const outboxWorker = new Worker(
@@ -90,15 +125,25 @@ async function main(): Promise<void> {
     { connection },
   );
 
-  for (const w of [heartbeatWorker, outboxWorker]) {
+  for (const w of [heartbeatWorker, outboxWorker, recurringWorker]) {
     w.on('failed', (job, err) => {
       console.error(`[nexora-worker] job ${job?.id ?? 'n/a'} failed: ${err.message}`);
     });
   }
 
   const shutdown = async (): Promise<void> => {
-    await Promise.all([heartbeatWorker.close(), outboxWorker.close(), webhookWorker.close()]);
-    await Promise.all([heartbeatQueue.close(), outboxQueue.close(), webhookQueue.close()]);
+    await Promise.all([
+      heartbeatWorker.close(),
+      outboxWorker.close(),
+      webhookWorker.close(),
+      recurringWorker.close(),
+    ]);
+    await Promise.all([
+      heartbeatQueue.close(),
+      outboxQueue.close(),
+      webhookQueue.close(),
+      recurringQueue.close(),
+    ]);
     await prisma.$disconnect();
     await stopTelemetry();
     process.exit(0);

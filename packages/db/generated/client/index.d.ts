@@ -101,6 +101,17 @@ export type CustomFieldDefinition = $Result.DefaultSelection<Prisma.$CustomField
  */
 export type Task = $Result.DefaultSelection<Prisma.$TaskPayload>
 /**
+ * Model TaskAssignee
+ * Sprint 246 (WF-013): per-person status on a multi-assignee task.
+ */
+export type TaskAssignee = $Result.DefaultSelection<Prisma.$TaskAssigneePayload>
+/**
+ * Model RecurringTaskTemplate
+ * Sprint 246 (WF-013): recurring task template (opening/closing a store,
+ * shift checks, HACCP/OHS rounds). Occurrences copy it at generation.
+ */
+export type RecurringTaskTemplate = $Result.DefaultSelection<Prisma.$RecurringTaskTemplatePayload>
+/**
  * Model Notification
  * 
  */
@@ -2178,6 +2189,26 @@ export class PrismaClient<
   get task(): Prisma.TaskDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.taskAssignee`: Exposes CRUD operations for the **TaskAssignee** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more TaskAssignees
+    * const taskAssignees = await prisma.taskAssignee.findMany()
+    * ```
+    */
+  get taskAssignee(): Prisma.TaskAssigneeDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.recurringTaskTemplate`: Exposes CRUD operations for the **RecurringTaskTemplate** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more RecurringTaskTemplates
+    * const recurringTaskTemplates = await prisma.recurringTaskTemplate.findMany()
+    * ```
+    */
+  get recurringTaskTemplate(): Prisma.RecurringTaskTemplateDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.notification`: Exposes CRUD operations for the **Notification** model.
     * Example usage:
     * ```ts
@@ -4154,6 +4185,8 @@ export namespace Prisma {
     ModuleActivation: 'ModuleActivation',
     CustomFieldDefinition: 'CustomFieldDefinition',
     Task: 'Task',
+    TaskAssignee: 'TaskAssignee',
+    RecurringTaskTemplate: 'RecurringTaskTemplate',
     Notification: 'Notification',
     WorkflowDefinition: 'WorkflowDefinition',
     WorkflowVersion: 'WorkflowVersion',
@@ -4324,7 +4357,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "tenant" | "tenantConfigurationVersion" | "legalEntity" | "businessUnit" | "branch" | "factory" | "user" | "userCredential" | "role" | "rolePermission" | "userRoleAssignment" | "auditEvent" | "outboxEvent" | "terminologyEntry" | "moduleActivation" | "customFieldDefinition" | "task" | "notification" | "workflowDefinition" | "workflowVersion" | "workflowInstance" | "ruleDefinition" | "ruleVersion" | "approval" | "processedEvent" | "documentTemplate" | "documentTemplateVersion" | "party" | "consentRecord" | "partyExternalIdentity" | "product" | "sku" | "barcode" | "uomConversion" | "warehouse" | "warehouseLocation" | "stockMovement" | "stockReservation" | "device" | "scanEvent" | "wmsOrder" | "wmsOrderLine" | "territory" | "salesTeam" | "salesTeamMember" | "crmAccount" | "lead" | "opportunity" | "crmActivity" | "priceList" | "priceListEntry" | "quote" | "packagingLevel" | "skuSubstitution" | "discountRule" | "quoteLine" | "salesOrder" | "salesOrderLine" | "orderEvent" | "supplier" | "purchaseRequisition" | "purchaseRequisitionLine" | "purchaseOrder" | "purchaseOrderLine" | "bom" | "bomLine" | "routing" | "routingOperation" | "engineeringChange" | "planningPolicy" | "mrpRun" | "mrpSuggestion" | "workOrder" | "workOrderOperation" | "qcPlan" | "qcPlanItem" | "qcInspection" | "qcInspectionItem" | "ncr" | "invoice" | "payment" | "portalUser" | "comment" | "attachment" | "attachmentBlob" | "numberSequence" | "exchangeRate" | "costCenter" | "budget" | "webhookSubscription" | "webhookDelivery" | "apiKey" | "securityEvent" | "productCategory" | "returnOrder" | "returnOrderLine" | "stockCount" | "stockCountLine" | "workCenter" | "downtimeEvent" | "promotion" | "promotionRedemption" | "bundleComponent" | "serialNumber" | "breakGlassGrant" | "mdmDuplicateDismissal" | "masterDataRequest" | "loyaltyAccount" | "loyaltyTransaction" | "supportCase" | "supportCaseOrderItem" | "supportCaseReturn" | "contract" | "employee" | "asset" | "assetStructureChange" | "quarantineHold" | "quarantineDisposition" | "quarantineDispositionLine" | "rfq" | "rfqQuote" | "package" | "packageLine" | "landedCost" | "customObjectDefinition" | "customObjectRecord" | "frameworkAgreement" | "skuChannelContent" | "container" | "posSession" | "vehicle" | "driver" | "shipment" | "shipmentStop" | "dockAppointment" | "installedAsset" | "serviceRequest" | "serviceOrder" | "serviceOrderPart" | "rma" | "glAccount" | "glJournalEntry" | "glJournalLine" | "glSystemAccount" | "glOpeningBalanceDate" | "glPeriodLock" | "bankStatement" | "bankStatementLine" | "paymentAllocation" | "compensation" | "compensationLine" | "vatRate" | "vatBookEntry" | "vatPeriod" | "attendanceDay" | "attendancePeriod" | "employeeSalary" | "payrollRun" | "payrollLine" | "payrollAdjustment" | "employmentContract" | "trainingPlanTemplate" | "trainingPlan" | "trainingPlanItem" | "trainingRecord" | "equipmentCustody" | "equipmentCustodyLine" | "serialPosition" | "serialMovement"
+      modelProps: "tenant" | "tenantConfigurationVersion" | "legalEntity" | "businessUnit" | "branch" | "factory" | "user" | "userCredential" | "role" | "rolePermission" | "userRoleAssignment" | "auditEvent" | "outboxEvent" | "terminologyEntry" | "moduleActivation" | "customFieldDefinition" | "task" | "taskAssignee" | "recurringTaskTemplate" | "notification" | "workflowDefinition" | "workflowVersion" | "workflowInstance" | "ruleDefinition" | "ruleVersion" | "approval" | "processedEvent" | "documentTemplate" | "documentTemplateVersion" | "party" | "consentRecord" | "partyExternalIdentity" | "product" | "sku" | "barcode" | "uomConversion" | "warehouse" | "warehouseLocation" | "stockMovement" | "stockReservation" | "device" | "scanEvent" | "wmsOrder" | "wmsOrderLine" | "territory" | "salesTeam" | "salesTeamMember" | "crmAccount" | "lead" | "opportunity" | "crmActivity" | "priceList" | "priceListEntry" | "quote" | "packagingLevel" | "skuSubstitution" | "discountRule" | "quoteLine" | "salesOrder" | "salesOrderLine" | "orderEvent" | "supplier" | "purchaseRequisition" | "purchaseRequisitionLine" | "purchaseOrder" | "purchaseOrderLine" | "bom" | "bomLine" | "routing" | "routingOperation" | "engineeringChange" | "planningPolicy" | "mrpRun" | "mrpSuggestion" | "workOrder" | "workOrderOperation" | "qcPlan" | "qcPlanItem" | "qcInspection" | "qcInspectionItem" | "ncr" | "invoice" | "payment" | "portalUser" | "comment" | "attachment" | "attachmentBlob" | "numberSequence" | "exchangeRate" | "costCenter" | "budget" | "webhookSubscription" | "webhookDelivery" | "apiKey" | "securityEvent" | "productCategory" | "returnOrder" | "returnOrderLine" | "stockCount" | "stockCountLine" | "workCenter" | "downtimeEvent" | "promotion" | "promotionRedemption" | "bundleComponent" | "serialNumber" | "breakGlassGrant" | "mdmDuplicateDismissal" | "masterDataRequest" | "loyaltyAccount" | "loyaltyTransaction" | "supportCase" | "supportCaseOrderItem" | "supportCaseReturn" | "contract" | "employee" | "asset" | "assetStructureChange" | "quarantineHold" | "quarantineDisposition" | "quarantineDispositionLine" | "rfq" | "rfqQuote" | "package" | "packageLine" | "landedCost" | "customObjectDefinition" | "customObjectRecord" | "frameworkAgreement" | "skuChannelContent" | "container" | "posSession" | "vehicle" | "driver" | "shipment" | "shipmentStop" | "dockAppointment" | "installedAsset" | "serviceRequest" | "serviceOrder" | "serviceOrderPart" | "rma" | "glAccount" | "glJournalEntry" | "glJournalLine" | "glSystemAccount" | "glOpeningBalanceDate" | "glPeriodLock" | "bankStatement" | "bankStatementLine" | "paymentAllocation" | "compensation" | "compensationLine" | "vatRate" | "vatBookEntry" | "vatPeriod" | "attendanceDay" | "attendancePeriod" | "employeeSalary" | "payrollRun" | "payrollLine" | "payrollAdjustment" | "employmentContract" | "trainingPlanTemplate" | "trainingPlan" | "trainingPlanItem" | "trainingRecord" | "equipmentCustody" | "equipmentCustodyLine" | "serialPosition" | "serialMovement"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -5583,6 +5616,154 @@ export namespace Prisma {
           count: {
             args: Prisma.TaskCountArgs<ExtArgs>
             result: $Utils.Optional<TaskCountAggregateOutputType> | number
+          }
+        }
+      }
+      TaskAssignee: {
+        payload: Prisma.$TaskAssigneePayload<ExtArgs>
+        fields: Prisma.TaskAssigneeFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.TaskAssigneeFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TaskAssigneePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.TaskAssigneeFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TaskAssigneePayload>
+          }
+          findFirst: {
+            args: Prisma.TaskAssigneeFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TaskAssigneePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.TaskAssigneeFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TaskAssigneePayload>
+          }
+          findMany: {
+            args: Prisma.TaskAssigneeFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TaskAssigneePayload>[]
+          }
+          create: {
+            args: Prisma.TaskAssigneeCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TaskAssigneePayload>
+          }
+          createMany: {
+            args: Prisma.TaskAssigneeCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.TaskAssigneeCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TaskAssigneePayload>[]
+          }
+          delete: {
+            args: Prisma.TaskAssigneeDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TaskAssigneePayload>
+          }
+          update: {
+            args: Prisma.TaskAssigneeUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TaskAssigneePayload>
+          }
+          deleteMany: {
+            args: Prisma.TaskAssigneeDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.TaskAssigneeUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.TaskAssigneeUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TaskAssigneePayload>[]
+          }
+          upsert: {
+            args: Prisma.TaskAssigneeUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TaskAssigneePayload>
+          }
+          aggregate: {
+            args: Prisma.TaskAssigneeAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTaskAssignee>
+          }
+          groupBy: {
+            args: Prisma.TaskAssigneeGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TaskAssigneeGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.TaskAssigneeCountArgs<ExtArgs>
+            result: $Utils.Optional<TaskAssigneeCountAggregateOutputType> | number
+          }
+        }
+      }
+      RecurringTaskTemplate: {
+        payload: Prisma.$RecurringTaskTemplatePayload<ExtArgs>
+        fields: Prisma.RecurringTaskTemplateFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.RecurringTaskTemplateFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RecurringTaskTemplatePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.RecurringTaskTemplateFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RecurringTaskTemplatePayload>
+          }
+          findFirst: {
+            args: Prisma.RecurringTaskTemplateFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RecurringTaskTemplatePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.RecurringTaskTemplateFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RecurringTaskTemplatePayload>
+          }
+          findMany: {
+            args: Prisma.RecurringTaskTemplateFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RecurringTaskTemplatePayload>[]
+          }
+          create: {
+            args: Prisma.RecurringTaskTemplateCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RecurringTaskTemplatePayload>
+          }
+          createMany: {
+            args: Prisma.RecurringTaskTemplateCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.RecurringTaskTemplateCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RecurringTaskTemplatePayload>[]
+          }
+          delete: {
+            args: Prisma.RecurringTaskTemplateDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RecurringTaskTemplatePayload>
+          }
+          update: {
+            args: Prisma.RecurringTaskTemplateUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RecurringTaskTemplatePayload>
+          }
+          deleteMany: {
+            args: Prisma.RecurringTaskTemplateDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.RecurringTaskTemplateUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.RecurringTaskTemplateUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RecurringTaskTemplatePayload>[]
+          }
+          upsert: {
+            args: Prisma.RecurringTaskTemplateUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RecurringTaskTemplatePayload>
+          }
+          aggregate: {
+            args: Prisma.RecurringTaskTemplateAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateRecurringTaskTemplate>
+          }
+          groupBy: {
+            args: Prisma.RecurringTaskTemplateGroupByArgs<ExtArgs>
+            result: $Utils.Optional<RecurringTaskTemplateGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.RecurringTaskTemplateCountArgs<ExtArgs>
+            result: $Utils.Optional<RecurringTaskTemplateCountAggregateOutputType> | number
           }
         }
       }
@@ -16947,6 +17128,8 @@ export namespace Prisma {
     moduleActivation?: ModuleActivationOmit
     customFieldDefinition?: CustomFieldDefinitionOmit
     task?: TaskOmit
+    taskAssignee?: TaskAssigneeOmit
+    recurringTaskTemplate?: RecurringTaskTemplateOmit
     notification?: NotificationOmit
     workflowDefinition?: WorkflowDefinitionOmit
     workflowVersion?: WorkflowVersionOmit
@@ -17329,6 +17512,8 @@ export namespace Prisma {
     assetStructureChanges: number
     supportCaseOrderItems: number
     supportCaseReturns: number
+    taskAssignees: number
+    recurringTaskTemplates: number
   }
 
   export type TenantCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -17482,6 +17667,8 @@ export namespace Prisma {
     assetStructureChanges?: boolean | TenantCountOutputTypeCountAssetStructureChangesArgs
     supportCaseOrderItems?: boolean | TenantCountOutputTypeCountSupportCaseOrderItemsArgs
     supportCaseReturns?: boolean | TenantCountOutputTypeCountSupportCaseReturnsArgs
+    taskAssignees?: boolean | TenantCountOutputTypeCountTaskAssigneesArgs
+    recurringTaskTemplates?: boolean | TenantCountOutputTypeCountRecurringTaskTemplatesArgs
   }
 
   // Custom InputTypes
@@ -18545,6 +18732,20 @@ export namespace Prisma {
     where?: SupportCaseReturnWhereInput
   }
 
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountTaskAssigneesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TaskAssigneeWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountRecurringTaskTemplatesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RecurringTaskTemplateWhereInput
+  }
+
 
   /**
    * Count Type LegalEntityCountOutputType
@@ -18703,6 +18904,68 @@ export namespace Prisma {
    */
   export type RoleCountOutputTypeCountAssignmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: UserRoleAssignmentWhereInput
+  }
+
+
+  /**
+   * Count Type TaskCountOutputType
+   */
+
+  export type TaskCountOutputType = {
+    assignees: number
+  }
+
+  export type TaskCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    assignees?: boolean | TaskCountOutputTypeCountAssigneesArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * TaskCountOutputType without action
+   */
+  export type TaskCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TaskCountOutputType
+     */
+    select?: TaskCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * TaskCountOutputType without action
+   */
+  export type TaskCountOutputTypeCountAssigneesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TaskAssigneeWhereInput
+  }
+
+
+  /**
+   * Count Type RecurringTaskTemplateCountOutputType
+   */
+
+  export type RecurringTaskTemplateCountOutputType = {
+    tasks: number
+  }
+
+  export type RecurringTaskTemplateCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tasks?: boolean | RecurringTaskTemplateCountOutputTypeCountTasksArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * RecurringTaskTemplateCountOutputType without action
+   */
+  export type RecurringTaskTemplateCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RecurringTaskTemplateCountOutputType
+     */
+    select?: RecurringTaskTemplateCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * RecurringTaskTemplateCountOutputType without action
+   */
+  export type RecurringTaskTemplateCountOutputTypeCountTasksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TaskWhereInput
   }
 
 
@@ -20826,6 +21089,8 @@ export namespace Prisma {
     assetStructureChanges?: boolean | Tenant$assetStructureChangesArgs<ExtArgs>
     supportCaseOrderItems?: boolean | Tenant$supportCaseOrderItemsArgs<ExtArgs>
     supportCaseReturns?: boolean | Tenant$supportCaseReturnsArgs<ExtArgs>
+    taskAssignees?: boolean | Tenant$taskAssigneesArgs<ExtArgs>
+    recurringTaskTemplates?: boolean | Tenant$recurringTaskTemplatesArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["tenant"]>
 
@@ -21011,6 +21276,8 @@ export namespace Prisma {
     assetStructureChanges?: boolean | Tenant$assetStructureChangesArgs<ExtArgs>
     supportCaseOrderItems?: boolean | Tenant$supportCaseOrderItemsArgs<ExtArgs>
     supportCaseReturns?: boolean | Tenant$supportCaseReturnsArgs<ExtArgs>
+    taskAssignees?: boolean | Tenant$taskAssigneesArgs<ExtArgs>
+    recurringTaskTemplates?: boolean | Tenant$recurringTaskTemplatesArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type TenantIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -21169,6 +21436,8 @@ export namespace Prisma {
       assetStructureChanges: Prisma.$AssetStructureChangePayload<ExtArgs>[]
       supportCaseOrderItems: Prisma.$SupportCaseOrderItemPayload<ExtArgs>[]
       supportCaseReturns: Prisma.$SupportCaseReturnPayload<ExtArgs>[]
+      taskAssignees: Prisma.$TaskAssigneePayload<ExtArgs>[]
+      recurringTaskTemplates: Prisma.$RecurringTaskTemplatePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -21722,6 +21991,8 @@ export namespace Prisma {
     assetStructureChanges<T extends Tenant$assetStructureChangesArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$assetStructureChangesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssetStructureChangePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     supportCaseOrderItems<T extends Tenant$supportCaseOrderItemsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$supportCaseOrderItemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SupportCaseOrderItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     supportCaseReturns<T extends Tenant$supportCaseReturnsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$supportCaseReturnsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SupportCaseReturnPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    taskAssignees<T extends Tenant$taskAssigneesArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$taskAssigneesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TaskAssigneePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    recurringTaskTemplates<T extends Tenant$recurringTaskTemplatesArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$recurringTaskTemplatesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RecurringTaskTemplatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -25743,6 +26014,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: SupportCaseReturnScalarFieldEnum | SupportCaseReturnScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.taskAssignees
+   */
+  export type Tenant$taskAssigneesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TaskAssignee
+     */
+    select?: TaskAssigneeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TaskAssignee
+     */
+    omit?: TaskAssigneeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TaskAssigneeInclude<ExtArgs> | null
+    where?: TaskAssigneeWhereInput
+    orderBy?: TaskAssigneeOrderByWithRelationInput | TaskAssigneeOrderByWithRelationInput[]
+    cursor?: TaskAssigneeWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TaskAssigneeScalarFieldEnum | TaskAssigneeScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.recurringTaskTemplates
+   */
+  export type Tenant$recurringTaskTemplatesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RecurringTaskTemplate
+     */
+    select?: RecurringTaskTemplateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RecurringTaskTemplate
+     */
+    omit?: RecurringTaskTemplateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RecurringTaskTemplateInclude<ExtArgs> | null
+    where?: RecurringTaskTemplateWhereInput
+    orderBy?: RecurringTaskTemplateOrderByWithRelationInput | RecurringTaskTemplateOrderByWithRelationInput[]
+    cursor?: RecurringTaskTemplateWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RecurringTaskTemplateScalarFieldEnum | RecurringTaskTemplateScalarFieldEnum[]
   }
 
   /**
@@ -42635,6 +42954,10 @@ export namespace Prisma {
     createdByUserId: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    completionRule: string | null
+    completedAt: Date | null
+    templateId: string | null
+    occurrenceDate: Date | null
   }
 
   export type TaskMaxAggregateOutputType = {
@@ -42650,6 +42973,10 @@ export namespace Prisma {
     createdByUserId: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    completionRule: string | null
+    completedAt: Date | null
+    templateId: string | null
+    occurrenceDate: Date | null
   }
 
   export type TaskCountAggregateOutputType = {
@@ -42665,6 +42992,11 @@ export namespace Prisma {
     createdByUserId: number
     createdAt: number
     updatedAt: number
+    completionRule: number
+    completedAt: number
+    templateId: number
+    occurrenceDate: number
+    checklist: number
     _all: number
   }
 
@@ -42682,6 +43014,10 @@ export namespace Prisma {
     createdByUserId?: true
     createdAt?: true
     updatedAt?: true
+    completionRule?: true
+    completedAt?: true
+    templateId?: true
+    occurrenceDate?: true
   }
 
   export type TaskMaxAggregateInputType = {
@@ -42697,6 +43033,10 @@ export namespace Prisma {
     createdByUserId?: true
     createdAt?: true
     updatedAt?: true
+    completionRule?: true
+    completedAt?: true
+    templateId?: true
+    occurrenceDate?: true
   }
 
   export type TaskCountAggregateInputType = {
@@ -42712,6 +43052,11 @@ export namespace Prisma {
     createdByUserId?: true
     createdAt?: true
     updatedAt?: true
+    completionRule?: true
+    completedAt?: true
+    templateId?: true
+    occurrenceDate?: true
+    checklist?: true
     _all?: true
   }
 
@@ -42800,6 +43145,11 @@ export namespace Prisma {
     createdByUserId: string | null
     createdAt: Date
     updatedAt: Date
+    completionRule: string | null
+    completedAt: Date | null
+    templateId: string | null
+    occurrenceDate: Date | null
+    checklist: JsonValue | null
     _count: TaskCountAggregateOutputType | null
     _min: TaskMinAggregateOutputType | null
     _max: TaskMaxAggregateOutputType | null
@@ -42832,7 +43182,15 @@ export namespace Prisma {
     createdByUserId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    completionRule?: boolean
+    completedAt?: boolean
+    templateId?: boolean
+    occurrenceDate?: boolean
+    checklist?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    assignees?: boolean | Task$assigneesArgs<ExtArgs>
+    template?: boolean | Task$templateArgs<ExtArgs>
+    _count?: boolean | TaskCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["task"]>
 
   export type TaskSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -42848,7 +43206,13 @@ export namespace Prisma {
     createdByUserId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    completionRule?: boolean
+    completedAt?: boolean
+    templateId?: boolean
+    occurrenceDate?: boolean
+    checklist?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    template?: boolean | Task$templateArgs<ExtArgs>
   }, ExtArgs["result"]["task"]>
 
   export type TaskSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -42864,7 +43228,13 @@ export namespace Prisma {
     createdByUserId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    completionRule?: boolean
+    completedAt?: boolean
+    templateId?: boolean
+    occurrenceDate?: boolean
+    checklist?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    template?: boolean | Task$templateArgs<ExtArgs>
   }, ExtArgs["result"]["task"]>
 
   export type TaskSelectScalar = {
@@ -42880,23 +43250,35 @@ export namespace Prisma {
     createdByUserId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    completionRule?: boolean
+    completedAt?: boolean
+    templateId?: boolean
+    occurrenceDate?: boolean
+    checklist?: boolean
   }
 
-  export type TaskOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "title" | "description" | "status" | "assigneeUserId" | "dueAt" | "relatedObjectType" | "relatedObjectId" | "createdByUserId" | "createdAt" | "updatedAt", ExtArgs["result"]["task"]>
+  export type TaskOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "title" | "description" | "status" | "assigneeUserId" | "dueAt" | "relatedObjectType" | "relatedObjectId" | "createdByUserId" | "createdAt" | "updatedAt" | "completionRule" | "completedAt" | "templateId" | "occurrenceDate" | "checklist", ExtArgs["result"]["task"]>
   export type TaskInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    assignees?: boolean | Task$assigneesArgs<ExtArgs>
+    template?: boolean | Task$templateArgs<ExtArgs>
+    _count?: boolean | TaskCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type TaskIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    template?: boolean | Task$templateArgs<ExtArgs>
   }
   export type TaskIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    template?: boolean | Task$templateArgs<ExtArgs>
   }
 
   export type $TaskPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Task"
     objects: {
       tenant: Prisma.$TenantPayload<ExtArgs>
+      assignees: Prisma.$TaskAssigneePayload<ExtArgs>[]
+      template: Prisma.$RecurringTaskTemplatePayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -42911,6 +43293,18 @@ export namespace Prisma {
       createdByUserId: string | null
       createdAt: Date
       updatedAt: Date
+      /**
+       * Sprint 246 (WF-013): ALL = done when every assignee is done; ANY = first one.
+       */
+      completionRule: string | null
+      completedAt: Date | null
+      /**
+       * Recurring occurrence: template + the date it belongs to (snapshot of
+       * the template's title/checklist at generation time).
+       */
+      templateId: string | null
+      occurrenceDate: Date | null
+      checklist: Prisma.JsonValue | null
     }, ExtArgs["result"]["task"]>
     composites: {}
   }
@@ -43306,6 +43700,8 @@ export namespace Prisma {
   export interface Prisma__TaskClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    assignees<T extends Task$assigneesArgs<ExtArgs> = {}>(args?: Subset<T, Task$assigneesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TaskAssigneePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    template<T extends Task$templateArgs<ExtArgs> = {}>(args?: Subset<T, Task$templateArgs<ExtArgs>>): Prisma__RecurringTaskTemplateClient<$Result.GetResult<Prisma.$RecurringTaskTemplatePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -43347,6 +43743,11 @@ export namespace Prisma {
     readonly createdByUserId: FieldRef<"Task", 'String'>
     readonly createdAt: FieldRef<"Task", 'DateTime'>
     readonly updatedAt: FieldRef<"Task", 'DateTime'>
+    readonly completionRule: FieldRef<"Task", 'String'>
+    readonly completedAt: FieldRef<"Task", 'DateTime'>
+    readonly templateId: FieldRef<"Task", 'String'>
+    readonly occurrenceDate: FieldRef<"Task", 'DateTime'>
+    readonly checklist: FieldRef<"Task", 'Json'>
   }
     
 
@@ -43743,6 +44144,49 @@ export namespace Prisma {
   }
 
   /**
+   * Task.assignees
+   */
+  export type Task$assigneesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TaskAssignee
+     */
+    select?: TaskAssigneeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TaskAssignee
+     */
+    omit?: TaskAssigneeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TaskAssigneeInclude<ExtArgs> | null
+    where?: TaskAssigneeWhereInput
+    orderBy?: TaskAssigneeOrderByWithRelationInput | TaskAssigneeOrderByWithRelationInput[]
+    cursor?: TaskAssigneeWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TaskAssigneeScalarFieldEnum | TaskAssigneeScalarFieldEnum[]
+  }
+
+  /**
+   * Task.template
+   */
+  export type Task$templateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RecurringTaskTemplate
+     */
+    select?: RecurringTaskTemplateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RecurringTaskTemplate
+     */
+    omit?: RecurringTaskTemplateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RecurringTaskTemplateInclude<ExtArgs> | null
+    where?: RecurringTaskTemplateWhereInput
+  }
+
+  /**
    * Task without action
    */
   export type TaskDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -43758,6 +44202,2418 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: TaskInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model TaskAssignee
+   */
+
+  export type AggregateTaskAssignee = {
+    _count: TaskAssigneeCountAggregateOutputType | null
+    _min: TaskAssigneeMinAggregateOutputType | null
+    _max: TaskAssigneeMaxAggregateOutputType | null
+  }
+
+  export type TaskAssigneeMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    taskId: string | null
+    userId: string | null
+    status: string | null
+    completedAt: Date | null
+    completedBy: string | null
+    note: string | null
+  }
+
+  export type TaskAssigneeMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    taskId: string | null
+    userId: string | null
+    status: string | null
+    completedAt: Date | null
+    completedBy: string | null
+    note: string | null
+  }
+
+  export type TaskAssigneeCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    taskId: number
+    userId: number
+    status: number
+    completedAt: number
+    completedBy: number
+    note: number
+    results: number
+    _all: number
+  }
+
+
+  export type TaskAssigneeMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    taskId?: true
+    userId?: true
+    status?: true
+    completedAt?: true
+    completedBy?: true
+    note?: true
+  }
+
+  export type TaskAssigneeMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    taskId?: true
+    userId?: true
+    status?: true
+    completedAt?: true
+    completedBy?: true
+    note?: true
+  }
+
+  export type TaskAssigneeCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    taskId?: true
+    userId?: true
+    status?: true
+    completedAt?: true
+    completedBy?: true
+    note?: true
+    results?: true
+    _all?: true
+  }
+
+  export type TaskAssigneeAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TaskAssignee to aggregate.
+     */
+    where?: TaskAssigneeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TaskAssignees to fetch.
+     */
+    orderBy?: TaskAssigneeOrderByWithRelationInput | TaskAssigneeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: TaskAssigneeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TaskAssignees from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TaskAssignees.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned TaskAssignees
+    **/
+    _count?: true | TaskAssigneeCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TaskAssigneeMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TaskAssigneeMaxAggregateInputType
+  }
+
+  export type GetTaskAssigneeAggregateType<T extends TaskAssigneeAggregateArgs> = {
+        [P in keyof T & keyof AggregateTaskAssignee]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTaskAssignee[P]>
+      : GetScalarType<T[P], AggregateTaskAssignee[P]>
+  }
+
+
+
+
+  export type TaskAssigneeGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TaskAssigneeWhereInput
+    orderBy?: TaskAssigneeOrderByWithAggregationInput | TaskAssigneeOrderByWithAggregationInput[]
+    by: TaskAssigneeScalarFieldEnum[] | TaskAssigneeScalarFieldEnum
+    having?: TaskAssigneeScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TaskAssigneeCountAggregateInputType | true
+    _min?: TaskAssigneeMinAggregateInputType
+    _max?: TaskAssigneeMaxAggregateInputType
+  }
+
+  export type TaskAssigneeGroupByOutputType = {
+    id: string
+    tenantId: string
+    taskId: string
+    userId: string
+    status: string
+    completedAt: Date | null
+    completedBy: string | null
+    note: string | null
+    results: JsonValue | null
+    _count: TaskAssigneeCountAggregateOutputType | null
+    _min: TaskAssigneeMinAggregateOutputType | null
+    _max: TaskAssigneeMaxAggregateOutputType | null
+  }
+
+  type GetTaskAssigneeGroupByPayload<T extends TaskAssigneeGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<TaskAssigneeGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TaskAssigneeGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TaskAssigneeGroupByOutputType[P]>
+            : GetScalarType<T[P], TaskAssigneeGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type TaskAssigneeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    taskId?: boolean
+    userId?: boolean
+    status?: boolean
+    completedAt?: boolean
+    completedBy?: boolean
+    note?: boolean
+    results?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    task?: boolean | TaskDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["taskAssignee"]>
+
+  export type TaskAssigneeSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    taskId?: boolean
+    userId?: boolean
+    status?: boolean
+    completedAt?: boolean
+    completedBy?: boolean
+    note?: boolean
+    results?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    task?: boolean | TaskDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["taskAssignee"]>
+
+  export type TaskAssigneeSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    taskId?: boolean
+    userId?: boolean
+    status?: boolean
+    completedAt?: boolean
+    completedBy?: boolean
+    note?: boolean
+    results?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    task?: boolean | TaskDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["taskAssignee"]>
+
+  export type TaskAssigneeSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    taskId?: boolean
+    userId?: boolean
+    status?: boolean
+    completedAt?: boolean
+    completedBy?: boolean
+    note?: boolean
+    results?: boolean
+  }
+
+  export type TaskAssigneeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "taskId" | "userId" | "status" | "completedAt" | "completedBy" | "note" | "results", ExtArgs["result"]["taskAssignee"]>
+  export type TaskAssigneeInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    task?: boolean | TaskDefaultArgs<ExtArgs>
+  }
+  export type TaskAssigneeIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    task?: boolean | TaskDefaultArgs<ExtArgs>
+  }
+  export type TaskAssigneeIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    task?: boolean | TaskDefaultArgs<ExtArgs>
+  }
+
+  export type $TaskAssigneePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "TaskAssignee"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+      task: Prisma.$TaskPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      taskId: string
+      userId: string
+      status: string
+      completedAt: Date | null
+      completedBy: string | null
+      note: string | null
+      /**
+       * Checklist answers [{ label, ok, value?, note? }].
+       */
+      results: Prisma.JsonValue | null
+    }, ExtArgs["result"]["taskAssignee"]>
+    composites: {}
+  }
+
+  type TaskAssigneeGetPayload<S extends boolean | null | undefined | TaskAssigneeDefaultArgs> = $Result.GetResult<Prisma.$TaskAssigneePayload, S>
+
+  type TaskAssigneeCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<TaskAssigneeFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: TaskAssigneeCountAggregateInputType | true
+    }
+
+  export interface TaskAssigneeDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['TaskAssignee'], meta: { name: 'TaskAssignee' } }
+    /**
+     * Find zero or one TaskAssignee that matches the filter.
+     * @param {TaskAssigneeFindUniqueArgs} args - Arguments to find a TaskAssignee
+     * @example
+     * // Get one TaskAssignee
+     * const taskAssignee = await prisma.taskAssignee.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends TaskAssigneeFindUniqueArgs>(args: SelectSubset<T, TaskAssigneeFindUniqueArgs<ExtArgs>>): Prisma__TaskAssigneeClient<$Result.GetResult<Prisma.$TaskAssigneePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one TaskAssignee that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {TaskAssigneeFindUniqueOrThrowArgs} args - Arguments to find a TaskAssignee
+     * @example
+     * // Get one TaskAssignee
+     * const taskAssignee = await prisma.taskAssignee.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends TaskAssigneeFindUniqueOrThrowArgs>(args: SelectSubset<T, TaskAssigneeFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TaskAssigneeClient<$Result.GetResult<Prisma.$TaskAssigneePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TaskAssignee that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TaskAssigneeFindFirstArgs} args - Arguments to find a TaskAssignee
+     * @example
+     * // Get one TaskAssignee
+     * const taskAssignee = await prisma.taskAssignee.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends TaskAssigneeFindFirstArgs>(args?: SelectSubset<T, TaskAssigneeFindFirstArgs<ExtArgs>>): Prisma__TaskAssigneeClient<$Result.GetResult<Prisma.$TaskAssigneePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TaskAssignee that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TaskAssigneeFindFirstOrThrowArgs} args - Arguments to find a TaskAssignee
+     * @example
+     * // Get one TaskAssignee
+     * const taskAssignee = await prisma.taskAssignee.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends TaskAssigneeFindFirstOrThrowArgs>(args?: SelectSubset<T, TaskAssigneeFindFirstOrThrowArgs<ExtArgs>>): Prisma__TaskAssigneeClient<$Result.GetResult<Prisma.$TaskAssigneePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more TaskAssignees that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TaskAssigneeFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all TaskAssignees
+     * const taskAssignees = await prisma.taskAssignee.findMany()
+     * 
+     * // Get first 10 TaskAssignees
+     * const taskAssignees = await prisma.taskAssignee.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const taskAssigneeWithIdOnly = await prisma.taskAssignee.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends TaskAssigneeFindManyArgs>(args?: SelectSubset<T, TaskAssigneeFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TaskAssigneePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a TaskAssignee.
+     * @param {TaskAssigneeCreateArgs} args - Arguments to create a TaskAssignee.
+     * @example
+     * // Create one TaskAssignee
+     * const TaskAssignee = await prisma.taskAssignee.create({
+     *   data: {
+     *     // ... data to create a TaskAssignee
+     *   }
+     * })
+     * 
+     */
+    create<T extends TaskAssigneeCreateArgs>(args: SelectSubset<T, TaskAssigneeCreateArgs<ExtArgs>>): Prisma__TaskAssigneeClient<$Result.GetResult<Prisma.$TaskAssigneePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many TaskAssignees.
+     * @param {TaskAssigneeCreateManyArgs} args - Arguments to create many TaskAssignees.
+     * @example
+     * // Create many TaskAssignees
+     * const taskAssignee = await prisma.taskAssignee.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends TaskAssigneeCreateManyArgs>(args?: SelectSubset<T, TaskAssigneeCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many TaskAssignees and returns the data saved in the database.
+     * @param {TaskAssigneeCreateManyAndReturnArgs} args - Arguments to create many TaskAssignees.
+     * @example
+     * // Create many TaskAssignees
+     * const taskAssignee = await prisma.taskAssignee.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many TaskAssignees and only return the `id`
+     * const taskAssigneeWithIdOnly = await prisma.taskAssignee.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends TaskAssigneeCreateManyAndReturnArgs>(args?: SelectSubset<T, TaskAssigneeCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TaskAssigneePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a TaskAssignee.
+     * @param {TaskAssigneeDeleteArgs} args - Arguments to delete one TaskAssignee.
+     * @example
+     * // Delete one TaskAssignee
+     * const TaskAssignee = await prisma.taskAssignee.delete({
+     *   where: {
+     *     // ... filter to delete one TaskAssignee
+     *   }
+     * })
+     * 
+     */
+    delete<T extends TaskAssigneeDeleteArgs>(args: SelectSubset<T, TaskAssigneeDeleteArgs<ExtArgs>>): Prisma__TaskAssigneeClient<$Result.GetResult<Prisma.$TaskAssigneePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one TaskAssignee.
+     * @param {TaskAssigneeUpdateArgs} args - Arguments to update one TaskAssignee.
+     * @example
+     * // Update one TaskAssignee
+     * const taskAssignee = await prisma.taskAssignee.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends TaskAssigneeUpdateArgs>(args: SelectSubset<T, TaskAssigneeUpdateArgs<ExtArgs>>): Prisma__TaskAssigneeClient<$Result.GetResult<Prisma.$TaskAssigneePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more TaskAssignees.
+     * @param {TaskAssigneeDeleteManyArgs} args - Arguments to filter TaskAssignees to delete.
+     * @example
+     * // Delete a few TaskAssignees
+     * const { count } = await prisma.taskAssignee.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends TaskAssigneeDeleteManyArgs>(args?: SelectSubset<T, TaskAssigneeDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TaskAssignees.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TaskAssigneeUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many TaskAssignees
+     * const taskAssignee = await prisma.taskAssignee.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends TaskAssigneeUpdateManyArgs>(args: SelectSubset<T, TaskAssigneeUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TaskAssignees and returns the data updated in the database.
+     * @param {TaskAssigneeUpdateManyAndReturnArgs} args - Arguments to update many TaskAssignees.
+     * @example
+     * // Update many TaskAssignees
+     * const taskAssignee = await prisma.taskAssignee.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more TaskAssignees and only return the `id`
+     * const taskAssigneeWithIdOnly = await prisma.taskAssignee.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends TaskAssigneeUpdateManyAndReturnArgs>(args: SelectSubset<T, TaskAssigneeUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TaskAssigneePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one TaskAssignee.
+     * @param {TaskAssigneeUpsertArgs} args - Arguments to update or create a TaskAssignee.
+     * @example
+     * // Update or create a TaskAssignee
+     * const taskAssignee = await prisma.taskAssignee.upsert({
+     *   create: {
+     *     // ... data to create a TaskAssignee
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the TaskAssignee we want to update
+     *   }
+     * })
+     */
+    upsert<T extends TaskAssigneeUpsertArgs>(args: SelectSubset<T, TaskAssigneeUpsertArgs<ExtArgs>>): Prisma__TaskAssigneeClient<$Result.GetResult<Prisma.$TaskAssigneePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of TaskAssignees.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TaskAssigneeCountArgs} args - Arguments to filter TaskAssignees to count.
+     * @example
+     * // Count the number of TaskAssignees
+     * const count = await prisma.taskAssignee.count({
+     *   where: {
+     *     // ... the filter for the TaskAssignees we want to count
+     *   }
+     * })
+    **/
+    count<T extends TaskAssigneeCountArgs>(
+      args?: Subset<T, TaskAssigneeCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TaskAssigneeCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a TaskAssignee.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TaskAssigneeAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TaskAssigneeAggregateArgs>(args: Subset<T, TaskAssigneeAggregateArgs>): Prisma.PrismaPromise<GetTaskAssigneeAggregateType<T>>
+
+    /**
+     * Group by TaskAssignee.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TaskAssigneeGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends TaskAssigneeGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: TaskAssigneeGroupByArgs['orderBy'] }
+        : { orderBy?: TaskAssigneeGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, TaskAssigneeGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTaskAssigneeGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the TaskAssignee model
+   */
+  readonly fields: TaskAssigneeFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for TaskAssignee.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__TaskAssigneeClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    task<T extends TaskDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TaskDefaultArgs<ExtArgs>>): Prisma__TaskClient<$Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the TaskAssignee model
+   */
+  interface TaskAssigneeFieldRefs {
+    readonly id: FieldRef<"TaskAssignee", 'String'>
+    readonly tenantId: FieldRef<"TaskAssignee", 'String'>
+    readonly taskId: FieldRef<"TaskAssignee", 'String'>
+    readonly userId: FieldRef<"TaskAssignee", 'String'>
+    readonly status: FieldRef<"TaskAssignee", 'String'>
+    readonly completedAt: FieldRef<"TaskAssignee", 'DateTime'>
+    readonly completedBy: FieldRef<"TaskAssignee", 'String'>
+    readonly note: FieldRef<"TaskAssignee", 'String'>
+    readonly results: FieldRef<"TaskAssignee", 'Json'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * TaskAssignee findUnique
+   */
+  export type TaskAssigneeFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TaskAssignee
+     */
+    select?: TaskAssigneeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TaskAssignee
+     */
+    omit?: TaskAssigneeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TaskAssigneeInclude<ExtArgs> | null
+    /**
+     * Filter, which TaskAssignee to fetch.
+     */
+    where: TaskAssigneeWhereUniqueInput
+  }
+
+  /**
+   * TaskAssignee findUniqueOrThrow
+   */
+  export type TaskAssigneeFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TaskAssignee
+     */
+    select?: TaskAssigneeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TaskAssignee
+     */
+    omit?: TaskAssigneeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TaskAssigneeInclude<ExtArgs> | null
+    /**
+     * Filter, which TaskAssignee to fetch.
+     */
+    where: TaskAssigneeWhereUniqueInput
+  }
+
+  /**
+   * TaskAssignee findFirst
+   */
+  export type TaskAssigneeFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TaskAssignee
+     */
+    select?: TaskAssigneeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TaskAssignee
+     */
+    omit?: TaskAssigneeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TaskAssigneeInclude<ExtArgs> | null
+    /**
+     * Filter, which TaskAssignee to fetch.
+     */
+    where?: TaskAssigneeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TaskAssignees to fetch.
+     */
+    orderBy?: TaskAssigneeOrderByWithRelationInput | TaskAssigneeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TaskAssignees.
+     */
+    cursor?: TaskAssigneeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TaskAssignees from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TaskAssignees.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TaskAssignees.
+     */
+    distinct?: TaskAssigneeScalarFieldEnum | TaskAssigneeScalarFieldEnum[]
+  }
+
+  /**
+   * TaskAssignee findFirstOrThrow
+   */
+  export type TaskAssigneeFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TaskAssignee
+     */
+    select?: TaskAssigneeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TaskAssignee
+     */
+    omit?: TaskAssigneeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TaskAssigneeInclude<ExtArgs> | null
+    /**
+     * Filter, which TaskAssignee to fetch.
+     */
+    where?: TaskAssigneeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TaskAssignees to fetch.
+     */
+    orderBy?: TaskAssigneeOrderByWithRelationInput | TaskAssigneeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TaskAssignees.
+     */
+    cursor?: TaskAssigneeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TaskAssignees from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TaskAssignees.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TaskAssignees.
+     */
+    distinct?: TaskAssigneeScalarFieldEnum | TaskAssigneeScalarFieldEnum[]
+  }
+
+  /**
+   * TaskAssignee findMany
+   */
+  export type TaskAssigneeFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TaskAssignee
+     */
+    select?: TaskAssigneeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TaskAssignee
+     */
+    omit?: TaskAssigneeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TaskAssigneeInclude<ExtArgs> | null
+    /**
+     * Filter, which TaskAssignees to fetch.
+     */
+    where?: TaskAssigneeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TaskAssignees to fetch.
+     */
+    orderBy?: TaskAssigneeOrderByWithRelationInput | TaskAssigneeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing TaskAssignees.
+     */
+    cursor?: TaskAssigneeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TaskAssignees from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TaskAssignees.
+     */
+    skip?: number
+    distinct?: TaskAssigneeScalarFieldEnum | TaskAssigneeScalarFieldEnum[]
+  }
+
+  /**
+   * TaskAssignee create
+   */
+  export type TaskAssigneeCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TaskAssignee
+     */
+    select?: TaskAssigneeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TaskAssignee
+     */
+    omit?: TaskAssigneeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TaskAssigneeInclude<ExtArgs> | null
+    /**
+     * The data needed to create a TaskAssignee.
+     */
+    data: XOR<TaskAssigneeCreateInput, TaskAssigneeUncheckedCreateInput>
+  }
+
+  /**
+   * TaskAssignee createMany
+   */
+  export type TaskAssigneeCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many TaskAssignees.
+     */
+    data: TaskAssigneeCreateManyInput | TaskAssigneeCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * TaskAssignee createManyAndReturn
+   */
+  export type TaskAssigneeCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TaskAssignee
+     */
+    select?: TaskAssigneeSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TaskAssignee
+     */
+    omit?: TaskAssigneeOmit<ExtArgs> | null
+    /**
+     * The data used to create many TaskAssignees.
+     */
+    data: TaskAssigneeCreateManyInput | TaskAssigneeCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TaskAssigneeIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * TaskAssignee update
+   */
+  export type TaskAssigneeUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TaskAssignee
+     */
+    select?: TaskAssigneeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TaskAssignee
+     */
+    omit?: TaskAssigneeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TaskAssigneeInclude<ExtArgs> | null
+    /**
+     * The data needed to update a TaskAssignee.
+     */
+    data: XOR<TaskAssigneeUpdateInput, TaskAssigneeUncheckedUpdateInput>
+    /**
+     * Choose, which TaskAssignee to update.
+     */
+    where: TaskAssigneeWhereUniqueInput
+  }
+
+  /**
+   * TaskAssignee updateMany
+   */
+  export type TaskAssigneeUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update TaskAssignees.
+     */
+    data: XOR<TaskAssigneeUpdateManyMutationInput, TaskAssigneeUncheckedUpdateManyInput>
+    /**
+     * Filter which TaskAssignees to update
+     */
+    where?: TaskAssigneeWhereInput
+    /**
+     * Limit how many TaskAssignees to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * TaskAssignee updateManyAndReturn
+   */
+  export type TaskAssigneeUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TaskAssignee
+     */
+    select?: TaskAssigneeSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TaskAssignee
+     */
+    omit?: TaskAssigneeOmit<ExtArgs> | null
+    /**
+     * The data used to update TaskAssignees.
+     */
+    data: XOR<TaskAssigneeUpdateManyMutationInput, TaskAssigneeUncheckedUpdateManyInput>
+    /**
+     * Filter which TaskAssignees to update
+     */
+    where?: TaskAssigneeWhereInput
+    /**
+     * Limit how many TaskAssignees to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TaskAssigneeIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * TaskAssignee upsert
+   */
+  export type TaskAssigneeUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TaskAssignee
+     */
+    select?: TaskAssigneeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TaskAssignee
+     */
+    omit?: TaskAssigneeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TaskAssigneeInclude<ExtArgs> | null
+    /**
+     * The filter to search for the TaskAssignee to update in case it exists.
+     */
+    where: TaskAssigneeWhereUniqueInput
+    /**
+     * In case the TaskAssignee found by the `where` argument doesn't exist, create a new TaskAssignee with this data.
+     */
+    create: XOR<TaskAssigneeCreateInput, TaskAssigneeUncheckedCreateInput>
+    /**
+     * In case the TaskAssignee was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<TaskAssigneeUpdateInput, TaskAssigneeUncheckedUpdateInput>
+  }
+
+  /**
+   * TaskAssignee delete
+   */
+  export type TaskAssigneeDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TaskAssignee
+     */
+    select?: TaskAssigneeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TaskAssignee
+     */
+    omit?: TaskAssigneeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TaskAssigneeInclude<ExtArgs> | null
+    /**
+     * Filter which TaskAssignee to delete.
+     */
+    where: TaskAssigneeWhereUniqueInput
+  }
+
+  /**
+   * TaskAssignee deleteMany
+   */
+  export type TaskAssigneeDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TaskAssignees to delete
+     */
+    where?: TaskAssigneeWhereInput
+    /**
+     * Limit how many TaskAssignees to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * TaskAssignee without action
+   */
+  export type TaskAssigneeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TaskAssignee
+     */
+    select?: TaskAssigneeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TaskAssignee
+     */
+    omit?: TaskAssigneeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TaskAssigneeInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model RecurringTaskTemplate
+   */
+
+  export type AggregateRecurringTaskTemplate = {
+    _count: RecurringTaskTemplateCountAggregateOutputType | null
+    _avg: RecurringTaskTemplateAvgAggregateOutputType | null
+    _sum: RecurringTaskTemplateSumAggregateOutputType | null
+    _min: RecurringTaskTemplateMinAggregateOutputType | null
+    _max: RecurringTaskTemplateMaxAggregateOutputType | null
+  }
+
+  export type RecurringTaskTemplateAvgAggregateOutputType = {
+    weekdays: number | null
+    dayOfMonth: number | null
+  }
+
+  export type RecurringTaskTemplateSumAggregateOutputType = {
+    weekdays: number[]
+    dayOfMonth: number | null
+  }
+
+  export type RecurringTaskTemplateMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    code: string | null
+    title: string | null
+    description: string | null
+    frequency: string | null
+    dayOfMonth: number | null
+    dueTime: string | null
+    completionRule: string | null
+    relatedObjectType: string | null
+    relatedObjectId: string | null
+    active: boolean | null
+    createdBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type RecurringTaskTemplateMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    code: string | null
+    title: string | null
+    description: string | null
+    frequency: string | null
+    dayOfMonth: number | null
+    dueTime: string | null
+    completionRule: string | null
+    relatedObjectType: string | null
+    relatedObjectId: string | null
+    active: boolean | null
+    createdBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type RecurringTaskTemplateCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    code: number
+    title: number
+    description: number
+    frequency: number
+    weekdays: number
+    dayOfMonth: number
+    dueTime: number
+    assigneeUserIds: number
+    completionRule: number
+    checklist: number
+    relatedObjectType: number
+    relatedObjectId: number
+    active: number
+    createdBy: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type RecurringTaskTemplateAvgAggregateInputType = {
+    weekdays?: true
+    dayOfMonth?: true
+  }
+
+  export type RecurringTaskTemplateSumAggregateInputType = {
+    weekdays?: true
+    dayOfMonth?: true
+  }
+
+  export type RecurringTaskTemplateMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    code?: true
+    title?: true
+    description?: true
+    frequency?: true
+    dayOfMonth?: true
+    dueTime?: true
+    completionRule?: true
+    relatedObjectType?: true
+    relatedObjectId?: true
+    active?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type RecurringTaskTemplateMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    code?: true
+    title?: true
+    description?: true
+    frequency?: true
+    dayOfMonth?: true
+    dueTime?: true
+    completionRule?: true
+    relatedObjectType?: true
+    relatedObjectId?: true
+    active?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type RecurringTaskTemplateCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    code?: true
+    title?: true
+    description?: true
+    frequency?: true
+    weekdays?: true
+    dayOfMonth?: true
+    dueTime?: true
+    assigneeUserIds?: true
+    completionRule?: true
+    checklist?: true
+    relatedObjectType?: true
+    relatedObjectId?: true
+    active?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type RecurringTaskTemplateAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which RecurringTaskTemplate to aggregate.
+     */
+    where?: RecurringTaskTemplateWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RecurringTaskTemplates to fetch.
+     */
+    orderBy?: RecurringTaskTemplateOrderByWithRelationInput | RecurringTaskTemplateOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: RecurringTaskTemplateWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RecurringTaskTemplates from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RecurringTaskTemplates.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned RecurringTaskTemplates
+    **/
+    _count?: true | RecurringTaskTemplateCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: RecurringTaskTemplateAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: RecurringTaskTemplateSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: RecurringTaskTemplateMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: RecurringTaskTemplateMaxAggregateInputType
+  }
+
+  export type GetRecurringTaskTemplateAggregateType<T extends RecurringTaskTemplateAggregateArgs> = {
+        [P in keyof T & keyof AggregateRecurringTaskTemplate]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateRecurringTaskTemplate[P]>
+      : GetScalarType<T[P], AggregateRecurringTaskTemplate[P]>
+  }
+
+
+
+
+  export type RecurringTaskTemplateGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RecurringTaskTemplateWhereInput
+    orderBy?: RecurringTaskTemplateOrderByWithAggregationInput | RecurringTaskTemplateOrderByWithAggregationInput[]
+    by: RecurringTaskTemplateScalarFieldEnum[] | RecurringTaskTemplateScalarFieldEnum
+    having?: RecurringTaskTemplateScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: RecurringTaskTemplateCountAggregateInputType | true
+    _avg?: RecurringTaskTemplateAvgAggregateInputType
+    _sum?: RecurringTaskTemplateSumAggregateInputType
+    _min?: RecurringTaskTemplateMinAggregateInputType
+    _max?: RecurringTaskTemplateMaxAggregateInputType
+  }
+
+  export type RecurringTaskTemplateGroupByOutputType = {
+    id: string
+    tenantId: string
+    code: string
+    title: string
+    description: string | null
+    frequency: string
+    weekdays: number[]
+    dayOfMonth: number | null
+    dueTime: string
+    assigneeUserIds: string[]
+    completionRule: string
+    checklist: JsonValue | null
+    relatedObjectType: string | null
+    relatedObjectId: string | null
+    active: boolean
+    createdBy: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: RecurringTaskTemplateCountAggregateOutputType | null
+    _avg: RecurringTaskTemplateAvgAggregateOutputType | null
+    _sum: RecurringTaskTemplateSumAggregateOutputType | null
+    _min: RecurringTaskTemplateMinAggregateOutputType | null
+    _max: RecurringTaskTemplateMaxAggregateOutputType | null
+  }
+
+  type GetRecurringTaskTemplateGroupByPayload<T extends RecurringTaskTemplateGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<RecurringTaskTemplateGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof RecurringTaskTemplateGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], RecurringTaskTemplateGroupByOutputType[P]>
+            : GetScalarType<T[P], RecurringTaskTemplateGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type RecurringTaskTemplateSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    code?: boolean
+    title?: boolean
+    description?: boolean
+    frequency?: boolean
+    weekdays?: boolean
+    dayOfMonth?: boolean
+    dueTime?: boolean
+    assigneeUserIds?: boolean
+    completionRule?: boolean
+    checklist?: boolean
+    relatedObjectType?: boolean
+    relatedObjectId?: boolean
+    active?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    tasks?: boolean | RecurringTaskTemplate$tasksArgs<ExtArgs>
+    _count?: boolean | RecurringTaskTemplateCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["recurringTaskTemplate"]>
+
+  export type RecurringTaskTemplateSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    code?: boolean
+    title?: boolean
+    description?: boolean
+    frequency?: boolean
+    weekdays?: boolean
+    dayOfMonth?: boolean
+    dueTime?: boolean
+    assigneeUserIds?: boolean
+    completionRule?: boolean
+    checklist?: boolean
+    relatedObjectType?: boolean
+    relatedObjectId?: boolean
+    active?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["recurringTaskTemplate"]>
+
+  export type RecurringTaskTemplateSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    code?: boolean
+    title?: boolean
+    description?: boolean
+    frequency?: boolean
+    weekdays?: boolean
+    dayOfMonth?: boolean
+    dueTime?: boolean
+    assigneeUserIds?: boolean
+    completionRule?: boolean
+    checklist?: boolean
+    relatedObjectType?: boolean
+    relatedObjectId?: boolean
+    active?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["recurringTaskTemplate"]>
+
+  export type RecurringTaskTemplateSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    code?: boolean
+    title?: boolean
+    description?: boolean
+    frequency?: boolean
+    weekdays?: boolean
+    dayOfMonth?: boolean
+    dueTime?: boolean
+    assigneeUserIds?: boolean
+    completionRule?: boolean
+    checklist?: boolean
+    relatedObjectType?: boolean
+    relatedObjectId?: boolean
+    active?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type RecurringTaskTemplateOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "code" | "title" | "description" | "frequency" | "weekdays" | "dayOfMonth" | "dueTime" | "assigneeUserIds" | "completionRule" | "checklist" | "relatedObjectType" | "relatedObjectId" | "active" | "createdBy" | "createdAt" | "updatedAt", ExtArgs["result"]["recurringTaskTemplate"]>
+  export type RecurringTaskTemplateInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    tasks?: boolean | RecurringTaskTemplate$tasksArgs<ExtArgs>
+    _count?: boolean | RecurringTaskTemplateCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type RecurringTaskTemplateIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type RecurringTaskTemplateIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+
+  export type $RecurringTaskTemplatePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "RecurringTaskTemplate"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+      tasks: Prisma.$TaskPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      code: string
+      title: string
+      description: string | null
+      /**
+       * DAILY | WEEKLY | MONTHLY
+       */
+      frequency: string
+      /**
+       * ISO weekdays (1 = Monday) for WEEKLY; DAILY may restrict to these too.
+       */
+      weekdays: number[]
+      dayOfMonth: number | null
+      /**
+       * Local due time HH:MM on the occurrence date (UTC-based in v1).
+       */
+      dueTime: string
+      assigneeUserIds: string[]
+      completionRule: string
+      /**
+       * [{ label, required }]
+       */
+      checklist: Prisma.JsonValue | null
+      relatedObjectType: string | null
+      relatedObjectId: string | null
+      active: boolean
+      createdBy: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["recurringTaskTemplate"]>
+    composites: {}
+  }
+
+  type RecurringTaskTemplateGetPayload<S extends boolean | null | undefined | RecurringTaskTemplateDefaultArgs> = $Result.GetResult<Prisma.$RecurringTaskTemplatePayload, S>
+
+  type RecurringTaskTemplateCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<RecurringTaskTemplateFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: RecurringTaskTemplateCountAggregateInputType | true
+    }
+
+  export interface RecurringTaskTemplateDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['RecurringTaskTemplate'], meta: { name: 'RecurringTaskTemplate' } }
+    /**
+     * Find zero or one RecurringTaskTemplate that matches the filter.
+     * @param {RecurringTaskTemplateFindUniqueArgs} args - Arguments to find a RecurringTaskTemplate
+     * @example
+     * // Get one RecurringTaskTemplate
+     * const recurringTaskTemplate = await prisma.recurringTaskTemplate.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends RecurringTaskTemplateFindUniqueArgs>(args: SelectSubset<T, RecurringTaskTemplateFindUniqueArgs<ExtArgs>>): Prisma__RecurringTaskTemplateClient<$Result.GetResult<Prisma.$RecurringTaskTemplatePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one RecurringTaskTemplate that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {RecurringTaskTemplateFindUniqueOrThrowArgs} args - Arguments to find a RecurringTaskTemplate
+     * @example
+     * // Get one RecurringTaskTemplate
+     * const recurringTaskTemplate = await prisma.recurringTaskTemplate.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends RecurringTaskTemplateFindUniqueOrThrowArgs>(args: SelectSubset<T, RecurringTaskTemplateFindUniqueOrThrowArgs<ExtArgs>>): Prisma__RecurringTaskTemplateClient<$Result.GetResult<Prisma.$RecurringTaskTemplatePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first RecurringTaskTemplate that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RecurringTaskTemplateFindFirstArgs} args - Arguments to find a RecurringTaskTemplate
+     * @example
+     * // Get one RecurringTaskTemplate
+     * const recurringTaskTemplate = await prisma.recurringTaskTemplate.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends RecurringTaskTemplateFindFirstArgs>(args?: SelectSubset<T, RecurringTaskTemplateFindFirstArgs<ExtArgs>>): Prisma__RecurringTaskTemplateClient<$Result.GetResult<Prisma.$RecurringTaskTemplatePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first RecurringTaskTemplate that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RecurringTaskTemplateFindFirstOrThrowArgs} args - Arguments to find a RecurringTaskTemplate
+     * @example
+     * // Get one RecurringTaskTemplate
+     * const recurringTaskTemplate = await prisma.recurringTaskTemplate.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends RecurringTaskTemplateFindFirstOrThrowArgs>(args?: SelectSubset<T, RecurringTaskTemplateFindFirstOrThrowArgs<ExtArgs>>): Prisma__RecurringTaskTemplateClient<$Result.GetResult<Prisma.$RecurringTaskTemplatePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more RecurringTaskTemplates that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RecurringTaskTemplateFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all RecurringTaskTemplates
+     * const recurringTaskTemplates = await prisma.recurringTaskTemplate.findMany()
+     * 
+     * // Get first 10 RecurringTaskTemplates
+     * const recurringTaskTemplates = await prisma.recurringTaskTemplate.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const recurringTaskTemplateWithIdOnly = await prisma.recurringTaskTemplate.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends RecurringTaskTemplateFindManyArgs>(args?: SelectSubset<T, RecurringTaskTemplateFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RecurringTaskTemplatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a RecurringTaskTemplate.
+     * @param {RecurringTaskTemplateCreateArgs} args - Arguments to create a RecurringTaskTemplate.
+     * @example
+     * // Create one RecurringTaskTemplate
+     * const RecurringTaskTemplate = await prisma.recurringTaskTemplate.create({
+     *   data: {
+     *     // ... data to create a RecurringTaskTemplate
+     *   }
+     * })
+     * 
+     */
+    create<T extends RecurringTaskTemplateCreateArgs>(args: SelectSubset<T, RecurringTaskTemplateCreateArgs<ExtArgs>>): Prisma__RecurringTaskTemplateClient<$Result.GetResult<Prisma.$RecurringTaskTemplatePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many RecurringTaskTemplates.
+     * @param {RecurringTaskTemplateCreateManyArgs} args - Arguments to create many RecurringTaskTemplates.
+     * @example
+     * // Create many RecurringTaskTemplates
+     * const recurringTaskTemplate = await prisma.recurringTaskTemplate.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends RecurringTaskTemplateCreateManyArgs>(args?: SelectSubset<T, RecurringTaskTemplateCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many RecurringTaskTemplates and returns the data saved in the database.
+     * @param {RecurringTaskTemplateCreateManyAndReturnArgs} args - Arguments to create many RecurringTaskTemplates.
+     * @example
+     * // Create many RecurringTaskTemplates
+     * const recurringTaskTemplate = await prisma.recurringTaskTemplate.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many RecurringTaskTemplates and only return the `id`
+     * const recurringTaskTemplateWithIdOnly = await prisma.recurringTaskTemplate.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends RecurringTaskTemplateCreateManyAndReturnArgs>(args?: SelectSubset<T, RecurringTaskTemplateCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RecurringTaskTemplatePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a RecurringTaskTemplate.
+     * @param {RecurringTaskTemplateDeleteArgs} args - Arguments to delete one RecurringTaskTemplate.
+     * @example
+     * // Delete one RecurringTaskTemplate
+     * const RecurringTaskTemplate = await prisma.recurringTaskTemplate.delete({
+     *   where: {
+     *     // ... filter to delete one RecurringTaskTemplate
+     *   }
+     * })
+     * 
+     */
+    delete<T extends RecurringTaskTemplateDeleteArgs>(args: SelectSubset<T, RecurringTaskTemplateDeleteArgs<ExtArgs>>): Prisma__RecurringTaskTemplateClient<$Result.GetResult<Prisma.$RecurringTaskTemplatePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one RecurringTaskTemplate.
+     * @param {RecurringTaskTemplateUpdateArgs} args - Arguments to update one RecurringTaskTemplate.
+     * @example
+     * // Update one RecurringTaskTemplate
+     * const recurringTaskTemplate = await prisma.recurringTaskTemplate.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends RecurringTaskTemplateUpdateArgs>(args: SelectSubset<T, RecurringTaskTemplateUpdateArgs<ExtArgs>>): Prisma__RecurringTaskTemplateClient<$Result.GetResult<Prisma.$RecurringTaskTemplatePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more RecurringTaskTemplates.
+     * @param {RecurringTaskTemplateDeleteManyArgs} args - Arguments to filter RecurringTaskTemplates to delete.
+     * @example
+     * // Delete a few RecurringTaskTemplates
+     * const { count } = await prisma.recurringTaskTemplate.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends RecurringTaskTemplateDeleteManyArgs>(args?: SelectSubset<T, RecurringTaskTemplateDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more RecurringTaskTemplates.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RecurringTaskTemplateUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many RecurringTaskTemplates
+     * const recurringTaskTemplate = await prisma.recurringTaskTemplate.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends RecurringTaskTemplateUpdateManyArgs>(args: SelectSubset<T, RecurringTaskTemplateUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more RecurringTaskTemplates and returns the data updated in the database.
+     * @param {RecurringTaskTemplateUpdateManyAndReturnArgs} args - Arguments to update many RecurringTaskTemplates.
+     * @example
+     * // Update many RecurringTaskTemplates
+     * const recurringTaskTemplate = await prisma.recurringTaskTemplate.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more RecurringTaskTemplates and only return the `id`
+     * const recurringTaskTemplateWithIdOnly = await prisma.recurringTaskTemplate.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends RecurringTaskTemplateUpdateManyAndReturnArgs>(args: SelectSubset<T, RecurringTaskTemplateUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RecurringTaskTemplatePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one RecurringTaskTemplate.
+     * @param {RecurringTaskTemplateUpsertArgs} args - Arguments to update or create a RecurringTaskTemplate.
+     * @example
+     * // Update or create a RecurringTaskTemplate
+     * const recurringTaskTemplate = await prisma.recurringTaskTemplate.upsert({
+     *   create: {
+     *     // ... data to create a RecurringTaskTemplate
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the RecurringTaskTemplate we want to update
+     *   }
+     * })
+     */
+    upsert<T extends RecurringTaskTemplateUpsertArgs>(args: SelectSubset<T, RecurringTaskTemplateUpsertArgs<ExtArgs>>): Prisma__RecurringTaskTemplateClient<$Result.GetResult<Prisma.$RecurringTaskTemplatePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of RecurringTaskTemplates.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RecurringTaskTemplateCountArgs} args - Arguments to filter RecurringTaskTemplates to count.
+     * @example
+     * // Count the number of RecurringTaskTemplates
+     * const count = await prisma.recurringTaskTemplate.count({
+     *   where: {
+     *     // ... the filter for the RecurringTaskTemplates we want to count
+     *   }
+     * })
+    **/
+    count<T extends RecurringTaskTemplateCountArgs>(
+      args?: Subset<T, RecurringTaskTemplateCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], RecurringTaskTemplateCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a RecurringTaskTemplate.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RecurringTaskTemplateAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends RecurringTaskTemplateAggregateArgs>(args: Subset<T, RecurringTaskTemplateAggregateArgs>): Prisma.PrismaPromise<GetRecurringTaskTemplateAggregateType<T>>
+
+    /**
+     * Group by RecurringTaskTemplate.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RecurringTaskTemplateGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends RecurringTaskTemplateGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: RecurringTaskTemplateGroupByArgs['orderBy'] }
+        : { orderBy?: RecurringTaskTemplateGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, RecurringTaskTemplateGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetRecurringTaskTemplateGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the RecurringTaskTemplate model
+   */
+  readonly fields: RecurringTaskTemplateFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for RecurringTaskTemplate.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__RecurringTaskTemplateClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    tasks<T extends RecurringTaskTemplate$tasksArgs<ExtArgs> = {}>(args?: Subset<T, RecurringTaskTemplate$tasksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the RecurringTaskTemplate model
+   */
+  interface RecurringTaskTemplateFieldRefs {
+    readonly id: FieldRef<"RecurringTaskTemplate", 'String'>
+    readonly tenantId: FieldRef<"RecurringTaskTemplate", 'String'>
+    readonly code: FieldRef<"RecurringTaskTemplate", 'String'>
+    readonly title: FieldRef<"RecurringTaskTemplate", 'String'>
+    readonly description: FieldRef<"RecurringTaskTemplate", 'String'>
+    readonly frequency: FieldRef<"RecurringTaskTemplate", 'String'>
+    readonly weekdays: FieldRef<"RecurringTaskTemplate", 'Int[]'>
+    readonly dayOfMonth: FieldRef<"RecurringTaskTemplate", 'Int'>
+    readonly dueTime: FieldRef<"RecurringTaskTemplate", 'String'>
+    readonly assigneeUserIds: FieldRef<"RecurringTaskTemplate", 'String[]'>
+    readonly completionRule: FieldRef<"RecurringTaskTemplate", 'String'>
+    readonly checklist: FieldRef<"RecurringTaskTemplate", 'Json'>
+    readonly relatedObjectType: FieldRef<"RecurringTaskTemplate", 'String'>
+    readonly relatedObjectId: FieldRef<"RecurringTaskTemplate", 'String'>
+    readonly active: FieldRef<"RecurringTaskTemplate", 'Boolean'>
+    readonly createdBy: FieldRef<"RecurringTaskTemplate", 'String'>
+    readonly createdAt: FieldRef<"RecurringTaskTemplate", 'DateTime'>
+    readonly updatedAt: FieldRef<"RecurringTaskTemplate", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * RecurringTaskTemplate findUnique
+   */
+  export type RecurringTaskTemplateFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RecurringTaskTemplate
+     */
+    select?: RecurringTaskTemplateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RecurringTaskTemplate
+     */
+    omit?: RecurringTaskTemplateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RecurringTaskTemplateInclude<ExtArgs> | null
+    /**
+     * Filter, which RecurringTaskTemplate to fetch.
+     */
+    where: RecurringTaskTemplateWhereUniqueInput
+  }
+
+  /**
+   * RecurringTaskTemplate findUniqueOrThrow
+   */
+  export type RecurringTaskTemplateFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RecurringTaskTemplate
+     */
+    select?: RecurringTaskTemplateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RecurringTaskTemplate
+     */
+    omit?: RecurringTaskTemplateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RecurringTaskTemplateInclude<ExtArgs> | null
+    /**
+     * Filter, which RecurringTaskTemplate to fetch.
+     */
+    where: RecurringTaskTemplateWhereUniqueInput
+  }
+
+  /**
+   * RecurringTaskTemplate findFirst
+   */
+  export type RecurringTaskTemplateFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RecurringTaskTemplate
+     */
+    select?: RecurringTaskTemplateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RecurringTaskTemplate
+     */
+    omit?: RecurringTaskTemplateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RecurringTaskTemplateInclude<ExtArgs> | null
+    /**
+     * Filter, which RecurringTaskTemplate to fetch.
+     */
+    where?: RecurringTaskTemplateWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RecurringTaskTemplates to fetch.
+     */
+    orderBy?: RecurringTaskTemplateOrderByWithRelationInput | RecurringTaskTemplateOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for RecurringTaskTemplates.
+     */
+    cursor?: RecurringTaskTemplateWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RecurringTaskTemplates from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RecurringTaskTemplates.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of RecurringTaskTemplates.
+     */
+    distinct?: RecurringTaskTemplateScalarFieldEnum | RecurringTaskTemplateScalarFieldEnum[]
+  }
+
+  /**
+   * RecurringTaskTemplate findFirstOrThrow
+   */
+  export type RecurringTaskTemplateFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RecurringTaskTemplate
+     */
+    select?: RecurringTaskTemplateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RecurringTaskTemplate
+     */
+    omit?: RecurringTaskTemplateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RecurringTaskTemplateInclude<ExtArgs> | null
+    /**
+     * Filter, which RecurringTaskTemplate to fetch.
+     */
+    where?: RecurringTaskTemplateWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RecurringTaskTemplates to fetch.
+     */
+    orderBy?: RecurringTaskTemplateOrderByWithRelationInput | RecurringTaskTemplateOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for RecurringTaskTemplates.
+     */
+    cursor?: RecurringTaskTemplateWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RecurringTaskTemplates from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RecurringTaskTemplates.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of RecurringTaskTemplates.
+     */
+    distinct?: RecurringTaskTemplateScalarFieldEnum | RecurringTaskTemplateScalarFieldEnum[]
+  }
+
+  /**
+   * RecurringTaskTemplate findMany
+   */
+  export type RecurringTaskTemplateFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RecurringTaskTemplate
+     */
+    select?: RecurringTaskTemplateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RecurringTaskTemplate
+     */
+    omit?: RecurringTaskTemplateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RecurringTaskTemplateInclude<ExtArgs> | null
+    /**
+     * Filter, which RecurringTaskTemplates to fetch.
+     */
+    where?: RecurringTaskTemplateWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RecurringTaskTemplates to fetch.
+     */
+    orderBy?: RecurringTaskTemplateOrderByWithRelationInput | RecurringTaskTemplateOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing RecurringTaskTemplates.
+     */
+    cursor?: RecurringTaskTemplateWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RecurringTaskTemplates from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RecurringTaskTemplates.
+     */
+    skip?: number
+    distinct?: RecurringTaskTemplateScalarFieldEnum | RecurringTaskTemplateScalarFieldEnum[]
+  }
+
+  /**
+   * RecurringTaskTemplate create
+   */
+  export type RecurringTaskTemplateCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RecurringTaskTemplate
+     */
+    select?: RecurringTaskTemplateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RecurringTaskTemplate
+     */
+    omit?: RecurringTaskTemplateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RecurringTaskTemplateInclude<ExtArgs> | null
+    /**
+     * The data needed to create a RecurringTaskTemplate.
+     */
+    data: XOR<RecurringTaskTemplateCreateInput, RecurringTaskTemplateUncheckedCreateInput>
+  }
+
+  /**
+   * RecurringTaskTemplate createMany
+   */
+  export type RecurringTaskTemplateCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many RecurringTaskTemplates.
+     */
+    data: RecurringTaskTemplateCreateManyInput | RecurringTaskTemplateCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * RecurringTaskTemplate createManyAndReturn
+   */
+  export type RecurringTaskTemplateCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RecurringTaskTemplate
+     */
+    select?: RecurringTaskTemplateSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the RecurringTaskTemplate
+     */
+    omit?: RecurringTaskTemplateOmit<ExtArgs> | null
+    /**
+     * The data used to create many RecurringTaskTemplates.
+     */
+    data: RecurringTaskTemplateCreateManyInput | RecurringTaskTemplateCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RecurringTaskTemplateIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * RecurringTaskTemplate update
+   */
+  export type RecurringTaskTemplateUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RecurringTaskTemplate
+     */
+    select?: RecurringTaskTemplateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RecurringTaskTemplate
+     */
+    omit?: RecurringTaskTemplateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RecurringTaskTemplateInclude<ExtArgs> | null
+    /**
+     * The data needed to update a RecurringTaskTemplate.
+     */
+    data: XOR<RecurringTaskTemplateUpdateInput, RecurringTaskTemplateUncheckedUpdateInput>
+    /**
+     * Choose, which RecurringTaskTemplate to update.
+     */
+    where: RecurringTaskTemplateWhereUniqueInput
+  }
+
+  /**
+   * RecurringTaskTemplate updateMany
+   */
+  export type RecurringTaskTemplateUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update RecurringTaskTemplates.
+     */
+    data: XOR<RecurringTaskTemplateUpdateManyMutationInput, RecurringTaskTemplateUncheckedUpdateManyInput>
+    /**
+     * Filter which RecurringTaskTemplates to update
+     */
+    where?: RecurringTaskTemplateWhereInput
+    /**
+     * Limit how many RecurringTaskTemplates to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * RecurringTaskTemplate updateManyAndReturn
+   */
+  export type RecurringTaskTemplateUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RecurringTaskTemplate
+     */
+    select?: RecurringTaskTemplateSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the RecurringTaskTemplate
+     */
+    omit?: RecurringTaskTemplateOmit<ExtArgs> | null
+    /**
+     * The data used to update RecurringTaskTemplates.
+     */
+    data: XOR<RecurringTaskTemplateUpdateManyMutationInput, RecurringTaskTemplateUncheckedUpdateManyInput>
+    /**
+     * Filter which RecurringTaskTemplates to update
+     */
+    where?: RecurringTaskTemplateWhereInput
+    /**
+     * Limit how many RecurringTaskTemplates to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RecurringTaskTemplateIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * RecurringTaskTemplate upsert
+   */
+  export type RecurringTaskTemplateUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RecurringTaskTemplate
+     */
+    select?: RecurringTaskTemplateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RecurringTaskTemplate
+     */
+    omit?: RecurringTaskTemplateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RecurringTaskTemplateInclude<ExtArgs> | null
+    /**
+     * The filter to search for the RecurringTaskTemplate to update in case it exists.
+     */
+    where: RecurringTaskTemplateWhereUniqueInput
+    /**
+     * In case the RecurringTaskTemplate found by the `where` argument doesn't exist, create a new RecurringTaskTemplate with this data.
+     */
+    create: XOR<RecurringTaskTemplateCreateInput, RecurringTaskTemplateUncheckedCreateInput>
+    /**
+     * In case the RecurringTaskTemplate was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<RecurringTaskTemplateUpdateInput, RecurringTaskTemplateUncheckedUpdateInput>
+  }
+
+  /**
+   * RecurringTaskTemplate delete
+   */
+  export type RecurringTaskTemplateDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RecurringTaskTemplate
+     */
+    select?: RecurringTaskTemplateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RecurringTaskTemplate
+     */
+    omit?: RecurringTaskTemplateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RecurringTaskTemplateInclude<ExtArgs> | null
+    /**
+     * Filter which RecurringTaskTemplate to delete.
+     */
+    where: RecurringTaskTemplateWhereUniqueInput
+  }
+
+  /**
+   * RecurringTaskTemplate deleteMany
+   */
+  export type RecurringTaskTemplateDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which RecurringTaskTemplates to delete
+     */
+    where?: RecurringTaskTemplateWhereInput
+    /**
+     * Limit how many RecurringTaskTemplates to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * RecurringTaskTemplate.tasks
+   */
+  export type RecurringTaskTemplate$tasksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Task
+     */
+    select?: TaskSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Task
+     */
+    omit?: TaskOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TaskInclude<ExtArgs> | null
+    where?: TaskWhereInput
+    orderBy?: TaskOrderByWithRelationInput | TaskOrderByWithRelationInput[]
+    cursor?: TaskWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TaskScalarFieldEnum | TaskScalarFieldEnum[]
+  }
+
+  /**
+   * RecurringTaskTemplate without action
+   */
+  export type RecurringTaskTemplateDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RecurringTaskTemplate
+     */
+    select?: RecurringTaskTemplateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RecurringTaskTemplate
+     */
+    omit?: RecurringTaskTemplateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RecurringTaskTemplateInclude<ExtArgs> | null
   }
 
 
@@ -220747,10 +223603,54 @@ export namespace Prisma {
     relatedObjectId: 'relatedObjectId',
     createdByUserId: 'createdByUserId',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    updatedAt: 'updatedAt',
+    completionRule: 'completionRule',
+    completedAt: 'completedAt',
+    templateId: 'templateId',
+    occurrenceDate: 'occurrenceDate',
+    checklist: 'checklist'
   };
 
   export type TaskScalarFieldEnum = (typeof TaskScalarFieldEnum)[keyof typeof TaskScalarFieldEnum]
+
+
+  export const TaskAssigneeScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    taskId: 'taskId',
+    userId: 'userId',
+    status: 'status',
+    completedAt: 'completedAt',
+    completedBy: 'completedBy',
+    note: 'note',
+    results: 'results'
+  };
+
+  export type TaskAssigneeScalarFieldEnum = (typeof TaskAssigneeScalarFieldEnum)[keyof typeof TaskAssigneeScalarFieldEnum]
+
+
+  export const RecurringTaskTemplateScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    code: 'code',
+    title: 'title',
+    description: 'description',
+    frequency: 'frequency',
+    weekdays: 'weekdays',
+    dayOfMonth: 'dayOfMonth',
+    dueTime: 'dueTime',
+    assigneeUserIds: 'assigneeUserIds',
+    completionRule: 'completionRule',
+    checklist: 'checklist',
+    relatedObjectType: 'relatedObjectType',
+    relatedObjectId: 'relatedObjectId',
+    active: 'active',
+    createdBy: 'createdBy',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type RecurringTaskTemplateScalarFieldEnum = (typeof RecurringTaskTemplateScalarFieldEnum)[keyof typeof RecurringTaskTemplateScalarFieldEnum]
 
 
   export const NotificationScalarFieldEnum: {
@@ -224446,6 +227346,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeListRelationFilter
     supportCaseOrderItems?: SupportCaseOrderItemListRelationFilter
     supportCaseReturns?: SupportCaseReturnListRelationFilter
+    taskAssignees?: TaskAssigneeListRelationFilter
+    recurringTaskTemplates?: RecurringTaskTemplateListRelationFilter
   }
 
   export type TenantOrderByWithRelationInput = {
@@ -224606,6 +227508,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeOrderByRelationAggregateInput
     supportCaseOrderItems?: SupportCaseOrderItemOrderByRelationAggregateInput
     supportCaseReturns?: SupportCaseReturnOrderByRelationAggregateInput
+    taskAssignees?: TaskAssigneeOrderByRelationAggregateInput
+    recurringTaskTemplates?: RecurringTaskTemplateOrderByRelationAggregateInput
   }
 
   export type TenantWhereUniqueInput = Prisma.AtLeast<{
@@ -224769,6 +227673,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeListRelationFilter
     supportCaseOrderItems?: SupportCaseOrderItemListRelationFilter
     supportCaseReturns?: SupportCaseReturnListRelationFilter
+    taskAssignees?: TaskAssigneeListRelationFilter
+    recurringTaskTemplates?: RecurringTaskTemplateListRelationFilter
   }, "id" | "slug">
 
   export type TenantOrderByWithAggregationInput = {
@@ -225916,7 +228822,14 @@ export namespace Prisma {
     createdByUserId?: UuidNullableFilter<"Task"> | string | null
     createdAt?: DateTimeFilter<"Task"> | Date | string
     updatedAt?: DateTimeFilter<"Task"> | Date | string
+    completionRule?: StringNullableFilter<"Task"> | string | null
+    completedAt?: DateTimeNullableFilter<"Task"> | Date | string | null
+    templateId?: UuidNullableFilter<"Task"> | string | null
+    occurrenceDate?: DateTimeNullableFilter<"Task"> | Date | string | null
+    checklist?: JsonNullableFilter<"Task">
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    assignees?: TaskAssigneeListRelationFilter
+    template?: XOR<RecurringTaskTemplateNullableScalarRelationFilter, RecurringTaskTemplateWhereInput> | null
   }
 
   export type TaskOrderByWithRelationInput = {
@@ -225932,7 +228845,14 @@ export namespace Prisma {
     createdByUserId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    completionRule?: SortOrderInput | SortOrder
+    completedAt?: SortOrderInput | SortOrder
+    templateId?: SortOrderInput | SortOrder
+    occurrenceDate?: SortOrderInput | SortOrder
+    checklist?: SortOrderInput | SortOrder
     tenant?: TenantOrderByWithRelationInput
+    assignees?: TaskAssigneeOrderByRelationAggregateInput
+    template?: RecurringTaskTemplateOrderByWithRelationInput
   }
 
   export type TaskWhereUniqueInput = Prisma.AtLeast<{
@@ -225951,7 +228871,14 @@ export namespace Prisma {
     createdByUserId?: UuidNullableFilter<"Task"> | string | null
     createdAt?: DateTimeFilter<"Task"> | Date | string
     updatedAt?: DateTimeFilter<"Task"> | Date | string
+    completionRule?: StringNullableFilter<"Task"> | string | null
+    completedAt?: DateTimeNullableFilter<"Task"> | Date | string | null
+    templateId?: UuidNullableFilter<"Task"> | string | null
+    occurrenceDate?: DateTimeNullableFilter<"Task"> | Date | string | null
+    checklist?: JsonNullableFilter<"Task">
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    assignees?: TaskAssigneeListRelationFilter
+    template?: XOR<RecurringTaskTemplateNullableScalarRelationFilter, RecurringTaskTemplateWhereInput> | null
   }, "id">
 
   export type TaskOrderByWithAggregationInput = {
@@ -225967,6 +228894,11 @@ export namespace Prisma {
     createdByUserId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    completionRule?: SortOrderInput | SortOrder
+    completedAt?: SortOrderInput | SortOrder
+    templateId?: SortOrderInput | SortOrder
+    occurrenceDate?: SortOrderInput | SortOrder
+    checklist?: SortOrderInput | SortOrder
     _count?: TaskCountOrderByAggregateInput
     _max?: TaskMaxOrderByAggregateInput
     _min?: TaskMinOrderByAggregateInput
@@ -225988,6 +228920,216 @@ export namespace Prisma {
     createdByUserId?: UuidNullableWithAggregatesFilter<"Task"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Task"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Task"> | Date | string
+    completionRule?: StringNullableWithAggregatesFilter<"Task"> | string | null
+    completedAt?: DateTimeNullableWithAggregatesFilter<"Task"> | Date | string | null
+    templateId?: UuidNullableWithAggregatesFilter<"Task"> | string | null
+    occurrenceDate?: DateTimeNullableWithAggregatesFilter<"Task"> | Date | string | null
+    checklist?: JsonNullableWithAggregatesFilter<"Task">
+  }
+
+  export type TaskAssigneeWhereInput = {
+    AND?: TaskAssigneeWhereInput | TaskAssigneeWhereInput[]
+    OR?: TaskAssigneeWhereInput[]
+    NOT?: TaskAssigneeWhereInput | TaskAssigneeWhereInput[]
+    id?: UuidFilter<"TaskAssignee"> | string
+    tenantId?: UuidFilter<"TaskAssignee"> | string
+    taskId?: UuidFilter<"TaskAssignee"> | string
+    userId?: UuidFilter<"TaskAssignee"> | string
+    status?: StringFilter<"TaskAssignee"> | string
+    completedAt?: DateTimeNullableFilter<"TaskAssignee"> | Date | string | null
+    completedBy?: UuidNullableFilter<"TaskAssignee"> | string | null
+    note?: StringNullableFilter<"TaskAssignee"> | string | null
+    results?: JsonNullableFilter<"TaskAssignee">
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    task?: XOR<TaskScalarRelationFilter, TaskWhereInput>
+  }
+
+  export type TaskAssigneeOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    taskId?: SortOrder
+    userId?: SortOrder
+    status?: SortOrder
+    completedAt?: SortOrderInput | SortOrder
+    completedBy?: SortOrderInput | SortOrder
+    note?: SortOrderInput | SortOrder
+    results?: SortOrderInput | SortOrder
+    tenant?: TenantOrderByWithRelationInput
+    task?: TaskOrderByWithRelationInput
+  }
+
+  export type TaskAssigneeWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    taskId_userId?: TaskAssigneeTaskIdUserIdCompoundUniqueInput
+    AND?: TaskAssigneeWhereInput | TaskAssigneeWhereInput[]
+    OR?: TaskAssigneeWhereInput[]
+    NOT?: TaskAssigneeWhereInput | TaskAssigneeWhereInput[]
+    tenantId?: UuidFilter<"TaskAssignee"> | string
+    taskId?: UuidFilter<"TaskAssignee"> | string
+    userId?: UuidFilter<"TaskAssignee"> | string
+    status?: StringFilter<"TaskAssignee"> | string
+    completedAt?: DateTimeNullableFilter<"TaskAssignee"> | Date | string | null
+    completedBy?: UuidNullableFilter<"TaskAssignee"> | string | null
+    note?: StringNullableFilter<"TaskAssignee"> | string | null
+    results?: JsonNullableFilter<"TaskAssignee">
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    task?: XOR<TaskScalarRelationFilter, TaskWhereInput>
+  }, "id" | "taskId_userId">
+
+  export type TaskAssigneeOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    taskId?: SortOrder
+    userId?: SortOrder
+    status?: SortOrder
+    completedAt?: SortOrderInput | SortOrder
+    completedBy?: SortOrderInput | SortOrder
+    note?: SortOrderInput | SortOrder
+    results?: SortOrderInput | SortOrder
+    _count?: TaskAssigneeCountOrderByAggregateInput
+    _max?: TaskAssigneeMaxOrderByAggregateInput
+    _min?: TaskAssigneeMinOrderByAggregateInput
+  }
+
+  export type TaskAssigneeScalarWhereWithAggregatesInput = {
+    AND?: TaskAssigneeScalarWhereWithAggregatesInput | TaskAssigneeScalarWhereWithAggregatesInput[]
+    OR?: TaskAssigneeScalarWhereWithAggregatesInput[]
+    NOT?: TaskAssigneeScalarWhereWithAggregatesInput | TaskAssigneeScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"TaskAssignee"> | string
+    tenantId?: UuidWithAggregatesFilter<"TaskAssignee"> | string
+    taskId?: UuidWithAggregatesFilter<"TaskAssignee"> | string
+    userId?: UuidWithAggregatesFilter<"TaskAssignee"> | string
+    status?: StringWithAggregatesFilter<"TaskAssignee"> | string
+    completedAt?: DateTimeNullableWithAggregatesFilter<"TaskAssignee"> | Date | string | null
+    completedBy?: UuidNullableWithAggregatesFilter<"TaskAssignee"> | string | null
+    note?: StringNullableWithAggregatesFilter<"TaskAssignee"> | string | null
+    results?: JsonNullableWithAggregatesFilter<"TaskAssignee">
+  }
+
+  export type RecurringTaskTemplateWhereInput = {
+    AND?: RecurringTaskTemplateWhereInput | RecurringTaskTemplateWhereInput[]
+    OR?: RecurringTaskTemplateWhereInput[]
+    NOT?: RecurringTaskTemplateWhereInput | RecurringTaskTemplateWhereInput[]
+    id?: UuidFilter<"RecurringTaskTemplate"> | string
+    tenantId?: UuidFilter<"RecurringTaskTemplate"> | string
+    code?: StringFilter<"RecurringTaskTemplate"> | string
+    title?: StringFilter<"RecurringTaskTemplate"> | string
+    description?: StringNullableFilter<"RecurringTaskTemplate"> | string | null
+    frequency?: StringFilter<"RecurringTaskTemplate"> | string
+    weekdays?: IntNullableListFilter<"RecurringTaskTemplate">
+    dayOfMonth?: IntNullableFilter<"RecurringTaskTemplate"> | number | null
+    dueTime?: StringFilter<"RecurringTaskTemplate"> | string
+    assigneeUserIds?: StringNullableListFilter<"RecurringTaskTemplate">
+    completionRule?: StringFilter<"RecurringTaskTemplate"> | string
+    checklist?: JsonNullableFilter<"RecurringTaskTemplate">
+    relatedObjectType?: StringNullableFilter<"RecurringTaskTemplate"> | string | null
+    relatedObjectId?: StringNullableFilter<"RecurringTaskTemplate"> | string | null
+    active?: BoolFilter<"RecurringTaskTemplate"> | boolean
+    createdBy?: UuidNullableFilter<"RecurringTaskTemplate"> | string | null
+    createdAt?: DateTimeFilter<"RecurringTaskTemplate"> | Date | string
+    updatedAt?: DateTimeFilter<"RecurringTaskTemplate"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    tasks?: TaskListRelationFilter
+  }
+
+  export type RecurringTaskTemplateOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    code?: SortOrder
+    title?: SortOrder
+    description?: SortOrderInput | SortOrder
+    frequency?: SortOrder
+    weekdays?: SortOrder
+    dayOfMonth?: SortOrderInput | SortOrder
+    dueTime?: SortOrder
+    assigneeUserIds?: SortOrder
+    completionRule?: SortOrder
+    checklist?: SortOrderInput | SortOrder
+    relatedObjectType?: SortOrderInput | SortOrder
+    relatedObjectId?: SortOrderInput | SortOrder
+    active?: SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+    tasks?: TaskOrderByRelationAggregateInput
+  }
+
+  export type RecurringTaskTemplateWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    tenantId_code?: RecurringTaskTemplateTenantIdCodeCompoundUniqueInput
+    AND?: RecurringTaskTemplateWhereInput | RecurringTaskTemplateWhereInput[]
+    OR?: RecurringTaskTemplateWhereInput[]
+    NOT?: RecurringTaskTemplateWhereInput | RecurringTaskTemplateWhereInput[]
+    tenantId?: UuidFilter<"RecurringTaskTemplate"> | string
+    code?: StringFilter<"RecurringTaskTemplate"> | string
+    title?: StringFilter<"RecurringTaskTemplate"> | string
+    description?: StringNullableFilter<"RecurringTaskTemplate"> | string | null
+    frequency?: StringFilter<"RecurringTaskTemplate"> | string
+    weekdays?: IntNullableListFilter<"RecurringTaskTemplate">
+    dayOfMonth?: IntNullableFilter<"RecurringTaskTemplate"> | number | null
+    dueTime?: StringFilter<"RecurringTaskTemplate"> | string
+    assigneeUserIds?: StringNullableListFilter<"RecurringTaskTemplate">
+    completionRule?: StringFilter<"RecurringTaskTemplate"> | string
+    checklist?: JsonNullableFilter<"RecurringTaskTemplate">
+    relatedObjectType?: StringNullableFilter<"RecurringTaskTemplate"> | string | null
+    relatedObjectId?: StringNullableFilter<"RecurringTaskTemplate"> | string | null
+    active?: BoolFilter<"RecurringTaskTemplate"> | boolean
+    createdBy?: UuidNullableFilter<"RecurringTaskTemplate"> | string | null
+    createdAt?: DateTimeFilter<"RecurringTaskTemplate"> | Date | string
+    updatedAt?: DateTimeFilter<"RecurringTaskTemplate"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    tasks?: TaskListRelationFilter
+  }, "id" | "tenantId_code">
+
+  export type RecurringTaskTemplateOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    code?: SortOrder
+    title?: SortOrder
+    description?: SortOrderInput | SortOrder
+    frequency?: SortOrder
+    weekdays?: SortOrder
+    dayOfMonth?: SortOrderInput | SortOrder
+    dueTime?: SortOrder
+    assigneeUserIds?: SortOrder
+    completionRule?: SortOrder
+    checklist?: SortOrderInput | SortOrder
+    relatedObjectType?: SortOrderInput | SortOrder
+    relatedObjectId?: SortOrderInput | SortOrder
+    active?: SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: RecurringTaskTemplateCountOrderByAggregateInput
+    _avg?: RecurringTaskTemplateAvgOrderByAggregateInput
+    _max?: RecurringTaskTemplateMaxOrderByAggregateInput
+    _min?: RecurringTaskTemplateMinOrderByAggregateInput
+    _sum?: RecurringTaskTemplateSumOrderByAggregateInput
+  }
+
+  export type RecurringTaskTemplateScalarWhereWithAggregatesInput = {
+    AND?: RecurringTaskTemplateScalarWhereWithAggregatesInput | RecurringTaskTemplateScalarWhereWithAggregatesInput[]
+    OR?: RecurringTaskTemplateScalarWhereWithAggregatesInput[]
+    NOT?: RecurringTaskTemplateScalarWhereWithAggregatesInput | RecurringTaskTemplateScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"RecurringTaskTemplate"> | string
+    tenantId?: UuidWithAggregatesFilter<"RecurringTaskTemplate"> | string
+    code?: StringWithAggregatesFilter<"RecurringTaskTemplate"> | string
+    title?: StringWithAggregatesFilter<"RecurringTaskTemplate"> | string
+    description?: StringNullableWithAggregatesFilter<"RecurringTaskTemplate"> | string | null
+    frequency?: StringWithAggregatesFilter<"RecurringTaskTemplate"> | string
+    weekdays?: IntNullableListFilter<"RecurringTaskTemplate">
+    dayOfMonth?: IntNullableWithAggregatesFilter<"RecurringTaskTemplate"> | number | null
+    dueTime?: StringWithAggregatesFilter<"RecurringTaskTemplate"> | string
+    assigneeUserIds?: StringNullableListFilter<"RecurringTaskTemplate">
+    completionRule?: StringWithAggregatesFilter<"RecurringTaskTemplate"> | string
+    checklist?: JsonNullableWithAggregatesFilter<"RecurringTaskTemplate">
+    relatedObjectType?: StringNullableWithAggregatesFilter<"RecurringTaskTemplate"> | string | null
+    relatedObjectId?: StringNullableWithAggregatesFilter<"RecurringTaskTemplate"> | string | null
+    active?: BoolWithAggregatesFilter<"RecurringTaskTemplate"> | boolean
+    createdBy?: UuidNullableWithAggregatesFilter<"RecurringTaskTemplate"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"RecurringTaskTemplate"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"RecurringTaskTemplate"> | Date | string
   }
 
   export type NotificationWhereInput = {
@@ -238921,6 +242063,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateInput = {
@@ -239081,6 +242225,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUpdateInput = {
@@ -239241,6 +242387,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateInput = {
@@ -239401,6 +242549,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateManyInput = {
@@ -240593,7 +243743,13 @@ export namespace Prisma {
     createdByUserId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    completionRule?: string | null
+    completedAt?: Date | string | null
+    occurrenceDate?: Date | string | null
+    checklist?: NullableJsonNullValueInput | InputJsonValue
     tenant: TenantCreateNestedOneWithoutTasksInput
+    assignees?: TaskAssigneeCreateNestedManyWithoutTaskInput
+    template?: RecurringTaskTemplateCreateNestedOneWithoutTasksInput
   }
 
   export type TaskUncheckedCreateInput = {
@@ -240609,6 +243765,12 @@ export namespace Prisma {
     createdByUserId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    completionRule?: string | null
+    completedAt?: Date | string | null
+    templateId?: string | null
+    occurrenceDate?: Date | string | null
+    checklist?: NullableJsonNullValueInput | InputJsonValue
+    assignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTaskInput
   }
 
   export type TaskUpdateInput = {
@@ -240623,7 +243785,13 @@ export namespace Prisma {
     createdByUserId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completionRule?: NullableStringFieldUpdateOperationsInput | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    occurrenceDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    checklist?: NullableJsonNullValueInput | InputJsonValue
     tenant?: TenantUpdateOneRequiredWithoutTasksNestedInput
+    assignees?: TaskAssigneeUpdateManyWithoutTaskNestedInput
+    template?: RecurringTaskTemplateUpdateOneWithoutTasksNestedInput
   }
 
   export type TaskUncheckedUpdateInput = {
@@ -240639,6 +243807,12 @@ export namespace Prisma {
     createdByUserId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completionRule?: NullableStringFieldUpdateOperationsInput | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    templateId?: NullableStringFieldUpdateOperationsInput | string | null
+    occurrenceDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    checklist?: NullableJsonNullValueInput | InputJsonValue
+    assignees?: TaskAssigneeUncheckedUpdateManyWithoutTaskNestedInput
   }
 
   export type TaskCreateManyInput = {
@@ -240654,6 +243828,11 @@ export namespace Prisma {
     createdByUserId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    completionRule?: string | null
+    completedAt?: Date | string | null
+    templateId?: string | null
+    occurrenceDate?: Date | string | null
+    checklist?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type TaskUpdateManyMutationInput = {
@@ -240668,6 +243847,10 @@ export namespace Prisma {
     createdByUserId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completionRule?: NullableStringFieldUpdateOperationsInput | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    occurrenceDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    checklist?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type TaskUncheckedUpdateManyInput = {
@@ -240681,6 +243864,243 @@ export namespace Prisma {
     relatedObjectType?: NullableStringFieldUpdateOperationsInput | string | null
     relatedObjectId?: NullableStringFieldUpdateOperationsInput | string | null
     createdByUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completionRule?: NullableStringFieldUpdateOperationsInput | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    templateId?: NullableStringFieldUpdateOperationsInput | string | null
+    occurrenceDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    checklist?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type TaskAssigneeCreateInput = {
+    id?: string
+    userId: string
+    status?: string
+    completedAt?: Date | string | null
+    completedBy?: string | null
+    note?: string | null
+    results?: NullableJsonNullValueInput | InputJsonValue
+    tenant: TenantCreateNestedOneWithoutTaskAssigneesInput
+    task: TaskCreateNestedOneWithoutAssigneesInput
+  }
+
+  export type TaskAssigneeUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    taskId: string
+    userId: string
+    status?: string
+    completedAt?: Date | string | null
+    completedBy?: string | null
+    note?: string | null
+    results?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type TaskAssigneeUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    results?: NullableJsonNullValueInput | InputJsonValue
+    tenant?: TenantUpdateOneRequiredWithoutTaskAssigneesNestedInput
+    task?: TaskUpdateOneRequiredWithoutAssigneesNestedInput
+  }
+
+  export type TaskAssigneeUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    taskId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    results?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type TaskAssigneeCreateManyInput = {
+    id?: string
+    tenantId: string
+    taskId: string
+    userId: string
+    status?: string
+    completedAt?: Date | string | null
+    completedBy?: string | null
+    note?: string | null
+    results?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type TaskAssigneeUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    results?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type TaskAssigneeUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    taskId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    results?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type RecurringTaskTemplateCreateInput = {
+    id?: string
+    code: string
+    title: string
+    description?: string | null
+    frequency: string
+    weekdays?: RecurringTaskTemplateCreateweekdaysInput | number[]
+    dayOfMonth?: number | null
+    dueTime?: string
+    assigneeUserIds?: RecurringTaskTemplateCreateassigneeUserIdsInput | string[]
+    completionRule?: string
+    checklist?: NullableJsonNullValueInput | InputJsonValue
+    relatedObjectType?: string | null
+    relatedObjectId?: string | null
+    active?: boolean
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutRecurringTaskTemplatesInput
+    tasks?: TaskCreateNestedManyWithoutTemplateInput
+  }
+
+  export type RecurringTaskTemplateUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    code: string
+    title: string
+    description?: string | null
+    frequency: string
+    weekdays?: RecurringTaskTemplateCreateweekdaysInput | number[]
+    dayOfMonth?: number | null
+    dueTime?: string
+    assigneeUserIds?: RecurringTaskTemplateCreateassigneeUserIdsInput | string[]
+    completionRule?: string
+    checklist?: NullableJsonNullValueInput | InputJsonValue
+    relatedObjectType?: string | null
+    relatedObjectId?: string | null
+    active?: boolean
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tasks?: TaskUncheckedCreateNestedManyWithoutTemplateInput
+  }
+
+  export type RecurringTaskTemplateUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    frequency?: StringFieldUpdateOperationsInput | string
+    weekdays?: RecurringTaskTemplateUpdateweekdaysInput | number[]
+    dayOfMonth?: NullableIntFieldUpdateOperationsInput | number | null
+    dueTime?: StringFieldUpdateOperationsInput | string
+    assigneeUserIds?: RecurringTaskTemplateUpdateassigneeUserIdsInput | string[]
+    completionRule?: StringFieldUpdateOperationsInput | string
+    checklist?: NullableJsonNullValueInput | InputJsonValue
+    relatedObjectType?: NullableStringFieldUpdateOperationsInput | string | null
+    relatedObjectId?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutRecurringTaskTemplatesNestedInput
+    tasks?: TaskUpdateManyWithoutTemplateNestedInput
+  }
+
+  export type RecurringTaskTemplateUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    frequency?: StringFieldUpdateOperationsInput | string
+    weekdays?: RecurringTaskTemplateUpdateweekdaysInput | number[]
+    dayOfMonth?: NullableIntFieldUpdateOperationsInput | number | null
+    dueTime?: StringFieldUpdateOperationsInput | string
+    assigneeUserIds?: RecurringTaskTemplateUpdateassigneeUserIdsInput | string[]
+    completionRule?: StringFieldUpdateOperationsInput | string
+    checklist?: NullableJsonNullValueInput | InputJsonValue
+    relatedObjectType?: NullableStringFieldUpdateOperationsInput | string | null
+    relatedObjectId?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tasks?: TaskUncheckedUpdateManyWithoutTemplateNestedInput
+  }
+
+  export type RecurringTaskTemplateCreateManyInput = {
+    id?: string
+    tenantId: string
+    code: string
+    title: string
+    description?: string | null
+    frequency: string
+    weekdays?: RecurringTaskTemplateCreateweekdaysInput | number[]
+    dayOfMonth?: number | null
+    dueTime?: string
+    assigneeUserIds?: RecurringTaskTemplateCreateassigneeUserIdsInput | string[]
+    completionRule?: string
+    checklist?: NullableJsonNullValueInput | InputJsonValue
+    relatedObjectType?: string | null
+    relatedObjectId?: string | null
+    active?: boolean
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type RecurringTaskTemplateUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    frequency?: StringFieldUpdateOperationsInput | string
+    weekdays?: RecurringTaskTemplateUpdateweekdaysInput | number[]
+    dayOfMonth?: NullableIntFieldUpdateOperationsInput | number | null
+    dueTime?: StringFieldUpdateOperationsInput | string
+    assigneeUserIds?: RecurringTaskTemplateUpdateassigneeUserIdsInput | string[]
+    completionRule?: StringFieldUpdateOperationsInput | string
+    checklist?: NullableJsonNullValueInput | InputJsonValue
+    relatedObjectType?: NullableStringFieldUpdateOperationsInput | string | null
+    relatedObjectId?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RecurringTaskTemplateUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    frequency?: StringFieldUpdateOperationsInput | string
+    weekdays?: RecurringTaskTemplateUpdateweekdaysInput | number[]
+    dayOfMonth?: NullableIntFieldUpdateOperationsInput | number | null
+    dueTime?: StringFieldUpdateOperationsInput | string
+    assigneeUserIds?: RecurringTaskTemplateUpdateassigneeUserIdsInput | string[]
+    completionRule?: StringFieldUpdateOperationsInput | string
+    checklist?: NullableJsonNullValueInput | InputJsonValue
+    relatedObjectType?: NullableStringFieldUpdateOperationsInput | string | null
+    relatedObjectId?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -255459,6 +258879,18 @@ export namespace Prisma {
     none?: SupportCaseReturnWhereInput
   }
 
+  export type TaskAssigneeListRelationFilter = {
+    every?: TaskAssigneeWhereInput
+    some?: TaskAssigneeWhereInput
+    none?: TaskAssigneeWhereInput
+  }
+
+  export type RecurringTaskTemplateListRelationFilter = {
+    every?: RecurringTaskTemplateWhereInput
+    some?: RecurringTaskTemplateWhereInput
+    none?: RecurringTaskTemplateWhereInput
+  }
+
   export type TenantConfigurationVersionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -256056,6 +259488,14 @@ export namespace Prisma {
   }
 
   export type SupportCaseReturnOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type TaskAssigneeOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type RecurringTaskTemplateOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -257078,6 +260518,11 @@ export namespace Prisma {
     not?: NestedEnumTaskStatusFilter<$PrismaModel> | $Enums.TaskStatus
   }
 
+  export type RecurringTaskTemplateNullableScalarRelationFilter = {
+    is?: RecurringTaskTemplateWhereInput | null
+    isNot?: RecurringTaskTemplateWhereInput | null
+  }
+
   export type TaskCountOrderByAggregateInput = {
     id?: SortOrder
     tenantId?: SortOrder
@@ -257091,6 +260536,11 @@ export namespace Prisma {
     createdByUserId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    completionRule?: SortOrder
+    completedAt?: SortOrder
+    templateId?: SortOrder
+    occurrenceDate?: SortOrder
+    checklist?: SortOrder
   }
 
   export type TaskMaxOrderByAggregateInput = {
@@ -257106,6 +260556,10 @@ export namespace Prisma {
     createdByUserId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    completionRule?: SortOrder
+    completedAt?: SortOrder
+    templateId?: SortOrder
+    occurrenceDate?: SortOrder
   }
 
   export type TaskMinOrderByAggregateInput = {
@@ -257121,6 +260575,10 @@ export namespace Prisma {
     createdByUserId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    completionRule?: SortOrder
+    completedAt?: SortOrder
+    templateId?: SortOrder
+    occurrenceDate?: SortOrder
   }
 
   export type EnumTaskStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -257131,6 +260589,165 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumTaskStatusFilter<$PrismaModel>
     _max?: NestedEnumTaskStatusFilter<$PrismaModel>
+  }
+
+  export type TaskScalarRelationFilter = {
+    is?: TaskWhereInput
+    isNot?: TaskWhereInput
+  }
+
+  export type TaskAssigneeTaskIdUserIdCompoundUniqueInput = {
+    taskId: string
+    userId: string
+  }
+
+  export type TaskAssigneeCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    taskId?: SortOrder
+    userId?: SortOrder
+    status?: SortOrder
+    completedAt?: SortOrder
+    completedBy?: SortOrder
+    note?: SortOrder
+    results?: SortOrder
+  }
+
+  export type TaskAssigneeMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    taskId?: SortOrder
+    userId?: SortOrder
+    status?: SortOrder
+    completedAt?: SortOrder
+    completedBy?: SortOrder
+    note?: SortOrder
+  }
+
+  export type TaskAssigneeMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    taskId?: SortOrder
+    userId?: SortOrder
+    status?: SortOrder
+    completedAt?: SortOrder
+    completedBy?: SortOrder
+    note?: SortOrder
+  }
+
+  export type IntNullableListFilter<$PrismaModel = never> = {
+    equals?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    has?: number | IntFieldRefInput<$PrismaModel> | null
+    hasEvery?: number[] | ListIntFieldRefInput<$PrismaModel>
+    hasSome?: number[] | ListIntFieldRefInput<$PrismaModel>
+    isEmpty?: boolean
+  }
+
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type StringNullableListFilter<$PrismaModel = never> = {
+    equals?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    has?: string | StringFieldRefInput<$PrismaModel> | null
+    hasEvery?: string[] | ListStringFieldRefInput<$PrismaModel>
+    hasSome?: string[] | ListStringFieldRefInput<$PrismaModel>
+    isEmpty?: boolean
+  }
+
+  export type RecurringTaskTemplateTenantIdCodeCompoundUniqueInput = {
+    tenantId: string
+    code: string
+  }
+
+  export type RecurringTaskTemplateCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    code?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    frequency?: SortOrder
+    weekdays?: SortOrder
+    dayOfMonth?: SortOrder
+    dueTime?: SortOrder
+    assigneeUserIds?: SortOrder
+    completionRule?: SortOrder
+    checklist?: SortOrder
+    relatedObjectType?: SortOrder
+    relatedObjectId?: SortOrder
+    active?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type RecurringTaskTemplateAvgOrderByAggregateInput = {
+    weekdays?: SortOrder
+    dayOfMonth?: SortOrder
+  }
+
+  export type RecurringTaskTemplateMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    code?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    frequency?: SortOrder
+    dayOfMonth?: SortOrder
+    dueTime?: SortOrder
+    completionRule?: SortOrder
+    relatedObjectType?: SortOrder
+    relatedObjectId?: SortOrder
+    active?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type RecurringTaskTemplateMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    code?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    frequency?: SortOrder
+    dayOfMonth?: SortOrder
+    dueTime?: SortOrder
+    completionRule?: SortOrder
+    relatedObjectType?: SortOrder
+    relatedObjectId?: SortOrder
+    active?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type RecurringTaskTemplateSumOrderByAggregateInput = {
+    weekdays?: SortOrder
+    dayOfMonth?: SortOrder
+  }
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
   export type NotificationCountOrderByAggregateInput = {
@@ -257775,14 +261392,6 @@ export namespace Prisma {
     createdAt?: SortOrder
   }
 
-  export type StringNullableListFilter<$PrismaModel = never> = {
-    equals?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    has?: string | StringFieldRefInput<$PrismaModel> | null
-    hasEvery?: string[] | ListStringFieldRefInput<$PrismaModel>
-    hasSome?: string[] | ListStringFieldRefInput<$PrismaModel>
-    isEmpty?: boolean
-  }
-
   export type EnumProductStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.ProductStatus | EnumProductStatusFieldRefInput<$PrismaModel>
     in?: $Enums.ProductStatus[] | ListEnumProductStatusFieldRefInput<$PrismaModel>
@@ -257851,17 +261460,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumProductStatusFilter<$PrismaModel>
     _max?: NestedEnumProductStatusFilter<$PrismaModel>
-  }
-
-  export type IntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
   export type DecimalNullableFilter<$PrismaModel = never> = {
@@ -258016,22 +261614,6 @@ export namespace Prisma {
     widthCm?: SortOrder
     heightCm?: SortOrder
     standardCost?: SortOrder
-  }
-
-  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedIntNullableFilter<$PrismaModel>
-    _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
   export type DecimalNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -267181,6 +270763,20 @@ export namespace Prisma {
     connect?: SupportCaseReturnWhereUniqueInput | SupportCaseReturnWhereUniqueInput[]
   }
 
+  export type TaskAssigneeCreateNestedManyWithoutTenantInput = {
+    create?: XOR<TaskAssigneeCreateWithoutTenantInput, TaskAssigneeUncheckedCreateWithoutTenantInput> | TaskAssigneeCreateWithoutTenantInput[] | TaskAssigneeUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: TaskAssigneeCreateOrConnectWithoutTenantInput | TaskAssigneeCreateOrConnectWithoutTenantInput[]
+    createMany?: TaskAssigneeCreateManyTenantInputEnvelope
+    connect?: TaskAssigneeWhereUniqueInput | TaskAssigneeWhereUniqueInput[]
+  }
+
+  export type RecurringTaskTemplateCreateNestedManyWithoutTenantInput = {
+    create?: XOR<RecurringTaskTemplateCreateWithoutTenantInput, RecurringTaskTemplateUncheckedCreateWithoutTenantInput> | RecurringTaskTemplateCreateWithoutTenantInput[] | RecurringTaskTemplateUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: RecurringTaskTemplateCreateOrConnectWithoutTenantInput | RecurringTaskTemplateCreateOrConnectWithoutTenantInput[]
+    createMany?: RecurringTaskTemplateCreateManyTenantInputEnvelope
+    connect?: RecurringTaskTemplateWhereUniqueInput | RecurringTaskTemplateWhereUniqueInput[]
+  }
+
   export type TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -268229,6 +271825,20 @@ export namespace Prisma {
     connectOrCreate?: SupportCaseReturnCreateOrConnectWithoutTenantInput | SupportCaseReturnCreateOrConnectWithoutTenantInput[]
     createMany?: SupportCaseReturnCreateManyTenantInputEnvelope
     connect?: SupportCaseReturnWhereUniqueInput | SupportCaseReturnWhereUniqueInput[]
+  }
+
+  export type TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<TaskAssigneeCreateWithoutTenantInput, TaskAssigneeUncheckedCreateWithoutTenantInput> | TaskAssigneeCreateWithoutTenantInput[] | TaskAssigneeUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: TaskAssigneeCreateOrConnectWithoutTenantInput | TaskAssigneeCreateOrConnectWithoutTenantInput[]
+    createMany?: TaskAssigneeCreateManyTenantInputEnvelope
+    connect?: TaskAssigneeWhereUniqueInput | TaskAssigneeWhereUniqueInput[]
+  }
+
+  export type RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<RecurringTaskTemplateCreateWithoutTenantInput, RecurringTaskTemplateUncheckedCreateWithoutTenantInput> | RecurringTaskTemplateCreateWithoutTenantInput[] | RecurringTaskTemplateUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: RecurringTaskTemplateCreateOrConnectWithoutTenantInput | RecurringTaskTemplateCreateOrConnectWithoutTenantInput[]
+    createMany?: RecurringTaskTemplateCreateManyTenantInputEnvelope
+    connect?: RecurringTaskTemplateWhereUniqueInput | RecurringTaskTemplateWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -270351,6 +273961,34 @@ export namespace Prisma {
     deleteMany?: SupportCaseReturnScalarWhereInput | SupportCaseReturnScalarWhereInput[]
   }
 
+  export type TaskAssigneeUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<TaskAssigneeCreateWithoutTenantInput, TaskAssigneeUncheckedCreateWithoutTenantInput> | TaskAssigneeCreateWithoutTenantInput[] | TaskAssigneeUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: TaskAssigneeCreateOrConnectWithoutTenantInput | TaskAssigneeCreateOrConnectWithoutTenantInput[]
+    upsert?: TaskAssigneeUpsertWithWhereUniqueWithoutTenantInput | TaskAssigneeUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: TaskAssigneeCreateManyTenantInputEnvelope
+    set?: TaskAssigneeWhereUniqueInput | TaskAssigneeWhereUniqueInput[]
+    disconnect?: TaskAssigneeWhereUniqueInput | TaskAssigneeWhereUniqueInput[]
+    delete?: TaskAssigneeWhereUniqueInput | TaskAssigneeWhereUniqueInput[]
+    connect?: TaskAssigneeWhereUniqueInput | TaskAssigneeWhereUniqueInput[]
+    update?: TaskAssigneeUpdateWithWhereUniqueWithoutTenantInput | TaskAssigneeUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: TaskAssigneeUpdateManyWithWhereWithoutTenantInput | TaskAssigneeUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: TaskAssigneeScalarWhereInput | TaskAssigneeScalarWhereInput[]
+  }
+
+  export type RecurringTaskTemplateUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<RecurringTaskTemplateCreateWithoutTenantInput, RecurringTaskTemplateUncheckedCreateWithoutTenantInput> | RecurringTaskTemplateCreateWithoutTenantInput[] | RecurringTaskTemplateUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: RecurringTaskTemplateCreateOrConnectWithoutTenantInput | RecurringTaskTemplateCreateOrConnectWithoutTenantInput[]
+    upsert?: RecurringTaskTemplateUpsertWithWhereUniqueWithoutTenantInput | RecurringTaskTemplateUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: RecurringTaskTemplateCreateManyTenantInputEnvelope
+    set?: RecurringTaskTemplateWhereUniqueInput | RecurringTaskTemplateWhereUniqueInput[]
+    disconnect?: RecurringTaskTemplateWhereUniqueInput | RecurringTaskTemplateWhereUniqueInput[]
+    delete?: RecurringTaskTemplateWhereUniqueInput | RecurringTaskTemplateWhereUniqueInput[]
+    connect?: RecurringTaskTemplateWhereUniqueInput | RecurringTaskTemplateWhereUniqueInput[]
+    update?: RecurringTaskTemplateUpdateWithWhereUniqueWithoutTenantInput | RecurringTaskTemplateUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: RecurringTaskTemplateUpdateManyWithWhereWithoutTenantInput | RecurringTaskTemplateUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: RecurringTaskTemplateScalarWhereInput | RecurringTaskTemplateScalarWhereInput[]
+  }
+
   export type TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -272451,6 +276089,34 @@ export namespace Prisma {
     deleteMany?: SupportCaseReturnScalarWhereInput | SupportCaseReturnScalarWhereInput[]
   }
 
+  export type TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<TaskAssigneeCreateWithoutTenantInput, TaskAssigneeUncheckedCreateWithoutTenantInput> | TaskAssigneeCreateWithoutTenantInput[] | TaskAssigneeUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: TaskAssigneeCreateOrConnectWithoutTenantInput | TaskAssigneeCreateOrConnectWithoutTenantInput[]
+    upsert?: TaskAssigneeUpsertWithWhereUniqueWithoutTenantInput | TaskAssigneeUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: TaskAssigneeCreateManyTenantInputEnvelope
+    set?: TaskAssigneeWhereUniqueInput | TaskAssigneeWhereUniqueInput[]
+    disconnect?: TaskAssigneeWhereUniqueInput | TaskAssigneeWhereUniqueInput[]
+    delete?: TaskAssigneeWhereUniqueInput | TaskAssigneeWhereUniqueInput[]
+    connect?: TaskAssigneeWhereUniqueInput | TaskAssigneeWhereUniqueInput[]
+    update?: TaskAssigneeUpdateWithWhereUniqueWithoutTenantInput | TaskAssigneeUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: TaskAssigneeUpdateManyWithWhereWithoutTenantInput | TaskAssigneeUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: TaskAssigneeScalarWhereInput | TaskAssigneeScalarWhereInput[]
+  }
+
+  export type RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<RecurringTaskTemplateCreateWithoutTenantInput, RecurringTaskTemplateUncheckedCreateWithoutTenantInput> | RecurringTaskTemplateCreateWithoutTenantInput[] | RecurringTaskTemplateUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: RecurringTaskTemplateCreateOrConnectWithoutTenantInput | RecurringTaskTemplateCreateOrConnectWithoutTenantInput[]
+    upsert?: RecurringTaskTemplateUpsertWithWhereUniqueWithoutTenantInput | RecurringTaskTemplateUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: RecurringTaskTemplateCreateManyTenantInputEnvelope
+    set?: RecurringTaskTemplateWhereUniqueInput | RecurringTaskTemplateWhereUniqueInput[]
+    disconnect?: RecurringTaskTemplateWhereUniqueInput | RecurringTaskTemplateWhereUniqueInput[]
+    delete?: RecurringTaskTemplateWhereUniqueInput | RecurringTaskTemplateWhereUniqueInput[]
+    connect?: RecurringTaskTemplateWhereUniqueInput | RecurringTaskTemplateWhereUniqueInput[]
+    update?: RecurringTaskTemplateUpdateWithWhereUniqueWithoutTenantInput | RecurringTaskTemplateUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: RecurringTaskTemplateUpdateManyWithWhereWithoutTenantInput | RecurringTaskTemplateUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: RecurringTaskTemplateScalarWhereInput | RecurringTaskTemplateScalarWhereInput[]
+  }
+
   export type TenantCreateNestedOneWithoutConfigurationVersionsInput = {
     create?: XOR<TenantCreateWithoutConfigurationVersionsInput, TenantUncheckedCreateWithoutConfigurationVersionsInput>
     connectOrCreate?: TenantCreateOrConnectWithoutConfigurationVersionsInput
@@ -273167,6 +276833,26 @@ export namespace Prisma {
     connect?: TenantWhereUniqueInput
   }
 
+  export type TaskAssigneeCreateNestedManyWithoutTaskInput = {
+    create?: XOR<TaskAssigneeCreateWithoutTaskInput, TaskAssigneeUncheckedCreateWithoutTaskInput> | TaskAssigneeCreateWithoutTaskInput[] | TaskAssigneeUncheckedCreateWithoutTaskInput[]
+    connectOrCreate?: TaskAssigneeCreateOrConnectWithoutTaskInput | TaskAssigneeCreateOrConnectWithoutTaskInput[]
+    createMany?: TaskAssigneeCreateManyTaskInputEnvelope
+    connect?: TaskAssigneeWhereUniqueInput | TaskAssigneeWhereUniqueInput[]
+  }
+
+  export type RecurringTaskTemplateCreateNestedOneWithoutTasksInput = {
+    create?: XOR<RecurringTaskTemplateCreateWithoutTasksInput, RecurringTaskTemplateUncheckedCreateWithoutTasksInput>
+    connectOrCreate?: RecurringTaskTemplateCreateOrConnectWithoutTasksInput
+    connect?: RecurringTaskTemplateWhereUniqueInput
+  }
+
+  export type TaskAssigneeUncheckedCreateNestedManyWithoutTaskInput = {
+    create?: XOR<TaskAssigneeCreateWithoutTaskInput, TaskAssigneeUncheckedCreateWithoutTaskInput> | TaskAssigneeCreateWithoutTaskInput[] | TaskAssigneeUncheckedCreateWithoutTaskInput[]
+    connectOrCreate?: TaskAssigneeCreateOrConnectWithoutTaskInput | TaskAssigneeCreateOrConnectWithoutTaskInput[]
+    createMany?: TaskAssigneeCreateManyTaskInputEnvelope
+    connect?: TaskAssigneeWhereUniqueInput | TaskAssigneeWhereUniqueInput[]
+  }
+
   export type EnumTaskStatusFieldUpdateOperationsInput = {
     set?: $Enums.TaskStatus
   }
@@ -273177,6 +276863,154 @@ export namespace Prisma {
     upsert?: TenantUpsertWithoutTasksInput
     connect?: TenantWhereUniqueInput
     update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutTasksInput, TenantUpdateWithoutTasksInput>, TenantUncheckedUpdateWithoutTasksInput>
+  }
+
+  export type TaskAssigneeUpdateManyWithoutTaskNestedInput = {
+    create?: XOR<TaskAssigneeCreateWithoutTaskInput, TaskAssigneeUncheckedCreateWithoutTaskInput> | TaskAssigneeCreateWithoutTaskInput[] | TaskAssigneeUncheckedCreateWithoutTaskInput[]
+    connectOrCreate?: TaskAssigneeCreateOrConnectWithoutTaskInput | TaskAssigneeCreateOrConnectWithoutTaskInput[]
+    upsert?: TaskAssigneeUpsertWithWhereUniqueWithoutTaskInput | TaskAssigneeUpsertWithWhereUniqueWithoutTaskInput[]
+    createMany?: TaskAssigneeCreateManyTaskInputEnvelope
+    set?: TaskAssigneeWhereUniqueInput | TaskAssigneeWhereUniqueInput[]
+    disconnect?: TaskAssigneeWhereUniqueInput | TaskAssigneeWhereUniqueInput[]
+    delete?: TaskAssigneeWhereUniqueInput | TaskAssigneeWhereUniqueInput[]
+    connect?: TaskAssigneeWhereUniqueInput | TaskAssigneeWhereUniqueInput[]
+    update?: TaskAssigneeUpdateWithWhereUniqueWithoutTaskInput | TaskAssigneeUpdateWithWhereUniqueWithoutTaskInput[]
+    updateMany?: TaskAssigneeUpdateManyWithWhereWithoutTaskInput | TaskAssigneeUpdateManyWithWhereWithoutTaskInput[]
+    deleteMany?: TaskAssigneeScalarWhereInput | TaskAssigneeScalarWhereInput[]
+  }
+
+  export type RecurringTaskTemplateUpdateOneWithoutTasksNestedInput = {
+    create?: XOR<RecurringTaskTemplateCreateWithoutTasksInput, RecurringTaskTemplateUncheckedCreateWithoutTasksInput>
+    connectOrCreate?: RecurringTaskTemplateCreateOrConnectWithoutTasksInput
+    upsert?: RecurringTaskTemplateUpsertWithoutTasksInput
+    disconnect?: RecurringTaskTemplateWhereInput | boolean
+    delete?: RecurringTaskTemplateWhereInput | boolean
+    connect?: RecurringTaskTemplateWhereUniqueInput
+    update?: XOR<XOR<RecurringTaskTemplateUpdateToOneWithWhereWithoutTasksInput, RecurringTaskTemplateUpdateWithoutTasksInput>, RecurringTaskTemplateUncheckedUpdateWithoutTasksInput>
+  }
+
+  export type TaskAssigneeUncheckedUpdateManyWithoutTaskNestedInput = {
+    create?: XOR<TaskAssigneeCreateWithoutTaskInput, TaskAssigneeUncheckedCreateWithoutTaskInput> | TaskAssigneeCreateWithoutTaskInput[] | TaskAssigneeUncheckedCreateWithoutTaskInput[]
+    connectOrCreate?: TaskAssigneeCreateOrConnectWithoutTaskInput | TaskAssigneeCreateOrConnectWithoutTaskInput[]
+    upsert?: TaskAssigneeUpsertWithWhereUniqueWithoutTaskInput | TaskAssigneeUpsertWithWhereUniqueWithoutTaskInput[]
+    createMany?: TaskAssigneeCreateManyTaskInputEnvelope
+    set?: TaskAssigneeWhereUniqueInput | TaskAssigneeWhereUniqueInput[]
+    disconnect?: TaskAssigneeWhereUniqueInput | TaskAssigneeWhereUniqueInput[]
+    delete?: TaskAssigneeWhereUniqueInput | TaskAssigneeWhereUniqueInput[]
+    connect?: TaskAssigneeWhereUniqueInput | TaskAssigneeWhereUniqueInput[]
+    update?: TaskAssigneeUpdateWithWhereUniqueWithoutTaskInput | TaskAssigneeUpdateWithWhereUniqueWithoutTaskInput[]
+    updateMany?: TaskAssigneeUpdateManyWithWhereWithoutTaskInput | TaskAssigneeUpdateManyWithWhereWithoutTaskInput[]
+    deleteMany?: TaskAssigneeScalarWhereInput | TaskAssigneeScalarWhereInput[]
+  }
+
+  export type TenantCreateNestedOneWithoutTaskAssigneesInput = {
+    create?: XOR<TenantCreateWithoutTaskAssigneesInput, TenantUncheckedCreateWithoutTaskAssigneesInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutTaskAssigneesInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type TaskCreateNestedOneWithoutAssigneesInput = {
+    create?: XOR<TaskCreateWithoutAssigneesInput, TaskUncheckedCreateWithoutAssigneesInput>
+    connectOrCreate?: TaskCreateOrConnectWithoutAssigneesInput
+    connect?: TaskWhereUniqueInput
+  }
+
+  export type TenantUpdateOneRequiredWithoutTaskAssigneesNestedInput = {
+    create?: XOR<TenantCreateWithoutTaskAssigneesInput, TenantUncheckedCreateWithoutTaskAssigneesInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutTaskAssigneesInput
+    upsert?: TenantUpsertWithoutTaskAssigneesInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutTaskAssigneesInput, TenantUpdateWithoutTaskAssigneesInput>, TenantUncheckedUpdateWithoutTaskAssigneesInput>
+  }
+
+  export type TaskUpdateOneRequiredWithoutAssigneesNestedInput = {
+    create?: XOR<TaskCreateWithoutAssigneesInput, TaskUncheckedCreateWithoutAssigneesInput>
+    connectOrCreate?: TaskCreateOrConnectWithoutAssigneesInput
+    upsert?: TaskUpsertWithoutAssigneesInput
+    connect?: TaskWhereUniqueInput
+    update?: XOR<XOR<TaskUpdateToOneWithWhereWithoutAssigneesInput, TaskUpdateWithoutAssigneesInput>, TaskUncheckedUpdateWithoutAssigneesInput>
+  }
+
+  export type RecurringTaskTemplateCreateweekdaysInput = {
+    set: number[]
+  }
+
+  export type RecurringTaskTemplateCreateassigneeUserIdsInput = {
+    set: string[]
+  }
+
+  export type TenantCreateNestedOneWithoutRecurringTaskTemplatesInput = {
+    create?: XOR<TenantCreateWithoutRecurringTaskTemplatesInput, TenantUncheckedCreateWithoutRecurringTaskTemplatesInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutRecurringTaskTemplatesInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type TaskCreateNestedManyWithoutTemplateInput = {
+    create?: XOR<TaskCreateWithoutTemplateInput, TaskUncheckedCreateWithoutTemplateInput> | TaskCreateWithoutTemplateInput[] | TaskUncheckedCreateWithoutTemplateInput[]
+    connectOrCreate?: TaskCreateOrConnectWithoutTemplateInput | TaskCreateOrConnectWithoutTemplateInput[]
+    createMany?: TaskCreateManyTemplateInputEnvelope
+    connect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+  }
+
+  export type TaskUncheckedCreateNestedManyWithoutTemplateInput = {
+    create?: XOR<TaskCreateWithoutTemplateInput, TaskUncheckedCreateWithoutTemplateInput> | TaskCreateWithoutTemplateInput[] | TaskUncheckedCreateWithoutTemplateInput[]
+    connectOrCreate?: TaskCreateOrConnectWithoutTemplateInput | TaskCreateOrConnectWithoutTemplateInput[]
+    createMany?: TaskCreateManyTemplateInputEnvelope
+    connect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+  }
+
+  export type RecurringTaskTemplateUpdateweekdaysInput = {
+    set?: number[]
+    push?: number | number[]
+  }
+
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type RecurringTaskTemplateUpdateassigneeUserIdsInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type TenantUpdateOneRequiredWithoutRecurringTaskTemplatesNestedInput = {
+    create?: XOR<TenantCreateWithoutRecurringTaskTemplatesInput, TenantUncheckedCreateWithoutRecurringTaskTemplatesInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutRecurringTaskTemplatesInput
+    upsert?: TenantUpsertWithoutRecurringTaskTemplatesInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutRecurringTaskTemplatesInput, TenantUpdateWithoutRecurringTaskTemplatesInput>, TenantUncheckedUpdateWithoutRecurringTaskTemplatesInput>
+  }
+
+  export type TaskUpdateManyWithoutTemplateNestedInput = {
+    create?: XOR<TaskCreateWithoutTemplateInput, TaskUncheckedCreateWithoutTemplateInput> | TaskCreateWithoutTemplateInput[] | TaskUncheckedCreateWithoutTemplateInput[]
+    connectOrCreate?: TaskCreateOrConnectWithoutTemplateInput | TaskCreateOrConnectWithoutTemplateInput[]
+    upsert?: TaskUpsertWithWhereUniqueWithoutTemplateInput | TaskUpsertWithWhereUniqueWithoutTemplateInput[]
+    createMany?: TaskCreateManyTemplateInputEnvelope
+    set?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    disconnect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    delete?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    connect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    update?: TaskUpdateWithWhereUniqueWithoutTemplateInput | TaskUpdateWithWhereUniqueWithoutTemplateInput[]
+    updateMany?: TaskUpdateManyWithWhereWithoutTemplateInput | TaskUpdateManyWithWhereWithoutTemplateInput[]
+    deleteMany?: TaskScalarWhereInput | TaskScalarWhereInput[]
+  }
+
+  export type TaskUncheckedUpdateManyWithoutTemplateNestedInput = {
+    create?: XOR<TaskCreateWithoutTemplateInput, TaskUncheckedCreateWithoutTemplateInput> | TaskCreateWithoutTemplateInput[] | TaskUncheckedCreateWithoutTemplateInput[]
+    connectOrCreate?: TaskCreateOrConnectWithoutTemplateInput | TaskCreateOrConnectWithoutTemplateInput[]
+    upsert?: TaskUpsertWithWhereUniqueWithoutTemplateInput | TaskUpsertWithWhereUniqueWithoutTemplateInput[]
+    createMany?: TaskCreateManyTemplateInputEnvelope
+    set?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    disconnect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    delete?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    connect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    update?: TaskUpdateWithWhereUniqueWithoutTemplateInput | TaskUpdateWithWhereUniqueWithoutTemplateInput[]
+    updateMany?: TaskUpdateManyWithWhereWithoutTemplateInput | TaskUpdateManyWithWhereWithoutTemplateInput[]
+    deleteMany?: TaskScalarWhereInput | TaskScalarWhereInput[]
   }
 
   export type TenantCreateNestedOneWithoutNotificationsInput = {
@@ -273978,14 +277812,6 @@ export namespace Prisma {
     connectOrCreate?: SkuChannelContentCreateOrConnectWithoutSkuInput | SkuChannelContentCreateOrConnectWithoutSkuInput[]
     createMany?: SkuChannelContentCreateManySkuInputEnvelope
     connect?: SkuChannelContentWhereUniqueInput | SkuChannelContentWhereUniqueInput[]
-  }
-
-  export type NullableIntFieldUpdateOperationsInput = {
-    set?: number | null
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
   }
 
   export type NullableDecimalFieldUpdateOperationsInput = {
@@ -279794,6 +283620,33 @@ export namespace Prisma {
     _max?: NestedEnumTaskStatusFilter<$PrismaModel>
   }
 
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
   export type NestedEnumWorkflowInstanceStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.WorkflowInstanceStatus | EnumWorkflowInstanceStatusFieldRefInput<$PrismaModel>
     in?: $Enums.WorkflowInstanceStatus[] | ListEnumWorkflowInstanceStatusFieldRefInput<$PrismaModel>
@@ -279936,33 +283789,6 @@ export namespace Prisma {
     in?: $Enums.SkuStatus[] | ListEnumSkuStatusFieldRefInput<$PrismaModel>
     notIn?: $Enums.SkuStatus[] | ListEnumSkuStatusFieldRefInput<$PrismaModel>
     not?: NestedEnumSkuStatusFilter<$PrismaModel> | $Enums.SkuStatus
-  }
-
-  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedIntNullableFilter<$PrismaModel>
-    _max?: NestedIntNullableFilter<$PrismaModel>
-  }
-
-  export type NestedFloatNullableFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
   export type NestedDecimalNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -281358,6 +285184,12 @@ export namespace Prisma {
     createdByUserId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    completionRule?: string | null
+    completedAt?: Date | string | null
+    occurrenceDate?: Date | string | null
+    checklist?: NullableJsonNullValueInput | InputJsonValue
+    assignees?: TaskAssigneeCreateNestedManyWithoutTaskInput
+    template?: RecurringTaskTemplateCreateNestedOneWithoutTasksInput
   }
 
   export type TaskUncheckedCreateWithoutTenantInput = {
@@ -281372,6 +285204,12 @@ export namespace Prisma {
     createdByUserId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    completionRule?: string | null
+    completedAt?: Date | string | null
+    templateId?: string | null
+    occurrenceDate?: Date | string | null
+    checklist?: NullableJsonNullValueInput | InputJsonValue
+    assignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTaskInput
   }
 
   export type TaskCreateOrConnectWithoutTenantInput = {
@@ -286190,6 +290028,90 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type TaskAssigneeCreateWithoutTenantInput = {
+    id?: string
+    userId: string
+    status?: string
+    completedAt?: Date | string | null
+    completedBy?: string | null
+    note?: string | null
+    results?: NullableJsonNullValueInput | InputJsonValue
+    task: TaskCreateNestedOneWithoutAssigneesInput
+  }
+
+  export type TaskAssigneeUncheckedCreateWithoutTenantInput = {
+    id?: string
+    taskId: string
+    userId: string
+    status?: string
+    completedAt?: Date | string | null
+    completedBy?: string | null
+    note?: string | null
+    results?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type TaskAssigneeCreateOrConnectWithoutTenantInput = {
+    where: TaskAssigneeWhereUniqueInput
+    create: XOR<TaskAssigneeCreateWithoutTenantInput, TaskAssigneeUncheckedCreateWithoutTenantInput>
+  }
+
+  export type TaskAssigneeCreateManyTenantInputEnvelope = {
+    data: TaskAssigneeCreateManyTenantInput | TaskAssigneeCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type RecurringTaskTemplateCreateWithoutTenantInput = {
+    id?: string
+    code: string
+    title: string
+    description?: string | null
+    frequency: string
+    weekdays?: RecurringTaskTemplateCreateweekdaysInput | number[]
+    dayOfMonth?: number | null
+    dueTime?: string
+    assigneeUserIds?: RecurringTaskTemplateCreateassigneeUserIdsInput | string[]
+    completionRule?: string
+    checklist?: NullableJsonNullValueInput | InputJsonValue
+    relatedObjectType?: string | null
+    relatedObjectId?: string | null
+    active?: boolean
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tasks?: TaskCreateNestedManyWithoutTemplateInput
+  }
+
+  export type RecurringTaskTemplateUncheckedCreateWithoutTenantInput = {
+    id?: string
+    code: string
+    title: string
+    description?: string | null
+    frequency: string
+    weekdays?: RecurringTaskTemplateCreateweekdaysInput | number[]
+    dayOfMonth?: number | null
+    dueTime?: string
+    assigneeUserIds?: RecurringTaskTemplateCreateassigneeUserIdsInput | string[]
+    completionRule?: string
+    checklist?: NullableJsonNullValueInput | InputJsonValue
+    relatedObjectType?: string | null
+    relatedObjectId?: string | null
+    active?: boolean
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tasks?: TaskUncheckedCreateNestedManyWithoutTemplateInput
+  }
+
+  export type RecurringTaskTemplateCreateOrConnectWithoutTenantInput = {
+    where: RecurringTaskTemplateWhereUniqueInput
+    create: XOR<RecurringTaskTemplateCreateWithoutTenantInput, RecurringTaskTemplateUncheckedCreateWithoutTenantInput>
+  }
+
+  export type RecurringTaskTemplateCreateManyTenantInputEnvelope = {
+    data: RecurringTaskTemplateCreateManyTenantInput | RecurringTaskTemplateCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
   export type TenantConfigurationVersionUpsertWithWhereUniqueWithoutTenantInput = {
     where: TenantConfigurationVersionWhereUniqueInput
     update: XOR<TenantConfigurationVersionUpdateWithoutTenantInput, TenantConfigurationVersionUncheckedUpdateWithoutTenantInput>
@@ -286610,6 +290532,11 @@ export namespace Prisma {
     createdByUserId?: UuidNullableFilter<"Task"> | string | null
     createdAt?: DateTimeFilter<"Task"> | Date | string
     updatedAt?: DateTimeFilter<"Task"> | Date | string
+    completionRule?: StringNullableFilter<"Task"> | string | null
+    completedAt?: DateTimeNullableFilter<"Task"> | Date | string | null
+    templateId?: UuidNullableFilter<"Task"> | string | null
+    occurrenceDate?: DateTimeNullableFilter<"Task"> | Date | string | null
+    checklist?: JsonNullableFilter<"Task">
   }
 
   export type NotificationUpsertWithWhereUniqueWithoutTenantInput = {
@@ -290992,6 +294919,77 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"SupportCaseReturn"> | Date | string
   }
 
+  export type TaskAssigneeUpsertWithWhereUniqueWithoutTenantInput = {
+    where: TaskAssigneeWhereUniqueInput
+    update: XOR<TaskAssigneeUpdateWithoutTenantInput, TaskAssigneeUncheckedUpdateWithoutTenantInput>
+    create: XOR<TaskAssigneeCreateWithoutTenantInput, TaskAssigneeUncheckedCreateWithoutTenantInput>
+  }
+
+  export type TaskAssigneeUpdateWithWhereUniqueWithoutTenantInput = {
+    where: TaskAssigneeWhereUniqueInput
+    data: XOR<TaskAssigneeUpdateWithoutTenantInput, TaskAssigneeUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type TaskAssigneeUpdateManyWithWhereWithoutTenantInput = {
+    where: TaskAssigneeScalarWhereInput
+    data: XOR<TaskAssigneeUpdateManyMutationInput, TaskAssigneeUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type TaskAssigneeScalarWhereInput = {
+    AND?: TaskAssigneeScalarWhereInput | TaskAssigneeScalarWhereInput[]
+    OR?: TaskAssigneeScalarWhereInput[]
+    NOT?: TaskAssigneeScalarWhereInput | TaskAssigneeScalarWhereInput[]
+    id?: UuidFilter<"TaskAssignee"> | string
+    tenantId?: UuidFilter<"TaskAssignee"> | string
+    taskId?: UuidFilter<"TaskAssignee"> | string
+    userId?: UuidFilter<"TaskAssignee"> | string
+    status?: StringFilter<"TaskAssignee"> | string
+    completedAt?: DateTimeNullableFilter<"TaskAssignee"> | Date | string | null
+    completedBy?: UuidNullableFilter<"TaskAssignee"> | string | null
+    note?: StringNullableFilter<"TaskAssignee"> | string | null
+    results?: JsonNullableFilter<"TaskAssignee">
+  }
+
+  export type RecurringTaskTemplateUpsertWithWhereUniqueWithoutTenantInput = {
+    where: RecurringTaskTemplateWhereUniqueInput
+    update: XOR<RecurringTaskTemplateUpdateWithoutTenantInput, RecurringTaskTemplateUncheckedUpdateWithoutTenantInput>
+    create: XOR<RecurringTaskTemplateCreateWithoutTenantInput, RecurringTaskTemplateUncheckedCreateWithoutTenantInput>
+  }
+
+  export type RecurringTaskTemplateUpdateWithWhereUniqueWithoutTenantInput = {
+    where: RecurringTaskTemplateWhereUniqueInput
+    data: XOR<RecurringTaskTemplateUpdateWithoutTenantInput, RecurringTaskTemplateUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type RecurringTaskTemplateUpdateManyWithWhereWithoutTenantInput = {
+    where: RecurringTaskTemplateScalarWhereInput
+    data: XOR<RecurringTaskTemplateUpdateManyMutationInput, RecurringTaskTemplateUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type RecurringTaskTemplateScalarWhereInput = {
+    AND?: RecurringTaskTemplateScalarWhereInput | RecurringTaskTemplateScalarWhereInput[]
+    OR?: RecurringTaskTemplateScalarWhereInput[]
+    NOT?: RecurringTaskTemplateScalarWhereInput | RecurringTaskTemplateScalarWhereInput[]
+    id?: UuidFilter<"RecurringTaskTemplate"> | string
+    tenantId?: UuidFilter<"RecurringTaskTemplate"> | string
+    code?: StringFilter<"RecurringTaskTemplate"> | string
+    title?: StringFilter<"RecurringTaskTemplate"> | string
+    description?: StringNullableFilter<"RecurringTaskTemplate"> | string | null
+    frequency?: StringFilter<"RecurringTaskTemplate"> | string
+    weekdays?: IntNullableListFilter<"RecurringTaskTemplate">
+    dayOfMonth?: IntNullableFilter<"RecurringTaskTemplate"> | number | null
+    dueTime?: StringFilter<"RecurringTaskTemplate"> | string
+    assigneeUserIds?: StringNullableListFilter<"RecurringTaskTemplate">
+    completionRule?: StringFilter<"RecurringTaskTemplate"> | string
+    checklist?: JsonNullableFilter<"RecurringTaskTemplate">
+    relatedObjectType?: StringNullableFilter<"RecurringTaskTemplate"> | string | null
+    relatedObjectId?: StringNullableFilter<"RecurringTaskTemplate"> | string | null
+    active?: BoolFilter<"RecurringTaskTemplate"> | boolean
+    createdBy?: UuidNullableFilter<"RecurringTaskTemplate"> | string | null
+    createdAt?: DateTimeFilter<"RecurringTaskTemplate"> | Date | string
+    updatedAt?: DateTimeFilter<"RecurringTaskTemplate"> | Date | string
+  }
+
   export type TenantCreateWithoutConfigurationVersionsInput = {
     id?: string
     slug: string
@@ -291149,6 +295147,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutConfigurationVersionsInput = {
@@ -291308,6 +295308,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutConfigurationVersionsInput = {
@@ -291483,6 +295485,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutConfigurationVersionsInput = {
@@ -291642,6 +295646,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutLegalEntitiesInput = {
@@ -291801,6 +295807,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLegalEntitiesInput = {
@@ -291960,6 +295968,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLegalEntitiesInput = {
@@ -292169,6 +296179,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLegalEntitiesInput = {
@@ -292328,6 +296340,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithWhereUniqueWithoutLegalEntityInput = {
@@ -292503,6 +296517,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBusinessUnitsInput = {
@@ -292662,6 +296678,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBusinessUnitsInput = {
@@ -292975,6 +296993,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBusinessUnitsInput = {
@@ -293134,6 +297154,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type LegalEntityUpsertWithoutBusinessUnitsInput = {
@@ -293405,6 +297427,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBranchesInput = {
@@ -293564,6 +297588,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBranchesInput = {
@@ -293768,6 +297794,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBranchesInput = {
@@ -293927,6 +297955,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithoutBranchesInput = {
@@ -294121,6 +298151,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutFactoriesInput = {
@@ -294280,6 +298312,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutFactoriesInput = {
@@ -294484,6 +298518,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutFactoriesInput = {
@@ -294643,6 +298679,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithoutFactoriesInput = {
@@ -294837,6 +298875,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutUsersInput = {
@@ -294996,6 +299036,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutUsersInput = {
@@ -295260,6 +299302,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutUsersInput = {
@@ -295419,6 +299463,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserRoleAssignmentUpsertWithWhereUniqueWithoutUserInput = {
@@ -295647,6 +299693,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutUserCredentialsInput = {
@@ -295806,6 +299854,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutUserCredentialsInput = {
@@ -296012,6 +300062,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutUserCredentialsInput = {
@@ -296171,6 +300223,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserUpsertWithoutCredentialInput = {
@@ -296367,6 +300421,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRolesInput = {
@@ -296526,6 +300582,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRolesInput = {
@@ -296751,6 +300809,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRolesInput = {
@@ -296910,6 +300970,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RolePermissionUpsertWithWhereUniqueWithoutRoleInput = {
@@ -297167,6 +301229,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoleAssignmentsInput = {
@@ -297326,6 +301390,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoleAssignmentsInput = {
@@ -297557,6 +301623,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoleAssignmentsInput = {
@@ -297716,6 +301784,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserUpsertWithoutRoleAssignmentsInput = {
@@ -297943,6 +302013,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAuditEventsInput = {
@@ -298102,6 +302174,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAuditEventsInput = {
@@ -298277,6 +302351,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAuditEventsInput = {
@@ -298436,6 +302512,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutOutboxEventsInput = {
@@ -298595,6 +302673,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOutboxEventsInput = {
@@ -298754,6 +302834,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOutboxEventsInput = {
@@ -298929,6 +303011,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOutboxEventsInput = {
@@ -299088,6 +303172,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutTerminologyEntriesInput = {
@@ -299247,6 +303333,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTerminologyEntriesInput = {
@@ -299406,6 +303494,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTerminologyEntriesInput = {
@@ -299581,6 +303671,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTerminologyEntriesInput = {
@@ -299740,6 +303832,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutModuleActivationsInput = {
@@ -299899,6 +303993,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutModuleActivationsInput = {
@@ -300058,6 +304154,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutModuleActivationsInput = {
@@ -300233,6 +304331,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutModuleActivationsInput = {
@@ -300392,6 +304492,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCustomFieldDefsInput = {
@@ -300551,6 +304653,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCustomFieldDefsInput = {
@@ -300710,6 +304814,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCustomFieldDefsInput = {
@@ -300885,6 +304991,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCustomFieldDefsInput = {
@@ -301044,6 +305152,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutTasksInput = {
@@ -301203,6 +305313,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTasksInput = {
@@ -301362,11 +305474,92 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTasksInput = {
     where: TenantWhereUniqueInput
     create: XOR<TenantCreateWithoutTasksInput, TenantUncheckedCreateWithoutTasksInput>
+  }
+
+  export type TaskAssigneeCreateWithoutTaskInput = {
+    id?: string
+    userId: string
+    status?: string
+    completedAt?: Date | string | null
+    completedBy?: string | null
+    note?: string | null
+    results?: NullableJsonNullValueInput | InputJsonValue
+    tenant: TenantCreateNestedOneWithoutTaskAssigneesInput
+  }
+
+  export type TaskAssigneeUncheckedCreateWithoutTaskInput = {
+    id?: string
+    tenantId: string
+    userId: string
+    status?: string
+    completedAt?: Date | string | null
+    completedBy?: string | null
+    note?: string | null
+    results?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type TaskAssigneeCreateOrConnectWithoutTaskInput = {
+    where: TaskAssigneeWhereUniqueInput
+    create: XOR<TaskAssigneeCreateWithoutTaskInput, TaskAssigneeUncheckedCreateWithoutTaskInput>
+  }
+
+  export type TaskAssigneeCreateManyTaskInputEnvelope = {
+    data: TaskAssigneeCreateManyTaskInput | TaskAssigneeCreateManyTaskInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type RecurringTaskTemplateCreateWithoutTasksInput = {
+    id?: string
+    code: string
+    title: string
+    description?: string | null
+    frequency: string
+    weekdays?: RecurringTaskTemplateCreateweekdaysInput | number[]
+    dayOfMonth?: number | null
+    dueTime?: string
+    assigneeUserIds?: RecurringTaskTemplateCreateassigneeUserIdsInput | string[]
+    completionRule?: string
+    checklist?: NullableJsonNullValueInput | InputJsonValue
+    relatedObjectType?: string | null
+    relatedObjectId?: string | null
+    active?: boolean
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutRecurringTaskTemplatesInput
+  }
+
+  export type RecurringTaskTemplateUncheckedCreateWithoutTasksInput = {
+    id?: string
+    tenantId: string
+    code: string
+    title: string
+    description?: string | null
+    frequency: string
+    weekdays?: RecurringTaskTemplateCreateweekdaysInput | number[]
+    dayOfMonth?: number | null
+    dueTime?: string
+    assigneeUserIds?: RecurringTaskTemplateCreateassigneeUserIdsInput | string[]
+    completionRule?: string
+    checklist?: NullableJsonNullValueInput | InputJsonValue
+    relatedObjectType?: string | null
+    relatedObjectId?: string | null
+    active?: boolean
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type RecurringTaskTemplateCreateOrConnectWithoutTasksInput = {
+    where: RecurringTaskTemplateWhereUniqueInput
+    create: XOR<RecurringTaskTemplateCreateWithoutTasksInput, RecurringTaskTemplateUncheckedCreateWithoutTasksInput>
   }
 
   export type TenantUpsertWithoutTasksInput = {
@@ -301537,6 +305730,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTasksInput = {
@@ -301696,6 +305891,1559 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TaskAssigneeUpsertWithWhereUniqueWithoutTaskInput = {
+    where: TaskAssigneeWhereUniqueInput
+    update: XOR<TaskAssigneeUpdateWithoutTaskInput, TaskAssigneeUncheckedUpdateWithoutTaskInput>
+    create: XOR<TaskAssigneeCreateWithoutTaskInput, TaskAssigneeUncheckedCreateWithoutTaskInput>
+  }
+
+  export type TaskAssigneeUpdateWithWhereUniqueWithoutTaskInput = {
+    where: TaskAssigneeWhereUniqueInput
+    data: XOR<TaskAssigneeUpdateWithoutTaskInput, TaskAssigneeUncheckedUpdateWithoutTaskInput>
+  }
+
+  export type TaskAssigneeUpdateManyWithWhereWithoutTaskInput = {
+    where: TaskAssigneeScalarWhereInput
+    data: XOR<TaskAssigneeUpdateManyMutationInput, TaskAssigneeUncheckedUpdateManyWithoutTaskInput>
+  }
+
+  export type RecurringTaskTemplateUpsertWithoutTasksInput = {
+    update: XOR<RecurringTaskTemplateUpdateWithoutTasksInput, RecurringTaskTemplateUncheckedUpdateWithoutTasksInput>
+    create: XOR<RecurringTaskTemplateCreateWithoutTasksInput, RecurringTaskTemplateUncheckedCreateWithoutTasksInput>
+    where?: RecurringTaskTemplateWhereInput
+  }
+
+  export type RecurringTaskTemplateUpdateToOneWithWhereWithoutTasksInput = {
+    where?: RecurringTaskTemplateWhereInput
+    data: XOR<RecurringTaskTemplateUpdateWithoutTasksInput, RecurringTaskTemplateUncheckedUpdateWithoutTasksInput>
+  }
+
+  export type RecurringTaskTemplateUpdateWithoutTasksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    frequency?: StringFieldUpdateOperationsInput | string
+    weekdays?: RecurringTaskTemplateUpdateweekdaysInput | number[]
+    dayOfMonth?: NullableIntFieldUpdateOperationsInput | number | null
+    dueTime?: StringFieldUpdateOperationsInput | string
+    assigneeUserIds?: RecurringTaskTemplateUpdateassigneeUserIdsInput | string[]
+    completionRule?: StringFieldUpdateOperationsInput | string
+    checklist?: NullableJsonNullValueInput | InputJsonValue
+    relatedObjectType?: NullableStringFieldUpdateOperationsInput | string | null
+    relatedObjectId?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutRecurringTaskTemplatesNestedInput
+  }
+
+  export type RecurringTaskTemplateUncheckedUpdateWithoutTasksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    frequency?: StringFieldUpdateOperationsInput | string
+    weekdays?: RecurringTaskTemplateUpdateweekdaysInput | number[]
+    dayOfMonth?: NullableIntFieldUpdateOperationsInput | number | null
+    dueTime?: StringFieldUpdateOperationsInput | string
+    assigneeUserIds?: RecurringTaskTemplateUpdateassigneeUserIdsInput | string[]
+    completionRule?: StringFieldUpdateOperationsInput | string
+    checklist?: NullableJsonNullValueInput | InputJsonValue
+    relatedObjectType?: NullableStringFieldUpdateOperationsInput | string | null
+    relatedObjectId?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TenantCreateWithoutTaskAssigneesInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    factories?: FactoryCreateNestedManyWithoutTenantInput
+    users?: UserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionCreateNestedManyWithoutTenantInput
+    tasks?: TaskCreateNestedManyWithoutTenantInput
+    notifications?: NotificationCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    products?: ProductCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountCreateNestedManyWithoutTenantInput
+    leads?: LeadCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryCreateNestedManyWithoutTenantInput
+    quotes?: QuoteCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
+    comments?: CommentCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
+    exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
+    breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
+    masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
+    supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
+    employees?: EmployeeCreateNestedManyWithoutTenantInput
+    assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
+    rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
+    containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
+    installedAssets?: InstalledAssetCreateNestedManyWithoutTenantInput
+    serviceRequests?: ServiceRequestCreateNestedManyWithoutTenantInput
+    serviceOrders?: ServiceOrderCreateNestedManyWithoutTenantInput
+    serviceOrderParts?: ServiceOrderPartCreateNestedManyWithoutTenantInput
+    rmas?: RmaCreateNestedManyWithoutTenantInput
+    glAccounts?: GlAccountCreateNestedManyWithoutTenantInput
+    glJournalEntries?: GlJournalEntryCreateNestedManyWithoutTenantInput
+    glJournalLines?: GlJournalLineCreateNestedManyWithoutTenantInput
+    glSystemAccounts?: GlSystemAccountCreateNestedManyWithoutTenantInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
+    glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
+    employeeSalaries?: EmployeeSalaryCreateNestedManyWithoutTenantInput
+    payrollRuns?: PayrollRunCreateNestedManyWithoutTenantInput
+    payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
+    payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
+    employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
+    equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
+    equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
+    quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutTaskAssigneesInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityUncheckedCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    factories?: FactoryUncheckedCreateNestedManyWithoutTenantInput
+    users?: UserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventUncheckedCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventUncheckedCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryUncheckedCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationUncheckedCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutTenantInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalUncheckedCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventUncheckedCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    products?: ProductUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountUncheckedCreateNestedManyWithoutTenantInput
+    leads?: LeadUncheckedCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityUncheckedCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityUncheckedCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListUncheckedCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryUncheckedCreateNestedManyWithoutTenantInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineUncheckedCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderUncheckedCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventUncheckedCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierUncheckedCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
+    comments?: CommentUncheckedCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderUncheckedCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
+    exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
+    breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
+    masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
+    supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
+    employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
+    assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
+    rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
+    containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
+    installedAssets?: InstalledAssetUncheckedCreateNestedManyWithoutTenantInput
+    serviceRequests?: ServiceRequestUncheckedCreateNestedManyWithoutTenantInput
+    serviceOrders?: ServiceOrderUncheckedCreateNestedManyWithoutTenantInput
+    serviceOrderParts?: ServiceOrderPartUncheckedCreateNestedManyWithoutTenantInput
+    rmas?: RmaUncheckedCreateNestedManyWithoutTenantInput
+    glAccounts?: GlAccountUncheckedCreateNestedManyWithoutTenantInput
+    glJournalEntries?: GlJournalEntryUncheckedCreateNestedManyWithoutTenantInput
+    glJournalLines?: GlJournalLineUncheckedCreateNestedManyWithoutTenantInput
+    glSystemAccounts?: GlSystemAccountUncheckedCreateNestedManyWithoutTenantInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
+    glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
+    employeeSalaries?: EmployeeSalaryUncheckedCreateNestedManyWithoutTenantInput
+    payrollRuns?: PayrollRunUncheckedCreateNestedManyWithoutTenantInput
+    payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
+    payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
+    employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
+    equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
+    equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
+    quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutTaskAssigneesInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutTaskAssigneesInput, TenantUncheckedCreateWithoutTaskAssigneesInput>
+  }
+
+  export type TaskCreateWithoutAssigneesInput = {
+    id?: string
+    title: string
+    description?: string | null
+    status?: $Enums.TaskStatus
+    assigneeUserId?: string | null
+    dueAt?: Date | string | null
+    relatedObjectType?: string | null
+    relatedObjectId?: string | null
+    createdByUserId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    completionRule?: string | null
+    completedAt?: Date | string | null
+    occurrenceDate?: Date | string | null
+    checklist?: NullableJsonNullValueInput | InputJsonValue
+    tenant: TenantCreateNestedOneWithoutTasksInput
+    template?: RecurringTaskTemplateCreateNestedOneWithoutTasksInput
+  }
+
+  export type TaskUncheckedCreateWithoutAssigneesInput = {
+    id?: string
+    tenantId: string
+    title: string
+    description?: string | null
+    status?: $Enums.TaskStatus
+    assigneeUserId?: string | null
+    dueAt?: Date | string | null
+    relatedObjectType?: string | null
+    relatedObjectId?: string | null
+    createdByUserId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    completionRule?: string | null
+    completedAt?: Date | string | null
+    templateId?: string | null
+    occurrenceDate?: Date | string | null
+    checklist?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type TaskCreateOrConnectWithoutAssigneesInput = {
+    where: TaskWhereUniqueInput
+    create: XOR<TaskCreateWithoutAssigneesInput, TaskUncheckedCreateWithoutAssigneesInput>
+  }
+
+  export type TenantUpsertWithoutTaskAssigneesInput = {
+    update: XOR<TenantUpdateWithoutTaskAssigneesInput, TenantUncheckedUpdateWithoutTaskAssigneesInput>
+    create: XOR<TenantCreateWithoutTaskAssigneesInput, TenantUncheckedCreateWithoutTaskAssigneesInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutTaskAssigneesInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutTaskAssigneesInput, TenantUncheckedUpdateWithoutTaskAssigneesInput>
+  }
+
+  export type TenantUpdateWithoutTaskAssigneesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUpdateManyWithoutTenantNestedInput
+    users?: UserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    products?: ProductUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUpdateManyWithoutTenantNestedInput
+    leads?: LeadUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
+    comments?: CommentUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
+    exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
+    breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
+    masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
+    supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
+    employees?: EmployeeUpdateManyWithoutTenantNestedInput
+    assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
+    rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
+    containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
+    installedAssets?: InstalledAssetUpdateManyWithoutTenantNestedInput
+    serviceRequests?: ServiceRequestUpdateManyWithoutTenantNestedInput
+    serviceOrders?: ServiceOrderUpdateManyWithoutTenantNestedInput
+    serviceOrderParts?: ServiceOrderPartUpdateManyWithoutTenantNestedInput
+    rmas?: RmaUpdateManyWithoutTenantNestedInput
+    glAccounts?: GlAccountUpdateManyWithoutTenantNestedInput
+    glJournalEntries?: GlJournalEntryUpdateManyWithoutTenantNestedInput
+    glJournalLines?: GlJournalLineUpdateManyWithoutTenantNestedInput
+    glSystemAccounts?: GlSystemAccountUpdateManyWithoutTenantNestedInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
+    glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
+    employeeSalaries?: EmployeeSalaryUpdateManyWithoutTenantNestedInput
+    payrollRuns?: PayrollRunUpdateManyWithoutTenantNestedInput
+    payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
+    payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
+    employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
+    equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
+    equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
+    quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutTaskAssigneesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUncheckedUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUncheckedUpdateManyWithoutTenantNestedInput
+    users?: UserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUncheckedUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUncheckedUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUncheckedUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUncheckedUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUncheckedUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUncheckedUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    products?: ProductUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUncheckedUpdateManyWithoutTenantNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUncheckedUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUncheckedUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUncheckedUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUncheckedUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUncheckedUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
+    exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
+    breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
+    masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
+    supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
+    employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
+    assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
+    rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
+    containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
+    installedAssets?: InstalledAssetUncheckedUpdateManyWithoutTenantNestedInput
+    serviceRequests?: ServiceRequestUncheckedUpdateManyWithoutTenantNestedInput
+    serviceOrders?: ServiceOrderUncheckedUpdateManyWithoutTenantNestedInput
+    serviceOrderParts?: ServiceOrderPartUncheckedUpdateManyWithoutTenantNestedInput
+    rmas?: RmaUncheckedUpdateManyWithoutTenantNestedInput
+    glAccounts?: GlAccountUncheckedUpdateManyWithoutTenantNestedInput
+    glJournalEntries?: GlJournalEntryUncheckedUpdateManyWithoutTenantNestedInput
+    glJournalLines?: GlJournalLineUncheckedUpdateManyWithoutTenantNestedInput
+    glSystemAccounts?: GlSystemAccountUncheckedUpdateManyWithoutTenantNestedInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
+    glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
+    employeeSalaries?: EmployeeSalaryUncheckedUpdateManyWithoutTenantNestedInput
+    payrollRuns?: PayrollRunUncheckedUpdateManyWithoutTenantNestedInput
+    payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
+    payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
+    employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
+    equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
+    equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TaskUpsertWithoutAssigneesInput = {
+    update: XOR<TaskUpdateWithoutAssigneesInput, TaskUncheckedUpdateWithoutAssigneesInput>
+    create: XOR<TaskCreateWithoutAssigneesInput, TaskUncheckedCreateWithoutAssigneesInput>
+    where?: TaskWhereInput
+  }
+
+  export type TaskUpdateToOneWithWhereWithoutAssigneesInput = {
+    where?: TaskWhereInput
+    data: XOR<TaskUpdateWithoutAssigneesInput, TaskUncheckedUpdateWithoutAssigneesInput>
+  }
+
+  export type TaskUpdateWithoutAssigneesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumTaskStatusFieldUpdateOperationsInput | $Enums.TaskStatus
+    assigneeUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    dueAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    relatedObjectType?: NullableStringFieldUpdateOperationsInput | string | null
+    relatedObjectId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdByUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completionRule?: NullableStringFieldUpdateOperationsInput | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    occurrenceDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    checklist?: NullableJsonNullValueInput | InputJsonValue
+    tenant?: TenantUpdateOneRequiredWithoutTasksNestedInput
+    template?: RecurringTaskTemplateUpdateOneWithoutTasksNestedInput
+  }
+
+  export type TaskUncheckedUpdateWithoutAssigneesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumTaskStatusFieldUpdateOperationsInput | $Enums.TaskStatus
+    assigneeUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    dueAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    relatedObjectType?: NullableStringFieldUpdateOperationsInput | string | null
+    relatedObjectId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdByUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completionRule?: NullableStringFieldUpdateOperationsInput | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    templateId?: NullableStringFieldUpdateOperationsInput | string | null
+    occurrenceDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    checklist?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type TenantCreateWithoutRecurringTaskTemplatesInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    factories?: FactoryCreateNestedManyWithoutTenantInput
+    users?: UserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionCreateNestedManyWithoutTenantInput
+    tasks?: TaskCreateNestedManyWithoutTenantInput
+    notifications?: NotificationCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    products?: ProductCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountCreateNestedManyWithoutTenantInput
+    leads?: LeadCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryCreateNestedManyWithoutTenantInput
+    quotes?: QuoteCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
+    comments?: CommentCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
+    exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
+    breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
+    masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
+    supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
+    employees?: EmployeeCreateNestedManyWithoutTenantInput
+    assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
+    rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
+    containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
+    installedAssets?: InstalledAssetCreateNestedManyWithoutTenantInput
+    serviceRequests?: ServiceRequestCreateNestedManyWithoutTenantInput
+    serviceOrders?: ServiceOrderCreateNestedManyWithoutTenantInput
+    serviceOrderParts?: ServiceOrderPartCreateNestedManyWithoutTenantInput
+    rmas?: RmaCreateNestedManyWithoutTenantInput
+    glAccounts?: GlAccountCreateNestedManyWithoutTenantInput
+    glJournalEntries?: GlJournalEntryCreateNestedManyWithoutTenantInput
+    glJournalLines?: GlJournalLineCreateNestedManyWithoutTenantInput
+    glSystemAccounts?: GlSystemAccountCreateNestedManyWithoutTenantInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
+    glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
+    employeeSalaries?: EmployeeSalaryCreateNestedManyWithoutTenantInput
+    payrollRuns?: PayrollRunCreateNestedManyWithoutTenantInput
+    payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
+    payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
+    employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
+    equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
+    equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
+    quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutRecurringTaskTemplatesInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityUncheckedCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    factories?: FactoryUncheckedCreateNestedManyWithoutTenantInput
+    users?: UserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventUncheckedCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventUncheckedCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryUncheckedCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationUncheckedCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutTenantInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalUncheckedCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventUncheckedCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    products?: ProductUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountUncheckedCreateNestedManyWithoutTenantInput
+    leads?: LeadUncheckedCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityUncheckedCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityUncheckedCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListUncheckedCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryUncheckedCreateNestedManyWithoutTenantInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineUncheckedCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderUncheckedCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventUncheckedCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierUncheckedCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
+    comments?: CommentUncheckedCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderUncheckedCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
+    exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
+    breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
+    masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
+    supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
+    employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
+    assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
+    rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
+    containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
+    installedAssets?: InstalledAssetUncheckedCreateNestedManyWithoutTenantInput
+    serviceRequests?: ServiceRequestUncheckedCreateNestedManyWithoutTenantInput
+    serviceOrders?: ServiceOrderUncheckedCreateNestedManyWithoutTenantInput
+    serviceOrderParts?: ServiceOrderPartUncheckedCreateNestedManyWithoutTenantInput
+    rmas?: RmaUncheckedCreateNestedManyWithoutTenantInput
+    glAccounts?: GlAccountUncheckedCreateNestedManyWithoutTenantInput
+    glJournalEntries?: GlJournalEntryUncheckedCreateNestedManyWithoutTenantInput
+    glJournalLines?: GlJournalLineUncheckedCreateNestedManyWithoutTenantInput
+    glSystemAccounts?: GlSystemAccountUncheckedCreateNestedManyWithoutTenantInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
+    glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
+    employeeSalaries?: EmployeeSalaryUncheckedCreateNestedManyWithoutTenantInput
+    payrollRuns?: PayrollRunUncheckedCreateNestedManyWithoutTenantInput
+    payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
+    payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
+    employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
+    equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
+    equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
+    quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutRecurringTaskTemplatesInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutRecurringTaskTemplatesInput, TenantUncheckedCreateWithoutRecurringTaskTemplatesInput>
+  }
+
+  export type TaskCreateWithoutTemplateInput = {
+    id?: string
+    title: string
+    description?: string | null
+    status?: $Enums.TaskStatus
+    assigneeUserId?: string | null
+    dueAt?: Date | string | null
+    relatedObjectType?: string | null
+    relatedObjectId?: string | null
+    createdByUserId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    completionRule?: string | null
+    completedAt?: Date | string | null
+    occurrenceDate?: Date | string | null
+    checklist?: NullableJsonNullValueInput | InputJsonValue
+    tenant: TenantCreateNestedOneWithoutTasksInput
+    assignees?: TaskAssigneeCreateNestedManyWithoutTaskInput
+  }
+
+  export type TaskUncheckedCreateWithoutTemplateInput = {
+    id?: string
+    tenantId: string
+    title: string
+    description?: string | null
+    status?: $Enums.TaskStatus
+    assigneeUserId?: string | null
+    dueAt?: Date | string | null
+    relatedObjectType?: string | null
+    relatedObjectId?: string | null
+    createdByUserId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    completionRule?: string | null
+    completedAt?: Date | string | null
+    occurrenceDate?: Date | string | null
+    checklist?: NullableJsonNullValueInput | InputJsonValue
+    assignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTaskInput
+  }
+
+  export type TaskCreateOrConnectWithoutTemplateInput = {
+    where: TaskWhereUniqueInput
+    create: XOR<TaskCreateWithoutTemplateInput, TaskUncheckedCreateWithoutTemplateInput>
+  }
+
+  export type TaskCreateManyTemplateInputEnvelope = {
+    data: TaskCreateManyTemplateInput | TaskCreateManyTemplateInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TenantUpsertWithoutRecurringTaskTemplatesInput = {
+    update: XOR<TenantUpdateWithoutRecurringTaskTemplatesInput, TenantUncheckedUpdateWithoutRecurringTaskTemplatesInput>
+    create: XOR<TenantCreateWithoutRecurringTaskTemplatesInput, TenantUncheckedCreateWithoutRecurringTaskTemplatesInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutRecurringTaskTemplatesInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutRecurringTaskTemplatesInput, TenantUncheckedUpdateWithoutRecurringTaskTemplatesInput>
+  }
+
+  export type TenantUpdateWithoutRecurringTaskTemplatesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUpdateManyWithoutTenantNestedInput
+    users?: UserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    products?: ProductUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUpdateManyWithoutTenantNestedInput
+    leads?: LeadUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
+    comments?: CommentUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
+    exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
+    breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
+    masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
+    supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
+    employees?: EmployeeUpdateManyWithoutTenantNestedInput
+    assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
+    rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
+    containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
+    installedAssets?: InstalledAssetUpdateManyWithoutTenantNestedInput
+    serviceRequests?: ServiceRequestUpdateManyWithoutTenantNestedInput
+    serviceOrders?: ServiceOrderUpdateManyWithoutTenantNestedInput
+    serviceOrderParts?: ServiceOrderPartUpdateManyWithoutTenantNestedInput
+    rmas?: RmaUpdateManyWithoutTenantNestedInput
+    glAccounts?: GlAccountUpdateManyWithoutTenantNestedInput
+    glJournalEntries?: GlJournalEntryUpdateManyWithoutTenantNestedInput
+    glJournalLines?: GlJournalLineUpdateManyWithoutTenantNestedInput
+    glSystemAccounts?: GlSystemAccountUpdateManyWithoutTenantNestedInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
+    glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
+    employeeSalaries?: EmployeeSalaryUpdateManyWithoutTenantNestedInput
+    payrollRuns?: PayrollRunUpdateManyWithoutTenantNestedInput
+    payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
+    payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
+    employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
+    equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
+    equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
+    quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutRecurringTaskTemplatesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUncheckedUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUncheckedUpdateManyWithoutTenantNestedInput
+    users?: UserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUncheckedUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUncheckedUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUncheckedUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUncheckedUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUncheckedUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUncheckedUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    products?: ProductUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUncheckedUpdateManyWithoutTenantNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUncheckedUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUncheckedUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUncheckedUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUncheckedUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUncheckedUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
+    exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
+    breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
+    masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
+    supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
+    employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
+    assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
+    rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
+    containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
+    installedAssets?: InstalledAssetUncheckedUpdateManyWithoutTenantNestedInput
+    serviceRequests?: ServiceRequestUncheckedUpdateManyWithoutTenantNestedInput
+    serviceOrders?: ServiceOrderUncheckedUpdateManyWithoutTenantNestedInput
+    serviceOrderParts?: ServiceOrderPartUncheckedUpdateManyWithoutTenantNestedInput
+    rmas?: RmaUncheckedUpdateManyWithoutTenantNestedInput
+    glAccounts?: GlAccountUncheckedUpdateManyWithoutTenantNestedInput
+    glJournalEntries?: GlJournalEntryUncheckedUpdateManyWithoutTenantNestedInput
+    glJournalLines?: GlJournalLineUncheckedUpdateManyWithoutTenantNestedInput
+    glSystemAccounts?: GlSystemAccountUncheckedUpdateManyWithoutTenantNestedInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
+    glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
+    employeeSalaries?: EmployeeSalaryUncheckedUpdateManyWithoutTenantNestedInput
+    payrollRuns?: PayrollRunUncheckedUpdateManyWithoutTenantNestedInput
+    payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
+    payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
+    employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
+    equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
+    equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TaskUpsertWithWhereUniqueWithoutTemplateInput = {
+    where: TaskWhereUniqueInput
+    update: XOR<TaskUpdateWithoutTemplateInput, TaskUncheckedUpdateWithoutTemplateInput>
+    create: XOR<TaskCreateWithoutTemplateInput, TaskUncheckedCreateWithoutTemplateInput>
+  }
+
+  export type TaskUpdateWithWhereUniqueWithoutTemplateInput = {
+    where: TaskWhereUniqueInput
+    data: XOR<TaskUpdateWithoutTemplateInput, TaskUncheckedUpdateWithoutTemplateInput>
+  }
+
+  export type TaskUpdateManyWithWhereWithoutTemplateInput = {
+    where: TaskScalarWhereInput
+    data: XOR<TaskUpdateManyMutationInput, TaskUncheckedUpdateManyWithoutTemplateInput>
   }
 
   export type TenantCreateWithoutNotificationsInput = {
@@ -301855,6 +307603,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNotificationsInput = {
@@ -302014,6 +307764,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNotificationsInput = {
@@ -302189,6 +307941,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNotificationsInput = {
@@ -302348,6 +308102,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutWorkflowDefinitionsInput = {
@@ -302507,6 +308263,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkflowDefinitionsInput = {
@@ -302666,6 +308424,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkflowDefinitionsInput = {
@@ -302903,6 +308663,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkflowDefinitionsInput = {
@@ -303062,6 +308824,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkflowVersionUpsertWithWhereUniqueWithoutDefinitionInput = {
@@ -303479,6 +309243,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRuleDefinitionsInput = {
@@ -303638,6 +309404,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRuleDefinitionsInput = {
@@ -303841,6 +309609,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRuleDefinitionsInput = {
@@ -304000,6 +309770,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RuleVersionUpsertWithWhereUniqueWithoutRuleInput = {
@@ -304232,6 +310004,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutApprovalsInput = {
@@ -304391,6 +310165,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutApprovalsInput = {
@@ -304566,6 +310342,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutApprovalsInput = {
@@ -304725,6 +310503,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutProcessedEventsInput = {
@@ -304884,6 +310664,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProcessedEventsInput = {
@@ -305043,6 +310825,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProcessedEventsInput = {
@@ -305218,6 +311002,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProcessedEventsInput = {
@@ -305377,6 +311163,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutDocumentTemplatesInput = {
@@ -305536,6 +311324,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDocumentTemplatesInput = {
@@ -305695,6 +311485,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDocumentTemplatesInput = {
@@ -305896,6 +311688,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDocumentTemplatesInput = {
@@ -306055,6 +311849,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type DocumentTemplateVersionUpsertWithWhereUniqueWithoutTemplateInput = {
@@ -306290,6 +312086,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPartiesInput = {
@@ -306449,6 +312247,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPartiesInput = {
@@ -306805,6 +312605,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPartiesInput = {
@@ -306964,6 +312766,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PartyUpsertWithoutMergedPartiesInput = {
@@ -307244,6 +313048,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutConsentRecordsInput = {
@@ -307403,6 +313209,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutConsentRecordsInput = {
@@ -307617,6 +313425,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutConsentRecordsInput = {
@@ -307776,6 +313586,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PartyUpsertWithoutConsentRecordsInput = {
@@ -308064,6 +313876,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProductsInput = {
@@ -308223,6 +314037,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProductsInput = {
@@ -308462,6 +314278,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProductsInput = {
@@ -308621,6 +314439,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SkuUpsertWithWhereUniqueWithoutProductInput = {
@@ -309498,6 +315318,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWarehousesInput = {
@@ -309657,6 +315479,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWarehousesInput = {
@@ -309890,6 +315714,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWarehousesInput = {
@@ -310049,6 +315875,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WarehouseLocationUpsertWithWhereUniqueWithoutWarehouseInput = {
@@ -310298,6 +316126,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockMovementsInput = {
@@ -310457,6 +316287,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockMovementsInput = {
@@ -310632,6 +316464,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockMovementsInput = {
@@ -310791,6 +316625,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutStockReservationsInput = {
@@ -310950,6 +316786,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockReservationsInput = {
@@ -311109,6 +316947,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockReservationsInput = {
@@ -311284,6 +317124,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockReservationsInput = {
@@ -311443,6 +317285,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutDevicesInput = {
@@ -311602,6 +317446,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDevicesInput = {
@@ -311761,6 +317607,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDevicesInput = {
@@ -311936,6 +317784,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDevicesInput = {
@@ -312095,6 +317945,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutScanEventsInput = {
@@ -312254,6 +318106,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutScanEventsInput = {
@@ -312413,6 +318267,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutScanEventsInput = {
@@ -312588,6 +318444,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutScanEventsInput = {
@@ -312747,6 +318605,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutWmsOrdersInput = {
@@ -312906,6 +318766,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWmsOrdersInput = {
@@ -313065,6 +318927,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWmsOrdersInput = {
@@ -313266,6 +319130,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWmsOrdersInput = {
@@ -313425,6 +319291,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WmsOrderLineUpsertWithWhereUniqueWithoutOrderInput = {
@@ -313600,6 +319468,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWmsOrderLinesInput = {
@@ -313759,6 +319629,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWmsOrderLinesInput = {
@@ -313967,6 +319839,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWmsOrderLinesInput = {
@@ -314126,6 +320000,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WmsOrderUpsertWithoutLinesInput = {
@@ -314324,6 +320200,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTerritoriesInput = {
@@ -314483,6 +320361,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTerritoriesInput = {
@@ -314658,6 +320538,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTerritoriesInput = {
@@ -314817,6 +320699,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSalesTeamsInput = {
@@ -314976,6 +320860,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesTeamsInput = {
@@ -315135,6 +321021,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesTeamsInput = {
@@ -315334,6 +321222,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesTeamsInput = {
@@ -315493,6 +321383,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesTeamMemberUpsertWithWhereUniqueWithoutTeamInput = {
@@ -315668,6 +321560,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesTeamMembersInput = {
@@ -315827,6 +321721,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesTeamMembersInput = {
@@ -316023,6 +321919,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesTeamMembersInput = {
@@ -316182,6 +322080,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesTeamUpsertWithoutMembersInput = {
@@ -316368,6 +322268,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCrmAccountsInput = {
@@ -316527,6 +322429,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCrmAccountsInput = {
@@ -316702,6 +322606,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCrmAccountsInput = {
@@ -316861,6 +322767,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutLeadsInput = {
@@ -317020,6 +322928,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLeadsInput = {
@@ -317179,6 +323089,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLeadsInput = {
@@ -317354,6 +323266,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLeadsInput = {
@@ -317513,6 +323427,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutOpportunitiesInput = {
@@ -317672,6 +323588,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOpportunitiesInput = {
@@ -317831,6 +323749,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOpportunitiesInput = {
@@ -318006,6 +323926,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOpportunitiesInput = {
@@ -318165,6 +324087,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCrmActivitiesInput = {
@@ -318324,6 +324248,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCrmActivitiesInput = {
@@ -318483,6 +324409,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCrmActivitiesInput = {
@@ -318658,6 +324586,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCrmActivitiesInput = {
@@ -318817,6 +324747,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPriceListsInput = {
@@ -318976,6 +324908,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPriceListsInput = {
@@ -319135,6 +325069,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPriceListsInput = {
@@ -319336,6 +325272,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPriceListsInput = {
@@ -319495,6 +325433,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PriceListEntryUpsertWithWhereUniqueWithoutPriceListInput = {
@@ -319670,6 +325610,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPriceListEntriesInput = {
@@ -319829,6 +325771,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPriceListEntriesInput = {
@@ -320037,6 +325981,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPriceListEntriesInput = {
@@ -320196,6 +326142,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PriceListUpsertWithoutEntriesInput = {
@@ -320394,6 +326342,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQuotesInput = {
@@ -320553,6 +326503,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQuotesInput = {
@@ -320762,6 +326714,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQuotesInput = {
@@ -320921,6 +326875,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QuoteLineUpsertWithWhereUniqueWithoutQuoteInput = {
@@ -321096,6 +327052,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPackagingLevelsInput = {
@@ -321255,6 +327213,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPackagingLevelsInput = {
@@ -321489,6 +327449,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPackagingLevelsInput = {
@@ -321648,6 +327610,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SkuUpsertWithoutPackagingLevelsInput = {
@@ -321872,6 +327836,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSkuSubstitutionsInput = {
@@ -322031,6 +327997,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSkuSubstitutionsInput = {
@@ -322206,6 +328174,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSkuSubstitutionsInput = {
@@ -322365,6 +328335,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutDiscountRulesInput = {
@@ -322524,6 +328496,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDiscountRulesInput = {
@@ -322683,6 +328657,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDiscountRulesInput = {
@@ -322858,6 +328834,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDiscountRulesInput = {
@@ -323017,6 +328995,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutQuoteLinesInput = {
@@ -323176,6 +329156,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQuoteLinesInput = {
@@ -323335,6 +329317,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQuoteLinesInput = {
@@ -323557,6 +329541,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQuoteLinesInput = {
@@ -323716,6 +329702,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QuoteUpsertWithoutLinesInput = {
@@ -323928,6 +329916,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesOrdersInput = {
@@ -324087,6 +330077,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesOrdersInput = {
@@ -324336,6 +330328,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesOrdersInput = {
@@ -324495,6 +330489,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesOrderLineUpsertWithWhereUniqueWithoutOrderInput = {
@@ -324686,6 +330682,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesOrderLinesInput = {
@@ -324845,6 +330843,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesOrderLinesInput = {
@@ -325071,6 +331071,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesOrderLinesInput = {
@@ -325230,6 +331232,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesOrderUpsertWithoutLinesInput = {
@@ -325446,6 +331450,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOrderEventsInput = {
@@ -325605,6 +331611,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOrderEventsInput = {
@@ -325780,6 +331788,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOrderEventsInput = {
@@ -325939,6 +331949,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSuppliersInput = {
@@ -326098,6 +332110,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSuppliersInput = {
@@ -326257,6 +332271,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSuppliersInput = {
@@ -326432,6 +332448,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSuppliersInput = {
@@ -326591,6 +332609,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPurchaseRequisitionsInput = {
@@ -326750,6 +332770,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseRequisitionsInput = {
@@ -326909,6 +332931,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseRequisitionsInput = {
@@ -327114,6 +333138,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseRequisitionsInput = {
@@ -327273,6 +333299,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseRequisitionLineUpsertWithWhereUniqueWithoutRequisitionInput = {
@@ -327448,6 +333476,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseReqLinesInput = {
@@ -327607,6 +333637,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseReqLinesInput = {
@@ -327815,6 +333847,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseReqLinesInput = {
@@ -327974,6 +334008,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseRequisitionUpsertWithoutLinesInput = {
@@ -328172,6 +334208,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseOrdersInput = {
@@ -328331,6 +334369,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseOrdersInput = {
@@ -328604,6 +334644,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseOrdersInput = {
@@ -328763,6 +334805,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseOrderLineUpsertWithWhereUniqueWithoutPoInput = {
@@ -328970,6 +335014,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseOrderLinesInput = {
@@ -329129,6 +335175,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseOrderLinesInput = {
@@ -329345,6 +335393,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseOrderLinesInput = {
@@ -329504,6 +335554,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseOrderUpsertWithoutLinesInput = {
@@ -329710,6 +335762,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBomsInput = {
@@ -329869,6 +335923,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBomsInput = {
@@ -330074,6 +336130,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBomsInput = {
@@ -330233,6 +336291,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BomLineUpsertWithWhereUniqueWithoutBomInput = {
@@ -330408,6 +336468,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBomLinesInput = {
@@ -330567,6 +336629,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBomLinesInput = {
@@ -330773,6 +336837,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBomLinesInput = {
@@ -330932,6 +336998,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BomUpsertWithoutLinesInput = {
@@ -331128,6 +337196,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoutingsInput = {
@@ -331287,6 +337357,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoutingsInput = {
@@ -331494,6 +337566,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoutingsInput = {
@@ -331653,6 +337727,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RoutingOperationUpsertWithWhereUniqueWithoutRoutingInput = {
@@ -331828,6 +337904,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoutingOperationsInput = {
@@ -331987,6 +338065,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoutingOperationsInput = {
@@ -332189,6 +338269,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoutingOperationsInput = {
@@ -332348,6 +338430,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RoutingUpsertWithoutOperationsInput = {
@@ -332540,6 +338624,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutEngineeringChangesInput = {
@@ -332699,6 +338785,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutEngineeringChangesInput = {
@@ -332874,6 +338962,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutEngineeringChangesInput = {
@@ -333033,6 +339123,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPlanningPoliciesInput = {
@@ -333192,6 +339284,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPlanningPoliciesInput = {
@@ -333351,6 +339445,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPlanningPoliciesInput = {
@@ -333526,6 +339622,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPlanningPoliciesInput = {
@@ -333685,6 +339783,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutMrpRunsInput = {
@@ -333844,6 +339944,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutMrpRunsInput = {
@@ -334003,6 +340105,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutMrpRunsInput = {
@@ -334208,6 +340312,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutMrpRunsInput = {
@@ -334367,6 +340473,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type MrpSuggestionUpsertWithWhereUniqueWithoutRunInput = {
@@ -334542,6 +340650,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutMrpSuggestionsInput = {
@@ -334701,6 +340811,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutMrpSuggestionsInput = {
@@ -334901,6 +341013,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutMrpSuggestionsInput = {
@@ -335060,6 +341174,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type MrpRunUpsertWithoutSuggestionsInput = {
@@ -335250,6 +341366,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkOrdersInput = {
@@ -335409,6 +341527,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkOrdersInput = {
@@ -335620,6 +341740,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkOrdersInput = {
@@ -335779,6 +341901,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkOrderOperationUpsertWithWhereUniqueWithoutWorkOrderInput = {
@@ -335954,6 +342078,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkOrderOperationsInput = {
@@ -336113,6 +342239,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkOrderOperationsInput = {
@@ -336331,6 +342459,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkOrderOperationsInput = {
@@ -336490,6 +342620,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkOrderUpsertWithoutOperationsInput = {
@@ -336698,6 +342830,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcPlansInput = {
@@ -336857,6 +342991,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcPlansInput = {
@@ -337058,6 +343194,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcPlansInput = {
@@ -337217,6 +343355,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcPlanItemUpsertWithWhereUniqueWithoutPlanInput = {
@@ -337392,6 +343532,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcPlanItemsInput = {
@@ -337551,6 +343693,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcPlanItemsInput = {
@@ -337753,6 +343897,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcPlanItemsInput = {
@@ -337912,6 +344058,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcPlanUpsertWithoutItemsInput = {
@@ -338104,6 +344252,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcInspectionsInput = {
@@ -338263,6 +344413,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcInspectionsInput = {
@@ -338468,6 +344620,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcInspectionsInput = {
@@ -338627,6 +344781,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcInspectionItemUpsertWithWhereUniqueWithoutInspectionInput = {
@@ -338802,6 +344958,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcInspectionItemsInput = {
@@ -338961,6 +345119,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcInspectionItemsInput = {
@@ -339171,6 +345331,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcInspectionItemsInput = {
@@ -339330,6 +345492,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcInspectionUpsertWithoutItemsInput = {
@@ -339530,6 +345694,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNcrsInput = {
@@ -339689,6 +345855,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNcrsInput = {
@@ -339864,6 +346032,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNcrsInput = {
@@ -340023,6 +346193,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutInvoicesInput = {
@@ -340182,6 +346354,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutInvoicesInput = {
@@ -340341,6 +346515,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutInvoicesInput = {
@@ -340612,6 +346788,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutInvoicesInput = {
@@ -340771,6 +346949,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PaymentUpsertWithWhereUniqueWithoutInvoiceInput = {
@@ -340978,6 +347158,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPaymentsInput = {
@@ -341137,6 +347319,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPaymentsInput = {
@@ -341428,6 +347612,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPaymentsInput = {
@@ -341587,6 +347773,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type InvoiceUpsertWithoutPaymentsInput = {
@@ -341854,6 +348042,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPortalUsersInput = {
@@ -342013,6 +348203,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPortalUsersInput = {
@@ -342188,6 +348380,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPortalUsersInput = {
@@ -342347,6 +348541,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCommentsInput = {
@@ -342506,6 +348702,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCommentsInput = {
@@ -342665,6 +348863,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCommentsInput = {
@@ -342840,6 +349040,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCommentsInput = {
@@ -342999,6 +349201,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutAttachmentsInput = {
@@ -343158,6 +349362,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAttachmentsInput = {
@@ -343317,6 +349523,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAttachmentsInput = {
@@ -343509,6 +349717,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAttachmentsInput = {
@@ -343668,6 +349878,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type AttachmentBlobUpsertWithoutAttachmentInput = {
@@ -343850,6 +350062,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAttachmentBlobsInput = {
@@ -344009,6 +350223,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAttachmentBlobsInput = {
@@ -344215,6 +350431,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAttachmentBlobsInput = {
@@ -344374,6 +350592,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type AttachmentUpsertWithoutBlobInput = {
@@ -344570,6 +350790,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNumberSequencesInput = {
@@ -344729,6 +350951,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNumberSequencesInput = {
@@ -344904,6 +351128,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNumberSequencesInput = {
@@ -345063,6 +351289,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutExchangeRatesInput = {
@@ -345222,6 +351450,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutExchangeRatesInput = {
@@ -345381,6 +351611,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutExchangeRatesInput = {
@@ -345556,6 +351788,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutExchangeRatesInput = {
@@ -345715,6 +351949,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCostCentersInput = {
@@ -345874,6 +352110,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCostCentersInput = {
@@ -346033,6 +352271,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCostCentersInput = {
@@ -346236,6 +352476,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCostCentersInput = {
@@ -346395,6 +352637,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BudgetUpsertWithWhereUniqueWithoutCostCenterInput = {
@@ -346570,6 +352814,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBudgetsInput = {
@@ -346729,6 +352975,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBudgetsInput = {
@@ -346927,6 +353175,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBudgetsInput = {
@@ -347086,6 +353336,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type CostCenterUpsertWithoutBudgetsInput = {
@@ -347274,6 +353526,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWebhookSubscriptionsInput = {
@@ -347433,6 +353687,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWebhookSubscriptionsInput = {
@@ -347646,6 +353902,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWebhookSubscriptionsInput = {
@@ -347805,6 +354063,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WebhookDeliveryUpsertWithWhereUniqueWithoutSubscriptionInput = {
@@ -347980,6 +354240,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWebhookDeliveriesInput = {
@@ -348139,6 +354401,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWebhookDeliveriesInput = {
@@ -348341,6 +354605,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWebhookDeliveriesInput = {
@@ -348500,6 +354766,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WebhookSubscriptionUpsertWithoutDeliveriesInput = {
@@ -348692,6 +354960,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutApiKeysInput = {
@@ -348851,6 +355121,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutApiKeysInput = {
@@ -349026,6 +355298,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutApiKeysInput = {
@@ -349185,6 +355459,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSecurityEventsInput = {
@@ -349344,6 +355620,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSecurityEventsInput = {
@@ -349503,6 +355781,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSecurityEventsInput = {
@@ -349678,6 +355958,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSecurityEventsInput = {
@@ -349837,6 +356119,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutProductCategoriesInput = {
@@ -349996,6 +356280,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProductCategoriesInput = {
@@ -350155,6 +356441,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProductCategoriesInput = {
@@ -350381,6 +356669,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProductCategoriesInput = {
@@ -350540,6 +356830,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ProductCategoryUpsertWithoutChildrenInput = {
@@ -350744,6 +357036,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutReturnOrdersInput = {
@@ -350903,6 +357197,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutReturnOrdersInput = {
@@ -351106,6 +357402,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutReturnOrdersInput = {
@@ -351265,6 +357563,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ReturnOrderLineUpsertWithWhereUniqueWithoutReturnOrderInput = {
@@ -351440,6 +357740,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutReturnOrderLinesInput = {
@@ -351599,6 +357901,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutReturnOrderLinesInput = {
@@ -351811,6 +358115,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutReturnOrderLinesInput = {
@@ -351970,6 +358276,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ReturnOrderUpsertWithoutLinesInput = {
@@ -352172,6 +358480,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockCountsInput = {
@@ -352331,6 +358641,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockCountsInput = {
@@ -352532,6 +358844,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockCountsInput = {
@@ -352691,6 +359005,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type StockCountLineUpsertWithWhereUniqueWithoutCountInput = {
@@ -352866,6 +359182,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockCountLinesInput = {
@@ -353025,6 +359343,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockCountLinesInput = {
@@ -353233,6 +359553,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockCountLinesInput = {
@@ -353392,6 +359714,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type StockCountUpsertWithoutLinesInput = {
@@ -353590,6 +359914,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkCentersInput = {
@@ -353749,6 +360075,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkCentersInput = {
@@ -353956,6 +360284,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkCentersInput = {
@@ -354115,6 +360445,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type DowntimeEventUpsertWithWhereUniqueWithoutWorkCenterInput = {
@@ -354290,6 +360622,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDowntimeEventsInput = {
@@ -354449,6 +360783,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDowntimeEventsInput = {
@@ -354647,6 +360983,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDowntimeEventsInput = {
@@ -354806,6 +361144,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkCenterUpsertWithoutDowntimesInput = {
@@ -354994,6 +361334,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPromotionsInput = {
@@ -355153,6 +361495,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPromotionsInput = {
@@ -355354,6 +361698,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPromotionsInput = {
@@ -355513,6 +361859,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PromotionRedemptionUpsertWithWhereUniqueWithoutPromotionInput = {
@@ -356152,6 +362500,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBreakGlassGrantsInput = {
@@ -356311,6 +362661,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBreakGlassGrantsInput = {
@@ -356517,6 +362869,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBreakGlassGrantsInput = {
@@ -356676,6 +363030,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserUpsertWithoutBreakGlassGrantsInput = {
@@ -356872,6 +363228,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutMdmDuplicateDismissalsInput = {
@@ -357031,6 +363389,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutMdmDuplicateDismissalsInput = {
@@ -357206,6 +363566,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutMdmDuplicateDismissalsInput = {
@@ -357365,6 +363727,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutMasterDataRequestsInput = {
@@ -357524,6 +363888,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutMasterDataRequestsInput = {
@@ -357683,6 +364049,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutMasterDataRequestsInput = {
@@ -357858,6 +364226,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutMasterDataRequestsInput = {
@@ -358017,6 +364387,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutLoyaltyAccountsInput = {
@@ -358176,6 +364548,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLoyaltyAccountsInput = {
@@ -358335,6 +364709,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLoyaltyAccountsInput = {
@@ -358540,6 +364916,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLoyaltyAccountsInput = {
@@ -358699,6 +365077,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type LoyaltyTransactionUpsertWithWhereUniqueWithoutLoyaltyAccountInput = {
@@ -358940,6 +365320,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSupportCasesInput = {
@@ -359099,6 +365481,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSupportCasesInput = {
@@ -359274,6 +365658,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSupportCasesInput = {
@@ -359433,6 +365819,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSupportCaseOrderItemsInput = {
@@ -359592,6 +365980,8 @@ export namespace Prisma {
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSupportCaseOrderItemsInput = {
@@ -359751,6 +366141,8 @@ export namespace Prisma {
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSupportCaseOrderItemsInput = {
@@ -359926,6 +366318,8 @@ export namespace Prisma {
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSupportCaseOrderItemsInput = {
@@ -360085,6 +366479,8 @@ export namespace Prisma {
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSupportCaseReturnsInput = {
@@ -360244,6 +366640,8 @@ export namespace Prisma {
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSupportCaseReturnsInput = {
@@ -360403,6 +366801,8 @@ export namespace Prisma {
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSupportCaseReturnsInput = {
@@ -360578,6 +366978,8 @@ export namespace Prisma {
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSupportCaseReturnsInput = {
@@ -360737,6 +367139,8 @@ export namespace Prisma {
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutContractsInput = {
@@ -360896,6 +367300,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutContractsInput = {
@@ -361055,6 +367461,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutContractsInput = {
@@ -361269,6 +367677,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutContractsInput = {
@@ -361428,6 +367838,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PartyUpsertWithoutContractsInput = {
@@ -361632,6 +368044,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutEmployeesInput = {
@@ -361791,6 +368205,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutEmployeesInput = {
@@ -361966,6 +368382,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutEmployeesInput = {
@@ -362125,6 +368543,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutAssetsInput = {
@@ -362284,6 +368704,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAssetsInput = {
@@ -362443,6 +368865,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAssetsInput = {
@@ -362705,6 +369129,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAssetsInput = {
@@ -362864,6 +369290,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type AssetUpsertWithoutChildrenInput = {
@@ -363086,6 +369514,8 @@ export namespace Prisma {
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAssetStructureChangesInput = {
@@ -363245,6 +369675,8 @@ export namespace Prisma {
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAssetStructureChangesInput = {
@@ -363420,6 +369852,8 @@ export namespace Prisma {
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAssetStructureChangesInput = {
@@ -363579,6 +370013,8 @@ export namespace Prisma {
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutQuarantineHoldsInput = {
@@ -363738,6 +370174,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQuarantineHoldsInput = {
@@ -363897,6 +370335,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQuarantineHoldsInput = {
@@ -364243,6 +370683,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQuarantineHoldsInput = {
@@ -364402,6 +370844,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QuarantineDispositionUpsertWithWhereUniqueWithoutHoldInput = {
@@ -364679,6 +371123,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQuarantineDispositionsInput = {
@@ -364838,6 +371284,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQuarantineDispositionsInput = {
@@ -365098,6 +371546,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQuarantineDispositionsInput = {
@@ -365257,6 +371707,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QuarantineHoldUpsertWithoutDispositionsInput = {
@@ -365647,6 +372099,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRfqsInput = {
@@ -365806,6 +372260,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRfqsInput = {
@@ -366011,6 +372467,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRfqsInput = {
@@ -366170,6 +372628,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RfqQuoteUpsertWithWhereUniqueWithoutRfqInput = {
@@ -366431,6 +372891,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPackagesInput = {
@@ -366590,6 +373052,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPackagesInput = {
@@ -366840,6 +373304,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPackagesInput = {
@@ -366999,6 +373465,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesOrderUpsertWithoutPackagesInput = {
@@ -367310,6 +373778,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLandedCostsInput = {
@@ -367469,6 +373939,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLandedCostsInput = {
@@ -367685,6 +374157,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLandedCostsInput = {
@@ -367844,6 +374318,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseOrderUpsertWithoutLandedCostsInput = {
@@ -368050,6 +374526,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCustomObjectDefinitionsInput = {
@@ -368209,6 +374687,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCustomObjectDefinitionsInput = {
@@ -368412,6 +374892,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCustomObjectDefinitionsInput = {
@@ -368571,6 +375053,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type CustomObjectRecordUpsertWithWhereUniqueWithoutDefinitionInput = {
@@ -368823,6 +375307,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutFrameworkAgreementsInput = {
@@ -368982,6 +375468,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutFrameworkAgreementsInput = {
@@ -369157,6 +375645,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutFrameworkAgreementsInput = {
@@ -369316,6 +375806,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSkuChannelContentsInput = {
@@ -369475,6 +375967,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSkuChannelContentsInput = {
@@ -369634,6 +376128,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSkuChannelContentsInput = {
@@ -369868,6 +376364,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSkuChannelContentsInput = {
@@ -370027,6 +376525,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SkuUpsertWithoutChannelContentsInput = {
@@ -370251,6 +376751,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutContainersInput = {
@@ -370410,6 +376912,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutContainersInput = {
@@ -370626,6 +377130,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutContainersInput = {
@@ -370785,6 +377291,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseOrderUpsertWithoutContainersInput = {
@@ -370991,6 +377499,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPosSessionsInput = {
@@ -371150,6 +377660,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPosSessionsInput = {
@@ -371325,6 +377837,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPosSessionsInput = {
@@ -371484,6 +377998,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutVehiclesInput = {
@@ -371643,6 +378159,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutVehiclesInput = {
@@ -371802,6 +378320,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutVehiclesInput = {
@@ -372027,6 +378547,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutVehiclesInput = {
@@ -372186,6 +378708,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ShipmentUpsertWithWhereUniqueWithoutVehicleInput = {
@@ -372361,6 +378885,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDriversInput = {
@@ -372520,6 +379046,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDriversInput = {
@@ -372745,6 +379273,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDriversInput = {
@@ -372904,6 +379434,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ShipmentUpsertWithWhereUniqueWithoutDriverInput = {
@@ -373079,6 +379611,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutShipmentsInput = {
@@ -373238,6 +379772,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutShipmentsInput = {
@@ -373501,6 +380037,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutShipmentsInput = {
@@ -373660,6 +380198,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type VehicleUpsertWithoutShipmentsInput = {
@@ -373899,6 +380439,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutShipmentStopsInput = {
@@ -374058,6 +380600,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutShipmentStopsInput = {
@@ -374278,6 +380822,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutShipmentStopsInput = {
@@ -374437,6 +380983,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ShipmentUpsertWithoutStopsInput = {
@@ -374647,6 +381195,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDockAppointmentsInput = {
@@ -374806,6 +381356,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDockAppointmentsInput = {
@@ -375002,6 +381554,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDockAppointmentsInput = {
@@ -375161,6 +381715,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WarehouseUpsertWithoutDockAppointmentsInput = {
@@ -375347,6 +381903,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutInstalledAssetsInput = {
@@ -375506,6 +382064,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutInstalledAssetsInput = {
@@ -375769,6 +382329,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutInstalledAssetsInput = {
@@ -375928,6 +382490,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ServiceRequestUpsertWithWhereUniqueWithoutInstalledAssetInput = {
@@ -376119,6 +382683,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutServiceRequestsInput = {
@@ -376278,6 +382844,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutServiceRequestsInput = {
@@ -376538,6 +383106,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutServiceRequestsInput = {
@@ -376697,6 +383267,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type InstalledAssetUpsertWithoutServiceRequestsInput = {
@@ -376915,6 +383487,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutServiceOrdersInput = {
@@ -377074,6 +383648,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutServiceOrdersInput = {
@@ -377347,6 +383923,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutServiceOrdersInput = {
@@ -377506,6 +384084,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ServiceRequestUpsertWithoutServiceOrdersInput = {
@@ -377765,6 +384345,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutServiceOrderPartsInput = {
@@ -377924,6 +384506,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutServiceOrderPartsInput = {
@@ -378142,6 +384726,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutServiceOrderPartsInput = {
@@ -378301,6 +384887,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ServiceOrderUpsertWithoutPartsInput = {
@@ -378509,6 +385097,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRmasInput = {
@@ -378668,6 +385258,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRmasInput = {
@@ -378843,6 +385435,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRmasInput = {
@@ -379002,6 +385596,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutGlAccountsInput = {
@@ -379161,6 +385757,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutGlAccountsInput = {
@@ -379320,6 +385918,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutGlAccountsInput = {
@@ -379525,6 +386125,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutGlAccountsInput = {
@@ -379684,6 +386286,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type GlJournalLineUpsertWithWhereUniqueWithoutAccountInput = {
@@ -379859,6 +386463,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutGlJournalEntriesInput = {
@@ -380018,6 +386624,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutGlJournalEntriesInput = {
@@ -380223,6 +386831,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutGlJournalEntriesInput = {
@@ -380382,6 +386992,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type GlJournalLineUpsertWithWhereUniqueWithoutEntryInput = {
@@ -380557,6 +387169,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutGlJournalLinesInput = {
@@ -380716,6 +387330,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutGlJournalLinesInput = {
@@ -380961,6 +387577,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutGlJournalLinesInput = {
@@ -381120,6 +387738,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type GlJournalEntryUpsertWithoutLinesInput = {
@@ -381361,6 +387981,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutGlSystemAccountsInput = {
@@ -381520,6 +388142,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutGlSystemAccountsInput = {
@@ -381695,6 +388319,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutGlSystemAccountsInput = {
@@ -381854,6 +388480,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutGlOpeningBalanceDatesInput = {
@@ -382013,6 +388641,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutGlOpeningBalanceDatesInput = {
@@ -382172,6 +388802,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutGlOpeningBalanceDatesInput = {
@@ -382347,6 +388979,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutGlOpeningBalanceDatesInput = {
@@ -382506,6 +389140,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutGlPeriodLocksInput = {
@@ -382665,6 +389301,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutGlPeriodLocksInput = {
@@ -382824,6 +389462,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutGlPeriodLocksInput = {
@@ -382999,6 +389639,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutGlPeriodLocksInput = {
@@ -383158,6 +389800,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutBankStatementsInput = {
@@ -383317,6 +389961,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBankStatementsInput = {
@@ -383476,6 +390122,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBankStatementsInput = {
@@ -383691,6 +390339,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBankStatementsInput = {
@@ -383850,6 +390500,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BankStatementLineUpsertWithWhereUniqueWithoutStatementInput = {
@@ -384025,6 +390677,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBankStatementLinesInput = {
@@ -384184,6 +390838,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBankStatementLinesInput = {
@@ -384436,6 +391092,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBankStatementLinesInput = {
@@ -384595,6 +391253,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BankStatementUpsertWithoutLinesInput = {
@@ -384821,6 +391481,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPaymentAllocationsInput = {
@@ -384980,6 +391642,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPaymentAllocationsInput = {
@@ -385239,6 +391903,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPaymentAllocationsInput = {
@@ -385398,6 +392064,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BankStatementLineUpsertWithoutAllocationsInput = {
@@ -385653,6 +392321,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCompensationsInput = {
@@ -385812,6 +392482,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCompensationsInput = {
@@ -386015,6 +392687,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCompensationsInput = {
@@ -386174,6 +392848,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type CompensationLineUpsertWithWhereUniqueWithoutCompensationInput = {
@@ -386349,6 +393025,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCompensationLinesInput = {
@@ -386508,6 +393186,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCompensationLinesInput = {
@@ -386779,6 +393459,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCompensationLinesInput = {
@@ -386938,6 +393620,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type CompensationUpsertWithoutLinesInput = {
@@ -387205,6 +393889,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutVatRatesInput = {
@@ -387364,6 +394050,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutVatRatesInput = {
@@ -387539,6 +394227,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutVatRatesInput = {
@@ -387698,6 +394388,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutVatBookEntriesInput = {
@@ -387857,6 +394549,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutVatBookEntriesInput = {
@@ -388016,6 +394710,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutVatBookEntriesInput = {
@@ -388191,6 +394887,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutVatBookEntriesInput = {
@@ -388350,6 +395048,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutVatPeriodsInput = {
@@ -388509,6 +395209,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutVatPeriodsInput = {
@@ -388668,6 +395370,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutVatPeriodsInput = {
@@ -388843,6 +395547,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutVatPeriodsInput = {
@@ -389002,6 +395708,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutAttendanceDaysInput = {
@@ -389161,6 +395869,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAttendanceDaysInput = {
@@ -389320,6 +396030,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAttendanceDaysInput = {
@@ -389495,6 +396207,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAttendanceDaysInput = {
@@ -389654,6 +396368,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutAttendancePeriodsInput = {
@@ -389813,6 +396529,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAttendancePeriodsInput = {
@@ -389972,6 +396690,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAttendancePeriodsInput = {
@@ -390147,6 +396867,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAttendancePeriodsInput = {
@@ -390306,6 +397028,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutEmployeeSalariesInput = {
@@ -390465,6 +397189,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutEmployeeSalariesInput = {
@@ -390624,6 +397350,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutEmployeeSalariesInput = {
@@ -390799,6 +397527,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutEmployeeSalariesInput = {
@@ -390958,6 +397688,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPayrollRunsInput = {
@@ -391117,6 +397849,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPayrollRunsInput = {
@@ -391276,6 +398010,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPayrollRunsInput = {
@@ -391495,6 +398231,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPayrollRunsInput = {
@@ -391654,6 +398392,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PayrollLineUpsertWithWhereUniqueWithoutRunInput = {
@@ -391829,6 +398569,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPayrollLinesInput = {
@@ -391988,6 +398730,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPayrollLinesInput = {
@@ -392198,6 +398942,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPayrollLinesInput = {
@@ -392357,6 +399103,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PayrollRunUpsertWithoutLinesInput = {
@@ -392557,6 +399305,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPayrollAdjustmentsInput = {
@@ -392716,6 +399466,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPayrollAdjustmentsInput = {
@@ -392891,6 +399643,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPayrollAdjustmentsInput = {
@@ -393050,6 +399804,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutEmploymentContractsInput = {
@@ -393209,6 +399965,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutEmploymentContractsInput = {
@@ -393368,6 +400126,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutEmploymentContractsInput = {
@@ -393543,6 +400303,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutEmploymentContractsInput = {
@@ -393702,6 +400464,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutTrainingPlanTemplatesInput = {
@@ -393861,6 +400625,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTrainingPlanTemplatesInput = {
@@ -394020,6 +400786,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTrainingPlanTemplatesInput = {
@@ -394195,6 +400963,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTrainingPlanTemplatesInput = {
@@ -394354,6 +401124,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutTrainingPlansInput = {
@@ -394513,6 +401285,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTrainingPlansInput = {
@@ -394672,6 +401446,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTrainingPlansInput = {
@@ -394881,6 +401657,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTrainingPlansInput = {
@@ -395040,6 +401818,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TrainingPlanItemUpsertWithWhereUniqueWithoutPlanInput = {
@@ -395215,6 +401995,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTrainingPlanItemsInput = {
@@ -395374,6 +402156,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTrainingPlanItemsInput = {
@@ -395588,6 +402372,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTrainingPlanItemsInput = {
@@ -395747,6 +402533,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TrainingPlanUpsertWithoutItemsInput = {
@@ -395951,6 +402739,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTrainingRecordsInput = {
@@ -396110,6 +402900,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTrainingRecordsInput = {
@@ -396285,6 +403077,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTrainingRecordsInput = {
@@ -396444,6 +403238,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutEquipmentCustodiesInput = {
@@ -396603,6 +403399,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutEquipmentCustodiesInput = {
@@ -396762,6 +403560,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutEquipmentCustodiesInput = {
@@ -396971,6 +403771,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutEquipmentCustodiesInput = {
@@ -397130,6 +403932,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type EquipmentCustodyLineUpsertWithWhereUniqueWithoutCustodyInput = {
@@ -397305,6 +404109,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutEquipmentCustodyLinesInput = {
@@ -397464,6 +404270,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutEquipmentCustodyLinesInput = {
@@ -397674,6 +404482,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutEquipmentCustodyLinesInput = {
@@ -397833,6 +404643,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type EquipmentCustodyUpsertWithoutLinesInput = {
@@ -398033,6 +404845,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSerialPositionsInput = {
@@ -398192,6 +405006,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSerialPositionsInput = {
@@ -398367,6 +405183,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSerialPositionsInput = {
@@ -398526,6 +405344,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSerialMovementsInput = {
@@ -398685,6 +405505,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSerialMovementsInput = {
@@ -398844,6 +405666,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedCreateNestedManyWithoutTenantInput
     supportCaseReturns?: SupportCaseReturnUncheckedCreateNestedManyWithoutTenantInput
+    taskAssignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTenantInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSerialMovementsInput = {
@@ -399019,6 +405843,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSerialMovementsInput = {
@@ -399178,6 +406004,8 @@ export namespace Prisma {
     assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseOrderItems?: SupportCaseOrderItemUncheckedUpdateManyWithoutTenantNestedInput
     supportCaseReturns?: SupportCaseReturnUncheckedUpdateManyWithoutTenantNestedInput
+    taskAssignees?: TaskAssigneeUncheckedUpdateManyWithoutTenantNestedInput
+    recurringTaskTemplates?: RecurringTaskTemplateUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantConfigurationVersionCreateManyTenantInput = {
@@ -399320,6 +406148,11 @@ export namespace Prisma {
     createdByUserId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    completionRule?: string | null
+    completedAt?: Date | string | null
+    templateId?: string | null
+    occurrenceDate?: Date | string | null
+    checklist?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type NotificationCreateManyTenantInput = {
@@ -400982,6 +407815,37 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
+  export type TaskAssigneeCreateManyTenantInput = {
+    id?: string
+    taskId: string
+    userId: string
+    status?: string
+    completedAt?: Date | string | null
+    completedBy?: string | null
+    note?: string | null
+    results?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type RecurringTaskTemplateCreateManyTenantInput = {
+    id?: string
+    code: string
+    title: string
+    description?: string | null
+    frequency: string
+    weekdays?: RecurringTaskTemplateCreateweekdaysInput | number[]
+    dayOfMonth?: number | null
+    dueTime?: string
+    assigneeUserIds?: RecurringTaskTemplateCreateassigneeUserIdsInput | string[]
+    completionRule?: string
+    checklist?: NullableJsonNullValueInput | InputJsonValue
+    relatedObjectType?: string | null
+    relatedObjectId?: string | null
+    active?: boolean
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type TenantConfigurationVersionUpdateWithoutTenantInput = {
     id?: StringFieldUpdateOperationsInput | string
     version?: IntFieldUpdateOperationsInput | number
@@ -401396,6 +408260,12 @@ export namespace Prisma {
     createdByUserId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completionRule?: NullableStringFieldUpdateOperationsInput | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    occurrenceDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    checklist?: NullableJsonNullValueInput | InputJsonValue
+    assignees?: TaskAssigneeUpdateManyWithoutTaskNestedInput
+    template?: RecurringTaskTemplateUpdateOneWithoutTasksNestedInput
   }
 
   export type TaskUncheckedUpdateWithoutTenantInput = {
@@ -401410,6 +408280,12 @@ export namespace Prisma {
     createdByUserId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completionRule?: NullableStringFieldUpdateOperationsInput | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    templateId?: NullableStringFieldUpdateOperationsInput | string | null
+    occurrenceDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    checklist?: NullableJsonNullValueInput | InputJsonValue
+    assignees?: TaskAssigneeUncheckedUpdateManyWithoutTaskNestedInput
   }
 
   export type TaskUncheckedUpdateManyWithoutTenantInput = {
@@ -401424,6 +408300,11 @@ export namespace Prisma {
     createdByUserId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completionRule?: NullableStringFieldUpdateOperationsInput | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    templateId?: NullableStringFieldUpdateOperationsInput | string | null
+    occurrenceDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    checklist?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type NotificationUpdateWithoutTenantInput = {
@@ -406532,6 +413413,101 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type TaskAssigneeUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    results?: NullableJsonNullValueInput | InputJsonValue
+    task?: TaskUpdateOneRequiredWithoutAssigneesNestedInput
+  }
+
+  export type TaskAssigneeUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    taskId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    results?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type TaskAssigneeUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    taskId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    results?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type RecurringTaskTemplateUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    frequency?: StringFieldUpdateOperationsInput | string
+    weekdays?: RecurringTaskTemplateUpdateweekdaysInput | number[]
+    dayOfMonth?: NullableIntFieldUpdateOperationsInput | number | null
+    dueTime?: StringFieldUpdateOperationsInput | string
+    assigneeUserIds?: RecurringTaskTemplateUpdateassigneeUserIdsInput | string[]
+    completionRule?: StringFieldUpdateOperationsInput | string
+    checklist?: NullableJsonNullValueInput | InputJsonValue
+    relatedObjectType?: NullableStringFieldUpdateOperationsInput | string | null
+    relatedObjectId?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tasks?: TaskUpdateManyWithoutTemplateNestedInput
+  }
+
+  export type RecurringTaskTemplateUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    frequency?: StringFieldUpdateOperationsInput | string
+    weekdays?: RecurringTaskTemplateUpdateweekdaysInput | number[]
+    dayOfMonth?: NullableIntFieldUpdateOperationsInput | number | null
+    dueTime?: StringFieldUpdateOperationsInput | string
+    assigneeUserIds?: RecurringTaskTemplateUpdateassigneeUserIdsInput | string[]
+    completionRule?: StringFieldUpdateOperationsInput | string
+    checklist?: NullableJsonNullValueInput | InputJsonValue
+    relatedObjectType?: NullableStringFieldUpdateOperationsInput | string | null
+    relatedObjectId?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tasks?: TaskUncheckedUpdateManyWithoutTemplateNestedInput
+  }
+
+  export type RecurringTaskTemplateUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    frequency?: StringFieldUpdateOperationsInput | string
+    weekdays?: RecurringTaskTemplateUpdateweekdaysInput | number[]
+    dayOfMonth?: NullableIntFieldUpdateOperationsInput | number | null
+    dueTime?: StringFieldUpdateOperationsInput | string
+    assigneeUserIds?: RecurringTaskTemplateUpdateassigneeUserIdsInput | string[]
+    completionRule?: StringFieldUpdateOperationsInput | string
+    checklist?: NullableJsonNullValueInput | InputJsonValue
+    relatedObjectType?: NullableStringFieldUpdateOperationsInput | string | null
+    relatedObjectId?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type BusinessUnitCreateManyLegalEntityInput = {
     id?: string
     tenantId: string
@@ -406814,6 +413790,128 @@ export namespace Prisma {
     scopeType?: EnumScopeTypeFieldUpdateOperationsInput | $Enums.ScopeType
     scopeId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TaskAssigneeCreateManyTaskInput = {
+    id?: string
+    tenantId: string
+    userId: string
+    status?: string
+    completedAt?: Date | string | null
+    completedBy?: string | null
+    note?: string | null
+    results?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type TaskAssigneeUpdateWithoutTaskInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    results?: NullableJsonNullValueInput | InputJsonValue
+    tenant?: TenantUpdateOneRequiredWithoutTaskAssigneesNestedInput
+  }
+
+  export type TaskAssigneeUncheckedUpdateWithoutTaskInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    results?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type TaskAssigneeUncheckedUpdateManyWithoutTaskInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    results?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type TaskCreateManyTemplateInput = {
+    id?: string
+    tenantId: string
+    title: string
+    description?: string | null
+    status?: $Enums.TaskStatus
+    assigneeUserId?: string | null
+    dueAt?: Date | string | null
+    relatedObjectType?: string | null
+    relatedObjectId?: string | null
+    createdByUserId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    completionRule?: string | null
+    completedAt?: Date | string | null
+    occurrenceDate?: Date | string | null
+    checklist?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type TaskUpdateWithoutTemplateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumTaskStatusFieldUpdateOperationsInput | $Enums.TaskStatus
+    assigneeUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    dueAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    relatedObjectType?: NullableStringFieldUpdateOperationsInput | string | null
+    relatedObjectId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdByUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completionRule?: NullableStringFieldUpdateOperationsInput | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    occurrenceDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    checklist?: NullableJsonNullValueInput | InputJsonValue
+    tenant?: TenantUpdateOneRequiredWithoutTasksNestedInput
+    assignees?: TaskAssigneeUpdateManyWithoutTaskNestedInput
+  }
+
+  export type TaskUncheckedUpdateWithoutTemplateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumTaskStatusFieldUpdateOperationsInput | $Enums.TaskStatus
+    assigneeUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    dueAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    relatedObjectType?: NullableStringFieldUpdateOperationsInput | string | null
+    relatedObjectId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdByUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completionRule?: NullableStringFieldUpdateOperationsInput | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    occurrenceDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    checklist?: NullableJsonNullValueInput | InputJsonValue
+    assignees?: TaskAssigneeUncheckedUpdateManyWithoutTaskNestedInput
+  }
+
+  export type TaskUncheckedUpdateManyWithoutTemplateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumTaskStatusFieldUpdateOperationsInput | $Enums.TaskStatus
+    assigneeUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    dueAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    relatedObjectType?: NullableStringFieldUpdateOperationsInput | string | null
+    relatedObjectId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdByUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completionRule?: NullableStringFieldUpdateOperationsInput | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    occurrenceDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    checklist?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type WorkflowVersionCreateManyDefinitionInput = {

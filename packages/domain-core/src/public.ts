@@ -17,6 +17,16 @@ export {
 export { ConfigurationService, type CustomFieldView } from './configuration.service';
 export { TaskService, type NotificationView, type TaskView } from './task.service';
 export {
+  TeamTaskService,
+  type ChecklistAnswer,
+  type ChecklistItem,
+  type CompletionRule,
+  type Frequency,
+  type TeamTaskView,
+  type TemplateInput,
+  type TemplateView,
+} from './team-task.service';
+export {
   ImportExportService,
   parseCsv,
   toCsv,

@@ -190,6 +190,8 @@ model Tenant {
   assetStructureChanges   AssetStructureChange[]
   supportCaseOrderItems   SupportCaseOrderItem[]
   supportCaseReturns      SupportCaseReturn[]
+  taskAssignees           TaskAssignee[]
+  recurringTaskTemplates  RecurringTaskTemplate[]
 
   @@map("tenant")
 }
@@ -534,11 +536,76 @@ model Task {
   createdByUserId   String?    @map("created_by_user_id") @db.Uuid
   createdAt         DateTime   @default(now()) @map("created_at")
   updatedAt         DateTime   @updatedAt @map("updated_at")
+  /// Sprint 246 (WF-013): ALL = done when every assignee is done; ANY = first one.
+  completionRule    String?    @map("completion_rule")
+  completedAt       DateTime?  @map("completed_at")
+  /// Recurring occurrence: template + the date it belongs to (snapshot of
+  /// the template's title/checklist at generation time).
+  templateId        String?    @map("template_id") @db.Uuid
+  occurrenceDate    DateTime?  @map("occurrence_date") @db.Date
+  checklist         Json?
 
-  tenant Tenant @relation(fields: [tenantId], references: [id])
+  tenant    Tenant                 @relation(fields: [tenantId], references: [id])
+  assignees TaskAssignee[]
+  template  RecurringTaskTemplate? @relation(fields: [templateId], references: [id])
 
   @@index([tenantId, assigneeUserId, status])
+  @@index([tenantId, templateId, occurrenceDate])
   @@map("task")
+}
+
+/// Sprint 246 (WF-013): per-person status on a multi-assignee task.
+model TaskAssignee {
+  id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId    String    @map("tenant_id") @db.Uuid
+  taskId      String    @map("task_id") @db.Uuid
+  userId      String    @map("user_id") @db.Uuid
+  status      String    @default("OPEN")
+  completedAt DateTime? @map("completed_at")
+  completedBy String?   @map("completed_by") @db.Uuid
+  note        String?
+  /// Checklist answers [{ label, ok, value?, note? }].
+  results     Json?
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+  task   Task   @relation(fields: [taskId], references: [id])
+
+  @@unique([taskId, userId])
+  @@index([tenantId, userId, status])
+  @@map("task_assignee")
+}
+
+/// Sprint 246 (WF-013): recurring task template (opening/closing a store,
+/// shift checks, HACCP/OHS rounds). Occurrences copy it at generation.
+model RecurringTaskTemplate {
+  id                String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId          String   @map("tenant_id") @db.Uuid
+  code              String
+  title             String
+  description       String?
+  /// DAILY | WEEKLY | MONTHLY
+  frequency         String
+  /// ISO weekdays (1 = Monday) for WEEKLY; DAILY may restrict to these too.
+  weekdays          Int[]    @default([])
+  dayOfMonth        Int?     @map("day_of_month")
+  /// Local due time HH:MM on the occurrence date (UTC-based in v1).
+  dueTime           String   @default("23:59") @map("due_time")
+  assigneeUserIds   String[] @default([]) @map("assignee_user_ids")
+  completionRule    String   @default("ALL") @map("completion_rule")
+  /// [{ label, required }]
+  checklist         Json?
+  relatedObjectType String?  @map("related_object_type")
+  relatedObjectId   String?  @map("related_object_id")
+  active            Boolean  @default(true)
+  createdBy         String?  @map("created_by") @db.Uuid
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt         DateTime @updatedAt @map("updated_at")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+  tasks  Task[]
+
+  @@unique([tenantId, code])
+  @@map("recurring_task_template")
 }
 
 model Notification {
