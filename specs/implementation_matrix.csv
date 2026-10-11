@@ -258,7 +258,7 @@ QMS-013,QMS,Calibration linkage,P2,DONE,R2,,,Sprint 201: calibration report from
 QMS-014,QMS,Quality audits,P2,DONE,R2,,,Sprint 200: quality audits run as GRC internal-audit register records.
 QMS-015,QMS,Quality analytics,P2,DONE,R2,,,"Sprint 201: quality analytics — first-pass yield, NCRs by severity, top defect codes."
 EAM-001,EAM,Asset registry,P2,DONE,R4+,,,"Sprint 073: numbered asset registry with categories, serials, values; Assets page. Sprint 229: /assets rebuilt on the shared standard — detail with real service history, dialog actions."
-EAM-002,EAM,Asset hierarchy/history,P2,Partially implemented (Sprint 073),R4+,,,Lifecycle transitions audited (history in audit ledger); hierarchy pending.
+EAM-002,EAM,Asset hierarchy/history,P2,DONE,R4+,,,"Sprint 073 + Sprint 243: hijerarhija sredstava (linija > masina > sklop > dio, najvise 6 nivoa), ugradnja/premjestanje/demontaza uz razlog; zabrana ciklusa i ugradnje u sebe (i pod konkurencijom — izmjene strukture serijalizovane po tenantu); stablo (preci + potomci); istorija strukture s datumom vazenja (append-only) + audit + dogadjaj asset.structure.changed; rashodovanje odbijeno dok su ugradjene zive komponente; promjena statusa CAS; broj sredstva bez duplikata pod konkurencijom."
 EAM-003,EAM,Preventive maintenance,P2,DONE,R4+,,,"Sprint 202: preventive maintenance from eam.preventive config, idempotent per asset+period, tasks with checklists."
 EAM-004,EAM,Corrective maintenance,P2,DONE,R4+,,,Sprint 202: breakdown reporting moves the asset UNDER_MAINTENANCE and opens a corrective task. Sprint 229: breakdown/complete flow surfaced in the assets UI.
 EAM-005,EAM,Downtime,P2,DONE,R4+,,,Sprint 202: downtime measured between breakdown and completion audit events per asset.

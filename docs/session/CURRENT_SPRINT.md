@@ -433,3 +433,16 @@ Red 2 potvrđenog redoslijeda. Vlasnik: WMS (blokade i knjiženja), QC (NCR — 
 - [x] UI: panel Karantin (preostalo/ukupno, lot, NCR, dorada), dijalog „Odluka komisije", istorija odluka s ponovnim knjiženjem
 - [x] Testovi: **sprint242 7/7**; regresija karantina/rezervacija/dostupnosti (004, 040, 068, 082, 084, 088, 119) zelena; data-integrity review: 2 high + 2 medium + 3 low ispravljeno
 - Nije rađeno: PROC dokument povrata (RTV), MES nalog dorade; browser provjera
+
+# Sprint 243 — ZAVRŠEN 11.10.2026: hijerarhija i istorija sredstava (EAM-002)
+
+Red 2 potvrđenog redoslijeda. Vlasnik: EAM. Migracija `…245_sprint_243_asset_hierarchy` (aditivna; CHECK `asset_not_own_parent` nije u schema.prisma — čuvati).
+
+- [x] Ugradnja / premještanje / demontaža (`POST /assets/:id/parent`, razlog obavezan), roditelj i pri kreiranju
+- [x] Zabrana ciklusa i ugradnje u sebe, najviše 6 nivoa (i za premješteno podstablo); izmjene serijalizovane po tenantu → i suprotna istovremena premještanja bez ciklusa
+- [x] Stablo `GET /assets/:id/tree` (preci od korijena, potomci s dubinom) i istorija strukture `GET /assets/:id/structure-history` (kao dio i kao roditelj)
+- [x] Rashodovanje odbijeno dok su ugrađene žive komponente (poruka navodi brojeve); u rashodovano se ne ugrađuje, rashodovano se ne premješta; promjena statusa CAS
+- [x] Broj sredstva serijalizovan (istovremeno kreiranje bez duplih brojeva)
+- [x] Događaj `asset.structure.changed` + audit
+- [x] Testovi: **sprint243 5/5**; EAM regresija (072, 202, 238) zelena
+- [ ] UI: struktura na /assets (stablo, ugradi/premjesti/demontiraj, istorija) — u toku
