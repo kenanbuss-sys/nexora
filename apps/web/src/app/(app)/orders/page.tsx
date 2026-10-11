@@ -8,6 +8,8 @@ import { CollabPanel } from '../collab-panel';
 import { downloadDocument } from '../../../lib/download';
 import { OrderPromiseCard } from '../../../components/delivery-promise';
 import { OrderCasesSection } from '../../../components/case-order';
+import { OrderFlow } from '../../../components/order-flow';
+import { SpecSummary, type MeasuredSpec } from '../../../components/made-to-measure';
 import {
   ConfirmDialog,
   DataTable,
@@ -34,6 +36,8 @@ interface OrderLineView {
   reservationId: string | null;
   backordered: boolean;
   fulfilledQty?: string;
+  /** Made-to-measure spec (dimensions/pieces), null for ordinary lines. */
+  spec?: MeasuredSpec | null;
 }
 
 interface OrderView {
@@ -633,12 +637,17 @@ export default function OrdersPage() {
                       </div>
                     ) : null}
 
+                    <OrderFlow order={o} can={can} onChanged={load} />
+
                     {o.lines.length > 0 ? (
                       <table className="table" style={{ marginTop: 8 }}>
                         <tbody>
                           {o.lines.map((l) => (
                             <tr key={l.id}>
-                              <td>{l.description}</td>
+                              <td>
+                                {l.description}
+                                <SpecSummary spec={l.spec} />
+                              </td>
                               <td>
                                 {l.quantity} × {l.unitPrice}
                                 {Number(l.fulfilledQty ?? 0) > 0 ? (

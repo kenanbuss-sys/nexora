@@ -15,7 +15,7 @@ export interface RoleHome {
     sentQuotes: number;
     ordersToConfirm: number;
     confirmedWithoutAdvance: number;
-    measurementsThisWeek: number;
+    measurementsNext7Days: number;
   };
   production?: {
     planned: number;
@@ -25,7 +25,7 @@ export interface RoleHome {
     ordersWaitingForWorkOrders: number;
   };
   installation?: {
-    thisWeek: Array<{
+    next7Days: Array<{
       id: string;
       orderNumber: string;
       kind: string;
@@ -52,12 +52,12 @@ export interface RoleHome {
   };
 }
 
-function weekBounds(now: Date): { start: Date; end: Date } {
+function weekBounds(now: Date): { start: Date } {
   const day = now.getUTCDay() === 0 ? 7 : now.getUTCDay();
   const start = new Date(
     Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() - (day - 1)),
   );
-  return { start, end: new Date(start.getTime() + 7 * 86_400_000) };
+  return { start };
 }
 
 export class RoleHomeService {
@@ -66,7 +66,13 @@ export class RoleHomeService {
   async home(ctx: RequestContext, permissions: Set<string>): Promise<RoleHome> {
     const t = ctx.tenantId;
     const now = new Date();
-    const { start: weekStart, end: weekEnd } = weekBounds(now);
+    const { start: weekStart } = weekBounds(now);
+    // Field work looks ahead: today plus the next six days (a Sunday view
+    // shows the coming week, not the one that is ending).
+    const todayStart = new Date(
+      Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()),
+    );
+    const aheadEnd = new Date(todayStart.getTime() + 7 * 86_400_000);
     const monthStart = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1));
     const has = (p: string) => ctx.platformAdmin === true || permissions.has(p);
     const result: RoleHome = { generatedAt: now.toISOString() };
@@ -91,7 +97,7 @@ export class RoleHomeService {
             where: {
               tenantId: t,
               kind: 'MEASUREMENT',
-              slotStart: { gte: weekStart, lt: weekEnd },
+              slotStart: { gte: todayStart, lt: aheadEnd },
               status: { not: 'CANCELLED' },
             },
           }),
@@ -102,7 +108,7 @@ export class RoleHomeService {
         sentQuotes,
         ordersToConfirm,
         confirmedWithoutAdvance: confirmed.filter((o) => !withAdvance.has(o.id)).length,
-        measurementsThisWeek: measurements,
+        measurementsNext7Days: measurements,
       };
     }
 
@@ -138,11 +144,11 @@ export class RoleHomeService {
     }
 
     if (has('service.read')) {
-      const [thisWeek, unscheduled] = await Promise.all([
+      const [next7Days, unscheduled] = await Promise.all([
         this.prisma.serviceOrder.findMany({
           where: {
             tenantId: t,
-            slotStart: { gte: weekStart, lt: weekEnd },
+            slotStart: { gte: todayStart, lt: aheadEnd },
             status: { not: 'CANCELLED' },
           },
           orderBy: { slotStart: 'asc' },
@@ -162,7 +168,7 @@ export class RoleHomeService {
         }),
       ]);
       result.installation = {
-        thisWeek: thisWeek.map((v) => ({
+        next7Days: next7Days.map((v) => ({
           ...v,
           slotStart: v.slotStart?.toISOString() ?? null,
           slotEnd: v.slotEnd?.toISOString() ?? null,

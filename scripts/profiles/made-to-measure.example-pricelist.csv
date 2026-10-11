@@ -1,0 +1,11 @@
+Sifra;Naziv;Grupa;Obracun;Cijena;Min;MaxSirina;MaxVisina
+DEMO-ROLO-01;Roletna PVC standard;Roletne;m2;85;1.5;3000;3000
+DEMO-ROLO-02;Roletna ALU termo;Roletne;m2;140;1.5;3500;3200
+DEMO-ZAV-01;Zavjesa platnena rolo;Zavjese;m2;55;1;2500;3000
+DEMO-ZAV-02;Zebra zavjesa;Zavjese;m2;72;1;2400;2800
+DEMO-TEN-01;Tenda zglobna;Tende;m2;160;4;6000;3500
+DEMO-TEN-02;Tenda kasetna;Tende;m2;210;4;6000;3500
+DEMO-KOM-01;Komarnik okvirni;Komarnici;kom;45;;1500;2200
+DEMO-KOM-02;Komarnik rolo;Komarnici;m2;65;1;1600;2400
+DEMO-VEN-01;Venecijaner ALU 25 mm;Venecijaneri;m2;48;1;2400;2600
+DEMO-LAJ-01;Završna lajsna ALU;Pribor;m1;12;1;;

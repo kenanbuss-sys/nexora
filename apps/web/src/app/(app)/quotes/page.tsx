@@ -13,6 +13,13 @@ import {
   LoadingState,
   type Column,
 } from '../../../components/ui';
+import {
+  MeasuredLineDetail,
+  MeasuredLineForm,
+  money,
+  useMadeToMeasureConfig,
+  type MeasuredSpec,
+} from '../../../components/made-to-measure';
 
 interface PriceListView {
   id: string;
@@ -29,6 +36,8 @@ interface QuoteLineView {
   listUnitPrice: string;
   discountPct: string;
   lineTotal: string;
+  /** Made-to-measure breakdown (server-computed); null for ordinary lines. */
+  spec?: MeasuredSpec | null;
 }
 
 interface QuoteView {
@@ -38,6 +47,8 @@ interface QuoteView {
   accountId: string;
   status: 'DRAFT' | 'PENDING_APPROVAL' | 'APPROVED' | 'SENT' | 'ACCEPTED' | 'REJECTED' | 'EXPIRED';
   currency: string;
+  subtotal?: string;
+  discountTotal?: string;
   total: string;
   lines: QuoteLineView[];
 }
@@ -57,6 +68,7 @@ interface WarehouseView {
 interface SkuOption {
   id: string;
   code: string;
+  name?: string;
 }
 
 const QUOTE_BADGE: Record<QuoteView['status'], string> = {
@@ -159,6 +171,7 @@ export default function QuotesPage() {
   const [confirm, setConfirm] = useState<ConfirmAction | null>(null);
   const [convertWarehouse, setConvertWarehouse] = useState('');
   const [converted, setConverted] = useState<{ orderNumber: string } | null>(null);
+  const mtm = useMadeToMeasureConfig(can('quote.create'));
 
   const load = useCallback(() => {
     if (can('pricing.read')) {
@@ -200,9 +213,7 @@ export default function QuotesPage() {
         const details = await Promise.all(
           r.products
             .slice(0, 20)
-            .map((p) =>
-              api<{ skus: Array<{ id: string; code: string }> }>('GET', `/api/v1/products/${p.id}`),
-            ),
+            .map((p) => api<{ skus: SkuOption[] }>('GET', `/api/v1/products/${p.id}`)),
         );
         setSkus(details.flatMap((d) => d.skus));
       })
@@ -904,32 +915,88 @@ export default function QuotesPage() {
                     </tr>
                   </thead>
                   <tbody>
-                    {opened.lines.map((l) => (
-                      <tr key={l.id}>
-                        <td>{l.description}</td>
-                        <td style={{ textAlign: 'right' }} className="mono">
-                          {l.quantity}
+                    {opened.lines.map((l) =>
+                      l.spec ? (
+                        <tr key={l.id}>
+                          <td colSpan={5}>
+                            <MeasuredLineDetail
+                              description={l.description}
+                              spec={l.spec}
+                              currency={opened.currency}
+                            />
+                          </td>
+                        </tr>
+                      ) : (
+                        <tr key={l.id}>
+                          <td>{l.description}</td>
+                          <td style={{ textAlign: 'right' }} className="mono">
+                            {l.quantity}
+                          </td>
+                          <td style={{ textAlign: 'right' }} className="mono">
+                            {l.listUnitPrice} {opened.currency}
+                          </td>
+                          <td style={{ textAlign: 'right' }}>
+                            {num(l.discountPct) > 0 ? (
+                              <span className="badge badge-warn">−{l.discountPct}%</span>
+                            ) : (
+                              <span className="muted">—</span>
+                            )}
+                          </td>
+                          <td style={{ textAlign: 'right' }} className="mono">
+                            {l.lineTotal} {opened.currency}
+                          </td>
+                        </tr>
+                      ),
+                    )}
+                  </tbody>
+                  <tfoot>
+                    {opened.subtotal !== undefined ? (
+                      <tr>
+                        <td colSpan={4} style={{ textAlign: 'right' }} className="muted">
+                          Međuzbir
                         </td>
                         <td style={{ textAlign: 'right' }} className="mono">
-                          {l.listUnitPrice} {opened.currency}
-                        </td>
-                        <td style={{ textAlign: 'right' }}>
-                          {num(l.discountPct) > 0 ? (
-                            <span className="badge badge-warn">−{l.discountPct}%</span>
-                          ) : (
-                            <span className="muted">—</span>
-                          )}
-                        </td>
-                        <td style={{ textAlign: 'right' }} className="mono">
-                          {l.lineTotal} {opened.currency}
+                          {money(opened.subtotal)} {opened.currency}
                         </td>
                       </tr>
-                    ))}
-                  </tbody>
+                    ) : null}
+                    {opened.discountTotal !== undefined && Number(opened.discountTotal) > 0 ? (
+                      <tr>
+                        <td colSpan={4} style={{ textAlign: 'right' }} className="muted">
+                          Popusti
+                        </td>
+                        <td style={{ textAlign: 'right' }} className="mono">
+                          −{money(opened.discountTotal)} {opened.currency}
+                        </td>
+                      </tr>
+                    ) : null}
+                    <tr>
+                      <td colSpan={4} style={{ textAlign: 'right' }}>
+                        <strong>Ukupno</strong>
+                      </td>
+                      <td style={{ textAlign: 'right' }} className="mono">
+                        <strong>
+                          {money(opened.total)} {opened.currency}
+                        </strong>
+                      </td>
+                    </tr>
+                  </tfoot>
                 </table>
               ) : (
                 <EmptyState text="Ponuda još nema stavki." />
               )}
+
+              {opened.status === 'DRAFT' && can('quote.create') ? (
+                <MeasuredLineForm
+                  key={opened.id}
+                  quoteId={opened.id}
+                  currency={opened.currency}
+                  skus={skus}
+                  mtm={mtm}
+                  disabled={busy}
+                  onAdded={load}
+                />
+              ) : null}
 
               {can('quote.create') ? (
                 <div className="row" style={{ marginTop: 8, flexWrap: 'wrap' }}>

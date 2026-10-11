@@ -108,6 +108,37 @@ integration('Sprint 249 — role home + module profile', () => {
     expect(mine.body.accounting).toBeUndefined();
   });
 
+  it('ROLE HOME: field work looks 7 days ahead (yesterday out, day 6 in, day 8 out)', async () => {
+    const crewId = (await api('POST', '/api/v1/employees', tokenA, { name: 'Monter DEMO 7d' })).body
+      .id as string;
+    const today = new Date();
+    const at = (days: number) =>
+      new Date(Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate() + days, 9));
+    const ids: Record<number, string> = {};
+    for (const d of [-1, 6, 8]) {
+      const v = await api('POST', '/api/v1/service/visits/measurements', tokenA, {
+        accountId,
+        siteAddress: `Adresa DEMO ${d}`,
+      });
+      ids[d] = v.body.id as string;
+      const s = await api('POST', `/api/v1/service/visits/${ids[d]}/schedule`, tokenA, {
+        slotStart: at(d).toISOString(),
+        slotEnd: new Date(at(d).getTime() + 3_600_000).toISOString(),
+        crewEmployeeIds: [crewId],
+      });
+      expect(s.status).toBe(201);
+    }
+    const home = (await api('GET', '/api/v1/home/today', tokenA)).body as {
+      installation: { next7Days: Array<{ id: string }> };
+      sales: { measurementsNext7Days: number };
+    };
+    const seen = home.installation.next7Days.map((v) => v.id);
+    expect(seen).toContain(ids[6]);
+    expect(seen).not.toContain(ids[-1]);
+    expect(seen).not.toContain(ids[8]);
+    expect(home.sales.measurementsNext7Days).toBeGreaterThanOrEqual(1);
+  });
+
   it('OPEN VISITS: unscheduled measurements are listed for dispatch', async () => {
     const visit = await api('POST', '/api/v1/service/visits/measurements', tokenA, {
       accountId,

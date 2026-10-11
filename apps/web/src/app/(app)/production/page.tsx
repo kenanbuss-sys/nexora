@@ -6,6 +6,7 @@ import { ConfirmDialog, DataTable, EmptyState, LoadingState } from '../../../com
 import { api, errorText } from '../../../lib/api';
 import { downloadDocument } from '../../../lib/download';
 import { useApp } from '../app-shell';
+import { MeasureBlock, hasSpec, specSummary, type WorkOrderSpec } from './work-order-spec';
 
 interface WoOperationView {
   id: string;
@@ -40,6 +41,10 @@ interface WorkOrderView {
   scrapQuantity: string;
   status: 'PLANNED' | 'RELEASED' | 'IN_PROGRESS' | 'PAUSED' | 'COMPLETED' | 'CANCELLED';
   operations: WoOperationView[];
+  /** Sprint 248: set when the work order was created from a sales order line. */
+  salesOrderId?: string | null;
+  salesOrderLineId?: string | null;
+  spec?: WorkOrderSpec | null;
 }
 
 interface WarehouseView {
@@ -119,6 +124,7 @@ export default function ProductionPage() {
   const [scrapQty, setScrapQty] = useState('0');
 
   const [statusFilter, setStatusFilter] = useState('');
+  const [fromOrders, setFromOrders] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [confirm, setConfirm] = useState<{ kind: ConfirmKind; wo: WorkOrderView } | null>(null);
 
@@ -192,7 +198,7 @@ export default function ProductionPage() {
   ).length;
 
   const filteredOrders = (workOrders ?? []).filter(
-    (w) => !statusFilter || w.status === statusFilter,
+    (w) => (!statusFilter || w.status === statusFilter) && (!fromOrders || !!w.salesOrderId),
   );
   const selected = (workOrders ?? []).find((w) => w.id === selectedId) ?? null;
 
@@ -319,6 +325,21 @@ export default function ProductionPage() {
                   text: (wo: WorkOrderView) => skuCode(wo.skuId),
                 },
                 {
+                  key: 'spec',
+                  header: 'Mjere',
+                  render: (wo: WorkOrderView) =>
+                    hasSpec(wo.spec) ? (
+                      <span style={{ fontVariantNumeric: 'tabular-nums' }}>
+                        {specSummary(wo.spec)}
+                      </span>
+                    ) : wo.salesOrderId ? (
+                      <span className="badge badge-info">Iz narudžbe</span>
+                    ) : (
+                      <span className="muted">—</span>
+                    ),
+                  text: (wo: WorkOrderView) => (hasSpec(wo.spec) ? specSummary(wo.spec) : ''),
+                },
+                {
                   key: 'planned',
                   header: 'Planirano',
                   align: 'right',
@@ -352,25 +373,37 @@ export default function ProductionPage() {
               searchPlaceholder="Pretraga naloga…"
               pageSize={10}
               emptyText={
-                statusFilter
-                  ? 'Nema radnih naloga za odabrani status.'
-                  : 'Još nema radnih naloga — planirajte prvi iz odobrenog normativa.'
+                fromOrders
+                  ? 'Nema radnih naloga iz narudžbi za odabrani filter.'
+                  : statusFilter
+                    ? 'Nema radnih naloga za odabrani status.'
+                    : 'Još nema radnih naloga — planirajte prvi iz odobrenog normativa.'
               }
               toolbar={
-                <select
-                  className="select"
-                  style={{ maxWidth: 180 }}
-                  value={statusFilter}
-                  onChange={(e) => setStatusFilter(e.target.value)}
-                  aria-label="Filter po statusu"
-                >
-                  <option value="">Svi statusi</option>
-                  {(Object.keys(WO_LABEL) as Array<WorkOrderView['status']>).map((s) => (
-                    <option key={s} value={s}>
-                      {WO_LABEL[s]}
-                    </option>
-                  ))}
-                </select>
+                <>
+                  <select
+                    className="select"
+                    style={{ maxWidth: 180 }}
+                    value={statusFilter}
+                    onChange={(e) => setStatusFilter(e.target.value)}
+                    aria-label="Filter po statusu"
+                  >
+                    <option value="">Svi statusi</option>
+                    {(Object.keys(WO_LABEL) as Array<WorkOrderView['status']>).map((s) => (
+                      <option key={s} value={s}>
+                        {WO_LABEL[s]}
+                      </option>
+                    ))}
+                  </select>
+                  <button
+                    type="button"
+                    className="chip"
+                    aria-pressed={fromOrders}
+                    onClick={() => setFromOrders((v) => !v)}
+                  >
+                    Iz narudžbi
+                  </button>
+                </>
               }
             />
           ) : null}
@@ -398,6 +431,18 @@ export default function ProductionPage() {
                   {WO_LABEL[selected.status]}
                 </span>
               </div>
+
+              {hasSpec(selected.spec) ? (
+                <MeasureBlock spec={selected.spec} salesOrderId={selected.salesOrderId} />
+              ) : selected.salesOrderId ? (
+                <p className="muted" style={{ fontSize: 13, margin: 'var(--sp-2) 0 0' }}>
+                  Nalog je kreiran iz{' '}
+                  <Link href={`/orders?order=${encodeURIComponent(selected.salesOrderId)}`}>
+                    prodajne narudžbe
+                  </Link>
+                  , bez mjera po mjeri.
+                </p>
+              ) : null}
 
               {selected.operations.length > 0 ? (
                 <table className="table" style={{ marginTop: 8 }}>

@@ -11,6 +11,7 @@ import {
   type Column,
 } from '../../../components/ui';
 import { CaseOrderPanel } from '../../../components/case-order';
+import { PriceTierSelect } from '../../../components/made-to-measure';
 import { api, errorText } from '../../../lib/api';
 import { useApp } from '../app-shell';
 
@@ -764,6 +765,13 @@ export default function CrmPage() {
                       Sačuvaj profil
                     </button>
                   </form>
+                ) : null}
+                {can('crm.manage') ? (
+                  <PriceTierSelect
+                    key={summary.accountId}
+                    accountId={summary.accountId}
+                    accountLabel={`${summary.partyName} (${summary.accountNumber})`}
+                  />
                 ) : null}
               </div>
             ) : null}

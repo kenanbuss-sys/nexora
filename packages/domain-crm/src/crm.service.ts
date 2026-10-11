@@ -27,6 +27,8 @@ export interface AccountView {
   creditLimit: string | null;
   ownerUserId: string | null;
   territoryId: string | null;
+  /** Sprint 247: customer price tier (CPQ tier discount). */
+  priceTier: string | null;
 }
 
 export interface LeadView {
@@ -92,6 +94,7 @@ function toAccountView(a: {
   creditLimit: { toString(): string } | null;
   ownerUserId: string | null;
   territoryId: string | null;
+  priceTier?: string | null;
 }): AccountView {
   return {
     id: a.id,
@@ -101,6 +104,7 @@ function toAccountView(a: {
     creditLimit: a.creditLimit ? a.creditLimit.toString() : null,
     ownerUserId: a.ownerUserId,
     territoryId: a.territoryId,
+    priceTier: a.priceTier ?? null,
   };
 }
 

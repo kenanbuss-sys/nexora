@@ -1,0 +1,146 @@
+{
+  "$comment": "GENERIČKI DEMO profil (izmišljena firma). Stvarni klijentski profil se NE stavlja u repo — drži ga u privatnom folderu i proslijedi seederu: node scripts/seed-made-to-measure.mjs --profile <putanja>.",
+  "tenant": {
+    "slug": "sjenila-demo",
+    "name": "Sjenila DEMO d.o.o.",
+    "legalName": "Sjenila DEMO d.o.o.",
+    "taxId": "TEST-4200000000000",
+    "address": "Industrijska zona bb, 00000 Demograd",
+    "currency": "BAM",
+    "brandColor": "#0f766e",
+    "adminEmail": "admin@sjenila-demo.example",
+    "adminPassword": "demo-admin"
+  },
+  "branches": [
+    {
+      "code": "P1",
+      "name": "Poslovnica Centar",
+      "city": "Demograd"
+    },
+    {
+      "code": "P2",
+      "name": "Poslovnica Sjever",
+      "city": "Sjevergrad"
+    },
+    {
+      "code": "P3",
+      "name": "Poslovnica Jug",
+      "city": "Juggrad"
+    }
+  ],
+  "wholesale": {
+    "code": "VP",
+    "name": "Veleprodaja"
+  },
+  "staff": {
+    "perBranch": {
+      "prodaja": 3,
+      "montaza": 4
+    },
+    "central": {
+      "proizvodnja": 8,
+      "knjigovodstvo": 2,
+      "uprava": 2,
+      "skladiste": 2
+    }
+  },
+  "vehicles": [
+    {
+      "plate": "DEMO-K01",
+      "name": "Kombi montaža 1"
+    },
+    {
+      "plate": "DEMO-K02",
+      "name": "Kombi montaža 2"
+    },
+    {
+      "plate": "DEMO-K03",
+      "name": "Kombi montaža 3"
+    },
+    {
+      "plate": "DEMO-T01",
+      "name": "Teretno vozilo"
+    }
+  ],
+  "priceList": {
+    "file": "made-to-measure.example-pricelist.csv",
+    "sheet": null,
+    "headerRow": 1,
+    "columns": {
+      "code": "Sifra",
+      "name": "Naziv",
+      "group": "Grupa",
+      "basis": "Obracun",
+      "price": "Cijena",
+      "minBillable": "Min",
+      "maxWidthMm": "MaxSirina",
+      "maxHeightMm": "MaxVisina"
+    },
+    "basisMap": {
+      "m2": "AREA",
+      "m²": "AREA",
+      "m1": "LENGTH",
+      "m": "LENGTH",
+      "kom": "PIECE",
+      "kom.": "PIECE"
+    }
+  },
+  "surcharges": [
+    {
+      "code": "RAL",
+      "label": "RAL boja po izboru",
+      "type": "PERCENT",
+      "value": 10
+    },
+    {
+      "code": "MOTOR",
+      "label": "Motorni pogon",
+      "type": "PER_PIECE",
+      "value": 180
+    },
+    {
+      "code": "DALJINSKI",
+      "label": "Daljinski upravljač",
+      "type": "PER_PIECE",
+      "value": 45
+    },
+    {
+      "code": "MONTAZA_KOM",
+      "label": "Montaža po komadu",
+      "type": "PER_PIECE",
+      "value": 25,
+      "installation": true
+    },
+    {
+      "code": "MONTAZA_M2",
+      "label": "Montaža po m²",
+      "type": "PER_UNIT",
+      "value": 6,
+      "installation": true
+    }
+  ],
+  "tierDiscounts": {
+    "A": 5,
+    "B": 10,
+    "VELEPRODAJA": 25
+  },
+  "modules": {
+    "disable": [
+      "procurement",
+      "engineering",
+      "quality",
+      "automation",
+      "integrations",
+      "devices",
+      "assets"
+    ],
+    "$note": "logistics ostaje uključen: vozila za montaže su u LOG domenu; crm, sales, planning, manufacturing, warehouse, finance, service i portal ostaju."
+  },
+  "demo": {
+    "customers": 40,
+    "wholesaleCustomers": 6,
+    "months": 6,
+    "seed": 2026,
+    "referenceDate": null
+  }
+}

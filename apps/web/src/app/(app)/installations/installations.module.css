@@ -1,0 +1,199 @@
+/* Montaže i mjerenja — layout only; every color/spacing is a global token. */
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--sp-4);
+}
+
+.weekNav {
+  display: flex;
+  gap: var(--sp-2);
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.weekLabel {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  min-width: 170px;
+  text-align: center;
+}
+
+.touch {
+  min-height: 44px;
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: var(--sp-2);
+}
+
+.day {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: var(--sp-2);
+  min-height: 180px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  min-width: 0;
+}
+
+.today {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 1px var(--color-accent);
+}
+
+.dayHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--sp-2);
+  padding: var(--sp-1) var(--sp-1) var(--sp-2);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.dayName {
+  font-weight: 700;
+  font-size: 12.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-muted-solid);
+}
+
+.dayDate {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.dayEmpty {
+  color: var(--color-muted-solid);
+  font-size: 12.5px;
+  padding: var(--sp-2) var(--sp-1);
+}
+
+.visit {
+  display: block;
+  width: 100%;
+  text-align: left;
+  font: inherit;
+  color: var(--color-text);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-strong);
+  border-left: 4px solid var(--color-accent);
+  border-radius: var(--radius-sm);
+  padding: var(--sp-2) var(--sp-3);
+  cursor: pointer;
+  min-height: 56px;
+  transition:
+    box-shadow 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.visit:hover {
+  box-shadow: var(--shadow-hover);
+}
+
+.kindMEASUREMENT {
+  border-left-color: var(--color-info);
+}
+
+.kindINSTALLATION {
+  border-left-color: var(--color-accent);
+}
+
+.kindSERVICE {
+  border-left-color: var(--color-warn);
+}
+
+.done {
+  opacity: 0.68;
+}
+
+.time {
+  font-weight: 750;
+  font-variant-numeric: tabular-nums;
+}
+
+.line {
+  font-size: 12.5px;
+  color: var(--color-muted-solid);
+  overflow-wrap: anywhere;
+}
+
+.customer {
+  font-weight: 650;
+  overflow-wrap: anywhere;
+}
+
+.cardMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-1);
+  margin-top: var(--sp-1);
+}
+
+.openList {
+  display: grid;
+  gap: var(--sp-2);
+}
+
+.openRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--sp-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: var(--sp-3);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+  margin-top: var(--sp-4);
+}
+
+.actions :global(.btn) {
+  min-height: 48px;
+  flex: 1 1 160px;
+}
+
+.conflict {
+  font-size: 14.5px;
+  font-weight: 600;
+}
+
+.timeRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-3);
+}
+
+.textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+
+/* Tablets in portrait and phones: a day list instead of seven columns. */
+@media (max-width: 1100px) {
+  .board {
+    grid-template-columns: 1fr;
+  }
+
+  .day {
+    min-height: 0;
+  }
+
+  .openRow {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

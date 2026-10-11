@@ -43,6 +43,10 @@ export interface WorkOrderView {
   startedAt: string | null;
   completedAt: string | null;
   operations: WoOperationView[];
+  /** Sprint 248: made-to-order link + dimensions (null for stock orders). */
+  salesOrderId: string | null;
+  salesOrderLineId: string | null;
+  spec: unknown;
 }
 
 /** Cross-domain contract: quality gating is owned by QC (VER-013). */
@@ -85,6 +89,9 @@ function toView(wo: {
   status: WorkOrderStatus;
   startedAt: Date | null;
   completedAt: Date | null;
+  salesOrderId?: string | null;
+  salesOrderLineId?: string | null;
+  spec?: unknown;
   operations: Array<{
     id: string;
     seq: number;
@@ -106,6 +113,9 @@ function toView(wo: {
     status: wo.status,
     startedAt: wo.startedAt ? wo.startedAt.toISOString() : null,
     completedAt: wo.completedAt ? wo.completedAt.toISOString() : null,
+    salesOrderId: wo.salesOrderId ?? null,
+    salesOrderLineId: wo.salesOrderLineId ?? null,
+    spec: wo.spec ?? null,
     operations: wo.operations
       .slice()
       .sort((a, b) => a.seq - b.seq)

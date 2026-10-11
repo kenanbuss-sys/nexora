@@ -30,6 +30,8 @@ export interface Customer360View {
   partyName: string;
   status: string;
   tags: string[];
+  /** Sprint 247: customer price tier (CPQ tier discount). */
+  priceTier: string | null;
   credit: CreditProfile;
   orders: {
     count: number;
@@ -100,6 +102,7 @@ export class Customer360Service {
       partyName: party?.name ?? '(unknown party)',
       status: account.status,
       tags: account.tags,
+      priceTier: account.priceTier,
       credit: {
         creditLimit: limit === null ? null : limit.toFixed(2),
         creditHold: account.creditHold,

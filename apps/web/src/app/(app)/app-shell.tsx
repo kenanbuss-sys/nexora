@@ -198,6 +198,7 @@ const NAV_GROUPS: Array<{ section: string; items: NavItem[] }> = [
     items: [
       { href: '/', label: 'Kontrolna tabla', icon: 'dashboard', permission: null },
       { href: '/tasks', label: 'Zadaci', icon: 'tasks', permission: null },
+      { href: '/guide', label: 'Vodič', icon: 'quotes', permission: null },
     ],
   },
   {
@@ -207,6 +208,7 @@ const NAV_GROUPS: Array<{ section: string; items: NavItem[] }> = [
       { href: '/projects', label: 'Projekti', icon: 'planning', permission: 'project.read' },
       { href: '/quotes', label: 'Ponude', icon: 'quotes', permission: 'quote.read' },
       { href: '/orders', label: 'Narudžbe', icon: 'orders', permission: 'order.read' },
+      { href: '/installations', label: 'Montaže', icon: 'operations', permission: 'service.read' },
       { href: '/portal', label: 'B2B portal', icon: 'portal', permission: 'portal.manage' },
       { href: '/parties', label: 'Partneri', icon: 'parties', permission: 'mdm.read' },
     ],
@@ -440,6 +442,7 @@ export function AppShell({ children }: { children: ReactNode }) {
     '/devices': 'devices',
     '/integrations': 'integrations',
     '/portal': 'portal',
+    '/installations': 'service',
   };
 
   // UX rule: never render unauthorized modules. The portal entry is
