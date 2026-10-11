@@ -164,6 +164,12 @@ export class QuotesController {
     return this.quotes.createQuote(parseBody(createQuoteSchema, body), ctx);
   }
 
+  @Get('made-to-measure/rules')
+  @RequirePermission('quote.read')
+  async madeToMeasureRules(@Ctx() ctx: RequestContext) {
+    return { rules: await this.quotes.madeToMeasureRules(ctx) };
+  }
+
   @Get(':id')
   @RequirePermission('quote.read')
   async get(@Param('id') id: string, @Ctx() ctx: RequestContext) {

@@ -20,7 +20,11 @@ export interface WorkOrderSpec {
 
 const UNIT_LABEL: Record<string, string> = { m2: 'm²', m1: 'm1', pcs: 'kom' };
 
-const nf = new Intl.NumberFormat('bs-BA', { maximumFractionDigits: 2 });
+// Workshop convention: millimetres without grouping, decimal comma
+// ("1690 × 2730 mm") — explicit, independent of browser locale data.
+const nf = {
+  format: (n: number) => String(Math.round(n * 100) / 100).replace('.', ','),
+};
 
 /** A spec is shown only when it carries at least a width. */
 export function hasSpec(spec: WorkOrderSpec | null | undefined): spec is WorkOrderSpec {

@@ -329,7 +329,7 @@ export default function ProductionPage() {
                   header: 'Mjere',
                   render: (wo: WorkOrderView) =>
                     hasSpec(wo.spec) ? (
-                      <span style={{ fontVariantNumeric: 'tabular-nums' }}>
+                      <span style={{ fontVariantNumeric: 'tabular-nums', whiteSpace: 'nowrap' }}>
                         {specSummary(wo.spec)}
                       </span>
                     ) : wo.salesOrderId ? (

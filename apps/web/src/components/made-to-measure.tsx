@@ -99,7 +99,9 @@ const UNIT_LABELS: Record<MeasuredSpec['unit'], string> = {
 export function money(n: number | string): string {
   const v = typeof n === 'number' ? n : Number(n);
   if (!Number.isFinite(v)) return String(n);
-  return v.toLocaleString('bs-BA', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  // Explicit "1.234,50": browsers without bs-BA locale data fall back to en.
+  const [whole = '0', cents = '00'] = Math.abs(v).toFixed(2).split('.');
+  return `${v < 0 ? '−' : ''}${whole.replace(/\B(?=(\d{3})+(?!\d))/g, '.')},${cents}`;
 }
 
 function qty(n: number): string {
@@ -181,11 +183,11 @@ export function useMadeToMeasureConfig(enabled = true): MadeToMeasureState {
   useEffect(() => {
     if (!enabled) return;
     let alive = true;
-    api<{ config: { cpq?: { madeToMeasure?: unknown } } }>('GET', '/api/v1/tenant/configuration')
+    api<{ rules: unknown }>('GET', '/api/v1/quotes/made-to-measure/rules')
       .then((r) => {
         if (!alive) return;
         setState({
-          config: parseMadeToMeasureConfig(r.config?.cpq?.madeToMeasure),
+          config: parseMadeToMeasureConfig(r.rules),
           loading: false,
           error: null,
         });
@@ -197,7 +199,7 @@ export function useMadeToMeasureConfig(enabled = true): MadeToMeasureState {
           config: null,
           loading: false,
           error: forbidden
-            ? 'Pravila proizvoda po mjeri nisu vidljiva — potrebna je dozvola za čitanje konfiguracije.'
+            ? 'Pravila proizvoda po mjeri nisu vidljiva — potrebna je dozvola za čitanje ponuda.'
             : errorText(e),
         });
       });

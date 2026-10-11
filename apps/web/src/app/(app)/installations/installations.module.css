@@ -116,6 +116,18 @@
   opacity: 0.68;
 }
 
+.visitHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px 6px;
+}
+
+.visitHead :global(.badge) {
+  max-width: 100%;
+}
+
 .time {
   font-weight: 750;
   font-variant-numeric: tabular-nums;

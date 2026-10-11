@@ -368,7 +368,7 @@ export default function InstallationsPage() {
                     onClick={() => setDetailId(v.id)}
                     aria-label={`${KIND_LABEL[v.kind]} ${timeRange(v)}, ${v.customer ?? v.orderNumber}, ${STATUS_LABEL[v.status]}`}
                   >
-                    <div className="spread">
+                    <div className={styles.visitHead}>
                       <span className={styles.time}>{timeRange(v)}</span>
                       <span className={`badge ${KIND_BADGE[v.kind]}`}>{KIND_LABEL[v.kind]}</span>
                     </div>

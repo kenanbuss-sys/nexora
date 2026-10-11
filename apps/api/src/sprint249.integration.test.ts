@@ -139,6 +139,39 @@ integration('Sprint 249 — role home + module profile', () => {
     expect(home.sales.measurementsNext7Days).toBeGreaterThanOrEqual(1);
   });
 
+  it('MTM RULES: a salesperson (quote.read, no configuration.read) reads the made-to-measure rules', async () => {
+    const config = (await api('GET', '/api/v1/tenant/configuration', tokenA)).body.config as Record<
+      string,
+      unknown
+    >;
+    const published = await api('POST', '/api/v1/tenant/configuration', tokenA, {
+      config: {
+        ...config,
+        cpq: { madeToMeasure: { products: [{ skuCode: 'X-STD', basis: 'AREA', minBillable: 1 }] } },
+      },
+    });
+    expect([200, 201]).toContain(published.status);
+    const role = await api('POST', '/api/v1/roles', tokenA, {
+      name: 'prodaja',
+      permissions: ['quote.read'],
+    });
+    const user = await api('POST', '/api/v1/users/invite', tokenA, {
+      email: 'prodaja@s249.example',
+      displayName: 'Prodaja',
+      idpSubject: 'idp|s249-sales',
+    });
+    await api('POST', '/api/v1/roles/assign', tokenA, {
+      userId: user.body.id,
+      roleId: role.body.id,
+    });
+    const sales = identity.signToken({ tenantSlug: 'test-s249a', subject: 'idp|s249-sales' });
+    expect((await api('GET', '/api/v1/tenant/configuration', sales)).status).toBe(403);
+    const rules = await api('GET', '/api/v1/quotes/made-to-measure/rules', sales);
+    expect(rules.status).toBe(200);
+    expect((rules.body.rules as { products: unknown[] }).products).toHaveLength(1);
+    expect((await api('GET', '/api/v1/quotes/made-to-measure/rules', installer)).status).toBe(403);
+  });
+
   it('OPEN VISITS: unscheduled measurements are listed for dispatch', async () => {
     const visit = await api('POST', '/api/v1/service/visits/measurements', tokenA, {
       accountId,

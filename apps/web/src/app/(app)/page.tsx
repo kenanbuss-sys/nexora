@@ -294,10 +294,16 @@ function plural(n: number, one: string, few: string, many: string): string {
   return many;
 }
 
+// Explicit bs formatting: browsers without bs-BA locale data would fall
+// back to English ("10-12, Mon", "36,207.37").
+const DAY_SHORT = ['ned', 'pon', 'uto', 'sri', 'čet', 'pet', 'sub'];
+const pad2 = (n: number) => String(n).padStart(2, '0');
+
 function formatAmount(value: Amount): string {
   const n = Number(value);
   if (!Number.isFinite(n)) return String(value);
-  return n.toLocaleString('bs-BA', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const [whole = '0', cents = '00'] = Math.abs(n).toFixed(2).split('.');
+  return `${n < 0 ? '−' : ''}${whole.replace(/\B(?=(\d{3})+(?!\d))/g, '.')},${cents}`;
 }
 
 const KIND_LABEL: Record<Visit['kind'], string> = {
@@ -379,13 +385,8 @@ function VisitList({ visits }: { visits: Visit[] }) {
       {sorted.map((v) => {
         const start = new Date(v.slotStart);
         const end = new Date(v.slotEnd);
-        const day = start.toLocaleDateString('bs-BA', {
-          weekday: 'short',
-          day: 'numeric',
-          month: 'numeric',
-        });
-        const time = (d: Date) =>
-          d.toLocaleTimeString('bs-BA', { hour: '2-digit', minute: '2-digit' });
+        const day = `${DAY_SHORT[start.getDay()]} ${start.getDate()}.${start.getMonth() + 1}.`;
+        const time = (d: Date) => `${pad2(d.getHours())}:${pad2(d.getMinutes())}`;
         const status = STATUS_LABEL[v.status] ?? { text: v.status, tone: 'badge-info' };
         return (
           <li

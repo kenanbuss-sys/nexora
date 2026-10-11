@@ -77,7 +77,7 @@ export class RoleHomeService {
     const has = (p: string) => ctx.platformAdmin === true || permissions.has(p);
     const result: RoleHome = { generatedAt: now.toISOString() };
 
-    if (has('quote.read') || has('order.read')) {
+    if (has('quote.read')) {
       const [draftQuotes, sentQuotes, ordersToConfirm, confirmed, advances, measurements] =
         await Promise.all([
           this.prisma.quote.count({ where: { tenantId: t, status: 'DRAFT' } }),
@@ -177,7 +177,7 @@ export class RoleHomeService {
       };
     }
 
-    if (has('finance.read')) {
+    if (has('finance.invoice') || has('finance.ledger.read')) {
       const [fulfilled, invoiced, open, overdue, kif] = await Promise.all([
         this.prisma.salesOrder.findMany({
           where: { tenantId: t, status: 'FULFILLED' },

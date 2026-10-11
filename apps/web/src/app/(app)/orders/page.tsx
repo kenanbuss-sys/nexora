@@ -9,7 +9,7 @@ import { downloadDocument } from '../../../lib/download';
 import { OrderPromiseCard } from '../../../components/delivery-promise';
 import { OrderCasesSection } from '../../../components/case-order';
 import { OrderFlow } from '../../../components/order-flow';
-import { SpecSummary, type MeasuredSpec } from '../../../components/made-to-measure';
+import { SpecSummary, money, type MeasuredSpec } from '../../../components/made-to-measure';
 import {
   ConfirmDialog,
   DataTable,
@@ -308,7 +308,11 @@ export default function OrdersPage() {
     {
       key: 'number',
       header: 'Broj',
-      render: (o) => <strong className="mono">{o.orderNumber}</strong>,
+      render: (o) => (
+        <strong className="mono" style={{ whiteSpace: 'nowrap' }}>
+          {o.orderNumber}
+        </strong>
+      ),
       text: (o) => o.orderNumber,
     },
     {
@@ -355,7 +359,7 @@ export default function OrdersPage() {
       align: 'right',
       render: (o) => (
         <span className="mono">
-          {o.total} {o.currency}
+          {money(o.total)} {o.currency}
         </span>
       ),
       text: (o) => `${o.total} ${o.currency}`,
@@ -526,7 +530,7 @@ export default function OrdersPage() {
                     <option value="">Odaberite ponudu…</option>
                     {quotes.map((q) => (
                       <option key={q.id} value={q.id}>
-                        {q.quoteNumber} — {q.total} {q.currency}
+                        {q.quoteNumber} — {money(q.total)} {q.currency}
                       </option>
                     ))}
                   </select>
@@ -611,7 +615,7 @@ export default function OrdersPage() {
                       <div>
                         <strong className="mono">{o.orderNumber}</strong>
                         <div className="muted" style={{ fontSize: 12 }}>
-                          {accountName(o.accountId)} · {o.total} {o.currency}
+                          {accountName(o.accountId)} · {money(o.total)} {o.currency}
                           {o.quoteId ? ' · iz ponude' : ''}
                         </div>
                       </div>
@@ -649,7 +653,8 @@ export default function OrdersPage() {
                                 <SpecSummary spec={l.spec} />
                               </td>
                               <td>
-                                {l.quantity} × {l.unitPrice}
+                                {Number(l.quantity).toFixed(2).replace('.', ',')} ×{' '}
+                                {money(l.unitPrice)}
                                 {Number(l.fulfilledQty ?? 0) > 0 ? (
                                   <span className="badge badge-ok" style={{ marginLeft: 6 }}>
                                     isporučeno {l.fulfilledQty}
@@ -734,8 +739,8 @@ export default function OrdersPage() {
                                   )
                                 ) : null}
                               </td>
-                              <td style={{ textAlign: 'right' }}>
-                                {l.lineTotal}
+                              <td style={{ textAlign: 'right', whiteSpace: 'nowrap' }}>
+                                {money(l.lineTotal)}
                                 {['DRAFT', 'CONFIRMED'].includes(o.status) &&
                                 can('order.confirm') ? (
                                   <button

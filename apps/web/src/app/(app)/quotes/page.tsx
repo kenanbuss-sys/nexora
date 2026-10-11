@@ -252,7 +252,7 @@ export default function QuotesPage() {
       key: 'number',
       header: 'Broj',
       render: (q) => (
-        <strong className="mono">
+        <strong className="mono" style={{ whiteSpace: 'nowrap' }}>
           {q.quoteNumber}
           {q.version > 1 ? ` v${q.version}` : ''}
         </strong>
@@ -279,10 +279,10 @@ export default function QuotesPage() {
       align: 'right',
       render: (q) => (
         <span className="mono">
-          {q.total} {q.currency}
+          {money(q.total)} {q.currency}
         </span>
       ),
-      text: (q) => `${q.total} ${q.currency}`,
+      text: (q) => `${money(q.total)} ${q.currency}`,
     },
   ];
 
@@ -302,7 +302,7 @@ export default function QuotesPage() {
       <div className="fact">
         <span>Ukupno</span>
         <span className="mono">
-          {q.total} {q.currency}
+          {money(q.total)} {q.currency}
         </span>
       </div>
       <div className="fact">
@@ -880,7 +880,7 @@ export default function QuotesPage() {
                     {opened.version > 1 ? ` v${opened.version}` : ''}
                   </strong>
                   <div className="muted" style={{ fontSize: 12 }}>
-                    {accountName(opened.accountId)} · {opened.total} {opened.currency} ·{' '}
+                    {accountName(opened.accountId)} · {money(opened.total)} {opened.currency} ·{' '}
                     <Link href="/crm">Kupac u CRM-u →</Link>
                   </div>
                 </div>

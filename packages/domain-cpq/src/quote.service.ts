@@ -179,6 +179,16 @@ export class QuoteService {
   ) {}
 
   /**
+   * Made-to-measure sales rules (products, minimums, surcharges, tier
+   * discounts) for the quote screen — readable with quote.read, so a
+   * salesperson does not need configuration.read for the whole tenant.
+   */
+  async madeToMeasureRules(ctx: RequestContext): Promise<unknown> {
+    if (!this.madeToMeasure) return null;
+    return (await this.madeToMeasure.getMadeToMeasure(ctx.tenantId)) ?? null;
+  }
+
+  /**
    * Made-to-measure line (CPQ, Sprint 247): dimensions + pieces, billed by
    * the product's basis (m², m1, piece) with a minimum per piece, chosen
    * surcharges (%, per piece, per unit) and installation. Discount: an

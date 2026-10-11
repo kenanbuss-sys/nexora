@@ -542,6 +542,7 @@ const ROLE_PERMS = {
     'service.read',
     'service.manage',
     'plan.read',
+    'production.read',
     'finance.read',
     'task.manage',
   ],
@@ -560,7 +561,6 @@ const ROLE_PERMS = {
   Knjigovodstvo: [
     'finance.read',
     'finance.invoice',
-    'finance.pay',
     'finance.ledger.read',
     'finance.ledger.post',
     'order.read',
@@ -575,6 +575,7 @@ const ROLE_PERMS = {
     'production.read',
     'service.read',
     'finance.read',
+    'finance.pay',
     'plan.read',
     'hcm.read',
   ],
@@ -584,6 +585,10 @@ const roleIds = {};
 for (const [name, permissions] of Object.entries(ROLE_PERMS)) {
   let role = roleList.find((r) => r.name === name);
   if (!role) role = (await call('POST', '/api/v1/roles', admin, { name, permissions })).body;
+  else if ([...role.permissions].sort().join() !== [...permissions].sort().join()) {
+    await call('PUT', `/api/v1/roles/${role.id}/permissions`, admin, { permissions });
+    console.log(`- uloga ${name}: prava usklađena s profilom`);
+  }
   roleIds[name] = role.id;
 }
 const userList = (await call('GET', '/api/v1/users', admin)).body.users ?? [];
@@ -607,19 +612,23 @@ for (const [key, roleName, displayName] of ROLE_USERS) {
     ).body;
     await call(
       'POST',
-      '/api/v1/roles/assign',
-      admin,
-      { userId: user.id, roleId: roleIds[roleName] },
-      { allow: [400] },
-    );
-    await call(
-      'POST',
       `/api/v1/users/${user.id}/password`,
       admin,
       { password: `demo-${key}` },
       { allow: [400] },
     );
     console.log(`- korisnik ${email} (uloga ${roleName}, lozinka demo-${key})`);
+  }
+  // Every pass: (re)assign; a refusal (e.g. segregation of duties) is loud.
+  const assigned = await call(
+    'POST',
+    '/api/v1/roles/assign',
+    admin,
+    { userId: user.id, roleId: roleIds[roleName] },
+    { allow: [400] },
+  );
+  if (!assigned.ok && !/already/i.test(assigned.body.message ?? '')) {
+    console.warn(`! ${email}: uloga ${roleName} NIJE dodijeljena — ${assigned.body.message}`);
   }
 }
 

@@ -224,7 +224,7 @@ const GUIDES: RoleGuide[] = [
     label: 'Knjigovodstvo',
     defaultFor: 'finance.invoice',
     intro:
-      'Avans, isporuka, konačna faktura umanjena za avans, uplata i PDV evidencija — bez ručnog prepisivanja.',
+      'Avans, isporuka, konačna faktura umanjena za avans i PDV evidencija — bez ručnog prepisivanja.',
     steps: [
       {
         goal: 'Provjeri avans',
@@ -244,9 +244,10 @@ const GUIDES: RoleGuide[] = [
         permission: 'order.read',
       },
       {
-        goal: 'Evidentiraj uplatu',
-        click: 'Klikni Finansije → otvori fakturu → evidentiraj uplatu.',
-        expect: 'Treba da vidiš fakturu kao plaćenu i manje otvorenih potraživanja.',
+        goal: 'Prati otvorena potraživanja',
+        click: 'Klikni Finansije i pogledaj otvorene i dospjele fakture.',
+        expect:
+          'Treba da vidiš ko još duguje. Uplatu potvrđuje uprava — ista osoba ne izdaje fakturu i ne potvrđuje uplatu (razdvajanje dužnosti).',
         href: '/finance',
         linkLabel: 'Otvori Finansije',
         permission: 'finance.read',
@@ -275,6 +276,14 @@ const GUIDES: RoleGuide[] = [
         href: '/',
         linkLabel: 'Otvori početnu',
         permission: 'analytics.read',
+      },
+      {
+        goal: 'Potvrdi uplatu kupca',
+        click: 'Klikni Finansije → otvori fakturu → evidentiraj uplatu (iznos i poziv na broj).',
+        expect: 'Treba da vidiš fakturu kao plaćenu i manje otvorenih potraživanja.',
+        href: '/finance',
+        linkLabel: 'Otvori Finansije',
+        permission: 'finance.pay',
       },
       {
         goal: 'Analiziraj trendove',
