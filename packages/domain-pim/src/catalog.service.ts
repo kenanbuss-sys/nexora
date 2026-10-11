@@ -518,6 +518,7 @@ export class CatalogService {
     active: boolean;
     lotTracked?: boolean;
     shelfLifeDays?: number | null;
+    serialPolicy?: string;
   }> {
     const sku = await this.prisma.sku.findFirst({ where: { id: skuId, tenantId } });
     if (!sku) return { exists: false, active: false };
@@ -526,6 +527,7 @@ export class CatalogService {
       active: sku.status === 'ACTIVE',
       lotTracked: sku.lotTracked,
       shelfLifeDays: sku.shelfLifeDays,
+      serialPolicy: sku.serialPolicy,
     };
   }
 

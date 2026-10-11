@@ -2166,6 +2166,26 @@ exports.Prisma.EquipmentCustodyLineScalarFieldEnum = {
   returnedBy: 'returnedBy'
 };
 
+exports.Prisma.SerialPositionScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  skuId: 'skuId',
+  serial: 'serial',
+  warehouseId: 'warehouseId',
+  inStock: 'inStock',
+  lastMovementId: 'lastMovementId',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.SerialMovementScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  movementId: 'movementId',
+  skuId: 'skuId',
+  serial: 'serial',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -2784,7 +2804,9 @@ exports.Prisma.ModelName = {
   TrainingPlanItem: 'TrainingPlanItem',
   TrainingRecord: 'TrainingRecord',
   EquipmentCustody: 'EquipmentCustody',
-  EquipmentCustodyLine: 'EquipmentCustodyLine'
+  EquipmentCustodyLine: 'EquipmentCustodyLine',
+  SerialPosition: 'SerialPosition',
+  SerialMovement: 'SerialMovement'
 };
 
 /**

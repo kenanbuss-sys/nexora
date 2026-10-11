@@ -55,6 +55,7 @@ const movementSchema = z.object({
   reason: z.string().max(500).optional(),
   lotNumber: z.string().min(1).max(64).optional(),
   expiresAt: z.string().datetime().optional(),
+  serials: z.array(z.string().min(1).max(64)).max(1000).optional(),
 });
 const reserveSchema = z.object({
   warehouseId: z.string().uuid(),
@@ -149,6 +150,51 @@ export class StockController {
     const { expiresAt, ...rest } = input;
     return this.inventory.postMovement(
       { ...rest, ...(expiresAt ? { expiresAt: new Date(expiresAt) } : {}) },
+      ctx,
+    );
+  }
+
+  /** WMS-018: serialised units in stock (optionally per warehouse). */
+  @Get('serials')
+  @RequirePermission('inventory.read')
+  async serials(
+    @Query('skuId') skuId: string,
+    @Query('warehouseId') warehouseId: string | undefined,
+    @Ctx() ctx: RequestContext,
+  ) {
+    const q = parseBody(
+      z.object({ skuId: z.string().uuid(), warehouseId: z.string().uuid().optional() }),
+      { skuId, ...(warehouseId ? { warehouseId } : {}) },
+    );
+    return { serials: await this.inventory.serialsInStock(q, ctx) };
+  }
+
+  /** WMS-018: serial numbers for already existing (unserialised) stock. */
+  @Post('serials/onboard')
+  @RequirePermission('inventory.adjust')
+  async onboardSerials(@Body() body: unknown, @Ctx() ctx: RequestContext) {
+    const input = parseBody(
+      z.object({
+        warehouseId: z.string().uuid(),
+        skuId: z.string().uuid(),
+        serials: z.array(z.string().min(1).max(64)).min(1).max(1000),
+      }),
+      body,
+    );
+    return this.inventory.onboardSerials(input, ctx);
+  }
+
+  /** WMS-018: where one unit is and every movement it took part in. */
+  @Get('serials/:skuId/:serial')
+  @RequirePermission('inventory.read')
+  async serialTrace(
+    @Param('skuId') skuId: string,
+    @Param('serial') serial: string,
+    @Ctx() ctx: RequestContext,
+  ) {
+    return this.inventory.serialTrace(
+      parseBody(z.string().uuid(), skuId),
+      parseBody(z.string().min(1).max(64), serial),
       ctx,
     );
   }

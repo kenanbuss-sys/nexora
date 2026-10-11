@@ -1,5 +1,5 @@
 import { writeAudit } from '@nexora/audit';
-import type { PrismaClient, StockMovementType } from '@nexora/db';
+import type { Prisma, PrismaClient, StockMovementType } from '@nexora/db';
 import { EVENT_TYPES, publishToOutbox } from '@nexora/events';
 import { DomainError, notFound } from '@nexora/kernel';
 import type { RequestContext } from '@nexora/tenancy';
@@ -39,6 +39,8 @@ export interface MovementInput {
   /** Sprint 022 (WMS-017): lot dimension. */
   lotNumber?: string | undefined;
   expiresAt?: Date | undefined;
+  /** Sprint 239 (WMS-018): serialised units moved by this movement. */
+  serials?: string[] | undefined;
 }
 
 export interface LotBalance {
@@ -59,7 +61,58 @@ export interface SkuGate {
     active: boolean;
     lotTracked?: boolean;
     shelfLifeDays?: number | null;
+    /** Sprint 239 (WMS-018): NONE | OPTIONAL | REQUIRED. */
+    serialPolicy?: string;
   }>;
+}
+
+const SERIAL_RE = /^[A-Za-z0-9][A-Za-z0-9._/-]{0,63}$/;
+
+/**
+ * WMS-018: validates the serials of a movement against the SKU policy
+ * BEFORE any write. REQUIRED → exactly `quantity` unique serials (whole
+ * units); OPTIONAL → same rules when given; NONE → none allowed.
+ */
+export function validateSerials(
+  policy: string | undefined,
+  quantity: number,
+  serials: string[] | undefined,
+): string[] | null {
+  const list = (serials ?? []).map((v) => v.trim()).filter((v) => v.length > 0);
+  if (!policy || policy === 'NONE') {
+    if (list.length) {
+      throw new DomainError(
+        'VALIDATION_FAILED',
+        'This SKU is not serial-tracked — remove the serial numbers',
+      );
+    }
+    return null;
+  }
+  if (!list.length) {
+    if (policy === 'REQUIRED') {
+      throw new DomainError(
+        'VALIDATION_FAILED',
+        'This SKU requires serial numbers — scan or enter one serial per unit',
+      );
+    }
+    return null;
+  }
+  if (!Number.isInteger(quantity)) {
+    throw new DomainError('VALIDATION_FAILED', 'Serial-tracked quantities must be whole units');
+  }
+  if (list.length !== quantity) {
+    throw new DomainError(
+      'VALIDATION_FAILED',
+      `Expected ${quantity} serial number(s), got ${list.length}`,
+    );
+  }
+  const bad = list.find((v) => !SERIAL_RE.test(v));
+  if (bad) throw new DomainError('VALIDATION_FAILED', `Invalid serial number '${bad}'`);
+  const unique = new Set(list);
+  if (unique.size !== list.length) {
+    throw new DomainError('VALIDATION_FAILED', 'A serial number is listed twice');
+  }
+  return [...unique].sort();
 }
 
 const INBOUND: ReadonlySet<StockMovementType> = new Set([
@@ -239,181 +292,391 @@ export class InventoryService {
     if (lotTracked && INBOUND.has(input.movementType) && !input.lotNumber) {
       throw new DomainError('VALIDATION_FAILED', 'Lot-tracked SKU needs a lot number on receipt');
     }
+    const serials = validateSerials(sku.serialPolicy, input.quantity, input.serials);
+    let serialsApplied = false;
 
-    return this.prisma.$transaction(async (tx) => {
-      const warehouse = await tx.warehouse.findFirst({
-        where: { id: input.warehouseId, tenantId: ctx.tenantId },
-      });
-      if (!warehouse) throw notFound('Warehouse', input.warehouseId);
+    try {
+      return await this.prisma.$transaction(async (tx) => {
+        const warehouse = await tx.warehouse.findFirst({
+          where: { id: input.warehouseId, tenantId: ctx.tenantId },
+        });
+        if (!warehouse) throw notFound('Warehouse', input.warehouseId);
 
-      const existing = await tx.stockMovement.findUnique({
-        where: {
-          tenantId_idempotencyKey: {
-            tenantId: ctx.tenantId,
-            idempotencyKey: input.idempotencyKey,
-          },
-        },
-      });
-      if (existing) return { movementId: existing.id, duplicate: true };
-
-      await this.lockStock(tx, ctx.tenantId, input.warehouseId, input.skuId);
-
-      if (OUTBOUND.has(input.movementType)) {
-        const { onHand } = await this.sums(tx, ctx.tenantId, input.warehouseId, input.skuId);
-        if (onHand < input.quantity) {
-          throw new DomainError('INVALID_STATE', 'Insufficient on-hand stock', {
-            onHand: onHand.toString(),
-            requested: input.quantity.toString(),
-          });
-        }
-      }
-
-      const writeMovement = async (
-        quantity: number,
-        idempotencyKey: string,
-        lotNumber: string | null,
-        expiresAt: Date | null,
-      ) => {
-        const movement = await tx.stockMovement.create({
-          data: {
-            tenantId: ctx.tenantId,
-            warehouseId: input.warehouseId,
-            locationId: input.locationId ?? null,
-            skuId: input.skuId,
-            movementType: input.movementType,
-            quantity,
-            reason: input.reason ?? null,
-            idempotencyKey,
-            lotNumber,
-            expiresAt,
-            createdBy: ctx.userId ?? null,
+        const existing = await tx.stockMovement.findUnique({
+          where: {
+            tenantId_idempotencyKey: {
+              tenantId: ctx.tenantId,
+              idempotencyKey: input.idempotencyKey,
+            },
           },
         });
+        if (existing) return { movementId: existing.id, duplicate: true };
+
+        await this.lockStock(tx, ctx.tenantId, input.warehouseId, input.skuId);
+
+        if (OUTBOUND.has(input.movementType)) {
+          const { onHand } = await this.sums(tx, ctx.tenantId, input.warehouseId, input.skuId);
+          if (onHand < input.quantity) {
+            throw new DomainError('INVALID_STATE', 'Insufficient on-hand stock', {
+              onHand: onHand.toString(),
+              requested: input.quantity.toString(),
+            });
+          }
+        }
+
+        const writeMovement = async (
+          quantity: number,
+          idempotencyKey: string,
+          lotNumber: string | null,
+          expiresAt: Date | null,
+        ) => {
+          const movement = await tx.stockMovement.create({
+            data: {
+              tenantId: ctx.tenantId,
+              warehouseId: input.warehouseId,
+              locationId: input.locationId ?? null,
+              skuId: input.skuId,
+              movementType: input.movementType,
+              quantity,
+              reason: input.reason ?? null,
+              idempotencyKey,
+              lotNumber,
+              expiresAt,
+              createdBy: ctx.userId ?? null,
+            },
+          });
+          await writeAudit(tx, {
+            tenantId: ctx.tenantId,
+            actorType: ctx.actorType,
+            actorId: ctx.userId,
+            action: 'stock.move',
+            objectType: 'StockMovement',
+            objectId: movement.id,
+            source: 'api',
+            newValues: {
+              movementType: input.movementType,
+              quantity,
+              skuId: input.skuId,
+              ...(lotNumber ? { lotNumber } : {}),
+            },
+          });
+          // WMS-018: serial positions move with the FIRST movement row of
+          // this request (lot splits share one serial set).
+          const movedSerials = serials && !serialsApplied ? serials : null;
+          if (movedSerials) {
+            await this.applySerials(tx, ctx.tenantId, input, movement.id, movedSerials);
+            serialsApplied = true;
+          }
+          await publishToOutbox(tx, {
+            tenantId: ctx.tenantId,
+            eventType: EVENT_TYPES.STOCK_MOVED,
+            aggregateType: 'StockMovement',
+            aggregateId: movement.id,
+            actorType: ctx.actorType,
+            actorId: ctx.userId,
+            payload: {
+              movementId: movement.id,
+              skuId: input.skuId,
+              quantity,
+              lotNumber,
+              movementType: input.movementType,
+              ...(movedSerials ? { serials: movedSerials } : {}),
+              from: OUTBOUND.has(input.movementType) ? input.warehouseId : null,
+              to: OUTBOUND.has(input.movementType) ? null : input.warehouseId,
+            },
+          });
+          return movement;
+        };
+
+        // Lot handling (WMS-017/019).
+        if (lotTracked && OUTBOUND.has(input.movementType)) {
+          const balances = await this.lotBalancesInTx(
+            tx,
+            ctx.tenantId,
+            input.warehouseId,
+            input.skuId,
+          );
+          const now = Date.now();
+          if (input.lotNumber) {
+            const lot = balances.find((b) => b.lotNumber === input.lotNumber);
+            const lotOnHand = lot ? Number(lot.onHand) : 0;
+            if (lotOnHand < input.quantity) {
+              throw new DomainError('INVALID_STATE', 'Insufficient stock in this lot', {
+                lot: input.lotNumber,
+                onHand: lotOnHand.toString(),
+              });
+            }
+            if (
+              lot?.expiresAt &&
+              new Date(lot.expiresAt).getTime() < now &&
+              input.movementType !== 'ADJUSTMENT_OUT'
+            ) {
+              throw new DomainError(
+                'INVALID_STATE',
+                `Lot ${input.lotNumber} is expired — only a write-off (ADJUSTMENT_OUT) may move it`,
+              );
+            }
+            const movement = await writeMovement(
+              input.quantity,
+              input.idempotencyKey,
+              input.lotNumber,
+              lot?.expiresAt ? new Date(lot.expiresAt) : null,
+            );
+            return { movementId: movement.id, duplicate: false };
+          }
+          // FEFO (WMS-019): earliest expiry first, expired lots skipped
+          // unless this is a write-off.
+          const usable = balances
+            .filter((b) => Number(b.onHand) > 0)
+            .filter(
+              (b) =>
+                input.movementType === 'ADJUSTMENT_OUT' ||
+                !b.expiresAt ||
+                new Date(b.expiresAt).getTime() >= now,
+            )
+            .sort((a, z) => {
+              if (a.expiresAt === null) return 1;
+              if (z.expiresAt === null) return -1;
+              return a.expiresAt.localeCompare(z.expiresAt);
+            });
+          const usableTotal = usable.reduce((sum, b) => sum + Number(b.onHand), 0);
+          if (usableTotal < input.quantity) {
+            throw new DomainError('INVALID_STATE', 'Insufficient unexpired lot stock', {
+              usable: usableTotal.toString(),
+              requested: input.quantity.toString(),
+            });
+          }
+          let remaining = input.quantity;
+          let firstId: string | null = null;
+          let part = 0;
+          for (const lot of usable) {
+            if (remaining <= 0) break;
+            const take = Math.min(Number(lot.onHand), remaining);
+            part += 1;
+            const key = part === 1 ? input.idempotencyKey : `${input.idempotencyKey}#${part}`;
+            const movement = await writeMovement(
+              take,
+              key,
+              lot.lotNumber,
+              lot.expiresAt ? new Date(lot.expiresAt) : null,
+            );
+            firstId = firstId ?? movement.id;
+            remaining = Math.round((remaining - take) * 1e6) / 1e6;
+          }
+          return { movementId: firstId!, duplicate: false };
+        }
+
+        const inboundExpiry =
+          lotTracked && INBOUND.has(input.movementType)
+            ? (input.expiresAt ??
+              (sku.shelfLifeDays ? new Date(Date.now() + sku.shelfLifeDays * 86_400_000) : null))
+            : (input.expiresAt ?? null);
+        const movement = await writeMovement(
+          input.quantity,
+          input.idempotencyKey,
+          input.lotNumber ?? null,
+          inboundExpiry,
+        );
+        return { movementId: movement.id, duplicate: false };
+      });
+    } catch (error) {
+      // A concurrent receipt of the same serial lost the unique race on
+      // serial_position: report it as a business conflict, not a 500.
+      if ((error as { code?: string }).code === 'P2002' && serials) {
+        throw new DomainError('CONFLICT', 'A serial number was received concurrently — retry');
+      }
+      throw error;
+    }
+  }
+
+  /**
+   * WMS-018: inside the movement's transaction — inbound units must not be
+   * in stock anywhere; outbound units must be in stock in this warehouse.
+   * Position rows are row-locked (FOR UPDATE) in sorted order.
+   */
+  private async applySerials(
+    tx: Prisma.TransactionClient,
+    tenantId: string,
+    input: MovementInput,
+    movementId: string,
+    serials: string[],
+  ) {
+    const inbound = INBOUND.has(input.movementType);
+    for (const serial of serials) {
+      const rows = await tx.$queryRaw<
+        Array<{ id: string; in_stock: boolean; warehouse_id: string | null }>
+      >`SELECT id, in_stock, warehouse_id FROM serial_position
+        WHERE tenant_id = ${tenantId}::uuid AND sku_id = ${input.skuId}::uuid AND serial = ${serial}
+        FOR UPDATE`;
+      const position = rows[0];
+      if (inbound) {
+        if (position?.in_stock) {
+          throw new DomainError('CONFLICT', `Serial ${serial} is already in stock`);
+        }
+        if (position) {
+          await tx.serialPosition.updateMany({
+            where: { id: position.id, tenantId },
+            data: { inStock: true, warehouseId: input.warehouseId, lastMovementId: movementId },
+          });
+        } else {
+          await tx.serialPosition.create({
+            data: {
+              tenantId,
+              skuId: input.skuId,
+              serial,
+              inStock: true,
+              warehouseId: input.warehouseId,
+              lastMovementId: movementId,
+            },
+          });
+        }
+      } else {
+        if (!position?.in_stock || position.warehouse_id !== input.warehouseId) {
+          throw new DomainError(
+            'INVALID_STATE',
+            `Serial ${serial} is not in stock in this warehouse`,
+          );
+        }
+        await tx.serialPosition.updateMany({
+          where: { id: position.id, tenantId },
+          data: { inStock: false, warehouseId: null, lastMovementId: movementId },
+        });
+      }
+    }
+    await tx.serialMovement.createMany({
+      data: serials.map((serial) => ({ tenantId, movementId, skuId: input.skuId, serial })),
+    });
+  }
+
+  /**
+   * WMS-018: serial numbers for stock that already exists without them
+   * (e.g. a SKU switched to serial tracking). No movement is posted — the
+   * count may not exceed the warehouse's on-hand that has no serial yet.
+   */
+  async onboardSerials(
+    input: { warehouseId: string; skuId: string; serials: string[] },
+    ctx: RequestContext,
+  ): Promise<{ onboarded: number; untrackedLeft: number }> {
+    const sku = await this.skuGate.getSkuState(ctx.tenantId, input.skuId);
+    if (!sku.exists) throw notFound('Sku', input.skuId);
+    if (!sku.serialPolicy || sku.serialPolicy === 'NONE') {
+      throw new DomainError('INVALID_STATE', 'This SKU is not serial-tracked');
+    }
+    const serials = validateSerials(sku.serialPolicy, input.serials.length, input.serials) ?? [];
+    if (!serials.length) throw new DomainError('VALIDATION_FAILED', 'Provide serial numbers');
+    try {
+      return await this.prisma.$transaction(async (tx) => {
+        const warehouse = await tx.warehouse.findFirst({
+          where: { id: input.warehouseId, tenantId: ctx.tenantId },
+        });
+        if (!warehouse) throw notFound('Warehouse', input.warehouseId);
+        await this.lockStock(tx, ctx.tenantId, input.warehouseId, input.skuId);
+        const { onHand } = await this.sums(tx, ctx.tenantId, input.warehouseId, input.skuId);
+        const tracked = await tx.serialPosition.count({
+          where: {
+            tenantId: ctx.tenantId,
+            skuId: input.skuId,
+            warehouseId: input.warehouseId,
+            inStock: true,
+          },
+        });
+        const untracked = Math.floor(onHand) - tracked;
+        if (serials.length > untracked) {
+          throw new DomainError(
+            'INVALID_STATE',
+            `Only ${Math.max(untracked, 0)} unit(s) in this warehouse have no serial number yet`,
+          );
+        }
+        for (const serial of serials) {
+          const rows = await tx.$queryRaw<Array<{ id: string; in_stock: boolean }>>`
+            SELECT id, in_stock FROM serial_position
+            WHERE tenant_id = ${ctx.tenantId}::uuid AND sku_id = ${input.skuId}::uuid AND serial = ${serial}
+            FOR UPDATE`;
+          if (rows[0]?.in_stock) {
+            throw new DomainError('CONFLICT', `Serial ${serial} is already in stock`);
+          }
+          if (rows[0]) {
+            await tx.serialPosition.updateMany({
+              where: { id: rows[0].id, tenantId: ctx.tenantId },
+              data: { inStock: true, warehouseId: input.warehouseId, lastMovementId: null },
+            });
+          } else {
+            await tx.serialPosition.create({
+              data: {
+                tenantId: ctx.tenantId,
+                skuId: input.skuId,
+                serial,
+                inStock: true,
+                warehouseId: input.warehouseId,
+              },
+            });
+          }
+        }
         await writeAudit(tx, {
           tenantId: ctx.tenantId,
           actorType: ctx.actorType,
           actorId: ctx.userId,
-          action: 'stock.move',
-          objectType: 'StockMovement',
-          objectId: movement.id,
+          action: 'stock.serial.onboard',
+          objectType: 'Sku',
+          objectId: input.skuId,
           source: 'api',
-          newValues: {
-            movementType: input.movementType,
-            quantity,
-            skuId: input.skuId,
-            ...(lotNumber ? { lotNumber } : {}),
-          },
+          newValues: { warehouseId: input.warehouseId, count: serials.length },
         });
-        await publishToOutbox(tx, {
-          tenantId: ctx.tenantId,
-          eventType: EVENT_TYPES.STOCK_MOVED,
-          aggregateType: 'StockMovement',
-          aggregateId: movement.id,
-          actorType: ctx.actorType,
-          actorId: ctx.userId,
-          payload: {
-            movementId: movement.id,
-            skuId: input.skuId,
-            quantity,
-            lotNumber,
-            from: OUTBOUND.has(input.movementType) ? input.warehouseId : null,
-            to: OUTBOUND.has(input.movementType) ? null : input.warehouseId,
-          },
-        });
-        return movement;
-      };
-
-      // Lot handling (WMS-017/019).
-      if (lotTracked && OUTBOUND.has(input.movementType)) {
-        const balances = await this.lotBalancesInTx(
-          tx,
-          ctx.tenantId,
-          input.warehouseId,
-          input.skuId,
-        );
-        const now = Date.now();
-        if (input.lotNumber) {
-          const lot = balances.find((b) => b.lotNumber === input.lotNumber);
-          const lotOnHand = lot ? Number(lot.onHand) : 0;
-          if (lotOnHand < input.quantity) {
-            throw new DomainError('INVALID_STATE', 'Insufficient stock in this lot', {
-              lot: input.lotNumber,
-              onHand: lotOnHand.toString(),
-            });
-          }
-          if (
-            lot?.expiresAt &&
-            new Date(lot.expiresAt).getTime() < now &&
-            input.movementType !== 'ADJUSTMENT_OUT'
-          ) {
-            throw new DomainError(
-              'INVALID_STATE',
-              `Lot ${input.lotNumber} is expired — only a write-off (ADJUSTMENT_OUT) may move it`,
-            );
-          }
-          const movement = await writeMovement(
-            input.quantity,
-            input.idempotencyKey,
-            input.lotNumber,
-            lot?.expiresAt ? new Date(lot.expiresAt) : null,
-          );
-          return { movementId: movement.id, duplicate: false };
-        }
-        // FEFO (WMS-019): earliest expiry first, expired lots skipped
-        // unless this is a write-off.
-        const usable = balances
-          .filter((b) => Number(b.onHand) > 0)
-          .filter(
-            (b) =>
-              input.movementType === 'ADJUSTMENT_OUT' ||
-              !b.expiresAt ||
-              new Date(b.expiresAt).getTime() >= now,
-          )
-          .sort((a, z) => {
-            if (a.expiresAt === null) return 1;
-            if (z.expiresAt === null) return -1;
-            return a.expiresAt.localeCompare(z.expiresAt);
-          });
-        const usableTotal = usable.reduce((sum, b) => sum + Number(b.onHand), 0);
-        if (usableTotal < input.quantity) {
-          throw new DomainError('INVALID_STATE', 'Insufficient unexpired lot stock', {
-            usable: usableTotal.toString(),
-            requested: input.quantity.toString(),
-          });
-        }
-        let remaining = input.quantity;
-        let firstId: string | null = null;
-        let part = 0;
-        for (const lot of usable) {
-          if (remaining <= 0) break;
-          const take = Math.min(Number(lot.onHand), remaining);
-          part += 1;
-          const key = part === 1 ? input.idempotencyKey : `${input.idempotencyKey}#${part}`;
-          const movement = await writeMovement(
-            take,
-            key,
-            lot.lotNumber,
-            lot.expiresAt ? new Date(lot.expiresAt) : null,
-          );
-          firstId = firstId ?? movement.id;
-          remaining = Math.round((remaining - take) * 1e6) / 1e6;
-        }
-        return { movementId: firstId!, duplicate: false };
+        return { onboarded: serials.length, untrackedLeft: untracked - serials.length };
+      });
+    } catch (error) {
+      if ((error as { code?: string }).code === 'P2002') {
+        throw new DomainError('CONFLICT', 'A serial number was onboarded concurrently — retry');
       }
+      throw error;
+    }
+  }
 
-      const inboundExpiry =
-        lotTracked && INBOUND.has(input.movementType)
-          ? (input.expiresAt ??
-            (sku.shelfLifeDays ? new Date(Date.now() + sku.shelfLifeDays * 86_400_000) : null))
-          : (input.expiresAt ?? null);
-      const movement = await writeMovement(
-        input.quantity,
-        input.idempotencyKey,
-        input.lotNumber ?? null,
-        inboundExpiry,
-      );
-      return { movementId: movement.id, duplicate: false };
+  /** WMS-018: where a serialised unit is and every movement it took part in. */
+  async serialTrace(skuId: string, serial: string, ctx: RequestContext) {
+    const position = await this.prisma.serialPosition.findFirst({
+      where: { tenantId: ctx.tenantId, skuId, serial },
     });
+    if (!position) throw notFound('SerialPosition', serial);
+    const links = await this.prisma.serialMovement.findMany({
+      where: { tenantId: ctx.tenantId, skuId, serial },
+      orderBy: { createdAt: 'asc' },
+    });
+    const movements = await this.prisma.stockMovement.findMany({
+      where: { tenantId: ctx.tenantId, id: { in: links.map((l) => l.movementId) } },
+      orderBy: { occurredAt: 'asc' },
+    });
+    return {
+      skuId,
+      serial,
+      inStock: position.inStock,
+      warehouseId: position.warehouseId,
+      movements: movements.map((m) => ({
+        movementId: m.id,
+        movementType: m.movementType,
+        warehouseId: m.warehouseId,
+        reason: m.reason,
+        occurredAt: m.occurredAt.toISOString(),
+      })),
+    };
+  }
+
+  /** WMS-018: serialised units currently in stock (optionally per warehouse). */
+  async serialsInStock(
+    params: { skuId: string; warehouseId?: string | undefined },
+    ctx: RequestContext,
+  ) {
+    const rows = await this.prisma.serialPosition.findMany({
+      where: {
+        tenantId: ctx.tenantId,
+        skuId: params.skuId,
+        inStock: true,
+        ...(params.warehouseId ? { warehouseId: params.warehouseId } : {}),
+      },
+      orderBy: { serial: 'asc' },
+      take: 5000,
+    });
+    return rows.map((r) => ({ serial: r.serial, warehouseId: r.warehouseId }));
   }
 
   /** Per-lot on-hand from the ledger (WMS-017), with expiry flags. */

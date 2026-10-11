@@ -134,6 +134,8 @@ export interface StockGate {
       quantity: number;
       idempotencyKey: string;
       reason?: string | undefined;
+      /** WMS-018: serials of the shipped units. */
+      serials?: string[] | undefined;
     },
     ctx: RequestContext,
   ): Promise<{ movementId: string; duplicate: boolean }>;
@@ -1432,7 +1434,7 @@ export class OrderService {
     input: {
       orderId: string;
       shipKey: string;
-      lines: Array<{ lineId: string; quantity: number }>;
+      lines: Array<{ lineId: string; quantity: number; serials?: string[] | undefined }>;
       /** COM-008: issue from this warehouse/store instead of the order's. */
       sourceWarehouseId?: string | undefined;
     },
@@ -1507,6 +1509,7 @@ export class OrderService {
             sourceWarehouseId === order.warehouseId
               ? `Partial shipment of ${order.orderNumber}`
               : `Ship-from-store shipment of ${order.orderNumber}`,
+          ...(request.serials ? { serials: request.serials } : {}),
         },
         ctx,
       );

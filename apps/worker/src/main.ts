@@ -8,6 +8,7 @@ import {
 import { Queue, Worker } from 'bullmq';
 import { IntegrationService } from '@nexora/domain-int';
 import { dispatchPendingOutbox } from './outbox';
+import { SerialService } from '@nexora/domain-pim';
 import { createRuleEngineConsumer } from './rule-engine';
 
 /**
@@ -27,6 +28,8 @@ async function main(): Promise<void> {
   });
   const prisma = createDb({ connectionString: env.DATABASE_URL, max: 3 });
   const ruleEngine = createRuleEngineConsumer(prisma);
+  // WMS-018 (Sprint 239): serial registry follows the stock ledger.
+  const serialRegistry = new SerialService(prisma);
 
   const connection = { url: env.REDIS_URL };
 
@@ -76,6 +79,7 @@ async function main(): Promise<void> {
           );
           // Declarative automation (Sprint 002): idempotent rule evaluation.
           await ruleEngine.handle(event);
+          await serialRegistry.applyStockMovedEvent(event);
         });
         if (result.dispatched > 0 || result.failed > 0) {
           console.log(

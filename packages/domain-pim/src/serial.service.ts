@@ -32,6 +32,9 @@ const TRANSITIONS: Record<SerialStatus, SerialStatus[]> = {
 
 const SERIAL_RE = /^[A-Za-z0-9._/-]{3,64}$/;
 
+/** processed_event consumer name for the registry sync. */
+export const SERIAL_REGISTRY_CONSUMER = 'pim.serial-registry';
+
 export class SerialService {
   constructor(private readonly prisma: PrismaClient) {}
 
@@ -169,5 +172,80 @@ export class SerialService {
       note: updated.note,
       updatedAt: updated.updatedAt.toISOString(),
     };
+  }
+
+  /**
+   * WMS-018 (Sprint 239): keeps the serial identity registry in step with
+   * the stock ledger by consuming `stock.moved` events that carry serials.
+   * Idempotent per event (processed_event claim in the same transaction).
+   * WMS owns the unit's position; this only reflects the life-cycle status:
+   * inbound → IN_STOCK (registered if new), ISSUE → SHIPPED; transfers and
+   * adjustments leave the status as is.
+   */
+  async applyStockMovedEvent(event: {
+    id: string;
+    tenantId: string;
+    eventType: string;
+    payload: unknown;
+  }): Promise<{ applied: number }> {
+    if (event.eventType !== 'stock.moved') return { applied: 0 };
+    const p = (event.payload ?? {}) as {
+      skuId?: string;
+      serials?: string[];
+      movementType?: string;
+      movementId?: string;
+    };
+    if (!p.skuId || !Array.isArray(p.serials) || p.serials.length === 0 || !p.movementType) {
+      return { applied: 0 };
+    }
+    const inbound = ['RECEIPT', 'ADJUSTMENT_IN', 'TRANSFER_IN'].includes(p.movementType);
+    const status: SerialStatus | null = inbound
+      ? 'IN_STOCK'
+      : p.movementType === 'ISSUE'
+        ? 'SHIPPED'
+        : null;
+    let applied = 0;
+    await this.prisma.$transaction(async (tx) => {
+      try {
+        await tx.processedEvent.create({
+          data: { tenantId: event.tenantId, eventId: event.id, consumer: SERIAL_REGISTRY_CONSUMER },
+        });
+      } catch (error) {
+        if ((error as { code?: string }).code === 'P2002') return;
+        throw error;
+      }
+      if (!status) return;
+      for (const serial of p.serials!) {
+        const existing = await tx.serialNumber.findFirst({
+          where: { tenantId: event.tenantId, skuId: p.skuId!, serial },
+        });
+        if (existing) {
+          if (existing.status === status) continue;
+          await tx.serialNumber.updateMany({
+            where: { id: existing.id, tenantId: event.tenantId },
+            data: { status },
+          });
+        } else if (inbound) {
+          await tx.serialNumber.create({
+            data: { tenantId: event.tenantId, skuId: p.skuId!, serial, status },
+          });
+        } else {
+          continue;
+        }
+        applied += 1;
+      }
+      if (applied > 0) {
+        await writeAudit(tx, {
+          tenantId: event.tenantId,
+          actorType: 'SYSTEM',
+          action: 'pim.serial.sync',
+          objectType: 'Sku',
+          objectId: p.skuId!,
+          source: 'worker',
+          newValues: { movementId: p.movementId ?? null, status, count: applied },
+        });
+      }
+    });
+    return { applied };
   }
 }

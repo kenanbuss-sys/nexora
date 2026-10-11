@@ -918,6 +918,16 @@ export type EquipmentCustody = $Result.DefaultSelection<Prisma.$EquipmentCustody
  * 
  */
 export type EquipmentCustodyLine = $Result.DefaultSelection<Prisma.$EquipmentCustodyLinePayload>
+/**
+ * Model SerialPosition
+ * 
+ */
+export type SerialPosition = $Result.DefaultSelection<Prisma.$SerialPositionPayload>
+/**
+ * Model SerialMovement
+ * 
+ */
+export type SerialMovement = $Result.DefaultSelection<Prisma.$SerialMovementPayload>
 
 /**
  * Enums
@@ -3541,6 +3551,26 @@ export class PrismaClient<
     * ```
     */
   get equipmentCustodyLine(): Prisma.EquipmentCustodyLineDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.serialPosition`: Exposes CRUD operations for the **SerialPosition** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more SerialPositions
+    * const serialPositions = await prisma.serialPosition.findMany()
+    * ```
+    */
+  get serialPosition(): Prisma.SerialPositionDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.serialMovement`: Exposes CRUD operations for the **SerialMovement** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more SerialMovements
+    * const serialMovements = await prisma.serialMovement.findMany()
+    * ```
+    */
+  get serialMovement(): Prisma.SerialMovementDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -4142,7 +4172,9 @@ export namespace Prisma {
     TrainingPlanItem: 'TrainingPlanItem',
     TrainingRecord: 'TrainingRecord',
     EquipmentCustody: 'EquipmentCustody',
-    EquipmentCustodyLine: 'EquipmentCustodyLine'
+    EquipmentCustodyLine: 'EquipmentCustodyLine',
+    SerialPosition: 'SerialPosition',
+    SerialMovement: 'SerialMovement'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -4161,7 +4193,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "tenant" | "tenantConfigurationVersion" | "legalEntity" | "businessUnit" | "branch" | "factory" | "user" | "userCredential" | "role" | "rolePermission" | "userRoleAssignment" | "auditEvent" | "outboxEvent" | "terminologyEntry" | "moduleActivation" | "customFieldDefinition" | "task" | "notification" | "workflowDefinition" | "workflowVersion" | "workflowInstance" | "ruleDefinition" | "ruleVersion" | "approval" | "processedEvent" | "documentTemplate" | "documentTemplateVersion" | "party" | "consentRecord" | "partyExternalIdentity" | "product" | "sku" | "barcode" | "uomConversion" | "warehouse" | "warehouseLocation" | "stockMovement" | "stockReservation" | "device" | "scanEvent" | "wmsOrder" | "wmsOrderLine" | "territory" | "salesTeam" | "salesTeamMember" | "crmAccount" | "lead" | "opportunity" | "crmActivity" | "priceList" | "priceListEntry" | "quote" | "packagingLevel" | "skuSubstitution" | "discountRule" | "quoteLine" | "salesOrder" | "salesOrderLine" | "orderEvent" | "supplier" | "purchaseRequisition" | "purchaseRequisitionLine" | "purchaseOrder" | "purchaseOrderLine" | "bom" | "bomLine" | "routing" | "routingOperation" | "engineeringChange" | "planningPolicy" | "mrpRun" | "mrpSuggestion" | "workOrder" | "workOrderOperation" | "qcPlan" | "qcPlanItem" | "qcInspection" | "qcInspectionItem" | "ncr" | "invoice" | "payment" | "portalUser" | "comment" | "attachment" | "attachmentBlob" | "numberSequence" | "exchangeRate" | "costCenter" | "budget" | "webhookSubscription" | "webhookDelivery" | "apiKey" | "securityEvent" | "productCategory" | "returnOrder" | "returnOrderLine" | "stockCount" | "stockCountLine" | "workCenter" | "downtimeEvent" | "promotion" | "promotionRedemption" | "bundleComponent" | "serialNumber" | "breakGlassGrant" | "masterDataRequest" | "loyaltyAccount" | "loyaltyTransaction" | "supportCase" | "contract" | "employee" | "asset" | "quarantineHold" | "rfq" | "rfqQuote" | "package" | "packageLine" | "landedCost" | "customObjectDefinition" | "customObjectRecord" | "frameworkAgreement" | "skuChannelContent" | "container" | "posSession" | "vehicle" | "driver" | "shipment" | "shipmentStop" | "dockAppointment" | "installedAsset" | "serviceRequest" | "serviceOrder" | "serviceOrderPart" | "rma" | "glAccount" | "glJournalEntry" | "glJournalLine" | "glSystemAccount" | "glOpeningBalanceDate" | "glPeriodLock" | "bankStatement" | "bankStatementLine" | "paymentAllocation" | "compensation" | "compensationLine" | "vatRate" | "vatBookEntry" | "vatPeriod" | "attendanceDay" | "attendancePeriod" | "employeeSalary" | "payrollRun" | "payrollLine" | "payrollAdjustment" | "employmentContract" | "trainingPlanTemplate" | "trainingPlan" | "trainingPlanItem" | "trainingRecord" | "equipmentCustody" | "equipmentCustodyLine"
+      modelProps: "tenant" | "tenantConfigurationVersion" | "legalEntity" | "businessUnit" | "branch" | "factory" | "user" | "userCredential" | "role" | "rolePermission" | "userRoleAssignment" | "auditEvent" | "outboxEvent" | "terminologyEntry" | "moduleActivation" | "customFieldDefinition" | "task" | "notification" | "workflowDefinition" | "workflowVersion" | "workflowInstance" | "ruleDefinition" | "ruleVersion" | "approval" | "processedEvent" | "documentTemplate" | "documentTemplateVersion" | "party" | "consentRecord" | "partyExternalIdentity" | "product" | "sku" | "barcode" | "uomConversion" | "warehouse" | "warehouseLocation" | "stockMovement" | "stockReservation" | "device" | "scanEvent" | "wmsOrder" | "wmsOrderLine" | "territory" | "salesTeam" | "salesTeamMember" | "crmAccount" | "lead" | "opportunity" | "crmActivity" | "priceList" | "priceListEntry" | "quote" | "packagingLevel" | "skuSubstitution" | "discountRule" | "quoteLine" | "salesOrder" | "salesOrderLine" | "orderEvent" | "supplier" | "purchaseRequisition" | "purchaseRequisitionLine" | "purchaseOrder" | "purchaseOrderLine" | "bom" | "bomLine" | "routing" | "routingOperation" | "engineeringChange" | "planningPolicy" | "mrpRun" | "mrpSuggestion" | "workOrder" | "workOrderOperation" | "qcPlan" | "qcPlanItem" | "qcInspection" | "qcInspectionItem" | "ncr" | "invoice" | "payment" | "portalUser" | "comment" | "attachment" | "attachmentBlob" | "numberSequence" | "exchangeRate" | "costCenter" | "budget" | "webhookSubscription" | "webhookDelivery" | "apiKey" | "securityEvent" | "productCategory" | "returnOrder" | "returnOrderLine" | "stockCount" | "stockCountLine" | "workCenter" | "downtimeEvent" | "promotion" | "promotionRedemption" | "bundleComponent" | "serialNumber" | "breakGlassGrant" | "masterDataRequest" | "loyaltyAccount" | "loyaltyTransaction" | "supportCase" | "contract" | "employee" | "asset" | "quarantineHold" | "rfq" | "rfqQuote" | "package" | "packageLine" | "landedCost" | "customObjectDefinition" | "customObjectRecord" | "frameworkAgreement" | "skuChannelContent" | "container" | "posSession" | "vehicle" | "driver" | "shipment" | "shipmentStop" | "dockAppointment" | "installedAsset" | "serviceRequest" | "serviceOrder" | "serviceOrderPart" | "rma" | "glAccount" | "glJournalEntry" | "glJournalLine" | "glSystemAccount" | "glOpeningBalanceDate" | "glPeriodLock" | "bankStatement" | "bankStatementLine" | "paymentAllocation" | "compensation" | "compensationLine" | "vatRate" | "vatBookEntry" | "vatPeriod" | "attendanceDay" | "attendancePeriod" | "employeeSalary" | "payrollRun" | "payrollLine" | "payrollAdjustment" | "employmentContract" | "trainingPlanTemplate" | "trainingPlan" | "trainingPlanItem" | "trainingRecord" | "equipmentCustody" | "equipmentCustodyLine" | "serialPosition" | "serialMovement"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -16079,6 +16111,154 @@ export namespace Prisma {
           }
         }
       }
+      SerialPosition: {
+        payload: Prisma.$SerialPositionPayload<ExtArgs>
+        fields: Prisma.SerialPositionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SerialPositionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SerialPositionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SerialPositionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SerialPositionPayload>
+          }
+          findFirst: {
+            args: Prisma.SerialPositionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SerialPositionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SerialPositionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SerialPositionPayload>
+          }
+          findMany: {
+            args: Prisma.SerialPositionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SerialPositionPayload>[]
+          }
+          create: {
+            args: Prisma.SerialPositionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SerialPositionPayload>
+          }
+          createMany: {
+            args: Prisma.SerialPositionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.SerialPositionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SerialPositionPayload>[]
+          }
+          delete: {
+            args: Prisma.SerialPositionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SerialPositionPayload>
+          }
+          update: {
+            args: Prisma.SerialPositionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SerialPositionPayload>
+          }
+          deleteMany: {
+            args: Prisma.SerialPositionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SerialPositionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.SerialPositionUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SerialPositionPayload>[]
+          }
+          upsert: {
+            args: Prisma.SerialPositionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SerialPositionPayload>
+          }
+          aggregate: {
+            args: Prisma.SerialPositionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSerialPosition>
+          }
+          groupBy: {
+            args: Prisma.SerialPositionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SerialPositionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SerialPositionCountArgs<ExtArgs>
+            result: $Utils.Optional<SerialPositionCountAggregateOutputType> | number
+          }
+        }
+      }
+      SerialMovement: {
+        payload: Prisma.$SerialMovementPayload<ExtArgs>
+        fields: Prisma.SerialMovementFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SerialMovementFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SerialMovementPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SerialMovementFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SerialMovementPayload>
+          }
+          findFirst: {
+            args: Prisma.SerialMovementFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SerialMovementPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SerialMovementFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SerialMovementPayload>
+          }
+          findMany: {
+            args: Prisma.SerialMovementFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SerialMovementPayload>[]
+          }
+          create: {
+            args: Prisma.SerialMovementCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SerialMovementPayload>
+          }
+          createMany: {
+            args: Prisma.SerialMovementCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.SerialMovementCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SerialMovementPayload>[]
+          }
+          delete: {
+            args: Prisma.SerialMovementDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SerialMovementPayload>
+          }
+          update: {
+            args: Prisma.SerialMovementUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SerialMovementPayload>
+          }
+          deleteMany: {
+            args: Prisma.SerialMovementDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SerialMovementUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.SerialMovementUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SerialMovementPayload>[]
+          }
+          upsert: {
+            args: Prisma.SerialMovementUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SerialMovementPayload>
+          }
+          aggregate: {
+            args: Prisma.SerialMovementAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSerialMovement>
+          }
+          groupBy: {
+            args: Prisma.SerialMovementGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SerialMovementGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SerialMovementCountArgs<ExtArgs>
+            result: $Utils.Optional<SerialMovementCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -16336,6 +16516,8 @@ export namespace Prisma {
     trainingRecord?: TrainingRecordOmit
     equipmentCustody?: EquipmentCustodyOmit
     equipmentCustodyLine?: EquipmentCustodyLineOmit
+    serialPosition?: SerialPositionOmit
+    serialMovement?: SerialMovementOmit
   }
 
   /* Types for Logging */
@@ -16559,6 +16741,8 @@ export namespace Prisma {
     trainingRecords: number
     equipmentCustodies: number
     equipmentCustodyLines: number
+    serialPositions: number
+    serialMovements: number
   }
 
   export type TenantCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -16705,6 +16889,8 @@ export namespace Prisma {
     trainingRecords?: boolean | TenantCountOutputTypeCountTrainingRecordsArgs
     equipmentCustodies?: boolean | TenantCountOutputTypeCountEquipmentCustodiesArgs
     equipmentCustodyLines?: boolean | TenantCountOutputTypeCountEquipmentCustodyLinesArgs
+    serialPositions?: boolean | TenantCountOutputTypeCountSerialPositionsArgs
+    serialMovements?: boolean | TenantCountOutputTypeCountSerialMovementsArgs
   }
 
   // Custom InputTypes
@@ -17717,6 +17903,20 @@ export namespace Prisma {
    */
   export type TenantCountOutputTypeCountEquipmentCustodyLinesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: EquipmentCustodyLineWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountSerialPositionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SerialPositionWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountSerialMovementsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SerialMovementWhereInput
   }
 
 
@@ -19882,6 +20082,8 @@ export namespace Prisma {
     trainingRecords?: boolean | Tenant$trainingRecordsArgs<ExtArgs>
     equipmentCustodies?: boolean | Tenant$equipmentCustodiesArgs<ExtArgs>
     equipmentCustodyLines?: boolean | Tenant$equipmentCustodyLinesArgs<ExtArgs>
+    serialPositions?: boolean | Tenant$serialPositionsArgs<ExtArgs>
+    serialMovements?: boolean | Tenant$serialMovementsArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["tenant"]>
 
@@ -20060,6 +20262,8 @@ export namespace Prisma {
     trainingRecords?: boolean | Tenant$trainingRecordsArgs<ExtArgs>
     equipmentCustodies?: boolean | Tenant$equipmentCustodiesArgs<ExtArgs>
     equipmentCustodyLines?: boolean | Tenant$equipmentCustodyLinesArgs<ExtArgs>
+    serialPositions?: boolean | Tenant$serialPositionsArgs<ExtArgs>
+    serialMovements?: boolean | Tenant$serialMovementsArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type TenantIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -20211,6 +20415,8 @@ export namespace Prisma {
       trainingRecords: Prisma.$TrainingRecordPayload<ExtArgs>[]
       equipmentCustodies: Prisma.$EquipmentCustodyPayload<ExtArgs>[]
       equipmentCustodyLines: Prisma.$EquipmentCustodyLinePayload<ExtArgs>[]
+      serialPositions: Prisma.$SerialPositionPayload<ExtArgs>[]
+      serialMovements: Prisma.$SerialMovementPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -20757,6 +20963,8 @@ export namespace Prisma {
     trainingRecords<T extends Tenant$trainingRecordsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$trainingRecordsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TrainingRecordPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     equipmentCustodies<T extends Tenant$equipmentCustodiesArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$equipmentCustodiesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EquipmentCustodyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     equipmentCustodyLines<T extends Tenant$equipmentCustodyLinesArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$equipmentCustodyLinesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EquipmentCustodyLinePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    serialPositions<T extends Tenant$serialPositionsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$serialPositionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SerialPositionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    serialMovements<T extends Tenant$serialMovementsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$serialMovementsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SerialMovementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -24610,6 +24818,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: EquipmentCustodyLineScalarFieldEnum | EquipmentCustodyLineScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.serialPositions
+   */
+  export type Tenant$serialPositionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SerialPosition
+     */
+    select?: SerialPositionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SerialPosition
+     */
+    omit?: SerialPositionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SerialPositionInclude<ExtArgs> | null
+    where?: SerialPositionWhereInput
+    orderBy?: SerialPositionOrderByWithRelationInput | SerialPositionOrderByWithRelationInput[]
+    cursor?: SerialPositionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SerialPositionScalarFieldEnum | SerialPositionScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.serialMovements
+   */
+  export type Tenant$serialMovementsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SerialMovement
+     */
+    select?: SerialMovementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SerialMovement
+     */
+    omit?: SerialMovementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SerialMovementInclude<ExtArgs> | null
+    where?: SerialMovementWhereInput
+    orderBy?: SerialMovementOrderByWithRelationInput | SerialMovementOrderByWithRelationInput[]
+    cursor?: SerialMovementWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SerialMovementScalarFieldEnum | SerialMovementScalarFieldEnum[]
   }
 
   /**
@@ -210024,6 +210280,2180 @@ export namespace Prisma {
 
 
   /**
+   * Model SerialPosition
+   */
+
+  export type AggregateSerialPosition = {
+    _count: SerialPositionCountAggregateOutputType | null
+    _min: SerialPositionMinAggregateOutputType | null
+    _max: SerialPositionMaxAggregateOutputType | null
+  }
+
+  export type SerialPositionMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    skuId: string | null
+    serial: string | null
+    warehouseId: string | null
+    inStock: boolean | null
+    lastMovementId: string | null
+    updatedAt: Date | null
+  }
+
+  export type SerialPositionMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    skuId: string | null
+    serial: string | null
+    warehouseId: string | null
+    inStock: boolean | null
+    lastMovementId: string | null
+    updatedAt: Date | null
+  }
+
+  export type SerialPositionCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    skuId: number
+    serial: number
+    warehouseId: number
+    inStock: number
+    lastMovementId: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type SerialPositionMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    skuId?: true
+    serial?: true
+    warehouseId?: true
+    inStock?: true
+    lastMovementId?: true
+    updatedAt?: true
+  }
+
+  export type SerialPositionMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    skuId?: true
+    serial?: true
+    warehouseId?: true
+    inStock?: true
+    lastMovementId?: true
+    updatedAt?: true
+  }
+
+  export type SerialPositionCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    skuId?: true
+    serial?: true
+    warehouseId?: true
+    inStock?: true
+    lastMovementId?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type SerialPositionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SerialPosition to aggregate.
+     */
+    where?: SerialPositionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SerialPositions to fetch.
+     */
+    orderBy?: SerialPositionOrderByWithRelationInput | SerialPositionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SerialPositionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SerialPositions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SerialPositions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned SerialPositions
+    **/
+    _count?: true | SerialPositionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SerialPositionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SerialPositionMaxAggregateInputType
+  }
+
+  export type GetSerialPositionAggregateType<T extends SerialPositionAggregateArgs> = {
+        [P in keyof T & keyof AggregateSerialPosition]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSerialPosition[P]>
+      : GetScalarType<T[P], AggregateSerialPosition[P]>
+  }
+
+
+
+
+  export type SerialPositionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SerialPositionWhereInput
+    orderBy?: SerialPositionOrderByWithAggregationInput | SerialPositionOrderByWithAggregationInput[]
+    by: SerialPositionScalarFieldEnum[] | SerialPositionScalarFieldEnum
+    having?: SerialPositionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SerialPositionCountAggregateInputType | true
+    _min?: SerialPositionMinAggregateInputType
+    _max?: SerialPositionMaxAggregateInputType
+  }
+
+  export type SerialPositionGroupByOutputType = {
+    id: string
+    tenantId: string
+    skuId: string
+    serial: string
+    warehouseId: string | null
+    inStock: boolean
+    lastMovementId: string | null
+    updatedAt: Date
+    _count: SerialPositionCountAggregateOutputType | null
+    _min: SerialPositionMinAggregateOutputType | null
+    _max: SerialPositionMaxAggregateOutputType | null
+  }
+
+  type GetSerialPositionGroupByPayload<T extends SerialPositionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SerialPositionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SerialPositionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SerialPositionGroupByOutputType[P]>
+            : GetScalarType<T[P], SerialPositionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SerialPositionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    skuId?: boolean
+    serial?: boolean
+    warehouseId?: boolean
+    inStock?: boolean
+    lastMovementId?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["serialPosition"]>
+
+  export type SerialPositionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    skuId?: boolean
+    serial?: boolean
+    warehouseId?: boolean
+    inStock?: boolean
+    lastMovementId?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["serialPosition"]>
+
+  export type SerialPositionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    skuId?: boolean
+    serial?: boolean
+    warehouseId?: boolean
+    inStock?: boolean
+    lastMovementId?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["serialPosition"]>
+
+  export type SerialPositionSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    skuId?: boolean
+    serial?: boolean
+    warehouseId?: boolean
+    inStock?: boolean
+    lastMovementId?: boolean
+    updatedAt?: boolean
+  }
+
+  export type SerialPositionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "skuId" | "serial" | "warehouseId" | "inStock" | "lastMovementId" | "updatedAt", ExtArgs["result"]["serialPosition"]>
+  export type SerialPositionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type SerialPositionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type SerialPositionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+
+  export type $SerialPositionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "SerialPosition"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      skuId: string
+      serial: string
+      /**
+       * Warehouse holding the unit; null while not in stock.
+       */
+      warehouseId: string | null
+      inStock: boolean
+      /**
+       * Null when the unit was onboarded from existing stock (no movement).
+       */
+      lastMovementId: string | null
+      updatedAt: Date
+    }, ExtArgs["result"]["serialPosition"]>
+    composites: {}
+  }
+
+  type SerialPositionGetPayload<S extends boolean | null | undefined | SerialPositionDefaultArgs> = $Result.GetResult<Prisma.$SerialPositionPayload, S>
+
+  type SerialPositionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<SerialPositionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: SerialPositionCountAggregateInputType | true
+    }
+
+  export interface SerialPositionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['SerialPosition'], meta: { name: 'SerialPosition' } }
+    /**
+     * Find zero or one SerialPosition that matches the filter.
+     * @param {SerialPositionFindUniqueArgs} args - Arguments to find a SerialPosition
+     * @example
+     * // Get one SerialPosition
+     * const serialPosition = await prisma.serialPosition.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SerialPositionFindUniqueArgs>(args: SelectSubset<T, SerialPositionFindUniqueArgs<ExtArgs>>): Prisma__SerialPositionClient<$Result.GetResult<Prisma.$SerialPositionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one SerialPosition that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {SerialPositionFindUniqueOrThrowArgs} args - Arguments to find a SerialPosition
+     * @example
+     * // Get one SerialPosition
+     * const serialPosition = await prisma.serialPosition.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SerialPositionFindUniqueOrThrowArgs>(args: SelectSubset<T, SerialPositionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SerialPositionClient<$Result.GetResult<Prisma.$SerialPositionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SerialPosition that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SerialPositionFindFirstArgs} args - Arguments to find a SerialPosition
+     * @example
+     * // Get one SerialPosition
+     * const serialPosition = await prisma.serialPosition.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SerialPositionFindFirstArgs>(args?: SelectSubset<T, SerialPositionFindFirstArgs<ExtArgs>>): Prisma__SerialPositionClient<$Result.GetResult<Prisma.$SerialPositionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SerialPosition that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SerialPositionFindFirstOrThrowArgs} args - Arguments to find a SerialPosition
+     * @example
+     * // Get one SerialPosition
+     * const serialPosition = await prisma.serialPosition.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SerialPositionFindFirstOrThrowArgs>(args?: SelectSubset<T, SerialPositionFindFirstOrThrowArgs<ExtArgs>>): Prisma__SerialPositionClient<$Result.GetResult<Prisma.$SerialPositionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more SerialPositions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SerialPositionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all SerialPositions
+     * const serialPositions = await prisma.serialPosition.findMany()
+     * 
+     * // Get first 10 SerialPositions
+     * const serialPositions = await prisma.serialPosition.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const serialPositionWithIdOnly = await prisma.serialPosition.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends SerialPositionFindManyArgs>(args?: SelectSubset<T, SerialPositionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SerialPositionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a SerialPosition.
+     * @param {SerialPositionCreateArgs} args - Arguments to create a SerialPosition.
+     * @example
+     * // Create one SerialPosition
+     * const SerialPosition = await prisma.serialPosition.create({
+     *   data: {
+     *     // ... data to create a SerialPosition
+     *   }
+     * })
+     * 
+     */
+    create<T extends SerialPositionCreateArgs>(args: SelectSubset<T, SerialPositionCreateArgs<ExtArgs>>): Prisma__SerialPositionClient<$Result.GetResult<Prisma.$SerialPositionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many SerialPositions.
+     * @param {SerialPositionCreateManyArgs} args - Arguments to create many SerialPositions.
+     * @example
+     * // Create many SerialPositions
+     * const serialPosition = await prisma.serialPosition.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SerialPositionCreateManyArgs>(args?: SelectSubset<T, SerialPositionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many SerialPositions and returns the data saved in the database.
+     * @param {SerialPositionCreateManyAndReturnArgs} args - Arguments to create many SerialPositions.
+     * @example
+     * // Create many SerialPositions
+     * const serialPosition = await prisma.serialPosition.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many SerialPositions and only return the `id`
+     * const serialPositionWithIdOnly = await prisma.serialPosition.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends SerialPositionCreateManyAndReturnArgs>(args?: SelectSubset<T, SerialPositionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SerialPositionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a SerialPosition.
+     * @param {SerialPositionDeleteArgs} args - Arguments to delete one SerialPosition.
+     * @example
+     * // Delete one SerialPosition
+     * const SerialPosition = await prisma.serialPosition.delete({
+     *   where: {
+     *     // ... filter to delete one SerialPosition
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SerialPositionDeleteArgs>(args: SelectSubset<T, SerialPositionDeleteArgs<ExtArgs>>): Prisma__SerialPositionClient<$Result.GetResult<Prisma.$SerialPositionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one SerialPosition.
+     * @param {SerialPositionUpdateArgs} args - Arguments to update one SerialPosition.
+     * @example
+     * // Update one SerialPosition
+     * const serialPosition = await prisma.serialPosition.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SerialPositionUpdateArgs>(args: SelectSubset<T, SerialPositionUpdateArgs<ExtArgs>>): Prisma__SerialPositionClient<$Result.GetResult<Prisma.$SerialPositionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more SerialPositions.
+     * @param {SerialPositionDeleteManyArgs} args - Arguments to filter SerialPositions to delete.
+     * @example
+     * // Delete a few SerialPositions
+     * const { count } = await prisma.serialPosition.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SerialPositionDeleteManyArgs>(args?: SelectSubset<T, SerialPositionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SerialPositions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SerialPositionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many SerialPositions
+     * const serialPosition = await prisma.serialPosition.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SerialPositionUpdateManyArgs>(args: SelectSubset<T, SerialPositionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SerialPositions and returns the data updated in the database.
+     * @param {SerialPositionUpdateManyAndReturnArgs} args - Arguments to update many SerialPositions.
+     * @example
+     * // Update many SerialPositions
+     * const serialPosition = await prisma.serialPosition.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more SerialPositions and only return the `id`
+     * const serialPositionWithIdOnly = await prisma.serialPosition.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends SerialPositionUpdateManyAndReturnArgs>(args: SelectSubset<T, SerialPositionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SerialPositionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one SerialPosition.
+     * @param {SerialPositionUpsertArgs} args - Arguments to update or create a SerialPosition.
+     * @example
+     * // Update or create a SerialPosition
+     * const serialPosition = await prisma.serialPosition.upsert({
+     *   create: {
+     *     // ... data to create a SerialPosition
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the SerialPosition we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SerialPositionUpsertArgs>(args: SelectSubset<T, SerialPositionUpsertArgs<ExtArgs>>): Prisma__SerialPositionClient<$Result.GetResult<Prisma.$SerialPositionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of SerialPositions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SerialPositionCountArgs} args - Arguments to filter SerialPositions to count.
+     * @example
+     * // Count the number of SerialPositions
+     * const count = await prisma.serialPosition.count({
+     *   where: {
+     *     // ... the filter for the SerialPositions we want to count
+     *   }
+     * })
+    **/
+    count<T extends SerialPositionCountArgs>(
+      args?: Subset<T, SerialPositionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SerialPositionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a SerialPosition.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SerialPositionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SerialPositionAggregateArgs>(args: Subset<T, SerialPositionAggregateArgs>): Prisma.PrismaPromise<GetSerialPositionAggregateType<T>>
+
+    /**
+     * Group by SerialPosition.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SerialPositionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SerialPositionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SerialPositionGroupByArgs['orderBy'] }
+        : { orderBy?: SerialPositionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SerialPositionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSerialPositionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the SerialPosition model
+   */
+  readonly fields: SerialPositionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for SerialPosition.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SerialPositionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the SerialPosition model
+   */
+  interface SerialPositionFieldRefs {
+    readonly id: FieldRef<"SerialPosition", 'String'>
+    readonly tenantId: FieldRef<"SerialPosition", 'String'>
+    readonly skuId: FieldRef<"SerialPosition", 'String'>
+    readonly serial: FieldRef<"SerialPosition", 'String'>
+    readonly warehouseId: FieldRef<"SerialPosition", 'String'>
+    readonly inStock: FieldRef<"SerialPosition", 'Boolean'>
+    readonly lastMovementId: FieldRef<"SerialPosition", 'String'>
+    readonly updatedAt: FieldRef<"SerialPosition", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * SerialPosition findUnique
+   */
+  export type SerialPositionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SerialPosition
+     */
+    select?: SerialPositionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SerialPosition
+     */
+    omit?: SerialPositionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SerialPositionInclude<ExtArgs> | null
+    /**
+     * Filter, which SerialPosition to fetch.
+     */
+    where: SerialPositionWhereUniqueInput
+  }
+
+  /**
+   * SerialPosition findUniqueOrThrow
+   */
+  export type SerialPositionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SerialPosition
+     */
+    select?: SerialPositionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SerialPosition
+     */
+    omit?: SerialPositionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SerialPositionInclude<ExtArgs> | null
+    /**
+     * Filter, which SerialPosition to fetch.
+     */
+    where: SerialPositionWhereUniqueInput
+  }
+
+  /**
+   * SerialPosition findFirst
+   */
+  export type SerialPositionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SerialPosition
+     */
+    select?: SerialPositionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SerialPosition
+     */
+    omit?: SerialPositionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SerialPositionInclude<ExtArgs> | null
+    /**
+     * Filter, which SerialPosition to fetch.
+     */
+    where?: SerialPositionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SerialPositions to fetch.
+     */
+    orderBy?: SerialPositionOrderByWithRelationInput | SerialPositionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SerialPositions.
+     */
+    cursor?: SerialPositionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SerialPositions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SerialPositions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SerialPositions.
+     */
+    distinct?: SerialPositionScalarFieldEnum | SerialPositionScalarFieldEnum[]
+  }
+
+  /**
+   * SerialPosition findFirstOrThrow
+   */
+  export type SerialPositionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SerialPosition
+     */
+    select?: SerialPositionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SerialPosition
+     */
+    omit?: SerialPositionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SerialPositionInclude<ExtArgs> | null
+    /**
+     * Filter, which SerialPosition to fetch.
+     */
+    where?: SerialPositionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SerialPositions to fetch.
+     */
+    orderBy?: SerialPositionOrderByWithRelationInput | SerialPositionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SerialPositions.
+     */
+    cursor?: SerialPositionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SerialPositions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SerialPositions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SerialPositions.
+     */
+    distinct?: SerialPositionScalarFieldEnum | SerialPositionScalarFieldEnum[]
+  }
+
+  /**
+   * SerialPosition findMany
+   */
+  export type SerialPositionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SerialPosition
+     */
+    select?: SerialPositionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SerialPosition
+     */
+    omit?: SerialPositionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SerialPositionInclude<ExtArgs> | null
+    /**
+     * Filter, which SerialPositions to fetch.
+     */
+    where?: SerialPositionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SerialPositions to fetch.
+     */
+    orderBy?: SerialPositionOrderByWithRelationInput | SerialPositionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing SerialPositions.
+     */
+    cursor?: SerialPositionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SerialPositions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SerialPositions.
+     */
+    skip?: number
+    distinct?: SerialPositionScalarFieldEnum | SerialPositionScalarFieldEnum[]
+  }
+
+  /**
+   * SerialPosition create
+   */
+  export type SerialPositionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SerialPosition
+     */
+    select?: SerialPositionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SerialPosition
+     */
+    omit?: SerialPositionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SerialPositionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a SerialPosition.
+     */
+    data: XOR<SerialPositionCreateInput, SerialPositionUncheckedCreateInput>
+  }
+
+  /**
+   * SerialPosition createMany
+   */
+  export type SerialPositionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many SerialPositions.
+     */
+    data: SerialPositionCreateManyInput | SerialPositionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * SerialPosition createManyAndReturn
+   */
+  export type SerialPositionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SerialPosition
+     */
+    select?: SerialPositionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SerialPosition
+     */
+    omit?: SerialPositionOmit<ExtArgs> | null
+    /**
+     * The data used to create many SerialPositions.
+     */
+    data: SerialPositionCreateManyInput | SerialPositionCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SerialPositionIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * SerialPosition update
+   */
+  export type SerialPositionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SerialPosition
+     */
+    select?: SerialPositionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SerialPosition
+     */
+    omit?: SerialPositionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SerialPositionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a SerialPosition.
+     */
+    data: XOR<SerialPositionUpdateInput, SerialPositionUncheckedUpdateInput>
+    /**
+     * Choose, which SerialPosition to update.
+     */
+    where: SerialPositionWhereUniqueInput
+  }
+
+  /**
+   * SerialPosition updateMany
+   */
+  export type SerialPositionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update SerialPositions.
+     */
+    data: XOR<SerialPositionUpdateManyMutationInput, SerialPositionUncheckedUpdateManyInput>
+    /**
+     * Filter which SerialPositions to update
+     */
+    where?: SerialPositionWhereInput
+    /**
+     * Limit how many SerialPositions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * SerialPosition updateManyAndReturn
+   */
+  export type SerialPositionUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SerialPosition
+     */
+    select?: SerialPositionSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SerialPosition
+     */
+    omit?: SerialPositionOmit<ExtArgs> | null
+    /**
+     * The data used to update SerialPositions.
+     */
+    data: XOR<SerialPositionUpdateManyMutationInput, SerialPositionUncheckedUpdateManyInput>
+    /**
+     * Filter which SerialPositions to update
+     */
+    where?: SerialPositionWhereInput
+    /**
+     * Limit how many SerialPositions to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SerialPositionIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * SerialPosition upsert
+   */
+  export type SerialPositionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SerialPosition
+     */
+    select?: SerialPositionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SerialPosition
+     */
+    omit?: SerialPositionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SerialPositionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the SerialPosition to update in case it exists.
+     */
+    where: SerialPositionWhereUniqueInput
+    /**
+     * In case the SerialPosition found by the `where` argument doesn't exist, create a new SerialPosition with this data.
+     */
+    create: XOR<SerialPositionCreateInput, SerialPositionUncheckedCreateInput>
+    /**
+     * In case the SerialPosition was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SerialPositionUpdateInput, SerialPositionUncheckedUpdateInput>
+  }
+
+  /**
+   * SerialPosition delete
+   */
+  export type SerialPositionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SerialPosition
+     */
+    select?: SerialPositionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SerialPosition
+     */
+    omit?: SerialPositionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SerialPositionInclude<ExtArgs> | null
+    /**
+     * Filter which SerialPosition to delete.
+     */
+    where: SerialPositionWhereUniqueInput
+  }
+
+  /**
+   * SerialPosition deleteMany
+   */
+  export type SerialPositionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SerialPositions to delete
+     */
+    where?: SerialPositionWhereInput
+    /**
+     * Limit how many SerialPositions to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * SerialPosition without action
+   */
+  export type SerialPositionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SerialPosition
+     */
+    select?: SerialPositionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SerialPosition
+     */
+    omit?: SerialPositionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SerialPositionInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model SerialMovement
+   */
+
+  export type AggregateSerialMovement = {
+    _count: SerialMovementCountAggregateOutputType | null
+    _min: SerialMovementMinAggregateOutputType | null
+    _max: SerialMovementMaxAggregateOutputType | null
+  }
+
+  export type SerialMovementMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    movementId: string | null
+    skuId: string | null
+    serial: string | null
+    createdAt: Date | null
+  }
+
+  export type SerialMovementMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    movementId: string | null
+    skuId: string | null
+    serial: string | null
+    createdAt: Date | null
+  }
+
+  export type SerialMovementCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    movementId: number
+    skuId: number
+    serial: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type SerialMovementMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    movementId?: true
+    skuId?: true
+    serial?: true
+    createdAt?: true
+  }
+
+  export type SerialMovementMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    movementId?: true
+    skuId?: true
+    serial?: true
+    createdAt?: true
+  }
+
+  export type SerialMovementCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    movementId?: true
+    skuId?: true
+    serial?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type SerialMovementAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SerialMovement to aggregate.
+     */
+    where?: SerialMovementWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SerialMovements to fetch.
+     */
+    orderBy?: SerialMovementOrderByWithRelationInput | SerialMovementOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SerialMovementWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SerialMovements from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SerialMovements.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned SerialMovements
+    **/
+    _count?: true | SerialMovementCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SerialMovementMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SerialMovementMaxAggregateInputType
+  }
+
+  export type GetSerialMovementAggregateType<T extends SerialMovementAggregateArgs> = {
+        [P in keyof T & keyof AggregateSerialMovement]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSerialMovement[P]>
+      : GetScalarType<T[P], AggregateSerialMovement[P]>
+  }
+
+
+
+
+  export type SerialMovementGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SerialMovementWhereInput
+    orderBy?: SerialMovementOrderByWithAggregationInput | SerialMovementOrderByWithAggregationInput[]
+    by: SerialMovementScalarFieldEnum[] | SerialMovementScalarFieldEnum
+    having?: SerialMovementScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SerialMovementCountAggregateInputType | true
+    _min?: SerialMovementMinAggregateInputType
+    _max?: SerialMovementMaxAggregateInputType
+  }
+
+  export type SerialMovementGroupByOutputType = {
+    id: string
+    tenantId: string
+    movementId: string
+    skuId: string
+    serial: string
+    createdAt: Date
+    _count: SerialMovementCountAggregateOutputType | null
+    _min: SerialMovementMinAggregateOutputType | null
+    _max: SerialMovementMaxAggregateOutputType | null
+  }
+
+  type GetSerialMovementGroupByPayload<T extends SerialMovementGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SerialMovementGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SerialMovementGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SerialMovementGroupByOutputType[P]>
+            : GetScalarType<T[P], SerialMovementGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SerialMovementSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    movementId?: boolean
+    skuId?: boolean
+    serial?: boolean
+    createdAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["serialMovement"]>
+
+  export type SerialMovementSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    movementId?: boolean
+    skuId?: boolean
+    serial?: boolean
+    createdAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["serialMovement"]>
+
+  export type SerialMovementSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    movementId?: boolean
+    skuId?: boolean
+    serial?: boolean
+    createdAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["serialMovement"]>
+
+  export type SerialMovementSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    movementId?: boolean
+    skuId?: boolean
+    serial?: boolean
+    createdAt?: boolean
+  }
+
+  export type SerialMovementOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "movementId" | "skuId" | "serial" | "createdAt", ExtArgs["result"]["serialMovement"]>
+  export type SerialMovementInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type SerialMovementIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type SerialMovementIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+
+  export type $SerialMovementPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "SerialMovement"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      movementId: string
+      skuId: string
+      serial: string
+      createdAt: Date
+    }, ExtArgs["result"]["serialMovement"]>
+    composites: {}
+  }
+
+  type SerialMovementGetPayload<S extends boolean | null | undefined | SerialMovementDefaultArgs> = $Result.GetResult<Prisma.$SerialMovementPayload, S>
+
+  type SerialMovementCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<SerialMovementFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: SerialMovementCountAggregateInputType | true
+    }
+
+  export interface SerialMovementDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['SerialMovement'], meta: { name: 'SerialMovement' } }
+    /**
+     * Find zero or one SerialMovement that matches the filter.
+     * @param {SerialMovementFindUniqueArgs} args - Arguments to find a SerialMovement
+     * @example
+     * // Get one SerialMovement
+     * const serialMovement = await prisma.serialMovement.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SerialMovementFindUniqueArgs>(args: SelectSubset<T, SerialMovementFindUniqueArgs<ExtArgs>>): Prisma__SerialMovementClient<$Result.GetResult<Prisma.$SerialMovementPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one SerialMovement that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {SerialMovementFindUniqueOrThrowArgs} args - Arguments to find a SerialMovement
+     * @example
+     * // Get one SerialMovement
+     * const serialMovement = await prisma.serialMovement.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SerialMovementFindUniqueOrThrowArgs>(args: SelectSubset<T, SerialMovementFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SerialMovementClient<$Result.GetResult<Prisma.$SerialMovementPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SerialMovement that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SerialMovementFindFirstArgs} args - Arguments to find a SerialMovement
+     * @example
+     * // Get one SerialMovement
+     * const serialMovement = await prisma.serialMovement.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SerialMovementFindFirstArgs>(args?: SelectSubset<T, SerialMovementFindFirstArgs<ExtArgs>>): Prisma__SerialMovementClient<$Result.GetResult<Prisma.$SerialMovementPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SerialMovement that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SerialMovementFindFirstOrThrowArgs} args - Arguments to find a SerialMovement
+     * @example
+     * // Get one SerialMovement
+     * const serialMovement = await prisma.serialMovement.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SerialMovementFindFirstOrThrowArgs>(args?: SelectSubset<T, SerialMovementFindFirstOrThrowArgs<ExtArgs>>): Prisma__SerialMovementClient<$Result.GetResult<Prisma.$SerialMovementPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more SerialMovements that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SerialMovementFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all SerialMovements
+     * const serialMovements = await prisma.serialMovement.findMany()
+     * 
+     * // Get first 10 SerialMovements
+     * const serialMovements = await prisma.serialMovement.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const serialMovementWithIdOnly = await prisma.serialMovement.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends SerialMovementFindManyArgs>(args?: SelectSubset<T, SerialMovementFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SerialMovementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a SerialMovement.
+     * @param {SerialMovementCreateArgs} args - Arguments to create a SerialMovement.
+     * @example
+     * // Create one SerialMovement
+     * const SerialMovement = await prisma.serialMovement.create({
+     *   data: {
+     *     // ... data to create a SerialMovement
+     *   }
+     * })
+     * 
+     */
+    create<T extends SerialMovementCreateArgs>(args: SelectSubset<T, SerialMovementCreateArgs<ExtArgs>>): Prisma__SerialMovementClient<$Result.GetResult<Prisma.$SerialMovementPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many SerialMovements.
+     * @param {SerialMovementCreateManyArgs} args - Arguments to create many SerialMovements.
+     * @example
+     * // Create many SerialMovements
+     * const serialMovement = await prisma.serialMovement.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SerialMovementCreateManyArgs>(args?: SelectSubset<T, SerialMovementCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many SerialMovements and returns the data saved in the database.
+     * @param {SerialMovementCreateManyAndReturnArgs} args - Arguments to create many SerialMovements.
+     * @example
+     * // Create many SerialMovements
+     * const serialMovement = await prisma.serialMovement.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many SerialMovements and only return the `id`
+     * const serialMovementWithIdOnly = await prisma.serialMovement.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends SerialMovementCreateManyAndReturnArgs>(args?: SelectSubset<T, SerialMovementCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SerialMovementPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a SerialMovement.
+     * @param {SerialMovementDeleteArgs} args - Arguments to delete one SerialMovement.
+     * @example
+     * // Delete one SerialMovement
+     * const SerialMovement = await prisma.serialMovement.delete({
+     *   where: {
+     *     // ... filter to delete one SerialMovement
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SerialMovementDeleteArgs>(args: SelectSubset<T, SerialMovementDeleteArgs<ExtArgs>>): Prisma__SerialMovementClient<$Result.GetResult<Prisma.$SerialMovementPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one SerialMovement.
+     * @param {SerialMovementUpdateArgs} args - Arguments to update one SerialMovement.
+     * @example
+     * // Update one SerialMovement
+     * const serialMovement = await prisma.serialMovement.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SerialMovementUpdateArgs>(args: SelectSubset<T, SerialMovementUpdateArgs<ExtArgs>>): Prisma__SerialMovementClient<$Result.GetResult<Prisma.$SerialMovementPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more SerialMovements.
+     * @param {SerialMovementDeleteManyArgs} args - Arguments to filter SerialMovements to delete.
+     * @example
+     * // Delete a few SerialMovements
+     * const { count } = await prisma.serialMovement.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SerialMovementDeleteManyArgs>(args?: SelectSubset<T, SerialMovementDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SerialMovements.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SerialMovementUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many SerialMovements
+     * const serialMovement = await prisma.serialMovement.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SerialMovementUpdateManyArgs>(args: SelectSubset<T, SerialMovementUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SerialMovements and returns the data updated in the database.
+     * @param {SerialMovementUpdateManyAndReturnArgs} args - Arguments to update many SerialMovements.
+     * @example
+     * // Update many SerialMovements
+     * const serialMovement = await prisma.serialMovement.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more SerialMovements and only return the `id`
+     * const serialMovementWithIdOnly = await prisma.serialMovement.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends SerialMovementUpdateManyAndReturnArgs>(args: SelectSubset<T, SerialMovementUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SerialMovementPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one SerialMovement.
+     * @param {SerialMovementUpsertArgs} args - Arguments to update or create a SerialMovement.
+     * @example
+     * // Update or create a SerialMovement
+     * const serialMovement = await prisma.serialMovement.upsert({
+     *   create: {
+     *     // ... data to create a SerialMovement
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the SerialMovement we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SerialMovementUpsertArgs>(args: SelectSubset<T, SerialMovementUpsertArgs<ExtArgs>>): Prisma__SerialMovementClient<$Result.GetResult<Prisma.$SerialMovementPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of SerialMovements.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SerialMovementCountArgs} args - Arguments to filter SerialMovements to count.
+     * @example
+     * // Count the number of SerialMovements
+     * const count = await prisma.serialMovement.count({
+     *   where: {
+     *     // ... the filter for the SerialMovements we want to count
+     *   }
+     * })
+    **/
+    count<T extends SerialMovementCountArgs>(
+      args?: Subset<T, SerialMovementCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SerialMovementCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a SerialMovement.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SerialMovementAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SerialMovementAggregateArgs>(args: Subset<T, SerialMovementAggregateArgs>): Prisma.PrismaPromise<GetSerialMovementAggregateType<T>>
+
+    /**
+     * Group by SerialMovement.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SerialMovementGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SerialMovementGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SerialMovementGroupByArgs['orderBy'] }
+        : { orderBy?: SerialMovementGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SerialMovementGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSerialMovementGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the SerialMovement model
+   */
+  readonly fields: SerialMovementFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for SerialMovement.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SerialMovementClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the SerialMovement model
+   */
+  interface SerialMovementFieldRefs {
+    readonly id: FieldRef<"SerialMovement", 'String'>
+    readonly tenantId: FieldRef<"SerialMovement", 'String'>
+    readonly movementId: FieldRef<"SerialMovement", 'String'>
+    readonly skuId: FieldRef<"SerialMovement", 'String'>
+    readonly serial: FieldRef<"SerialMovement", 'String'>
+    readonly createdAt: FieldRef<"SerialMovement", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * SerialMovement findUnique
+   */
+  export type SerialMovementFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SerialMovement
+     */
+    select?: SerialMovementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SerialMovement
+     */
+    omit?: SerialMovementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SerialMovementInclude<ExtArgs> | null
+    /**
+     * Filter, which SerialMovement to fetch.
+     */
+    where: SerialMovementWhereUniqueInput
+  }
+
+  /**
+   * SerialMovement findUniqueOrThrow
+   */
+  export type SerialMovementFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SerialMovement
+     */
+    select?: SerialMovementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SerialMovement
+     */
+    omit?: SerialMovementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SerialMovementInclude<ExtArgs> | null
+    /**
+     * Filter, which SerialMovement to fetch.
+     */
+    where: SerialMovementWhereUniqueInput
+  }
+
+  /**
+   * SerialMovement findFirst
+   */
+  export type SerialMovementFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SerialMovement
+     */
+    select?: SerialMovementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SerialMovement
+     */
+    omit?: SerialMovementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SerialMovementInclude<ExtArgs> | null
+    /**
+     * Filter, which SerialMovement to fetch.
+     */
+    where?: SerialMovementWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SerialMovements to fetch.
+     */
+    orderBy?: SerialMovementOrderByWithRelationInput | SerialMovementOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SerialMovements.
+     */
+    cursor?: SerialMovementWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SerialMovements from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SerialMovements.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SerialMovements.
+     */
+    distinct?: SerialMovementScalarFieldEnum | SerialMovementScalarFieldEnum[]
+  }
+
+  /**
+   * SerialMovement findFirstOrThrow
+   */
+  export type SerialMovementFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SerialMovement
+     */
+    select?: SerialMovementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SerialMovement
+     */
+    omit?: SerialMovementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SerialMovementInclude<ExtArgs> | null
+    /**
+     * Filter, which SerialMovement to fetch.
+     */
+    where?: SerialMovementWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SerialMovements to fetch.
+     */
+    orderBy?: SerialMovementOrderByWithRelationInput | SerialMovementOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SerialMovements.
+     */
+    cursor?: SerialMovementWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SerialMovements from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SerialMovements.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SerialMovements.
+     */
+    distinct?: SerialMovementScalarFieldEnum | SerialMovementScalarFieldEnum[]
+  }
+
+  /**
+   * SerialMovement findMany
+   */
+  export type SerialMovementFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SerialMovement
+     */
+    select?: SerialMovementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SerialMovement
+     */
+    omit?: SerialMovementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SerialMovementInclude<ExtArgs> | null
+    /**
+     * Filter, which SerialMovements to fetch.
+     */
+    where?: SerialMovementWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SerialMovements to fetch.
+     */
+    orderBy?: SerialMovementOrderByWithRelationInput | SerialMovementOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing SerialMovements.
+     */
+    cursor?: SerialMovementWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SerialMovements from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SerialMovements.
+     */
+    skip?: number
+    distinct?: SerialMovementScalarFieldEnum | SerialMovementScalarFieldEnum[]
+  }
+
+  /**
+   * SerialMovement create
+   */
+  export type SerialMovementCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SerialMovement
+     */
+    select?: SerialMovementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SerialMovement
+     */
+    omit?: SerialMovementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SerialMovementInclude<ExtArgs> | null
+    /**
+     * The data needed to create a SerialMovement.
+     */
+    data: XOR<SerialMovementCreateInput, SerialMovementUncheckedCreateInput>
+  }
+
+  /**
+   * SerialMovement createMany
+   */
+  export type SerialMovementCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many SerialMovements.
+     */
+    data: SerialMovementCreateManyInput | SerialMovementCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * SerialMovement createManyAndReturn
+   */
+  export type SerialMovementCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SerialMovement
+     */
+    select?: SerialMovementSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SerialMovement
+     */
+    omit?: SerialMovementOmit<ExtArgs> | null
+    /**
+     * The data used to create many SerialMovements.
+     */
+    data: SerialMovementCreateManyInput | SerialMovementCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SerialMovementIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * SerialMovement update
+   */
+  export type SerialMovementUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SerialMovement
+     */
+    select?: SerialMovementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SerialMovement
+     */
+    omit?: SerialMovementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SerialMovementInclude<ExtArgs> | null
+    /**
+     * The data needed to update a SerialMovement.
+     */
+    data: XOR<SerialMovementUpdateInput, SerialMovementUncheckedUpdateInput>
+    /**
+     * Choose, which SerialMovement to update.
+     */
+    where: SerialMovementWhereUniqueInput
+  }
+
+  /**
+   * SerialMovement updateMany
+   */
+  export type SerialMovementUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update SerialMovements.
+     */
+    data: XOR<SerialMovementUpdateManyMutationInput, SerialMovementUncheckedUpdateManyInput>
+    /**
+     * Filter which SerialMovements to update
+     */
+    where?: SerialMovementWhereInput
+    /**
+     * Limit how many SerialMovements to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * SerialMovement updateManyAndReturn
+   */
+  export type SerialMovementUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SerialMovement
+     */
+    select?: SerialMovementSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SerialMovement
+     */
+    omit?: SerialMovementOmit<ExtArgs> | null
+    /**
+     * The data used to update SerialMovements.
+     */
+    data: XOR<SerialMovementUpdateManyMutationInput, SerialMovementUncheckedUpdateManyInput>
+    /**
+     * Filter which SerialMovements to update
+     */
+    where?: SerialMovementWhereInput
+    /**
+     * Limit how many SerialMovements to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SerialMovementIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * SerialMovement upsert
+   */
+  export type SerialMovementUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SerialMovement
+     */
+    select?: SerialMovementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SerialMovement
+     */
+    omit?: SerialMovementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SerialMovementInclude<ExtArgs> | null
+    /**
+     * The filter to search for the SerialMovement to update in case it exists.
+     */
+    where: SerialMovementWhereUniqueInput
+    /**
+     * In case the SerialMovement found by the `where` argument doesn't exist, create a new SerialMovement with this data.
+     */
+    create: XOR<SerialMovementCreateInput, SerialMovementUncheckedCreateInput>
+    /**
+     * In case the SerialMovement was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SerialMovementUpdateInput, SerialMovementUncheckedUpdateInput>
+  }
+
+  /**
+   * SerialMovement delete
+   */
+  export type SerialMovementDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SerialMovement
+     */
+    select?: SerialMovementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SerialMovement
+     */
+    omit?: SerialMovementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SerialMovementInclude<ExtArgs> | null
+    /**
+     * Filter which SerialMovement to delete.
+     */
+    where: SerialMovementWhereUniqueInput
+  }
+
+  /**
+   * SerialMovement deleteMany
+   */
+  export type SerialMovementDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SerialMovements to delete
+     */
+    where?: SerialMovementWhereInput
+    /**
+     * Limit how many SerialMovements to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * SerialMovement without action
+   */
+  export type SerialMovementDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SerialMovement
+     */
+    select?: SerialMovementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SerialMovement
+     */
+    omit?: SerialMovementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SerialMovementInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -212565,6 +214995,32 @@ export namespace Prisma {
   export type EquipmentCustodyLineScalarFieldEnum = (typeof EquipmentCustodyLineScalarFieldEnum)[keyof typeof EquipmentCustodyLineScalarFieldEnum]
 
 
+  export const SerialPositionScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    skuId: 'skuId',
+    serial: 'serial',
+    warehouseId: 'warehouseId',
+    inStock: 'inStock',
+    lastMovementId: 'lastMovementId',
+    updatedAt: 'updatedAt'
+  };
+
+  export type SerialPositionScalarFieldEnum = (typeof SerialPositionScalarFieldEnum)[keyof typeof SerialPositionScalarFieldEnum]
+
+
+  export const SerialMovementScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    movementId: 'movementId',
+    skuId: 'skuId',
+    serial: 'serial',
+    createdAt: 'createdAt'
+  };
+
+  export type SerialMovementScalarFieldEnum = (typeof SerialMovementScalarFieldEnum)[keyof typeof SerialMovementScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -213804,6 +216260,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordListRelationFilter
     equipmentCustodies?: EquipmentCustodyListRelationFilter
     equipmentCustodyLines?: EquipmentCustodyLineListRelationFilter
+    serialPositions?: SerialPositionListRelationFilter
+    serialMovements?: SerialMovementListRelationFilter
   }
 
   export type TenantOrderByWithRelationInput = {
@@ -213957,6 +216415,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordOrderByRelationAggregateInput
     equipmentCustodies?: EquipmentCustodyOrderByRelationAggregateInput
     equipmentCustodyLines?: EquipmentCustodyLineOrderByRelationAggregateInput
+    serialPositions?: SerialPositionOrderByRelationAggregateInput
+    serialMovements?: SerialMovementOrderByRelationAggregateInput
   }
 
   export type TenantWhereUniqueInput = Prisma.AtLeast<{
@@ -214113,6 +216573,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordListRelationFilter
     equipmentCustodies?: EquipmentCustodyListRelationFilter
     equipmentCustodyLines?: EquipmentCustodyLineListRelationFilter
+    serialPositions?: SerialPositionListRelationFilter
+    serialMovements?: SerialMovementListRelationFilter
   }, "id" | "slug">
 
   export type TenantOrderByWithAggregationInput = {
@@ -227424,6 +229886,138 @@ export namespace Prisma {
     returnedBy?: StringNullableWithAggregatesFilter<"EquipmentCustodyLine"> | string | null
   }
 
+  export type SerialPositionWhereInput = {
+    AND?: SerialPositionWhereInput | SerialPositionWhereInput[]
+    OR?: SerialPositionWhereInput[]
+    NOT?: SerialPositionWhereInput | SerialPositionWhereInput[]
+    id?: UuidFilter<"SerialPosition"> | string
+    tenantId?: UuidFilter<"SerialPosition"> | string
+    skuId?: UuidFilter<"SerialPosition"> | string
+    serial?: StringFilter<"SerialPosition"> | string
+    warehouseId?: UuidNullableFilter<"SerialPosition"> | string | null
+    inStock?: BoolFilter<"SerialPosition"> | boolean
+    lastMovementId?: UuidNullableFilter<"SerialPosition"> | string | null
+    updatedAt?: DateTimeFilter<"SerialPosition"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+  }
+
+  export type SerialPositionOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    skuId?: SortOrder
+    serial?: SortOrder
+    warehouseId?: SortOrderInput | SortOrder
+    inStock?: SortOrder
+    lastMovementId?: SortOrderInput | SortOrder
+    updatedAt?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+  }
+
+  export type SerialPositionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    tenantId_skuId_serial?: SerialPositionTenantIdSkuIdSerialCompoundUniqueInput
+    AND?: SerialPositionWhereInput | SerialPositionWhereInput[]
+    OR?: SerialPositionWhereInput[]
+    NOT?: SerialPositionWhereInput | SerialPositionWhereInput[]
+    tenantId?: UuidFilter<"SerialPosition"> | string
+    skuId?: UuidFilter<"SerialPosition"> | string
+    serial?: StringFilter<"SerialPosition"> | string
+    warehouseId?: UuidNullableFilter<"SerialPosition"> | string | null
+    inStock?: BoolFilter<"SerialPosition"> | boolean
+    lastMovementId?: UuidNullableFilter<"SerialPosition"> | string | null
+    updatedAt?: DateTimeFilter<"SerialPosition"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+  }, "id" | "tenantId_skuId_serial">
+
+  export type SerialPositionOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    skuId?: SortOrder
+    serial?: SortOrder
+    warehouseId?: SortOrderInput | SortOrder
+    inStock?: SortOrder
+    lastMovementId?: SortOrderInput | SortOrder
+    updatedAt?: SortOrder
+    _count?: SerialPositionCountOrderByAggregateInput
+    _max?: SerialPositionMaxOrderByAggregateInput
+    _min?: SerialPositionMinOrderByAggregateInput
+  }
+
+  export type SerialPositionScalarWhereWithAggregatesInput = {
+    AND?: SerialPositionScalarWhereWithAggregatesInput | SerialPositionScalarWhereWithAggregatesInput[]
+    OR?: SerialPositionScalarWhereWithAggregatesInput[]
+    NOT?: SerialPositionScalarWhereWithAggregatesInput | SerialPositionScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"SerialPosition"> | string
+    tenantId?: UuidWithAggregatesFilter<"SerialPosition"> | string
+    skuId?: UuidWithAggregatesFilter<"SerialPosition"> | string
+    serial?: StringWithAggregatesFilter<"SerialPosition"> | string
+    warehouseId?: UuidNullableWithAggregatesFilter<"SerialPosition"> | string | null
+    inStock?: BoolWithAggregatesFilter<"SerialPosition"> | boolean
+    lastMovementId?: UuidNullableWithAggregatesFilter<"SerialPosition"> | string | null
+    updatedAt?: DateTimeWithAggregatesFilter<"SerialPosition"> | Date | string
+  }
+
+  export type SerialMovementWhereInput = {
+    AND?: SerialMovementWhereInput | SerialMovementWhereInput[]
+    OR?: SerialMovementWhereInput[]
+    NOT?: SerialMovementWhereInput | SerialMovementWhereInput[]
+    id?: UuidFilter<"SerialMovement"> | string
+    tenantId?: UuidFilter<"SerialMovement"> | string
+    movementId?: UuidFilter<"SerialMovement"> | string
+    skuId?: UuidFilter<"SerialMovement"> | string
+    serial?: StringFilter<"SerialMovement"> | string
+    createdAt?: DateTimeFilter<"SerialMovement"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+  }
+
+  export type SerialMovementOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    movementId?: SortOrder
+    skuId?: SortOrder
+    serial?: SortOrder
+    createdAt?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+  }
+
+  export type SerialMovementWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    tenantId_movementId_serial?: SerialMovementTenantIdMovementIdSerialCompoundUniqueInput
+    AND?: SerialMovementWhereInput | SerialMovementWhereInput[]
+    OR?: SerialMovementWhereInput[]
+    NOT?: SerialMovementWhereInput | SerialMovementWhereInput[]
+    tenantId?: UuidFilter<"SerialMovement"> | string
+    movementId?: UuidFilter<"SerialMovement"> | string
+    skuId?: UuidFilter<"SerialMovement"> | string
+    serial?: StringFilter<"SerialMovement"> | string
+    createdAt?: DateTimeFilter<"SerialMovement"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+  }, "id" | "tenantId_movementId_serial">
+
+  export type SerialMovementOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    movementId?: SortOrder
+    skuId?: SortOrder
+    serial?: SortOrder
+    createdAt?: SortOrder
+    _count?: SerialMovementCountOrderByAggregateInput
+    _max?: SerialMovementMaxOrderByAggregateInput
+    _min?: SerialMovementMinOrderByAggregateInput
+  }
+
+  export type SerialMovementScalarWhereWithAggregatesInput = {
+    AND?: SerialMovementScalarWhereWithAggregatesInput | SerialMovementScalarWhereWithAggregatesInput[]
+    OR?: SerialMovementScalarWhereWithAggregatesInput[]
+    NOT?: SerialMovementScalarWhereWithAggregatesInput | SerialMovementScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"SerialMovement"> | string
+    tenantId?: UuidWithAggregatesFilter<"SerialMovement"> | string
+    movementId?: UuidWithAggregatesFilter<"SerialMovement"> | string
+    skuId?: UuidWithAggregatesFilter<"SerialMovement"> | string
+    serial?: StringWithAggregatesFilter<"SerialMovement"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"SerialMovement"> | Date | string
+  }
+
   export type TenantCreateInput = {
     id?: string
     slug: string
@@ -227575,6 +230169,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateInput = {
@@ -227728,6 +230324,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUpdateInput = {
@@ -227881,6 +230479,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateInput = {
@@ -228034,6 +230634,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateManyInput = {
@@ -242393,6 +244995,144 @@ export namespace Prisma {
     returnedBy?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
+  export type SerialPositionCreateInput = {
+    id?: string
+    skuId: string
+    serial: string
+    warehouseId?: string | null
+    inStock: boolean
+    lastMovementId?: string | null
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutSerialPositionsInput
+  }
+
+  export type SerialPositionUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    skuId: string
+    serial: string
+    warehouseId?: string | null
+    inStock: boolean
+    lastMovementId?: string | null
+    updatedAt?: Date | string
+  }
+
+  export type SerialPositionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    serial?: StringFieldUpdateOperationsInput | string
+    warehouseId?: NullableStringFieldUpdateOperationsInput | string | null
+    inStock?: BoolFieldUpdateOperationsInput | boolean
+    lastMovementId?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutSerialPositionsNestedInput
+  }
+
+  export type SerialPositionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    serial?: StringFieldUpdateOperationsInput | string
+    warehouseId?: NullableStringFieldUpdateOperationsInput | string | null
+    inStock?: BoolFieldUpdateOperationsInput | boolean
+    lastMovementId?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SerialPositionCreateManyInput = {
+    id?: string
+    tenantId: string
+    skuId: string
+    serial: string
+    warehouseId?: string | null
+    inStock: boolean
+    lastMovementId?: string | null
+    updatedAt?: Date | string
+  }
+
+  export type SerialPositionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    serial?: StringFieldUpdateOperationsInput | string
+    warehouseId?: NullableStringFieldUpdateOperationsInput | string | null
+    inStock?: BoolFieldUpdateOperationsInput | boolean
+    lastMovementId?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SerialPositionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    serial?: StringFieldUpdateOperationsInput | string
+    warehouseId?: NullableStringFieldUpdateOperationsInput | string | null
+    inStock?: BoolFieldUpdateOperationsInput | boolean
+    lastMovementId?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SerialMovementCreateInput = {
+    id?: string
+    movementId: string
+    skuId: string
+    serial: string
+    createdAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutSerialMovementsInput
+  }
+
+  export type SerialMovementUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    movementId: string
+    skuId: string
+    serial: string
+    createdAt?: Date | string
+  }
+
+  export type SerialMovementUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    movementId?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    serial?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutSerialMovementsNestedInput
+  }
+
+  export type SerialMovementUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    movementId?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    serial?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SerialMovementCreateManyInput = {
+    id?: string
+    tenantId: string
+    movementId: string
+    skuId: string
+    serial: string
+    createdAt?: Date | string
+  }
+
+  export type SerialMovementUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    movementId?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    serial?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SerialMovementUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    movementId?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    serial?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type UuidFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -243307,6 +246047,18 @@ export namespace Prisma {
     none?: EquipmentCustodyLineWhereInput
   }
 
+  export type SerialPositionListRelationFilter = {
+    every?: SerialPositionWhereInput
+    some?: SerialPositionWhereInput
+    none?: SerialPositionWhereInput
+  }
+
+  export type SerialMovementListRelationFilter = {
+    every?: SerialMovementWhereInput
+    some?: SerialMovementWhereInput
+    none?: SerialMovementWhereInput
+  }
+
   export type TenantConfigurationVersionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -243876,6 +246628,14 @@ export namespace Prisma {
   }
 
   export type EquipmentCustodyLineOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type SerialPositionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type SerialMovementOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -253511,6 +256271,78 @@ export namespace Prisma {
     returnedBy?: SortOrder
   }
 
+  export type SerialPositionTenantIdSkuIdSerialCompoundUniqueInput = {
+    tenantId: string
+    skuId: string
+    serial: string
+  }
+
+  export type SerialPositionCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    skuId?: SortOrder
+    serial?: SortOrder
+    warehouseId?: SortOrder
+    inStock?: SortOrder
+    lastMovementId?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SerialPositionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    skuId?: SortOrder
+    serial?: SortOrder
+    warehouseId?: SortOrder
+    inStock?: SortOrder
+    lastMovementId?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SerialPositionMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    skuId?: SortOrder
+    serial?: SortOrder
+    warehouseId?: SortOrder
+    inStock?: SortOrder
+    lastMovementId?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SerialMovementTenantIdMovementIdSerialCompoundUniqueInput = {
+    tenantId: string
+    movementId: string
+    serial: string
+  }
+
+  export type SerialMovementCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    movementId?: SortOrder
+    skuId?: SortOrder
+    serial?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type SerialMovementMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    movementId?: SortOrder
+    skuId?: SortOrder
+    serial?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type SerialMovementMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    movementId?: SortOrder
+    skuId?: SortOrder
+    serial?: SortOrder
+    createdAt?: SortOrder
+  }
+
   export type TenantConfigurationVersionCreateNestedManyWithoutTenantInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -254512,6 +257344,20 @@ export namespace Prisma {
     connect?: EquipmentCustodyLineWhereUniqueInput | EquipmentCustodyLineWhereUniqueInput[]
   }
 
+  export type SerialPositionCreateNestedManyWithoutTenantInput = {
+    create?: XOR<SerialPositionCreateWithoutTenantInput, SerialPositionUncheckedCreateWithoutTenantInput> | SerialPositionCreateWithoutTenantInput[] | SerialPositionUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: SerialPositionCreateOrConnectWithoutTenantInput | SerialPositionCreateOrConnectWithoutTenantInput[]
+    createMany?: SerialPositionCreateManyTenantInputEnvelope
+    connect?: SerialPositionWhereUniqueInput | SerialPositionWhereUniqueInput[]
+  }
+
+  export type SerialMovementCreateNestedManyWithoutTenantInput = {
+    create?: XOR<SerialMovementCreateWithoutTenantInput, SerialMovementUncheckedCreateWithoutTenantInput> | SerialMovementCreateWithoutTenantInput[] | SerialMovementUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: SerialMovementCreateOrConnectWithoutTenantInput | SerialMovementCreateOrConnectWithoutTenantInput[]
+    createMany?: SerialMovementCreateManyTenantInputEnvelope
+    connect?: SerialMovementWhereUniqueInput | SerialMovementWhereUniqueInput[]
+  }
+
   export type TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -255511,6 +258357,20 @@ export namespace Prisma {
     connectOrCreate?: EquipmentCustodyLineCreateOrConnectWithoutTenantInput | EquipmentCustodyLineCreateOrConnectWithoutTenantInput[]
     createMany?: EquipmentCustodyLineCreateManyTenantInputEnvelope
     connect?: EquipmentCustodyLineWhereUniqueInput | EquipmentCustodyLineWhereUniqueInput[]
+  }
+
+  export type SerialPositionUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<SerialPositionCreateWithoutTenantInput, SerialPositionUncheckedCreateWithoutTenantInput> | SerialPositionCreateWithoutTenantInput[] | SerialPositionUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: SerialPositionCreateOrConnectWithoutTenantInput | SerialPositionCreateOrConnectWithoutTenantInput[]
+    createMany?: SerialPositionCreateManyTenantInputEnvelope
+    connect?: SerialPositionWhereUniqueInput | SerialPositionWhereUniqueInput[]
+  }
+
+  export type SerialMovementUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<SerialMovementCreateWithoutTenantInput, SerialMovementUncheckedCreateWithoutTenantInput> | SerialMovementCreateWithoutTenantInput[] | SerialMovementUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: SerialMovementCreateOrConnectWithoutTenantInput | SerialMovementCreateOrConnectWithoutTenantInput[]
+    createMany?: SerialMovementCreateManyTenantInputEnvelope
+    connect?: SerialMovementWhereUniqueInput | SerialMovementWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -257535,6 +260395,34 @@ export namespace Prisma {
     deleteMany?: EquipmentCustodyLineScalarWhereInput | EquipmentCustodyLineScalarWhereInput[]
   }
 
+  export type SerialPositionUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<SerialPositionCreateWithoutTenantInput, SerialPositionUncheckedCreateWithoutTenantInput> | SerialPositionCreateWithoutTenantInput[] | SerialPositionUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: SerialPositionCreateOrConnectWithoutTenantInput | SerialPositionCreateOrConnectWithoutTenantInput[]
+    upsert?: SerialPositionUpsertWithWhereUniqueWithoutTenantInput | SerialPositionUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: SerialPositionCreateManyTenantInputEnvelope
+    set?: SerialPositionWhereUniqueInput | SerialPositionWhereUniqueInput[]
+    disconnect?: SerialPositionWhereUniqueInput | SerialPositionWhereUniqueInput[]
+    delete?: SerialPositionWhereUniqueInput | SerialPositionWhereUniqueInput[]
+    connect?: SerialPositionWhereUniqueInput | SerialPositionWhereUniqueInput[]
+    update?: SerialPositionUpdateWithWhereUniqueWithoutTenantInput | SerialPositionUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: SerialPositionUpdateManyWithWhereWithoutTenantInput | SerialPositionUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: SerialPositionScalarWhereInput | SerialPositionScalarWhereInput[]
+  }
+
+  export type SerialMovementUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<SerialMovementCreateWithoutTenantInput, SerialMovementUncheckedCreateWithoutTenantInput> | SerialMovementCreateWithoutTenantInput[] | SerialMovementUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: SerialMovementCreateOrConnectWithoutTenantInput | SerialMovementCreateOrConnectWithoutTenantInput[]
+    upsert?: SerialMovementUpsertWithWhereUniqueWithoutTenantInput | SerialMovementUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: SerialMovementCreateManyTenantInputEnvelope
+    set?: SerialMovementWhereUniqueInput | SerialMovementWhereUniqueInput[]
+    disconnect?: SerialMovementWhereUniqueInput | SerialMovementWhereUniqueInput[]
+    delete?: SerialMovementWhereUniqueInput | SerialMovementWhereUniqueInput[]
+    connect?: SerialMovementWhereUniqueInput | SerialMovementWhereUniqueInput[]
+    update?: SerialMovementUpdateWithWhereUniqueWithoutTenantInput | SerialMovementUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: SerialMovementUpdateManyWithWhereWithoutTenantInput | SerialMovementUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: SerialMovementScalarWhereInput | SerialMovementScalarWhereInput[]
+  }
+
   export type TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -259535,6 +262423,34 @@ export namespace Prisma {
     update?: EquipmentCustodyLineUpdateWithWhereUniqueWithoutTenantInput | EquipmentCustodyLineUpdateWithWhereUniqueWithoutTenantInput[]
     updateMany?: EquipmentCustodyLineUpdateManyWithWhereWithoutTenantInput | EquipmentCustodyLineUpdateManyWithWhereWithoutTenantInput[]
     deleteMany?: EquipmentCustodyLineScalarWhereInput | EquipmentCustodyLineScalarWhereInput[]
+  }
+
+  export type SerialPositionUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<SerialPositionCreateWithoutTenantInput, SerialPositionUncheckedCreateWithoutTenantInput> | SerialPositionCreateWithoutTenantInput[] | SerialPositionUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: SerialPositionCreateOrConnectWithoutTenantInput | SerialPositionCreateOrConnectWithoutTenantInput[]
+    upsert?: SerialPositionUpsertWithWhereUniqueWithoutTenantInput | SerialPositionUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: SerialPositionCreateManyTenantInputEnvelope
+    set?: SerialPositionWhereUniqueInput | SerialPositionWhereUniqueInput[]
+    disconnect?: SerialPositionWhereUniqueInput | SerialPositionWhereUniqueInput[]
+    delete?: SerialPositionWhereUniqueInput | SerialPositionWhereUniqueInput[]
+    connect?: SerialPositionWhereUniqueInput | SerialPositionWhereUniqueInput[]
+    update?: SerialPositionUpdateWithWhereUniqueWithoutTenantInput | SerialPositionUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: SerialPositionUpdateManyWithWhereWithoutTenantInput | SerialPositionUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: SerialPositionScalarWhereInput | SerialPositionScalarWhereInput[]
+  }
+
+  export type SerialMovementUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<SerialMovementCreateWithoutTenantInput, SerialMovementUncheckedCreateWithoutTenantInput> | SerialMovementCreateWithoutTenantInput[] | SerialMovementUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: SerialMovementCreateOrConnectWithoutTenantInput | SerialMovementCreateOrConnectWithoutTenantInput[]
+    upsert?: SerialMovementUpsertWithWhereUniqueWithoutTenantInput | SerialMovementUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: SerialMovementCreateManyTenantInputEnvelope
+    set?: SerialMovementWhereUniqueInput | SerialMovementWhereUniqueInput[]
+    disconnect?: SerialMovementWhereUniqueInput | SerialMovementWhereUniqueInput[]
+    delete?: SerialMovementWhereUniqueInput | SerialMovementWhereUniqueInput[]
+    connect?: SerialMovementWhereUniqueInput | SerialMovementWhereUniqueInput[]
+    update?: SerialMovementUpdateWithWhereUniqueWithoutTenantInput | SerialMovementUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: SerialMovementUpdateManyWithWhereWithoutTenantInput | SerialMovementUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: SerialMovementScalarWhereInput | SerialMovementScalarWhereInput[]
   }
 
   export type TenantCreateNestedOneWithoutConfigurationVersionsInput = {
@@ -266090,6 +269006,34 @@ export namespace Prisma {
     update?: XOR<XOR<EquipmentCustodyUpdateToOneWithWhereWithoutLinesInput, EquipmentCustodyUpdateWithoutLinesInput>, EquipmentCustodyUncheckedUpdateWithoutLinesInput>
   }
 
+  export type TenantCreateNestedOneWithoutSerialPositionsInput = {
+    create?: XOR<TenantCreateWithoutSerialPositionsInput, TenantUncheckedCreateWithoutSerialPositionsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutSerialPositionsInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type TenantUpdateOneRequiredWithoutSerialPositionsNestedInput = {
+    create?: XOR<TenantCreateWithoutSerialPositionsInput, TenantUncheckedCreateWithoutSerialPositionsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutSerialPositionsInput
+    upsert?: TenantUpsertWithoutSerialPositionsInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutSerialPositionsInput, TenantUpdateWithoutSerialPositionsInput>, TenantUncheckedUpdateWithoutSerialPositionsInput>
+  }
+
+  export type TenantCreateNestedOneWithoutSerialMovementsInput = {
+    create?: XOR<TenantCreateWithoutSerialMovementsInput, TenantUncheckedCreateWithoutSerialMovementsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutSerialMovementsInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type TenantUpdateOneRequiredWithoutSerialMovementsNestedInput = {
+    create?: XOR<TenantCreateWithoutSerialMovementsInput, TenantUncheckedCreateWithoutSerialMovementsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutSerialMovementsInput
+    upsert?: TenantUpsertWithoutSerialMovementsInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutSerialMovementsInput, TenantUpdateWithoutSerialMovementsInput>, TenantUncheckedUpdateWithoutSerialMovementsInput>
+  }
+
   export type NestedUuidFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -272597,6 +275541,62 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type SerialPositionCreateWithoutTenantInput = {
+    id?: string
+    skuId: string
+    serial: string
+    warehouseId?: string | null
+    inStock: boolean
+    lastMovementId?: string | null
+    updatedAt?: Date | string
+  }
+
+  export type SerialPositionUncheckedCreateWithoutTenantInput = {
+    id?: string
+    skuId: string
+    serial: string
+    warehouseId?: string | null
+    inStock: boolean
+    lastMovementId?: string | null
+    updatedAt?: Date | string
+  }
+
+  export type SerialPositionCreateOrConnectWithoutTenantInput = {
+    where: SerialPositionWhereUniqueInput
+    create: XOR<SerialPositionCreateWithoutTenantInput, SerialPositionUncheckedCreateWithoutTenantInput>
+  }
+
+  export type SerialPositionCreateManyTenantInputEnvelope = {
+    data: SerialPositionCreateManyTenantInput | SerialPositionCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type SerialMovementCreateWithoutTenantInput = {
+    id?: string
+    movementId: string
+    skuId: string
+    serial: string
+    createdAt?: Date | string
+  }
+
+  export type SerialMovementUncheckedCreateWithoutTenantInput = {
+    id?: string
+    movementId: string
+    skuId: string
+    serial: string
+    createdAt?: Date | string
+  }
+
+  export type SerialMovementCreateOrConnectWithoutTenantInput = {
+    where: SerialMovementWhereUniqueInput
+    create: XOR<SerialMovementCreateWithoutTenantInput, SerialMovementUncheckedCreateWithoutTenantInput>
+  }
+
+  export type SerialMovementCreateManyTenantInputEnvelope = {
+    data: SerialMovementCreateManyTenantInput | SerialMovementCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
   export type TenantConfigurationVersionUpsertWithWhereUniqueWithoutTenantInput = {
     where: TenantConfigurationVersionWhereUniqueInput
     update: XOR<TenantConfigurationVersionUpdateWithoutTenantInput, TenantConfigurationVersionUncheckedUpdateWithoutTenantInput>
@@ -277177,6 +280177,64 @@ export namespace Prisma {
     returnedBy?: StringNullableFilter<"EquipmentCustodyLine"> | string | null
   }
 
+  export type SerialPositionUpsertWithWhereUniqueWithoutTenantInput = {
+    where: SerialPositionWhereUniqueInput
+    update: XOR<SerialPositionUpdateWithoutTenantInput, SerialPositionUncheckedUpdateWithoutTenantInput>
+    create: XOR<SerialPositionCreateWithoutTenantInput, SerialPositionUncheckedCreateWithoutTenantInput>
+  }
+
+  export type SerialPositionUpdateWithWhereUniqueWithoutTenantInput = {
+    where: SerialPositionWhereUniqueInput
+    data: XOR<SerialPositionUpdateWithoutTenantInput, SerialPositionUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type SerialPositionUpdateManyWithWhereWithoutTenantInput = {
+    where: SerialPositionScalarWhereInput
+    data: XOR<SerialPositionUpdateManyMutationInput, SerialPositionUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type SerialPositionScalarWhereInput = {
+    AND?: SerialPositionScalarWhereInput | SerialPositionScalarWhereInput[]
+    OR?: SerialPositionScalarWhereInput[]
+    NOT?: SerialPositionScalarWhereInput | SerialPositionScalarWhereInput[]
+    id?: UuidFilter<"SerialPosition"> | string
+    tenantId?: UuidFilter<"SerialPosition"> | string
+    skuId?: UuidFilter<"SerialPosition"> | string
+    serial?: StringFilter<"SerialPosition"> | string
+    warehouseId?: UuidNullableFilter<"SerialPosition"> | string | null
+    inStock?: BoolFilter<"SerialPosition"> | boolean
+    lastMovementId?: UuidNullableFilter<"SerialPosition"> | string | null
+    updatedAt?: DateTimeFilter<"SerialPosition"> | Date | string
+  }
+
+  export type SerialMovementUpsertWithWhereUniqueWithoutTenantInput = {
+    where: SerialMovementWhereUniqueInput
+    update: XOR<SerialMovementUpdateWithoutTenantInput, SerialMovementUncheckedUpdateWithoutTenantInput>
+    create: XOR<SerialMovementCreateWithoutTenantInput, SerialMovementUncheckedCreateWithoutTenantInput>
+  }
+
+  export type SerialMovementUpdateWithWhereUniqueWithoutTenantInput = {
+    where: SerialMovementWhereUniqueInput
+    data: XOR<SerialMovementUpdateWithoutTenantInput, SerialMovementUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type SerialMovementUpdateManyWithWhereWithoutTenantInput = {
+    where: SerialMovementScalarWhereInput
+    data: XOR<SerialMovementUpdateManyMutationInput, SerialMovementUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type SerialMovementScalarWhereInput = {
+    AND?: SerialMovementScalarWhereInput | SerialMovementScalarWhereInput[]
+    OR?: SerialMovementScalarWhereInput[]
+    NOT?: SerialMovementScalarWhereInput | SerialMovementScalarWhereInput[]
+    id?: UuidFilter<"SerialMovement"> | string
+    tenantId?: UuidFilter<"SerialMovement"> | string
+    movementId?: UuidFilter<"SerialMovement"> | string
+    skuId?: UuidFilter<"SerialMovement"> | string
+    serial?: StringFilter<"SerialMovement"> | string
+    createdAt?: DateTimeFilter<"SerialMovement"> | Date | string
+  }
+
   export type TenantCreateWithoutConfigurationVersionsInput = {
     id?: string
     slug: string
@@ -277327,6 +280385,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutConfigurationVersionsInput = {
@@ -277479,6 +280539,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutConfigurationVersionsInput = {
@@ -277647,6 +280709,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutConfigurationVersionsInput = {
@@ -277799,6 +280863,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutLegalEntitiesInput = {
@@ -277951,6 +281017,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLegalEntitiesInput = {
@@ -278103,6 +281171,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLegalEntitiesInput = {
@@ -278305,6 +281375,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLegalEntitiesInput = {
@@ -278457,6 +281529,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithWhereUniqueWithoutLegalEntityInput = {
@@ -278625,6 +281699,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBusinessUnitsInput = {
@@ -278777,6 +281853,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBusinessUnitsInput = {
@@ -279083,6 +282161,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBusinessUnitsInput = {
@@ -279235,6 +282315,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type LegalEntityUpsertWithoutBusinessUnitsInput = {
@@ -279499,6 +282581,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBranchesInput = {
@@ -279651,6 +282735,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBranchesInput = {
@@ -279848,6 +282934,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBranchesInput = {
@@ -280000,6 +283088,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithoutBranchesInput = {
@@ -280187,6 +283277,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutFactoriesInput = {
@@ -280339,6 +283431,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutFactoriesInput = {
@@ -280536,6 +283630,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutFactoriesInput = {
@@ -280688,6 +283784,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithoutFactoriesInput = {
@@ -280875,6 +283973,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutUsersInput = {
@@ -281027,6 +284127,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutUsersInput = {
@@ -281284,6 +284386,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutUsersInput = {
@@ -281436,6 +284540,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserRoleAssignmentUpsertWithWhereUniqueWithoutUserInput = {
@@ -281657,6 +284763,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutUserCredentialsInput = {
@@ -281809,6 +284917,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutUserCredentialsInput = {
@@ -282008,6 +285118,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutUserCredentialsInput = {
@@ -282160,6 +285272,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserUpsertWithoutCredentialInput = {
@@ -282349,6 +285463,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRolesInput = {
@@ -282501,6 +285617,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRolesInput = {
@@ -282719,6 +285837,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRolesInput = {
@@ -282871,6 +285991,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RolePermissionUpsertWithWhereUniqueWithoutRoleInput = {
@@ -283121,6 +286243,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoleAssignmentsInput = {
@@ -283273,6 +286397,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoleAssignmentsInput = {
@@ -283497,6 +286623,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoleAssignmentsInput = {
@@ -283649,6 +286777,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserUpsertWithoutRoleAssignmentsInput = {
@@ -283869,6 +286999,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAuditEventsInput = {
@@ -284021,6 +287153,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAuditEventsInput = {
@@ -284189,6 +287323,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAuditEventsInput = {
@@ -284341,6 +287477,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutOutboxEventsInput = {
@@ -284493,6 +287631,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOutboxEventsInput = {
@@ -284645,6 +287785,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOutboxEventsInput = {
@@ -284813,6 +287955,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOutboxEventsInput = {
@@ -284965,6 +288109,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutTerminologyEntriesInput = {
@@ -285117,6 +288263,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTerminologyEntriesInput = {
@@ -285269,6 +288417,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTerminologyEntriesInput = {
@@ -285437,6 +288587,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTerminologyEntriesInput = {
@@ -285589,6 +288741,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutModuleActivationsInput = {
@@ -285741,6 +288895,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutModuleActivationsInput = {
@@ -285893,6 +289049,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutModuleActivationsInput = {
@@ -286061,6 +289219,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutModuleActivationsInput = {
@@ -286213,6 +289373,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCustomFieldDefsInput = {
@@ -286365,6 +289527,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCustomFieldDefsInput = {
@@ -286517,6 +289681,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCustomFieldDefsInput = {
@@ -286685,6 +289851,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCustomFieldDefsInput = {
@@ -286837,6 +290005,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutTasksInput = {
@@ -286989,6 +290159,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTasksInput = {
@@ -287141,6 +290313,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTasksInput = {
@@ -287309,6 +290483,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTasksInput = {
@@ -287461,6 +290637,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutNotificationsInput = {
@@ -287613,6 +290791,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNotificationsInput = {
@@ -287765,6 +290945,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNotificationsInput = {
@@ -287933,6 +291115,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNotificationsInput = {
@@ -288085,6 +291269,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutWorkflowDefinitionsInput = {
@@ -288237,6 +291423,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkflowDefinitionsInput = {
@@ -288389,6 +291577,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkflowDefinitionsInput = {
@@ -288619,6 +291809,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkflowDefinitionsInput = {
@@ -288771,6 +291963,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkflowVersionUpsertWithWhereUniqueWithoutDefinitionInput = {
@@ -289181,6 +292375,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRuleDefinitionsInput = {
@@ -289333,6 +292529,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRuleDefinitionsInput = {
@@ -289529,6 +292727,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRuleDefinitionsInput = {
@@ -289681,6 +292881,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RuleVersionUpsertWithWhereUniqueWithoutRuleInput = {
@@ -289906,6 +293108,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutApprovalsInput = {
@@ -290058,6 +293262,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutApprovalsInput = {
@@ -290226,6 +293432,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutApprovalsInput = {
@@ -290378,6 +293586,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutProcessedEventsInput = {
@@ -290530,6 +293740,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProcessedEventsInput = {
@@ -290682,6 +293894,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProcessedEventsInput = {
@@ -290850,6 +294064,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProcessedEventsInput = {
@@ -291002,6 +294218,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutDocumentTemplatesInput = {
@@ -291154,6 +294372,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDocumentTemplatesInput = {
@@ -291306,6 +294526,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDocumentTemplatesInput = {
@@ -291500,6 +294722,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDocumentTemplatesInput = {
@@ -291652,6 +294876,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type DocumentTemplateVersionUpsertWithWhereUniqueWithoutTemplateInput = {
@@ -291880,6 +295106,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPartiesInput = {
@@ -292032,6 +295260,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPartiesInput = {
@@ -292381,6 +295611,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPartiesInput = {
@@ -292533,6 +295765,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PartyUpsertWithoutMergedPartiesInput = {
@@ -292806,6 +296040,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutConsentRecordsInput = {
@@ -292958,6 +296194,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutConsentRecordsInput = {
@@ -293165,6 +296403,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutConsentRecordsInput = {
@@ -293317,6 +296557,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PartyUpsertWithoutConsentRecordsInput = {
@@ -293598,6 +296840,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProductsInput = {
@@ -293750,6 +296994,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProductsInput = {
@@ -293982,6 +297228,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProductsInput = {
@@ -294134,6 +297382,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SkuUpsertWithWhereUniqueWithoutProductInput = {
@@ -295004,6 +298254,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWarehousesInput = {
@@ -295156,6 +298408,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWarehousesInput = {
@@ -295382,6 +298636,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWarehousesInput = {
@@ -295534,6 +298790,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WarehouseLocationUpsertWithWhereUniqueWithoutWarehouseInput = {
@@ -295776,6 +299034,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockMovementsInput = {
@@ -295928,6 +299188,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockMovementsInput = {
@@ -296096,6 +299358,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockMovementsInput = {
@@ -296248,6 +299512,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutStockReservationsInput = {
@@ -296400,6 +299666,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockReservationsInput = {
@@ -296552,6 +299820,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockReservationsInput = {
@@ -296720,6 +299990,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockReservationsInput = {
@@ -296872,6 +300144,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutDevicesInput = {
@@ -297024,6 +300298,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDevicesInput = {
@@ -297176,6 +300452,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDevicesInput = {
@@ -297344,6 +300622,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDevicesInput = {
@@ -297496,6 +300776,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutScanEventsInput = {
@@ -297648,6 +300930,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutScanEventsInput = {
@@ -297800,6 +301084,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutScanEventsInput = {
@@ -297968,6 +301254,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutScanEventsInput = {
@@ -298120,6 +301408,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutWmsOrdersInput = {
@@ -298272,6 +301562,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWmsOrdersInput = {
@@ -298424,6 +301716,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWmsOrdersInput = {
@@ -298618,6 +301912,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWmsOrdersInput = {
@@ -298770,6 +302066,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WmsOrderLineUpsertWithWhereUniqueWithoutOrderInput = {
@@ -298938,6 +302236,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWmsOrderLinesInput = {
@@ -299090,6 +302390,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWmsOrderLinesInput = {
@@ -299291,6 +302593,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWmsOrderLinesInput = {
@@ -299443,6 +302747,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WmsOrderUpsertWithoutLinesInput = {
@@ -299634,6 +302940,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTerritoriesInput = {
@@ -299786,6 +303094,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTerritoriesInput = {
@@ -299954,6 +303264,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTerritoriesInput = {
@@ -300106,6 +303418,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSalesTeamsInput = {
@@ -300258,6 +303572,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesTeamsInput = {
@@ -300410,6 +303726,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesTeamsInput = {
@@ -300602,6 +303920,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesTeamsInput = {
@@ -300754,6 +304074,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesTeamMemberUpsertWithWhereUniqueWithoutTeamInput = {
@@ -300922,6 +304244,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesTeamMembersInput = {
@@ -301074,6 +304398,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesTeamMembersInput = {
@@ -301263,6 +304589,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesTeamMembersInput = {
@@ -301415,6 +304743,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesTeamUpsertWithoutMembersInput = {
@@ -301594,6 +304924,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCrmAccountsInput = {
@@ -301746,6 +305078,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCrmAccountsInput = {
@@ -301914,6 +305248,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCrmAccountsInput = {
@@ -302066,6 +305402,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutLeadsInput = {
@@ -302218,6 +305556,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLeadsInput = {
@@ -302370,6 +305710,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLeadsInput = {
@@ -302538,6 +305880,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLeadsInput = {
@@ -302690,6 +306034,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutOpportunitiesInput = {
@@ -302842,6 +306188,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOpportunitiesInput = {
@@ -302994,6 +306342,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOpportunitiesInput = {
@@ -303162,6 +306512,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOpportunitiesInput = {
@@ -303314,6 +306666,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCrmActivitiesInput = {
@@ -303466,6 +306820,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCrmActivitiesInput = {
@@ -303618,6 +306974,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCrmActivitiesInput = {
@@ -303786,6 +307144,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCrmActivitiesInput = {
@@ -303938,6 +307298,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPriceListsInput = {
@@ -304090,6 +307452,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPriceListsInput = {
@@ -304242,6 +307606,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPriceListsInput = {
@@ -304436,6 +307802,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPriceListsInput = {
@@ -304588,6 +307956,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PriceListEntryUpsertWithWhereUniqueWithoutPriceListInput = {
@@ -304756,6 +308126,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPriceListEntriesInput = {
@@ -304908,6 +308280,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPriceListEntriesInput = {
@@ -305109,6 +308483,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPriceListEntriesInput = {
@@ -305261,6 +308637,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PriceListUpsertWithoutEntriesInput = {
@@ -305452,6 +308830,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQuotesInput = {
@@ -305604,6 +308984,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQuotesInput = {
@@ -305806,6 +309188,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQuotesInput = {
@@ -305958,6 +309342,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QuoteLineUpsertWithWhereUniqueWithoutQuoteInput = {
@@ -306126,6 +309512,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPackagingLevelsInput = {
@@ -306278,6 +309666,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPackagingLevelsInput = {
@@ -306505,6 +309895,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPackagingLevelsInput = {
@@ -306657,6 +310049,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SkuUpsertWithoutPackagingLevelsInput = {
@@ -306874,6 +310268,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSkuSubstitutionsInput = {
@@ -307026,6 +310422,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSkuSubstitutionsInput = {
@@ -307194,6 +310592,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSkuSubstitutionsInput = {
@@ -307346,6 +310746,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutDiscountRulesInput = {
@@ -307498,6 +310900,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDiscountRulesInput = {
@@ -307650,6 +311054,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDiscountRulesInput = {
@@ -307818,6 +311224,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDiscountRulesInput = {
@@ -307970,6 +311378,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutQuoteLinesInput = {
@@ -308122,6 +311532,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQuoteLinesInput = {
@@ -308274,6 +311686,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQuoteLinesInput = {
@@ -308489,6 +311903,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQuoteLinesInput = {
@@ -308641,6 +312057,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QuoteUpsertWithoutLinesInput = {
@@ -308846,6 +312264,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesOrdersInput = {
@@ -308998,6 +312418,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesOrdersInput = {
@@ -309238,6 +312660,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesOrdersInput = {
@@ -309390,6 +312814,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesOrderLineUpsertWithWhereUniqueWithoutOrderInput = {
@@ -309574,6 +313000,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesOrderLinesInput = {
@@ -309726,6 +313154,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesOrderLinesInput = {
@@ -309943,6 +313373,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesOrderLinesInput = {
@@ -310095,6 +313527,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesOrderUpsertWithoutLinesInput = {
@@ -310302,6 +313736,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOrderEventsInput = {
@@ -310454,6 +313890,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOrderEventsInput = {
@@ -310622,6 +314060,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOrderEventsInput = {
@@ -310774,6 +314214,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSuppliersInput = {
@@ -310926,6 +314368,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSuppliersInput = {
@@ -311078,6 +314522,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSuppliersInput = {
@@ -311246,6 +314692,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSuppliersInput = {
@@ -311398,6 +314846,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPurchaseRequisitionsInput = {
@@ -311550,6 +315000,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseRequisitionsInput = {
@@ -311702,6 +315154,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseRequisitionsInput = {
@@ -311900,6 +315354,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseRequisitionsInput = {
@@ -312052,6 +315508,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseRequisitionLineUpsertWithWhereUniqueWithoutRequisitionInput = {
@@ -312220,6 +315678,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseReqLinesInput = {
@@ -312372,6 +315832,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseReqLinesInput = {
@@ -312573,6 +316035,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseReqLinesInput = {
@@ -312725,6 +316189,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseRequisitionUpsertWithoutLinesInput = {
@@ -312916,6 +316382,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseOrdersInput = {
@@ -313068,6 +316536,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseOrdersInput = {
@@ -313334,6 +316804,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseOrdersInput = {
@@ -313486,6 +316958,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseOrderLineUpsertWithWhereUniqueWithoutPoInput = {
@@ -313686,6 +317160,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseOrderLinesInput = {
@@ -313838,6 +317314,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseOrderLinesInput = {
@@ -314047,6 +317525,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseOrderLinesInput = {
@@ -314199,6 +317679,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseOrderUpsertWithoutLinesInput = {
@@ -314398,6 +317880,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBomsInput = {
@@ -314550,6 +318034,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBomsInput = {
@@ -314748,6 +318234,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBomsInput = {
@@ -314900,6 +318388,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BomLineUpsertWithWhereUniqueWithoutBomInput = {
@@ -315068,6 +318558,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBomLinesInput = {
@@ -315220,6 +318712,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBomLinesInput = {
@@ -315419,6 +318913,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBomLinesInput = {
@@ -315571,6 +319067,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BomUpsertWithoutLinesInput = {
@@ -315760,6 +319258,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoutingsInput = {
@@ -315912,6 +319412,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoutingsInput = {
@@ -316112,6 +319614,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoutingsInput = {
@@ -316264,6 +319768,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RoutingOperationUpsertWithWhereUniqueWithoutRoutingInput = {
@@ -316432,6 +319938,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoutingOperationsInput = {
@@ -316584,6 +320092,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoutingOperationsInput = {
@@ -316779,6 +320289,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoutingOperationsInput = {
@@ -316931,6 +320443,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RoutingUpsertWithoutOperationsInput = {
@@ -317116,6 +320630,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutEngineeringChangesInput = {
@@ -317268,6 +320784,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutEngineeringChangesInput = {
@@ -317436,6 +320954,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutEngineeringChangesInput = {
@@ -317588,6 +321108,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPlanningPoliciesInput = {
@@ -317740,6 +321262,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPlanningPoliciesInput = {
@@ -317892,6 +321416,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPlanningPoliciesInput = {
@@ -318060,6 +321586,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPlanningPoliciesInput = {
@@ -318212,6 +321740,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutMrpRunsInput = {
@@ -318364,6 +321894,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutMrpRunsInput = {
@@ -318516,6 +322048,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutMrpRunsInput = {
@@ -318714,6 +322248,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutMrpRunsInput = {
@@ -318866,6 +322402,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type MrpSuggestionUpsertWithWhereUniqueWithoutRunInput = {
@@ -319034,6 +322572,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutMrpSuggestionsInput = {
@@ -319186,6 +322726,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutMrpSuggestionsInput = {
@@ -319379,6 +322921,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutMrpSuggestionsInput = {
@@ -319531,6 +323075,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type MrpRunUpsertWithoutSuggestionsInput = {
@@ -319714,6 +323260,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkOrdersInput = {
@@ -319866,6 +323414,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkOrdersInput = {
@@ -320070,6 +323620,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkOrdersInput = {
@@ -320222,6 +323774,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkOrderOperationUpsertWithWhereUniqueWithoutWorkOrderInput = {
@@ -320390,6 +323944,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkOrderOperationsInput = {
@@ -320542,6 +324098,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkOrderOperationsInput = {
@@ -320753,6 +324311,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkOrderOperationsInput = {
@@ -320905,6 +324465,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkOrderUpsertWithoutOperationsInput = {
@@ -321106,6 +324668,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcPlansInput = {
@@ -321258,6 +324822,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcPlansInput = {
@@ -321452,6 +325018,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcPlansInput = {
@@ -321604,6 +325172,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcPlanItemUpsertWithWhereUniqueWithoutPlanInput = {
@@ -321772,6 +325342,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcPlanItemsInput = {
@@ -321924,6 +325496,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcPlanItemsInput = {
@@ -322119,6 +325693,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcPlanItemsInput = {
@@ -322271,6 +325847,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcPlanUpsertWithoutItemsInput = {
@@ -322456,6 +326034,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcInspectionsInput = {
@@ -322608,6 +326188,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcInspectionsInput = {
@@ -322806,6 +326388,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcInspectionsInput = {
@@ -322958,6 +326542,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcInspectionItemUpsertWithWhereUniqueWithoutInspectionInput = {
@@ -323126,6 +326712,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcInspectionItemsInput = {
@@ -323278,6 +326866,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcInspectionItemsInput = {
@@ -323481,6 +327071,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcInspectionItemsInput = {
@@ -323633,6 +327225,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcInspectionUpsertWithoutItemsInput = {
@@ -323826,6 +327420,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNcrsInput = {
@@ -323978,6 +327574,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNcrsInput = {
@@ -324146,6 +327744,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNcrsInput = {
@@ -324298,6 +327898,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutInvoicesInput = {
@@ -324450,6 +328052,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutInvoicesInput = {
@@ -324602,6 +328206,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutInvoicesInput = {
@@ -324866,6 +328472,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutInvoicesInput = {
@@ -325018,6 +328626,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PaymentUpsertWithWhereUniqueWithoutInvoiceInput = {
@@ -325218,6 +328828,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPaymentsInput = {
@@ -325370,6 +328982,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPaymentsInput = {
@@ -325654,6 +329268,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPaymentsInput = {
@@ -325806,6 +329422,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type InvoiceUpsertWithoutPaymentsInput = {
@@ -326066,6 +329684,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPortalUsersInput = {
@@ -326218,6 +329838,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPortalUsersInput = {
@@ -326386,6 +330008,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPortalUsersInput = {
@@ -326538,6 +330162,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCommentsInput = {
@@ -326690,6 +330316,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCommentsInput = {
@@ -326842,6 +330470,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCommentsInput = {
@@ -327010,6 +330640,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCommentsInput = {
@@ -327162,6 +330794,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutAttachmentsInput = {
@@ -327314,6 +330948,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAttachmentsInput = {
@@ -327466,6 +331102,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAttachmentsInput = {
@@ -327651,6 +331289,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAttachmentsInput = {
@@ -327803,6 +331443,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type AttachmentBlobUpsertWithoutAttachmentInput = {
@@ -327978,6 +331620,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAttachmentBlobsInput = {
@@ -328130,6 +331774,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAttachmentBlobsInput = {
@@ -328329,6 +331975,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAttachmentBlobsInput = {
@@ -328481,6 +332129,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type AttachmentUpsertWithoutBlobInput = {
@@ -328670,6 +332320,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNumberSequencesInput = {
@@ -328822,6 +332474,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNumberSequencesInput = {
@@ -328990,6 +332644,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNumberSequencesInput = {
@@ -329142,6 +332798,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutExchangeRatesInput = {
@@ -329294,6 +332952,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutExchangeRatesInput = {
@@ -329446,6 +333106,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutExchangeRatesInput = {
@@ -329614,6 +333276,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutExchangeRatesInput = {
@@ -329766,6 +333430,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCostCentersInput = {
@@ -329918,6 +333584,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCostCentersInput = {
@@ -330070,6 +333738,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCostCentersInput = {
@@ -330266,6 +333936,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCostCentersInput = {
@@ -330418,6 +334090,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BudgetUpsertWithWhereUniqueWithoutCostCenterInput = {
@@ -330586,6 +334260,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBudgetsInput = {
@@ -330738,6 +334414,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBudgetsInput = {
@@ -330929,6 +334607,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBudgetsInput = {
@@ -331081,6 +334761,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type CostCenterUpsertWithoutBudgetsInput = {
@@ -331262,6 +334944,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWebhookSubscriptionsInput = {
@@ -331414,6 +335098,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWebhookSubscriptionsInput = {
@@ -331620,6 +335306,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWebhookSubscriptionsInput = {
@@ -331772,6 +335460,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WebhookDeliveryUpsertWithWhereUniqueWithoutSubscriptionInput = {
@@ -331940,6 +335630,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWebhookDeliveriesInput = {
@@ -332092,6 +335784,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWebhookDeliveriesInput = {
@@ -332287,6 +335981,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWebhookDeliveriesInput = {
@@ -332439,6 +336135,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WebhookSubscriptionUpsertWithoutDeliveriesInput = {
@@ -332624,6 +336322,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutApiKeysInput = {
@@ -332776,6 +336476,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutApiKeysInput = {
@@ -332944,6 +336646,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutApiKeysInput = {
@@ -333096,6 +336800,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSecurityEventsInput = {
@@ -333248,6 +336954,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSecurityEventsInput = {
@@ -333400,6 +337108,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSecurityEventsInput = {
@@ -333568,6 +337278,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSecurityEventsInput = {
@@ -333720,6 +337432,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutProductCategoriesInput = {
@@ -333872,6 +337586,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProductCategoriesInput = {
@@ -334024,6 +337740,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProductCategoriesInput = {
@@ -334243,6 +337961,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProductCategoriesInput = {
@@ -334395,6 +338115,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ProductCategoryUpsertWithoutChildrenInput = {
@@ -334592,6 +338314,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutReturnOrdersInput = {
@@ -334744,6 +338468,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutReturnOrdersInput = {
@@ -334940,6 +338666,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutReturnOrdersInput = {
@@ -335092,6 +338820,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ReturnOrderLineUpsertWithWhereUniqueWithoutReturnOrderInput = {
@@ -335260,6 +338990,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutReturnOrderLinesInput = {
@@ -335412,6 +339144,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutReturnOrderLinesInput = {
@@ -335615,6 +339349,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutReturnOrderLinesInput = {
@@ -335767,6 +339503,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ReturnOrderUpsertWithoutLinesInput = {
@@ -335960,6 +339698,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockCountsInput = {
@@ -336112,6 +339852,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockCountsInput = {
@@ -336306,6 +340048,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockCountsInput = {
@@ -336458,6 +340202,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type StockCountLineUpsertWithWhereUniqueWithoutCountInput = {
@@ -336626,6 +340372,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockCountLinesInput = {
@@ -336778,6 +340526,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockCountLinesInput = {
@@ -336979,6 +340729,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockCountLinesInput = {
@@ -337131,6 +340883,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type StockCountUpsertWithoutLinesInput = {
@@ -337322,6 +341076,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkCentersInput = {
@@ -337474,6 +341230,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkCentersInput = {
@@ -337674,6 +341432,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkCentersInput = {
@@ -337826,6 +341586,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type DowntimeEventUpsertWithWhereUniqueWithoutWorkCenterInput = {
@@ -337994,6 +341756,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDowntimeEventsInput = {
@@ -338146,6 +341910,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDowntimeEventsInput = {
@@ -338337,6 +342103,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDowntimeEventsInput = {
@@ -338489,6 +342257,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkCenterUpsertWithoutDowntimesInput = {
@@ -338670,6 +342440,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPromotionsInput = {
@@ -338822,6 +342594,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPromotionsInput = {
@@ -339016,6 +342790,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPromotionsInput = {
@@ -339168,6 +342944,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PromotionRedemptionUpsertWithWhereUniqueWithoutPromotionInput = {
@@ -339800,6 +343578,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBreakGlassGrantsInput = {
@@ -339952,6 +343732,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBreakGlassGrantsInput = {
@@ -340151,6 +343933,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBreakGlassGrantsInput = {
@@ -340303,6 +344087,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserUpsertWithoutBreakGlassGrantsInput = {
@@ -340492,6 +344278,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutMasterDataRequestsInput = {
@@ -340644,6 +344432,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutMasterDataRequestsInput = {
@@ -340812,6 +344602,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutMasterDataRequestsInput = {
@@ -340964,6 +344756,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutLoyaltyAccountsInput = {
@@ -341116,6 +344910,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLoyaltyAccountsInput = {
@@ -341268,6 +345064,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLoyaltyAccountsInput = {
@@ -341466,6 +345264,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLoyaltyAccountsInput = {
@@ -341618,6 +345418,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type LoyaltyTransactionUpsertWithWhereUniqueWithoutLoyaltyAccountInput = {
@@ -341852,6 +345654,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSupportCasesInput = {
@@ -342004,6 +345808,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSupportCasesInput = {
@@ -342172,6 +345978,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSupportCasesInput = {
@@ -342324,6 +346132,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutContractsInput = {
@@ -342476,6 +346286,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutContractsInput = {
@@ -342628,6 +346440,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutContractsInput = {
@@ -342835,6 +346649,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutContractsInput = {
@@ -342987,6 +346803,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PartyUpsertWithoutContractsInput = {
@@ -343184,6 +347002,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutEmployeesInput = {
@@ -343336,6 +347156,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutEmployeesInput = {
@@ -343504,6 +347326,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutEmployeesInput = {
@@ -343656,6 +347480,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutAssetsInput = {
@@ -343808,6 +347634,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAssetsInput = {
@@ -343960,6 +347788,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAssetsInput = {
@@ -344128,6 +347958,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAssetsInput = {
@@ -344280,6 +348112,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutQuarantineHoldsInput = {
@@ -344432,6 +348266,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQuarantineHoldsInput = {
@@ -344584,6 +348420,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQuarantineHoldsInput = {
@@ -344752,6 +348590,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQuarantineHoldsInput = {
@@ -344904,6 +348744,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutRfqsInput = {
@@ -345056,6 +348898,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRfqsInput = {
@@ -345208,6 +349052,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRfqsInput = {
@@ -345406,6 +349252,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRfqsInput = {
@@ -345558,6 +349406,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RfqQuoteUpsertWithWhereUniqueWithoutRfqInput = {
@@ -345812,6 +349662,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPackagesInput = {
@@ -345964,6 +349816,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPackagesInput = {
@@ -346205,6 +350059,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPackagesInput = {
@@ -346357,6 +350213,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesOrderUpsertWithoutPackagesInput = {
@@ -346659,6 +350517,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLandedCostsInput = {
@@ -346811,6 +350671,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLandedCostsInput = {
@@ -347020,6 +350882,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLandedCostsInput = {
@@ -347172,6 +351036,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseOrderUpsertWithoutLandedCostsInput = {
@@ -347371,6 +351237,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCustomObjectDefinitionsInput = {
@@ -347523,6 +351391,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCustomObjectDefinitionsInput = {
@@ -347719,6 +351589,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCustomObjectDefinitionsInput = {
@@ -347871,6 +351743,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type CustomObjectRecordUpsertWithWhereUniqueWithoutDefinitionInput = {
@@ -348116,6 +351990,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutFrameworkAgreementsInput = {
@@ -348268,6 +352144,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutFrameworkAgreementsInput = {
@@ -348436,6 +352314,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutFrameworkAgreementsInput = {
@@ -348588,6 +352468,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSkuChannelContentsInput = {
@@ -348740,6 +352622,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSkuChannelContentsInput = {
@@ -348892,6 +352776,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSkuChannelContentsInput = {
@@ -349119,6 +353005,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSkuChannelContentsInput = {
@@ -349271,6 +353159,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SkuUpsertWithoutChannelContentsInput = {
@@ -349488,6 +353378,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutContainersInput = {
@@ -349640,6 +353532,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutContainersInput = {
@@ -349849,6 +353743,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutContainersInput = {
@@ -350001,6 +353897,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseOrderUpsertWithoutContainersInput = {
@@ -350200,6 +354098,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPosSessionsInput = {
@@ -350352,6 +354252,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPosSessionsInput = {
@@ -350520,6 +354422,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPosSessionsInput = {
@@ -350672,6 +354576,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutVehiclesInput = {
@@ -350824,6 +354730,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutVehiclesInput = {
@@ -350976,6 +354884,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutVehiclesInput = {
@@ -351194,6 +355104,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutVehiclesInput = {
@@ -351346,6 +355258,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ShipmentUpsertWithWhereUniqueWithoutVehicleInput = {
@@ -351514,6 +355428,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDriversInput = {
@@ -351666,6 +355582,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDriversInput = {
@@ -351884,6 +355802,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDriversInput = {
@@ -352036,6 +355956,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ShipmentUpsertWithWhereUniqueWithoutDriverInput = {
@@ -352204,6 +356126,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutShipmentsInput = {
@@ -352356,6 +356280,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutShipmentsInput = {
@@ -352612,6 +356538,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutShipmentsInput = {
@@ -352764,6 +356692,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type VehicleUpsertWithoutShipmentsInput = {
@@ -352996,6 +356926,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutShipmentStopsInput = {
@@ -353148,6 +357080,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutShipmentStopsInput = {
@@ -353361,6 +357295,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutShipmentStopsInput = {
@@ -353513,6 +357449,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ShipmentUpsertWithoutStopsInput = {
@@ -353716,6 +357654,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDockAppointmentsInput = {
@@ -353868,6 +357808,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDockAppointmentsInput = {
@@ -354057,6 +357999,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDockAppointmentsInput = {
@@ -354209,6 +358153,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WarehouseUpsertWithoutDockAppointmentsInput = {
@@ -354388,6 +358334,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutInstalledAssetsInput = {
@@ -354540,6 +358488,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutInstalledAssetsInput = {
@@ -354796,6 +358746,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutInstalledAssetsInput = {
@@ -354948,6 +358900,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ServiceRequestUpsertWithWhereUniqueWithoutInstalledAssetInput = {
@@ -355132,6 +359086,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutServiceRequestsInput = {
@@ -355284,6 +359240,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutServiceRequestsInput = {
@@ -355537,6 +359495,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutServiceRequestsInput = {
@@ -355689,6 +359649,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type InstalledAssetUpsertWithoutServiceRequestsInput = {
@@ -355900,6 +359862,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutServiceOrdersInput = {
@@ -356052,6 +360016,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutServiceOrdersInput = {
@@ -356318,6 +360284,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutServiceOrdersInput = {
@@ -356470,6 +360438,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ServiceRequestUpsertWithoutServiceOrdersInput = {
@@ -356722,6 +360692,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutServiceOrderPartsInput = {
@@ -356874,6 +360846,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutServiceOrderPartsInput = {
@@ -357085,6 +361059,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutServiceOrderPartsInput = {
@@ -357237,6 +361213,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ServiceOrderUpsertWithoutPartsInput = {
@@ -357438,6 +361416,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRmasInput = {
@@ -357590,6 +361570,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRmasInput = {
@@ -357758,6 +361740,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRmasInput = {
@@ -357910,6 +361894,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutGlAccountsInput = {
@@ -358062,6 +362048,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutGlAccountsInput = {
@@ -358214,6 +362202,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutGlAccountsInput = {
@@ -358412,6 +362402,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutGlAccountsInput = {
@@ -358564,6 +362556,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type GlJournalLineUpsertWithWhereUniqueWithoutAccountInput = {
@@ -358732,6 +362726,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutGlJournalEntriesInput = {
@@ -358884,6 +362880,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutGlJournalEntriesInput = {
@@ -359082,6 +363080,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutGlJournalEntriesInput = {
@@ -359234,6 +363234,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type GlJournalLineUpsertWithWhereUniqueWithoutEntryInput = {
@@ -359402,6 +363404,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutGlJournalLinesInput = {
@@ -359554,6 +363558,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutGlJournalLinesInput = {
@@ -359792,6 +363798,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutGlJournalLinesInput = {
@@ -359944,6 +363952,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type GlJournalEntryUpsertWithoutLinesInput = {
@@ -360178,6 +364188,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutGlSystemAccountsInput = {
@@ -360330,6 +364342,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutGlSystemAccountsInput = {
@@ -360498,6 +364512,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutGlSystemAccountsInput = {
@@ -360650,6 +364666,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutGlOpeningBalanceDatesInput = {
@@ -360802,6 +364820,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutGlOpeningBalanceDatesInput = {
@@ -360954,6 +364974,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutGlOpeningBalanceDatesInput = {
@@ -361122,6 +365144,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutGlOpeningBalanceDatesInput = {
@@ -361274,6 +365298,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutGlPeriodLocksInput = {
@@ -361426,6 +365452,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutGlPeriodLocksInput = {
@@ -361578,6 +365606,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutGlPeriodLocksInput = {
@@ -361746,6 +365776,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutGlPeriodLocksInput = {
@@ -361898,6 +365930,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutBankStatementsInput = {
@@ -362050,6 +366084,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBankStatementsInput = {
@@ -362202,6 +366238,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBankStatementsInput = {
@@ -362410,6 +366448,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBankStatementsInput = {
@@ -362562,6 +366602,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BankStatementLineUpsertWithWhereUniqueWithoutStatementInput = {
@@ -362730,6 +366772,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBankStatementLinesInput = {
@@ -362882,6 +366926,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBankStatementLinesInput = {
@@ -363127,6 +367173,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBankStatementLinesInput = {
@@ -363279,6 +367327,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BankStatementUpsertWithoutLinesInput = {
@@ -363498,6 +367548,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPaymentAllocationsInput = {
@@ -363650,6 +367702,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPaymentAllocationsInput = {
@@ -363902,6 +367956,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPaymentAllocationsInput = {
@@ -364054,6 +368110,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BankStatementLineUpsertWithoutAllocationsInput = {
@@ -364302,6 +368360,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCompensationsInput = {
@@ -364454,6 +368514,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCompensationsInput = {
@@ -364650,6 +368712,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCompensationsInput = {
@@ -364802,6 +368866,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type CompensationLineUpsertWithWhereUniqueWithoutCompensationInput = {
@@ -364970,6 +369036,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCompensationLinesInput = {
@@ -365122,6 +369190,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCompensationLinesInput = {
@@ -365386,6 +369456,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCompensationLinesInput = {
@@ -365538,6 +369610,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type CompensationUpsertWithoutLinesInput = {
@@ -365798,6 +369872,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutVatRatesInput = {
@@ -365950,6 +370026,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutVatRatesInput = {
@@ -366118,6 +370196,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutVatRatesInput = {
@@ -366270,6 +370350,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutVatBookEntriesInput = {
@@ -366422,6 +370504,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutVatBookEntriesInput = {
@@ -366574,6 +370658,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutVatBookEntriesInput = {
@@ -366742,6 +370828,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutVatBookEntriesInput = {
@@ -366894,6 +370982,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutVatPeriodsInput = {
@@ -367046,6 +371136,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutVatPeriodsInput = {
@@ -367198,6 +371290,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutVatPeriodsInput = {
@@ -367366,6 +371460,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutVatPeriodsInput = {
@@ -367518,6 +371614,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutAttendanceDaysInput = {
@@ -367670,6 +371768,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAttendanceDaysInput = {
@@ -367822,6 +371922,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAttendanceDaysInput = {
@@ -367990,6 +372092,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAttendanceDaysInput = {
@@ -368142,6 +372246,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutAttendancePeriodsInput = {
@@ -368294,6 +372400,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAttendancePeriodsInput = {
@@ -368446,6 +372554,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAttendancePeriodsInput = {
@@ -368614,6 +372724,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAttendancePeriodsInput = {
@@ -368766,6 +372878,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutEmployeeSalariesInput = {
@@ -368918,6 +373032,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutEmployeeSalariesInput = {
@@ -369070,6 +373186,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutEmployeeSalariesInput = {
@@ -369238,6 +373356,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutEmployeeSalariesInput = {
@@ -369390,6 +373510,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPayrollRunsInput = {
@@ -369542,6 +373664,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPayrollRunsInput = {
@@ -369694,6 +373818,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPayrollRunsInput = {
@@ -369906,6 +374032,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPayrollRunsInput = {
@@ -370058,6 +374186,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PayrollLineUpsertWithWhereUniqueWithoutRunInput = {
@@ -370226,6 +374356,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPayrollLinesInput = {
@@ -370378,6 +374510,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPayrollLinesInput = {
@@ -370581,6 +374715,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPayrollLinesInput = {
@@ -370733,6 +374869,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PayrollRunUpsertWithoutLinesInput = {
@@ -370926,6 +375064,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPayrollAdjustmentsInput = {
@@ -371078,6 +375218,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPayrollAdjustmentsInput = {
@@ -371246,6 +375388,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPayrollAdjustmentsInput = {
@@ -371398,6 +375542,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutEmploymentContractsInput = {
@@ -371550,6 +375696,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutEmploymentContractsInput = {
@@ -371702,6 +375850,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutEmploymentContractsInput = {
@@ -371870,6 +376020,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutEmploymentContractsInput = {
@@ -372022,6 +376174,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutTrainingPlanTemplatesInput = {
@@ -372174,6 +376328,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTrainingPlanTemplatesInput = {
@@ -372326,6 +376482,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTrainingPlanTemplatesInput = {
@@ -372494,6 +376652,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTrainingPlanTemplatesInput = {
@@ -372646,6 +376806,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutTrainingPlansInput = {
@@ -372798,6 +376960,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTrainingPlansInput = {
@@ -372950,6 +377114,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTrainingPlansInput = {
@@ -373152,6 +377318,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTrainingPlansInput = {
@@ -373304,6 +377472,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TrainingPlanItemUpsertWithWhereUniqueWithoutPlanInput = {
@@ -373472,6 +377642,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTrainingPlanItemsInput = {
@@ -373624,6 +377796,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTrainingPlanItemsInput = {
@@ -373831,6 +378005,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTrainingPlanItemsInput = {
@@ -373983,6 +378159,8 @@ export namespace Prisma {
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TrainingPlanUpsertWithoutItemsInput = {
@@ -374180,6 +378358,8 @@ export namespace Prisma {
     trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTrainingRecordsInput = {
@@ -374332,6 +378512,8 @@ export namespace Prisma {
     trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTrainingRecordsInput = {
@@ -374500,6 +378682,8 @@ export namespace Prisma {
     trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTrainingRecordsInput = {
@@ -374652,6 +378836,8 @@ export namespace Prisma {
     trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutEquipmentCustodiesInput = {
@@ -374804,6 +378990,8 @@ export namespace Prisma {
     trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutEquipmentCustodiesInput = {
@@ -374956,6 +379144,8 @@ export namespace Prisma {
     trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutEquipmentCustodiesInput = {
@@ -375158,6 +379348,8 @@ export namespace Prisma {
     trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutEquipmentCustodiesInput = {
@@ -375310,6 +379502,8 @@ export namespace Prisma {
     trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type EquipmentCustodyLineUpsertWithWhereUniqueWithoutCustodyInput = {
@@ -375478,6 +379672,8 @@ export namespace Prisma {
     trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
     trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutEquipmentCustodyLinesInput = {
@@ -375630,6 +379826,8 @@ export namespace Prisma {
     trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
     trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
     equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutEquipmentCustodyLinesInput = {
@@ -375833,6 +380031,8 @@ export namespace Prisma {
     trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
     trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutEquipmentCustodyLinesInput = {
@@ -375985,6 +380185,8 @@ export namespace Prisma {
     trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
     trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
     equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type EquipmentCustodyUpsertWithoutLinesInput = {
@@ -376026,6 +380228,1270 @@ export namespace Prisma {
     issuedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     issuedBy?: NullableStringFieldUpdateOperationsInput | string | null
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TenantCreateWithoutSerialPositionsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    factories?: FactoryCreateNestedManyWithoutTenantInput
+    users?: UserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionCreateNestedManyWithoutTenantInput
+    tasks?: TaskCreateNestedManyWithoutTenantInput
+    notifications?: NotificationCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    products?: ProductCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountCreateNestedManyWithoutTenantInput
+    leads?: LeadCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryCreateNestedManyWithoutTenantInput
+    quotes?: QuoteCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
+    comments?: CommentCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
+    exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
+    breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
+    masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
+    supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
+    employees?: EmployeeCreateNestedManyWithoutTenantInput
+    assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
+    rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
+    containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
+    installedAssets?: InstalledAssetCreateNestedManyWithoutTenantInput
+    serviceRequests?: ServiceRequestCreateNestedManyWithoutTenantInput
+    serviceOrders?: ServiceOrderCreateNestedManyWithoutTenantInput
+    serviceOrderParts?: ServiceOrderPartCreateNestedManyWithoutTenantInput
+    rmas?: RmaCreateNestedManyWithoutTenantInput
+    glAccounts?: GlAccountCreateNestedManyWithoutTenantInput
+    glJournalEntries?: GlJournalEntryCreateNestedManyWithoutTenantInput
+    glJournalLines?: GlJournalLineCreateNestedManyWithoutTenantInput
+    glSystemAccounts?: GlSystemAccountCreateNestedManyWithoutTenantInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
+    glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
+    employeeSalaries?: EmployeeSalaryCreateNestedManyWithoutTenantInput
+    payrollRuns?: PayrollRunCreateNestedManyWithoutTenantInput
+    payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
+    payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
+    employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
+    equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
+    equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutSerialPositionsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityUncheckedCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    factories?: FactoryUncheckedCreateNestedManyWithoutTenantInput
+    users?: UserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventUncheckedCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventUncheckedCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryUncheckedCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationUncheckedCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutTenantInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalUncheckedCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventUncheckedCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    products?: ProductUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountUncheckedCreateNestedManyWithoutTenantInput
+    leads?: LeadUncheckedCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityUncheckedCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityUncheckedCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListUncheckedCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryUncheckedCreateNestedManyWithoutTenantInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineUncheckedCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderUncheckedCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventUncheckedCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierUncheckedCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
+    comments?: CommentUncheckedCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderUncheckedCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
+    exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
+    breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
+    masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
+    supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
+    employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
+    assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
+    rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
+    containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
+    installedAssets?: InstalledAssetUncheckedCreateNestedManyWithoutTenantInput
+    serviceRequests?: ServiceRequestUncheckedCreateNestedManyWithoutTenantInput
+    serviceOrders?: ServiceOrderUncheckedCreateNestedManyWithoutTenantInput
+    serviceOrderParts?: ServiceOrderPartUncheckedCreateNestedManyWithoutTenantInput
+    rmas?: RmaUncheckedCreateNestedManyWithoutTenantInput
+    glAccounts?: GlAccountUncheckedCreateNestedManyWithoutTenantInput
+    glJournalEntries?: GlJournalEntryUncheckedCreateNestedManyWithoutTenantInput
+    glJournalLines?: GlJournalLineUncheckedCreateNestedManyWithoutTenantInput
+    glSystemAccounts?: GlSystemAccountUncheckedCreateNestedManyWithoutTenantInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
+    glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
+    employeeSalaries?: EmployeeSalaryUncheckedCreateNestedManyWithoutTenantInput
+    payrollRuns?: PayrollRunUncheckedCreateNestedManyWithoutTenantInput
+    payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
+    payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
+    employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
+    equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
+    equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutSerialPositionsInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutSerialPositionsInput, TenantUncheckedCreateWithoutSerialPositionsInput>
+  }
+
+  export type TenantUpsertWithoutSerialPositionsInput = {
+    update: XOR<TenantUpdateWithoutSerialPositionsInput, TenantUncheckedUpdateWithoutSerialPositionsInput>
+    create: XOR<TenantCreateWithoutSerialPositionsInput, TenantUncheckedCreateWithoutSerialPositionsInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutSerialPositionsInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutSerialPositionsInput, TenantUncheckedUpdateWithoutSerialPositionsInput>
+  }
+
+  export type TenantUpdateWithoutSerialPositionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUpdateManyWithoutTenantNestedInput
+    users?: UserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    products?: ProductUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUpdateManyWithoutTenantNestedInput
+    leads?: LeadUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
+    comments?: CommentUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
+    exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
+    breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
+    masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
+    supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
+    employees?: EmployeeUpdateManyWithoutTenantNestedInput
+    assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
+    rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
+    containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
+    installedAssets?: InstalledAssetUpdateManyWithoutTenantNestedInput
+    serviceRequests?: ServiceRequestUpdateManyWithoutTenantNestedInput
+    serviceOrders?: ServiceOrderUpdateManyWithoutTenantNestedInput
+    serviceOrderParts?: ServiceOrderPartUpdateManyWithoutTenantNestedInput
+    rmas?: RmaUpdateManyWithoutTenantNestedInput
+    glAccounts?: GlAccountUpdateManyWithoutTenantNestedInput
+    glJournalEntries?: GlJournalEntryUpdateManyWithoutTenantNestedInput
+    glJournalLines?: GlJournalLineUpdateManyWithoutTenantNestedInput
+    glSystemAccounts?: GlSystemAccountUpdateManyWithoutTenantNestedInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
+    glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
+    employeeSalaries?: EmployeeSalaryUpdateManyWithoutTenantNestedInput
+    payrollRuns?: PayrollRunUpdateManyWithoutTenantNestedInput
+    payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
+    payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
+    employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
+    equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
+    equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutSerialPositionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUncheckedUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUncheckedUpdateManyWithoutTenantNestedInput
+    users?: UserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUncheckedUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUncheckedUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUncheckedUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUncheckedUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUncheckedUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUncheckedUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    products?: ProductUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUncheckedUpdateManyWithoutTenantNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUncheckedUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUncheckedUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUncheckedUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUncheckedUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUncheckedUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
+    exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
+    breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
+    masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
+    supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
+    employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
+    assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
+    rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
+    containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
+    installedAssets?: InstalledAssetUncheckedUpdateManyWithoutTenantNestedInput
+    serviceRequests?: ServiceRequestUncheckedUpdateManyWithoutTenantNestedInput
+    serviceOrders?: ServiceOrderUncheckedUpdateManyWithoutTenantNestedInput
+    serviceOrderParts?: ServiceOrderPartUncheckedUpdateManyWithoutTenantNestedInput
+    rmas?: RmaUncheckedUpdateManyWithoutTenantNestedInput
+    glAccounts?: GlAccountUncheckedUpdateManyWithoutTenantNestedInput
+    glJournalEntries?: GlJournalEntryUncheckedUpdateManyWithoutTenantNestedInput
+    glJournalLines?: GlJournalLineUncheckedUpdateManyWithoutTenantNestedInput
+    glSystemAccounts?: GlSystemAccountUncheckedUpdateManyWithoutTenantNestedInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
+    glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
+    employeeSalaries?: EmployeeSalaryUncheckedUpdateManyWithoutTenantNestedInput
+    payrollRuns?: PayrollRunUncheckedUpdateManyWithoutTenantNestedInput
+    payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
+    payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
+    employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
+    equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
+    equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantCreateWithoutSerialMovementsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    factories?: FactoryCreateNestedManyWithoutTenantInput
+    users?: UserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionCreateNestedManyWithoutTenantInput
+    tasks?: TaskCreateNestedManyWithoutTenantInput
+    notifications?: NotificationCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    products?: ProductCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountCreateNestedManyWithoutTenantInput
+    leads?: LeadCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryCreateNestedManyWithoutTenantInput
+    quotes?: QuoteCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
+    comments?: CommentCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
+    exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
+    breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
+    masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
+    supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
+    employees?: EmployeeCreateNestedManyWithoutTenantInput
+    assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
+    rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
+    containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
+    installedAssets?: InstalledAssetCreateNestedManyWithoutTenantInput
+    serviceRequests?: ServiceRequestCreateNestedManyWithoutTenantInput
+    serviceOrders?: ServiceOrderCreateNestedManyWithoutTenantInput
+    serviceOrderParts?: ServiceOrderPartCreateNestedManyWithoutTenantInput
+    rmas?: RmaCreateNestedManyWithoutTenantInput
+    glAccounts?: GlAccountCreateNestedManyWithoutTenantInput
+    glJournalEntries?: GlJournalEntryCreateNestedManyWithoutTenantInput
+    glJournalLines?: GlJournalLineCreateNestedManyWithoutTenantInput
+    glSystemAccounts?: GlSystemAccountCreateNestedManyWithoutTenantInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
+    glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
+    employeeSalaries?: EmployeeSalaryCreateNestedManyWithoutTenantInput
+    payrollRuns?: PayrollRunCreateNestedManyWithoutTenantInput
+    payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
+    payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
+    employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
+    equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
+    equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutSerialMovementsInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityUncheckedCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    factories?: FactoryUncheckedCreateNestedManyWithoutTenantInput
+    users?: UserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventUncheckedCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventUncheckedCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryUncheckedCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationUncheckedCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutTenantInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalUncheckedCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventUncheckedCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    products?: ProductUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountUncheckedCreateNestedManyWithoutTenantInput
+    leads?: LeadUncheckedCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityUncheckedCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityUncheckedCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListUncheckedCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryUncheckedCreateNestedManyWithoutTenantInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineUncheckedCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderUncheckedCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventUncheckedCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierUncheckedCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
+    comments?: CommentUncheckedCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderUncheckedCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
+    exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
+    breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
+    masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
+    supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
+    employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
+    assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
+    rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
+    containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
+    installedAssets?: InstalledAssetUncheckedCreateNestedManyWithoutTenantInput
+    serviceRequests?: ServiceRequestUncheckedCreateNestedManyWithoutTenantInput
+    serviceOrders?: ServiceOrderUncheckedCreateNestedManyWithoutTenantInput
+    serviceOrderParts?: ServiceOrderPartUncheckedCreateNestedManyWithoutTenantInput
+    rmas?: RmaUncheckedCreateNestedManyWithoutTenantInput
+    glAccounts?: GlAccountUncheckedCreateNestedManyWithoutTenantInput
+    glJournalEntries?: GlJournalEntryUncheckedCreateNestedManyWithoutTenantInput
+    glJournalLines?: GlJournalLineUncheckedCreateNestedManyWithoutTenantInput
+    glSystemAccounts?: GlSystemAccountUncheckedCreateNestedManyWithoutTenantInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
+    glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
+    employeeSalaries?: EmployeeSalaryUncheckedCreateNestedManyWithoutTenantInput
+    payrollRuns?: PayrollRunUncheckedCreateNestedManyWithoutTenantInput
+    payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
+    payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
+    employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
+    equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
+    equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutSerialMovementsInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutSerialMovementsInput, TenantUncheckedCreateWithoutSerialMovementsInput>
+  }
+
+  export type TenantUpsertWithoutSerialMovementsInput = {
+    update: XOR<TenantUpdateWithoutSerialMovementsInput, TenantUncheckedUpdateWithoutSerialMovementsInput>
+    create: XOR<TenantCreateWithoutSerialMovementsInput, TenantUncheckedCreateWithoutSerialMovementsInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutSerialMovementsInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutSerialMovementsInput, TenantUncheckedUpdateWithoutSerialMovementsInput>
+  }
+
+  export type TenantUpdateWithoutSerialMovementsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUpdateManyWithoutTenantNestedInput
+    users?: UserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    products?: ProductUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUpdateManyWithoutTenantNestedInput
+    leads?: LeadUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
+    comments?: CommentUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
+    exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
+    breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
+    masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
+    supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
+    employees?: EmployeeUpdateManyWithoutTenantNestedInput
+    assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
+    rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
+    containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
+    installedAssets?: InstalledAssetUpdateManyWithoutTenantNestedInput
+    serviceRequests?: ServiceRequestUpdateManyWithoutTenantNestedInput
+    serviceOrders?: ServiceOrderUpdateManyWithoutTenantNestedInput
+    serviceOrderParts?: ServiceOrderPartUpdateManyWithoutTenantNestedInput
+    rmas?: RmaUpdateManyWithoutTenantNestedInput
+    glAccounts?: GlAccountUpdateManyWithoutTenantNestedInput
+    glJournalEntries?: GlJournalEntryUpdateManyWithoutTenantNestedInput
+    glJournalLines?: GlJournalLineUpdateManyWithoutTenantNestedInput
+    glSystemAccounts?: GlSystemAccountUpdateManyWithoutTenantNestedInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
+    glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
+    employeeSalaries?: EmployeeSalaryUpdateManyWithoutTenantNestedInput
+    payrollRuns?: PayrollRunUpdateManyWithoutTenantNestedInput
+    payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
+    payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
+    employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
+    equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
+    equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutSerialMovementsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUncheckedUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUncheckedUpdateManyWithoutTenantNestedInput
+    users?: UserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUncheckedUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUncheckedUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUncheckedUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUncheckedUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUncheckedUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUncheckedUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    products?: ProductUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUncheckedUpdateManyWithoutTenantNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUncheckedUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUncheckedUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUncheckedUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUncheckedUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUncheckedUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
+    exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
+    breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
+    masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
+    supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
+    employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
+    assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
+    rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
+    containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
+    installedAssets?: InstalledAssetUncheckedUpdateManyWithoutTenantNestedInput
+    serviceRequests?: ServiceRequestUncheckedUpdateManyWithoutTenantNestedInput
+    serviceOrders?: ServiceOrderUncheckedUpdateManyWithoutTenantNestedInput
+    serviceOrderParts?: ServiceOrderPartUncheckedUpdateManyWithoutTenantNestedInput
+    rmas?: RmaUncheckedUpdateManyWithoutTenantNestedInput
+    glAccounts?: GlAccountUncheckedUpdateManyWithoutTenantNestedInput
+    glJournalEntries?: GlJournalEntryUncheckedUpdateManyWithoutTenantNestedInput
+    glJournalLines?: GlJournalLineUncheckedUpdateManyWithoutTenantNestedInput
+    glSystemAccounts?: GlSystemAccountUncheckedUpdateManyWithoutTenantNestedInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
+    glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
+    employeeSalaries?: EmployeeSalaryUncheckedUpdateManyWithoutTenantNestedInput
+    payrollRuns?: PayrollRunUncheckedUpdateManyWithoutTenantNestedInput
+    payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
+    payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
+    employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
+    equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
+    equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantConfigurationVersionCreateManyTenantInput = {
@@ -377746,6 +383212,24 @@ export namespace Prisma {
     returnCondition?: string | null
     returnNote?: string | null
     returnedBy?: string | null
+  }
+
+  export type SerialPositionCreateManyTenantInput = {
+    id?: string
+    skuId: string
+    serial: string
+    warehouseId?: string | null
+    inStock: boolean
+    lastMovementId?: string | null
+    updatedAt?: Date | string
+  }
+
+  export type SerialMovementCreateManyTenantInput = {
+    id?: string
+    movementId: string
+    skuId: string
+    serial: string
+    createdAt?: Date | string
   }
 
   export type TenantConfigurationVersionUpdateWithoutTenantInput = {
@@ -383040,6 +388524,60 @@ export namespace Prisma {
     returnCondition?: NullableStringFieldUpdateOperationsInput | string | null
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
     returnedBy?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type SerialPositionUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    serial?: StringFieldUpdateOperationsInput | string
+    warehouseId?: NullableStringFieldUpdateOperationsInput | string | null
+    inStock?: BoolFieldUpdateOperationsInput | boolean
+    lastMovementId?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SerialPositionUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    serial?: StringFieldUpdateOperationsInput | string
+    warehouseId?: NullableStringFieldUpdateOperationsInput | string | null
+    inStock?: BoolFieldUpdateOperationsInput | boolean
+    lastMovementId?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SerialPositionUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    serial?: StringFieldUpdateOperationsInput | string
+    warehouseId?: NullableStringFieldUpdateOperationsInput | string | null
+    inStock?: BoolFieldUpdateOperationsInput | boolean
+    lastMovementId?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SerialMovementUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    movementId?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    serial?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SerialMovementUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    movementId?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    serial?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SerialMovementUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    movementId?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    serial?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type BusinessUnitCreateManyLegalEntityInput = {

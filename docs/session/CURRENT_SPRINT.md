@@ -379,3 +379,17 @@ Prvi sprint po potvrđenom redoslijedu (ODL-009). Vlasnik domena: EAM (zaposleni
 - [x] UI: /assets tabovi „Registar" i „Zaduženja" (novo zaduženje, razduženje, štampa reversa s QR-om), QR i naljepnica u detalju sredstva, javne stranice `/q/a/:token` i `/q/z/:token`; biblioteka `qrcode` (MIT) u web-u
 - [x] **Security review**: 0 kritičnih/visokih; 2 srednja + 4 niska ispravljena (opoziv grupnog tokena, suspendovan tenant/modul, zaglavlja, rashodovano sredstvo, konkurentni povrat, testovi); **rate limiting javnih ruta NIJE urađen** — traži novu infrastrukturu (Redis-backed limiter) i ADR → backlog
 - [x] Testovi: **sprint238 7/7** (2×); regresija 072, 202, 203, 227, 234 zelena
+
+# Sprint 239 — ZAVRŠEN 11.10.2026: serijski brojevi na nivou kretanja zaliha (WMS-018)
+
+Red 2 potvrđenog redoslijeda (re-verifikacija djelimičnih). Vlasnik domena: WMS (pozicija i istorija jedinice), PIM (registar identiteta — sinhronizacija preko događaja). Migracija `20260928000240_sprint_239_serial_control` (aditivna).
+
+- [x] Politika SKU-a NONE/OPTIONAL/REQUIRED provodi se u `postMovement` PRIJE upisa: REQUIRED = cijele jedinice + tačno jedan jedinstven serijski broj po jedinici; NONE ne prima serijske brojeve
+- [x] Pozicija jedinice (`serial_position`) i istorija (`serial_movement`) mijenjaju se u istoj transakciji kao kretanje: ulaz odbija jedinicu koja je već na stanju bilo gdje (FOR UPDATE + unique → i konkurentno tačno jedan uspjeh); izlaz/transfer samo iz skladišta koje je drži; transfer pomjera poziciju
+- [x] Tokovi sa serijskim brojevima: ručna kretanja, prijem NBN (po stavci), WMS nalozi (prijem/pick/transfer), otprema narudžbe (`fulfill-lines`)
+- [x] Evidentiranje serijskih brojeva za postojeću zalihu (SKU prebačen na praćenje): bez kretanja, najviše do neserijalizovanog stanja, audit
+- [x] Trace jedinice (`GET /stock/serials/:skuId/:serial`) i lista na stanju; `stock.moved` nosi `serials` i `movementType`
+- [x] PIM registar: worker consumer `pim.serial-registry` (idempotentan preko `processed_event`) — ulaz → IN_STOCK (registruje nove), izdavanje → SHIPPED
+- [x] UI: unos serijskih brojeva skenerom u tokovima prijema/otpreme/kretanja, sekcija „Serijski brojevi" (trace, evidentiranje postojeće zalihe)
+- [x] Testovi: **sprint239 7/7** — politika, jedinstvenost i konkurencija, izlaz/transfer + trace, NBN prijem + otprema narudžbe, evidentiranje postojeće zalihe, PIM consumer (ponovljena isporuka bez duplikata), tenant izolacija; puna regresijska serija (vidi ispod)
+- Nije rađeno: povrat kupca (RMA) i MES potrošnja serijskih komponenti; PIM-005 (barkod/GTIN) i PIM-007 (JM u transakcijama) — sljedeći sprint

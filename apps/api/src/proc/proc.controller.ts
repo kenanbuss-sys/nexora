@@ -48,7 +48,15 @@ const landedCostSchema = z.object({
 });
 const receiveSchema = z.object({
   receiptKey: z.string().min(4).max(64),
-  lines: z.array(z.object({ lineId: z.string().uuid(), quantity: z.number().positive() })).min(1),
+  lines: z
+    .array(
+      z.object({
+        lineId: z.string().uuid(),
+        quantity: z.number().positive(),
+        serials: z.array(z.string().min(1).max(64)).max(1000).optional(),
+      }),
+    )
+    .min(1),
 });
 
 @Controller('api/v1/suppliers')

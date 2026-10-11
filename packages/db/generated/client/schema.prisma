@@ -183,6 +183,8 @@ model Tenant {
   trainingRecords         TrainingRecord[]
   equipmentCustodies      EquipmentCustody[]
   equipmentCustodyLines   EquipmentCustodyLine[]
+  serialPositions         SerialPosition[]
+  serialMovements         SerialMovement[]
 
   @@map("tenant")
 }
@@ -4128,4 +4130,45 @@ model EquipmentCustodyLine {
   @@unique([tenantId, custodyId, assetId])
   @@index([tenantId, assetId])
   @@map("equipment_custody_line")
+}
+
+// ---------------------------------------------------------------------------
+// Sprint 239 — WMS-018: serial control on the stock ledger. WMS owns WHERE a
+// serialised unit is (position, updated in the movement's transaction) and
+// its movement history; PIM keeps the serial identity registry (synced from
+// stock.moved events).
+// ---------------------------------------------------------------------------
+
+model SerialPosition {
+  id             String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId       String   @map("tenant_id") @db.Uuid
+  skuId          String   @map("sku_id") @db.Uuid
+  serial         String
+  /// Warehouse holding the unit; null while not in stock.
+  warehouseId    String?  @map("warehouse_id") @db.Uuid
+  inStock        Boolean  @map("in_stock")
+  /// Null when the unit was onboarded from existing stock (no movement).
+  lastMovementId String?  @map("last_movement_id") @db.Uuid
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@unique([tenantId, skuId, serial])
+  @@index([tenantId, skuId, warehouseId, inStock])
+  @@map("serial_position")
+}
+
+model SerialMovement {
+  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId   String   @map("tenant_id") @db.Uuid
+  movementId String   @map("movement_id") @db.Uuid
+  skuId      String   @map("sku_id") @db.Uuid
+  serial     String
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@unique([tenantId, movementId, serial])
+  @@index([tenantId, skuId, serial])
+  @@map("serial_movement")
 }

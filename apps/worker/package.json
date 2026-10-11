@@ -13,12 +13,13 @@
   "dependencies": {
     "@nexora/config": "workspace:*",
     "@nexora/db": "workspace:*",
+    "@nexora/domain-core": "workspace:*",
     "@nexora/domain-int": "workspace:*",
+    "@nexora/domain-pim": "workspace:*",
+    "@nexora/domain-wf": "workspace:*",
     "@nexora/observability": "workspace:*",
     "bullmq": "^6.3.0",
-    "ioredis": "^5.9.0",
-    "@nexora/domain-wf": "workspace:*",
-    "@nexora/domain-core": "workspace:*"
+    "ioredis": "^5.9.0"
   },
   "devDependencies": {
     "@types/node": "^22.20.1",

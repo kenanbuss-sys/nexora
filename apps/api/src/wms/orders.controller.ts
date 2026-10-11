@@ -33,6 +33,7 @@ const createOrderSchema = z.object({
 const processLineSchema = z.object({
   quantity: z.number().positive(),
   idempotencyKey: z.string().min(8).max(120),
+  serials: z.array(z.string().min(1).max(64)).max(1000).optional(),
 });
 
 /** Order type -> required permission (specs/permissions.csv). */

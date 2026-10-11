@@ -262,6 +262,9 @@ importers:
       '@nexora/domain-int':
         specifier: workspace:*
         version: link:../../packages/domain-int
+      '@nexora/domain-pim':
+        specifier: workspace:*
+        version: link:../../packages/domain-pim
       '@nexora/domain-wf':
         specifier: workspace:*
         version: link:../../packages/domain-wf

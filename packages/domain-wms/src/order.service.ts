@@ -191,7 +191,14 @@ export class WmsOrderService {
    * acknowledged by the ledger and skipped).
    */
   async processLine(
-    input: { orderId: string; lineId: string; quantity: number; idempotencyKey: string },
+    input: {
+      orderId: string;
+      lineId: string;
+      quantity: number;
+      idempotencyKey: string;
+      /** WMS-018: scanned serials (required for serial-tracked SKUs). */
+      serials?: string[] | undefined;
+    },
     ctx: RequestContext,
   ): Promise<WmsOrderView> {
     if (!(input.quantity > 0)) {
@@ -212,6 +219,7 @@ export class WmsOrderService {
       skuId: line.skuId,
       quantity: input.quantity,
       reason: `wms-order:${order.id}`,
+      ...(input.serials ? { serials: input.serials } : {}),
     };
 
     let anyNewEffect = false;

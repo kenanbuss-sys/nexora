@@ -35,7 +35,13 @@ const fulfillLinesSchema = z.object({
   shipKey: z.string().min(6).max(64),
   sourceWarehouseId: z.string().uuid().optional(),
   lines: z
-    .array(z.object({ lineId: z.string().uuid(), quantity: z.number().positive() }))
+    .array(
+      z.object({
+        lineId: z.string().uuid(),
+        quantity: z.number().positive(),
+        serials: z.array(z.string().min(1).max(64)).max(1000).optional(),
+      }),
+    )
     .min(1)
     .max(100),
 });

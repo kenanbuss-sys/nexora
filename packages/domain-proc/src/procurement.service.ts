@@ -127,6 +127,8 @@ export interface ReceiptGate {
       quantity: number;
       idempotencyKey: string;
       reason?: string | undefined;
+      /** WMS-018: serials of the received units. */
+      serials?: string[] | undefined;
     },
     ctx: RequestContext,
   ): Promise<{ movementId: string; duplicate: boolean }>;
@@ -1068,7 +1070,7 @@ export class ProcurementService {
     input: {
       poId: string;
       receiptKey: string;
-      lines: Array<{ lineId: string; quantity: number }>;
+      lines: Array<{ lineId: string; quantity: number; serials?: string[] | undefined }>;
     },
     ctx: RequestContext,
   ): Promise<PurchaseOrderView> {
@@ -1102,6 +1104,7 @@ export class ProcurementService {
           quantity: item.quantity,
           idempotencyKey: `po:${po.id}:line:${line.id}:${input.receiptKey}`,
           reason: `Receipt for ${po.poNumber}`,
+          ...(item.serials ? { serials: item.serials } : {}),
         },
         ctx,
       );

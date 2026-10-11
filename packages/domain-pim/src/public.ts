@@ -21,4 +21,4 @@ export {
   type SubstitutionView,
 } from './substitution.service';
 export { BundleService, type BundleComponentView, type BundleView } from './bundle.service';
-export { SerialService, type SerialView } from './serial.service';
+export { SERIAL_REGISTRY_CONSUMER, SerialService, type SerialView } from './serial.service';
