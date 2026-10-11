@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Inject, Param, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  ForbiddenException,
+  Get,
+  Inject,
+  Param,
+  Post,
+  Query,
+} from '@nestjs/common';
 import type {
   MasterDataApprovalService,
   ConsentService,
@@ -192,10 +201,19 @@ export class PartiesController {
   @RequirePermission('mdm.merge')
   async merge(@Body() body: unknown, @Ctx() ctx: RequestContext) {
     const input = parseBody(mergeSchema, body);
+    const hidden = await this.fieldPolicy.hiddenFields('party', ctx);
+    // A field the caller may not see cannot be taken over either.
+    const blocked = (input.takeFromLoser ?? []).filter((f) => hidden.has(f));
+    if (blocked.length > 0) {
+      throw new ForbiddenException({
+        code: 'FORBIDDEN',
+        message: 'Field policy hides these fields from you',
+        details: { fields: blocked },
+      });
+    }
     const merged = await this.parties.mergeParty(input.winnerId, input.loserId, ctx, {
       takeFromLoser: input.takeFromLoser,
     });
-    const hidden = await this.fieldPolicy.hiddenFields('party', ctx);
     return this.fieldPolicy.redact(merged as unknown as Record<string, unknown>, hidden);
   }
 

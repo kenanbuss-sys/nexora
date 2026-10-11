@@ -328,41 +328,38 @@ export class PartyService {
         FROM party
         WHERE tenant_id = ${ctx.tenantId}::uuid AND status = 'ACTIVE'
       )
-      SELECT 'NAME' AS reason, name_key AS key, array_agg(id::text ORDER BY id) AS ids
-        FROM p WHERE name_key <> '' GROUP BY name_key HAVING count(*) > 1
-      UNION ALL
-      SELECT 'TAX_ID', tax_key, array_agg(id::text ORDER BY id)
-        FROM p WHERE length(tax_key) >= 4 GROUP BY tax_key HAVING count(*) > 1
-      UNION ALL
-      SELECT 'EMAIL', email_key, array_agg(id::text ORDER BY id)
-        FROM p WHERE email_key <> '' GROUP BY email_key HAVING count(*) > 1
-      ORDER BY 1, 2
-      LIMIT 300
+      , g AS (
+        SELECT 'NAME' AS reason, name_key AS key, array_agg(id ORDER BY id) AS ids
+          FROM p WHERE name_key <> '' GROUP BY name_key HAVING count(*) > 1
+        UNION ALL
+        SELECT 'TAX_ID', tax_key, array_agg(id ORDER BY id)
+          FROM p WHERE length(tax_key) >= 4 GROUP BY tax_key HAVING count(*) > 1
+        UNION ALL
+        SELECT 'EMAIL', email_key, array_agg(id ORDER BY id)
+          FROM p WHERE email_key <> '' GROUP BY email_key HAVING count(*) > 1
+      )
+      -- A group stays open while at least one pair is not dismissed; the
+      -- filter runs BEFORE the limit so dismissed groups never crowd out
+      -- new candidates.
+      SELECT g.reason, g.key, array(SELECT x::text FROM unnest(g.ids) x) AS ids
+        FROM g
+       WHERE EXISTS (
+         SELECT 1 FROM unnest(g.ids) a, unnest(g.ids) b
+          WHERE a < b AND NOT EXISTS (
+            SELECT 1 FROM mdm_duplicate_dismissal d
+             WHERE d.tenant_id = ${ctx.tenantId}::uuid AND d.entity_type = 'party'
+               AND d.a_id = a AND d.b_id = b))
+       ORDER BY 1, 2
+       LIMIT 300
     `;
     if (rows.length === 0) return [];
     const ids = [...new Set(rows.flatMap((r) => r.ids))];
-    const [parties, dismissals] = await Promise.all([
-      this.prisma.party.findMany({ where: { tenantId: ctx.tenantId, id: { in: ids } } }),
-      this.prisma.mdmDuplicateDismissal.findMany({
-        where: { tenantId: ctx.tenantId, entityType: 'party', aId: { in: ids } },
-        select: { aId: true, bId: true },
-      }),
-    ]);
-    const dismissed = new Set(dismissals.map((d) => `${d.aId}|${d.bId}`));
+    const parties = await this.prisma.party.findMany({
+      where: { tenantId: ctx.tenantId, id: { in: ids } },
+    });
     const byId = new Map(parties.map((p) => [p.id, p]));
     const groups: DuplicateCandidateGroup[] = [];
     for (const row of rows) {
-      let open = false;
-      for (let i = 0; i < row.ids.length && !open; i += 1) {
-        for (let j = i + 1; j < row.ids.length; j += 1) {
-          const [a, b] = orderPair(row.ids[i]!, row.ids[j]!);
-          if (!dismissed.has(`${a}|${b}`)) {
-            open = true;
-            break;
-          }
-        }
-      }
-      if (!open) continue;
       groups.push({
         reason: row.reason,
         key: row.key,
@@ -487,6 +484,9 @@ export class PartyService {
     ctx: RequestContext,
     options: { takeFromLoser?: MergeField[] | undefined } = {},
   ): Promise<PartyView & { duplicate: boolean }> {
+    // Postgres returns ids in lower case; compare like with like.
+    winnerId = winnerId.toLowerCase();
+    loserId = loserId.toLowerCase();
     if (winnerId === loserId) {
       throw new DomainError('VALIDATION_FAILED', 'Cannot merge a party into itself');
     }
@@ -524,9 +524,12 @@ export class PartyService {
 
       const winnerChanges: Record<string, string | null> = {};
       for (const field of take) {
-        if ((loser[field] ?? null) !== (winner[field] ?? null)) winnerChanges[field] = loser[field];
+        // An empty value on the duplicate never wipes the survivor's value.
+        const value = loser[field];
+        if (value !== null && value.trim() !== '' && value !== winner[field]) {
+          winnerChanges[field] = value;
+        }
       }
-      if (winnerChanges.name === null || winnerChanges.name === '') delete winnerChanges.name;
       let survivor = winner;
       if (Object.keys(winnerChanges).length > 0) {
         survivor = await tx.party.update({

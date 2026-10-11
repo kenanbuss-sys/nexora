@@ -238,6 +238,16 @@ integration('Sprint 241 — MDM duplicates/merge + product governance (MDM-005/0
     await api('POST', '/api/v1/parties/merge', tokenA, { winnerId: z, loserId: y });
     const xRow = await prisma.party.findUnique({ where: { id: x } });
     expect(xRow?.mergedIntoId).toBe(z);
+
+    // Survivorship never wipes a value with the duplicate's empty one.
+    const w = await party('w', { name: 'Promet W', taxId: '4211111111111' });
+    const v = await party('v', { name: 'Promet V' });
+    const kept = await api('POST', '/api/v1/parties/merge', tokenA, {
+      winnerId: w.toUpperCase(),
+      loserId: v.toUpperCase(),
+      takeFromLoser: ['taxId', 'name'],
+    });
+    expect(kept.body).toMatchObject({ id: w, taxId: '4211111111111', name: 'Promet V' });
   });
 
   it('CONCURRENCY: opposite merges at the same time — exactly one wins, no cycle', async () => {

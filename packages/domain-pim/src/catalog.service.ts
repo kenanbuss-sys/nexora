@@ -168,8 +168,12 @@ export class CatalogService {
    * checks always report; they BLOCK publishing only when the tenant's
    * policy sets `enforce`.
    */
-  async publishReadiness(productId: string, ctx: RequestContext): Promise<PublishReadiness> {
-    const product = await this.prisma.product.findFirst({
+  async publishReadiness(
+    productId: string,
+    ctx: RequestContext,
+    db: Prisma.TransactionClient | PrismaClient = this.prisma,
+  ): Promise<PublishReadiness> {
+    const product = await db.product.findFirst({
       where: { id: productId, tenantId: ctx.tenantId },
       include: { skus: { include: { barcodes: { select: { id: true } } } } },
     });
@@ -255,6 +259,9 @@ export class CatalogService {
   /** Permission: product.publish. */
   async publishProduct(productId: string, ctx: RequestContext): Promise<ProductView> {
     return this.prisma.$transaction(async (tx) => {
+      // Row lock: concurrent publishes serialise; the readiness check below
+      // reads inside this transaction (MDM-002).
+      await tx.$queryRaw`SELECT id FROM product WHERE id = ${productId}::uuid AND tenant_id = ${ctx.tenantId}::uuid FOR UPDATE`;
       const product = await tx.product.findFirst({
         where: { id: productId, tenantId: ctx.tenantId },
       });
@@ -265,7 +272,7 @@ export class CatalogService {
       if (product.status === 'ARCHIVED') {
         throw new DomainError('INVALID_STATE', 'An archived product cannot be published');
       }
-      const readiness = await this.publishReadiness(product.id, ctx);
+      const readiness = await this.publishReadiness(product.id, ctx, tx);
       if (readiness.enforced && !readiness.ready) {
         const failing = readiness.checks.filter((c) => !c.ok);
         throw new DomainError(
