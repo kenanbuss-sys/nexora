@@ -1,4 +1,6 @@
 import type { OnApplicationShutdown } from '@nestjs/common';
+import { HomeController, ROLE_HOME_SERVICE } from './bi/home.controller';
+import { INSTALLATION_SERVICE, InstallationController } from './svc/installation.controller';
 import { TEAM_TASK_SERVICE, TeamTasksController } from './tasks/team-tasks.controller';
 import { CASE_ORDER_SERVICE, CaseOrderController } from './crm/case-order.controller';
 import { Inject, Module } from '@nestjs/common';
@@ -75,7 +77,7 @@ import { ShopFloorService, MesService } from '@nexora/domain-mes';
 import { LogisticsService } from '@nexora/domain-log';
 import { CopilotService, devAiAdapter, DevVisionAdapter, InsightsService } from '@nexora/domain-ai';
 import { EsgService } from '@nexora/domain-esg';
-import { FieldServiceService } from '@nexora/domain-svc';
+import { FieldServiceService, InstallationService } from '@nexora/domain-svc';
 import { MarketingService } from '@nexora/domain-mkt';
 import { ProjectService } from '@nexora/domain-prj';
 import { QualityService } from '@nexora/domain-qc';
@@ -105,7 +107,7 @@ import {
   LedgerService,
   TreasuryService,
 } from '@nexora/domain-fin';
-import { AnalyticsService } from '@nexora/domain-bi';
+import { AnalyticsService, RoleHomeService } from '@nexora/domain-bi';
 import { PortalService } from '@nexora/domain-b2b';
 import { DevOcrAdapter, CollaborationService, SearchService } from '@nexora/domain-collab';
 import {
@@ -418,6 +420,8 @@ export const REDIS = 'REDIS';
     VocabularyController,
     TasksController,
     TeamTasksController,
+    HomeController,
+    InstallationController,
     InboxController,
     NotificationsController,
     WorkflowsController,
@@ -952,13 +956,24 @@ export const REDIS = 'REDIS';
     {
       provide: VAT_SERVICE,
       useFactory: (prisma: PrismaClient, ledger: LedgerService) =>
-        new VatService(prisma, {
-          ensurePartnerAccount: (input, ctx) => ledger.ensurePartnerAccount(input, ctx),
-          createDraft: (input, ctx) => ledger.createDraft(input, ctx),
-          deleteDraft: (id, ctx) => ledger.deleteDraft(id, ctx, { owned: true }),
-          post: (id, ctx) => ledger.post(id, ctx),
-          storno: (id, reason, ctx) => ledger.storno(id, reason, ctx, { owned: true }),
-        }),
+        new VatService(
+          prisma,
+          {
+            ensurePartnerAccount: (input, ctx) => ledger.ensurePartnerAccount(input, ctx),
+            createDraft: (input, ctx) => ledger.createDraft(input, ctx),
+            deleteDraft: (id, ctx) => ledger.deleteDraft(id, ctx, { owned: true }),
+            post: (id, ctx) => ledger.post(id, ctx),
+            storno: (id, reason, ctx) => ledger.storno(id, reason, ctx, { owned: true }),
+          },
+          // Sprint 248: customer invoices reference CRM accounts; the VAT book needs the party.
+          async (tenantId, accountId) => {
+            const account = await prisma.crmAccount.findFirst({
+              where: { id: accountId, tenantId },
+              select: { partyId: true },
+            });
+            return account?.partyId ?? null;
+          },
+        ),
       inject: [PRISMA, LEDGER_SERVICE],
     },
     {
@@ -1688,6 +1703,18 @@ export const REDIS = 'REDIS';
       inject: [PRISMA],
     },
     {
+      // Sprint 248: measurements + installations (order context through OMS).
+      provide: INSTALLATION_SERVICE,
+      useFactory: (prisma: PrismaClient, orders: OrderService) =>
+        new InstallationService(prisma, { orderContext: (t, id) => orders.orderContext(t, id) }),
+      inject: [PRISMA, ORDER_SERVICE],
+    },
+    {
+      provide: ROLE_HOME_SERVICE,
+      useFactory: (prisma: PrismaClient) => new RoleHomeService(prisma),
+      inject: [PRISMA],
+    },
+    {
       provide: QUALITY_SERVICE,
       useFactory: (prisma: PrismaClient, tenants: TenantService, tasks: TaskService) =>
         new QualityService(
@@ -1704,26 +1731,38 @@ export const REDIS = 'REDIS';
         inventory: InventoryService,
         quality: QualityService,
         tenants: TenantService,
-      ) =>
-        new MesService(
+        orders: OrderService,
+      ) => {
+        const mes = new MesService(
           prisma,
           { postMovement: (input, ctx) => inventory.postMovement(input, ctx) },
           { getQcState: (t, w, s) => quality.getQcState(t, w, s) },
           { getEffectiveConfiguration: (t) => tenants.getEffectiveConfiguration(t) },
-        ),
-      inject: [PRISMA, INVENTORY_SERVICE, QUALITY_SERVICE, TENANT_SERVICE],
+        );
+        // Sprint 248: made-to-order — work orders from sales order lines (OMS gate).
+        mes.bindOrderGate({ orderContext: (t, id) => orders.orderContext(t, id) });
+        return mes;
+      },
+      inject: [PRISMA, INVENTORY_SERVICE, QUALITY_SERVICE, TENANT_SERVICE, ORDER_SERVICE],
     },
     {
       provide: FINANCE_SERVICE,
-      useFactory: (prisma: PrismaClient, tenants: TenantService) =>
-        new FinanceService(
+      useFactory: (prisma: PrismaClient, tenants: TenantService, vat: VatService) => {
+        const finance = new FinanceService(
           prisma,
           new DevBankFeedAdapter({
             getEffectiveConfiguration: (t) => tenants.getEffectiveConfiguration(t),
           }),
           { getEffectiveConfiguration: (t) => tenants.getEffectiveConfiguration(t) },
-        ),
-      inject: [PRISMA, TENANT_SERVICE],
+        );
+        // Sprint 248: KIF from issued customer invoices (fin.autoKif).
+        finance.bindKif({
+          recordInvoiceKif: (invoiceId, settings, ctx) =>
+            vat.recordInvoiceKif(invoiceId, settings, ctx),
+        });
+        return finance;
+      },
+      inject: [PRISMA, TENANT_SERVICE, VAT_SERVICE],
     },
     {
       provide: EXCHANGE_RATE_SERVICE,

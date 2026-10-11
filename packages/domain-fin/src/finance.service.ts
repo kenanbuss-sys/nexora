@@ -28,6 +28,18 @@ export interface InvoiceView {
   paidAmount: string;
   status: InvoiceStatus;
   issuedAt: string;
+  /** Sprint 248: STANDARD | ADVANCE, and the advance deducted on a final invoice. */
+  invoiceKind?: string;
+  advanceDeducted?: string | null;
+}
+
+/** Sprint 248: KIF from an issued customer invoice (VAT books, same package). */
+export interface KifGate {
+  recordInvoiceKif(
+    invoiceId: string,
+    settings: { legalEntityId: string; vatRateCode: string; counterAccountId: string },
+    ctx: RequestContext,
+  ): Promise<unknown>;
 }
 
 export interface PaymentView {
@@ -124,7 +136,10 @@ export class FinanceService {
     return invoices.map((i) => this.invoiceView(i));
   }
 
-  /** Bills a FULFILLED sales order exactly once (FIN-011). */
+  /**
+   * Bills a FULFILLED sales order exactly once (FIN-011). Sprint 248: an
+   * advance invoice issued for the order is deducted from the total.
+   */
   async createCustomerInvoice(
     input: { orderId: string; dueInDays?: number | undefined },
     ctx: RequestContext,
@@ -136,17 +151,142 @@ export class FinanceService {
     if (order.status !== 'FULFILLED') {
       throw new DomainError('INVALID_STATE', 'Only fulfilled orders can be invoiced');
     }
+    const advance = await this.prisma.invoice.findFirst({
+      where: {
+        tenantId: ctx.tenantId,
+        invoiceType: 'CUSTOMER',
+        orderRefId: order.id,
+        invoiceKind: 'ADVANCE',
+        status: { not: 'VOID' },
+      },
+    });
+    const advanceTotal = advance ? Number(advance.total) : 0;
+    const total = Math.round((Number(order.total) - advanceTotal) * 100) / 100;
+    if (!(total > 0)) {
+      throw new DomainError(
+        'INVALID_STATE',
+        'The advance invoice already covers the whole order — no final invoice is needed',
+      );
+    }
     return this.issue(
       {
         invoiceType: 'CUSTOMER',
         partyRefId: order.accountId,
         orderRefId: order.id,
         currency: order.currency,
-        total: Number(order.total),
+        total,
         dueInDays: input.dueInDays,
+        ...(advance ? { advanceDeducted: advanceTotal } : {}),
       },
       ctx,
     );
+  }
+
+  /**
+   * Sprint 248: advance invoice (avans) for a confirmed sales order — a
+   * percentage or an amount of the order total, once per order. The final
+   * invoice deducts it.
+   */
+  async issueAdvanceInvoice(
+    input: {
+      orderId: string;
+      percent?: number | undefined;
+      amount?: number | undefined;
+      dueInDays?: number | undefined;
+    },
+    ctx: RequestContext,
+  ): Promise<InvoiceView> {
+    const order = await this.prisma.salesOrder.findFirst({
+      where: { id: input.orderId, tenantId: ctx.tenantId },
+    });
+    if (!order) throw notFound('SalesOrder', input.orderId);
+    if (!['CONFIRMED', 'ON_HOLD'].includes(order.status)) {
+      throw new DomainError(
+        'INVALID_STATE',
+        `An advance needs a confirmed order (is ${order.status})`,
+      );
+    }
+    if ((input.percent === undefined) === (input.amount === undefined)) {
+      throw new DomainError('VALIDATION_FAILED', 'Give either a percent or an amount');
+    }
+    const orderTotal = Number(order.total);
+    const amount =
+      input.percent !== undefined
+        ? Math.round(orderTotal * input.percent) / 100
+        : Math.round((input.amount as number) * 100) / 100;
+    if (!(amount > 0) || amount > orderTotal) {
+      throw new DomainError(
+        'VALIDATION_FAILED',
+        'The advance must be above 0 and at most the order total',
+      );
+    }
+    return this.issue(
+      {
+        invoiceType: 'CUSTOMER',
+        partyRefId: order.accountId,
+        orderRefId: order.id,
+        currency: order.currency,
+        total: amount,
+        dueInDays: input.dueInDays,
+        invoiceKind: 'ADVANCE',
+      },
+      ctx,
+    );
+  }
+
+  private kif: KifGate | undefined;
+
+  /** Late binding: VAT books are wired after finance. */
+  bindKif(gate: KifGate): void {
+    this.kif = gate;
+  }
+
+  /**
+   * Sprint 248: KIF entry for an issued customer invoice when the tenant
+   * enabled `fin.autoKif`. Idempotent (VAT book requestKey per invoice).
+   * A failure never undoes the invoice: it is audited and can be retried.
+   */
+  async autoKif(
+    invoiceId: string,
+    ctx: RequestContext,
+  ): Promise<{ recorded: boolean; reason?: string }> {
+    if (!this.kif || !this.configuration) return { recorded: false, reason: 'not wired' };
+    const { config } = await this.configuration.getEffectiveConfiguration(ctx.tenantId);
+    const raw = ((config as Record<string, unknown> | null)?.fin ?? {}) as Record<string, unknown>;
+    const auto = (raw.autoKif ?? null) as Record<string, unknown> | null;
+    if (
+      !auto ||
+      typeof auto.legalEntityId !== 'string' ||
+      typeof auto.vatRateCode !== 'string' ||
+      typeof auto.counterAccountId !== 'string'
+    ) {
+      return { recorded: false, reason: 'fin.autoKif not configured' };
+    }
+    try {
+      await this.kif.recordInvoiceKif(
+        invoiceId,
+        {
+          legalEntityId: auto.legalEntityId,
+          vatRateCode: auto.vatRateCode,
+          counterAccountId: auto.counterAccountId,
+        },
+        ctx,
+      );
+      return { recorded: true };
+    } catch (error) {
+      const reason = error instanceof Error ? error.message.slice(0, 300) : 'KIF failed';
+      await writeAudit(this.prisma, {
+        tenantId: ctx.tenantId,
+        actorType: ctx.actorType,
+        actorId: ctx.userId,
+        action: 'fin.invoice.kif_failed',
+        objectType: 'Invoice',
+        objectId: invoiceId,
+        source: 'api',
+        newValues: { reason },
+      });
+      return { recorded: false, reason };
+    }
   }
 
   /** Records the supplier invoice for a RECEIVED purchase order (FIN-012). */
@@ -1044,6 +1184,8 @@ export class FinanceService {
       currency: string;
       total: number;
       dueInDays?: number | undefined;
+      invoiceKind?: 'STANDARD' | 'ADVANCE' | undefined;
+      advanceDeducted?: number | undefined;
     },
     ctx: RequestContext,
   ): Promise<InvoiceView> {
@@ -1052,6 +1194,9 @@ export class FinanceService {
     }
     try {
       const invoice = await this.prisma.$transaction(async (tx) => {
+        // Count-based numbering: serialise per tenant + type.
+        const numberKey = `fin.invoice.number:${ctx.tenantId}:${input.invoiceType}`;
+        await tx.$executeRaw`SELECT pg_advisory_xact_lock(hashtextextended(${numberKey}, 0))`;
         const count = await tx.invoice.count({
           where: { tenantId: ctx.tenantId, invoiceType: input.invoiceType },
         });
@@ -1067,6 +1212,8 @@ export class FinanceService {
             total: input.total,
             dueAt: input.dueInDays ? new Date(Date.now() + input.dueInDays * 86_400_000) : null,
             createdBy: ctx.userId ?? null,
+            invoiceKind: input.invoiceKind ?? 'STANDARD',
+            advanceDeducted: input.advanceDeducted ?? null,
           },
         });
         await writeAudit(tx, {
@@ -1077,7 +1224,12 @@ export class FinanceService {
           objectType: 'Invoice',
           objectId: created.id,
           source: 'api',
-          newValues: { invoiceNumber: created.invoiceNumber, total: input.total },
+          newValues: {
+            invoiceNumber: created.invoiceNumber,
+            total: input.total,
+            kind: input.invoiceKind ?? 'STANDARD',
+            ...(input.advanceDeducted ? { advanceDeducted: input.advanceDeducted } : {}),
+          },
         });
         await publishToOutbox(tx, {
           tenantId: ctx.tenantId,
@@ -1090,6 +1242,7 @@ export class FinanceService {
         });
         return created;
       });
+      if (input.invoiceType === 'CUSTOMER') await this.autoKif(invoice.id, ctx);
       return this.invoiceView(invoice);
     } catch (error) {
       if (
@@ -1098,7 +1251,12 @@ export class FinanceService {
         'code' in error &&
         (error as { code: string }).code === 'P2002'
       ) {
-        throw new DomainError('CONFLICT', 'The order is already invoiced');
+        throw new DomainError(
+          'CONFLICT',
+          input.invoiceKind === 'ADVANCE'
+            ? 'The order already has an advance invoice'
+            : 'The order is already invoiced',
+        );
       }
       throw error;
     }
@@ -1138,6 +1296,8 @@ export class FinanceService {
     paidAmount: { toString(): string };
     status: InvoiceStatus;
     issuedAt: Date;
+    invoiceKind?: string;
+    advanceDeducted?: { toString(): string } | null;
   }): InvoiceView {
     return {
       id: invoice.id,
@@ -1150,6 +1310,8 @@ export class FinanceService {
       paidAmount: invoice.paidAmount.toString(),
       status: invoice.status,
       issuedAt: invoice.issuedAt.toISOString(),
+      invoiceKind: invoice.invoiceKind ?? 'STANDARD',
+      advanceDeducted: invoice.advanceDeducted ? invoice.advanceDeducted.toString() : null,
     };
   }
 }

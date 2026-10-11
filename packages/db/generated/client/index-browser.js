@@ -1030,7 +1030,10 @@ exports.Prisma.WorkOrderScalarFieldEnum = {
   completedAt: 'completedAt',
   createdBy: 'createdBy',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  salesOrderId: 'salesOrderId',
+  salesOrderLineId: 'salesOrderLineId',
+  spec: 'spec'
 };
 
 exports.Prisma.WorkOrderOperationScalarFieldEnum = {
@@ -1124,6 +1127,8 @@ exports.Prisma.InvoiceScalarFieldEnum = {
   dueAt: 'dueAt',
   costCenterId: 'costCenterId',
   dimensions: 'dimensions',
+  invoiceKind: 'invoiceKind',
+  advanceDeducted: 'advanceDeducted',
   createdBy: 'createdBy',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -1860,7 +1865,15 @@ exports.Prisma.ServiceOrderScalarFieldEnum = {
   proofSignatureHash: 'proofSignatureHash',
   createdBy: 'createdBy',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  kind: 'kind',
+  salesOrderId: 'salesOrderId',
+  quoteId: 'quoteId',
+  crewEmployeeIds: 'crewEmployeeIds',
+  vehicleId: 'vehicleId',
+  slotStart: 'slotStart',
+  slotEnd: 'slotEnd',
+  siteAddress: 'siteAddress'
 };
 
 exports.Prisma.ServiceOrderPartScalarFieldEnum = {

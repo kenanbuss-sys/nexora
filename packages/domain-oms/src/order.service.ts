@@ -220,6 +220,20 @@ function toView(order: {
   };
 }
 
+/**
+ * Sprint 248: made-to-measure lines are BILLED in m²/m1 (quantity) but
+ * PRODUCED, stocked and shipped in pieces (spec.pieces).
+ */
+function hasPieces(line: { spec?: unknown }): boolean {
+  const spec = line.spec as { pieces?: unknown; basis?: unknown } | null | undefined;
+  return !!spec && typeof spec.pieces === 'number' && spec.basis !== 'PIECE';
+}
+
+function stockQuantity(line: { quantity: { toString(): string }; spec?: unknown }): number {
+  const spec = line.spec as { pieces?: unknown } | null | undefined;
+  return spec && typeof spec.pieces === 'number' ? spec.pieces : Number(line.quantity.toString());
+}
+
 export class OrderService {
   constructor(
     private readonly prisma: PrismaClient,
@@ -259,6 +273,7 @@ export class OrderService {
     fulfillmentType: string;
     createdAt: string;
     promisedAt: string | null;
+    warehouseId: string;
     lines: Array<{
       id: string;
       skuId: string;
@@ -267,6 +282,7 @@ export class OrderService {
       fulfilledQty: string;
       backordered: boolean;
       promisedAt: string | null;
+      spec: unknown;
     }>;
     timeline: Array<{ eventType: string; note: string | null; createdAt: string }>;
   } | null> {
@@ -290,6 +306,7 @@ export class OrderService {
       fulfillmentType: order.fulfillmentType,
       createdAt: order.createdAt.toISOString(),
       promisedAt: order.promisedAt ? order.promisedAt.toISOString() : null,
+      warehouseId: order.warehouseId,
       lines: order.lines.map((l) => ({
         id: l.id,
         skuId: l.skuId,
@@ -298,6 +315,7 @@ export class OrderService {
         fulfilledQty: l.fulfilledQty.toString(),
         backordered: l.backordered,
         promisedAt: l.promisedAt ? l.promisedAt.toISOString() : null,
+        spec: l.spec ?? null,
       })),
       timeline: events.map((e) => ({
         eventType: e.eventType,
@@ -592,7 +610,7 @@ export class OrderService {
             {
               warehouseId: order.warehouseId,
               skuId: line.skuId,
-              quantity: Number(line.quantity),
+              quantity: stockQuantity(line),
               reference: `order:${order.orderNumber}`,
             },
             ctx,
@@ -1472,7 +1490,7 @@ export class OrderService {
             {
               warehouseId: order.warehouseId,
               skuId: line.skuId,
-              quantity: Number(line.quantity),
+              quantity: stockQuantity(line),
               reference: `order:${order.orderNumber}`,
             },
             ctx,
@@ -1762,6 +1780,16 @@ export class OrderService {
       if (!(request.quantity > 0)) {
         throw new DomainError('VALIDATION_FAILED', 'Ship quantity must be positive');
       }
+      // Made-to-measure lines are produced as pieces: they ship whole.
+      if (
+        hasPieces(line) &&
+        Math.abs(Number(line.fulfilledQty) + request.quantity - Number(line.quantity)) > 1e-9
+      ) {
+        throw new DomainError(
+          'INVALID_STATE',
+          'A made-to-measure line ships complete (all pieces at once)',
+        );
+      }
       if (Number(line.fulfilledQty) + request.quantity > Number(line.quantity) + 1e-9) {
         throw new DomainError(
           'INVALID_STATE',
@@ -1790,7 +1818,7 @@ export class OrderService {
           warehouseId: sourceWarehouseId,
           skuId: line.skuId,
           movementType: 'ISSUE',
-          quantity: request.quantity,
+          quantity: hasPieces(line) ? stockQuantity(line) : request.quantity,
           idempotencyKey: `split:${input.shipKey}:line:${line.id}`,
           reason:
             sourceWarehouseId === order.warehouseId
@@ -1865,7 +1893,7 @@ export class OrderService {
           warehouseId: order.warehouseId,
           skuId: line.skuId,
           movementType: 'ISSUE',
-          quantity: Number(line.quantity),
+          quantity: stockQuantity(line),
           idempotencyKey: `order:${order.id}:line:${line.id}`,
           reason: `Fulfillment of ${order.orderNumber}`,
         },
@@ -1930,7 +1958,7 @@ export class OrderService {
           {
             warehouseId: order.warehouseId,
             skuId: line.skuId,
-            quantity: Number(line.quantity),
+            quantity: stockQuantity(line),
             reference: `order:${order.orderNumber}`,
           },
           ctx,

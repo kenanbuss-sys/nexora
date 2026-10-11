@@ -158,6 +158,20 @@ export class WorkOrdersController {
     return this.mes.getWorkOrder(id, ctx);
   }
 
+  /** Sprint 248: work orders for a confirmed sales order (one per line, idempotent). */
+  @Post('from-order')
+  @RequirePermission('production.manage')
+  async fromOrder(@Body() body: unknown, @Ctx() ctx: RequestContext) {
+    const input = parseBody(z.object({ orderId: z.string().uuid() }), body);
+    return this.mes.createFromSalesOrder(input.orderId, ctx);
+  }
+
+  @Get('by-order/:orderId')
+  @RequirePermission('production.read')
+  async byOrder(@Param('orderId') orderId: string, @Ctx() ctx: RequestContext) {
+    return { workOrders: await this.mes.forSalesOrder(orderId, ctx) };
+  }
+
   @Post(':id/release')
   @RequirePermission('production.manage')
   async release(@Param('id') id: string, @Ctx() ctx: RequestContext) {

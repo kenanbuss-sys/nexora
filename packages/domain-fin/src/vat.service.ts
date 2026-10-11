@@ -160,7 +160,65 @@ export class VatService {
   constructor(
     private readonly prisma: PrismaClient,
     private readonly ledger: VatLedgerGate,
+    /** Sprint 248: CRM account -> MDM party (customer invoices reference accounts). */
+    private readonly customerParty?: (
+      tenantId: string,
+      accountId: string,
+    ) => Promise<string | null>,
   ) {}
+
+  /**
+   * Sprint 248: KIF entry for an issued CUSTOMER invoice. The invoice total
+   * is gross; the net is derived so that net + VAT(rate) equals it to the
+   * cent. Idempotent per invoice (requestKey `kif:<invoiceId>`).
+   */
+  async recordInvoiceKif(
+    invoiceId: string,
+    settings: { legalEntityId: string; vatRateCode: string; counterAccountId: string },
+    ctx: RequestContext,
+  ): Promise<VatBookEntryView> {
+    const invoice = await this.prisma.invoice.findFirst({
+      where: { id: invoiceId, tenantId: ctx.tenantId },
+    });
+    if (!invoice) throw notFound('Invoice', invoiceId);
+    if (invoice.invoiceType !== 'CUSTOMER') {
+      throw new DomainError('VALIDATION_FAILED', 'Only customer invoices go to the KIF');
+    }
+    const partnerId = this.customerParty
+      ? await this.customerParty(ctx.tenantId, invoice.partyRefId)
+      : invoice.partyRefId;
+    if (!partnerId) throw notFound('Party', invoice.partyRefId);
+    const date = invoice.issuedAt.toISOString().slice(0, 10);
+    const code = settings.vatRateCode.trim().toUpperCase();
+    const rate = await this.effectiveRate(settings.legalEntityId, code, date, ctx);
+    const gross = cents(invoice.total);
+    const pct = Number(rate.ratePct);
+    // Smallest net whose net + round(net * rate) reproduces the gross exactly.
+    let net = Math.round(gross / (1 + pct / 100));
+    for (const candidate of [net, net - 1, net + 1, net - 2, net + 2]) {
+      if (candidate + Math.round((candidate * pct) / 100) === gross) {
+        net = candidate;
+        break;
+      }
+    }
+    return this.record(
+      {
+        legalEntityId: settings.legalEntityId,
+        bookType: 'KIF',
+        requestKey: `kif:${invoice.id}`,
+        documentNumber: invoice.invoiceNumber,
+        documentDate: date,
+        bookingDate: date,
+        partnerId,
+        vatRateCode: code,
+        netAmount: net / 100,
+        currency: invoice.currency,
+        counterAccountId: settings.counterAccountId,
+        invoiceId: invoice.id,
+      },
+      ctx,
+    );
+  }
 
   private async legalEntity(legalEntityId: string, ctx: RequestContext) {
     const entity = await this.prisma.legalEntity.findFirst({
@@ -488,7 +546,11 @@ export class VatService {
           `A ${input.bookType} entry needs a ${expected} invoice`,
         );
       }
-      if (invoice.partyRefId !== input.partnerId) {
+      const invoicePartner =
+        invoice.invoiceType === 'CUSTOMER' && this.customerParty
+          ? ((await this.customerParty(ctx.tenantId, invoice.partyRefId)) ?? invoice.partyRefId)
+          : invoice.partyRefId;
+      if (invoicePartner !== input.partnerId && invoice.partyRefId !== input.partnerId) {
         throw new DomainError('VALIDATION_FAILED', 'The invoice belongs to a different partner');
       }
       if (

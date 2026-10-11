@@ -59,6 +59,29 @@ export class FinanceController {
     return this.finance.createCustomerInvoice(parseBody(customerInvoiceSchema, body), ctx);
   }
 
+  /** Sprint 248: advance invoice (avans) for a confirmed order. */
+  @Post('invoices/advance')
+  @RequirePermission('finance.invoice')
+  async advance(@Body() body: unknown, @Ctx() ctx: RequestContext) {
+    const input = parseBody(
+      z.object({
+        orderId: z.string().uuid(),
+        percent: z.number().gt(0).max(100).optional(),
+        amount: z.number().positive().optional(),
+        dueInDays: z.number().int().min(0).max(365).optional(),
+      }),
+      body,
+    );
+    return this.finance.issueAdvanceInvoice(input, ctx);
+  }
+
+  /** Sprint 248: (re)try the automatic KIF entry of a customer invoice. */
+  @Post('invoices/:id/kif')
+  @RequirePermission('finance.invoice')
+  async kif(@Param('id') id: string, @Ctx() ctx: RequestContext) {
+    return this.finance.autoKif(id, ctx);
+  }
+
   @Post('invoices/supplier')
   @RequirePermission('finance.invoice')
   async supplierInvoice(@Body() body: unknown, @Ctx() ctx: RequestContext) {

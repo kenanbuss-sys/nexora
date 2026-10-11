@@ -110112,6 +110112,8 @@ export namespace Prisma {
     createdBy: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    salesOrderId: string | null
+    salesOrderLineId: string | null
   }
 
   export type WorkOrderMaxAggregateOutputType = {
@@ -110131,6 +110133,8 @@ export namespace Prisma {
     createdBy: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    salesOrderId: string | null
+    salesOrderLineId: string | null
   }
 
   export type WorkOrderCountAggregateOutputType = {
@@ -110150,6 +110154,9 @@ export namespace Prisma {
     createdBy: number
     createdAt: number
     updatedAt: number
+    salesOrderId: number
+    salesOrderLineId: number
+    spec: number
     _all: number
   }
 
@@ -110183,6 +110190,8 @@ export namespace Prisma {
     createdBy?: true
     createdAt?: true
     updatedAt?: true
+    salesOrderId?: true
+    salesOrderLineId?: true
   }
 
   export type WorkOrderMaxAggregateInputType = {
@@ -110202,6 +110211,8 @@ export namespace Prisma {
     createdBy?: true
     createdAt?: true
     updatedAt?: true
+    salesOrderId?: true
+    salesOrderLineId?: true
   }
 
   export type WorkOrderCountAggregateInputType = {
@@ -110221,6 +110232,9 @@ export namespace Prisma {
     createdBy?: true
     createdAt?: true
     updatedAt?: true
+    salesOrderId?: true
+    salesOrderLineId?: true
+    spec?: true
     _all?: true
   }
 
@@ -110327,6 +110341,9 @@ export namespace Prisma {
     createdBy: string | null
     createdAt: Date
     updatedAt: Date
+    salesOrderId: string | null
+    salesOrderLineId: string | null
+    spec: JsonValue | null
     _count: WorkOrderCountAggregateOutputType | null
     _avg: WorkOrderAvgAggregateOutputType | null
     _sum: WorkOrderSumAggregateOutputType | null
@@ -110365,6 +110382,9 @@ export namespace Prisma {
     createdBy?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    salesOrderId?: boolean
+    salesOrderLineId?: boolean
+    spec?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     operations?: boolean | WorkOrder$operationsArgs<ExtArgs>
     _count?: boolean | WorkOrderCountOutputTypeDefaultArgs<ExtArgs>
@@ -110387,6 +110407,9 @@ export namespace Prisma {
     createdBy?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    salesOrderId?: boolean
+    salesOrderLineId?: boolean
+    spec?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["workOrder"]>
 
@@ -110407,6 +110430,9 @@ export namespace Prisma {
     createdBy?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    salesOrderId?: boolean
+    salesOrderLineId?: boolean
+    spec?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["workOrder"]>
 
@@ -110427,9 +110453,12 @@ export namespace Prisma {
     createdBy?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    salesOrderId?: boolean
+    salesOrderLineId?: boolean
+    spec?: boolean
   }
 
-  export type WorkOrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "woNumber" | "skuId" | "warehouseId" | "bomId" | "routingId" | "quantity" | "goodQuantity" | "scrapQuantity" | "status" | "startedAt" | "completedAt" | "createdBy" | "createdAt" | "updatedAt", ExtArgs["result"]["workOrder"]>
+  export type WorkOrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "woNumber" | "skuId" | "warehouseId" | "bomId" | "routingId" | "quantity" | "goodQuantity" | "scrapQuantity" | "status" | "startedAt" | "completedAt" | "createdBy" | "createdAt" | "updatedAt" | "salesOrderId" | "salesOrderLineId" | "spec", ExtArgs["result"]["workOrder"]>
   export type WorkOrderInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     operations?: boolean | WorkOrder$operationsArgs<ExtArgs>
@@ -110465,6 +110494,15 @@ export namespace Prisma {
       createdBy: string | null
       createdAt: Date
       updatedAt: Date
+      /**
+       * Sprint 248: made-to-order — the sales order line this order produces.
+       */
+      salesOrderId: string | null
+      salesOrderLineId: string | null
+      /**
+       * Dimensions / options copied from the order line (cutting list).
+       */
+      spec: Prisma.JsonValue | null
     }, ExtArgs["result"]["workOrder"]>
     composites: {}
   }
@@ -110906,6 +110944,9 @@ export namespace Prisma {
     readonly createdBy: FieldRef<"WorkOrder", 'String'>
     readonly createdAt: FieldRef<"WorkOrder", 'DateTime'>
     readonly updatedAt: FieldRef<"WorkOrder", 'DateTime'>
+    readonly salesOrderId: FieldRef<"WorkOrder", 'String'>
+    readonly salesOrderLineId: FieldRef<"WorkOrder", 'String'>
+    readonly spec: FieldRef<"WorkOrder", 'Json'>
   }
     
 
@@ -118261,11 +118302,13 @@ export namespace Prisma {
   export type InvoiceAvgAggregateOutputType = {
     total: Decimal | null
     paidAmount: Decimal | null
+    advanceDeducted: Decimal | null
   }
 
   export type InvoiceSumAggregateOutputType = {
     total: Decimal | null
     paidAmount: Decimal | null
+    advanceDeducted: Decimal | null
   }
 
   export type InvoiceMinAggregateOutputType = {
@@ -118282,6 +118325,8 @@ export namespace Prisma {
     issuedAt: Date | null
     dueAt: Date | null
     costCenterId: string | null
+    invoiceKind: string | null
+    advanceDeducted: Decimal | null
     createdBy: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -118301,6 +118346,8 @@ export namespace Prisma {
     issuedAt: Date | null
     dueAt: Date | null
     costCenterId: string | null
+    invoiceKind: string | null
+    advanceDeducted: Decimal | null
     createdBy: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -118321,6 +118368,8 @@ export namespace Prisma {
     dueAt: number
     costCenterId: number
     dimensions: number
+    invoiceKind: number
+    advanceDeducted: number
     createdBy: number
     createdAt: number
     updatedAt: number
@@ -118331,11 +118380,13 @@ export namespace Prisma {
   export type InvoiceAvgAggregateInputType = {
     total?: true
     paidAmount?: true
+    advanceDeducted?: true
   }
 
   export type InvoiceSumAggregateInputType = {
     total?: true
     paidAmount?: true
+    advanceDeducted?: true
   }
 
   export type InvoiceMinAggregateInputType = {
@@ -118352,6 +118403,8 @@ export namespace Prisma {
     issuedAt?: true
     dueAt?: true
     costCenterId?: true
+    invoiceKind?: true
+    advanceDeducted?: true
     createdBy?: true
     createdAt?: true
     updatedAt?: true
@@ -118371,6 +118424,8 @@ export namespace Prisma {
     issuedAt?: true
     dueAt?: true
     costCenterId?: true
+    invoiceKind?: true
+    advanceDeducted?: true
     createdBy?: true
     createdAt?: true
     updatedAt?: true
@@ -118391,6 +118446,8 @@ export namespace Prisma {
     dueAt?: true
     costCenterId?: true
     dimensions?: true
+    invoiceKind?: true
+    advanceDeducted?: true
     createdBy?: true
     createdAt?: true
     updatedAt?: true
@@ -118498,6 +118555,8 @@ export namespace Prisma {
     dueAt: Date | null
     costCenterId: string | null
     dimensions: JsonValue | null
+    invoiceKind: string
+    advanceDeducted: Decimal | null
     createdBy: string | null
     createdAt: Date
     updatedAt: Date
@@ -118537,6 +118596,8 @@ export namespace Prisma {
     dueAt?: boolean
     costCenterId?: boolean
     dimensions?: boolean
+    invoiceKind?: boolean
+    advanceDeducted?: boolean
     createdBy?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -118562,6 +118623,8 @@ export namespace Prisma {
     dueAt?: boolean
     costCenterId?: boolean
     dimensions?: boolean
+    invoiceKind?: boolean
+    advanceDeducted?: boolean
     createdBy?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -118583,6 +118646,8 @@ export namespace Prisma {
     dueAt?: boolean
     costCenterId?: boolean
     dimensions?: boolean
+    invoiceKind?: boolean
+    advanceDeducted?: boolean
     createdBy?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -118604,12 +118669,14 @@ export namespace Prisma {
     dueAt?: boolean
     costCenterId?: boolean
     dimensions?: boolean
+    invoiceKind?: boolean
+    advanceDeducted?: boolean
     createdBy?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type InvoiceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "invoiceNumber" | "invoiceType" | "partyRefId" | "orderRefId" | "currency" | "total" | "paidAmount" | "status" | "issuedAt" | "dueAt" | "costCenterId" | "dimensions" | "createdBy" | "createdAt" | "updatedAt", ExtArgs["result"]["invoice"]>
+  export type InvoiceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "invoiceNumber" | "invoiceType" | "partyRefId" | "orderRefId" | "currency" | "total" | "paidAmount" | "status" | "issuedAt" | "dueAt" | "costCenterId" | "dimensions" | "invoiceKind" | "advanceDeducted" | "createdBy" | "createdAt" | "updatedAt", ExtArgs["result"]["invoice"]>
   export type InvoiceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     payments?: boolean | Invoice$paymentsArgs<ExtArgs>
@@ -118653,6 +118720,14 @@ export namespace Prisma {
        * Sprint 157 (FIN-001): named financial dimensions (validated in FIN).
        */
       dimensions: Prisma.JsonValue | null
+      /**
+       * Sprint 248: STANDARD (final) or ADVANCE (avans) — one of each per order.
+       */
+      invoiceKind: string
+      /**
+       * Final invoice: advance already invoiced and deducted from the total.
+       */
+      advanceDeducted: Prisma.Decimal | null
       createdBy: string | null
       createdAt: Date
       updatedAt: Date
@@ -119097,6 +119172,8 @@ export namespace Prisma {
     readonly dueAt: FieldRef<"Invoice", 'DateTime'>
     readonly costCenterId: FieldRef<"Invoice", 'String'>
     readonly dimensions: FieldRef<"Invoice", 'Json'>
+    readonly invoiceKind: FieldRef<"Invoice", 'String'>
+    readonly advanceDeducted: FieldRef<"Invoice", 'Decimal'>
     readonly createdBy: FieldRef<"Invoice", 'String'>
     readonly createdAt: FieldRef<"Invoice", 'DateTime'>
     readonly updatedAt: FieldRef<"Invoice", 'DateTime'>
@@ -185470,6 +185547,13 @@ export namespace Prisma {
     createdBy: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    kind: string | null
+    salesOrderId: string | null
+    quoteId: string | null
+    vehicleId: string | null
+    slotStart: Date | null
+    slotEnd: Date | null
+    siteAddress: string | null
   }
 
   export type ServiceOrderMaxAggregateOutputType = {
@@ -185488,6 +185572,13 @@ export namespace Prisma {
     createdBy: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    kind: string | null
+    salesOrderId: string | null
+    quoteId: string | null
+    vehicleId: string | null
+    slotStart: Date | null
+    slotEnd: Date | null
+    siteAddress: string | null
   }
 
   export type ServiceOrderCountAggregateOutputType = {
@@ -185507,6 +185598,14 @@ export namespace Prisma {
     createdBy: number
     createdAt: number
     updatedAt: number
+    kind: number
+    salesOrderId: number
+    quoteId: number
+    crewEmployeeIds: number
+    vehicleId: number
+    slotStart: number
+    slotEnd: number
+    siteAddress: number
     _all: number
   }
 
@@ -185527,6 +185626,13 @@ export namespace Prisma {
     createdBy?: true
     createdAt?: true
     updatedAt?: true
+    kind?: true
+    salesOrderId?: true
+    quoteId?: true
+    vehicleId?: true
+    slotStart?: true
+    slotEnd?: true
+    siteAddress?: true
   }
 
   export type ServiceOrderMaxAggregateInputType = {
@@ -185545,6 +185651,13 @@ export namespace Prisma {
     createdBy?: true
     createdAt?: true
     updatedAt?: true
+    kind?: true
+    salesOrderId?: true
+    quoteId?: true
+    vehicleId?: true
+    slotStart?: true
+    slotEnd?: true
+    siteAddress?: true
   }
 
   export type ServiceOrderCountAggregateInputType = {
@@ -185564,6 +185677,14 @@ export namespace Prisma {
     createdBy?: true
     createdAt?: true
     updatedAt?: true
+    kind?: true
+    salesOrderId?: true
+    quoteId?: true
+    crewEmployeeIds?: true
+    vehicleId?: true
+    slotStart?: true
+    slotEnd?: true
+    siteAddress?: true
     _all?: true
   }
 
@@ -185656,6 +185777,14 @@ export namespace Prisma {
     createdBy: string | null
     createdAt: Date
     updatedAt: Date
+    kind: string
+    salesOrderId: string | null
+    quoteId: string | null
+    crewEmployeeIds: string[]
+    vehicleId: string | null
+    slotStart: Date | null
+    slotEnd: Date | null
+    siteAddress: string | null
     _count: ServiceOrderCountAggregateOutputType | null
     _min: ServiceOrderMinAggregateOutputType | null
     _max: ServiceOrderMaxAggregateOutputType | null
@@ -185692,6 +185821,14 @@ export namespace Prisma {
     createdBy?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    kind?: boolean
+    salesOrderId?: boolean
+    quoteId?: boolean
+    crewEmployeeIds?: boolean
+    vehicleId?: boolean
+    slotStart?: boolean
+    slotEnd?: boolean
+    siteAddress?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     request?: boolean | ServiceOrder$requestArgs<ExtArgs>
     installedAsset?: boolean | ServiceOrder$installedAssetArgs<ExtArgs>
@@ -185716,6 +185853,14 @@ export namespace Prisma {
     createdBy?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    kind?: boolean
+    salesOrderId?: boolean
+    quoteId?: boolean
+    crewEmployeeIds?: boolean
+    vehicleId?: boolean
+    slotStart?: boolean
+    slotEnd?: boolean
+    siteAddress?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     request?: boolean | ServiceOrder$requestArgs<ExtArgs>
     installedAsset?: boolean | ServiceOrder$installedAssetArgs<ExtArgs>
@@ -185738,6 +185883,14 @@ export namespace Prisma {
     createdBy?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    kind?: boolean
+    salesOrderId?: boolean
+    quoteId?: boolean
+    crewEmployeeIds?: boolean
+    vehicleId?: boolean
+    slotStart?: boolean
+    slotEnd?: boolean
+    siteAddress?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     request?: boolean | ServiceOrder$requestArgs<ExtArgs>
     installedAsset?: boolean | ServiceOrder$installedAssetArgs<ExtArgs>
@@ -185760,9 +185913,17 @@ export namespace Prisma {
     createdBy?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    kind?: boolean
+    salesOrderId?: boolean
+    quoteId?: boolean
+    crewEmployeeIds?: boolean
+    vehicleId?: boolean
+    slotStart?: boolean
+    slotEnd?: boolean
+    siteAddress?: boolean
   }
 
-  export type ServiceOrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "orderNumber" | "requestId" | "installedAssetId" | "accountId" | "status" | "scheduledAt" | "assignedTo" | "skillsRequired" | "report" | "proofName" | "proofSignatureHash" | "createdBy" | "createdAt" | "updatedAt", ExtArgs["result"]["serviceOrder"]>
+  export type ServiceOrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "orderNumber" | "requestId" | "installedAssetId" | "accountId" | "status" | "scheduledAt" | "assignedTo" | "skillsRequired" | "report" | "proofName" | "proofSignatureHash" | "createdBy" | "createdAt" | "updatedAt" | "kind" | "salesOrderId" | "quoteId" | "crewEmployeeIds" | "vehicleId" | "slotStart" | "slotEnd" | "siteAddress", ExtArgs["result"]["serviceOrder"]>
   export type ServiceOrderInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     request?: boolean | ServiceOrder$requestArgs<ExtArgs>
@@ -185806,6 +185967,20 @@ export namespace Prisma {
       createdBy: string | null
       createdAt: Date
       updatedAt: Date
+      /**
+       * Sprint 248: SERVICE | MEASUREMENT | INSTALLATION
+       */
+      kind: string
+      salesOrderId: string | null
+      quoteId: string | null
+      /**
+       * Installation crew (HCM employees) and vehicle (LOG) for the slot.
+       */
+      crewEmployeeIds: string[]
+      vehicleId: string | null
+      slotStart: Date | null
+      slotEnd: Date | null
+      siteAddress: string | null
     }, ExtArgs["result"]["serviceOrder"]>
     composites: {}
   }
@@ -186249,6 +186424,14 @@ export namespace Prisma {
     readonly createdBy: FieldRef<"ServiceOrder", 'String'>
     readonly createdAt: FieldRef<"ServiceOrder", 'DateTime'>
     readonly updatedAt: FieldRef<"ServiceOrder", 'DateTime'>
+    readonly kind: FieldRef<"ServiceOrder", 'String'>
+    readonly salesOrderId: FieldRef<"ServiceOrder", 'String'>
+    readonly quoteId: FieldRef<"ServiceOrder", 'String'>
+    readonly crewEmployeeIds: FieldRef<"ServiceOrder", 'String[]'>
+    readonly vehicleId: FieldRef<"ServiceOrder", 'String'>
+    readonly slotStart: FieldRef<"ServiceOrder", 'DateTime'>
+    readonly slotEnd: FieldRef<"ServiceOrder", 'DateTime'>
+    readonly siteAddress: FieldRef<"ServiceOrder", 'String'>
   }
     
 
@@ -224542,7 +224725,10 @@ export namespace Prisma {
     completedAt: 'completedAt',
     createdBy: 'createdBy',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    updatedAt: 'updatedAt',
+    salesOrderId: 'salesOrderId',
+    salesOrderLineId: 'salesOrderLineId',
+    spec: 'spec'
   };
 
   export type WorkOrderScalarFieldEnum = (typeof WorkOrderScalarFieldEnum)[keyof typeof WorkOrderScalarFieldEnum]
@@ -224657,6 +224843,8 @@ export namespace Prisma {
     dueAt: 'dueAt',
     costCenterId: 'costCenterId',
     dimensions: 'dimensions',
+    invoiceKind: 'invoiceKind',
+    advanceDeducted: 'advanceDeducted',
     createdBy: 'createdBy',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -225567,7 +225755,15 @@ export namespace Prisma {
     proofSignatureHash: 'proofSignatureHash',
     createdBy: 'createdBy',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    updatedAt: 'updatedAt',
+    kind: 'kind',
+    salesOrderId: 'salesOrderId',
+    quoteId: 'quoteId',
+    crewEmployeeIds: 'crewEmployeeIds',
+    vehicleId: 'vehicleId',
+    slotStart: 'slotStart',
+    slotEnd: 'slotEnd',
+    siteAddress: 'siteAddress'
   };
 
   export type ServiceOrderScalarFieldEnum = (typeof ServiceOrderScalarFieldEnum)[keyof typeof ServiceOrderScalarFieldEnum]
@@ -233598,6 +233794,9 @@ export namespace Prisma {
     createdBy?: StringNullableFilter<"WorkOrder"> | string | null
     createdAt?: DateTimeFilter<"WorkOrder"> | Date | string
     updatedAt?: DateTimeFilter<"WorkOrder"> | Date | string
+    salesOrderId?: UuidNullableFilter<"WorkOrder"> | string | null
+    salesOrderLineId?: UuidNullableFilter<"WorkOrder"> | string | null
+    spec?: JsonNullableFilter<"WorkOrder">
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
     operations?: WorkOrderOperationListRelationFilter
   }
@@ -233619,6 +233818,9 @@ export namespace Prisma {
     createdBy?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    salesOrderId?: SortOrderInput | SortOrder
+    salesOrderLineId?: SortOrderInput | SortOrder
+    spec?: SortOrderInput | SortOrder
     tenant?: TenantOrderByWithRelationInput
     operations?: WorkOrderOperationOrderByRelationAggregateInput
   }
@@ -233644,6 +233846,9 @@ export namespace Prisma {
     createdBy?: StringNullableFilter<"WorkOrder"> | string | null
     createdAt?: DateTimeFilter<"WorkOrder"> | Date | string
     updatedAt?: DateTimeFilter<"WorkOrder"> | Date | string
+    salesOrderId?: UuidNullableFilter<"WorkOrder"> | string | null
+    salesOrderLineId?: UuidNullableFilter<"WorkOrder"> | string | null
+    spec?: JsonNullableFilter<"WorkOrder">
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
     operations?: WorkOrderOperationListRelationFilter
   }, "id" | "tenantId_woNumber">
@@ -233665,6 +233870,9 @@ export namespace Prisma {
     createdBy?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    salesOrderId?: SortOrderInput | SortOrder
+    salesOrderLineId?: SortOrderInput | SortOrder
+    spec?: SortOrderInput | SortOrder
     _count?: WorkOrderCountOrderByAggregateInput
     _avg?: WorkOrderAvgOrderByAggregateInput
     _max?: WorkOrderMaxOrderByAggregateInput
@@ -233692,6 +233900,9 @@ export namespace Prisma {
     createdBy?: StringNullableWithAggregatesFilter<"WorkOrder"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"WorkOrder"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"WorkOrder"> | Date | string
+    salesOrderId?: UuidNullableWithAggregatesFilter<"WorkOrder"> | string | null
+    salesOrderLineId?: UuidNullableWithAggregatesFilter<"WorkOrder"> | string | null
+    spec?: JsonNullableWithAggregatesFilter<"WorkOrder">
   }
 
   export type WorkOrderOperationWhereInput = {
@@ -234209,6 +234420,8 @@ export namespace Prisma {
     dueAt?: DateTimeNullableFilter<"Invoice"> | Date | string | null
     costCenterId?: UuidNullableFilter<"Invoice"> | string | null
     dimensions?: JsonNullableFilter<"Invoice">
+    invoiceKind?: StringFilter<"Invoice"> | string
+    advanceDeducted?: DecimalNullableFilter<"Invoice"> | Decimal | DecimalJsLike | number | string | null
     createdBy?: StringNullableFilter<"Invoice"> | string | null
     createdAt?: DateTimeFilter<"Invoice"> | Date | string
     updatedAt?: DateTimeFilter<"Invoice"> | Date | string
@@ -234233,6 +234446,8 @@ export namespace Prisma {
     dueAt?: SortOrderInput | SortOrder
     costCenterId?: SortOrderInput | SortOrder
     dimensions?: SortOrderInput | SortOrder
+    invoiceKind?: SortOrder
+    advanceDeducted?: SortOrderInput | SortOrder
     createdBy?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -234245,7 +234460,7 @@ export namespace Prisma {
   export type InvoiceWhereUniqueInput = Prisma.AtLeast<{
     id?: string
     tenantId_invoiceNumber?: InvoiceTenantIdInvoiceNumberCompoundUniqueInput
-    tenantId_invoiceType_orderRefId?: InvoiceTenantIdInvoiceTypeOrderRefIdCompoundUniqueInput
+    tenantId_invoiceType_orderRefId_invoiceKind?: InvoiceTenantIdInvoiceTypeOrderRefIdInvoiceKindCompoundUniqueInput
     AND?: InvoiceWhereInput | InvoiceWhereInput[]
     OR?: InvoiceWhereInput[]
     NOT?: InvoiceWhereInput | InvoiceWhereInput[]
@@ -234262,6 +234477,8 @@ export namespace Prisma {
     dueAt?: DateTimeNullableFilter<"Invoice"> | Date | string | null
     costCenterId?: UuidNullableFilter<"Invoice"> | string | null
     dimensions?: JsonNullableFilter<"Invoice">
+    invoiceKind?: StringFilter<"Invoice"> | string
+    advanceDeducted?: DecimalNullableFilter<"Invoice"> | Decimal | DecimalJsLike | number | string | null
     createdBy?: StringNullableFilter<"Invoice"> | string | null
     createdAt?: DateTimeFilter<"Invoice"> | Date | string
     updatedAt?: DateTimeFilter<"Invoice"> | Date | string
@@ -234269,7 +234486,7 @@ export namespace Prisma {
     payments?: PaymentListRelationFilter
     allocations?: PaymentAllocationListRelationFilter
     compensationLines?: CompensationLineListRelationFilter
-  }, "id" | "tenantId_invoiceNumber" | "tenantId_invoiceType_orderRefId">
+  }, "id" | "tenantId_invoiceNumber" | "tenantId_invoiceType_orderRefId_invoiceKind">
 
   export type InvoiceOrderByWithAggregationInput = {
     id?: SortOrder
@@ -234286,6 +234503,8 @@ export namespace Prisma {
     dueAt?: SortOrderInput | SortOrder
     costCenterId?: SortOrderInput | SortOrder
     dimensions?: SortOrderInput | SortOrder
+    invoiceKind?: SortOrder
+    advanceDeducted?: SortOrderInput | SortOrder
     createdBy?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -234314,6 +234533,8 @@ export namespace Prisma {
     dueAt?: DateTimeNullableWithAggregatesFilter<"Invoice"> | Date | string | null
     costCenterId?: UuidNullableWithAggregatesFilter<"Invoice"> | string | null
     dimensions?: JsonNullableWithAggregatesFilter<"Invoice">
+    invoiceKind?: StringWithAggregatesFilter<"Invoice"> | string
+    advanceDeducted?: DecimalNullableWithAggregatesFilter<"Invoice"> | Decimal | DecimalJsLike | number | string | null
     createdBy?: StringNullableWithAggregatesFilter<"Invoice"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Invoice"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Invoice"> | Date | string
@@ -239018,6 +239239,14 @@ export namespace Prisma {
     createdBy?: StringNullableFilter<"ServiceOrder"> | string | null
     createdAt?: DateTimeFilter<"ServiceOrder"> | Date | string
     updatedAt?: DateTimeFilter<"ServiceOrder"> | Date | string
+    kind?: StringFilter<"ServiceOrder"> | string
+    salesOrderId?: UuidNullableFilter<"ServiceOrder"> | string | null
+    quoteId?: UuidNullableFilter<"ServiceOrder"> | string | null
+    crewEmployeeIds?: StringNullableListFilter<"ServiceOrder">
+    vehicleId?: UuidNullableFilter<"ServiceOrder"> | string | null
+    slotStart?: DateTimeNullableFilter<"ServiceOrder"> | Date | string | null
+    slotEnd?: DateTimeNullableFilter<"ServiceOrder"> | Date | string | null
+    siteAddress?: StringNullableFilter<"ServiceOrder"> | string | null
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
     request?: XOR<ServiceRequestNullableScalarRelationFilter, ServiceRequestWhereInput> | null
     installedAsset?: XOR<InstalledAssetNullableScalarRelationFilter, InstalledAssetWhereInput> | null
@@ -239041,6 +239270,14 @@ export namespace Prisma {
     createdBy?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    kind?: SortOrder
+    salesOrderId?: SortOrderInput | SortOrder
+    quoteId?: SortOrderInput | SortOrder
+    crewEmployeeIds?: SortOrder
+    vehicleId?: SortOrderInput | SortOrder
+    slotStart?: SortOrderInput | SortOrder
+    slotEnd?: SortOrderInput | SortOrder
+    siteAddress?: SortOrderInput | SortOrder
     tenant?: TenantOrderByWithRelationInput
     request?: ServiceRequestOrderByWithRelationInput
     installedAsset?: InstalledAssetOrderByWithRelationInput
@@ -239068,6 +239305,14 @@ export namespace Prisma {
     createdBy?: StringNullableFilter<"ServiceOrder"> | string | null
     createdAt?: DateTimeFilter<"ServiceOrder"> | Date | string
     updatedAt?: DateTimeFilter<"ServiceOrder"> | Date | string
+    kind?: StringFilter<"ServiceOrder"> | string
+    salesOrderId?: UuidNullableFilter<"ServiceOrder"> | string | null
+    quoteId?: UuidNullableFilter<"ServiceOrder"> | string | null
+    crewEmployeeIds?: StringNullableListFilter<"ServiceOrder">
+    vehicleId?: UuidNullableFilter<"ServiceOrder"> | string | null
+    slotStart?: DateTimeNullableFilter<"ServiceOrder"> | Date | string | null
+    slotEnd?: DateTimeNullableFilter<"ServiceOrder"> | Date | string | null
+    siteAddress?: StringNullableFilter<"ServiceOrder"> | string | null
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
     request?: XOR<ServiceRequestNullableScalarRelationFilter, ServiceRequestWhereInput> | null
     installedAsset?: XOR<InstalledAssetNullableScalarRelationFilter, InstalledAssetWhereInput> | null
@@ -239091,6 +239336,14 @@ export namespace Prisma {
     createdBy?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    kind?: SortOrder
+    salesOrderId?: SortOrderInput | SortOrder
+    quoteId?: SortOrderInput | SortOrder
+    crewEmployeeIds?: SortOrder
+    vehicleId?: SortOrderInput | SortOrder
+    slotStart?: SortOrderInput | SortOrder
+    slotEnd?: SortOrderInput | SortOrder
+    siteAddress?: SortOrderInput | SortOrder
     _count?: ServiceOrderCountOrderByAggregateInput
     _max?: ServiceOrderMaxOrderByAggregateInput
     _min?: ServiceOrderMinOrderByAggregateInput
@@ -239116,6 +239369,14 @@ export namespace Prisma {
     createdBy?: StringNullableWithAggregatesFilter<"ServiceOrder"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"ServiceOrder"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"ServiceOrder"> | Date | string
+    kind?: StringWithAggregatesFilter<"ServiceOrder"> | string
+    salesOrderId?: UuidNullableWithAggregatesFilter<"ServiceOrder"> | string | null
+    quoteId?: UuidNullableWithAggregatesFilter<"ServiceOrder"> | string | null
+    crewEmployeeIds?: StringNullableListFilter<"ServiceOrder">
+    vehicleId?: UuidNullableWithAggregatesFilter<"ServiceOrder"> | string | null
+    slotStart?: DateTimeNullableWithAggregatesFilter<"ServiceOrder"> | Date | string | null
+    slotEnd?: DateTimeNullableWithAggregatesFilter<"ServiceOrder"> | Date | string | null
+    siteAddress?: StringNullableWithAggregatesFilter<"ServiceOrder"> | string | null
   }
 
   export type ServiceOrderPartWhereInput = {
@@ -248914,6 +249175,9 @@ export namespace Prisma {
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    salesOrderId?: string | null
+    salesOrderLineId?: string | null
+    spec?: NullableJsonNullValueInput | InputJsonValue
     tenant: TenantCreateNestedOneWithoutWorkOrdersInput
     operations?: WorkOrderOperationCreateNestedManyWithoutWorkOrderInput
   }
@@ -248935,6 +249199,9 @@ export namespace Prisma {
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    salesOrderId?: string | null
+    salesOrderLineId?: string | null
+    spec?: NullableJsonNullValueInput | InputJsonValue
     operations?: WorkOrderOperationUncheckedCreateNestedManyWithoutWorkOrderInput
   }
 
@@ -248954,6 +249221,9 @@ export namespace Prisma {
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    salesOrderId?: NullableStringFieldUpdateOperationsInput | string | null
+    salesOrderLineId?: NullableStringFieldUpdateOperationsInput | string | null
+    spec?: NullableJsonNullValueInput | InputJsonValue
     tenant?: TenantUpdateOneRequiredWithoutWorkOrdersNestedInput
     operations?: WorkOrderOperationUpdateManyWithoutWorkOrderNestedInput
   }
@@ -248975,6 +249245,9 @@ export namespace Prisma {
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    salesOrderId?: NullableStringFieldUpdateOperationsInput | string | null
+    salesOrderLineId?: NullableStringFieldUpdateOperationsInput | string | null
+    spec?: NullableJsonNullValueInput | InputJsonValue
     operations?: WorkOrderOperationUncheckedUpdateManyWithoutWorkOrderNestedInput
   }
 
@@ -248995,6 +249268,9 @@ export namespace Prisma {
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    salesOrderId?: string | null
+    salesOrderLineId?: string | null
+    spec?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type WorkOrderUpdateManyMutationInput = {
@@ -249013,6 +249289,9 @@ export namespace Prisma {
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    salesOrderId?: NullableStringFieldUpdateOperationsInput | string | null
+    salesOrderLineId?: NullableStringFieldUpdateOperationsInput | string | null
+    spec?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type WorkOrderUncheckedUpdateManyInput = {
@@ -249032,6 +249311,9 @@ export namespace Prisma {
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    salesOrderId?: NullableStringFieldUpdateOperationsInput | string | null
+    salesOrderLineId?: NullableStringFieldUpdateOperationsInput | string | null
+    spec?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type WorkOrderOperationCreateInput = {
@@ -249579,6 +249861,8 @@ export namespace Prisma {
     dueAt?: Date | string | null
     costCenterId?: string | null
     dimensions?: NullableJsonNullValueInput | InputJsonValue
+    invoiceKind?: string
+    advanceDeducted?: Decimal | DecimalJsLike | number | string | null
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -249603,6 +249887,8 @@ export namespace Prisma {
     dueAt?: Date | string | null
     costCenterId?: string | null
     dimensions?: NullableJsonNullValueInput | InputJsonValue
+    invoiceKind?: string
+    advanceDeducted?: Decimal | DecimalJsLike | number | string | null
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -249625,6 +249911,8 @@ export namespace Prisma {
     dueAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     costCenterId?: NullableStringFieldUpdateOperationsInput | string | null
     dimensions?: NullableJsonNullValueInput | InputJsonValue
+    invoiceKind?: StringFieldUpdateOperationsInput | string
+    advanceDeducted?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -249649,6 +249937,8 @@ export namespace Prisma {
     dueAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     costCenterId?: NullableStringFieldUpdateOperationsInput | string | null
     dimensions?: NullableJsonNullValueInput | InputJsonValue
+    invoiceKind?: StringFieldUpdateOperationsInput | string
+    advanceDeducted?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -249672,6 +249962,8 @@ export namespace Prisma {
     dueAt?: Date | string | null
     costCenterId?: string | null
     dimensions?: NullableJsonNullValueInput | InputJsonValue
+    invoiceKind?: string
+    advanceDeducted?: Decimal | DecimalJsLike | number | string | null
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -249691,6 +249983,8 @@ export namespace Prisma {
     dueAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     costCenterId?: NullableStringFieldUpdateOperationsInput | string | null
     dimensions?: NullableJsonNullValueInput | InputJsonValue
+    invoiceKind?: StringFieldUpdateOperationsInput | string
+    advanceDeducted?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -249711,6 +250005,8 @@ export namespace Prisma {
     dueAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     costCenterId?: NullableStringFieldUpdateOperationsInput | string | null
     dimensions?: NullableJsonNullValueInput | InputJsonValue
+    invoiceKind?: StringFieldUpdateOperationsInput | string
+    advanceDeducted?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -254749,6 +255045,14 @@ export namespace Prisma {
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    kind?: string
+    salesOrderId?: string | null
+    quoteId?: string | null
+    crewEmployeeIds?: ServiceOrderCreatecrewEmployeeIdsInput | string[]
+    vehicleId?: string | null
+    slotStart?: Date | string | null
+    slotEnd?: Date | string | null
+    siteAddress?: string | null
     tenant: TenantCreateNestedOneWithoutServiceOrdersInput
     request?: ServiceRequestCreateNestedOneWithoutServiceOrdersInput
     installedAsset?: InstalledAssetCreateNestedOneWithoutServiceOrdersInput
@@ -254772,6 +255076,14 @@ export namespace Prisma {
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    kind?: string
+    salesOrderId?: string | null
+    quoteId?: string | null
+    crewEmployeeIds?: ServiceOrderCreatecrewEmployeeIdsInput | string[]
+    vehicleId?: string | null
+    slotStart?: Date | string | null
+    slotEnd?: Date | string | null
+    siteAddress?: string | null
     parts?: ServiceOrderPartUncheckedCreateNestedManyWithoutServiceOrderInput
   }
 
@@ -254789,6 +255101,14 @@ export namespace Prisma {
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    kind?: StringFieldUpdateOperationsInput | string
+    salesOrderId?: NullableStringFieldUpdateOperationsInput | string | null
+    quoteId?: NullableStringFieldUpdateOperationsInput | string | null
+    crewEmployeeIds?: ServiceOrderUpdatecrewEmployeeIdsInput | string[]
+    vehicleId?: NullableStringFieldUpdateOperationsInput | string | null
+    slotStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    slotEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    siteAddress?: NullableStringFieldUpdateOperationsInput | string | null
     tenant?: TenantUpdateOneRequiredWithoutServiceOrdersNestedInput
     request?: ServiceRequestUpdateOneWithoutServiceOrdersNestedInput
     installedAsset?: InstalledAssetUpdateOneWithoutServiceOrdersNestedInput
@@ -254812,6 +255132,14 @@ export namespace Prisma {
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    kind?: StringFieldUpdateOperationsInput | string
+    salesOrderId?: NullableStringFieldUpdateOperationsInput | string | null
+    quoteId?: NullableStringFieldUpdateOperationsInput | string | null
+    crewEmployeeIds?: ServiceOrderUpdatecrewEmployeeIdsInput | string[]
+    vehicleId?: NullableStringFieldUpdateOperationsInput | string | null
+    slotStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    slotEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    siteAddress?: NullableStringFieldUpdateOperationsInput | string | null
     parts?: ServiceOrderPartUncheckedUpdateManyWithoutServiceOrderNestedInput
   }
 
@@ -254832,6 +255160,14 @@ export namespace Prisma {
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    kind?: string
+    salesOrderId?: string | null
+    quoteId?: string | null
+    crewEmployeeIds?: ServiceOrderCreatecrewEmployeeIdsInput | string[]
+    vehicleId?: string | null
+    slotStart?: Date | string | null
+    slotEnd?: Date | string | null
+    siteAddress?: string | null
   }
 
   export type ServiceOrderUpdateManyMutationInput = {
@@ -254848,6 +255184,14 @@ export namespace Prisma {
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    kind?: StringFieldUpdateOperationsInput | string
+    salesOrderId?: NullableStringFieldUpdateOperationsInput | string | null
+    quoteId?: NullableStringFieldUpdateOperationsInput | string | null
+    crewEmployeeIds?: ServiceOrderUpdatecrewEmployeeIdsInput | string[]
+    vehicleId?: NullableStringFieldUpdateOperationsInput | string | null
+    slotStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    slotEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    siteAddress?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ServiceOrderUncheckedUpdateManyInput = {
@@ -254867,6 +255211,14 @@ export namespace Prisma {
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    kind?: StringFieldUpdateOperationsInput | string
+    salesOrderId?: NullableStringFieldUpdateOperationsInput | string | null
+    quoteId?: NullableStringFieldUpdateOperationsInput | string | null
+    crewEmployeeIds?: ServiceOrderUpdatecrewEmployeeIdsInput | string[]
+    vehicleId?: NullableStringFieldUpdateOperationsInput | string | null
+    slotStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    slotEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    siteAddress?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ServiceOrderPartCreateInput = {
@@ -264129,6 +264481,9 @@ export namespace Prisma {
     createdBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    salesOrderId?: SortOrder
+    salesOrderLineId?: SortOrder
+    spec?: SortOrder
   }
 
   export type WorkOrderAvgOrderByAggregateInput = {
@@ -264154,6 +264509,8 @@ export namespace Prisma {
     createdBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    salesOrderId?: SortOrder
+    salesOrderLineId?: SortOrder
   }
 
   export type WorkOrderMinOrderByAggregateInput = {
@@ -264173,6 +264530,8 @@ export namespace Prisma {
     createdBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    salesOrderId?: SortOrder
+    salesOrderLineId?: SortOrder
   }
 
   export type WorkOrderSumOrderByAggregateInput = {
@@ -264593,10 +264952,11 @@ export namespace Prisma {
     invoiceNumber: string
   }
 
-  export type InvoiceTenantIdInvoiceTypeOrderRefIdCompoundUniqueInput = {
+  export type InvoiceTenantIdInvoiceTypeOrderRefIdInvoiceKindCompoundUniqueInput = {
     tenantId: string
     invoiceType: $Enums.InvoiceType
     orderRefId: string
+    invoiceKind: string
   }
 
   export type InvoiceCountOrderByAggregateInput = {
@@ -264614,6 +264974,8 @@ export namespace Prisma {
     dueAt?: SortOrder
     costCenterId?: SortOrder
     dimensions?: SortOrder
+    invoiceKind?: SortOrder
+    advanceDeducted?: SortOrder
     createdBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -264622,6 +264984,7 @@ export namespace Prisma {
   export type InvoiceAvgOrderByAggregateInput = {
     total?: SortOrder
     paidAmount?: SortOrder
+    advanceDeducted?: SortOrder
   }
 
   export type InvoiceMaxOrderByAggregateInput = {
@@ -264638,6 +265001,8 @@ export namespace Prisma {
     issuedAt?: SortOrder
     dueAt?: SortOrder
     costCenterId?: SortOrder
+    invoiceKind?: SortOrder
+    advanceDeducted?: SortOrder
     createdBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -264657,6 +265022,8 @@ export namespace Prisma {
     issuedAt?: SortOrder
     dueAt?: SortOrder
     costCenterId?: SortOrder
+    invoiceKind?: SortOrder
+    advanceDeducted?: SortOrder
     createdBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -264665,6 +265032,7 @@ export namespace Prisma {
   export type InvoiceSumOrderByAggregateInput = {
     total?: SortOrder
     paidAmount?: SortOrder
+    advanceDeducted?: SortOrder
   }
 
   export type EnumInvoiceTypeWithAggregatesFilter<$PrismaModel = never> = {
@@ -267872,6 +268240,14 @@ export namespace Prisma {
     createdBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    kind?: SortOrder
+    salesOrderId?: SortOrder
+    quoteId?: SortOrder
+    crewEmployeeIds?: SortOrder
+    vehicleId?: SortOrder
+    slotStart?: SortOrder
+    slotEnd?: SortOrder
+    siteAddress?: SortOrder
   }
 
   export type ServiceOrderMaxOrderByAggregateInput = {
@@ -267890,6 +268266,13 @@ export namespace Prisma {
     createdBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    kind?: SortOrder
+    salesOrderId?: SortOrder
+    quoteId?: SortOrder
+    vehicleId?: SortOrder
+    slotStart?: SortOrder
+    slotEnd?: SortOrder
+    siteAddress?: SortOrder
   }
 
   export type ServiceOrderMinOrderByAggregateInput = {
@@ -267908,6 +268291,13 @@ export namespace Prisma {
     createdBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    kind?: SortOrder
+    salesOrderId?: SortOrder
+    quoteId?: SortOrder
+    vehicleId?: SortOrder
+    slotStart?: SortOrder
+    slotEnd?: SortOrder
+    siteAddress?: SortOrder
   }
 
   export type ServiceOrderScalarRelationFilter = {
@@ -282287,6 +282677,10 @@ export namespace Prisma {
     deleteMany?: ServiceOrderScalarWhereInput | ServiceOrderScalarWhereInput[]
   }
 
+  export type ServiceOrderCreatecrewEmployeeIdsInput = {
+    set: string[]
+  }
+
   export type TenantCreateNestedOneWithoutServiceOrdersInput = {
     create?: XOR<TenantCreateWithoutServiceOrdersInput, TenantUncheckedCreateWithoutServiceOrdersInput>
     connectOrCreate?: TenantCreateOrConnectWithoutServiceOrdersInput
@@ -282317,6 +282711,11 @@ export namespace Prisma {
     connectOrCreate?: ServiceOrderPartCreateOrConnectWithoutServiceOrderInput | ServiceOrderPartCreateOrConnectWithoutServiceOrderInput[]
     createMany?: ServiceOrderPartCreateManyServiceOrderInputEnvelope
     connect?: ServiceOrderPartWhereUniqueInput | ServiceOrderPartWhereUniqueInput[]
+  }
+
+  export type ServiceOrderUpdatecrewEmployeeIdsInput = {
+    set?: string[]
+    push?: string | string[]
   }
 
   export type TenantUpdateOneRequiredWithoutServiceOrdersNestedInput = {
@@ -286680,6 +287079,9 @@ export namespace Prisma {
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    salesOrderId?: string | null
+    salesOrderLineId?: string | null
+    spec?: NullableJsonNullValueInput | InputJsonValue
     operations?: WorkOrderOperationCreateNestedManyWithoutWorkOrderInput
   }
 
@@ -286699,6 +287101,9 @@ export namespace Prisma {
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    salesOrderId?: string | null
+    salesOrderLineId?: string | null
+    spec?: NullableJsonNullValueInput | InputJsonValue
     operations?: WorkOrderOperationUncheckedCreateNestedManyWithoutWorkOrderInput
   }
 
@@ -286930,6 +287335,8 @@ export namespace Prisma {
     dueAt?: Date | string | null
     costCenterId?: string | null
     dimensions?: NullableJsonNullValueInput | InputJsonValue
+    invoiceKind?: string
+    advanceDeducted?: Decimal | DecimalJsLike | number | string | null
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -286952,6 +287359,8 @@ export namespace Prisma {
     dueAt?: Date | string | null
     costCenterId?: string | null
     dimensions?: NullableJsonNullValueInput | InputJsonValue
+    invoiceKind?: string
+    advanceDeducted?: Decimal | DecimalJsLike | number | string | null
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -288720,6 +289129,14 @@ export namespace Prisma {
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    kind?: string
+    salesOrderId?: string | null
+    quoteId?: string | null
+    crewEmployeeIds?: ServiceOrderCreatecrewEmployeeIdsInput | string[]
+    vehicleId?: string | null
+    slotStart?: Date | string | null
+    slotEnd?: Date | string | null
+    siteAddress?: string | null
     request?: ServiceRequestCreateNestedOneWithoutServiceOrdersInput
     installedAsset?: InstalledAssetCreateNestedOneWithoutServiceOrdersInput
     parts?: ServiceOrderPartCreateNestedManyWithoutServiceOrderInput
@@ -288741,6 +289158,14 @@ export namespace Prisma {
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    kind?: string
+    salesOrderId?: string | null
+    quoteId?: string | null
+    crewEmployeeIds?: ServiceOrderCreatecrewEmployeeIdsInput | string[]
+    vehicleId?: string | null
+    slotStart?: Date | string | null
+    slotEnd?: Date | string | null
+    siteAddress?: string | null
     parts?: ServiceOrderPartUncheckedCreateNestedManyWithoutServiceOrderInput
   }
 
@@ -291906,6 +292331,9 @@ export namespace Prisma {
     createdBy?: StringNullableFilter<"WorkOrder"> | string | null
     createdAt?: DateTimeFilter<"WorkOrder"> | Date | string
     updatedAt?: DateTimeFilter<"WorkOrder"> | Date | string
+    salesOrderId?: UuidNullableFilter<"WorkOrder"> | string | null
+    salesOrderLineId?: UuidNullableFilter<"WorkOrder"> | string | null
+    spec?: JsonNullableFilter<"WorkOrder">
   }
 
   export type WorkOrderOperationUpsertWithWhereUniqueWithoutTenantInput = {
@@ -292132,6 +292560,8 @@ export namespace Prisma {
     dueAt?: DateTimeNullableFilter<"Invoice"> | Date | string | null
     costCenterId?: UuidNullableFilter<"Invoice"> | string | null
     dimensions?: JsonNullableFilter<"Invoice">
+    invoiceKind?: StringFilter<"Invoice"> | string
+    advanceDeducted?: DecimalNullableFilter<"Invoice"> | Decimal | DecimalJsLike | number | string | null
     createdBy?: StringNullableFilter<"Invoice"> | string | null
     createdAt?: DateTimeFilter<"Invoice"> | Date | string
     updatedAt?: DateTimeFilter<"Invoice"> | Date | string
@@ -293782,6 +294212,14 @@ export namespace Prisma {
     createdBy?: StringNullableFilter<"ServiceOrder"> | string | null
     createdAt?: DateTimeFilter<"ServiceOrder"> | Date | string
     updatedAt?: DateTimeFilter<"ServiceOrder"> | Date | string
+    kind?: StringFilter<"ServiceOrder"> | string
+    salesOrderId?: UuidNullableFilter<"ServiceOrder"> | string | null
+    quoteId?: UuidNullableFilter<"ServiceOrder"> | string | null
+    crewEmployeeIds?: StringNullableListFilter<"ServiceOrder">
+    vehicleId?: UuidNullableFilter<"ServiceOrder"> | string | null
+    slotStart?: DateTimeNullableFilter<"ServiceOrder"> | Date | string | null
+    slotEnd?: DateTimeNullableFilter<"ServiceOrder"> | Date | string | null
+    siteAddress?: StringNullableFilter<"ServiceOrder"> | string | null
   }
 
   export type ServiceOrderPartUpsertWithWhereUniqueWithoutTenantInput = {
@@ -342361,6 +342799,9 @@ export namespace Prisma {
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    salesOrderId?: string | null
+    salesOrderLineId?: string | null
+    spec?: NullableJsonNullValueInput | InputJsonValue
     tenant: TenantCreateNestedOneWithoutWorkOrdersInput
   }
 
@@ -342381,6 +342822,9 @@ export namespace Prisma {
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    salesOrderId?: string | null
+    salesOrderLineId?: string | null
+    spec?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type WorkOrderCreateOrConnectWithoutOperationsInput = {
@@ -342748,6 +343192,9 @@ export namespace Prisma {
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    salesOrderId?: NullableStringFieldUpdateOperationsInput | string | null
+    salesOrderLineId?: NullableStringFieldUpdateOperationsInput | string | null
+    spec?: NullableJsonNullValueInput | InputJsonValue
     tenant?: TenantUpdateOneRequiredWithoutWorkOrdersNestedInput
   }
 
@@ -342768,6 +343215,9 @@ export namespace Prisma {
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    salesOrderId?: NullableStringFieldUpdateOperationsInput | string | null
+    salesOrderLineId?: NullableStringFieldUpdateOperationsInput | string | null
+    spec?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type TenantCreateWithoutQcPlansInput = {
@@ -347439,6 +347889,8 @@ export namespace Prisma {
     dueAt?: Date | string | null
     costCenterId?: string | null
     dimensions?: NullableJsonNullValueInput | InputJsonValue
+    invoiceKind?: string
+    advanceDeducted?: Decimal | DecimalJsLike | number | string | null
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -347462,6 +347914,8 @@ export namespace Prisma {
     dueAt?: Date | string | null
     costCenterId?: string | null
     dimensions?: NullableJsonNullValueInput | InputJsonValue
+    invoiceKind?: string
+    advanceDeducted?: Decimal | DecimalJsLike | number | string | null
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -347899,6 +348353,8 @@ export namespace Prisma {
     dueAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     costCenterId?: NullableStringFieldUpdateOperationsInput | string | null
     dimensions?: NullableJsonNullValueInput | InputJsonValue
+    invoiceKind?: StringFieldUpdateOperationsInput | string
+    advanceDeducted?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -347922,6 +348378,8 @@ export namespace Prisma {
     dueAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     costCenterId?: NullableStringFieldUpdateOperationsInput | string | null
     dimensions?: NullableJsonNullValueInput | InputJsonValue
+    invoiceKind?: StringFieldUpdateOperationsInput | string
+    advanceDeducted?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -382224,6 +382682,14 @@ export namespace Prisma {
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    kind?: string
+    salesOrderId?: string | null
+    quoteId?: string | null
+    crewEmployeeIds?: ServiceOrderCreatecrewEmployeeIdsInput | string[]
+    vehicleId?: string | null
+    slotStart?: Date | string | null
+    slotEnd?: Date | string | null
+    siteAddress?: string | null
     tenant: TenantCreateNestedOneWithoutServiceOrdersInput
     request?: ServiceRequestCreateNestedOneWithoutServiceOrdersInput
     parts?: ServiceOrderPartCreateNestedManyWithoutServiceOrderInput
@@ -382245,6 +382711,14 @@ export namespace Prisma {
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    kind?: string
+    salesOrderId?: string | null
+    quoteId?: string | null
+    crewEmployeeIds?: ServiceOrderCreatecrewEmployeeIdsInput | string[]
+    vehicleId?: string | null
+    slotStart?: Date | string | null
+    slotEnd?: Date | string | null
+    siteAddress?: string | null
     parts?: ServiceOrderPartUncheckedCreateNestedManyWithoutServiceOrderInput
   }
 
@@ -383001,6 +383475,14 @@ export namespace Prisma {
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    kind?: string
+    salesOrderId?: string | null
+    quoteId?: string | null
+    crewEmployeeIds?: ServiceOrderCreatecrewEmployeeIdsInput | string[]
+    vehicleId?: string | null
+    slotStart?: Date | string | null
+    slotEnd?: Date | string | null
+    siteAddress?: string | null
     tenant: TenantCreateNestedOneWithoutServiceOrdersInput
     installedAsset?: InstalledAssetCreateNestedOneWithoutServiceOrdersInput
     parts?: ServiceOrderPartCreateNestedManyWithoutServiceOrderInput
@@ -383022,6 +383504,14 @@ export namespace Prisma {
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    kind?: string
+    salesOrderId?: string | null
+    quoteId?: string | null
+    crewEmployeeIds?: ServiceOrderCreatecrewEmployeeIdsInput | string[]
+    vehicleId?: string | null
+    slotStart?: Date | string | null
+    slotEnd?: Date | string | null
+    siteAddress?: string | null
     parts?: ServiceOrderPartUncheckedCreateNestedManyWithoutServiceOrderInput
   }
 
@@ -384626,6 +385116,14 @@ export namespace Prisma {
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    kind?: string
+    salesOrderId?: string | null
+    quoteId?: string | null
+    crewEmployeeIds?: ServiceOrderCreatecrewEmployeeIdsInput | string[]
+    vehicleId?: string | null
+    slotStart?: Date | string | null
+    slotEnd?: Date | string | null
+    siteAddress?: string | null
     tenant: TenantCreateNestedOneWithoutServiceOrdersInput
     request?: ServiceRequestCreateNestedOneWithoutServiceOrdersInput
     installedAsset?: InstalledAssetCreateNestedOneWithoutServiceOrdersInput
@@ -384648,6 +385146,14 @@ export namespace Prisma {
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    kind?: string
+    salesOrderId?: string | null
+    quoteId?: string | null
+    crewEmployeeIds?: ServiceOrderCreatecrewEmployeeIdsInput | string[]
+    vehicleId?: string | null
+    slotStart?: Date | string | null
+    slotEnd?: Date | string | null
+    siteAddress?: string | null
   }
 
   export type ServiceOrderCreateOrConnectWithoutPartsInput = {
@@ -385013,6 +385519,14 @@ export namespace Prisma {
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    kind?: StringFieldUpdateOperationsInput | string
+    salesOrderId?: NullableStringFieldUpdateOperationsInput | string | null
+    quoteId?: NullableStringFieldUpdateOperationsInput | string | null
+    crewEmployeeIds?: ServiceOrderUpdatecrewEmployeeIdsInput | string[]
+    vehicleId?: NullableStringFieldUpdateOperationsInput | string | null
+    slotStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    slotEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    siteAddress?: NullableStringFieldUpdateOperationsInput | string | null
     tenant?: TenantUpdateOneRequiredWithoutServiceOrdersNestedInput
     request?: ServiceRequestUpdateOneWithoutServiceOrdersNestedInput
     installedAsset?: InstalledAssetUpdateOneWithoutServiceOrdersNestedInput
@@ -385035,6 +385549,14 @@ export namespace Prisma {
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    kind?: StringFieldUpdateOperationsInput | string
+    salesOrderId?: NullableStringFieldUpdateOperationsInput | string | null
+    quoteId?: NullableStringFieldUpdateOperationsInput | string | null
+    crewEmployeeIds?: ServiceOrderUpdatecrewEmployeeIdsInput | string[]
+    vehicleId?: NullableStringFieldUpdateOperationsInput | string | null
+    slotStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    slotEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    siteAddress?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type TenantCreateWithoutRmasInput = {
@@ -391797,6 +392319,8 @@ export namespace Prisma {
     dueAt?: Date | string | null
     costCenterId?: string | null
     dimensions?: NullableJsonNullValueInput | InputJsonValue
+    invoiceKind?: string
+    advanceDeducted?: Decimal | DecimalJsLike | number | string | null
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -391820,6 +392344,8 @@ export namespace Prisma {
     dueAt?: Date | string | null
     costCenterId?: string | null
     dimensions?: NullableJsonNullValueInput | InputJsonValue
+    invoiceKind?: string
+    advanceDeducted?: Decimal | DecimalJsLike | number | string | null
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -392231,6 +392757,8 @@ export namespace Prisma {
     dueAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     costCenterId?: NullableStringFieldUpdateOperationsInput | string | null
     dimensions?: NullableJsonNullValueInput | InputJsonValue
+    invoiceKind?: StringFieldUpdateOperationsInput | string
+    advanceDeducted?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -392254,6 +392782,8 @@ export namespace Prisma {
     dueAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     costCenterId?: NullableStringFieldUpdateOperationsInput | string | null
     dimensions?: NullableJsonNullValueInput | InputJsonValue
+    invoiceKind?: StringFieldUpdateOperationsInput | string
+    advanceDeducted?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -393353,6 +393883,8 @@ export namespace Prisma {
     dueAt?: Date | string | null
     costCenterId?: string | null
     dimensions?: NullableJsonNullValueInput | InputJsonValue
+    invoiceKind?: string
+    advanceDeducted?: Decimal | DecimalJsLike | number | string | null
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -393376,6 +393908,8 @@ export namespace Prisma {
     dueAt?: Date | string | null
     costCenterId?: string | null
     dimensions?: NullableJsonNullValueInput | InputJsonValue
+    invoiceKind?: string
+    advanceDeducted?: Decimal | DecimalJsLike | number | string | null
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -393799,6 +394333,8 @@ export namespace Prisma {
     dueAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     costCenterId?: NullableStringFieldUpdateOperationsInput | string | null
     dimensions?: NullableJsonNullValueInput | InputJsonValue
+    invoiceKind?: StringFieldUpdateOperationsInput | string
+    advanceDeducted?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -393822,6 +394358,8 @@ export namespace Prisma {
     dueAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     costCenterId?: NullableStringFieldUpdateOperationsInput | string | null
     dimensions?: NullableJsonNullValueInput | InputJsonValue
+    invoiceKind?: StringFieldUpdateOperationsInput | string
+    advanceDeducted?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -406729,6 +407267,9 @@ export namespace Prisma {
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    salesOrderId?: string | null
+    salesOrderLineId?: string | null
+    spec?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type WorkOrderOperationCreateManyTenantInput = {
@@ -406815,6 +407356,8 @@ export namespace Prisma {
     dueAt?: Date | string | null
     costCenterId?: string | null
     dimensions?: NullableJsonNullValueInput | InputJsonValue
+    invoiceKind?: string
+    advanceDeducted?: Decimal | DecimalJsLike | number | string | null
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -407425,6 +407968,14 @@ export namespace Prisma {
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    kind?: string
+    salesOrderId?: string | null
+    quoteId?: string | null
+    crewEmployeeIds?: ServiceOrderCreatecrewEmployeeIdsInput | string[]
+    vehicleId?: string | null
+    slotStart?: Date | string | null
+    slotEnd?: Date | string | null
+    siteAddress?: string | null
   }
 
   export type ServiceOrderPartCreateManyTenantInput = {
@@ -409852,6 +410403,9 @@ export namespace Prisma {
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    salesOrderId?: NullableStringFieldUpdateOperationsInput | string | null
+    salesOrderLineId?: NullableStringFieldUpdateOperationsInput | string | null
+    spec?: NullableJsonNullValueInput | InputJsonValue
     operations?: WorkOrderOperationUpdateManyWithoutWorkOrderNestedInput
   }
 
@@ -409871,6 +410425,9 @@ export namespace Prisma {
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    salesOrderId?: NullableStringFieldUpdateOperationsInput | string | null
+    salesOrderLineId?: NullableStringFieldUpdateOperationsInput | string | null
+    spec?: NullableJsonNullValueInput | InputJsonValue
     operations?: WorkOrderOperationUncheckedUpdateManyWithoutWorkOrderNestedInput
   }
 
@@ -409890,6 +410447,9 @@ export namespace Prisma {
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    salesOrderId?: NullableStringFieldUpdateOperationsInput | string | null
+    salesOrderLineId?: NullableStringFieldUpdateOperationsInput | string | null
+    spec?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type WorkOrderOperationUpdateWithoutTenantInput = {
@@ -410120,6 +410680,8 @@ export namespace Prisma {
     dueAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     costCenterId?: NullableStringFieldUpdateOperationsInput | string | null
     dimensions?: NullableJsonNullValueInput | InputJsonValue
+    invoiceKind?: StringFieldUpdateOperationsInput | string
+    advanceDeducted?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -410142,6 +410704,8 @@ export namespace Prisma {
     dueAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     costCenterId?: NullableStringFieldUpdateOperationsInput | string | null
     dimensions?: NullableJsonNullValueInput | InputJsonValue
+    invoiceKind?: StringFieldUpdateOperationsInput | string
+    advanceDeducted?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -410164,6 +410728,8 @@ export namespace Prisma {
     dueAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     costCenterId?: NullableStringFieldUpdateOperationsInput | string | null
     dimensions?: NullableJsonNullValueInput | InputJsonValue
+    invoiceKind?: StringFieldUpdateOperationsInput | string
+    advanceDeducted?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -411998,6 +412564,14 @@ export namespace Prisma {
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    kind?: StringFieldUpdateOperationsInput | string
+    salesOrderId?: NullableStringFieldUpdateOperationsInput | string | null
+    quoteId?: NullableStringFieldUpdateOperationsInput | string | null
+    crewEmployeeIds?: ServiceOrderUpdatecrewEmployeeIdsInput | string[]
+    vehicleId?: NullableStringFieldUpdateOperationsInput | string | null
+    slotStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    slotEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    siteAddress?: NullableStringFieldUpdateOperationsInput | string | null
     request?: ServiceRequestUpdateOneWithoutServiceOrdersNestedInput
     installedAsset?: InstalledAssetUpdateOneWithoutServiceOrdersNestedInput
     parts?: ServiceOrderPartUpdateManyWithoutServiceOrderNestedInput
@@ -412019,6 +412593,14 @@ export namespace Prisma {
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    kind?: StringFieldUpdateOperationsInput | string
+    salesOrderId?: NullableStringFieldUpdateOperationsInput | string | null
+    quoteId?: NullableStringFieldUpdateOperationsInput | string | null
+    crewEmployeeIds?: ServiceOrderUpdatecrewEmployeeIdsInput | string[]
+    vehicleId?: NullableStringFieldUpdateOperationsInput | string | null
+    slotStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    slotEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    siteAddress?: NullableStringFieldUpdateOperationsInput | string | null
     parts?: ServiceOrderPartUncheckedUpdateManyWithoutServiceOrderNestedInput
   }
 
@@ -412038,6 +412620,14 @@ export namespace Prisma {
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    kind?: StringFieldUpdateOperationsInput | string
+    salesOrderId?: NullableStringFieldUpdateOperationsInput | string | null
+    quoteId?: NullableStringFieldUpdateOperationsInput | string | null
+    crewEmployeeIds?: ServiceOrderUpdatecrewEmployeeIdsInput | string[]
+    vehicleId?: NullableStringFieldUpdateOperationsInput | string | null
+    slotStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    slotEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    siteAddress?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ServiceOrderPartUpdateWithoutTenantInput = {
@@ -416663,6 +417253,14 @@ export namespace Prisma {
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    kind?: string
+    salesOrderId?: string | null
+    quoteId?: string | null
+    crewEmployeeIds?: ServiceOrderCreatecrewEmployeeIdsInput | string[]
+    vehicleId?: string | null
+    slotStart?: Date | string | null
+    slotEnd?: Date | string | null
+    siteAddress?: string | null
   }
 
   export type ServiceRequestUpdateWithoutInstalledAssetInput = {
@@ -416723,6 +417321,14 @@ export namespace Prisma {
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    kind?: StringFieldUpdateOperationsInput | string
+    salesOrderId?: NullableStringFieldUpdateOperationsInput | string | null
+    quoteId?: NullableStringFieldUpdateOperationsInput | string | null
+    crewEmployeeIds?: ServiceOrderUpdatecrewEmployeeIdsInput | string[]
+    vehicleId?: NullableStringFieldUpdateOperationsInput | string | null
+    slotStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    slotEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    siteAddress?: NullableStringFieldUpdateOperationsInput | string | null
     tenant?: TenantUpdateOneRequiredWithoutServiceOrdersNestedInput
     request?: ServiceRequestUpdateOneWithoutServiceOrdersNestedInput
     parts?: ServiceOrderPartUpdateManyWithoutServiceOrderNestedInput
@@ -416744,6 +417350,14 @@ export namespace Prisma {
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    kind?: StringFieldUpdateOperationsInput | string
+    salesOrderId?: NullableStringFieldUpdateOperationsInput | string | null
+    quoteId?: NullableStringFieldUpdateOperationsInput | string | null
+    crewEmployeeIds?: ServiceOrderUpdatecrewEmployeeIdsInput | string[]
+    vehicleId?: NullableStringFieldUpdateOperationsInput | string | null
+    slotStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    slotEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    siteAddress?: NullableStringFieldUpdateOperationsInput | string | null
     parts?: ServiceOrderPartUncheckedUpdateManyWithoutServiceOrderNestedInput
   }
 
@@ -416763,6 +417377,14 @@ export namespace Prisma {
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    kind?: StringFieldUpdateOperationsInput | string
+    salesOrderId?: NullableStringFieldUpdateOperationsInput | string | null
+    quoteId?: NullableStringFieldUpdateOperationsInput | string | null
+    crewEmployeeIds?: ServiceOrderUpdatecrewEmployeeIdsInput | string[]
+    vehicleId?: NullableStringFieldUpdateOperationsInput | string | null
+    slotStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    slotEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    siteAddress?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ServiceOrderCreateManyRequestInput = {
@@ -416781,6 +417403,14 @@ export namespace Prisma {
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    kind?: string
+    salesOrderId?: string | null
+    quoteId?: string | null
+    crewEmployeeIds?: ServiceOrderCreatecrewEmployeeIdsInput | string[]
+    vehicleId?: string | null
+    slotStart?: Date | string | null
+    slotEnd?: Date | string | null
+    siteAddress?: string | null
   }
 
   export type ServiceOrderUpdateWithoutRequestInput = {
@@ -416797,6 +417427,14 @@ export namespace Prisma {
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    kind?: StringFieldUpdateOperationsInput | string
+    salesOrderId?: NullableStringFieldUpdateOperationsInput | string | null
+    quoteId?: NullableStringFieldUpdateOperationsInput | string | null
+    crewEmployeeIds?: ServiceOrderUpdatecrewEmployeeIdsInput | string[]
+    vehicleId?: NullableStringFieldUpdateOperationsInput | string | null
+    slotStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    slotEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    siteAddress?: NullableStringFieldUpdateOperationsInput | string | null
     tenant?: TenantUpdateOneRequiredWithoutServiceOrdersNestedInput
     installedAsset?: InstalledAssetUpdateOneWithoutServiceOrdersNestedInput
     parts?: ServiceOrderPartUpdateManyWithoutServiceOrderNestedInput
@@ -416818,6 +417456,14 @@ export namespace Prisma {
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    kind?: StringFieldUpdateOperationsInput | string
+    salesOrderId?: NullableStringFieldUpdateOperationsInput | string | null
+    quoteId?: NullableStringFieldUpdateOperationsInput | string | null
+    crewEmployeeIds?: ServiceOrderUpdatecrewEmployeeIdsInput | string[]
+    vehicleId?: NullableStringFieldUpdateOperationsInput | string | null
+    slotStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    slotEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    siteAddress?: NullableStringFieldUpdateOperationsInput | string | null
     parts?: ServiceOrderPartUncheckedUpdateManyWithoutServiceOrderNestedInput
   }
 
@@ -416837,6 +417483,14 @@ export namespace Prisma {
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    kind?: StringFieldUpdateOperationsInput | string
+    salesOrderId?: NullableStringFieldUpdateOperationsInput | string | null
+    quoteId?: NullableStringFieldUpdateOperationsInput | string | null
+    crewEmployeeIds?: ServiceOrderUpdatecrewEmployeeIdsInput | string[]
+    vehicleId?: NullableStringFieldUpdateOperationsInput | string | null
+    slotStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    slotEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    siteAddress?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ServiceOrderPartCreateManyServiceOrderInput = {

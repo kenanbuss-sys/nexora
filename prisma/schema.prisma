@@ -1978,22 +1978,27 @@ enum WoOperationStatus {
 /// release (MES-006); completion receipts good quantity back and
 /// records scrap (MES-010/011). Never stores stock truth.
 model WorkOrder {
-  id            String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  tenantId      String          @map("tenant_id") @db.Uuid
-  woNumber      String          @map("wo_number")
-  skuId         String          @map("sku_id") @db.Uuid
-  warehouseId   String          @map("warehouse_id") @db.Uuid
-  bomId         String          @map("bom_id") @db.Uuid
-  routingId     String?         @map("routing_id") @db.Uuid
-  quantity      Decimal         @db.Decimal(18, 6)
-  goodQuantity  Decimal         @default(0) @map("good_quantity") @db.Decimal(18, 6)
-  scrapQuantity Decimal         @default(0) @map("scrap_quantity") @db.Decimal(18, 6)
-  status        WorkOrderStatus @default(PLANNED)
-  startedAt     DateTime?       @map("started_at")
-  completedAt   DateTime?       @map("completed_at")
-  createdBy     String?         @map("created_by")
-  createdAt     DateTime        @default(now()) @map("created_at")
-  updatedAt     DateTime        @updatedAt @map("updated_at")
+  id               String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId         String          @map("tenant_id") @db.Uuid
+  woNumber         String          @map("wo_number")
+  skuId            String          @map("sku_id") @db.Uuid
+  warehouseId      String          @map("warehouse_id") @db.Uuid
+  bomId            String          @map("bom_id") @db.Uuid
+  routingId        String?         @map("routing_id") @db.Uuid
+  quantity         Decimal         @db.Decimal(18, 6)
+  goodQuantity     Decimal         @default(0) @map("good_quantity") @db.Decimal(18, 6)
+  scrapQuantity    Decimal         @default(0) @map("scrap_quantity") @db.Decimal(18, 6)
+  status           WorkOrderStatus @default(PLANNED)
+  startedAt        DateTime?       @map("started_at")
+  completedAt      DateTime?       @map("completed_at")
+  createdBy        String?         @map("created_by")
+  createdAt        DateTime        @default(now()) @map("created_at")
+  updatedAt        DateTime        @updatedAt @map("updated_at")
+  /// Sprint 248: made-to-order — the sales order line this order produces.
+  salesOrderId     String?         @map("sales_order_id") @db.Uuid
+  salesOrderLineId String?         @map("sales_order_line_id") @db.Uuid
+  /// Dimensions / options copied from the order line (cutting list).
+  spec             Json?
 
   tenant     Tenant               @relation(fields: [tenantId], references: [id])
   operations WorkOrderOperation[]
@@ -2166,25 +2171,29 @@ enum InvoiceStatus {
 /// (AP). Money is decimal + explicit currency; paidAmount only moves
 /// through matched payments.
 model Invoice {
-  id            String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  tenantId      String        @map("tenant_id") @db.Uuid
-  invoiceNumber String        @map("invoice_number")
-  invoiceType   InvoiceType   @map("invoice_type")
-  partyRefId    String        @map("party_ref_id") @db.Uuid
-  orderRefId    String        @map("order_ref_id") @db.Uuid
-  currency      String        @db.Char(3)
-  total         Decimal       @db.Decimal(18, 2)
-  paidAmount    Decimal       @default(0) @map("paid_amount") @db.Decimal(18, 2)
-  status        InvoiceStatus @default(OPEN)
-  issuedAt      DateTime      @default(now()) @map("issued_at")
-  dueAt         DateTime?     @map("due_at")
+  id              String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId        String        @map("tenant_id") @db.Uuid
+  invoiceNumber   String        @map("invoice_number")
+  invoiceType     InvoiceType   @map("invoice_type")
+  partyRefId      String        @map("party_ref_id") @db.Uuid
+  orderRefId      String        @map("order_ref_id") @db.Uuid
+  currency        String        @db.Char(3)
+  total           Decimal       @db.Decimal(18, 2)
+  paidAmount      Decimal       @default(0) @map("paid_amount") @db.Decimal(18, 2)
+  status          InvoiceStatus @default(OPEN)
+  issuedAt        DateTime      @default(now()) @map("issued_at")
+  dueAt           DateTime?     @map("due_at")
   /// Sprint 019 (FIN-016): actual spend/revenue attribution.
-  costCenterId  String?       @map("cost_center_id") @db.Uuid
+  costCenterId    String?       @map("cost_center_id") @db.Uuid
   /// Sprint 157 (FIN-001): named financial dimensions (validated in FIN).
-  dimensions    Json?
-  createdBy     String?       @map("created_by")
-  createdAt     DateTime      @default(now()) @map("created_at")
-  updatedAt     DateTime      @updatedAt @map("updated_at")
+  dimensions      Json?
+  /// Sprint 248: STANDARD (final) or ADVANCE (avans) — one of each per order.
+  invoiceKind     String        @default("STANDARD") @map("invoice_kind")
+  /// Final invoice: advance already invoiced and deducted from the total.
+  advanceDeducted Decimal?      @map("advance_deducted") @db.Decimal(18, 2)
+  createdBy       String?       @map("created_by")
+  createdAt       DateTime      @default(now()) @map("created_at")
+  updatedAt       DateTime      @updatedAt @map("updated_at")
 
   tenant            Tenant              @relation(fields: [tenantId], references: [id])
   payments          Payment[]
@@ -2192,7 +2201,7 @@ model Invoice {
   compensationLines CompensationLine[]
 
   @@unique([tenantId, invoiceNumber])
-  @@unique([tenantId, invoiceType, orderRefId])
+  @@unique([tenantId, invoiceType, orderRefId, invoiceKind])
   @@index([tenantId, status])
   @@map("invoice")
 }
@@ -3628,6 +3637,16 @@ model ServiceOrder {
   createdBy          String?   @map("created_by")
   createdAt          DateTime  @default(now()) @map("created_at")
   updatedAt          DateTime  @updatedAt @map("updated_at")
+  /// Sprint 248: SERVICE | MEASUREMENT | INSTALLATION
+  kind               String    @default("SERVICE")
+  salesOrderId       String?   @map("sales_order_id") @db.Uuid
+  quoteId            String?   @map("quote_id") @db.Uuid
+  /// Installation crew (HCM employees) and vehicle (LOG) for the slot.
+  crewEmployeeIds    String[]  @default([]) @map("crew_employee_ids")
+  vehicleId          String?   @map("vehicle_id") @db.Uuid
+  slotStart          DateTime? @map("slot_start")
+  slotEnd            DateTime? @map("slot_end")
+  siteAddress        String?   @map("site_address")
 
   tenant         Tenant             @relation(fields: [tenantId], references: [id])
   request        ServiceRequest?    @relation(fields: [requestId], references: [id])
@@ -3636,6 +3655,8 @@ model ServiceOrder {
 
   @@unique([tenantId, orderNumber])
   @@index([tenantId, status])
+  @@index([tenantId, slotStart])
+  @@index([tenantId, salesOrderId])
   @@map("service_order")
 }
 

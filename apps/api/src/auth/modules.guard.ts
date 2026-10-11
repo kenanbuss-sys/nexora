@@ -45,6 +45,13 @@ export const MODULE_ROUTE_MAP: Array<[string, string]> = [
   ['shopfloor', 'manufacturing'],
   ['qc', 'quality'],
   ['finance', 'finance'],
+  // Sprint 249: every finance surface follows the finance module.
+  ['vat', 'finance'],
+  ['ledger', 'finance'],
+  ['bank', 'finance'],
+  ['compensations', 'finance'],
+  // Sprint 249: field service — measurements, installations, visits.
+  ['service', 'service'],
   ['stock', 'warehouse'],
   ['warehouses', 'warehouse'],
   ['packages', 'warehouse'],

@@ -1,5 +1,5 @@
 import { writeAudit } from '@nexora/audit';
-import type { PrismaClient, WoOperationStatus, WorkOrderStatus } from '@nexora/db';
+import type { Prisma, PrismaClient, WoOperationStatus, WorkOrderStatus } from '@nexora/db';
 import { EVENT_TYPES, publishToOutbox } from '@nexora/events';
 import { DomainError, notFound } from '@nexora/kernel';
 import type { RequestContext } from '@nexora/tenancy';
@@ -121,6 +121,27 @@ function toView(wo: {
   };
 }
 
+/** Sprint 248: OMS-owned order context (lines + made-to-measure spec). */
+export interface MesOrderGate {
+  orderContext(
+    tenantId: string,
+    orderId: string,
+  ): Promise<{
+    id: string;
+    orderNumber: string;
+    status: string;
+    warehouseId?: string;
+    lines: Array<{
+      id: string;
+      skuId: string;
+      description: string;
+      quantity: string;
+      fulfilledQty: string;
+      spec?: unknown;
+    }>;
+  } | null>;
+}
+
 export class MesService {
   constructor(
     private readonly prisma: PrismaClient,
@@ -128,6 +149,102 @@ export class MesService {
     private readonly qc?: QcGate,
     private readonly config?: MesConfigGate,
   ) {}
+
+  private orders: MesOrderGate | undefined;
+
+  /** Late binding: OMS is wired after MES. */
+  bindOrderGate(gate: MesOrderGate): void {
+    this.orders = gate;
+  }
+
+  /**
+   * Permission: production.manage. Made-to-order (Sprint 248): one work
+   * order per open line of a confirmed sales order whose product has a
+   * released BOM — quantity in pieces when the line carries a
+   * made-to-measure spec. Idempotent per order line (unique index):
+   * existing ones are reported, lines without a BOM are skipped with the
+   * reason.
+   */
+  async createFromSalesOrder(orderId: string, ctx: RequestContext) {
+    if (!this.orders) throw new DomainError('INVALID_STATE', 'Order link is not wired');
+    const order = await this.orders.orderContext(ctx.tenantId, orderId);
+    if (!order) throw notFound('SalesOrder', orderId);
+    if (!['CONFIRMED', 'ON_HOLD'].includes(order.status)) {
+      throw new DomainError(
+        'INVALID_STATE',
+        `Production starts from a confirmed order (is ${order.status})`,
+      );
+    }
+    if (!order.warehouseId) throw new DomainError('INVALID_STATE', 'The order has no warehouse');
+    const created: WorkOrderView[] = [];
+    const existing: string[] = [];
+    const skipped: Array<{ lineId: string; description: string; reason: string }> = [];
+    for (const line of order.lines) {
+      const open = Number(line.quantity) - Number(line.fulfilledQty);
+      if (!(open > 0)) continue;
+      const already = await this.prisma.workOrder.findFirst({
+        where: { tenantId: ctx.tenantId, salesOrderLineId: line.id },
+        select: { woNumber: true },
+      });
+      if (already) {
+        existing.push(already.woNumber);
+        continue;
+      }
+      const bom = await this.prisma.bom.findFirst({
+        where: { tenantId: ctx.tenantId, skuId: line.skuId, status: 'RELEASED' },
+        select: { id: true },
+      });
+      if (!bom) {
+        skipped.push({ lineId: line.id, description: line.description, reason: 'NO_RELEASED_BOM' });
+        continue;
+      }
+      const spec = (line.spec ?? null) as { pieces?: number } | null;
+      const quantity = spec && typeof spec.pieces === 'number' ? spec.pieces : open;
+      try {
+        created.push(
+          await this.createWorkOrder(
+            {
+              skuId: line.skuId,
+              warehouseId: order.warehouseId,
+              quantity,
+              salesOrder: { orderId: order.id, lineId: line.id, spec: line.spec ?? null },
+            },
+            ctx,
+          ),
+        );
+      } catch (error) {
+        if ((error as { code?: string }).code === 'P2002') {
+          existing.push(line.id);
+          continue;
+        }
+        throw error;
+      }
+    }
+    return { orderNumber: order.orderNumber, created, existing, skipped };
+  }
+
+  /** Permission: production.read. Work orders of one sales order. */
+  async forSalesOrder(orderId: string, ctx: RequestContext) {
+    const rows = await this.prisma.workOrder.findMany({
+      where: { tenantId: ctx.tenantId, salesOrderId: orderId },
+      orderBy: { woNumber: 'asc' },
+      select: {
+        id: true,
+        woNumber: true,
+        skuId: true,
+        quantity: true,
+        goodQuantity: true,
+        status: true,
+        salesOrderLineId: true,
+        spec: true,
+      },
+    });
+    return rows.map((r) => ({
+      ...r,
+      quantity: r.quantity.toString(),
+      goodQuantity: r.goodQuantity.toString(),
+    }));
+  }
 
   /**
    * Public cross-domain gate (PLAN-015): open production per SKU — the
@@ -201,7 +318,13 @@ export class MesService {
    * released routing's operations are copied as a snapshot (MES-002).
    */
   async createWorkOrder(
-    input: { skuId: string; warehouseId: string; quantity: number },
+    input: {
+      skuId: string;
+      warehouseId: string;
+      quantity: number;
+      /** Sprint 248: made-to-order link + dimensions for the cutting list. */
+      salesOrder?: { orderId: string; lineId: string; spec: unknown } | undefined;
+    },
     ctx: RequestContext,
   ): Promise<WorkOrderView> {
     if (!(input.quantity > 0)) {
@@ -223,6 +346,8 @@ export class MesService {
     });
 
     return this.prisma.$transaction(async (tx) => {
+      const numberKey = `mes.wo.number:${ctx.tenantId}`;
+      await tx.$executeRaw`SELECT pg_advisory_xact_lock(hashtextextended(${numberKey}, 0))`;
       const count = await tx.workOrder.count({ where: { tenantId: ctx.tenantId } });
       const wo = await tx.workOrder.create({
         data: {
@@ -234,6 +359,15 @@ export class MesService {
           routingId: routing?.id ?? null,
           quantity: input.quantity,
           createdBy: ctx.userId ?? null,
+          ...(input.salesOrder
+            ? {
+                salesOrderId: input.salesOrder.orderId,
+                salesOrderLineId: input.salesOrder.lineId,
+                ...(input.salesOrder.spec !== null && input.salesOrder.spec !== undefined
+                  ? { spec: input.salesOrder.spec as Prisma.InputJsonValue }
+                  : {}),
+              }
+            : {}),
           ...(routing
             ? {
                 operations: {
@@ -257,7 +391,12 @@ export class MesService {
         objectType: 'WorkOrder',
         objectId: wo.id,
         source: 'api',
-        newValues: { woNumber: wo.woNumber, skuId: wo.skuId, quantity: input.quantity },
+        newValues: {
+          woNumber: wo.woNumber,
+          skuId: wo.skuId,
+          quantity: input.quantity,
+          ...(input.salesOrder ? { salesOrderLineId: input.salesOrder.lineId } : {}),
+        },
       });
       await publishToOutbox(tx, {
         tenantId: ctx.tenantId,

@@ -10,3 +10,4 @@ export {
   type KpiDefinition,
   type ManufacturingAnalytics,
 } from './analytics.service';
+export { RoleHomeService, type RoleHome } from './role-home.service';
