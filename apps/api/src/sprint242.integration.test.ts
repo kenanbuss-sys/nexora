@@ -77,12 +77,6 @@ integration('Sprint 242 — quarantine dispositions (QMS-005)', () => {
       ...body,
     });
 
-  const onHand = async (skuId: string) =>
-    Number(
-      (await api('GET', `/api/v1/stock/position?warehouseId=${wh1}&skuId=${skuId}`, tokenA)).body
-        .onHand,
-    );
-
   beforeAll(async () => {
     process.env.DATABASE_URL = DB_URL;
     prisma = createDb({ connectionString: DB_URL, max: 10 });
