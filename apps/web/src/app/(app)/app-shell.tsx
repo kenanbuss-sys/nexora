@@ -277,6 +277,12 @@ const NAV_GROUPS: Array<{ section: string; items: NavItem[] }> = [
     items: [
       { href: '/hr', label: 'Zaposleni', icon: 'users', permission: 'hcm.read' },
       { href: '/payroll', label: 'Plate', icon: 'finance', permission: 'hcm.salary.read' },
+      {
+        href: '/development',
+        label: 'Obuka i razvoj',
+        icon: 'users',
+        permission: 'hcm.development.manage',
+      },
     ],
   },
   {
@@ -438,12 +444,14 @@ export function AppShell({ children }: { children: ReactNode }) {
 
   // UX rule: never render unauthorized modules. The portal entry is
   // visible to back-office managers and to portal customers alike; the
-  // payroll entry to the salary circle and to the contract scope.
+  // payroll entry to the salary circle and to the contract scope; the
+  // development entry to HR (manage) and to mentors (own employees).
   const visible = (item: NavItem): boolean =>
     (item.permission === null ||
       can(item.permission) ||
       (item.href === '/portal' && can('portal.access')) ||
-      (item.href === '/payroll' && can('hcm.salary.contract'))) &&
+      (item.href === '/payroll' && can('hcm.salary.contract')) ||
+      (item.href === '/development' && can('hcm.development.own'))) &&
     modules[NAV_MODULE[item.href] ?? ''] !== false;
 
   const groups = NAV_GROUPS.map((g) => ({ ...g, items: g.items.filter(visible) })).filter(

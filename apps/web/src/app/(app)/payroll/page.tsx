@@ -100,6 +100,49 @@ interface AdjustmentBody {
   reason: string;
 }
 
+interface BonusType {
+  key: string;
+  label: string;
+  kind: AdjustmentKind;
+}
+
+interface AdjustmentRow {
+  id: string;
+  employeeId: string;
+  kind: AdjustmentKind;
+  bonusType: string | null;
+  amount: string;
+  originalAmount: string | null;
+  originalCurrency: string | null;
+  rate: string | null;
+  reason: string;
+  createdAt: string;
+}
+
+interface AdjustmentsView {
+  bonusTypes: BonusType[];
+  currency: string;
+  rows: AdjustmentRow[];
+}
+
+interface BonusBody {
+  year: number;
+  month: number;
+  employeeId: string;
+  bonusType: string;
+  amount: number;
+  currency: string;
+  reason: string;
+}
+
+interface BonusResult {
+  id: string;
+  replay: boolean;
+  amount: string;
+  currency: string;
+  rate: string;
+}
+
 const MONTHS = [
   'Januar',
   'Februar',
@@ -210,6 +253,19 @@ export default function PayrollPage() {
   const pendingAdjRef = useRef<{ key: string; body: AdjustmentBody } | null>(null);
   const [hasPending, setHasPending] = useState(false);
 
+  // Typed bonus form (HCM-017). Same idempotency rule as adjustments:
+  // key + submitted content are kept until a clear server outcome.
+  const [adjustments, setAdjustments] = useState<AdjustmentsView | null>(null);
+  const [adjustmentsError, setAdjustmentsError] = useState<string | null>(null);
+  const [bEmployeeId, setBEmployeeId] = useState('');
+  const [bType, setBType] = useState('');
+  const [bAmount, setBAmount] = useState('');
+  const [bCurrency, setBCurrency] = useState('');
+  const [bReason, setBReason] = useState('');
+  const [confirmBonus, setConfirmBonus] = useState(false);
+  const pendingBonusRef = useRef<{ key: string; body: BonusBody } | null>(null);
+  const [hasBonusPending, setHasBonusPending] = useState(false);
+
   // Salary version form.
   const [sEmployeeId, setSEmployeeId] = useState('');
   const [sAmount, setSAmount] = useState('');
@@ -276,6 +332,23 @@ export default function PayrollPage() {
     };
   }, [canRead, payslipFor, year, month, tick]);
 
+  useEffect(() => {
+    if (!canRead || !canManage || tab !== 'adjust') return;
+    let cancelled = false;
+    setAdjustments(null);
+    setAdjustmentsError(null);
+    api<AdjustmentsView>('GET', `/api/v1/payroll/adjustments?year=${year}&month=${month}`)
+      .then((r) => {
+        if (!cancelled) setAdjustments(r);
+      })
+      .catch((e: unknown) => {
+        if (!cancelled) setAdjustmentsError(payrollErrorText(e));
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [canRead, canManage, tab, year, month, tick]);
+
   async function run(fn: () => Promise<unknown>, successText: string | null) {
     setBusy(true);
     setError(null);
@@ -306,7 +379,60 @@ export default function PayrollPage() {
     reason: aReason.trim(),
   });
 
+  const bonusTypeLabel = (key: string | null, kind: AdjustmentKind) =>
+    key ? (adjustments?.bonusTypes.find((t) => t.key === key)?.label ?? key) : KIND_LABELS[kind];
+
+  const currentBonusBody = (): BonusBody => ({
+    year,
+    month,
+    employeeId: bEmployeeId,
+    bonusType: bType,
+    amount: Number(bAmount),
+    currency: bCurrency.trim().toUpperCase() || adjustments?.currency || '',
+    reason: bReason.trim(),
+  });
+
   // ------------------------------------------------------------- columns
+  const adjustmentColumns: Array<Column<AdjustmentRow>> = [
+    {
+      key: 'employee',
+      header: 'Zaposleni',
+      render: (r) => employeeLabel(r.employeeId),
+      text: (r) => employeeLabel(r.employeeId),
+    },
+    {
+      key: 'type',
+      header: 'Vrsta',
+      render: (r) => (
+        <span className={`badge ${r.kind === 'DEDUCTION' ? 'badge-warn' : 'badge-ok'}`}>
+          {bonusTypeLabel(r.bonusType, r.kind)}
+        </span>
+      ),
+      text: (r) => bonusTypeLabel(r.bonusType, r.kind),
+    },
+    {
+      key: 'amount',
+      header: 'Iznos u valuti obračuna',
+      align: 'right',
+      render: (r) => <Money amount={r.amount} currency={adjustments?.currency} />,
+    },
+    {
+      key: 'original',
+      header: 'Original + kurs',
+      align: 'right',
+      render: (r) =>
+        r.originalAmount && r.originalCurrency ? (
+          <span className="mono">
+            {r.originalAmount} {r.originalCurrency}
+            {r.rate ? ` × ${r.rate}` : ''}
+          </span>
+        ) : (
+          <span className="muted">—</span>
+        ),
+    },
+    { key: 'reason', header: 'Razlog', render: (r) => r.reason, text: (r) => r.reason },
+  ];
+
   const lineColumns: Array<Column<RunLine>> = [
     {
       key: 'number',
@@ -478,6 +604,15 @@ export default function PayrollPage() {
   const adjFormComplete = !!aEmployeeId && Number(aAmount) > 0 && aReason.trim().length >= 3;
   const salaryFormComplete = !!sEmployeeId && Number(sAmount) > 0 && !!sValidFrom;
   const dialogAdj = pendingAdjRef.current?.body ?? currentAdjBody();
+  const bonusCurrencyOk = /^[A-Za-z]{3}$/.test(bCurrency.trim()) || !bCurrency.trim();
+  const bonusFormComplete =
+    !!adjustments &&
+    !!bEmployeeId &&
+    !!bType &&
+    Number(bAmount) > 0 &&
+    bonusCurrencyOk &&
+    bReason.trim().length >= 3;
+  const dialogBonus = pendingBonusRef.current?.body ?? currentBonusBody();
 
   return (
     <main className="page">
@@ -821,6 +956,149 @@ export default function PayrollPage() {
         </form>
       ) : null}
 
+      {tab === 'adjust' && canRead && canManage ? (
+        <>
+          <form
+            className="card"
+            onSubmit={(e) => {
+              e.preventDefault();
+              setError(null);
+              setConfirmBonus(true);
+            }}
+          >
+            <h2>Bonus po tipu · {periodLabel}</h2>
+            <p className="muted" style={{ fontSize: 12.5 }}>
+              Vrsta bonusa iz postavki obračuna. Iznos u drugoj valuti server preračunava po
+              konfigurisanom kursu u valutu obračuna
+              {adjustments ? (
+                <>
+                  {' '}
+                  (<span className="mono">{adjustments.currency}</span>)
+                </>
+              ) : null}
+              .
+            </p>
+            {hasBonusPending ? (
+              <p className="alert alert-warn">
+                Prethodni bonus nije potvrđen od servera. Ponovno slanje šalje RANIJE PREDANI
+                sadržaj pod istim ključem (bez duplikata); izmjene forme idu u novi unos nakon
+                razrješenja.
+              </p>
+            ) : null}
+            {adjustmentsError ? <ErrorState text={adjustmentsError} /> : null}
+            <div className="grid-2">
+              <div>
+                <label className="label" htmlFor="bonus-employee">
+                  Zaposleni
+                </label>
+                <select
+                  id="bonus-employee"
+                  className="input"
+                  value={bEmployeeId}
+                  onChange={(e) => setBEmployeeId(e.target.value)}
+                >
+                  <option value="">Odaberite zaposlenog…</option>
+                  {employees.map((r) => (
+                    <option key={r.employeeId} value={r.employeeId}>
+                      {r.employeeNumber} · {r.name}
+                    </option>
+                  ))}
+                </select>
+                <label className="label" htmlFor="bonus-type">
+                  Vrsta bonusa
+                </label>
+                <select
+                  id="bonus-type"
+                  className="input"
+                  value={bType}
+                  disabled={!adjustments}
+                  onChange={(e) => setBType(e.target.value)}
+                >
+                  <option value="">Odaberite vrstu…</option>
+                  {(adjustments?.bonusTypes ?? []).map((t) => (
+                    <option key={t.key} value={t.key}>
+                      {t.label}
+                      {t.kind === 'DEDUCTION' ? ' (odbitak)' : ''}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label className="label" htmlFor="bonus-amount">
+                  Iznos
+                </label>
+                <div className="row">
+                  <input
+                    id="bonus-amount"
+                    className="input mono"
+                    style={{ flex: 1, minWidth: 0 }}
+                    type="number"
+                    step="0.01"
+                    min="0.01"
+                    inputMode="decimal"
+                    value={bAmount}
+                    onChange={(e) => setBAmount(e.target.value)}
+                  />
+                  <input
+                    className="input mono"
+                    style={{ width: 80 }}
+                    aria-label="Valuta"
+                    maxLength={3}
+                    placeholder={adjustments?.currency ?? 'Valuta'}
+                    value={bCurrency}
+                    onChange={(e) => setBCurrency(e.target.value.toUpperCase())}
+                  />
+                </div>
+                <label className="label" htmlFor="bonus-reason">
+                  Razlog
+                </label>
+                <input
+                  id="bonus-reason"
+                  className="input"
+                  value={bReason}
+                  maxLength={200}
+                  placeholder="obavezno, najmanje 3 znaka"
+                  onChange={(e) => setBReason(e.target.value)}
+                />
+              </div>
+            </div>
+            <div className="row" style={{ marginTop: 12, flexWrap: 'wrap' }}>
+              <button
+                type="submit"
+                className="btn btn-primary"
+                disabled={busy || (!bonusFormComplete && !hasBonusPending)}
+              >
+                {hasBonusPending ? 'Ponovi slanje' : 'Pregledaj i evidentiraj'}
+              </button>
+              {!bonusFormComplete && !hasBonusPending ? (
+                <span className="muted" style={{ fontSize: 12.5 }}>
+                  {!bonusCurrencyOk
+                    ? 'Valuta je troslovna oznaka (npr. EUR); prazno = valuta obračuna.'
+                    : 'Odaberite zaposlenog i vrstu, unesite iznos veći od nule i razlog.'}
+                </span>
+              ) : null}
+            </div>
+          </form>
+
+          <div className="card">
+            <h2>Korekcije u mjesecu · {periodLabel}</h2>
+            {adjustments === null && !adjustmentsError ? (
+              <LoadingState text="Učitavanje korekcija…" />
+            ) : adjustments ? (
+              <div style={{ overflowX: 'auto', maxWidth: '100%' }}>
+                <DataTable
+                  columns={adjustmentColumns}
+                  rows={adjustments.rows}
+                  rowKey={(r) => r.id}
+                  searchPlaceholder="Pretraga korekcija…"
+                  emptyText="Za ovaj mjesec još nema korekcija."
+                />
+              </div>
+            ) : null}
+          </div>
+        </>
+      ) : null}
+
       {/* ---------------------------------------------- Plate zaposlenih */}
       {tab === 'salaries' ? (
         <>
@@ -1090,6 +1368,72 @@ export default function PayrollPage() {
             <span className="mono">{dialogAdj.amount}</span>
           </Fact>
           <Fact label="Razlog">{dialogAdj.reason}</Fact>
+        </ConfirmDialog>
+      ) : null}
+
+      {confirmBonus ? (
+        <ConfirmDialog
+          open
+          title={hasBonusPending ? 'Ponovno slanje bonusa' : 'Evidentiranje bonusa'}
+          consequence={
+            hasBonusPending
+              ? 'Prethodno slanje nije potvrđeno — šalje se RANIJE PREDANI sadržaj pod istim ključem (bez duplikata).'
+              : 'Bonus se evidentira za odabrani mjesec (iznos u drugoj valuti preračunava server po konfigurisanom kursu) i ulazi u nacrt pri sljedećem obračunu; za potvrđen obračun je odbijen.'
+          }
+          confirmLabel="Evidentiraj"
+          busy={busy}
+          onCancel={() => setConfirmBonus(false)}
+          onConfirm={() =>
+            void run(async () => {
+              if (!pendingBonusRef.current) {
+                pendingBonusRef.current = { key: crypto.randomUUID(), body: currentBonusBody() };
+                setHasBonusPending(true);
+              }
+              const pending = pendingBonusRef.current;
+              let r: BonusResult;
+              try {
+                r = await api<BonusResult>('POST', '/api/v1/payroll/bonuses', {
+                  ...pending.body,
+                  requestKey: pending.key,
+                });
+              } catch (e) {
+                // Discard key+content only on a business-unambiguous
+                // rejection (e.g. no conversion rate configured);
+                // CONFLICT, 401/403, 5xx and network errors keep them.
+                if (
+                  e instanceof ApiRequestError &&
+                  submissionResolvedByError(e.status, e.body.code)
+                ) {
+                  pendingBonusRef.current = null;
+                  setHasBonusPending(false);
+                }
+                setConfirmBonus(false);
+                throw e;
+              }
+              pendingBonusRef.current = null;
+              setHasBonusPending(false);
+              setBAmount('');
+              setBReason('');
+              setConfirmBonus(false);
+              setNotice(
+                r.replay
+                  ? 'Bonus je već bio evidentiran — ponovljeno slanje nije napravilo duplikat.'
+                  : `${bonusTypeLabel(pending.body.bonusType, 'BONUS')} evidentiran za ${employeeLabel(pending.body.employeeId)}: ${r.amount} ${r.currency}${pending.body.currency !== r.currency ? ` (${pending.body.amount} ${pending.body.currency}, kurs ${r.rate})` : ''}.`,
+              );
+            }, null)
+          }
+        >
+          <Fact label="Mjesec">
+            {MONTHS[dialogBonus.month - 1]} {dialogBonus.year}.
+          </Fact>
+          <Fact label="Zaposleni">{employeeLabel(dialogBonus.employeeId)}</Fact>
+          <Fact label="Vrsta">{bonusTypeLabel(dialogBonus.bonusType, 'BONUS')}</Fact>
+          <Fact label="Iznos">
+            <span className="mono">
+              {dialogBonus.amount} {dialogBonus.currency}
+            </span>
+          </Fact>
+          <Fact label="Razlog">{dialogBonus.reason}</Fact>
         </ConfirmDialog>
       ) : null}
 
