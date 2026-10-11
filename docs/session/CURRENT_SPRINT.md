@@ -406,3 +406,16 @@ Red 2 potvrđenog redoslijeda. Vlasnik: PIM (barkodovi, konverzije — javni gat
 - [x] Testovi: **sprint240 8/8**, GTIN unit 3/3; fixture barkodovi u sprint003/005/041/077 ispravljeni na validne GTIN-e (zeleni)
 - [x] UI: barkodovi po SKU (tip, uklanjanje, GTIN hint), forma konverzija JM, JM i sken u formi kretanja (web typecheck/build zeleni; browser provjera otvorena)
 - Nije rađeno: JM na stavkama NBN/narudžbi; GS1-128 aplikacijski identifikatori
+
+# Sprint 241 — ZAVRŠEN 11.10.2026: duplikati i spajanje (MDM-005) + upravljanje matičnim podacima proizvoda (MDM-002)
+
+Red 2 potvrđenog redoslijeda. Vlasnik: MDM (stranke, odluke stewarda), PIM (politika objave). Migracija `20260928000242_sprint_241_mdm_duplicate_dismissal` (aditivna; CHECK a_id < b_id nije u schema.prisma — čuvati).
+
+- [x] Kandidati duplikata sa razlogom: NAZIV (bez interpunkcije i pravnog oblika d.o.o./d.d./s.p./ltd/gmbh…), PIB/JIB bez separatora, e-mail; filtriranje odbačenih parova u SQL-u prije limita
+- [x] „Nije duplikat“ za par: idempotentno, audit, tenant-scoped
+- [x] Pregled spajanja: razlike polja, šta se seli (eksterni ID-evi, preusmjerenja), šta ostaje (saglasnosti), blokade (osoba ↔ organizacija, već spojeno)
+- [x] Spajanje: zaključavanje oba reda sortirano (bez ciklusa i dvostrukog spajanja), ponavljanje = bez efekta, preuzimanje polja od duplikata (field policy poštovan, prazna vrijednost ne briše), preusmjerenja bez lanaca, `party.merged` u outbox
+- [x] MDM-002: `GET /products/:id/readiness` + politika `pim.publishPolicy` (izvještaj uvijek, blokada uz `enforce`, provjera u transakciji objave pod zaključavanjem); istorija zahtjeva po zapisu (`/mdm/change-requests?entityType&entityId`)
+- [x] UI: red duplikata za stewarda (spoji s pregledom, nije duplikat), istorija promjena (partner, proizvod), spremnost za objavu
+- [x] Testovi: **sprint241 8/8**; data-integrity review: 5 nalaza ispravljeno; puna integracijska regresija (sve do sprint240) zelena — ALL-DONE bez padova; MDM/PIM regresija nakon izmjena zelena (21 fajl)
+- Nije rađeno: razdvajanje spojenih (unmerge), duplikati proizvoda, fuzzy sličnost; browser provjera ekrana
