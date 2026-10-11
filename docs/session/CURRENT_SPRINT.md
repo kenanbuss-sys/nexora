@@ -457,5 +457,5 @@ Red 2 potvrđenog redoslijeda. Vlasnik: PLAN (izračun), OMS (potvrda roka na na
 - [x] Radni kalendar `plan.calendar` (radni dani, praznici); `plan.promise.handlingDays`; djelimično („odmah X“) i objašnjenje po stavci
 - [x] `POST /orders/:id/promise/commit` — rok na narudžbi i stavkama (CAS, audit, timeline, `order.promise.committed`); `POST /planning/promise` za upit bez narudžbe
 - [x] Testovi: **sprint244 6/6**; regresija 018, 058, 063, 144, 208, 222 zelena
-- [ ] UI: kartica „Rok isporuke“ na narudžbi + alat „Provjera roka isporuke“ u planiranju — u toku
+- [x] UI: kartica „Rok isporuke“ na narudžbi (izvori, djelimično, potvrda roka) + alat „Provjera roka isporuke“ u planiranju; browser provjera otvorena
 - Nije rađeno: komponente BOM-a u CTP, rezervacija kapaciteta

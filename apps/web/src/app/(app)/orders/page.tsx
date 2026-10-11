@@ -6,6 +6,7 @@ import { api, errorText } from '../../../lib/api';
 import { useApp } from '../app-shell';
 import { CollabPanel } from '../collab-panel';
 import { downloadDocument } from '../../../lib/download';
+import { OrderPromiseCard } from '../../../components/delivery-promise';
 import {
   ConfirmDialog,
   DataTable,
@@ -129,9 +130,7 @@ export default function OrdersPage() {
   const [logistics, setLogistics] = useState<
     Record<string, { totalWeightKg: string; totalVolumeM3: string; linesMissingData: number }>
   >({});
-  const [promises, setPromises] = useState<
-    Record<string, { orderPromise: string; fromStockCount: number; total: number }>
-  >({});
+  const [promiseOpen, setPromiseOpen] = useState<Record<string, boolean>>({});
   const [alternatives, setAlternatives] = useState<
     Record<string, Array<{ substituteSkuId: string; substituteCode: string; available: string }>>
   >({});
@@ -1227,25 +1226,10 @@ export default function OrdersPage() {
                       <button
                         className="btn btn-sm"
                         type="button"
-                        onClick={() => {
-                          api<{
-                            orderPromise: string;
-                            lines: Array<{ fromStock: boolean }>;
-                          }>('GET', `/api/v1/orders/${o.id}/promise`)
-                            .then((r) =>
-                              setPromises((prev) => ({
-                                ...prev,
-                                [o.id]: {
-                                  orderPromise: r.orderPromise,
-                                  fromStockCount: r.lines.filter((l) => l.fromStock).length,
-                                  total: r.lines.length,
-                                },
-                              })),
-                            )
-                            .catch(() => undefined);
-                        }}
+                        aria-expanded={!!promiseOpen[o.id]}
+                        onClick={() => setPromiseOpen((p) => ({ ...p, [o.id]: !p[o.id] }))}
                       >
-                        Datum obećanja
+                        {promiseOpen[o.id] ? 'Sakrij rok isporuke' : 'Rok isporuke'}
                       </button>
                       {can('order.create') ? (
                         <button
@@ -1263,12 +1247,6 @@ export default function OrdersPage() {
                           Ponovi
                         </button>
                       ) : null}
-                      {promises[o.id] ? (
-                        <span className="muted mono" style={{ fontSize: 12 }}>
-                          ≈ {new Date(promises[o.id]!.orderPromise).toLocaleDateString()} ·{' '}
-                          {promises[o.id]!.fromStockCount}/{promises[o.id]!.total} sa zaliha
-                        </span>
-                      ) : null}
                       {logistics[o.id] ? (
                         <span className="muted mono" style={{ fontSize: 12 }}>
                           {logistics[o.id]!.totalWeightKg} kg · {logistics[o.id]!.totalVolumeM3} m³
@@ -1278,6 +1256,14 @@ export default function OrdersPage() {
                         </span>
                       ) : null}
                     </div>
+                    {promiseOpen[o.id] ? (
+                      <OrderPromiseCard
+                        orderId={o.id}
+                        status={o.status}
+                        canCommit={can('order.confirm')}
+                        onCommitted={() => load()}
+                      />
+                    ) : null}
                     {discussion[o.id] ? (
                       <CollabPanel entityType="sales_order" entityId={o.id} />
                     ) : null}
