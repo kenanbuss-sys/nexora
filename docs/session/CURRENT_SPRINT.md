@@ -419,3 +419,17 @@ Red 2 potvrđenog redoslijeda. Vlasnik: MDM (stranke, odluke stewarda), PIM (pol
 - [x] UI: red duplikata za stewarda (spoji s pregledom, nije duplikat), istorija promjena (partner, proizvod), spremnost za objavu
 - [x] Testovi: **sprint241 8/8**; data-integrity review: 5 nalaza ispravljeno; puna integracijska regresija (sve do sprint240) zelena — ALL-DONE bez padova; MDM/PIM regresija nakon izmjena zelena (21 fajl)
 - Nije rađeno: razdvajanje spojenih (unmerge), duplikati proizvoda, fuzzy sličnost; browser provjera ekrana
+
+# Sprint 242 — ZAVRŠEN 11.10.2026: dispozicija neusaglašenog materijala (QMS-005)
+
+Red 2 potvrđenog redoslijeda. Vlasnik: WMS (blokade i knjiženja), QC (NCR — čitanje kroz gate). Migracije `…243_sprint_242_quarantine_disposition` (backfill + CHECK) i `…244_sprint_242_disposition_review_fixes`; CHECK ograničenja nisu u schema.prisma — čuvati.
+
+- [x] Odluka komisije sa stavkama: upotreba kakva jeste (obrazloženje ≥ 10 znakova), otpis, povrat dobavljaču (referenca), prekvalifikacija u drugi SKU, dorada (nova blokada s vezom na roditelja)
+- [x] Djelimična odluka — ostatak ostaje blokiran; blokada po lotu i uz NCR (isti SKU)
+- [x] Preuzmi-pa-knjiži: red blokade zaključan, količina preuzeta atomski; knjiženja s determinističkim ključevima; FAILED + `POST /quarantine/dispositions/:id/retry`; idempotentno po `requestKey`; preuzeto-neproknjiženo i dalje blokira rezervacije
+- [x] Pravila knjige (serijski brojevi po jedinici, istekao lot ne ide u povrat) provjeravaju se PRIJE preuzimanja; serijski brojevi se čuvaju na stavci
+- [x] Blokada se postavlja pod istim zaključavanjem kao knjiga zaliha; lot i cijeli SKU dijele isti limit
+- [x] Stari `decide` (RELEASE/SCRAP) ide kroz dispoziciju — ispravljena utrka puštanje-vs-otpis
+- [x] UI: panel Karantin (preostalo/ukupno, lot, NCR, dorada), dijalog „Odluka komisije", istorija odluka s ponovnim knjiženjem
+- [x] Testovi: **sprint242 7/7**; regresija karantina/rezervacija/dostupnosti (004, 040, 068, 082, 084, 088, 119) zelena; data-integrity review: 2 high + 2 medium + 3 low ispravljeno
+- Nije rađeno: PROC dokument povrata (RTV), MES nalog dorade; browser provjera

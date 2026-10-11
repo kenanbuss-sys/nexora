@@ -662,6 +662,12 @@ export type Employee = $Result.DefaultSelection<Prisma.$EmployeePayload>
  */
 export type Asset = $Result.DefaultSelection<Prisma.$AssetPayload>
 /**
+ * Model AssetStructureChange
+ * Sprint 243 (EAM-002): effective-dated structure history — every
+ * install/removal of an asset into/out of a parent (append-only).
+ */
+export type AssetStructureChange = $Result.DefaultSelection<Prisma.$AssetStructureChangePayload>
+/**
  * Model QuarantineHold
  * Sprint 082 (QMS-006/WMS-006): quarantine holds — quantity of a SKU
  * in a warehouse blocked from reservation until quality releases it.
@@ -3121,6 +3127,16 @@ export class PrismaClient<
   get asset(): Prisma.AssetDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.assetStructureChange`: Exposes CRUD operations for the **AssetStructureChange** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more AssetStructureChanges
+    * const assetStructureChanges = await prisma.assetStructureChange.findMany()
+    * ```
+    */
+  get assetStructureChange(): Prisma.AssetStructureChangeDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.quarantineHold`: Exposes CRUD operations for the **QuarantineHold** model.
     * Example usage:
     * ```ts
@@ -4203,6 +4219,7 @@ export namespace Prisma {
     Contract: 'Contract',
     Employee: 'Employee',
     Asset: 'Asset',
+    AssetStructureChange: 'AssetStructureChange',
     QuarantineHold: 'QuarantineHold',
     QuarantineDisposition: 'QuarantineDisposition',
     QuarantineDispositionLine: 'QuarantineDispositionLine',
@@ -4274,7 +4291,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "tenant" | "tenantConfigurationVersion" | "legalEntity" | "businessUnit" | "branch" | "factory" | "user" | "userCredential" | "role" | "rolePermission" | "userRoleAssignment" | "auditEvent" | "outboxEvent" | "terminologyEntry" | "moduleActivation" | "customFieldDefinition" | "task" | "notification" | "workflowDefinition" | "workflowVersion" | "workflowInstance" | "ruleDefinition" | "ruleVersion" | "approval" | "processedEvent" | "documentTemplate" | "documentTemplateVersion" | "party" | "consentRecord" | "partyExternalIdentity" | "product" | "sku" | "barcode" | "uomConversion" | "warehouse" | "warehouseLocation" | "stockMovement" | "stockReservation" | "device" | "scanEvent" | "wmsOrder" | "wmsOrderLine" | "territory" | "salesTeam" | "salesTeamMember" | "crmAccount" | "lead" | "opportunity" | "crmActivity" | "priceList" | "priceListEntry" | "quote" | "packagingLevel" | "skuSubstitution" | "discountRule" | "quoteLine" | "salesOrder" | "salesOrderLine" | "orderEvent" | "supplier" | "purchaseRequisition" | "purchaseRequisitionLine" | "purchaseOrder" | "purchaseOrderLine" | "bom" | "bomLine" | "routing" | "routingOperation" | "engineeringChange" | "planningPolicy" | "mrpRun" | "mrpSuggestion" | "workOrder" | "workOrderOperation" | "qcPlan" | "qcPlanItem" | "qcInspection" | "qcInspectionItem" | "ncr" | "invoice" | "payment" | "portalUser" | "comment" | "attachment" | "attachmentBlob" | "numberSequence" | "exchangeRate" | "costCenter" | "budget" | "webhookSubscription" | "webhookDelivery" | "apiKey" | "securityEvent" | "productCategory" | "returnOrder" | "returnOrderLine" | "stockCount" | "stockCountLine" | "workCenter" | "downtimeEvent" | "promotion" | "promotionRedemption" | "bundleComponent" | "serialNumber" | "breakGlassGrant" | "mdmDuplicateDismissal" | "masterDataRequest" | "loyaltyAccount" | "loyaltyTransaction" | "supportCase" | "contract" | "employee" | "asset" | "quarantineHold" | "quarantineDisposition" | "quarantineDispositionLine" | "rfq" | "rfqQuote" | "package" | "packageLine" | "landedCost" | "customObjectDefinition" | "customObjectRecord" | "frameworkAgreement" | "skuChannelContent" | "container" | "posSession" | "vehicle" | "driver" | "shipment" | "shipmentStop" | "dockAppointment" | "installedAsset" | "serviceRequest" | "serviceOrder" | "serviceOrderPart" | "rma" | "glAccount" | "glJournalEntry" | "glJournalLine" | "glSystemAccount" | "glOpeningBalanceDate" | "glPeriodLock" | "bankStatement" | "bankStatementLine" | "paymentAllocation" | "compensation" | "compensationLine" | "vatRate" | "vatBookEntry" | "vatPeriod" | "attendanceDay" | "attendancePeriod" | "employeeSalary" | "payrollRun" | "payrollLine" | "payrollAdjustment" | "employmentContract" | "trainingPlanTemplate" | "trainingPlan" | "trainingPlanItem" | "trainingRecord" | "equipmentCustody" | "equipmentCustodyLine" | "serialPosition" | "serialMovement"
+      modelProps: "tenant" | "tenantConfigurationVersion" | "legalEntity" | "businessUnit" | "branch" | "factory" | "user" | "userCredential" | "role" | "rolePermission" | "userRoleAssignment" | "auditEvent" | "outboxEvent" | "terminologyEntry" | "moduleActivation" | "customFieldDefinition" | "task" | "notification" | "workflowDefinition" | "workflowVersion" | "workflowInstance" | "ruleDefinition" | "ruleVersion" | "approval" | "processedEvent" | "documentTemplate" | "documentTemplateVersion" | "party" | "consentRecord" | "partyExternalIdentity" | "product" | "sku" | "barcode" | "uomConversion" | "warehouse" | "warehouseLocation" | "stockMovement" | "stockReservation" | "device" | "scanEvent" | "wmsOrder" | "wmsOrderLine" | "territory" | "salesTeam" | "salesTeamMember" | "crmAccount" | "lead" | "opportunity" | "crmActivity" | "priceList" | "priceListEntry" | "quote" | "packagingLevel" | "skuSubstitution" | "discountRule" | "quoteLine" | "salesOrder" | "salesOrderLine" | "orderEvent" | "supplier" | "purchaseRequisition" | "purchaseRequisitionLine" | "purchaseOrder" | "purchaseOrderLine" | "bom" | "bomLine" | "routing" | "routingOperation" | "engineeringChange" | "planningPolicy" | "mrpRun" | "mrpSuggestion" | "workOrder" | "workOrderOperation" | "qcPlan" | "qcPlanItem" | "qcInspection" | "qcInspectionItem" | "ncr" | "invoice" | "payment" | "portalUser" | "comment" | "attachment" | "attachmentBlob" | "numberSequence" | "exchangeRate" | "costCenter" | "budget" | "webhookSubscription" | "webhookDelivery" | "apiKey" | "securityEvent" | "productCategory" | "returnOrder" | "returnOrderLine" | "stockCount" | "stockCountLine" | "workCenter" | "downtimeEvent" | "promotion" | "promotionRedemption" | "bundleComponent" | "serialNumber" | "breakGlassGrant" | "mdmDuplicateDismissal" | "masterDataRequest" | "loyaltyAccount" | "loyaltyTransaction" | "supportCase" | "contract" | "employee" | "asset" | "assetStructureChange" | "quarantineHold" | "quarantineDisposition" | "quarantineDispositionLine" | "rfq" | "rfqQuote" | "package" | "packageLine" | "landedCost" | "customObjectDefinition" | "customObjectRecord" | "frameworkAgreement" | "skuChannelContent" | "container" | "posSession" | "vehicle" | "driver" | "shipment" | "shipmentStop" | "dockAppointment" | "installedAsset" | "serviceRequest" | "serviceOrder" | "serviceOrderPart" | "rma" | "glAccount" | "glJournalEntry" | "glJournalLine" | "glSystemAccount" | "glOpeningBalanceDate" | "glPeriodLock" | "bankStatement" | "bankStatementLine" | "paymentAllocation" | "compensation" | "compensationLine" | "vatRate" | "vatBookEntry" | "vatPeriod" | "attendanceDay" | "attendancePeriod" | "employeeSalary" | "payrollRun" | "payrollLine" | "payrollAdjustment" | "employmentContract" | "trainingPlanTemplate" | "trainingPlan" | "trainingPlanItem" | "trainingRecord" | "equipmentCustody" | "equipmentCustodyLine" | "serialPosition" | "serialMovement"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -12640,6 +12657,80 @@ export namespace Prisma {
           }
         }
       }
+      AssetStructureChange: {
+        payload: Prisma.$AssetStructureChangePayload<ExtArgs>
+        fields: Prisma.AssetStructureChangeFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AssetStructureChangeFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssetStructureChangePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AssetStructureChangeFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssetStructureChangePayload>
+          }
+          findFirst: {
+            args: Prisma.AssetStructureChangeFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssetStructureChangePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AssetStructureChangeFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssetStructureChangePayload>
+          }
+          findMany: {
+            args: Prisma.AssetStructureChangeFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssetStructureChangePayload>[]
+          }
+          create: {
+            args: Prisma.AssetStructureChangeCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssetStructureChangePayload>
+          }
+          createMany: {
+            args: Prisma.AssetStructureChangeCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AssetStructureChangeCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssetStructureChangePayload>[]
+          }
+          delete: {
+            args: Prisma.AssetStructureChangeDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssetStructureChangePayload>
+          }
+          update: {
+            args: Prisma.AssetStructureChangeUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssetStructureChangePayload>
+          }
+          deleteMany: {
+            args: Prisma.AssetStructureChangeDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AssetStructureChangeUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.AssetStructureChangeUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssetStructureChangePayload>[]
+          }
+          upsert: {
+            args: Prisma.AssetStructureChangeUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssetStructureChangePayload>
+          }
+          aggregate: {
+            args: Prisma.AssetStructureChangeAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAssetStructureChange>
+          }
+          groupBy: {
+            args: Prisma.AssetStructureChangeGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AssetStructureChangeGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AssetStructureChangeCountArgs<ExtArgs>
+            result: $Utils.Optional<AssetStructureChangeCountAggregateOutputType> | number
+          }
+        }
+      }
       QuarantineHold: {
         payload: Prisma.$QuarantineHoldPayload<ExtArgs>
         fields: Prisma.QuarantineHoldFieldRefs
@@ -16771,6 +16862,7 @@ export namespace Prisma {
     contract?: ContractOmit
     employee?: EmployeeOmit
     asset?: AssetOmit
+    assetStructureChange?: AssetStructureChangeOmit
     quarantineHold?: QuarantineHoldOmit
     quarantineDisposition?: QuarantineDispositionOmit
     quarantineDispositionLine?: QuarantineDispositionLineOmit
@@ -17051,6 +17143,7 @@ export namespace Prisma {
     serialMovements: number
     mdmDuplicateDismissals: number
     quarantineDispositions: number
+    assetStructureChanges: number
   }
 
   export type TenantCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -17201,6 +17294,7 @@ export namespace Prisma {
     serialMovements?: boolean | TenantCountOutputTypeCountSerialMovementsArgs
     mdmDuplicateDismissals?: boolean | TenantCountOutputTypeCountMdmDuplicateDismissalsArgs
     quarantineDispositions?: boolean | TenantCountOutputTypeCountQuarantineDispositionsArgs
+    assetStructureChanges?: boolean | TenantCountOutputTypeCountAssetStructureChangesArgs
   }
 
   // Custom InputTypes
@@ -18241,6 +18335,13 @@ export namespace Prisma {
    */
   export type TenantCountOutputTypeCountQuarantineDispositionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: QuarantineDispositionWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountAssetStructureChangesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AssetStructureChangeWhereInput
   }
 
 
@@ -19510,15 +19611,50 @@ export namespace Prisma {
 
 
   /**
+   * Count Type AssetCountOutputType
+   */
+
+  export type AssetCountOutputType = {
+    children: number
+  }
+
+  export type AssetCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    children?: boolean | AssetCountOutputTypeCountChildrenArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * AssetCountOutputType without action
+   */
+  export type AssetCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssetCountOutputType
+     */
+    select?: AssetCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * AssetCountOutputType without action
+   */
+  export type AssetCountOutputTypeCountChildrenArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AssetWhereInput
+  }
+
+
+  /**
    * Count Type QuarantineHoldCountOutputType
    */
 
   export type QuarantineHoldCountOutputType = {
     dispositions: number
+    reworkHolds: number
+    reworkLines: number
   }
 
   export type QuarantineHoldCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     dispositions?: boolean | QuarantineHoldCountOutputTypeCountDispositionsArgs
+    reworkHolds?: boolean | QuarantineHoldCountOutputTypeCountReworkHoldsArgs
+    reworkLines?: boolean | QuarantineHoldCountOutputTypeCountReworkLinesArgs
   }
 
   // Custom InputTypes
@@ -19537,6 +19673,20 @@ export namespace Prisma {
    */
   export type QuarantineHoldCountOutputTypeCountDispositionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: QuarantineDispositionWhereInput
+  }
+
+  /**
+   * QuarantineHoldCountOutputType without action
+   */
+  export type QuarantineHoldCountOutputTypeCountReworkHoldsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: QuarantineHoldWhereInput
+  }
+
+  /**
+   * QuarantineHoldCountOutputType without action
+   */
+  export type QuarantineHoldCountOutputTypeCountReworkLinesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: QuarantineDispositionLineWhereInput
   }
 
 
@@ -20472,6 +20622,7 @@ export namespace Prisma {
     serialMovements?: boolean | Tenant$serialMovementsArgs<ExtArgs>
     mdmDuplicateDismissals?: boolean | Tenant$mdmDuplicateDismissalsArgs<ExtArgs>
     quarantineDispositions?: boolean | Tenant$quarantineDispositionsArgs<ExtArgs>
+    assetStructureChanges?: boolean | Tenant$assetStructureChangesArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["tenant"]>
 
@@ -20654,6 +20805,7 @@ export namespace Prisma {
     serialMovements?: boolean | Tenant$serialMovementsArgs<ExtArgs>
     mdmDuplicateDismissals?: boolean | Tenant$mdmDuplicateDismissalsArgs<ExtArgs>
     quarantineDispositions?: boolean | Tenant$quarantineDispositionsArgs<ExtArgs>
+    assetStructureChanges?: boolean | Tenant$assetStructureChangesArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type TenantIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -20809,6 +20961,7 @@ export namespace Prisma {
       serialMovements: Prisma.$SerialMovementPayload<ExtArgs>[]
       mdmDuplicateDismissals: Prisma.$MdmDuplicateDismissalPayload<ExtArgs>[]
       quarantineDispositions: Prisma.$QuarantineDispositionPayload<ExtArgs>[]
+      assetStructureChanges: Prisma.$AssetStructureChangePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -21359,6 +21512,7 @@ export namespace Prisma {
     serialMovements<T extends Tenant$serialMovementsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$serialMovementsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SerialMovementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     mdmDuplicateDismissals<T extends Tenant$mdmDuplicateDismissalsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$mdmDuplicateDismissalsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MdmDuplicateDismissalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     quarantineDispositions<T extends Tenant$quarantineDispositionsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$quarantineDispositionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuarantineDispositionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    assetStructureChanges<T extends Tenant$assetStructureChangesArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$assetStructureChangesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssetStructureChangePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -25308,6 +25462,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: QuarantineDispositionScalarFieldEnum | QuarantineDispositionScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.assetStructureChanges
+   */
+  export type Tenant$assetStructureChangesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssetStructureChange
+     */
+    select?: AssetStructureChangeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssetStructureChange
+     */
+    omit?: AssetStructureChangeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssetStructureChangeInclude<ExtArgs> | null
+    where?: AssetStructureChangeWhereInput
+    orderBy?: AssetStructureChangeOrderByWithRelationInput | AssetStructureChangeOrderByWithRelationInput[]
+    cursor?: AssetStructureChangeWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AssetStructureChangeScalarFieldEnum | AssetStructureChangeScalarFieldEnum[]
   }
 
   /**
@@ -152665,6 +152843,7 @@ export namespace Prisma {
     qrToken: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    parentAssetId: string | null
   }
 
   export type AssetMaxAggregateOutputType = {
@@ -152682,6 +152861,7 @@ export namespace Prisma {
     qrToken: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    parentAssetId: string | null
   }
 
   export type AssetCountAggregateOutputType = {
@@ -152699,6 +152879,7 @@ export namespace Prisma {
     qrToken: number
     createdAt: number
     updatedAt: number
+    parentAssetId: number
     _all: number
   }
 
@@ -152726,6 +152907,7 @@ export namespace Prisma {
     qrToken?: true
     createdAt?: true
     updatedAt?: true
+    parentAssetId?: true
   }
 
   export type AssetMaxAggregateInputType = {
@@ -152743,6 +152925,7 @@ export namespace Prisma {
     qrToken?: true
     createdAt?: true
     updatedAt?: true
+    parentAssetId?: true
   }
 
   export type AssetCountAggregateInputType = {
@@ -152760,6 +152943,7 @@ export namespace Prisma {
     qrToken?: true
     createdAt?: true
     updatedAt?: true
+    parentAssetId?: true
     _all?: true
   }
 
@@ -152864,6 +153048,7 @@ export namespace Prisma {
     qrToken: string | null
     createdAt: Date
     updatedAt: Date
+    parentAssetId: string | null
     _count: AssetCountAggregateOutputType | null
     _avg: AssetAvgAggregateOutputType | null
     _sum: AssetSumAggregateOutputType | null
@@ -152900,7 +153085,11 @@ export namespace Prisma {
     qrToken?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    parentAssetId?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    parentAsset?: boolean | Asset$parentAssetArgs<ExtArgs>
+    children?: boolean | Asset$childrenArgs<ExtArgs>
+    _count?: boolean | AssetCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["asset"]>
 
   export type AssetSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -152918,7 +153107,9 @@ export namespace Prisma {
     qrToken?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    parentAssetId?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    parentAsset?: boolean | Asset$parentAssetArgs<ExtArgs>
   }, ExtArgs["result"]["asset"]>
 
   export type AssetSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -152936,7 +153127,9 @@ export namespace Prisma {
     qrToken?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    parentAssetId?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    parentAsset?: boolean | Asset$parentAssetArgs<ExtArgs>
   }, ExtArgs["result"]["asset"]>
 
   export type AssetSelectScalar = {
@@ -152954,23 +153147,31 @@ export namespace Prisma {
     qrToken?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    parentAssetId?: boolean
   }
 
-  export type AssetOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "assetNumber" | "name" | "category" | "serialNumber" | "workCenterId" | "status" | "value" | "purchasedAt" | "location" | "qrToken" | "createdAt" | "updatedAt", ExtArgs["result"]["asset"]>
+  export type AssetOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "assetNumber" | "name" | "category" | "serialNumber" | "workCenterId" | "status" | "value" | "purchasedAt" | "location" | "qrToken" | "createdAt" | "updatedAt" | "parentAssetId", ExtArgs["result"]["asset"]>
   export type AssetInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    parentAsset?: boolean | Asset$parentAssetArgs<ExtArgs>
+    children?: boolean | Asset$childrenArgs<ExtArgs>
+    _count?: boolean | AssetCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type AssetIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    parentAsset?: boolean | Asset$parentAssetArgs<ExtArgs>
   }
   export type AssetIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    parentAsset?: boolean | Asset$parentAssetArgs<ExtArgs>
   }
 
   export type $AssetPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Asset"
     objects: {
       tenant: Prisma.$TenantPayload<ExtArgs>
+      parentAsset: Prisma.$AssetPayload<ExtArgs> | null
+      children: Prisma.$AssetPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -152993,6 +153194,10 @@ export namespace Prisma {
       qrToken: string | null
       createdAt: Date
       updatedAt: Date
+      /**
+       * Sprint 243 (EAM-002): installed-in parent (line > machine > assembly > part).
+       */
+      parentAssetId: string | null
     }, ExtArgs["result"]["asset"]>
     composites: {}
   }
@@ -153388,6 +153593,8 @@ export namespace Prisma {
   export interface Prisma__AssetClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    parentAsset<T extends Asset$parentAssetArgs<ExtArgs> = {}>(args?: Subset<T, Asset$parentAssetArgs<ExtArgs>>): Prisma__AssetClient<$Result.GetResult<Prisma.$AssetPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    children<T extends Asset$childrenArgs<ExtArgs> = {}>(args?: Subset<T, Asset$childrenArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssetPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -153431,6 +153638,7 @@ export namespace Prisma {
     readonly qrToken: FieldRef<"Asset", 'String'>
     readonly createdAt: FieldRef<"Asset", 'DateTime'>
     readonly updatedAt: FieldRef<"Asset", 'DateTime'>
+    readonly parentAssetId: FieldRef<"Asset", 'String'>
   }
     
 
@@ -153827,6 +154035,49 @@ export namespace Prisma {
   }
 
   /**
+   * Asset.parentAsset
+   */
+  export type Asset$parentAssetArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Asset
+     */
+    select?: AssetSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Asset
+     */
+    omit?: AssetOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssetInclude<ExtArgs> | null
+    where?: AssetWhereInput
+  }
+
+  /**
+   * Asset.children
+   */
+  export type Asset$childrenArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Asset
+     */
+    select?: AssetSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Asset
+     */
+    omit?: AssetOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssetInclude<ExtArgs> | null
+    where?: AssetWhereInput
+    orderBy?: AssetOrderByWithRelationInput | AssetOrderByWithRelationInput[]
+    cursor?: AssetWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AssetScalarFieldEnum | AssetScalarFieldEnum[]
+  }
+
+  /**
    * Asset without action
    */
   export type AssetDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -153842,6 +154093,1103 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: AssetInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model AssetStructureChange
+   */
+
+  export type AggregateAssetStructureChange = {
+    _count: AssetStructureChangeCountAggregateOutputType | null
+    _min: AssetStructureChangeMinAggregateOutputType | null
+    _max: AssetStructureChangeMaxAggregateOutputType | null
+  }
+
+  export type AssetStructureChangeMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    assetId: string | null
+    fromParentId: string | null
+    toParentId: string | null
+    reason: string | null
+    changedBy: string | null
+    effectiveAt: Date | null
+  }
+
+  export type AssetStructureChangeMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    assetId: string | null
+    fromParentId: string | null
+    toParentId: string | null
+    reason: string | null
+    changedBy: string | null
+    effectiveAt: Date | null
+  }
+
+  export type AssetStructureChangeCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    assetId: number
+    fromParentId: number
+    toParentId: number
+    reason: number
+    changedBy: number
+    effectiveAt: number
+    _all: number
+  }
+
+
+  export type AssetStructureChangeMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    assetId?: true
+    fromParentId?: true
+    toParentId?: true
+    reason?: true
+    changedBy?: true
+    effectiveAt?: true
+  }
+
+  export type AssetStructureChangeMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    assetId?: true
+    fromParentId?: true
+    toParentId?: true
+    reason?: true
+    changedBy?: true
+    effectiveAt?: true
+  }
+
+  export type AssetStructureChangeCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    assetId?: true
+    fromParentId?: true
+    toParentId?: true
+    reason?: true
+    changedBy?: true
+    effectiveAt?: true
+    _all?: true
+  }
+
+  export type AssetStructureChangeAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AssetStructureChange to aggregate.
+     */
+    where?: AssetStructureChangeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AssetStructureChanges to fetch.
+     */
+    orderBy?: AssetStructureChangeOrderByWithRelationInput | AssetStructureChangeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AssetStructureChangeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AssetStructureChanges from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AssetStructureChanges.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned AssetStructureChanges
+    **/
+    _count?: true | AssetStructureChangeCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AssetStructureChangeMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AssetStructureChangeMaxAggregateInputType
+  }
+
+  export type GetAssetStructureChangeAggregateType<T extends AssetStructureChangeAggregateArgs> = {
+        [P in keyof T & keyof AggregateAssetStructureChange]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAssetStructureChange[P]>
+      : GetScalarType<T[P], AggregateAssetStructureChange[P]>
+  }
+
+
+
+
+  export type AssetStructureChangeGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AssetStructureChangeWhereInput
+    orderBy?: AssetStructureChangeOrderByWithAggregationInput | AssetStructureChangeOrderByWithAggregationInput[]
+    by: AssetStructureChangeScalarFieldEnum[] | AssetStructureChangeScalarFieldEnum
+    having?: AssetStructureChangeScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AssetStructureChangeCountAggregateInputType | true
+    _min?: AssetStructureChangeMinAggregateInputType
+    _max?: AssetStructureChangeMaxAggregateInputType
+  }
+
+  export type AssetStructureChangeGroupByOutputType = {
+    id: string
+    tenantId: string
+    assetId: string
+    fromParentId: string | null
+    toParentId: string | null
+    reason: string
+    changedBy: string | null
+    effectiveAt: Date
+    _count: AssetStructureChangeCountAggregateOutputType | null
+    _min: AssetStructureChangeMinAggregateOutputType | null
+    _max: AssetStructureChangeMaxAggregateOutputType | null
+  }
+
+  type GetAssetStructureChangeGroupByPayload<T extends AssetStructureChangeGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AssetStructureChangeGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AssetStructureChangeGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AssetStructureChangeGroupByOutputType[P]>
+            : GetScalarType<T[P], AssetStructureChangeGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AssetStructureChangeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    assetId?: boolean
+    fromParentId?: boolean
+    toParentId?: boolean
+    reason?: boolean
+    changedBy?: boolean
+    effectiveAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["assetStructureChange"]>
+
+  export type AssetStructureChangeSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    assetId?: boolean
+    fromParentId?: boolean
+    toParentId?: boolean
+    reason?: boolean
+    changedBy?: boolean
+    effectiveAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["assetStructureChange"]>
+
+  export type AssetStructureChangeSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    assetId?: boolean
+    fromParentId?: boolean
+    toParentId?: boolean
+    reason?: boolean
+    changedBy?: boolean
+    effectiveAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["assetStructureChange"]>
+
+  export type AssetStructureChangeSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    assetId?: boolean
+    fromParentId?: boolean
+    toParentId?: boolean
+    reason?: boolean
+    changedBy?: boolean
+    effectiveAt?: boolean
+  }
+
+  export type AssetStructureChangeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "assetId" | "fromParentId" | "toParentId" | "reason" | "changedBy" | "effectiveAt", ExtArgs["result"]["assetStructureChange"]>
+  export type AssetStructureChangeInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type AssetStructureChangeIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type AssetStructureChangeIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+
+  export type $AssetStructureChangePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "AssetStructureChange"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      assetId: string
+      fromParentId: string | null
+      toParentId: string | null
+      reason: string
+      changedBy: string | null
+      effectiveAt: Date
+    }, ExtArgs["result"]["assetStructureChange"]>
+    composites: {}
+  }
+
+  type AssetStructureChangeGetPayload<S extends boolean | null | undefined | AssetStructureChangeDefaultArgs> = $Result.GetResult<Prisma.$AssetStructureChangePayload, S>
+
+  type AssetStructureChangeCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<AssetStructureChangeFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: AssetStructureChangeCountAggregateInputType | true
+    }
+
+  export interface AssetStructureChangeDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['AssetStructureChange'], meta: { name: 'AssetStructureChange' } }
+    /**
+     * Find zero or one AssetStructureChange that matches the filter.
+     * @param {AssetStructureChangeFindUniqueArgs} args - Arguments to find a AssetStructureChange
+     * @example
+     * // Get one AssetStructureChange
+     * const assetStructureChange = await prisma.assetStructureChange.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AssetStructureChangeFindUniqueArgs>(args: SelectSubset<T, AssetStructureChangeFindUniqueArgs<ExtArgs>>): Prisma__AssetStructureChangeClient<$Result.GetResult<Prisma.$AssetStructureChangePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one AssetStructureChange that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {AssetStructureChangeFindUniqueOrThrowArgs} args - Arguments to find a AssetStructureChange
+     * @example
+     * // Get one AssetStructureChange
+     * const assetStructureChange = await prisma.assetStructureChange.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AssetStructureChangeFindUniqueOrThrowArgs>(args: SelectSubset<T, AssetStructureChangeFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AssetStructureChangeClient<$Result.GetResult<Prisma.$AssetStructureChangePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AssetStructureChange that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssetStructureChangeFindFirstArgs} args - Arguments to find a AssetStructureChange
+     * @example
+     * // Get one AssetStructureChange
+     * const assetStructureChange = await prisma.assetStructureChange.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AssetStructureChangeFindFirstArgs>(args?: SelectSubset<T, AssetStructureChangeFindFirstArgs<ExtArgs>>): Prisma__AssetStructureChangeClient<$Result.GetResult<Prisma.$AssetStructureChangePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AssetStructureChange that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssetStructureChangeFindFirstOrThrowArgs} args - Arguments to find a AssetStructureChange
+     * @example
+     * // Get one AssetStructureChange
+     * const assetStructureChange = await prisma.assetStructureChange.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AssetStructureChangeFindFirstOrThrowArgs>(args?: SelectSubset<T, AssetStructureChangeFindFirstOrThrowArgs<ExtArgs>>): Prisma__AssetStructureChangeClient<$Result.GetResult<Prisma.$AssetStructureChangePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more AssetStructureChanges that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssetStructureChangeFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all AssetStructureChanges
+     * const assetStructureChanges = await prisma.assetStructureChange.findMany()
+     * 
+     * // Get first 10 AssetStructureChanges
+     * const assetStructureChanges = await prisma.assetStructureChange.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const assetStructureChangeWithIdOnly = await prisma.assetStructureChange.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AssetStructureChangeFindManyArgs>(args?: SelectSubset<T, AssetStructureChangeFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssetStructureChangePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a AssetStructureChange.
+     * @param {AssetStructureChangeCreateArgs} args - Arguments to create a AssetStructureChange.
+     * @example
+     * // Create one AssetStructureChange
+     * const AssetStructureChange = await prisma.assetStructureChange.create({
+     *   data: {
+     *     // ... data to create a AssetStructureChange
+     *   }
+     * })
+     * 
+     */
+    create<T extends AssetStructureChangeCreateArgs>(args: SelectSubset<T, AssetStructureChangeCreateArgs<ExtArgs>>): Prisma__AssetStructureChangeClient<$Result.GetResult<Prisma.$AssetStructureChangePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many AssetStructureChanges.
+     * @param {AssetStructureChangeCreateManyArgs} args - Arguments to create many AssetStructureChanges.
+     * @example
+     * // Create many AssetStructureChanges
+     * const assetStructureChange = await prisma.assetStructureChange.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AssetStructureChangeCreateManyArgs>(args?: SelectSubset<T, AssetStructureChangeCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many AssetStructureChanges and returns the data saved in the database.
+     * @param {AssetStructureChangeCreateManyAndReturnArgs} args - Arguments to create many AssetStructureChanges.
+     * @example
+     * // Create many AssetStructureChanges
+     * const assetStructureChange = await prisma.assetStructureChange.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many AssetStructureChanges and only return the `id`
+     * const assetStructureChangeWithIdOnly = await prisma.assetStructureChange.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AssetStructureChangeCreateManyAndReturnArgs>(args?: SelectSubset<T, AssetStructureChangeCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssetStructureChangePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a AssetStructureChange.
+     * @param {AssetStructureChangeDeleteArgs} args - Arguments to delete one AssetStructureChange.
+     * @example
+     * // Delete one AssetStructureChange
+     * const AssetStructureChange = await prisma.assetStructureChange.delete({
+     *   where: {
+     *     // ... filter to delete one AssetStructureChange
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AssetStructureChangeDeleteArgs>(args: SelectSubset<T, AssetStructureChangeDeleteArgs<ExtArgs>>): Prisma__AssetStructureChangeClient<$Result.GetResult<Prisma.$AssetStructureChangePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one AssetStructureChange.
+     * @param {AssetStructureChangeUpdateArgs} args - Arguments to update one AssetStructureChange.
+     * @example
+     * // Update one AssetStructureChange
+     * const assetStructureChange = await prisma.assetStructureChange.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AssetStructureChangeUpdateArgs>(args: SelectSubset<T, AssetStructureChangeUpdateArgs<ExtArgs>>): Prisma__AssetStructureChangeClient<$Result.GetResult<Prisma.$AssetStructureChangePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more AssetStructureChanges.
+     * @param {AssetStructureChangeDeleteManyArgs} args - Arguments to filter AssetStructureChanges to delete.
+     * @example
+     * // Delete a few AssetStructureChanges
+     * const { count } = await prisma.assetStructureChange.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AssetStructureChangeDeleteManyArgs>(args?: SelectSubset<T, AssetStructureChangeDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AssetStructureChanges.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssetStructureChangeUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many AssetStructureChanges
+     * const assetStructureChange = await prisma.assetStructureChange.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AssetStructureChangeUpdateManyArgs>(args: SelectSubset<T, AssetStructureChangeUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AssetStructureChanges and returns the data updated in the database.
+     * @param {AssetStructureChangeUpdateManyAndReturnArgs} args - Arguments to update many AssetStructureChanges.
+     * @example
+     * // Update many AssetStructureChanges
+     * const assetStructureChange = await prisma.assetStructureChange.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more AssetStructureChanges and only return the `id`
+     * const assetStructureChangeWithIdOnly = await prisma.assetStructureChange.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends AssetStructureChangeUpdateManyAndReturnArgs>(args: SelectSubset<T, AssetStructureChangeUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssetStructureChangePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one AssetStructureChange.
+     * @param {AssetStructureChangeUpsertArgs} args - Arguments to update or create a AssetStructureChange.
+     * @example
+     * // Update or create a AssetStructureChange
+     * const assetStructureChange = await prisma.assetStructureChange.upsert({
+     *   create: {
+     *     // ... data to create a AssetStructureChange
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the AssetStructureChange we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AssetStructureChangeUpsertArgs>(args: SelectSubset<T, AssetStructureChangeUpsertArgs<ExtArgs>>): Prisma__AssetStructureChangeClient<$Result.GetResult<Prisma.$AssetStructureChangePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of AssetStructureChanges.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssetStructureChangeCountArgs} args - Arguments to filter AssetStructureChanges to count.
+     * @example
+     * // Count the number of AssetStructureChanges
+     * const count = await prisma.assetStructureChange.count({
+     *   where: {
+     *     // ... the filter for the AssetStructureChanges we want to count
+     *   }
+     * })
+    **/
+    count<T extends AssetStructureChangeCountArgs>(
+      args?: Subset<T, AssetStructureChangeCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AssetStructureChangeCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a AssetStructureChange.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssetStructureChangeAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AssetStructureChangeAggregateArgs>(args: Subset<T, AssetStructureChangeAggregateArgs>): Prisma.PrismaPromise<GetAssetStructureChangeAggregateType<T>>
+
+    /**
+     * Group by AssetStructureChange.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssetStructureChangeGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AssetStructureChangeGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AssetStructureChangeGroupByArgs['orderBy'] }
+        : { orderBy?: AssetStructureChangeGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AssetStructureChangeGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAssetStructureChangeGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the AssetStructureChange model
+   */
+  readonly fields: AssetStructureChangeFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for AssetStructureChange.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AssetStructureChangeClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the AssetStructureChange model
+   */
+  interface AssetStructureChangeFieldRefs {
+    readonly id: FieldRef<"AssetStructureChange", 'String'>
+    readonly tenantId: FieldRef<"AssetStructureChange", 'String'>
+    readonly assetId: FieldRef<"AssetStructureChange", 'String'>
+    readonly fromParentId: FieldRef<"AssetStructureChange", 'String'>
+    readonly toParentId: FieldRef<"AssetStructureChange", 'String'>
+    readonly reason: FieldRef<"AssetStructureChange", 'String'>
+    readonly changedBy: FieldRef<"AssetStructureChange", 'String'>
+    readonly effectiveAt: FieldRef<"AssetStructureChange", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * AssetStructureChange findUnique
+   */
+  export type AssetStructureChangeFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssetStructureChange
+     */
+    select?: AssetStructureChangeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssetStructureChange
+     */
+    omit?: AssetStructureChangeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssetStructureChangeInclude<ExtArgs> | null
+    /**
+     * Filter, which AssetStructureChange to fetch.
+     */
+    where: AssetStructureChangeWhereUniqueInput
+  }
+
+  /**
+   * AssetStructureChange findUniqueOrThrow
+   */
+  export type AssetStructureChangeFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssetStructureChange
+     */
+    select?: AssetStructureChangeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssetStructureChange
+     */
+    omit?: AssetStructureChangeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssetStructureChangeInclude<ExtArgs> | null
+    /**
+     * Filter, which AssetStructureChange to fetch.
+     */
+    where: AssetStructureChangeWhereUniqueInput
+  }
+
+  /**
+   * AssetStructureChange findFirst
+   */
+  export type AssetStructureChangeFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssetStructureChange
+     */
+    select?: AssetStructureChangeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssetStructureChange
+     */
+    omit?: AssetStructureChangeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssetStructureChangeInclude<ExtArgs> | null
+    /**
+     * Filter, which AssetStructureChange to fetch.
+     */
+    where?: AssetStructureChangeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AssetStructureChanges to fetch.
+     */
+    orderBy?: AssetStructureChangeOrderByWithRelationInput | AssetStructureChangeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AssetStructureChanges.
+     */
+    cursor?: AssetStructureChangeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AssetStructureChanges from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AssetStructureChanges.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AssetStructureChanges.
+     */
+    distinct?: AssetStructureChangeScalarFieldEnum | AssetStructureChangeScalarFieldEnum[]
+  }
+
+  /**
+   * AssetStructureChange findFirstOrThrow
+   */
+  export type AssetStructureChangeFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssetStructureChange
+     */
+    select?: AssetStructureChangeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssetStructureChange
+     */
+    omit?: AssetStructureChangeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssetStructureChangeInclude<ExtArgs> | null
+    /**
+     * Filter, which AssetStructureChange to fetch.
+     */
+    where?: AssetStructureChangeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AssetStructureChanges to fetch.
+     */
+    orderBy?: AssetStructureChangeOrderByWithRelationInput | AssetStructureChangeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AssetStructureChanges.
+     */
+    cursor?: AssetStructureChangeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AssetStructureChanges from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AssetStructureChanges.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AssetStructureChanges.
+     */
+    distinct?: AssetStructureChangeScalarFieldEnum | AssetStructureChangeScalarFieldEnum[]
+  }
+
+  /**
+   * AssetStructureChange findMany
+   */
+  export type AssetStructureChangeFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssetStructureChange
+     */
+    select?: AssetStructureChangeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssetStructureChange
+     */
+    omit?: AssetStructureChangeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssetStructureChangeInclude<ExtArgs> | null
+    /**
+     * Filter, which AssetStructureChanges to fetch.
+     */
+    where?: AssetStructureChangeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AssetStructureChanges to fetch.
+     */
+    orderBy?: AssetStructureChangeOrderByWithRelationInput | AssetStructureChangeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing AssetStructureChanges.
+     */
+    cursor?: AssetStructureChangeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AssetStructureChanges from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AssetStructureChanges.
+     */
+    skip?: number
+    distinct?: AssetStructureChangeScalarFieldEnum | AssetStructureChangeScalarFieldEnum[]
+  }
+
+  /**
+   * AssetStructureChange create
+   */
+  export type AssetStructureChangeCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssetStructureChange
+     */
+    select?: AssetStructureChangeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssetStructureChange
+     */
+    omit?: AssetStructureChangeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssetStructureChangeInclude<ExtArgs> | null
+    /**
+     * The data needed to create a AssetStructureChange.
+     */
+    data: XOR<AssetStructureChangeCreateInput, AssetStructureChangeUncheckedCreateInput>
+  }
+
+  /**
+   * AssetStructureChange createMany
+   */
+  export type AssetStructureChangeCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many AssetStructureChanges.
+     */
+    data: AssetStructureChangeCreateManyInput | AssetStructureChangeCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * AssetStructureChange createManyAndReturn
+   */
+  export type AssetStructureChangeCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssetStructureChange
+     */
+    select?: AssetStructureChangeSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssetStructureChange
+     */
+    omit?: AssetStructureChangeOmit<ExtArgs> | null
+    /**
+     * The data used to create many AssetStructureChanges.
+     */
+    data: AssetStructureChangeCreateManyInput | AssetStructureChangeCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssetStructureChangeIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * AssetStructureChange update
+   */
+  export type AssetStructureChangeUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssetStructureChange
+     */
+    select?: AssetStructureChangeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssetStructureChange
+     */
+    omit?: AssetStructureChangeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssetStructureChangeInclude<ExtArgs> | null
+    /**
+     * The data needed to update a AssetStructureChange.
+     */
+    data: XOR<AssetStructureChangeUpdateInput, AssetStructureChangeUncheckedUpdateInput>
+    /**
+     * Choose, which AssetStructureChange to update.
+     */
+    where: AssetStructureChangeWhereUniqueInput
+  }
+
+  /**
+   * AssetStructureChange updateMany
+   */
+  export type AssetStructureChangeUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update AssetStructureChanges.
+     */
+    data: XOR<AssetStructureChangeUpdateManyMutationInput, AssetStructureChangeUncheckedUpdateManyInput>
+    /**
+     * Filter which AssetStructureChanges to update
+     */
+    where?: AssetStructureChangeWhereInput
+    /**
+     * Limit how many AssetStructureChanges to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * AssetStructureChange updateManyAndReturn
+   */
+  export type AssetStructureChangeUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssetStructureChange
+     */
+    select?: AssetStructureChangeSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssetStructureChange
+     */
+    omit?: AssetStructureChangeOmit<ExtArgs> | null
+    /**
+     * The data used to update AssetStructureChanges.
+     */
+    data: XOR<AssetStructureChangeUpdateManyMutationInput, AssetStructureChangeUncheckedUpdateManyInput>
+    /**
+     * Filter which AssetStructureChanges to update
+     */
+    where?: AssetStructureChangeWhereInput
+    /**
+     * Limit how many AssetStructureChanges to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssetStructureChangeIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * AssetStructureChange upsert
+   */
+  export type AssetStructureChangeUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssetStructureChange
+     */
+    select?: AssetStructureChangeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssetStructureChange
+     */
+    omit?: AssetStructureChangeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssetStructureChangeInclude<ExtArgs> | null
+    /**
+     * The filter to search for the AssetStructureChange to update in case it exists.
+     */
+    where: AssetStructureChangeWhereUniqueInput
+    /**
+     * In case the AssetStructureChange found by the `where` argument doesn't exist, create a new AssetStructureChange with this data.
+     */
+    create: XOR<AssetStructureChangeCreateInput, AssetStructureChangeUncheckedCreateInput>
+    /**
+     * In case the AssetStructureChange was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AssetStructureChangeUpdateInput, AssetStructureChangeUncheckedUpdateInput>
+  }
+
+  /**
+   * AssetStructureChange delete
+   */
+  export type AssetStructureChangeDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssetStructureChange
+     */
+    select?: AssetStructureChangeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssetStructureChange
+     */
+    omit?: AssetStructureChangeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssetStructureChangeInclude<ExtArgs> | null
+    /**
+     * Filter which AssetStructureChange to delete.
+     */
+    where: AssetStructureChangeWhereUniqueInput
+  }
+
+  /**
+   * AssetStructureChange deleteMany
+   */
+  export type AssetStructureChangeDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AssetStructureChanges to delete
+     */
+    where?: AssetStructureChangeWhereInput
+    /**
+     * Limit how many AssetStructureChanges to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * AssetStructureChange without action
+   */
+  export type AssetStructureChangeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssetStructureChange
+     */
+    select?: AssetStructureChangeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssetStructureChange
+     */
+    omit?: AssetStructureChangeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssetStructureChangeInclude<ExtArgs> | null
   }
 
 
@@ -154129,6 +155477,9 @@ export namespace Prisma {
     parentHoldId?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     dispositions?: boolean | QuarantineHold$dispositionsArgs<ExtArgs>
+    parentHold?: boolean | QuarantineHold$parentHoldArgs<ExtArgs>
+    reworkHolds?: boolean | QuarantineHold$reworkHoldsArgs<ExtArgs>
+    reworkLines?: boolean | QuarantineHold$reworkLinesArgs<ExtArgs>
     _count?: boolean | QuarantineHoldCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["quarantineHold"]>
 
@@ -154149,6 +155500,7 @@ export namespace Prisma {
     ncrId?: boolean
     parentHoldId?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    parentHold?: boolean | QuarantineHold$parentHoldArgs<ExtArgs>
   }, ExtArgs["result"]["quarantineHold"]>
 
   export type QuarantineHoldSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -154168,6 +155520,7 @@ export namespace Prisma {
     ncrId?: boolean
     parentHoldId?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    parentHold?: boolean | QuarantineHold$parentHoldArgs<ExtArgs>
   }, ExtArgs["result"]["quarantineHold"]>
 
   export type QuarantineHoldSelectScalar = {
@@ -154192,13 +155545,18 @@ export namespace Prisma {
   export type QuarantineHoldInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     dispositions?: boolean | QuarantineHold$dispositionsArgs<ExtArgs>
+    parentHold?: boolean | QuarantineHold$parentHoldArgs<ExtArgs>
+    reworkHolds?: boolean | QuarantineHold$reworkHoldsArgs<ExtArgs>
+    reworkLines?: boolean | QuarantineHold$reworkLinesArgs<ExtArgs>
     _count?: boolean | QuarantineHoldCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type QuarantineHoldIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    parentHold?: boolean | QuarantineHold$parentHoldArgs<ExtArgs>
   }
   export type QuarantineHoldIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    parentHold?: boolean | QuarantineHold$parentHoldArgs<ExtArgs>
   }
 
   export type $QuarantineHoldPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -154206,6 +155564,9 @@ export namespace Prisma {
     objects: {
       tenant: Prisma.$TenantPayload<ExtArgs>
       dispositions: Prisma.$QuarantineDispositionPayload<ExtArgs>[]
+      parentHold: Prisma.$QuarantineHoldPayload<ExtArgs> | null
+      reworkHolds: Prisma.$QuarantineHoldPayload<ExtArgs>[]
+      reworkLines: Prisma.$QuarantineDispositionLinePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -154628,6 +155989,9 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     dispositions<T extends QuarantineHold$dispositionsArgs<ExtArgs> = {}>(args?: Subset<T, QuarantineHold$dispositionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuarantineDispositionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    parentHold<T extends QuarantineHold$parentHoldArgs<ExtArgs> = {}>(args?: Subset<T, QuarantineHold$parentHoldArgs<ExtArgs>>): Prisma__QuarantineHoldClient<$Result.GetResult<Prisma.$QuarantineHoldPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    reworkHolds<T extends QuarantineHold$reworkHoldsArgs<ExtArgs> = {}>(args?: Subset<T, QuarantineHold$reworkHoldsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuarantineHoldPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    reworkLines<T extends QuarantineHold$reworkLinesArgs<ExtArgs> = {}>(args?: Subset<T, QuarantineHold$reworkLinesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuarantineDispositionLinePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -155089,6 +156453,73 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: QuarantineDispositionScalarFieldEnum | QuarantineDispositionScalarFieldEnum[]
+  }
+
+  /**
+   * QuarantineHold.parentHold
+   */
+  export type QuarantineHold$parentHoldArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuarantineHold
+     */
+    select?: QuarantineHoldSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuarantineHold
+     */
+    omit?: QuarantineHoldOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuarantineHoldInclude<ExtArgs> | null
+    where?: QuarantineHoldWhereInput
+  }
+
+  /**
+   * QuarantineHold.reworkHolds
+   */
+  export type QuarantineHold$reworkHoldsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuarantineHold
+     */
+    select?: QuarantineHoldSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuarantineHold
+     */
+    omit?: QuarantineHoldOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuarantineHoldInclude<ExtArgs> | null
+    where?: QuarantineHoldWhereInput
+    orderBy?: QuarantineHoldOrderByWithRelationInput | QuarantineHoldOrderByWithRelationInput[]
+    cursor?: QuarantineHoldWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: QuarantineHoldScalarFieldEnum | QuarantineHoldScalarFieldEnum[]
+  }
+
+  /**
+   * QuarantineHold.reworkLines
+   */
+  export type QuarantineHold$reworkLinesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuarantineDispositionLine
+     */
+    select?: QuarantineDispositionLineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuarantineDispositionLine
+     */
+    omit?: QuarantineDispositionLineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuarantineDispositionLineInclude<ExtArgs> | null
+    where?: QuarantineDispositionLineWhereInput
+    orderBy?: QuarantineDispositionLineOrderByWithRelationInput | QuarantineDispositionLineOrderByWithRelationInput[]
+    cursor?: QuarantineDispositionLineWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: QuarantineDispositionLineScalarFieldEnum | QuarantineDispositionLineScalarFieldEnum[]
   }
 
   /**
@@ -156338,6 +157769,7 @@ export namespace Prisma {
     reworkHoldId: number
     movementId: number
     targetMovementId: number
+    serials: number
     _all: number
   }
 
@@ -156397,6 +157829,7 @@ export namespace Prisma {
     reworkHoldId?: true
     movementId?: true
     targetMovementId?: true
+    serials?: true
     _all?: true
   }
 
@@ -156499,6 +157932,7 @@ export namespace Prisma {
     reworkHoldId: string | null
     movementId: string | null
     targetMovementId: string | null
+    serials: string[]
     _count: QuarantineDispositionLineCountAggregateOutputType | null
     _avg: QuarantineDispositionLineAvgAggregateOutputType | null
     _sum: QuarantineDispositionLineSumAggregateOutputType | null
@@ -156533,7 +157967,9 @@ export namespace Prisma {
     reworkHoldId?: boolean
     movementId?: boolean
     targetMovementId?: boolean
+    serials?: boolean
     disposition?: boolean | QuarantineDispositionDefaultArgs<ExtArgs>
+    reworkHold?: boolean | QuarantineDispositionLine$reworkHoldArgs<ExtArgs>
   }, ExtArgs["result"]["quarantineDispositionLine"]>
 
   export type QuarantineDispositionLineSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -156549,7 +157985,9 @@ export namespace Prisma {
     reworkHoldId?: boolean
     movementId?: boolean
     targetMovementId?: boolean
+    serials?: boolean
     disposition?: boolean | QuarantineDispositionDefaultArgs<ExtArgs>
+    reworkHold?: boolean | QuarantineDispositionLine$reworkHoldArgs<ExtArgs>
   }, ExtArgs["result"]["quarantineDispositionLine"]>
 
   export type QuarantineDispositionLineSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -156565,7 +158003,9 @@ export namespace Prisma {
     reworkHoldId?: boolean
     movementId?: boolean
     targetMovementId?: boolean
+    serials?: boolean
     disposition?: boolean | QuarantineDispositionDefaultArgs<ExtArgs>
+    reworkHold?: boolean | QuarantineDispositionLine$reworkHoldArgs<ExtArgs>
   }, ExtArgs["result"]["quarantineDispositionLine"]>
 
   export type QuarantineDispositionLineSelectScalar = {
@@ -156581,23 +158021,28 @@ export namespace Prisma {
     reworkHoldId?: boolean
     movementId?: boolean
     targetMovementId?: boolean
+    serials?: boolean
   }
 
-  export type QuarantineDispositionLineOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "dispositionId" | "lineNo" | "type" | "quantity" | "targetSkuId" | "targetQuantity" | "supplierRef" | "reworkHoldId" | "movementId" | "targetMovementId", ExtArgs["result"]["quarantineDispositionLine"]>
+  export type QuarantineDispositionLineOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "dispositionId" | "lineNo" | "type" | "quantity" | "targetSkuId" | "targetQuantity" | "supplierRef" | "reworkHoldId" | "movementId" | "targetMovementId" | "serials", ExtArgs["result"]["quarantineDispositionLine"]>
   export type QuarantineDispositionLineInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     disposition?: boolean | QuarantineDispositionDefaultArgs<ExtArgs>
+    reworkHold?: boolean | QuarantineDispositionLine$reworkHoldArgs<ExtArgs>
   }
   export type QuarantineDispositionLineIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     disposition?: boolean | QuarantineDispositionDefaultArgs<ExtArgs>
+    reworkHold?: boolean | QuarantineDispositionLine$reworkHoldArgs<ExtArgs>
   }
   export type QuarantineDispositionLineIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     disposition?: boolean | QuarantineDispositionDefaultArgs<ExtArgs>
+    reworkHold?: boolean | QuarantineDispositionLine$reworkHoldArgs<ExtArgs>
   }
 
   export type $QuarantineDispositionLinePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "QuarantineDispositionLine"
     objects: {
       disposition: Prisma.$QuarantineDispositionPayload<ExtArgs>
+      reworkHold: Prisma.$QuarantineHoldPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -156612,6 +158057,10 @@ export namespace Prisma {
       reworkHoldId: string | null
       movementId: string | null
       targetMovementId: string | null
+      /**
+       * Serial numbers moved by this line (kept for retries).
+       */
+      serials: string[]
     }, ExtArgs["result"]["quarantineDispositionLine"]>
     composites: {}
   }
@@ -157007,6 +158456,7 @@ export namespace Prisma {
   export interface Prisma__QuarantineDispositionLineClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     disposition<T extends QuarantineDispositionDefaultArgs<ExtArgs> = {}>(args?: Subset<T, QuarantineDispositionDefaultArgs<ExtArgs>>): Prisma__QuarantineDispositionClient<$Result.GetResult<Prisma.$QuarantineDispositionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    reworkHold<T extends QuarantineDispositionLine$reworkHoldArgs<ExtArgs> = {}>(args?: Subset<T, QuarantineDispositionLine$reworkHoldArgs<ExtArgs>>): Prisma__QuarantineHoldClient<$Result.GetResult<Prisma.$QuarantineHoldPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -157048,6 +158498,7 @@ export namespace Prisma {
     readonly reworkHoldId: FieldRef<"QuarantineDispositionLine", 'String'>
     readonly movementId: FieldRef<"QuarantineDispositionLine", 'String'>
     readonly targetMovementId: FieldRef<"QuarantineDispositionLine", 'String'>
+    readonly serials: FieldRef<"QuarantineDispositionLine", 'String[]'>
   }
     
 
@@ -157441,6 +158892,25 @@ export namespace Prisma {
      * Limit how many QuarantineDispositionLines to delete.
      */
     limit?: number
+  }
+
+  /**
+   * QuarantineDispositionLine.reworkHold
+   */
+  export type QuarantineDispositionLine$reworkHoldArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuarantineHold
+     */
+    select?: QuarantineHoldSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuarantineHold
+     */
+    omit?: QuarantineHoldOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuarantineHoldInclude<ExtArgs> | null
+    where?: QuarantineHoldWhereInput
   }
 
   /**
@@ -218178,10 +219648,25 @@ export namespace Prisma {
     location: 'location',
     qrToken: 'qrToken',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    updatedAt: 'updatedAt',
+    parentAssetId: 'parentAssetId'
   };
 
   export type AssetScalarFieldEnum = (typeof AssetScalarFieldEnum)[keyof typeof AssetScalarFieldEnum]
+
+
+  export const AssetStructureChangeScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    assetId: 'assetId',
+    fromParentId: 'fromParentId',
+    toParentId: 'toParentId',
+    reason: 'reason',
+    changedBy: 'changedBy',
+    effectiveAt: 'effectiveAt'
+  };
+
+  export type AssetStructureChangeScalarFieldEnum = (typeof AssetStructureChangeScalarFieldEnum)[keyof typeof AssetStructureChangeScalarFieldEnum]
 
 
   export const QuarantineHoldScalarFieldEnum: {
@@ -218233,7 +219718,8 @@ export namespace Prisma {
     supplierRef: 'supplierRef',
     reworkHoldId: 'reworkHoldId',
     movementId: 'movementId',
-    targetMovementId: 'targetMovementId'
+    targetMovementId: 'targetMovementId',
+    serials: 'serials'
   };
 
   export type QuarantineDispositionLineScalarFieldEnum = (typeof QuarantineDispositionLineScalarFieldEnum)[keyof typeof QuarantineDispositionLineScalarFieldEnum]
@@ -220365,6 +221851,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementListRelationFilter
     mdmDuplicateDismissals?: MdmDuplicateDismissalListRelationFilter
     quarantineDispositions?: QuarantineDispositionListRelationFilter
+    assetStructureChanges?: AssetStructureChangeListRelationFilter
   }
 
   export type TenantOrderByWithRelationInput = {
@@ -220522,6 +222009,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementOrderByRelationAggregateInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalOrderByRelationAggregateInput
     quarantineDispositions?: QuarantineDispositionOrderByRelationAggregateInput
+    assetStructureChanges?: AssetStructureChangeOrderByRelationAggregateInput
   }
 
   export type TenantWhereUniqueInput = Prisma.AtLeast<{
@@ -220682,6 +222170,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementListRelationFilter
     mdmDuplicateDismissals?: MdmDuplicateDismissalListRelationFilter
     quarantineDispositions?: QuarantineDispositionListRelationFilter
+    assetStructureChanges?: AssetStructureChangeListRelationFilter
   }, "id" | "slug">
 
   export type TenantOrderByWithAggregationInput = {
@@ -229526,7 +231015,10 @@ export namespace Prisma {
     qrToken?: StringNullableFilter<"Asset"> | string | null
     createdAt?: DateTimeFilter<"Asset"> | Date | string
     updatedAt?: DateTimeFilter<"Asset"> | Date | string
+    parentAssetId?: UuidNullableFilter<"Asset"> | string | null
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    parentAsset?: XOR<AssetNullableScalarRelationFilter, AssetWhereInput> | null
+    children?: AssetListRelationFilter
   }
 
   export type AssetOrderByWithRelationInput = {
@@ -229544,7 +231036,10 @@ export namespace Prisma {
     qrToken?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    parentAssetId?: SortOrderInput | SortOrder
     tenant?: TenantOrderByWithRelationInput
+    parentAsset?: AssetOrderByWithRelationInput
+    children?: AssetOrderByRelationAggregateInput
   }
 
   export type AssetWhereUniqueInput = Prisma.AtLeast<{
@@ -229566,7 +231061,10 @@ export namespace Prisma {
     location?: StringNullableFilter<"Asset"> | string | null
     createdAt?: DateTimeFilter<"Asset"> | Date | string
     updatedAt?: DateTimeFilter<"Asset"> | Date | string
+    parentAssetId?: UuidNullableFilter<"Asset"> | string | null
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    parentAsset?: XOR<AssetNullableScalarRelationFilter, AssetWhereInput> | null
+    children?: AssetListRelationFilter
   }, "id" | "qrToken" | "tenantId_assetNumber">
 
   export type AssetOrderByWithAggregationInput = {
@@ -229584,6 +231082,7 @@ export namespace Prisma {
     qrToken?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    parentAssetId?: SortOrderInput | SortOrder
     _count?: AssetCountOrderByAggregateInput
     _avg?: AssetAvgOrderByAggregateInput
     _max?: AssetMaxOrderByAggregateInput
@@ -229609,6 +231108,77 @@ export namespace Prisma {
     qrToken?: StringNullableWithAggregatesFilter<"Asset"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Asset"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Asset"> | Date | string
+    parentAssetId?: UuidNullableWithAggregatesFilter<"Asset"> | string | null
+  }
+
+  export type AssetStructureChangeWhereInput = {
+    AND?: AssetStructureChangeWhereInput | AssetStructureChangeWhereInput[]
+    OR?: AssetStructureChangeWhereInput[]
+    NOT?: AssetStructureChangeWhereInput | AssetStructureChangeWhereInput[]
+    id?: UuidFilter<"AssetStructureChange"> | string
+    tenantId?: UuidFilter<"AssetStructureChange"> | string
+    assetId?: UuidFilter<"AssetStructureChange"> | string
+    fromParentId?: UuidNullableFilter<"AssetStructureChange"> | string | null
+    toParentId?: UuidNullableFilter<"AssetStructureChange"> | string | null
+    reason?: StringFilter<"AssetStructureChange"> | string
+    changedBy?: StringNullableFilter<"AssetStructureChange"> | string | null
+    effectiveAt?: DateTimeFilter<"AssetStructureChange"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+  }
+
+  export type AssetStructureChangeOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    assetId?: SortOrder
+    fromParentId?: SortOrderInput | SortOrder
+    toParentId?: SortOrderInput | SortOrder
+    reason?: SortOrder
+    changedBy?: SortOrderInput | SortOrder
+    effectiveAt?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+  }
+
+  export type AssetStructureChangeWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: AssetStructureChangeWhereInput | AssetStructureChangeWhereInput[]
+    OR?: AssetStructureChangeWhereInput[]
+    NOT?: AssetStructureChangeWhereInput | AssetStructureChangeWhereInput[]
+    tenantId?: UuidFilter<"AssetStructureChange"> | string
+    assetId?: UuidFilter<"AssetStructureChange"> | string
+    fromParentId?: UuidNullableFilter<"AssetStructureChange"> | string | null
+    toParentId?: UuidNullableFilter<"AssetStructureChange"> | string | null
+    reason?: StringFilter<"AssetStructureChange"> | string
+    changedBy?: StringNullableFilter<"AssetStructureChange"> | string | null
+    effectiveAt?: DateTimeFilter<"AssetStructureChange"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+  }, "id">
+
+  export type AssetStructureChangeOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    assetId?: SortOrder
+    fromParentId?: SortOrderInput | SortOrder
+    toParentId?: SortOrderInput | SortOrder
+    reason?: SortOrder
+    changedBy?: SortOrderInput | SortOrder
+    effectiveAt?: SortOrder
+    _count?: AssetStructureChangeCountOrderByAggregateInput
+    _max?: AssetStructureChangeMaxOrderByAggregateInput
+    _min?: AssetStructureChangeMinOrderByAggregateInput
+  }
+
+  export type AssetStructureChangeScalarWhereWithAggregatesInput = {
+    AND?: AssetStructureChangeScalarWhereWithAggregatesInput | AssetStructureChangeScalarWhereWithAggregatesInput[]
+    OR?: AssetStructureChangeScalarWhereWithAggregatesInput[]
+    NOT?: AssetStructureChangeScalarWhereWithAggregatesInput | AssetStructureChangeScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"AssetStructureChange"> | string
+    tenantId?: UuidWithAggregatesFilter<"AssetStructureChange"> | string
+    assetId?: UuidWithAggregatesFilter<"AssetStructureChange"> | string
+    fromParentId?: UuidNullableWithAggregatesFilter<"AssetStructureChange"> | string | null
+    toParentId?: UuidNullableWithAggregatesFilter<"AssetStructureChange"> | string | null
+    reason?: StringWithAggregatesFilter<"AssetStructureChange"> | string
+    changedBy?: StringNullableWithAggregatesFilter<"AssetStructureChange"> | string | null
+    effectiveAt?: DateTimeWithAggregatesFilter<"AssetStructureChange"> | Date | string
   }
 
   export type QuarantineHoldWhereInput = {
@@ -229632,6 +231202,9 @@ export namespace Prisma {
     parentHoldId?: UuidNullableFilter<"QuarantineHold"> | string | null
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
     dispositions?: QuarantineDispositionListRelationFilter
+    parentHold?: XOR<QuarantineHoldNullableScalarRelationFilter, QuarantineHoldWhereInput> | null
+    reworkHolds?: QuarantineHoldListRelationFilter
+    reworkLines?: QuarantineDispositionLineListRelationFilter
   }
 
   export type QuarantineHoldOrderByWithRelationInput = {
@@ -229652,6 +231225,9 @@ export namespace Prisma {
     parentHoldId?: SortOrderInput | SortOrder
     tenant?: TenantOrderByWithRelationInput
     dispositions?: QuarantineDispositionOrderByRelationAggregateInput
+    parentHold?: QuarantineHoldOrderByWithRelationInput
+    reworkHolds?: QuarantineHoldOrderByRelationAggregateInput
+    reworkLines?: QuarantineDispositionLineOrderByRelationAggregateInput
   }
 
   export type QuarantineHoldWhereUniqueInput = Prisma.AtLeast<{
@@ -229675,6 +231251,9 @@ export namespace Prisma {
     parentHoldId?: UuidNullableFilter<"QuarantineHold"> | string | null
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
     dispositions?: QuarantineDispositionListRelationFilter
+    parentHold?: XOR<QuarantineHoldNullableScalarRelationFilter, QuarantineHoldWhereInput> | null
+    reworkHolds?: QuarantineHoldListRelationFilter
+    reworkLines?: QuarantineDispositionLineListRelationFilter
   }, "id">
 
   export type QuarantineHoldOrderByWithAggregationInput = {
@@ -229824,7 +231403,9 @@ export namespace Prisma {
     reworkHoldId?: UuidNullableFilter<"QuarantineDispositionLine"> | string | null
     movementId?: UuidNullableFilter<"QuarantineDispositionLine"> | string | null
     targetMovementId?: UuidNullableFilter<"QuarantineDispositionLine"> | string | null
+    serials?: StringNullableListFilter<"QuarantineDispositionLine">
     disposition?: XOR<QuarantineDispositionScalarRelationFilter, QuarantineDispositionWhereInput>
+    reworkHold?: XOR<QuarantineHoldNullableScalarRelationFilter, QuarantineHoldWhereInput> | null
   }
 
   export type QuarantineDispositionLineOrderByWithRelationInput = {
@@ -229840,7 +231421,9 @@ export namespace Prisma {
     reworkHoldId?: SortOrderInput | SortOrder
     movementId?: SortOrderInput | SortOrder
     targetMovementId?: SortOrderInput | SortOrder
+    serials?: SortOrder
     disposition?: QuarantineDispositionOrderByWithRelationInput
+    reworkHold?: QuarantineHoldOrderByWithRelationInput
   }
 
   export type QuarantineDispositionLineWhereUniqueInput = Prisma.AtLeast<{
@@ -229860,7 +231443,9 @@ export namespace Prisma {
     reworkHoldId?: UuidNullableFilter<"QuarantineDispositionLine"> | string | null
     movementId?: UuidNullableFilter<"QuarantineDispositionLine"> | string | null
     targetMovementId?: UuidNullableFilter<"QuarantineDispositionLine"> | string | null
+    serials?: StringNullableListFilter<"QuarantineDispositionLine">
     disposition?: XOR<QuarantineDispositionScalarRelationFilter, QuarantineDispositionWhereInput>
+    reworkHold?: XOR<QuarantineHoldNullableScalarRelationFilter, QuarantineHoldWhereInput> | null
   }, "id" | "dispositionId_lineNo">
 
   export type QuarantineDispositionLineOrderByWithAggregationInput = {
@@ -229876,6 +231461,7 @@ export namespace Prisma {
     reworkHoldId?: SortOrderInput | SortOrder
     movementId?: SortOrderInput | SortOrder
     targetMovementId?: SortOrderInput | SortOrder
+    serials?: SortOrder
     _count?: QuarantineDispositionLineCountOrderByAggregateInput
     _avg?: QuarantineDispositionLineAvgOrderByAggregateInput
     _max?: QuarantineDispositionLineMaxOrderByAggregateInput
@@ -229899,6 +231485,7 @@ export namespace Prisma {
     reworkHoldId?: UuidNullableWithAggregatesFilter<"QuarantineDispositionLine"> | string | null
     movementId?: UuidNullableWithAggregatesFilter<"QuarantineDispositionLine"> | string | null
     targetMovementId?: UuidNullableWithAggregatesFilter<"QuarantineDispositionLine"> | string | null
+    serials?: StringNullableListFilter<"QuarantineDispositionLine">
   }
 
   export type RfqWhereInput = {
@@ -234564,6 +236151,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateInput = {
@@ -234721,6 +236309,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUpdateInput = {
@@ -234878,6 +236467,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateInput = {
@@ -235035,6 +236625,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateManyInput = {
@@ -244487,6 +246078,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     tenant: TenantCreateNestedOneWithoutAssetsInput
+    parentAsset?: AssetCreateNestedOneWithoutChildrenInput
+    children?: AssetCreateNestedManyWithoutParentAssetInput
   }
 
   export type AssetUncheckedCreateInput = {
@@ -244504,6 +246097,8 @@ export namespace Prisma {
     qrToken?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    parentAssetId?: string | null
+    children?: AssetUncheckedCreateNestedManyWithoutParentAssetInput
   }
 
   export type AssetUpdateInput = {
@@ -244521,6 +246116,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: TenantUpdateOneRequiredWithoutAssetsNestedInput
+    parentAsset?: AssetUpdateOneWithoutChildrenNestedInput
+    children?: AssetUpdateManyWithoutParentAssetNestedInput
   }
 
   export type AssetUncheckedUpdateInput = {
@@ -244538,6 +246135,8 @@ export namespace Prisma {
     qrToken?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    parentAssetId?: NullableStringFieldUpdateOperationsInput | string | null
+    children?: AssetUncheckedUpdateManyWithoutParentAssetNestedInput
   }
 
   export type AssetCreateManyInput = {
@@ -244555,6 +246154,7 @@ export namespace Prisma {
     qrToken?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    parentAssetId?: string | null
   }
 
   export type AssetUpdateManyMutationInput = {
@@ -244588,6 +246188,83 @@ export namespace Prisma {
     qrToken?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    parentAssetId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type AssetStructureChangeCreateInput = {
+    id?: string
+    assetId: string
+    fromParentId?: string | null
+    toParentId?: string | null
+    reason: string
+    changedBy?: string | null
+    effectiveAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutAssetStructureChangesInput
+  }
+
+  export type AssetStructureChangeUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    assetId: string
+    fromParentId?: string | null
+    toParentId?: string | null
+    reason: string
+    changedBy?: string | null
+    effectiveAt?: Date | string
+  }
+
+  export type AssetStructureChangeUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    assetId?: StringFieldUpdateOperationsInput | string
+    fromParentId?: NullableStringFieldUpdateOperationsInput | string | null
+    toParentId?: NullableStringFieldUpdateOperationsInput | string | null
+    reason?: StringFieldUpdateOperationsInput | string
+    changedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    effectiveAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutAssetStructureChangesNestedInput
+  }
+
+  export type AssetStructureChangeUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    assetId?: StringFieldUpdateOperationsInput | string
+    fromParentId?: NullableStringFieldUpdateOperationsInput | string | null
+    toParentId?: NullableStringFieldUpdateOperationsInput | string | null
+    reason?: StringFieldUpdateOperationsInput | string
+    changedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    effectiveAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AssetStructureChangeCreateManyInput = {
+    id?: string
+    tenantId: string
+    assetId: string
+    fromParentId?: string | null
+    toParentId?: string | null
+    reason: string
+    changedBy?: string | null
+    effectiveAt?: Date | string
+  }
+
+  export type AssetStructureChangeUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    assetId?: StringFieldUpdateOperationsInput | string
+    fromParentId?: NullableStringFieldUpdateOperationsInput | string | null
+    toParentId?: NullableStringFieldUpdateOperationsInput | string | null
+    reason?: StringFieldUpdateOperationsInput | string
+    changedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    effectiveAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AssetStructureChangeUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    assetId?: StringFieldUpdateOperationsInput | string
+    fromParentId?: NullableStringFieldUpdateOperationsInput | string | null
+    toParentId?: NullableStringFieldUpdateOperationsInput | string | null
+    reason?: StringFieldUpdateOperationsInput | string
+    changedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    effectiveAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type QuarantineHoldCreateInput = {
@@ -244601,12 +246278,14 @@ export namespace Prisma {
     decidedBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    remainingQuantity?: Decimal | DecimalJsLike | number | string
+    remainingQuantity: Decimal | DecimalJsLike | number | string
     lotNumber?: string | null
     ncrId?: string | null
-    parentHoldId?: string | null
     tenant: TenantCreateNestedOneWithoutQuarantineHoldsInput
     dispositions?: QuarantineDispositionCreateNestedManyWithoutHoldInput
+    parentHold?: QuarantineHoldCreateNestedOneWithoutReworkHoldsInput
+    reworkHolds?: QuarantineHoldCreateNestedManyWithoutParentHoldInput
+    reworkLines?: QuarantineDispositionLineCreateNestedManyWithoutReworkHoldInput
   }
 
   export type QuarantineHoldUncheckedCreateInput = {
@@ -244621,11 +246300,13 @@ export namespace Prisma {
     decidedBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    remainingQuantity?: Decimal | DecimalJsLike | number | string
+    remainingQuantity: Decimal | DecimalJsLike | number | string
     lotNumber?: string | null
     ncrId?: string | null
     parentHoldId?: string | null
     dispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutHoldInput
+    reworkHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutParentHoldInput
+    reworkLines?: QuarantineDispositionLineUncheckedCreateNestedManyWithoutReworkHoldInput
   }
 
   export type QuarantineHoldUpdateInput = {
@@ -244642,9 +246323,11 @@ export namespace Prisma {
     remainingQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     lotNumber?: NullableStringFieldUpdateOperationsInput | string | null
     ncrId?: NullableStringFieldUpdateOperationsInput | string | null
-    parentHoldId?: NullableStringFieldUpdateOperationsInput | string | null
     tenant?: TenantUpdateOneRequiredWithoutQuarantineHoldsNestedInput
     dispositions?: QuarantineDispositionUpdateManyWithoutHoldNestedInput
+    parentHold?: QuarantineHoldUpdateOneWithoutReworkHoldsNestedInput
+    reworkHolds?: QuarantineHoldUpdateManyWithoutParentHoldNestedInput
+    reworkLines?: QuarantineDispositionLineUpdateManyWithoutReworkHoldNestedInput
   }
 
   export type QuarantineHoldUncheckedUpdateInput = {
@@ -244664,6 +246347,8 @@ export namespace Prisma {
     ncrId?: NullableStringFieldUpdateOperationsInput | string | null
     parentHoldId?: NullableStringFieldUpdateOperationsInput | string | null
     dispositions?: QuarantineDispositionUncheckedUpdateManyWithoutHoldNestedInput
+    reworkHolds?: QuarantineHoldUncheckedUpdateManyWithoutParentHoldNestedInput
+    reworkLines?: QuarantineDispositionLineUncheckedUpdateManyWithoutReworkHoldNestedInput
   }
 
   export type QuarantineHoldCreateManyInput = {
@@ -244678,7 +246363,7 @@ export namespace Prisma {
     decidedBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    remainingQuantity?: Decimal | DecimalJsLike | number | string
+    remainingQuantity: Decimal | DecimalJsLike | number | string
     lotNumber?: string | null
     ncrId?: string | null
     parentHoldId?: string | null
@@ -244698,7 +246383,6 @@ export namespace Prisma {
     remainingQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     lotNumber?: NullableStringFieldUpdateOperationsInput | string | null
     ncrId?: NullableStringFieldUpdateOperationsInput | string | null
-    parentHoldId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type QuarantineHoldUncheckedUpdateManyInput = {
@@ -244821,10 +246505,11 @@ export namespace Prisma {
     targetSkuId?: string | null
     targetQuantity?: Decimal | DecimalJsLike | number | string | null
     supplierRef?: string | null
-    reworkHoldId?: string | null
     movementId?: string | null
     targetMovementId?: string | null
+    serials?: QuarantineDispositionLineCreateserialsInput | string[]
     disposition: QuarantineDispositionCreateNestedOneWithoutLinesInput
+    reworkHold?: QuarantineHoldCreateNestedOneWithoutReworkLinesInput
   }
 
   export type QuarantineDispositionLineUncheckedCreateInput = {
@@ -244840,6 +246525,7 @@ export namespace Prisma {
     reworkHoldId?: string | null
     movementId?: string | null
     targetMovementId?: string | null
+    serials?: QuarantineDispositionLineCreateserialsInput | string[]
   }
 
   export type QuarantineDispositionLineUpdateInput = {
@@ -244851,10 +246537,11 @@ export namespace Prisma {
     targetSkuId?: NullableStringFieldUpdateOperationsInput | string | null
     targetQuantity?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     supplierRef?: NullableStringFieldUpdateOperationsInput | string | null
-    reworkHoldId?: NullableStringFieldUpdateOperationsInput | string | null
     movementId?: NullableStringFieldUpdateOperationsInput | string | null
     targetMovementId?: NullableStringFieldUpdateOperationsInput | string | null
+    serials?: QuarantineDispositionLineUpdateserialsInput | string[]
     disposition?: QuarantineDispositionUpdateOneRequiredWithoutLinesNestedInput
+    reworkHold?: QuarantineHoldUpdateOneWithoutReworkLinesNestedInput
   }
 
   export type QuarantineDispositionLineUncheckedUpdateInput = {
@@ -244870,6 +246557,7 @@ export namespace Prisma {
     reworkHoldId?: NullableStringFieldUpdateOperationsInput | string | null
     movementId?: NullableStringFieldUpdateOperationsInput | string | null
     targetMovementId?: NullableStringFieldUpdateOperationsInput | string | null
+    serials?: QuarantineDispositionLineUpdateserialsInput | string[]
   }
 
   export type QuarantineDispositionLineCreateManyInput = {
@@ -244885,6 +246573,7 @@ export namespace Prisma {
     reworkHoldId?: string | null
     movementId?: string | null
     targetMovementId?: string | null
+    serials?: QuarantineDispositionLineCreateserialsInput | string[]
   }
 
   export type QuarantineDispositionLineUpdateManyMutationInput = {
@@ -244896,9 +246585,9 @@ export namespace Prisma {
     targetSkuId?: NullableStringFieldUpdateOperationsInput | string | null
     targetQuantity?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     supplierRef?: NullableStringFieldUpdateOperationsInput | string | null
-    reworkHoldId?: NullableStringFieldUpdateOperationsInput | string | null
     movementId?: NullableStringFieldUpdateOperationsInput | string | null
     targetMovementId?: NullableStringFieldUpdateOperationsInput | string | null
+    serials?: QuarantineDispositionLineUpdateserialsInput | string[]
   }
 
   export type QuarantineDispositionLineUncheckedUpdateManyInput = {
@@ -244914,6 +246603,7 @@ export namespace Prisma {
     reworkHoldId?: NullableStringFieldUpdateOperationsInput | string | null
     movementId?: NullableStringFieldUpdateOperationsInput | string | null
     targetMovementId?: NullableStringFieldUpdateOperationsInput | string | null
+    serials?: QuarantineDispositionLineUpdateserialsInput | string[]
   }
 
   export type RfqCreateInput = {
@@ -250789,6 +252479,12 @@ export namespace Prisma {
     none?: QuarantineDispositionWhereInput
   }
 
+  export type AssetStructureChangeListRelationFilter = {
+    every?: AssetStructureChangeWhereInput
+    some?: AssetStructureChangeWhereInput
+    none?: AssetStructureChangeWhereInput
+  }
+
   export type TenantConfigurationVersionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -251374,6 +253070,10 @@ export namespace Prisma {
   }
 
   export type QuarantineDispositionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type AssetStructureChangeOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -258014,6 +259714,11 @@ export namespace Prisma {
     not?: NestedEnumAssetStatusFilter<$PrismaModel> | $Enums.AssetStatus
   }
 
+  export type AssetNullableScalarRelationFilter = {
+    is?: AssetWhereInput | null
+    isNot?: AssetWhereInput | null
+  }
+
   export type AssetTenantIdAssetNumberCompoundUniqueInput = {
     tenantId: string
     assetNumber: string
@@ -258034,6 +259739,7 @@ export namespace Prisma {
     qrToken?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    parentAssetId?: SortOrder
   }
 
   export type AssetAvgOrderByAggregateInput = {
@@ -258055,6 +259761,7 @@ export namespace Prisma {
     qrToken?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    parentAssetId?: SortOrder
   }
 
   export type AssetMinOrderByAggregateInput = {
@@ -258072,6 +259779,7 @@ export namespace Prisma {
     qrToken?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    parentAssetId?: SortOrder
   }
 
   export type AssetSumOrderByAggregateInput = {
@@ -258088,11 +259796,59 @@ export namespace Prisma {
     _max?: NestedEnumAssetStatusFilter<$PrismaModel>
   }
 
+  export type AssetStructureChangeCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    assetId?: SortOrder
+    fromParentId?: SortOrder
+    toParentId?: SortOrder
+    reason?: SortOrder
+    changedBy?: SortOrder
+    effectiveAt?: SortOrder
+  }
+
+  export type AssetStructureChangeMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    assetId?: SortOrder
+    fromParentId?: SortOrder
+    toParentId?: SortOrder
+    reason?: SortOrder
+    changedBy?: SortOrder
+    effectiveAt?: SortOrder
+  }
+
+  export type AssetStructureChangeMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    assetId?: SortOrder
+    fromParentId?: SortOrder
+    toParentId?: SortOrder
+    reason?: SortOrder
+    changedBy?: SortOrder
+    effectiveAt?: SortOrder
+  }
+
   export type EnumQuarantineStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.QuarantineStatus | EnumQuarantineStatusFieldRefInput<$PrismaModel>
     in?: $Enums.QuarantineStatus[] | ListEnumQuarantineStatusFieldRefInput<$PrismaModel>
     notIn?: $Enums.QuarantineStatus[] | ListEnumQuarantineStatusFieldRefInput<$PrismaModel>
     not?: NestedEnumQuarantineStatusFilter<$PrismaModel> | $Enums.QuarantineStatus
+  }
+
+  export type QuarantineHoldNullableScalarRelationFilter = {
+    is?: QuarantineHoldWhereInput | null
+    isNot?: QuarantineHoldWhereInput | null
+  }
+
+  export type QuarantineDispositionLineListRelationFilter = {
+    every?: QuarantineDispositionLineWhereInput
+    some?: QuarantineDispositionLineWhereInput
+    none?: QuarantineDispositionLineWhereInput
+  }
+
+  export type QuarantineDispositionLineOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type QuarantineHoldCountOrderByAggregateInput = {
@@ -258181,16 +259937,6 @@ export namespace Prisma {
     isNot?: QuarantineHoldWhereInput
   }
 
-  export type QuarantineDispositionLineListRelationFilter = {
-    every?: QuarantineDispositionLineWhereInput
-    some?: QuarantineDispositionLineWhereInput
-    none?: QuarantineDispositionLineWhereInput
-  }
-
-  export type QuarantineDispositionLineOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
   export type QuarantineDispositionTenantIdRequestKeyCompoundUniqueInput = {
     tenantId: string
     requestKey: string
@@ -258275,6 +260021,7 @@ export namespace Prisma {
     reworkHoldId?: SortOrder
     movementId?: SortOrder
     targetMovementId?: SortOrder
+    serials?: SortOrder
   }
 
   export type QuarantineDispositionLineAvgOrderByAggregateInput = {
@@ -262332,6 +264079,13 @@ export namespace Prisma {
     connect?: QuarantineDispositionWhereUniqueInput | QuarantineDispositionWhereUniqueInput[]
   }
 
+  export type AssetStructureChangeCreateNestedManyWithoutTenantInput = {
+    create?: XOR<AssetStructureChangeCreateWithoutTenantInput, AssetStructureChangeUncheckedCreateWithoutTenantInput> | AssetStructureChangeCreateWithoutTenantInput[] | AssetStructureChangeUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: AssetStructureChangeCreateOrConnectWithoutTenantInput | AssetStructureChangeCreateOrConnectWithoutTenantInput[]
+    createMany?: AssetStructureChangeCreateManyTenantInputEnvelope
+    connect?: AssetStructureChangeWhereUniqueInput | AssetStructureChangeWhereUniqueInput[]
+  }
+
   export type TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -263359,6 +265113,13 @@ export namespace Prisma {
     connectOrCreate?: QuarantineDispositionCreateOrConnectWithoutTenantInput | QuarantineDispositionCreateOrConnectWithoutTenantInput[]
     createMany?: QuarantineDispositionCreateManyTenantInputEnvelope
     connect?: QuarantineDispositionWhereUniqueInput | QuarantineDispositionWhereUniqueInput[]
+  }
+
+  export type AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<AssetStructureChangeCreateWithoutTenantInput, AssetStructureChangeUncheckedCreateWithoutTenantInput> | AssetStructureChangeCreateWithoutTenantInput[] | AssetStructureChangeUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: AssetStructureChangeCreateOrConnectWithoutTenantInput | AssetStructureChangeCreateOrConnectWithoutTenantInput[]
+    createMany?: AssetStructureChangeCreateManyTenantInputEnvelope
+    connect?: AssetStructureChangeWhereUniqueInput | AssetStructureChangeWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -265439,6 +267200,20 @@ export namespace Prisma {
     deleteMany?: QuarantineDispositionScalarWhereInput | QuarantineDispositionScalarWhereInput[]
   }
 
+  export type AssetStructureChangeUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<AssetStructureChangeCreateWithoutTenantInput, AssetStructureChangeUncheckedCreateWithoutTenantInput> | AssetStructureChangeCreateWithoutTenantInput[] | AssetStructureChangeUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: AssetStructureChangeCreateOrConnectWithoutTenantInput | AssetStructureChangeCreateOrConnectWithoutTenantInput[]
+    upsert?: AssetStructureChangeUpsertWithWhereUniqueWithoutTenantInput | AssetStructureChangeUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: AssetStructureChangeCreateManyTenantInputEnvelope
+    set?: AssetStructureChangeWhereUniqueInput | AssetStructureChangeWhereUniqueInput[]
+    disconnect?: AssetStructureChangeWhereUniqueInput | AssetStructureChangeWhereUniqueInput[]
+    delete?: AssetStructureChangeWhereUniqueInput | AssetStructureChangeWhereUniqueInput[]
+    connect?: AssetStructureChangeWhereUniqueInput | AssetStructureChangeWhereUniqueInput[]
+    update?: AssetStructureChangeUpdateWithWhereUniqueWithoutTenantInput | AssetStructureChangeUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: AssetStructureChangeUpdateManyWithWhereWithoutTenantInput | AssetStructureChangeUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: AssetStructureChangeScalarWhereInput | AssetStructureChangeScalarWhereInput[]
+  }
+
   export type TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput = {
     create?: XOR<TenantConfigurationVersionCreateWithoutTenantInput, TenantConfigurationVersionUncheckedCreateWithoutTenantInput> | TenantConfigurationVersionCreateWithoutTenantInput[] | TenantConfigurationVersionUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantConfigurationVersionCreateOrConnectWithoutTenantInput | TenantConfigurationVersionCreateOrConnectWithoutTenantInput[]
@@ -267495,6 +269270,20 @@ export namespace Prisma {
     update?: QuarantineDispositionUpdateWithWhereUniqueWithoutTenantInput | QuarantineDispositionUpdateWithWhereUniqueWithoutTenantInput[]
     updateMany?: QuarantineDispositionUpdateManyWithWhereWithoutTenantInput | QuarantineDispositionUpdateManyWithWhereWithoutTenantInput[]
     deleteMany?: QuarantineDispositionScalarWhereInput | QuarantineDispositionScalarWhereInput[]
+  }
+
+  export type AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<AssetStructureChangeCreateWithoutTenantInput, AssetStructureChangeUncheckedCreateWithoutTenantInput> | AssetStructureChangeCreateWithoutTenantInput[] | AssetStructureChangeUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: AssetStructureChangeCreateOrConnectWithoutTenantInput | AssetStructureChangeCreateOrConnectWithoutTenantInput[]
+    upsert?: AssetStructureChangeUpsertWithWhereUniqueWithoutTenantInput | AssetStructureChangeUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: AssetStructureChangeCreateManyTenantInputEnvelope
+    set?: AssetStructureChangeWhereUniqueInput | AssetStructureChangeWhereUniqueInput[]
+    disconnect?: AssetStructureChangeWhereUniqueInput | AssetStructureChangeWhereUniqueInput[]
+    delete?: AssetStructureChangeWhereUniqueInput | AssetStructureChangeWhereUniqueInput[]
+    connect?: AssetStructureChangeWhereUniqueInput | AssetStructureChangeWhereUniqueInput[]
+    update?: AssetStructureChangeUpdateWithWhereUniqueWithoutTenantInput | AssetStructureChangeUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: AssetStructureChangeUpdateManyWithWhereWithoutTenantInput | AssetStructureChangeUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: AssetStructureChangeScalarWhereInput | AssetStructureChangeScalarWhereInput[]
   }
 
   export type TenantCreateNestedOneWithoutConfigurationVersionsInput = {
@@ -272250,6 +274039,26 @@ export namespace Prisma {
     connect?: TenantWhereUniqueInput
   }
 
+  export type AssetCreateNestedOneWithoutChildrenInput = {
+    create?: XOR<AssetCreateWithoutChildrenInput, AssetUncheckedCreateWithoutChildrenInput>
+    connectOrCreate?: AssetCreateOrConnectWithoutChildrenInput
+    connect?: AssetWhereUniqueInput
+  }
+
+  export type AssetCreateNestedManyWithoutParentAssetInput = {
+    create?: XOR<AssetCreateWithoutParentAssetInput, AssetUncheckedCreateWithoutParentAssetInput> | AssetCreateWithoutParentAssetInput[] | AssetUncheckedCreateWithoutParentAssetInput[]
+    connectOrCreate?: AssetCreateOrConnectWithoutParentAssetInput | AssetCreateOrConnectWithoutParentAssetInput[]
+    createMany?: AssetCreateManyParentAssetInputEnvelope
+    connect?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+  }
+
+  export type AssetUncheckedCreateNestedManyWithoutParentAssetInput = {
+    create?: XOR<AssetCreateWithoutParentAssetInput, AssetUncheckedCreateWithoutParentAssetInput> | AssetCreateWithoutParentAssetInput[] | AssetUncheckedCreateWithoutParentAssetInput[]
+    connectOrCreate?: AssetCreateOrConnectWithoutParentAssetInput | AssetCreateOrConnectWithoutParentAssetInput[]
+    createMany?: AssetCreateManyParentAssetInputEnvelope
+    connect?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+  }
+
   export type EnumAssetStatusFieldUpdateOperationsInput = {
     set?: $Enums.AssetStatus
   }
@@ -272260,6 +274069,58 @@ export namespace Prisma {
     upsert?: TenantUpsertWithoutAssetsInput
     connect?: TenantWhereUniqueInput
     update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutAssetsInput, TenantUpdateWithoutAssetsInput>, TenantUncheckedUpdateWithoutAssetsInput>
+  }
+
+  export type AssetUpdateOneWithoutChildrenNestedInput = {
+    create?: XOR<AssetCreateWithoutChildrenInput, AssetUncheckedCreateWithoutChildrenInput>
+    connectOrCreate?: AssetCreateOrConnectWithoutChildrenInput
+    upsert?: AssetUpsertWithoutChildrenInput
+    disconnect?: AssetWhereInput | boolean
+    delete?: AssetWhereInput | boolean
+    connect?: AssetWhereUniqueInput
+    update?: XOR<XOR<AssetUpdateToOneWithWhereWithoutChildrenInput, AssetUpdateWithoutChildrenInput>, AssetUncheckedUpdateWithoutChildrenInput>
+  }
+
+  export type AssetUpdateManyWithoutParentAssetNestedInput = {
+    create?: XOR<AssetCreateWithoutParentAssetInput, AssetUncheckedCreateWithoutParentAssetInput> | AssetCreateWithoutParentAssetInput[] | AssetUncheckedCreateWithoutParentAssetInput[]
+    connectOrCreate?: AssetCreateOrConnectWithoutParentAssetInput | AssetCreateOrConnectWithoutParentAssetInput[]
+    upsert?: AssetUpsertWithWhereUniqueWithoutParentAssetInput | AssetUpsertWithWhereUniqueWithoutParentAssetInput[]
+    createMany?: AssetCreateManyParentAssetInputEnvelope
+    set?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+    disconnect?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+    delete?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+    connect?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+    update?: AssetUpdateWithWhereUniqueWithoutParentAssetInput | AssetUpdateWithWhereUniqueWithoutParentAssetInput[]
+    updateMany?: AssetUpdateManyWithWhereWithoutParentAssetInput | AssetUpdateManyWithWhereWithoutParentAssetInput[]
+    deleteMany?: AssetScalarWhereInput | AssetScalarWhereInput[]
+  }
+
+  export type AssetUncheckedUpdateManyWithoutParentAssetNestedInput = {
+    create?: XOR<AssetCreateWithoutParentAssetInput, AssetUncheckedCreateWithoutParentAssetInput> | AssetCreateWithoutParentAssetInput[] | AssetUncheckedCreateWithoutParentAssetInput[]
+    connectOrCreate?: AssetCreateOrConnectWithoutParentAssetInput | AssetCreateOrConnectWithoutParentAssetInput[]
+    upsert?: AssetUpsertWithWhereUniqueWithoutParentAssetInput | AssetUpsertWithWhereUniqueWithoutParentAssetInput[]
+    createMany?: AssetCreateManyParentAssetInputEnvelope
+    set?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+    disconnect?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+    delete?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+    connect?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+    update?: AssetUpdateWithWhereUniqueWithoutParentAssetInput | AssetUpdateWithWhereUniqueWithoutParentAssetInput[]
+    updateMany?: AssetUpdateManyWithWhereWithoutParentAssetInput | AssetUpdateManyWithWhereWithoutParentAssetInput[]
+    deleteMany?: AssetScalarWhereInput | AssetScalarWhereInput[]
+  }
+
+  export type TenantCreateNestedOneWithoutAssetStructureChangesInput = {
+    create?: XOR<TenantCreateWithoutAssetStructureChangesInput, TenantUncheckedCreateWithoutAssetStructureChangesInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutAssetStructureChangesInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type TenantUpdateOneRequiredWithoutAssetStructureChangesNestedInput = {
+    create?: XOR<TenantCreateWithoutAssetStructureChangesInput, TenantUncheckedCreateWithoutAssetStructureChangesInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutAssetStructureChangesInput
+    upsert?: TenantUpsertWithoutAssetStructureChangesInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutAssetStructureChangesInput, TenantUpdateWithoutAssetStructureChangesInput>, TenantUncheckedUpdateWithoutAssetStructureChangesInput>
   }
 
   export type TenantCreateNestedOneWithoutQuarantineHoldsInput = {
@@ -272275,11 +274136,45 @@ export namespace Prisma {
     connect?: QuarantineDispositionWhereUniqueInput | QuarantineDispositionWhereUniqueInput[]
   }
 
+  export type QuarantineHoldCreateNestedOneWithoutReworkHoldsInput = {
+    create?: XOR<QuarantineHoldCreateWithoutReworkHoldsInput, QuarantineHoldUncheckedCreateWithoutReworkHoldsInput>
+    connectOrCreate?: QuarantineHoldCreateOrConnectWithoutReworkHoldsInput
+    connect?: QuarantineHoldWhereUniqueInput
+  }
+
+  export type QuarantineHoldCreateNestedManyWithoutParentHoldInput = {
+    create?: XOR<QuarantineHoldCreateWithoutParentHoldInput, QuarantineHoldUncheckedCreateWithoutParentHoldInput> | QuarantineHoldCreateWithoutParentHoldInput[] | QuarantineHoldUncheckedCreateWithoutParentHoldInput[]
+    connectOrCreate?: QuarantineHoldCreateOrConnectWithoutParentHoldInput | QuarantineHoldCreateOrConnectWithoutParentHoldInput[]
+    createMany?: QuarantineHoldCreateManyParentHoldInputEnvelope
+    connect?: QuarantineHoldWhereUniqueInput | QuarantineHoldWhereUniqueInput[]
+  }
+
+  export type QuarantineDispositionLineCreateNestedManyWithoutReworkHoldInput = {
+    create?: XOR<QuarantineDispositionLineCreateWithoutReworkHoldInput, QuarantineDispositionLineUncheckedCreateWithoutReworkHoldInput> | QuarantineDispositionLineCreateWithoutReworkHoldInput[] | QuarantineDispositionLineUncheckedCreateWithoutReworkHoldInput[]
+    connectOrCreate?: QuarantineDispositionLineCreateOrConnectWithoutReworkHoldInput | QuarantineDispositionLineCreateOrConnectWithoutReworkHoldInput[]
+    createMany?: QuarantineDispositionLineCreateManyReworkHoldInputEnvelope
+    connect?: QuarantineDispositionLineWhereUniqueInput | QuarantineDispositionLineWhereUniqueInput[]
+  }
+
   export type QuarantineDispositionUncheckedCreateNestedManyWithoutHoldInput = {
     create?: XOR<QuarantineDispositionCreateWithoutHoldInput, QuarantineDispositionUncheckedCreateWithoutHoldInput> | QuarantineDispositionCreateWithoutHoldInput[] | QuarantineDispositionUncheckedCreateWithoutHoldInput[]
     connectOrCreate?: QuarantineDispositionCreateOrConnectWithoutHoldInput | QuarantineDispositionCreateOrConnectWithoutHoldInput[]
     createMany?: QuarantineDispositionCreateManyHoldInputEnvelope
     connect?: QuarantineDispositionWhereUniqueInput | QuarantineDispositionWhereUniqueInput[]
+  }
+
+  export type QuarantineHoldUncheckedCreateNestedManyWithoutParentHoldInput = {
+    create?: XOR<QuarantineHoldCreateWithoutParentHoldInput, QuarantineHoldUncheckedCreateWithoutParentHoldInput> | QuarantineHoldCreateWithoutParentHoldInput[] | QuarantineHoldUncheckedCreateWithoutParentHoldInput[]
+    connectOrCreate?: QuarantineHoldCreateOrConnectWithoutParentHoldInput | QuarantineHoldCreateOrConnectWithoutParentHoldInput[]
+    createMany?: QuarantineHoldCreateManyParentHoldInputEnvelope
+    connect?: QuarantineHoldWhereUniqueInput | QuarantineHoldWhereUniqueInput[]
+  }
+
+  export type QuarantineDispositionLineUncheckedCreateNestedManyWithoutReworkHoldInput = {
+    create?: XOR<QuarantineDispositionLineCreateWithoutReworkHoldInput, QuarantineDispositionLineUncheckedCreateWithoutReworkHoldInput> | QuarantineDispositionLineCreateWithoutReworkHoldInput[] | QuarantineDispositionLineUncheckedCreateWithoutReworkHoldInput[]
+    connectOrCreate?: QuarantineDispositionLineCreateOrConnectWithoutReworkHoldInput | QuarantineDispositionLineCreateOrConnectWithoutReworkHoldInput[]
+    createMany?: QuarantineDispositionLineCreateManyReworkHoldInputEnvelope
+    connect?: QuarantineDispositionLineWhereUniqueInput | QuarantineDispositionLineWhereUniqueInput[]
   }
 
   export type EnumQuarantineStatusFieldUpdateOperationsInput = {
@@ -272308,6 +274203,44 @@ export namespace Prisma {
     deleteMany?: QuarantineDispositionScalarWhereInput | QuarantineDispositionScalarWhereInput[]
   }
 
+  export type QuarantineHoldUpdateOneWithoutReworkHoldsNestedInput = {
+    create?: XOR<QuarantineHoldCreateWithoutReworkHoldsInput, QuarantineHoldUncheckedCreateWithoutReworkHoldsInput>
+    connectOrCreate?: QuarantineHoldCreateOrConnectWithoutReworkHoldsInput
+    upsert?: QuarantineHoldUpsertWithoutReworkHoldsInput
+    disconnect?: QuarantineHoldWhereInput | boolean
+    delete?: QuarantineHoldWhereInput | boolean
+    connect?: QuarantineHoldWhereUniqueInput
+    update?: XOR<XOR<QuarantineHoldUpdateToOneWithWhereWithoutReworkHoldsInput, QuarantineHoldUpdateWithoutReworkHoldsInput>, QuarantineHoldUncheckedUpdateWithoutReworkHoldsInput>
+  }
+
+  export type QuarantineHoldUpdateManyWithoutParentHoldNestedInput = {
+    create?: XOR<QuarantineHoldCreateWithoutParentHoldInput, QuarantineHoldUncheckedCreateWithoutParentHoldInput> | QuarantineHoldCreateWithoutParentHoldInput[] | QuarantineHoldUncheckedCreateWithoutParentHoldInput[]
+    connectOrCreate?: QuarantineHoldCreateOrConnectWithoutParentHoldInput | QuarantineHoldCreateOrConnectWithoutParentHoldInput[]
+    upsert?: QuarantineHoldUpsertWithWhereUniqueWithoutParentHoldInput | QuarantineHoldUpsertWithWhereUniqueWithoutParentHoldInput[]
+    createMany?: QuarantineHoldCreateManyParentHoldInputEnvelope
+    set?: QuarantineHoldWhereUniqueInput | QuarantineHoldWhereUniqueInput[]
+    disconnect?: QuarantineHoldWhereUniqueInput | QuarantineHoldWhereUniqueInput[]
+    delete?: QuarantineHoldWhereUniqueInput | QuarantineHoldWhereUniqueInput[]
+    connect?: QuarantineHoldWhereUniqueInput | QuarantineHoldWhereUniqueInput[]
+    update?: QuarantineHoldUpdateWithWhereUniqueWithoutParentHoldInput | QuarantineHoldUpdateWithWhereUniqueWithoutParentHoldInput[]
+    updateMany?: QuarantineHoldUpdateManyWithWhereWithoutParentHoldInput | QuarantineHoldUpdateManyWithWhereWithoutParentHoldInput[]
+    deleteMany?: QuarantineHoldScalarWhereInput | QuarantineHoldScalarWhereInput[]
+  }
+
+  export type QuarantineDispositionLineUpdateManyWithoutReworkHoldNestedInput = {
+    create?: XOR<QuarantineDispositionLineCreateWithoutReworkHoldInput, QuarantineDispositionLineUncheckedCreateWithoutReworkHoldInput> | QuarantineDispositionLineCreateWithoutReworkHoldInput[] | QuarantineDispositionLineUncheckedCreateWithoutReworkHoldInput[]
+    connectOrCreate?: QuarantineDispositionLineCreateOrConnectWithoutReworkHoldInput | QuarantineDispositionLineCreateOrConnectWithoutReworkHoldInput[]
+    upsert?: QuarantineDispositionLineUpsertWithWhereUniqueWithoutReworkHoldInput | QuarantineDispositionLineUpsertWithWhereUniqueWithoutReworkHoldInput[]
+    createMany?: QuarantineDispositionLineCreateManyReworkHoldInputEnvelope
+    set?: QuarantineDispositionLineWhereUniqueInput | QuarantineDispositionLineWhereUniqueInput[]
+    disconnect?: QuarantineDispositionLineWhereUniqueInput | QuarantineDispositionLineWhereUniqueInput[]
+    delete?: QuarantineDispositionLineWhereUniqueInput | QuarantineDispositionLineWhereUniqueInput[]
+    connect?: QuarantineDispositionLineWhereUniqueInput | QuarantineDispositionLineWhereUniqueInput[]
+    update?: QuarantineDispositionLineUpdateWithWhereUniqueWithoutReworkHoldInput | QuarantineDispositionLineUpdateWithWhereUniqueWithoutReworkHoldInput[]
+    updateMany?: QuarantineDispositionLineUpdateManyWithWhereWithoutReworkHoldInput | QuarantineDispositionLineUpdateManyWithWhereWithoutReworkHoldInput[]
+    deleteMany?: QuarantineDispositionLineScalarWhereInput | QuarantineDispositionLineScalarWhereInput[]
+  }
+
   export type QuarantineDispositionUncheckedUpdateManyWithoutHoldNestedInput = {
     create?: XOR<QuarantineDispositionCreateWithoutHoldInput, QuarantineDispositionUncheckedCreateWithoutHoldInput> | QuarantineDispositionCreateWithoutHoldInput[] | QuarantineDispositionUncheckedCreateWithoutHoldInput[]
     connectOrCreate?: QuarantineDispositionCreateOrConnectWithoutHoldInput | QuarantineDispositionCreateOrConnectWithoutHoldInput[]
@@ -272320,6 +274253,34 @@ export namespace Prisma {
     update?: QuarantineDispositionUpdateWithWhereUniqueWithoutHoldInput | QuarantineDispositionUpdateWithWhereUniqueWithoutHoldInput[]
     updateMany?: QuarantineDispositionUpdateManyWithWhereWithoutHoldInput | QuarantineDispositionUpdateManyWithWhereWithoutHoldInput[]
     deleteMany?: QuarantineDispositionScalarWhereInput | QuarantineDispositionScalarWhereInput[]
+  }
+
+  export type QuarantineHoldUncheckedUpdateManyWithoutParentHoldNestedInput = {
+    create?: XOR<QuarantineHoldCreateWithoutParentHoldInput, QuarantineHoldUncheckedCreateWithoutParentHoldInput> | QuarantineHoldCreateWithoutParentHoldInput[] | QuarantineHoldUncheckedCreateWithoutParentHoldInput[]
+    connectOrCreate?: QuarantineHoldCreateOrConnectWithoutParentHoldInput | QuarantineHoldCreateOrConnectWithoutParentHoldInput[]
+    upsert?: QuarantineHoldUpsertWithWhereUniqueWithoutParentHoldInput | QuarantineHoldUpsertWithWhereUniqueWithoutParentHoldInput[]
+    createMany?: QuarantineHoldCreateManyParentHoldInputEnvelope
+    set?: QuarantineHoldWhereUniqueInput | QuarantineHoldWhereUniqueInput[]
+    disconnect?: QuarantineHoldWhereUniqueInput | QuarantineHoldWhereUniqueInput[]
+    delete?: QuarantineHoldWhereUniqueInput | QuarantineHoldWhereUniqueInput[]
+    connect?: QuarantineHoldWhereUniqueInput | QuarantineHoldWhereUniqueInput[]
+    update?: QuarantineHoldUpdateWithWhereUniqueWithoutParentHoldInput | QuarantineHoldUpdateWithWhereUniqueWithoutParentHoldInput[]
+    updateMany?: QuarantineHoldUpdateManyWithWhereWithoutParentHoldInput | QuarantineHoldUpdateManyWithWhereWithoutParentHoldInput[]
+    deleteMany?: QuarantineHoldScalarWhereInput | QuarantineHoldScalarWhereInput[]
+  }
+
+  export type QuarantineDispositionLineUncheckedUpdateManyWithoutReworkHoldNestedInput = {
+    create?: XOR<QuarantineDispositionLineCreateWithoutReworkHoldInput, QuarantineDispositionLineUncheckedCreateWithoutReworkHoldInput> | QuarantineDispositionLineCreateWithoutReworkHoldInput[] | QuarantineDispositionLineUncheckedCreateWithoutReworkHoldInput[]
+    connectOrCreate?: QuarantineDispositionLineCreateOrConnectWithoutReworkHoldInput | QuarantineDispositionLineCreateOrConnectWithoutReworkHoldInput[]
+    upsert?: QuarantineDispositionLineUpsertWithWhereUniqueWithoutReworkHoldInput | QuarantineDispositionLineUpsertWithWhereUniqueWithoutReworkHoldInput[]
+    createMany?: QuarantineDispositionLineCreateManyReworkHoldInputEnvelope
+    set?: QuarantineDispositionLineWhereUniqueInput | QuarantineDispositionLineWhereUniqueInput[]
+    disconnect?: QuarantineDispositionLineWhereUniqueInput | QuarantineDispositionLineWhereUniqueInput[]
+    delete?: QuarantineDispositionLineWhereUniqueInput | QuarantineDispositionLineWhereUniqueInput[]
+    connect?: QuarantineDispositionLineWhereUniqueInput | QuarantineDispositionLineWhereUniqueInput[]
+    update?: QuarantineDispositionLineUpdateWithWhereUniqueWithoutReworkHoldInput | QuarantineDispositionLineUpdateWithWhereUniqueWithoutReworkHoldInput[]
+    updateMany?: QuarantineDispositionLineUpdateManyWithWhereWithoutReworkHoldInput | QuarantineDispositionLineUpdateManyWithWhereWithoutReworkHoldInput[]
+    deleteMany?: QuarantineDispositionLineScalarWhereInput | QuarantineDispositionLineScalarWhereInput[]
   }
 
   export type TenantCreateNestedOneWithoutQuarantineDispositionsInput = {
@@ -272396,14 +274357,29 @@ export namespace Prisma {
     deleteMany?: QuarantineDispositionLineScalarWhereInput | QuarantineDispositionLineScalarWhereInput[]
   }
 
+  export type QuarantineDispositionLineCreateserialsInput = {
+    set: string[]
+  }
+
   export type QuarantineDispositionCreateNestedOneWithoutLinesInput = {
     create?: XOR<QuarantineDispositionCreateWithoutLinesInput, QuarantineDispositionUncheckedCreateWithoutLinesInput>
     connectOrCreate?: QuarantineDispositionCreateOrConnectWithoutLinesInput
     connect?: QuarantineDispositionWhereUniqueInput
   }
 
+  export type QuarantineHoldCreateNestedOneWithoutReworkLinesInput = {
+    create?: XOR<QuarantineHoldCreateWithoutReworkLinesInput, QuarantineHoldUncheckedCreateWithoutReworkLinesInput>
+    connectOrCreate?: QuarantineHoldCreateOrConnectWithoutReworkLinesInput
+    connect?: QuarantineHoldWhereUniqueInput
+  }
+
   export type EnumDispositionTypeFieldUpdateOperationsInput = {
     set?: $Enums.DispositionType
+  }
+
+  export type QuarantineDispositionLineUpdateserialsInput = {
+    set?: string[]
+    push?: string | string[]
   }
 
   export type QuarantineDispositionUpdateOneRequiredWithoutLinesNestedInput = {
@@ -272412,6 +274388,16 @@ export namespace Prisma {
     upsert?: QuarantineDispositionUpsertWithoutLinesInput
     connect?: QuarantineDispositionWhereUniqueInput
     update?: XOR<XOR<QuarantineDispositionUpdateToOneWithWhereWithoutLinesInput, QuarantineDispositionUpdateWithoutLinesInput>, QuarantineDispositionUncheckedUpdateWithoutLinesInput>
+  }
+
+  export type QuarantineHoldUpdateOneWithoutReworkLinesNestedInput = {
+    create?: XOR<QuarantineHoldCreateWithoutReworkLinesInput, QuarantineHoldUncheckedCreateWithoutReworkLinesInput>
+    connectOrCreate?: QuarantineHoldCreateOrConnectWithoutReworkLinesInput
+    upsert?: QuarantineHoldUpsertWithoutReworkLinesInput
+    disconnect?: QuarantineHoldWhereInput | boolean
+    delete?: QuarantineHoldWhereInput | boolean
+    connect?: QuarantineHoldWhereUniqueInput
+    update?: XOR<XOR<QuarantineHoldUpdateToOneWithWhereWithoutReworkLinesInput, QuarantineHoldUpdateWithoutReworkLinesInput>, QuarantineHoldUncheckedUpdateWithoutReworkLinesInput>
   }
 
   export type TenantCreateNestedOneWithoutRfqsInput = {
@@ -278999,6 +280985,8 @@ export namespace Prisma {
     qrToken?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    parentAsset?: AssetCreateNestedOneWithoutChildrenInput
+    children?: AssetCreateNestedManyWithoutParentAssetInput
   }
 
   export type AssetUncheckedCreateWithoutTenantInput = {
@@ -279015,6 +281003,8 @@ export namespace Prisma {
     qrToken?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    parentAssetId?: string | null
+    children?: AssetUncheckedCreateNestedManyWithoutParentAssetInput
   }
 
   export type AssetCreateOrConnectWithoutTenantInput = {
@@ -279038,11 +281028,13 @@ export namespace Prisma {
     decidedBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    remainingQuantity?: Decimal | DecimalJsLike | number | string
+    remainingQuantity: Decimal | DecimalJsLike | number | string
     lotNumber?: string | null
     ncrId?: string | null
-    parentHoldId?: string | null
     dispositions?: QuarantineDispositionCreateNestedManyWithoutHoldInput
+    parentHold?: QuarantineHoldCreateNestedOneWithoutReworkHoldsInput
+    reworkHolds?: QuarantineHoldCreateNestedManyWithoutParentHoldInput
+    reworkLines?: QuarantineDispositionLineCreateNestedManyWithoutReworkHoldInput
   }
 
   export type QuarantineHoldUncheckedCreateWithoutTenantInput = {
@@ -279056,11 +281048,13 @@ export namespace Prisma {
     decidedBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    remainingQuantity?: Decimal | DecimalJsLike | number | string
+    remainingQuantity: Decimal | DecimalJsLike | number | string
     lotNumber?: string | null
     ncrId?: string | null
     parentHoldId?: string | null
     dispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutHoldInput
+    reworkHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutParentHoldInput
+    reworkLines?: QuarantineDispositionLineUncheckedCreateNestedManyWithoutReworkHoldInput
   }
 
   export type QuarantineHoldCreateOrConnectWithoutTenantInput = {
@@ -280900,6 +282894,36 @@ export namespace Prisma {
 
   export type QuarantineDispositionCreateManyTenantInputEnvelope = {
     data: QuarantineDispositionCreateManyTenantInput | QuarantineDispositionCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type AssetStructureChangeCreateWithoutTenantInput = {
+    id?: string
+    assetId: string
+    fromParentId?: string | null
+    toParentId?: string | null
+    reason: string
+    changedBy?: string | null
+    effectiveAt?: Date | string
+  }
+
+  export type AssetStructureChangeUncheckedCreateWithoutTenantInput = {
+    id?: string
+    assetId: string
+    fromParentId?: string | null
+    toParentId?: string | null
+    reason: string
+    changedBy?: string | null
+    effectiveAt?: Date | string
+  }
+
+  export type AssetStructureChangeCreateOrConnectWithoutTenantInput = {
+    where: AssetStructureChangeWhereUniqueInput
+    create: XOR<AssetStructureChangeCreateWithoutTenantInput, AssetStructureChangeUncheckedCreateWithoutTenantInput>
+  }
+
+  export type AssetStructureChangeCreateManyTenantInputEnvelope = {
+    data: AssetStructureChangeCreateManyTenantInput | AssetStructureChangeCreateManyTenantInput[]
     skipDuplicates?: boolean
   }
 
@@ -283939,6 +285963,7 @@ export namespace Prisma {
     qrToken?: StringNullableFilter<"Asset"> | string | null
     createdAt?: DateTimeFilter<"Asset"> | Date | string
     updatedAt?: DateTimeFilter<"Asset"> | Date | string
+    parentAssetId?: UuidNullableFilter<"Asset"> | string | null
   }
 
   export type QuarantineHoldUpsertWithWhereUniqueWithoutTenantInput = {
@@ -285609,6 +287634,36 @@ export namespace Prisma {
     postedAt?: DateTimeNullableFilter<"QuarantineDisposition"> | Date | string | null
   }
 
+  export type AssetStructureChangeUpsertWithWhereUniqueWithoutTenantInput = {
+    where: AssetStructureChangeWhereUniqueInput
+    update: XOR<AssetStructureChangeUpdateWithoutTenantInput, AssetStructureChangeUncheckedUpdateWithoutTenantInput>
+    create: XOR<AssetStructureChangeCreateWithoutTenantInput, AssetStructureChangeUncheckedCreateWithoutTenantInput>
+  }
+
+  export type AssetStructureChangeUpdateWithWhereUniqueWithoutTenantInput = {
+    where: AssetStructureChangeWhereUniqueInput
+    data: XOR<AssetStructureChangeUpdateWithoutTenantInput, AssetStructureChangeUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type AssetStructureChangeUpdateManyWithWhereWithoutTenantInput = {
+    where: AssetStructureChangeScalarWhereInput
+    data: XOR<AssetStructureChangeUpdateManyMutationInput, AssetStructureChangeUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type AssetStructureChangeScalarWhereInput = {
+    AND?: AssetStructureChangeScalarWhereInput | AssetStructureChangeScalarWhereInput[]
+    OR?: AssetStructureChangeScalarWhereInput[]
+    NOT?: AssetStructureChangeScalarWhereInput | AssetStructureChangeScalarWhereInput[]
+    id?: UuidFilter<"AssetStructureChange"> | string
+    tenantId?: UuidFilter<"AssetStructureChange"> | string
+    assetId?: UuidFilter<"AssetStructureChange"> | string
+    fromParentId?: UuidNullableFilter<"AssetStructureChange"> | string | null
+    toParentId?: UuidNullableFilter<"AssetStructureChange"> | string | null
+    reason?: StringFilter<"AssetStructureChange"> | string
+    changedBy?: StringNullableFilter<"AssetStructureChange"> | string | null
+    effectiveAt?: DateTimeFilter<"AssetStructureChange"> | Date | string
+  }
+
   export type TenantCreateWithoutConfigurationVersionsInput = {
     id?: string
     slug: string
@@ -285763,6 +287818,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutConfigurationVersionsInput = {
@@ -285919,6 +287975,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutConfigurationVersionsInput = {
@@ -286091,6 +288148,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutConfigurationVersionsInput = {
@@ -286247,6 +288305,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutLegalEntitiesInput = {
@@ -286403,6 +288462,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLegalEntitiesInput = {
@@ -286559,6 +288619,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLegalEntitiesInput = {
@@ -286765,6 +288826,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLegalEntitiesInput = {
@@ -286921,6 +288983,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithWhereUniqueWithoutLegalEntityInput = {
@@ -287093,6 +289156,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBusinessUnitsInput = {
@@ -287249,6 +289313,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBusinessUnitsInput = {
@@ -287559,6 +289624,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBusinessUnitsInput = {
@@ -287715,6 +289781,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type LegalEntityUpsertWithoutBusinessUnitsInput = {
@@ -287983,6 +290050,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBranchesInput = {
@@ -288139,6 +290207,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBranchesInput = {
@@ -288340,6 +290409,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBranchesInput = {
@@ -288496,6 +290566,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithoutBranchesInput = {
@@ -288687,6 +290758,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutFactoriesInput = {
@@ -288843,6 +290915,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutFactoriesInput = {
@@ -289044,6 +291117,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutFactoriesInput = {
@@ -289200,6 +291274,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BusinessUnitUpsertWithoutFactoriesInput = {
@@ -289391,6 +291466,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutUsersInput = {
@@ -289547,6 +291623,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutUsersInput = {
@@ -289808,6 +291885,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutUsersInput = {
@@ -289964,6 +292042,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserRoleAssignmentUpsertWithWhereUniqueWithoutUserInput = {
@@ -290189,6 +292268,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutUserCredentialsInput = {
@@ -290345,6 +292425,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutUserCredentialsInput = {
@@ -290548,6 +292629,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutUserCredentialsInput = {
@@ -290704,6 +292786,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserUpsertWithoutCredentialInput = {
@@ -290897,6 +292980,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRolesInput = {
@@ -291053,6 +293137,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRolesInput = {
@@ -291275,6 +293360,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRolesInput = {
@@ -291431,6 +293517,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RolePermissionUpsertWithWhereUniqueWithoutRoleInput = {
@@ -291685,6 +293772,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoleAssignmentsInput = {
@@ -291841,6 +293929,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoleAssignmentsInput = {
@@ -292069,6 +294158,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoleAssignmentsInput = {
@@ -292225,6 +294315,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserUpsertWithoutRoleAssignmentsInput = {
@@ -292449,6 +294540,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAuditEventsInput = {
@@ -292605,6 +294697,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAuditEventsInput = {
@@ -292777,6 +294870,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAuditEventsInput = {
@@ -292933,6 +295027,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutOutboxEventsInput = {
@@ -293089,6 +295184,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOutboxEventsInput = {
@@ -293245,6 +295341,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOutboxEventsInput = {
@@ -293417,6 +295514,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOutboxEventsInput = {
@@ -293573,6 +295671,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutTerminologyEntriesInput = {
@@ -293729,6 +295828,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTerminologyEntriesInput = {
@@ -293885,6 +295985,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTerminologyEntriesInput = {
@@ -294057,6 +296158,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTerminologyEntriesInput = {
@@ -294213,6 +296315,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutModuleActivationsInput = {
@@ -294369,6 +296472,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutModuleActivationsInput = {
@@ -294525,6 +296629,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutModuleActivationsInput = {
@@ -294697,6 +296802,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutModuleActivationsInput = {
@@ -294853,6 +296959,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCustomFieldDefsInput = {
@@ -295009,6 +297116,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCustomFieldDefsInput = {
@@ -295165,6 +297273,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCustomFieldDefsInput = {
@@ -295337,6 +297446,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCustomFieldDefsInput = {
@@ -295493,6 +297603,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutTasksInput = {
@@ -295649,6 +297760,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTasksInput = {
@@ -295805,6 +297917,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTasksInput = {
@@ -295977,6 +298090,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTasksInput = {
@@ -296133,6 +298247,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutNotificationsInput = {
@@ -296289,6 +298404,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNotificationsInput = {
@@ -296445,6 +298561,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNotificationsInput = {
@@ -296617,6 +298734,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNotificationsInput = {
@@ -296773,6 +298891,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutWorkflowDefinitionsInput = {
@@ -296929,6 +299048,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkflowDefinitionsInput = {
@@ -297085,6 +299205,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkflowDefinitionsInput = {
@@ -297319,6 +299440,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkflowDefinitionsInput = {
@@ -297475,6 +299597,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkflowVersionUpsertWithWhereUniqueWithoutDefinitionInput = {
@@ -297889,6 +300012,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRuleDefinitionsInput = {
@@ -298045,6 +300169,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRuleDefinitionsInput = {
@@ -298245,6 +300370,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRuleDefinitionsInput = {
@@ -298401,6 +300527,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RuleVersionUpsertWithWhereUniqueWithoutRuleInput = {
@@ -298630,6 +300757,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutApprovalsInput = {
@@ -298786,6 +300914,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutApprovalsInput = {
@@ -298958,6 +301087,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutApprovalsInput = {
@@ -299114,6 +301244,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutProcessedEventsInput = {
@@ -299270,6 +301401,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProcessedEventsInput = {
@@ -299426,6 +301558,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProcessedEventsInput = {
@@ -299598,6 +301731,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProcessedEventsInput = {
@@ -299754,6 +301888,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutDocumentTemplatesInput = {
@@ -299910,6 +302045,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDocumentTemplatesInput = {
@@ -300066,6 +302202,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDocumentTemplatesInput = {
@@ -300264,6 +302401,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDocumentTemplatesInput = {
@@ -300420,6 +302558,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type DocumentTemplateVersionUpsertWithWhereUniqueWithoutTemplateInput = {
@@ -300652,6 +302791,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPartiesInput = {
@@ -300808,6 +302948,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPartiesInput = {
@@ -301161,6 +303302,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPartiesInput = {
@@ -301317,6 +303459,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PartyUpsertWithoutMergedPartiesInput = {
@@ -301594,6 +303737,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutConsentRecordsInput = {
@@ -301750,6 +303894,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutConsentRecordsInput = {
@@ -301961,6 +304106,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutConsentRecordsInput = {
@@ -302117,6 +304263,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PartyUpsertWithoutConsentRecordsInput = {
@@ -302402,6 +304549,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProductsInput = {
@@ -302558,6 +304706,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProductsInput = {
@@ -302794,6 +304943,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProductsInput = {
@@ -302950,6 +305100,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SkuUpsertWithWhereUniqueWithoutProductInput = {
@@ -303824,6 +305975,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWarehousesInput = {
@@ -303980,6 +306132,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWarehousesInput = {
@@ -304210,6 +306363,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWarehousesInput = {
@@ -304366,6 +306520,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WarehouseLocationUpsertWithWhereUniqueWithoutWarehouseInput = {
@@ -304612,6 +306767,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockMovementsInput = {
@@ -304768,6 +306924,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockMovementsInput = {
@@ -304940,6 +307097,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockMovementsInput = {
@@ -305096,6 +307254,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutStockReservationsInput = {
@@ -305252,6 +307411,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockReservationsInput = {
@@ -305408,6 +307568,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockReservationsInput = {
@@ -305580,6 +307741,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockReservationsInput = {
@@ -305736,6 +307898,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutDevicesInput = {
@@ -305892,6 +308055,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDevicesInput = {
@@ -306048,6 +308212,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDevicesInput = {
@@ -306220,6 +308385,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDevicesInput = {
@@ -306376,6 +308542,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutScanEventsInput = {
@@ -306532,6 +308699,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutScanEventsInput = {
@@ -306688,6 +308856,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutScanEventsInput = {
@@ -306860,6 +309029,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutScanEventsInput = {
@@ -307016,6 +309186,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutWmsOrdersInput = {
@@ -307172,6 +309343,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWmsOrdersInput = {
@@ -307328,6 +309500,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWmsOrdersInput = {
@@ -307526,6 +309699,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWmsOrdersInput = {
@@ -307682,6 +309856,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WmsOrderLineUpsertWithWhereUniqueWithoutOrderInput = {
@@ -307854,6 +310029,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWmsOrderLinesInput = {
@@ -308010,6 +310186,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWmsOrderLinesInput = {
@@ -308215,6 +310392,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWmsOrderLinesInput = {
@@ -308371,6 +310549,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WmsOrderUpsertWithoutLinesInput = {
@@ -308566,6 +310745,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTerritoriesInput = {
@@ -308722,6 +310902,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTerritoriesInput = {
@@ -308894,6 +311075,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTerritoriesInput = {
@@ -309050,6 +311232,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSalesTeamsInput = {
@@ -309206,6 +311389,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesTeamsInput = {
@@ -309362,6 +311546,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesTeamsInput = {
@@ -309558,6 +311743,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesTeamsInput = {
@@ -309714,6 +311900,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesTeamMemberUpsertWithWhereUniqueWithoutTeamInput = {
@@ -309886,6 +312073,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesTeamMembersInput = {
@@ -310042,6 +312230,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesTeamMembersInput = {
@@ -310235,6 +312424,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesTeamMembersInput = {
@@ -310391,6 +312581,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesTeamUpsertWithoutMembersInput = {
@@ -310574,6 +312765,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCrmAccountsInput = {
@@ -310730,6 +312922,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCrmAccountsInput = {
@@ -310902,6 +313095,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCrmAccountsInput = {
@@ -311058,6 +313252,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutLeadsInput = {
@@ -311214,6 +313409,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLeadsInput = {
@@ -311370,6 +313566,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLeadsInput = {
@@ -311542,6 +313739,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLeadsInput = {
@@ -311698,6 +313896,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutOpportunitiesInput = {
@@ -311854,6 +314053,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOpportunitiesInput = {
@@ -312010,6 +314210,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOpportunitiesInput = {
@@ -312182,6 +314383,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOpportunitiesInput = {
@@ -312338,6 +314540,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCrmActivitiesInput = {
@@ -312494,6 +314697,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCrmActivitiesInput = {
@@ -312650,6 +314854,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCrmActivitiesInput = {
@@ -312822,6 +315027,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCrmActivitiesInput = {
@@ -312978,6 +315184,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPriceListsInput = {
@@ -313134,6 +315341,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPriceListsInput = {
@@ -313290,6 +315498,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPriceListsInput = {
@@ -313488,6 +315697,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPriceListsInput = {
@@ -313644,6 +315854,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PriceListEntryUpsertWithWhereUniqueWithoutPriceListInput = {
@@ -313816,6 +316027,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPriceListEntriesInput = {
@@ -313972,6 +316184,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPriceListEntriesInput = {
@@ -314177,6 +316390,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPriceListEntriesInput = {
@@ -314333,6 +316547,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PriceListUpsertWithoutEntriesInput = {
@@ -314528,6 +316743,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQuotesInput = {
@@ -314684,6 +316900,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQuotesInput = {
@@ -314890,6 +317107,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQuotesInput = {
@@ -315046,6 +317264,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QuoteLineUpsertWithWhereUniqueWithoutQuoteInput = {
@@ -315218,6 +317437,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPackagingLevelsInput = {
@@ -315374,6 +317594,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPackagingLevelsInput = {
@@ -315605,6 +317826,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPackagingLevelsInput = {
@@ -315761,6 +317983,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SkuUpsertWithoutPackagingLevelsInput = {
@@ -315982,6 +318205,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSkuSubstitutionsInput = {
@@ -316138,6 +318362,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSkuSubstitutionsInput = {
@@ -316310,6 +318535,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSkuSubstitutionsInput = {
@@ -316466,6 +318692,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutDiscountRulesInput = {
@@ -316622,6 +318849,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDiscountRulesInput = {
@@ -316778,6 +319006,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDiscountRulesInput = {
@@ -316950,6 +319179,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDiscountRulesInput = {
@@ -317106,6 +319336,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutQuoteLinesInput = {
@@ -317262,6 +319493,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQuoteLinesInput = {
@@ -317418,6 +319650,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQuoteLinesInput = {
@@ -317637,6 +319870,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQuoteLinesInput = {
@@ -317793,6 +320027,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QuoteUpsertWithoutLinesInput = {
@@ -318002,6 +320237,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesOrdersInput = {
@@ -318158,6 +320394,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesOrdersInput = {
@@ -318402,6 +320639,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesOrdersInput = {
@@ -318558,6 +320796,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesOrderLineUpsertWithWhereUniqueWithoutOrderInput = {
@@ -318746,6 +320985,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSalesOrderLinesInput = {
@@ -318902,6 +321142,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSalesOrderLinesInput = {
@@ -319123,6 +321364,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSalesOrderLinesInput = {
@@ -319279,6 +321521,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesOrderUpsertWithoutLinesInput = {
@@ -319490,6 +321733,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutOrderEventsInput = {
@@ -319646,6 +321890,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutOrderEventsInput = {
@@ -319818,6 +322063,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutOrderEventsInput = {
@@ -319974,6 +322220,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSuppliersInput = {
@@ -320130,6 +322377,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSuppliersInput = {
@@ -320286,6 +322534,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSuppliersInput = {
@@ -320458,6 +322707,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSuppliersInput = {
@@ -320614,6 +322864,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPurchaseRequisitionsInput = {
@@ -320770,6 +323021,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseRequisitionsInput = {
@@ -320926,6 +323178,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseRequisitionsInput = {
@@ -321128,6 +323381,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseRequisitionsInput = {
@@ -321284,6 +323538,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseRequisitionLineUpsertWithWhereUniqueWithoutRequisitionInput = {
@@ -321456,6 +323711,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseReqLinesInput = {
@@ -321612,6 +323868,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseReqLinesInput = {
@@ -321817,6 +324074,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseReqLinesInput = {
@@ -321973,6 +324231,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseRequisitionUpsertWithoutLinesInput = {
@@ -322168,6 +324427,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseOrdersInput = {
@@ -322324,6 +324584,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseOrdersInput = {
@@ -322594,6 +324855,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseOrdersInput = {
@@ -322750,6 +325012,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseOrderLineUpsertWithWhereUniqueWithoutPoInput = {
@@ -322954,6 +325217,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPurchaseOrderLinesInput = {
@@ -323110,6 +325374,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPurchaseOrderLinesInput = {
@@ -323323,6 +325588,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPurchaseOrderLinesInput = {
@@ -323479,6 +325745,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseOrderUpsertWithoutLinesInput = {
@@ -323682,6 +325949,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBomsInput = {
@@ -323838,6 +326106,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBomsInput = {
@@ -324040,6 +326309,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBomsInput = {
@@ -324196,6 +326466,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BomLineUpsertWithWhereUniqueWithoutBomInput = {
@@ -324368,6 +326639,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBomLinesInput = {
@@ -324524,6 +326796,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBomLinesInput = {
@@ -324727,6 +327000,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBomLinesInput = {
@@ -324883,6 +327157,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BomUpsertWithoutLinesInput = {
@@ -325076,6 +327351,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoutingsInput = {
@@ -325232,6 +327508,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoutingsInput = {
@@ -325436,6 +327713,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoutingsInput = {
@@ -325592,6 +327870,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RoutingOperationUpsertWithWhereUniqueWithoutRoutingInput = {
@@ -325764,6 +328043,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRoutingOperationsInput = {
@@ -325920,6 +328200,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRoutingOperationsInput = {
@@ -326119,6 +328400,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRoutingOperationsInput = {
@@ -326275,6 +328557,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RoutingUpsertWithoutOperationsInput = {
@@ -326464,6 +328747,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutEngineeringChangesInput = {
@@ -326620,6 +328904,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutEngineeringChangesInput = {
@@ -326792,6 +329077,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutEngineeringChangesInput = {
@@ -326948,6 +329234,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPlanningPoliciesInput = {
@@ -327104,6 +329391,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPlanningPoliciesInput = {
@@ -327260,6 +329548,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPlanningPoliciesInput = {
@@ -327432,6 +329721,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPlanningPoliciesInput = {
@@ -327588,6 +329878,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutMrpRunsInput = {
@@ -327744,6 +330035,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutMrpRunsInput = {
@@ -327900,6 +330192,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutMrpRunsInput = {
@@ -328102,6 +330395,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutMrpRunsInput = {
@@ -328258,6 +330552,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type MrpSuggestionUpsertWithWhereUniqueWithoutRunInput = {
@@ -328430,6 +330725,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutMrpSuggestionsInput = {
@@ -328586,6 +330882,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutMrpSuggestionsInput = {
@@ -328783,6 +331080,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutMrpSuggestionsInput = {
@@ -328939,6 +331237,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type MrpRunUpsertWithoutSuggestionsInput = {
@@ -329126,6 +331425,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkOrdersInput = {
@@ -329282,6 +331582,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkOrdersInput = {
@@ -329490,6 +331791,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkOrdersInput = {
@@ -329646,6 +331948,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkOrderOperationUpsertWithWhereUniqueWithoutWorkOrderInput = {
@@ -329818,6 +332121,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkOrderOperationsInput = {
@@ -329974,6 +332278,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkOrderOperationsInput = {
@@ -330189,6 +332494,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkOrderOperationsInput = {
@@ -330345,6 +332651,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkOrderUpsertWithoutOperationsInput = {
@@ -330550,6 +332857,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcPlansInput = {
@@ -330706,6 +333014,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcPlansInput = {
@@ -330904,6 +333213,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcPlansInput = {
@@ -331060,6 +333370,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcPlanItemUpsertWithWhereUniqueWithoutPlanInput = {
@@ -331232,6 +333543,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcPlanItemsInput = {
@@ -331388,6 +333700,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcPlanItemsInput = {
@@ -331587,6 +333900,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcPlanItemsInput = {
@@ -331743,6 +334057,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcPlanUpsertWithoutItemsInput = {
@@ -331932,6 +334247,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcInspectionsInput = {
@@ -332088,6 +334404,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcInspectionsInput = {
@@ -332290,6 +334607,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcInspectionsInput = {
@@ -332446,6 +334764,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcInspectionItemUpsertWithWhereUniqueWithoutInspectionInput = {
@@ -332618,6 +334937,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQcInspectionItemsInput = {
@@ -332774,6 +335094,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQcInspectionItemsInput = {
@@ -332981,6 +335302,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQcInspectionItemsInput = {
@@ -333137,6 +335459,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QcInspectionUpsertWithoutItemsInput = {
@@ -333334,6 +335657,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNcrsInput = {
@@ -333490,6 +335814,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNcrsInput = {
@@ -333662,6 +335987,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNcrsInput = {
@@ -333818,6 +336144,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutInvoicesInput = {
@@ -333974,6 +336301,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutInvoicesInput = {
@@ -334130,6 +336458,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutInvoicesInput = {
@@ -334398,6 +336727,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutInvoicesInput = {
@@ -334554,6 +336884,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PaymentUpsertWithWhereUniqueWithoutInvoiceInput = {
@@ -334758,6 +337089,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPaymentsInput = {
@@ -334914,6 +337246,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPaymentsInput = {
@@ -335202,6 +337535,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPaymentsInput = {
@@ -335358,6 +337692,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type InvoiceUpsertWithoutPaymentsInput = {
@@ -335622,6 +337957,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPortalUsersInput = {
@@ -335778,6 +338114,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPortalUsersInput = {
@@ -335950,6 +338287,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPortalUsersInput = {
@@ -336106,6 +338444,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCommentsInput = {
@@ -336262,6 +338601,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCommentsInput = {
@@ -336418,6 +338758,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCommentsInput = {
@@ -336590,6 +338931,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCommentsInput = {
@@ -336746,6 +339088,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutAttachmentsInput = {
@@ -336902,6 +339245,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAttachmentsInput = {
@@ -337058,6 +339402,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAttachmentsInput = {
@@ -337247,6 +339592,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAttachmentsInput = {
@@ -337403,6 +339749,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type AttachmentBlobUpsertWithoutAttachmentInput = {
@@ -337582,6 +339929,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAttachmentBlobsInput = {
@@ -337738,6 +340086,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAttachmentBlobsInput = {
@@ -337941,6 +340290,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAttachmentBlobsInput = {
@@ -338097,6 +340447,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type AttachmentUpsertWithoutBlobInput = {
@@ -338290,6 +340641,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutNumberSequencesInput = {
@@ -338446,6 +340798,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutNumberSequencesInput = {
@@ -338618,6 +340971,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutNumberSequencesInput = {
@@ -338774,6 +341128,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutExchangeRatesInput = {
@@ -338930,6 +341285,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutExchangeRatesInput = {
@@ -339086,6 +341442,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutExchangeRatesInput = {
@@ -339258,6 +341615,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutExchangeRatesInput = {
@@ -339414,6 +341772,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutCostCentersInput = {
@@ -339570,6 +341929,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCostCentersInput = {
@@ -339726,6 +342086,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCostCentersInput = {
@@ -339926,6 +342287,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCostCentersInput = {
@@ -340082,6 +342444,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BudgetUpsertWithWhereUniqueWithoutCostCenterInput = {
@@ -340254,6 +342617,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBudgetsInput = {
@@ -340410,6 +342774,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBudgetsInput = {
@@ -340605,6 +342970,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBudgetsInput = {
@@ -340761,6 +343127,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type CostCenterUpsertWithoutBudgetsInput = {
@@ -340946,6 +343313,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWebhookSubscriptionsInput = {
@@ -341102,6 +343470,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWebhookSubscriptionsInput = {
@@ -341312,6 +343681,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWebhookSubscriptionsInput = {
@@ -341468,6 +343838,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WebhookDeliveryUpsertWithWhereUniqueWithoutSubscriptionInput = {
@@ -341640,6 +344011,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWebhookDeliveriesInput = {
@@ -341796,6 +344168,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWebhookDeliveriesInput = {
@@ -341995,6 +344368,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWebhookDeliveriesInput = {
@@ -342151,6 +344525,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WebhookSubscriptionUpsertWithoutDeliveriesInput = {
@@ -342340,6 +344715,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutApiKeysInput = {
@@ -342496,6 +344872,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutApiKeysInput = {
@@ -342668,6 +345045,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutApiKeysInput = {
@@ -342824,6 +345202,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSecurityEventsInput = {
@@ -342980,6 +345359,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSecurityEventsInput = {
@@ -343136,6 +345516,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSecurityEventsInput = {
@@ -343308,6 +345689,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSecurityEventsInput = {
@@ -343464,6 +345846,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutProductCategoriesInput = {
@@ -343620,6 +346003,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutProductCategoriesInput = {
@@ -343776,6 +346160,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutProductCategoriesInput = {
@@ -343999,6 +346384,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutProductCategoriesInput = {
@@ -344155,6 +346541,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ProductCategoryUpsertWithoutChildrenInput = {
@@ -344356,6 +346743,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutReturnOrdersInput = {
@@ -344512,6 +346900,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutReturnOrdersInput = {
@@ -344712,6 +347101,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutReturnOrdersInput = {
@@ -344868,6 +347258,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ReturnOrderLineUpsertWithWhereUniqueWithoutReturnOrderInput = {
@@ -345040,6 +347431,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutReturnOrderLinesInput = {
@@ -345196,6 +347588,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutReturnOrderLinesInput = {
@@ -345403,6 +347796,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutReturnOrderLinesInput = {
@@ -345559,6 +347953,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ReturnOrderUpsertWithoutLinesInput = {
@@ -345756,6 +348151,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockCountsInput = {
@@ -345912,6 +348308,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockCountsInput = {
@@ -346110,6 +348507,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockCountsInput = {
@@ -346266,6 +348664,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type StockCountLineUpsertWithWhereUniqueWithoutCountInput = {
@@ -346438,6 +348837,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutStockCountLinesInput = {
@@ -346594,6 +348994,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutStockCountLinesInput = {
@@ -346799,6 +349200,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutStockCountLinesInput = {
@@ -346955,6 +349357,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type StockCountUpsertWithoutLinesInput = {
@@ -347150,6 +349553,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutWorkCentersInput = {
@@ -347306,6 +349710,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutWorkCentersInput = {
@@ -347510,6 +349915,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutWorkCentersInput = {
@@ -347666,6 +350072,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type DowntimeEventUpsertWithWhereUniqueWithoutWorkCenterInput = {
@@ -347838,6 +350245,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDowntimeEventsInput = {
@@ -347994,6 +350402,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDowntimeEventsInput = {
@@ -348189,6 +350598,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDowntimeEventsInput = {
@@ -348345,6 +350755,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WorkCenterUpsertWithoutDowntimesInput = {
@@ -348530,6 +350941,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPromotionsInput = {
@@ -348686,6 +351098,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPromotionsInput = {
@@ -348884,6 +351297,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPromotionsInput = {
@@ -349040,6 +351454,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PromotionRedemptionUpsertWithWhereUniqueWithoutPromotionInput = {
@@ -349676,6 +352091,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBreakGlassGrantsInput = {
@@ -349832,6 +352248,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBreakGlassGrantsInput = {
@@ -350035,6 +352452,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBreakGlassGrantsInput = {
@@ -350191,6 +352609,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserUpsertWithoutBreakGlassGrantsInput = {
@@ -350384,6 +352803,7 @@ export namespace Prisma {
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutMdmDuplicateDismissalsInput = {
@@ -350540,6 +352960,7 @@ export namespace Prisma {
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutMdmDuplicateDismissalsInput = {
@@ -350712,6 +353133,7 @@ export namespace Prisma {
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutMdmDuplicateDismissalsInput = {
@@ -350868,6 +353290,7 @@ export namespace Prisma {
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutMasterDataRequestsInput = {
@@ -351024,6 +353447,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutMasterDataRequestsInput = {
@@ -351180,6 +353604,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutMasterDataRequestsInput = {
@@ -351352,6 +353777,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutMasterDataRequestsInput = {
@@ -351508,6 +353934,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutLoyaltyAccountsInput = {
@@ -351664,6 +354091,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLoyaltyAccountsInput = {
@@ -351820,6 +354248,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLoyaltyAccountsInput = {
@@ -352022,6 +354451,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLoyaltyAccountsInput = {
@@ -352178,6 +354608,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type LoyaltyTransactionUpsertWithWhereUniqueWithoutLoyaltyAccountInput = {
@@ -352416,6 +354847,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSupportCasesInput = {
@@ -352572,6 +355004,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSupportCasesInput = {
@@ -352744,6 +355177,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSupportCasesInput = {
@@ -352900,6 +355334,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutContractsInput = {
@@ -353056,6 +355491,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutContractsInput = {
@@ -353212,6 +355648,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutContractsInput = {
@@ -353423,6 +355860,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutContractsInput = {
@@ -353579,6 +356017,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PartyUpsertWithoutContractsInput = {
@@ -353780,6 +356219,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutEmployeesInput = {
@@ -353936,6 +356376,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutEmployeesInput = {
@@ -354108,6 +356549,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutEmployeesInput = {
@@ -354264,6 +356706,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutAssetsInput = {
@@ -354420,6 +356863,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAssetsInput = {
@@ -354576,11 +357020,99 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAssetsInput = {
     where: TenantWhereUniqueInput
     create: XOR<TenantCreateWithoutAssetsInput, TenantUncheckedCreateWithoutAssetsInput>
+  }
+
+  export type AssetCreateWithoutChildrenInput = {
+    id?: string
+    assetNumber: string
+    name: string
+    category: string
+    serialNumber?: string | null
+    workCenterId?: string | null
+    status?: $Enums.AssetStatus
+    value?: Decimal | DecimalJsLike | number | string | null
+    purchasedAt?: Date | string | null
+    location?: string | null
+    qrToken?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutAssetsInput
+    parentAsset?: AssetCreateNestedOneWithoutChildrenInput
+  }
+
+  export type AssetUncheckedCreateWithoutChildrenInput = {
+    id?: string
+    tenantId: string
+    assetNumber: string
+    name: string
+    category: string
+    serialNumber?: string | null
+    workCenterId?: string | null
+    status?: $Enums.AssetStatus
+    value?: Decimal | DecimalJsLike | number | string | null
+    purchasedAt?: Date | string | null
+    location?: string | null
+    qrToken?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    parentAssetId?: string | null
+  }
+
+  export type AssetCreateOrConnectWithoutChildrenInput = {
+    where: AssetWhereUniqueInput
+    create: XOR<AssetCreateWithoutChildrenInput, AssetUncheckedCreateWithoutChildrenInput>
+  }
+
+  export type AssetCreateWithoutParentAssetInput = {
+    id?: string
+    assetNumber: string
+    name: string
+    category: string
+    serialNumber?: string | null
+    workCenterId?: string | null
+    status?: $Enums.AssetStatus
+    value?: Decimal | DecimalJsLike | number | string | null
+    purchasedAt?: Date | string | null
+    location?: string | null
+    qrToken?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutAssetsInput
+    children?: AssetCreateNestedManyWithoutParentAssetInput
+  }
+
+  export type AssetUncheckedCreateWithoutParentAssetInput = {
+    id?: string
+    tenantId: string
+    assetNumber: string
+    name: string
+    category: string
+    serialNumber?: string | null
+    workCenterId?: string | null
+    status?: $Enums.AssetStatus
+    value?: Decimal | DecimalJsLike | number | string | null
+    purchasedAt?: Date | string | null
+    location?: string | null
+    qrToken?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    children?: AssetUncheckedCreateNestedManyWithoutParentAssetInput
+  }
+
+  export type AssetCreateOrConnectWithoutParentAssetInput = {
+    where: AssetWhereUniqueInput
+    create: XOR<AssetCreateWithoutParentAssetInput, AssetUncheckedCreateWithoutParentAssetInput>
+  }
+
+  export type AssetCreateManyParentAssetInputEnvelope = {
+    data: AssetCreateManyParentAssetInput | AssetCreateManyParentAssetInput[]
+    skipDuplicates?: boolean
   }
 
   export type TenantUpsertWithoutAssetsInput = {
@@ -354748,6 +357280,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAssetsInput = {
@@ -354854,6 +357387,714 @@ export namespace Prisma {
     supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
     contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
+    rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
+    packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUncheckedUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUncheckedUpdateManyWithoutTenantNestedInput
+    containers?: ContainerUncheckedUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUncheckedUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUncheckedUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUncheckedUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUncheckedUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUncheckedUpdateManyWithoutTenantNestedInput
+    installedAssets?: InstalledAssetUncheckedUpdateManyWithoutTenantNestedInput
+    serviceRequests?: ServiceRequestUncheckedUpdateManyWithoutTenantNestedInput
+    serviceOrders?: ServiceOrderUncheckedUpdateManyWithoutTenantNestedInput
+    serviceOrderParts?: ServiceOrderPartUncheckedUpdateManyWithoutTenantNestedInput
+    rmas?: RmaUncheckedUpdateManyWithoutTenantNestedInput
+    glAccounts?: GlAccountUncheckedUpdateManyWithoutTenantNestedInput
+    glJournalEntries?: GlJournalEntryUncheckedUpdateManyWithoutTenantNestedInput
+    glJournalLines?: GlJournalLineUncheckedUpdateManyWithoutTenantNestedInput
+    glSystemAccounts?: GlSystemAccountUncheckedUpdateManyWithoutTenantNestedInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedUpdateManyWithoutTenantNestedInput
+    glPeriodLocks?: GlPeriodLockUncheckedUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUncheckedUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUncheckedUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUncheckedUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUncheckedUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUncheckedUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUncheckedUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUncheckedUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUncheckedUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUncheckedUpdateManyWithoutTenantNestedInput
+    employeeSalaries?: EmployeeSalaryUncheckedUpdateManyWithoutTenantNestedInput
+    payrollRuns?: PayrollRunUncheckedUpdateManyWithoutTenantNestedInput
+    payrollLines?: PayrollLineUncheckedUpdateManyWithoutTenantNestedInput
+    payrollAdjustments?: PayrollAdjustmentUncheckedUpdateManyWithoutTenantNestedInput
+    employmentContracts?: EmploymentContractUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUncheckedUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUncheckedUpdateManyWithoutTenantNestedInput
+    equipmentCustodies?: EquipmentCustodyUncheckedUpdateManyWithoutTenantNestedInput
+    equipmentCustodyLines?: EquipmentCustodyLineUncheckedUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
+    quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type AssetUpsertWithoutChildrenInput = {
+    update: XOR<AssetUpdateWithoutChildrenInput, AssetUncheckedUpdateWithoutChildrenInput>
+    create: XOR<AssetCreateWithoutChildrenInput, AssetUncheckedCreateWithoutChildrenInput>
+    where?: AssetWhereInput
+  }
+
+  export type AssetUpdateToOneWithWhereWithoutChildrenInput = {
+    where?: AssetWhereInput
+    data: XOR<AssetUpdateWithoutChildrenInput, AssetUncheckedUpdateWithoutChildrenInput>
+  }
+
+  export type AssetUpdateWithoutChildrenInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    assetNumber?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    serialNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    workCenterId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumAssetStatusFieldUpdateOperationsInput | $Enums.AssetStatus
+    value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    purchasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    qrToken?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutAssetsNestedInput
+    parentAsset?: AssetUpdateOneWithoutChildrenNestedInput
+  }
+
+  export type AssetUncheckedUpdateWithoutChildrenInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    assetNumber?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    serialNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    workCenterId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumAssetStatusFieldUpdateOperationsInput | $Enums.AssetStatus
+    value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    purchasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    qrToken?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    parentAssetId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type AssetUpsertWithWhereUniqueWithoutParentAssetInput = {
+    where: AssetWhereUniqueInput
+    update: XOR<AssetUpdateWithoutParentAssetInput, AssetUncheckedUpdateWithoutParentAssetInput>
+    create: XOR<AssetCreateWithoutParentAssetInput, AssetUncheckedCreateWithoutParentAssetInput>
+  }
+
+  export type AssetUpdateWithWhereUniqueWithoutParentAssetInput = {
+    where: AssetWhereUniqueInput
+    data: XOR<AssetUpdateWithoutParentAssetInput, AssetUncheckedUpdateWithoutParentAssetInput>
+  }
+
+  export type AssetUpdateManyWithWhereWithoutParentAssetInput = {
+    where: AssetScalarWhereInput
+    data: XOR<AssetUpdateManyMutationInput, AssetUncheckedUpdateManyWithoutParentAssetInput>
+  }
+
+  export type TenantCreateWithoutAssetStructureChangesInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitCreateNestedManyWithoutTenantInput
+    branches?: BranchCreateNestedManyWithoutTenantInput
+    factories?: FactoryCreateNestedManyWithoutTenantInput
+    users?: UserCreateNestedManyWithoutTenantInput
+    roles?: RoleCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionCreateNestedManyWithoutTenantInput
+    tasks?: TaskCreateNestedManyWithoutTenantInput
+    notifications?: NotificationCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateCreateNestedManyWithoutTenantInput
+    parties?: PartyCreateNestedManyWithoutTenantInput
+    products?: ProductCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationCreateNestedManyWithoutTenantInput
+    devices?: DeviceCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountCreateNestedManyWithoutTenantInput
+    leads?: LeadCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryCreateNestedManyWithoutTenantInput
+    quotes?: QuoteCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineCreateNestedManyWithoutTenantInput
+    boms?: BomCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineCreateNestedManyWithoutTenantInput
+    routings?: RoutingCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemCreateNestedManyWithoutTenantInput
+    ncrs?: NcrCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceCreateNestedManyWithoutTenantInput
+    payments?: PaymentCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserCreateNestedManyWithoutTenantInput
+    comments?: CommentCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterCreateNestedManyWithoutTenantInput
+    budgets?: BudgetCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelCreateNestedManyWithoutTenantInput
+    territories?: TerritoryCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberCreateNestedManyWithoutTenantInput
+    exchangeRates?: ExchangeRateCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordCreateNestedManyWithoutTenantInput
+    promotions?: PromotionCreateNestedManyWithoutTenantInput
+    breakGlassGrants?: BreakGlassGrantCreateNestedManyWithoutTenantInput
+    masterDataRequests?: MasterDataRequestCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountCreateNestedManyWithoutTenantInput
+    supportCases?: SupportCaseCreateNestedManyWithoutTenantInput
+    contracts?: ContractCreateNestedManyWithoutTenantInput
+    employees?: EmployeeCreateNestedManyWithoutTenantInput
+    assets?: AssetCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldCreateNestedManyWithoutTenantInput
+    rfqs?: RfqCreateNestedManyWithoutTenantInput
+    packages?: PackageCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentCreateNestedManyWithoutTenantInput
+    containers?: ContainerCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleCreateNestedManyWithoutTenantInput
+    drivers?: DriverCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentCreateNestedManyWithoutTenantInput
+    installedAssets?: InstalledAssetCreateNestedManyWithoutTenantInput
+    serviceRequests?: ServiceRequestCreateNestedManyWithoutTenantInput
+    serviceOrders?: ServiceOrderCreateNestedManyWithoutTenantInput
+    serviceOrderParts?: ServiceOrderPartCreateNestedManyWithoutTenantInput
+    rmas?: RmaCreateNestedManyWithoutTenantInput
+    glAccounts?: GlAccountCreateNestedManyWithoutTenantInput
+    glJournalEntries?: GlJournalEntryCreateNestedManyWithoutTenantInput
+    glJournalLines?: GlJournalLineCreateNestedManyWithoutTenantInput
+    glSystemAccounts?: GlSystemAccountCreateNestedManyWithoutTenantInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateCreateNestedManyWithoutTenantInput
+    glPeriodLocks?: GlPeriodLockCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationCreateNestedManyWithoutTenantInput
+    compensations?: CompensationCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodCreateNestedManyWithoutTenantInput
+    employeeSalaries?: EmployeeSalaryCreateNestedManyWithoutTenantInput
+    payrollRuns?: PayrollRunCreateNestedManyWithoutTenantInput
+    payrollLines?: PayrollLineCreateNestedManyWithoutTenantInput
+    payrollAdjustments?: PayrollAdjustmentCreateNestedManyWithoutTenantInput
+    employmentContracts?: EmploymentContractCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordCreateNestedManyWithoutTenantInput
+    equipmentCustodies?: EquipmentCustodyCreateNestedManyWithoutTenantInput
+    equipmentCustodyLines?: EquipmentCustodyLineCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
+    quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutAssetStructureChangesInput = {
+    id?: string
+    slug: string
+    name: string
+    status?: $Enums.TenantStatus
+    version?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedCreateNestedManyWithoutTenantInput
+    legalEntities?: LegalEntityUncheckedCreateNestedManyWithoutTenantInput
+    businessUnits?: BusinessUnitUncheckedCreateNestedManyWithoutTenantInput
+    branches?: BranchUncheckedCreateNestedManyWithoutTenantInput
+    factories?: FactoryUncheckedCreateNestedManyWithoutTenantInput
+    users?: UserUncheckedCreateNestedManyWithoutTenantInput
+    roles?: RoleUncheckedCreateNestedManyWithoutTenantInput
+    roleAssignments?: UserRoleAssignmentUncheckedCreateNestedManyWithoutTenantInput
+    auditEvents?: AuditEventUncheckedCreateNestedManyWithoutTenantInput
+    outboxEvents?: OutboxEventUncheckedCreateNestedManyWithoutTenantInput
+    terminologyEntries?: TerminologyEntryUncheckedCreateNestedManyWithoutTenantInput
+    moduleActivations?: ModuleActivationUncheckedCreateNestedManyWithoutTenantInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutTenantInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTenantInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    ruleDefinitions?: RuleDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    approvals?: ApprovalUncheckedCreateNestedManyWithoutTenantInput
+    processedEvents?: ProcessedEventUncheckedCreateNestedManyWithoutTenantInput
+    documentTemplates?: DocumentTemplateUncheckedCreateNestedManyWithoutTenantInput
+    parties?: PartyUncheckedCreateNestedManyWithoutTenantInput
+    products?: ProductUncheckedCreateNestedManyWithoutTenantInput
+    warehouses?: WarehouseUncheckedCreateNestedManyWithoutTenantInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutTenantInput
+    stockReservations?: StockReservationUncheckedCreateNestedManyWithoutTenantInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutTenantInput
+    scanEvents?: ScanEventUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrders?: WmsOrderUncheckedCreateNestedManyWithoutTenantInput
+    wmsOrderLines?: WmsOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    crmAccounts?: CrmAccountUncheckedCreateNestedManyWithoutTenantInput
+    leads?: LeadUncheckedCreateNestedManyWithoutTenantInput
+    opportunities?: OpportunityUncheckedCreateNestedManyWithoutTenantInput
+    crmActivities?: CrmActivityUncheckedCreateNestedManyWithoutTenantInput
+    priceLists?: PriceListUncheckedCreateNestedManyWithoutTenantInput
+    priceListEntries?: PriceListEntryUncheckedCreateNestedManyWithoutTenantInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutTenantInput
+    quoteLines?: QuoteLineUncheckedCreateNestedManyWithoutTenantInput
+    salesOrders?: SalesOrderUncheckedCreateNestedManyWithoutTenantInput
+    salesOrderLines?: SalesOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    orderEvents?: OrderEventUncheckedCreateNestedManyWithoutTenantInput
+    suppliers?: SupplierUncheckedCreateNestedManyWithoutTenantInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedCreateNestedManyWithoutTenantInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutTenantInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    boms?: BomUncheckedCreateNestedManyWithoutTenantInput
+    bomLines?: BomLineUncheckedCreateNestedManyWithoutTenantInput
+    routings?: RoutingUncheckedCreateNestedManyWithoutTenantInput
+    routingOperations?: RoutingOperationUncheckedCreateNestedManyWithoutTenantInput
+    engineeringChanges?: EngineeringChangeUncheckedCreateNestedManyWithoutTenantInput
+    planningPolicies?: PlanningPolicyUncheckedCreateNestedManyWithoutTenantInput
+    mrpRuns?: MrpRunUncheckedCreateNestedManyWithoutTenantInput
+    mrpSuggestions?: MrpSuggestionUncheckedCreateNestedManyWithoutTenantInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutTenantInput
+    workOrderOperations?: WorkOrderOperationUncheckedCreateNestedManyWithoutTenantInput
+    qcPlans?: QcPlanUncheckedCreateNestedManyWithoutTenantInput
+    qcPlanItems?: QcPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    qcInspections?: QcInspectionUncheckedCreateNestedManyWithoutTenantInput
+    qcInspectionItems?: QcInspectionItemUncheckedCreateNestedManyWithoutTenantInput
+    ncrs?: NcrUncheckedCreateNestedManyWithoutTenantInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTenantInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTenantInput
+    portalUsers?: PortalUserUncheckedCreateNestedManyWithoutTenantInput
+    comments?: CommentUncheckedCreateNestedManyWithoutTenantInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutTenantInput
+    attachmentBlobs?: AttachmentBlobUncheckedCreateNestedManyWithoutTenantInput
+    numberSequences?: NumberSequenceUncheckedCreateNestedManyWithoutTenantInput
+    costCenters?: CostCenterUncheckedCreateNestedManyWithoutTenantInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutTenantInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedCreateNestedManyWithoutTenantInput
+    webhookDeliveries?: WebhookDeliveryUncheckedCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
+    securityEvents?: SecurityEventUncheckedCreateNestedManyWithoutTenantInput
+    productCategories?: ProductCategoryUncheckedCreateNestedManyWithoutTenantInput
+    returnOrders?: ReturnOrderUncheckedCreateNestedManyWithoutTenantInput
+    returnOrderLines?: ReturnOrderLineUncheckedCreateNestedManyWithoutTenantInput
+    stockCounts?: StockCountUncheckedCreateNestedManyWithoutTenantInput
+    stockCountLines?: StockCountLineUncheckedCreateNestedManyWithoutTenantInput
+    workCenters?: WorkCenterUncheckedCreateNestedManyWithoutTenantInput
+    downtimeEvents?: DowntimeEventUncheckedCreateNestedManyWithoutTenantInput
+    userCredentials?: UserCredentialUncheckedCreateNestedManyWithoutTenantInput
+    discountRules?: DiscountRuleUncheckedCreateNestedManyWithoutTenantInput
+    skuSubstitutions?: SkuSubstitutionUncheckedCreateNestedManyWithoutTenantInput
+    packagingLevels?: PackagingLevelUncheckedCreateNestedManyWithoutTenantInput
+    territories?: TerritoryUncheckedCreateNestedManyWithoutTenantInput
+    salesTeams?: SalesTeamUncheckedCreateNestedManyWithoutTenantInput
+    salesTeamMembers?: SalesTeamMemberUncheckedCreateNestedManyWithoutTenantInput
+    exchangeRates?: ExchangeRateUncheckedCreateNestedManyWithoutTenantInput
+    consentRecords?: ConsentRecordUncheckedCreateNestedManyWithoutTenantInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutTenantInput
+    breakGlassGrants?: BreakGlassGrantUncheckedCreateNestedManyWithoutTenantInput
+    masterDataRequests?: MasterDataRequestUncheckedCreateNestedManyWithoutTenantInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedCreateNestedManyWithoutTenantInput
+    supportCases?: SupportCaseUncheckedCreateNestedManyWithoutTenantInput
+    contracts?: ContractUncheckedCreateNestedManyWithoutTenantInput
+    employees?: EmployeeUncheckedCreateNestedManyWithoutTenantInput
+    assets?: AssetUncheckedCreateNestedManyWithoutTenantInput
+    quarantineHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutTenantInput
+    rfqs?: RfqUncheckedCreateNestedManyWithoutTenantInput
+    packages?: PackageUncheckedCreateNestedManyWithoutTenantInput
+    landedCosts?: LandedCostUncheckedCreateNestedManyWithoutTenantInput
+    customObjectDefinitions?: CustomObjectDefinitionUncheckedCreateNestedManyWithoutTenantInput
+    skuChannelContents?: SkuChannelContentUncheckedCreateNestedManyWithoutTenantInput
+    containers?: ContainerUncheckedCreateNestedManyWithoutTenantInput
+    posSessions?: PosSessionUncheckedCreateNestedManyWithoutTenantInput
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutTenantInput
+    drivers?: DriverUncheckedCreateNestedManyWithoutTenantInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutTenantInput
+    shipmentStops?: ShipmentStopUncheckedCreateNestedManyWithoutTenantInput
+    dockAppointments?: DockAppointmentUncheckedCreateNestedManyWithoutTenantInput
+    installedAssets?: InstalledAssetUncheckedCreateNestedManyWithoutTenantInput
+    serviceRequests?: ServiceRequestUncheckedCreateNestedManyWithoutTenantInput
+    serviceOrders?: ServiceOrderUncheckedCreateNestedManyWithoutTenantInput
+    serviceOrderParts?: ServiceOrderPartUncheckedCreateNestedManyWithoutTenantInput
+    rmas?: RmaUncheckedCreateNestedManyWithoutTenantInput
+    glAccounts?: GlAccountUncheckedCreateNestedManyWithoutTenantInput
+    glJournalEntries?: GlJournalEntryUncheckedCreateNestedManyWithoutTenantInput
+    glJournalLines?: GlJournalLineUncheckedCreateNestedManyWithoutTenantInput
+    glSystemAccounts?: GlSystemAccountUncheckedCreateNestedManyWithoutTenantInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateUncheckedCreateNestedManyWithoutTenantInput
+    glPeriodLocks?: GlPeriodLockUncheckedCreateNestedManyWithoutTenantInput
+    frameworkAgreements?: FrameworkAgreementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatements?: BankStatementUncheckedCreateNestedManyWithoutTenantInput
+    bankStatementLines?: BankStatementLineUncheckedCreateNestedManyWithoutTenantInput
+    paymentAllocations?: PaymentAllocationUncheckedCreateNestedManyWithoutTenantInput
+    compensations?: CompensationUncheckedCreateNestedManyWithoutTenantInput
+    vatRates?: VatRateUncheckedCreateNestedManyWithoutTenantInput
+    vatBookEntries?: VatBookEntryUncheckedCreateNestedManyWithoutTenantInput
+    vatPeriods?: VatPeriodUncheckedCreateNestedManyWithoutTenantInput
+    compensationLines?: CompensationLineUncheckedCreateNestedManyWithoutTenantInput
+    attendanceDays?: AttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+    attendancePeriods?: AttendancePeriodUncheckedCreateNestedManyWithoutTenantInput
+    employeeSalaries?: EmployeeSalaryUncheckedCreateNestedManyWithoutTenantInput
+    payrollRuns?: PayrollRunUncheckedCreateNestedManyWithoutTenantInput
+    payrollLines?: PayrollLineUncheckedCreateNestedManyWithoutTenantInput
+    payrollAdjustments?: PayrollAdjustmentUncheckedCreateNestedManyWithoutTenantInput
+    employmentContracts?: EmploymentContractUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanTemplates?: TrainingPlanTemplateUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlans?: TrainingPlanUncheckedCreateNestedManyWithoutTenantInput
+    trainingPlanItems?: TrainingPlanItemUncheckedCreateNestedManyWithoutTenantInput
+    trainingRecords?: TrainingRecordUncheckedCreateNestedManyWithoutTenantInput
+    equipmentCustodies?: EquipmentCustodyUncheckedCreateNestedManyWithoutTenantInput
+    equipmentCustodyLines?: EquipmentCustodyLineUncheckedCreateNestedManyWithoutTenantInput
+    serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
+    serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
+    quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutAssetStructureChangesInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutAssetStructureChangesInput, TenantUncheckedCreateWithoutAssetStructureChangesInput>
+  }
+
+  export type TenantUpsertWithoutAssetStructureChangesInput = {
+    update: XOR<TenantUpdateWithoutAssetStructureChangesInput, TenantUncheckedUpdateWithoutAssetStructureChangesInput>
+    create: XOR<TenantCreateWithoutAssetStructureChangesInput, TenantUncheckedCreateWithoutAssetStructureChangesInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutAssetStructureChangesInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutAssetStructureChangesInput, TenantUncheckedUpdateWithoutAssetStructureChangesInput>
+  }
+
+  export type TenantUpdateWithoutAssetStructureChangesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUpdateManyWithoutTenantNestedInput
+    branches?: BranchUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUpdateManyWithoutTenantNestedInput
+    users?: UserUpdateManyWithoutTenantNestedInput
+    roles?: RoleUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUpdateManyWithoutTenantNestedInput
+    parties?: PartyUpdateManyWithoutTenantNestedInput
+    products?: ProductUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUpdateManyWithoutTenantNestedInput
+    leads?: LeadUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUpdateManyWithoutTenantNestedInput
+    boms?: BomUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUpdateManyWithoutTenantNestedInput
+    comments?: CommentUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUpdateManyWithoutTenantNestedInput
+    exchangeRates?: ExchangeRateUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUpdateManyWithoutTenantNestedInput
+    breakGlassGrants?: BreakGlassGrantUpdateManyWithoutTenantNestedInput
+    masterDataRequests?: MasterDataRequestUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUpdateManyWithoutTenantNestedInput
+    supportCases?: SupportCaseUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUpdateManyWithoutTenantNestedInput
+    employees?: EmployeeUpdateManyWithoutTenantNestedInput
+    assets?: AssetUpdateManyWithoutTenantNestedInput
+    quarantineHolds?: QuarantineHoldUpdateManyWithoutTenantNestedInput
+    rfqs?: RfqUpdateManyWithoutTenantNestedInput
+    packages?: PackageUpdateManyWithoutTenantNestedInput
+    landedCosts?: LandedCostUpdateManyWithoutTenantNestedInput
+    customObjectDefinitions?: CustomObjectDefinitionUpdateManyWithoutTenantNestedInput
+    skuChannelContents?: SkuChannelContentUpdateManyWithoutTenantNestedInput
+    containers?: ContainerUpdateManyWithoutTenantNestedInput
+    posSessions?: PosSessionUpdateManyWithoutTenantNestedInput
+    vehicles?: VehicleUpdateManyWithoutTenantNestedInput
+    drivers?: DriverUpdateManyWithoutTenantNestedInput
+    shipments?: ShipmentUpdateManyWithoutTenantNestedInput
+    shipmentStops?: ShipmentStopUpdateManyWithoutTenantNestedInput
+    dockAppointments?: DockAppointmentUpdateManyWithoutTenantNestedInput
+    installedAssets?: InstalledAssetUpdateManyWithoutTenantNestedInput
+    serviceRequests?: ServiceRequestUpdateManyWithoutTenantNestedInput
+    serviceOrders?: ServiceOrderUpdateManyWithoutTenantNestedInput
+    serviceOrderParts?: ServiceOrderPartUpdateManyWithoutTenantNestedInput
+    rmas?: RmaUpdateManyWithoutTenantNestedInput
+    glAccounts?: GlAccountUpdateManyWithoutTenantNestedInput
+    glJournalEntries?: GlJournalEntryUpdateManyWithoutTenantNestedInput
+    glJournalLines?: GlJournalLineUpdateManyWithoutTenantNestedInput
+    glSystemAccounts?: GlSystemAccountUpdateManyWithoutTenantNestedInput
+    glOpeningBalanceDates?: GlOpeningBalanceDateUpdateManyWithoutTenantNestedInput
+    glPeriodLocks?: GlPeriodLockUpdateManyWithoutTenantNestedInput
+    frameworkAgreements?: FrameworkAgreementUpdateManyWithoutTenantNestedInput
+    bankStatements?: BankStatementUpdateManyWithoutTenantNestedInput
+    bankStatementLines?: BankStatementLineUpdateManyWithoutTenantNestedInput
+    paymentAllocations?: PaymentAllocationUpdateManyWithoutTenantNestedInput
+    compensations?: CompensationUpdateManyWithoutTenantNestedInput
+    vatRates?: VatRateUpdateManyWithoutTenantNestedInput
+    vatBookEntries?: VatBookEntryUpdateManyWithoutTenantNestedInput
+    vatPeriods?: VatPeriodUpdateManyWithoutTenantNestedInput
+    compensationLines?: CompensationLineUpdateManyWithoutTenantNestedInput
+    attendanceDays?: AttendanceDayUpdateManyWithoutTenantNestedInput
+    attendancePeriods?: AttendancePeriodUpdateManyWithoutTenantNestedInput
+    employeeSalaries?: EmployeeSalaryUpdateManyWithoutTenantNestedInput
+    payrollRuns?: PayrollRunUpdateManyWithoutTenantNestedInput
+    payrollLines?: PayrollLineUpdateManyWithoutTenantNestedInput
+    payrollAdjustments?: PayrollAdjustmentUpdateManyWithoutTenantNestedInput
+    employmentContracts?: EmploymentContractUpdateManyWithoutTenantNestedInput
+    trainingPlanTemplates?: TrainingPlanTemplateUpdateManyWithoutTenantNestedInput
+    trainingPlans?: TrainingPlanUpdateManyWithoutTenantNestedInput
+    trainingPlanItems?: TrainingPlanItemUpdateManyWithoutTenantNestedInput
+    trainingRecords?: TrainingRecordUpdateManyWithoutTenantNestedInput
+    equipmentCustodies?: EquipmentCustodyUpdateManyWithoutTenantNestedInput
+    equipmentCustodyLines?: EquipmentCustodyLineUpdateManyWithoutTenantNestedInput
+    serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
+    serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
+    mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
+    quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutAssetStructureChangesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    version?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurationVersions?: TenantConfigurationVersionUncheckedUpdateManyWithoutTenantNestedInput
+    legalEntities?: LegalEntityUncheckedUpdateManyWithoutTenantNestedInput
+    businessUnits?: BusinessUnitUncheckedUpdateManyWithoutTenantNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutTenantNestedInput
+    factories?: FactoryUncheckedUpdateManyWithoutTenantNestedInput
+    users?: UserUncheckedUpdateManyWithoutTenantNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutTenantNestedInput
+    roleAssignments?: UserRoleAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+    auditEvents?: AuditEventUncheckedUpdateManyWithoutTenantNestedInput
+    outboxEvents?: OutboxEventUncheckedUpdateManyWithoutTenantNestedInput
+    terminologyEntries?: TerminologyEntryUncheckedUpdateManyWithoutTenantNestedInput
+    moduleActivations?: ModuleActivationUncheckedUpdateManyWithoutTenantNestedInput
+    customFieldDefs?: CustomFieldDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutTenantNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTenantNestedInput
+    workflowDefinitions?: WorkflowDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    ruleDefinitions?: RuleDefinitionUncheckedUpdateManyWithoutTenantNestedInput
+    approvals?: ApprovalUncheckedUpdateManyWithoutTenantNestedInput
+    processedEvents?: ProcessedEventUncheckedUpdateManyWithoutTenantNestedInput
+    documentTemplates?: DocumentTemplateUncheckedUpdateManyWithoutTenantNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutTenantNestedInput
+    products?: ProductUncheckedUpdateManyWithoutTenantNestedInput
+    warehouses?: WarehouseUncheckedUpdateManyWithoutTenantNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutTenantNestedInput
+    stockReservations?: StockReservationUncheckedUpdateManyWithoutTenantNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutTenantNestedInput
+    scanEvents?: ScanEventUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrders?: WmsOrderUncheckedUpdateManyWithoutTenantNestedInput
+    wmsOrderLines?: WmsOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    crmAccounts?: CrmAccountUncheckedUpdateManyWithoutTenantNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutTenantNestedInput
+    opportunities?: OpportunityUncheckedUpdateManyWithoutTenantNestedInput
+    crmActivities?: CrmActivityUncheckedUpdateManyWithoutTenantNestedInput
+    priceLists?: PriceListUncheckedUpdateManyWithoutTenantNestedInput
+    priceListEntries?: PriceListEntryUncheckedUpdateManyWithoutTenantNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutTenantNestedInput
+    quoteLines?: QuoteLineUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrders?: SalesOrderUncheckedUpdateManyWithoutTenantNestedInput
+    salesOrderLines?: SalesOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    orderEvents?: OrderEventUncheckedUpdateManyWithoutTenantNestedInput
+    suppliers?: SupplierUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseRequisitions?: PurchaseRequisitionUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseReqLines?: PurchaseRequisitionLineUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutTenantNestedInput
+    purchaseOrderLines?: PurchaseOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    boms?: BomUncheckedUpdateManyWithoutTenantNestedInput
+    bomLines?: BomLineUncheckedUpdateManyWithoutTenantNestedInput
+    routings?: RoutingUncheckedUpdateManyWithoutTenantNestedInput
+    routingOperations?: RoutingOperationUncheckedUpdateManyWithoutTenantNestedInput
+    engineeringChanges?: EngineeringChangeUncheckedUpdateManyWithoutTenantNestedInput
+    planningPolicies?: PlanningPolicyUncheckedUpdateManyWithoutTenantNestedInput
+    mrpRuns?: MrpRunUncheckedUpdateManyWithoutTenantNestedInput
+    mrpSuggestions?: MrpSuggestionUncheckedUpdateManyWithoutTenantNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutTenantNestedInput
+    workOrderOperations?: WorkOrderOperationUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlans?: QcPlanUncheckedUpdateManyWithoutTenantNestedInput
+    qcPlanItems?: QcPlanItemUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspections?: QcInspectionUncheckedUpdateManyWithoutTenantNestedInput
+    qcInspectionItems?: QcInspectionItemUncheckedUpdateManyWithoutTenantNestedInput
+    ncrs?: NcrUncheckedUpdateManyWithoutTenantNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTenantNestedInput
+    portalUsers?: PortalUserUncheckedUpdateManyWithoutTenantNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutTenantNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutTenantNestedInput
+    attachmentBlobs?: AttachmentBlobUncheckedUpdateManyWithoutTenantNestedInput
+    numberSequences?: NumberSequenceUncheckedUpdateManyWithoutTenantNestedInput
+    costCenters?: CostCenterUncheckedUpdateManyWithoutTenantNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutTenantNestedInput
+    webhookSubscriptions?: WebhookSubscriptionUncheckedUpdateManyWithoutTenantNestedInput
+    webhookDeliveries?: WebhookDeliveryUncheckedUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
+    securityEvents?: SecurityEventUncheckedUpdateManyWithoutTenantNestedInput
+    productCategories?: ProductCategoryUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrders?: ReturnOrderUncheckedUpdateManyWithoutTenantNestedInput
+    returnOrderLines?: ReturnOrderLineUncheckedUpdateManyWithoutTenantNestedInput
+    stockCounts?: StockCountUncheckedUpdateManyWithoutTenantNestedInput
+    stockCountLines?: StockCountLineUncheckedUpdateManyWithoutTenantNestedInput
+    workCenters?: WorkCenterUncheckedUpdateManyWithoutTenantNestedInput
+    downtimeEvents?: DowntimeEventUncheckedUpdateManyWithoutTenantNestedInput
+    userCredentials?: UserCredentialUncheckedUpdateManyWithoutTenantNestedInput
+    discountRules?: DiscountRuleUncheckedUpdateManyWithoutTenantNestedInput
+    skuSubstitutions?: SkuSubstitutionUncheckedUpdateManyWithoutTenantNestedInput
+    packagingLevels?: PackagingLevelUncheckedUpdateManyWithoutTenantNestedInput
+    territories?: TerritoryUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeams?: SalesTeamUncheckedUpdateManyWithoutTenantNestedInput
+    salesTeamMembers?: SalesTeamMemberUncheckedUpdateManyWithoutTenantNestedInput
+    exchangeRates?: ExchangeRateUncheckedUpdateManyWithoutTenantNestedInput
+    consentRecords?: ConsentRecordUncheckedUpdateManyWithoutTenantNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutTenantNestedInput
+    breakGlassGrants?: BreakGlassGrantUncheckedUpdateManyWithoutTenantNestedInput
+    masterDataRequests?: MasterDataRequestUncheckedUpdateManyWithoutTenantNestedInput
+    loyaltyAccounts?: LoyaltyAccountUncheckedUpdateManyWithoutTenantNestedInput
+    supportCases?: SupportCaseUncheckedUpdateManyWithoutTenantNestedInput
+    contracts?: ContractUncheckedUpdateManyWithoutTenantNestedInput
+    employees?: EmployeeUncheckedUpdateManyWithoutTenantNestedInput
+    assets?: AssetUncheckedUpdateManyWithoutTenantNestedInput
     quarantineHolds?: QuarantineHoldUncheckedUpdateManyWithoutTenantNestedInput
     rfqs?: RfqUncheckedUpdateManyWithoutTenantNestedInput
     packages?: PackageUncheckedUpdateManyWithoutTenantNestedInput
@@ -355060,6 +358301,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQuarantineHoldsInput = {
@@ -355216,6 +358458,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQuarantineHoldsInput = {
@@ -355256,6 +358499,141 @@ export namespace Prisma {
 
   export type QuarantineDispositionCreateManyHoldInputEnvelope = {
     data: QuarantineDispositionCreateManyHoldInput | QuarantineDispositionCreateManyHoldInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type QuarantineHoldCreateWithoutReworkHoldsInput = {
+    id?: string
+    warehouseId: string
+    skuId: string
+    quantity: Decimal | DecimalJsLike | number | string
+    reason: string
+    status?: $Enums.QuarantineStatus
+    createdBy?: string | null
+    decidedBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    remainingQuantity: Decimal | DecimalJsLike | number | string
+    lotNumber?: string | null
+    ncrId?: string | null
+    tenant: TenantCreateNestedOneWithoutQuarantineHoldsInput
+    dispositions?: QuarantineDispositionCreateNestedManyWithoutHoldInput
+    parentHold?: QuarantineHoldCreateNestedOneWithoutReworkHoldsInput
+    reworkLines?: QuarantineDispositionLineCreateNestedManyWithoutReworkHoldInput
+  }
+
+  export type QuarantineHoldUncheckedCreateWithoutReworkHoldsInput = {
+    id?: string
+    tenantId: string
+    warehouseId: string
+    skuId: string
+    quantity: Decimal | DecimalJsLike | number | string
+    reason: string
+    status?: $Enums.QuarantineStatus
+    createdBy?: string | null
+    decidedBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    remainingQuantity: Decimal | DecimalJsLike | number | string
+    lotNumber?: string | null
+    ncrId?: string | null
+    parentHoldId?: string | null
+    dispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutHoldInput
+    reworkLines?: QuarantineDispositionLineUncheckedCreateNestedManyWithoutReworkHoldInput
+  }
+
+  export type QuarantineHoldCreateOrConnectWithoutReworkHoldsInput = {
+    where: QuarantineHoldWhereUniqueInput
+    create: XOR<QuarantineHoldCreateWithoutReworkHoldsInput, QuarantineHoldUncheckedCreateWithoutReworkHoldsInput>
+  }
+
+  export type QuarantineHoldCreateWithoutParentHoldInput = {
+    id?: string
+    warehouseId: string
+    skuId: string
+    quantity: Decimal | DecimalJsLike | number | string
+    reason: string
+    status?: $Enums.QuarantineStatus
+    createdBy?: string | null
+    decidedBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    remainingQuantity: Decimal | DecimalJsLike | number | string
+    lotNumber?: string | null
+    ncrId?: string | null
+    tenant: TenantCreateNestedOneWithoutQuarantineHoldsInput
+    dispositions?: QuarantineDispositionCreateNestedManyWithoutHoldInput
+    reworkHolds?: QuarantineHoldCreateNestedManyWithoutParentHoldInput
+    reworkLines?: QuarantineDispositionLineCreateNestedManyWithoutReworkHoldInput
+  }
+
+  export type QuarantineHoldUncheckedCreateWithoutParentHoldInput = {
+    id?: string
+    tenantId: string
+    warehouseId: string
+    skuId: string
+    quantity: Decimal | DecimalJsLike | number | string
+    reason: string
+    status?: $Enums.QuarantineStatus
+    createdBy?: string | null
+    decidedBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    remainingQuantity: Decimal | DecimalJsLike | number | string
+    lotNumber?: string | null
+    ncrId?: string | null
+    dispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutHoldInput
+    reworkHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutParentHoldInput
+    reworkLines?: QuarantineDispositionLineUncheckedCreateNestedManyWithoutReworkHoldInput
+  }
+
+  export type QuarantineHoldCreateOrConnectWithoutParentHoldInput = {
+    where: QuarantineHoldWhereUniqueInput
+    create: XOR<QuarantineHoldCreateWithoutParentHoldInput, QuarantineHoldUncheckedCreateWithoutParentHoldInput>
+  }
+
+  export type QuarantineHoldCreateManyParentHoldInputEnvelope = {
+    data: QuarantineHoldCreateManyParentHoldInput | QuarantineHoldCreateManyParentHoldInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type QuarantineDispositionLineCreateWithoutReworkHoldInput = {
+    id?: string
+    tenantId: string
+    lineNo: number
+    type: $Enums.DispositionType
+    quantity: Decimal | DecimalJsLike | number | string
+    targetSkuId?: string | null
+    targetQuantity?: Decimal | DecimalJsLike | number | string | null
+    supplierRef?: string | null
+    movementId?: string | null
+    targetMovementId?: string | null
+    serials?: QuarantineDispositionLineCreateserialsInput | string[]
+    disposition: QuarantineDispositionCreateNestedOneWithoutLinesInput
+  }
+
+  export type QuarantineDispositionLineUncheckedCreateWithoutReworkHoldInput = {
+    id?: string
+    tenantId: string
+    dispositionId: string
+    lineNo: number
+    type: $Enums.DispositionType
+    quantity: Decimal | DecimalJsLike | number | string
+    targetSkuId?: string | null
+    targetQuantity?: Decimal | DecimalJsLike | number | string | null
+    supplierRef?: string | null
+    movementId?: string | null
+    targetMovementId?: string | null
+    serials?: QuarantineDispositionLineCreateserialsInput | string[]
+  }
+
+  export type QuarantineDispositionLineCreateOrConnectWithoutReworkHoldInput = {
+    where: QuarantineDispositionLineWhereUniqueInput
+    create: XOR<QuarantineDispositionLineCreateWithoutReworkHoldInput, QuarantineDispositionLineUncheckedCreateWithoutReworkHoldInput>
+  }
+
+  export type QuarantineDispositionLineCreateManyReworkHoldInputEnvelope = {
+    data: QuarantineDispositionLineCreateManyReworkHoldInput | QuarantineDispositionLineCreateManyReworkHoldInput[]
     skipDuplicates?: boolean
   }
 
@@ -355424,6 +358802,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQuarantineHoldsInput = {
@@ -355580,6 +358959,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QuarantineDispositionUpsertWithWhereUniqueWithoutHoldInput = {
@@ -355596,6 +358976,108 @@ export namespace Prisma {
   export type QuarantineDispositionUpdateManyWithWhereWithoutHoldInput = {
     where: QuarantineDispositionScalarWhereInput
     data: XOR<QuarantineDispositionUpdateManyMutationInput, QuarantineDispositionUncheckedUpdateManyWithoutHoldInput>
+  }
+
+  export type QuarantineHoldUpsertWithoutReworkHoldsInput = {
+    update: XOR<QuarantineHoldUpdateWithoutReworkHoldsInput, QuarantineHoldUncheckedUpdateWithoutReworkHoldsInput>
+    create: XOR<QuarantineHoldCreateWithoutReworkHoldsInput, QuarantineHoldUncheckedCreateWithoutReworkHoldsInput>
+    where?: QuarantineHoldWhereInput
+  }
+
+  export type QuarantineHoldUpdateToOneWithWhereWithoutReworkHoldsInput = {
+    where?: QuarantineHoldWhereInput
+    data: XOR<QuarantineHoldUpdateWithoutReworkHoldsInput, QuarantineHoldUncheckedUpdateWithoutReworkHoldsInput>
+  }
+
+  export type QuarantineHoldUpdateWithoutReworkHoldsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    warehouseId?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    reason?: StringFieldUpdateOperationsInput | string
+    status?: EnumQuarantineStatusFieldUpdateOperationsInput | $Enums.QuarantineStatus
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    decidedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    remainingQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    lotNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    ncrId?: NullableStringFieldUpdateOperationsInput | string | null
+    tenant?: TenantUpdateOneRequiredWithoutQuarantineHoldsNestedInput
+    dispositions?: QuarantineDispositionUpdateManyWithoutHoldNestedInput
+    parentHold?: QuarantineHoldUpdateOneWithoutReworkHoldsNestedInput
+    reworkLines?: QuarantineDispositionLineUpdateManyWithoutReworkHoldNestedInput
+  }
+
+  export type QuarantineHoldUncheckedUpdateWithoutReworkHoldsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    warehouseId?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    reason?: StringFieldUpdateOperationsInput | string
+    status?: EnumQuarantineStatusFieldUpdateOperationsInput | $Enums.QuarantineStatus
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    decidedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    remainingQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    lotNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    ncrId?: NullableStringFieldUpdateOperationsInput | string | null
+    parentHoldId?: NullableStringFieldUpdateOperationsInput | string | null
+    dispositions?: QuarantineDispositionUncheckedUpdateManyWithoutHoldNestedInput
+    reworkLines?: QuarantineDispositionLineUncheckedUpdateManyWithoutReworkHoldNestedInput
+  }
+
+  export type QuarantineHoldUpsertWithWhereUniqueWithoutParentHoldInput = {
+    where: QuarantineHoldWhereUniqueInput
+    update: XOR<QuarantineHoldUpdateWithoutParentHoldInput, QuarantineHoldUncheckedUpdateWithoutParentHoldInput>
+    create: XOR<QuarantineHoldCreateWithoutParentHoldInput, QuarantineHoldUncheckedCreateWithoutParentHoldInput>
+  }
+
+  export type QuarantineHoldUpdateWithWhereUniqueWithoutParentHoldInput = {
+    where: QuarantineHoldWhereUniqueInput
+    data: XOR<QuarantineHoldUpdateWithoutParentHoldInput, QuarantineHoldUncheckedUpdateWithoutParentHoldInput>
+  }
+
+  export type QuarantineHoldUpdateManyWithWhereWithoutParentHoldInput = {
+    where: QuarantineHoldScalarWhereInput
+    data: XOR<QuarantineHoldUpdateManyMutationInput, QuarantineHoldUncheckedUpdateManyWithoutParentHoldInput>
+  }
+
+  export type QuarantineDispositionLineUpsertWithWhereUniqueWithoutReworkHoldInput = {
+    where: QuarantineDispositionLineWhereUniqueInput
+    update: XOR<QuarantineDispositionLineUpdateWithoutReworkHoldInput, QuarantineDispositionLineUncheckedUpdateWithoutReworkHoldInput>
+    create: XOR<QuarantineDispositionLineCreateWithoutReworkHoldInput, QuarantineDispositionLineUncheckedCreateWithoutReworkHoldInput>
+  }
+
+  export type QuarantineDispositionLineUpdateWithWhereUniqueWithoutReworkHoldInput = {
+    where: QuarantineDispositionLineWhereUniqueInput
+    data: XOR<QuarantineDispositionLineUpdateWithoutReworkHoldInput, QuarantineDispositionLineUncheckedUpdateWithoutReworkHoldInput>
+  }
+
+  export type QuarantineDispositionLineUpdateManyWithWhereWithoutReworkHoldInput = {
+    where: QuarantineDispositionLineScalarWhereInput
+    data: XOR<QuarantineDispositionLineUpdateManyMutationInput, QuarantineDispositionLineUncheckedUpdateManyWithoutReworkHoldInput>
+  }
+
+  export type QuarantineDispositionLineScalarWhereInput = {
+    AND?: QuarantineDispositionLineScalarWhereInput | QuarantineDispositionLineScalarWhereInput[]
+    OR?: QuarantineDispositionLineScalarWhereInput[]
+    NOT?: QuarantineDispositionLineScalarWhereInput | QuarantineDispositionLineScalarWhereInput[]
+    id?: UuidFilter<"QuarantineDispositionLine"> | string
+    tenantId?: UuidFilter<"QuarantineDispositionLine"> | string
+    dispositionId?: UuidFilter<"QuarantineDispositionLine"> | string
+    lineNo?: IntFilter<"QuarantineDispositionLine"> | number
+    type?: EnumDispositionTypeFilter<"QuarantineDispositionLine"> | $Enums.DispositionType
+    quantity?: DecimalFilter<"QuarantineDispositionLine"> | Decimal | DecimalJsLike | number | string
+    targetSkuId?: UuidNullableFilter<"QuarantineDispositionLine"> | string | null
+    targetQuantity?: DecimalNullableFilter<"QuarantineDispositionLine"> | Decimal | DecimalJsLike | number | string | null
+    supplierRef?: StringNullableFilter<"QuarantineDispositionLine"> | string | null
+    reworkHoldId?: UuidNullableFilter<"QuarantineDispositionLine"> | string | null
+    movementId?: UuidNullableFilter<"QuarantineDispositionLine"> | string | null
+    targetMovementId?: UuidNullableFilter<"QuarantineDispositionLine"> | string | null
+    serials?: StringNullableListFilter<"QuarantineDispositionLine">
   }
 
   export type TenantCreateWithoutQuarantineDispositionsInput = {
@@ -355752,6 +359234,7 @@ export namespace Prisma {
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutQuarantineDispositionsInput = {
@@ -355908,6 +359391,7 @@ export namespace Prisma {
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutQuarantineDispositionsInput = {
@@ -355926,11 +359410,13 @@ export namespace Prisma {
     decidedBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    remainingQuantity?: Decimal | DecimalJsLike | number | string
+    remainingQuantity: Decimal | DecimalJsLike | number | string
     lotNumber?: string | null
     ncrId?: string | null
-    parentHoldId?: string | null
     tenant: TenantCreateNestedOneWithoutQuarantineHoldsInput
+    parentHold?: QuarantineHoldCreateNestedOneWithoutReworkHoldsInput
+    reworkHolds?: QuarantineHoldCreateNestedManyWithoutParentHoldInput
+    reworkLines?: QuarantineDispositionLineCreateNestedManyWithoutReworkHoldInput
   }
 
   export type QuarantineHoldUncheckedCreateWithoutDispositionsInput = {
@@ -355945,10 +359431,12 @@ export namespace Prisma {
     decidedBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    remainingQuantity?: Decimal | DecimalJsLike | number | string
+    remainingQuantity: Decimal | DecimalJsLike | number | string
     lotNumber?: string | null
     ncrId?: string | null
     parentHoldId?: string | null
+    reworkHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutParentHoldInput
+    reworkLines?: QuarantineDispositionLineUncheckedCreateNestedManyWithoutReworkHoldInput
   }
 
   export type QuarantineHoldCreateOrConnectWithoutDispositionsInput = {
@@ -355965,9 +359453,10 @@ export namespace Prisma {
     targetSkuId?: string | null
     targetQuantity?: Decimal | DecimalJsLike | number | string | null
     supplierRef?: string | null
-    reworkHoldId?: string | null
     movementId?: string | null
     targetMovementId?: string | null
+    serials?: QuarantineDispositionLineCreateserialsInput | string[]
+    reworkHold?: QuarantineHoldCreateNestedOneWithoutReworkLinesInput
   }
 
   export type QuarantineDispositionLineUncheckedCreateWithoutDispositionInput = {
@@ -355982,6 +359471,7 @@ export namespace Prisma {
     reworkHoldId?: string | null
     movementId?: string | null
     targetMovementId?: string | null
+    serials?: QuarantineDispositionLineCreateserialsInput | string[]
   }
 
   export type QuarantineDispositionLineCreateOrConnectWithoutDispositionInput = {
@@ -356159,6 +359649,7 @@ export namespace Prisma {
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutQuarantineDispositionsInput = {
@@ -356315,6 +359806,7 @@ export namespace Prisma {
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type QuarantineHoldUpsertWithoutDispositionsInput = {
@@ -356342,8 +359834,10 @@ export namespace Prisma {
     remainingQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     lotNumber?: NullableStringFieldUpdateOperationsInput | string | null
     ncrId?: NullableStringFieldUpdateOperationsInput | string | null
-    parentHoldId?: NullableStringFieldUpdateOperationsInput | string | null
     tenant?: TenantUpdateOneRequiredWithoutQuarantineHoldsNestedInput
+    parentHold?: QuarantineHoldUpdateOneWithoutReworkHoldsNestedInput
+    reworkHolds?: QuarantineHoldUpdateManyWithoutParentHoldNestedInput
+    reworkLines?: QuarantineDispositionLineUpdateManyWithoutReworkHoldNestedInput
   }
 
   export type QuarantineHoldUncheckedUpdateWithoutDispositionsInput = {
@@ -356362,6 +359856,8 @@ export namespace Prisma {
     lotNumber?: NullableStringFieldUpdateOperationsInput | string | null
     ncrId?: NullableStringFieldUpdateOperationsInput | string | null
     parentHoldId?: NullableStringFieldUpdateOperationsInput | string | null
+    reworkHolds?: QuarantineHoldUncheckedUpdateManyWithoutParentHoldNestedInput
+    reworkLines?: QuarantineDispositionLineUncheckedUpdateManyWithoutReworkHoldNestedInput
   }
 
   export type QuarantineDispositionLineUpsertWithWhereUniqueWithoutDispositionInput = {
@@ -356378,24 +359874,6 @@ export namespace Prisma {
   export type QuarantineDispositionLineUpdateManyWithWhereWithoutDispositionInput = {
     where: QuarantineDispositionLineScalarWhereInput
     data: XOR<QuarantineDispositionLineUpdateManyMutationInput, QuarantineDispositionLineUncheckedUpdateManyWithoutDispositionInput>
-  }
-
-  export type QuarantineDispositionLineScalarWhereInput = {
-    AND?: QuarantineDispositionLineScalarWhereInput | QuarantineDispositionLineScalarWhereInput[]
-    OR?: QuarantineDispositionLineScalarWhereInput[]
-    NOT?: QuarantineDispositionLineScalarWhereInput | QuarantineDispositionLineScalarWhereInput[]
-    id?: UuidFilter<"QuarantineDispositionLine"> | string
-    tenantId?: UuidFilter<"QuarantineDispositionLine"> | string
-    dispositionId?: UuidFilter<"QuarantineDispositionLine"> | string
-    lineNo?: IntFilter<"QuarantineDispositionLine"> | number
-    type?: EnumDispositionTypeFilter<"QuarantineDispositionLine"> | $Enums.DispositionType
-    quantity?: DecimalFilter<"QuarantineDispositionLine"> | Decimal | DecimalJsLike | number | string
-    targetSkuId?: UuidNullableFilter<"QuarantineDispositionLine"> | string | null
-    targetQuantity?: DecimalNullableFilter<"QuarantineDispositionLine"> | Decimal | DecimalJsLike | number | string | null
-    supplierRef?: StringNullableFilter<"QuarantineDispositionLine"> | string | null
-    reworkHoldId?: UuidNullableFilter<"QuarantineDispositionLine"> | string | null
-    movementId?: UuidNullableFilter<"QuarantineDispositionLine"> | string | null
-    targetMovementId?: UuidNullableFilter<"QuarantineDispositionLine"> | string | null
   }
 
   export type QuarantineDispositionCreateWithoutLinesInput = {
@@ -356427,6 +359905,51 @@ export namespace Prisma {
   export type QuarantineDispositionCreateOrConnectWithoutLinesInput = {
     where: QuarantineDispositionWhereUniqueInput
     create: XOR<QuarantineDispositionCreateWithoutLinesInput, QuarantineDispositionUncheckedCreateWithoutLinesInput>
+  }
+
+  export type QuarantineHoldCreateWithoutReworkLinesInput = {
+    id?: string
+    warehouseId: string
+    skuId: string
+    quantity: Decimal | DecimalJsLike | number | string
+    reason: string
+    status?: $Enums.QuarantineStatus
+    createdBy?: string | null
+    decidedBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    remainingQuantity: Decimal | DecimalJsLike | number | string
+    lotNumber?: string | null
+    ncrId?: string | null
+    tenant: TenantCreateNestedOneWithoutQuarantineHoldsInput
+    dispositions?: QuarantineDispositionCreateNestedManyWithoutHoldInput
+    parentHold?: QuarantineHoldCreateNestedOneWithoutReworkHoldsInput
+    reworkHolds?: QuarantineHoldCreateNestedManyWithoutParentHoldInput
+  }
+
+  export type QuarantineHoldUncheckedCreateWithoutReworkLinesInput = {
+    id?: string
+    tenantId: string
+    warehouseId: string
+    skuId: string
+    quantity: Decimal | DecimalJsLike | number | string
+    reason: string
+    status?: $Enums.QuarantineStatus
+    createdBy?: string | null
+    decidedBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    remainingQuantity: Decimal | DecimalJsLike | number | string
+    lotNumber?: string | null
+    ncrId?: string | null
+    parentHoldId?: string | null
+    dispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutHoldInput
+    reworkHolds?: QuarantineHoldUncheckedCreateNestedManyWithoutParentHoldInput
+  }
+
+  export type QuarantineHoldCreateOrConnectWithoutReworkLinesInput = {
+    where: QuarantineHoldWhereUniqueInput
+    create: XOR<QuarantineHoldCreateWithoutReworkLinesInput, QuarantineHoldUncheckedCreateWithoutReworkLinesInput>
   }
 
   export type QuarantineDispositionUpsertWithoutLinesInput = {
@@ -356464,6 +359987,57 @@ export namespace Prisma {
     decidedBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     postedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type QuarantineHoldUpsertWithoutReworkLinesInput = {
+    update: XOR<QuarantineHoldUpdateWithoutReworkLinesInput, QuarantineHoldUncheckedUpdateWithoutReworkLinesInput>
+    create: XOR<QuarantineHoldCreateWithoutReworkLinesInput, QuarantineHoldUncheckedCreateWithoutReworkLinesInput>
+    where?: QuarantineHoldWhereInput
+  }
+
+  export type QuarantineHoldUpdateToOneWithWhereWithoutReworkLinesInput = {
+    where?: QuarantineHoldWhereInput
+    data: XOR<QuarantineHoldUpdateWithoutReworkLinesInput, QuarantineHoldUncheckedUpdateWithoutReworkLinesInput>
+  }
+
+  export type QuarantineHoldUpdateWithoutReworkLinesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    warehouseId?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    reason?: StringFieldUpdateOperationsInput | string
+    status?: EnumQuarantineStatusFieldUpdateOperationsInput | $Enums.QuarantineStatus
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    decidedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    remainingQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    lotNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    ncrId?: NullableStringFieldUpdateOperationsInput | string | null
+    tenant?: TenantUpdateOneRequiredWithoutQuarantineHoldsNestedInput
+    dispositions?: QuarantineDispositionUpdateManyWithoutHoldNestedInput
+    parentHold?: QuarantineHoldUpdateOneWithoutReworkHoldsNestedInput
+    reworkHolds?: QuarantineHoldUpdateManyWithoutParentHoldNestedInput
+  }
+
+  export type QuarantineHoldUncheckedUpdateWithoutReworkLinesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    warehouseId?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    reason?: StringFieldUpdateOperationsInput | string
+    status?: EnumQuarantineStatusFieldUpdateOperationsInput | $Enums.QuarantineStatus
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    decidedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    remainingQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    lotNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    ncrId?: NullableStringFieldUpdateOperationsInput | string | null
+    parentHoldId?: NullableStringFieldUpdateOperationsInput | string | null
+    dispositions?: QuarantineDispositionUncheckedUpdateManyWithoutHoldNestedInput
+    reworkHolds?: QuarantineHoldUncheckedUpdateManyWithoutParentHoldNestedInput
   }
 
   export type TenantCreateWithoutRfqsInput = {
@@ -356620,6 +360194,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRfqsInput = {
@@ -356776,6 +360351,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRfqsInput = {
@@ -356978,6 +360554,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRfqsInput = {
@@ -357134,6 +360711,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type RfqQuoteUpsertWithWhereUniqueWithoutRfqInput = {
@@ -357392,6 +360970,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPackagesInput = {
@@ -357548,6 +361127,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPackagesInput = {
@@ -357793,6 +361373,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPackagesInput = {
@@ -357949,6 +361530,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SalesOrderUpsertWithoutPackagesInput = {
@@ -358255,6 +361837,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLandedCostsInput = {
@@ -358411,6 +361994,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLandedCostsInput = {
@@ -358624,6 +362208,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLandedCostsInput = {
@@ -358780,6 +362365,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseOrderUpsertWithoutLandedCostsInput = {
@@ -358983,6 +362569,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCustomObjectDefinitionsInput = {
@@ -359139,6 +362726,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCustomObjectDefinitionsInput = {
@@ -359339,6 +362927,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCustomObjectDefinitionsInput = {
@@ -359495,6 +363084,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type CustomObjectRecordUpsertWithWhereUniqueWithoutDefinitionInput = {
@@ -359744,6 +363334,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutFrameworkAgreementsInput = {
@@ -359900,6 +363491,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutFrameworkAgreementsInput = {
@@ -360072,6 +363664,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutFrameworkAgreementsInput = {
@@ -360228,6 +363821,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSkuChannelContentsInput = {
@@ -360384,6 +363978,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSkuChannelContentsInput = {
@@ -360540,6 +364135,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSkuChannelContentsInput = {
@@ -360771,6 +364367,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSkuChannelContentsInput = {
@@ -360927,6 +364524,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type SkuUpsertWithoutChannelContentsInput = {
@@ -361148,6 +364746,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutContainersInput = {
@@ -361304,6 +364903,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutContainersInput = {
@@ -361517,6 +365117,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutContainersInput = {
@@ -361673,6 +365274,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PurchaseOrderUpsertWithoutContainersInput = {
@@ -361876,6 +365478,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPosSessionsInput = {
@@ -362032,6 +365635,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPosSessionsInput = {
@@ -362204,6 +365808,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPosSessionsInput = {
@@ -362360,6 +365965,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutVehiclesInput = {
@@ -362516,6 +366122,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutVehiclesInput = {
@@ -362672,6 +366279,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutVehiclesInput = {
@@ -362894,6 +366502,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutVehiclesInput = {
@@ -363050,6 +366659,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ShipmentUpsertWithWhereUniqueWithoutVehicleInput = {
@@ -363222,6 +366832,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDriversInput = {
@@ -363378,6 +366989,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDriversInput = {
@@ -363600,6 +367212,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDriversInput = {
@@ -363756,6 +367369,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ShipmentUpsertWithWhereUniqueWithoutDriverInput = {
@@ -363928,6 +367542,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutShipmentsInput = {
@@ -364084,6 +367699,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutShipmentsInput = {
@@ -364344,6 +367960,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutShipmentsInput = {
@@ -364500,6 +368117,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type VehicleUpsertWithoutShipmentsInput = {
@@ -364736,6 +368354,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutShipmentStopsInput = {
@@ -364892,6 +368511,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutShipmentStopsInput = {
@@ -365109,6 +368729,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutShipmentStopsInput = {
@@ -365265,6 +368886,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ShipmentUpsertWithoutStopsInput = {
@@ -365472,6 +369094,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutDockAppointmentsInput = {
@@ -365628,6 +369251,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutDockAppointmentsInput = {
@@ -365821,6 +369445,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutDockAppointmentsInput = {
@@ -365977,6 +369602,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type WarehouseUpsertWithoutDockAppointmentsInput = {
@@ -366160,6 +369786,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutInstalledAssetsInput = {
@@ -366316,6 +369943,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutInstalledAssetsInput = {
@@ -366576,6 +370204,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutInstalledAssetsInput = {
@@ -366732,6 +370361,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ServiceRequestUpsertWithWhereUniqueWithoutInstalledAssetInput = {
@@ -366920,6 +370550,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutServiceRequestsInput = {
@@ -367076,6 +370707,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutServiceRequestsInput = {
@@ -367333,6 +370965,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutServiceRequestsInput = {
@@ -367489,6 +371122,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type InstalledAssetUpsertWithoutServiceRequestsInput = {
@@ -367704,6 +371338,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutServiceOrdersInput = {
@@ -367860,6 +371495,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutServiceOrdersInput = {
@@ -368130,6 +371766,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutServiceOrdersInput = {
@@ -368286,6 +371923,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ServiceRequestUpsertWithoutServiceOrdersInput = {
@@ -368542,6 +372180,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutServiceOrderPartsInput = {
@@ -368698,6 +372337,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutServiceOrderPartsInput = {
@@ -368913,6 +372553,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutServiceOrderPartsInput = {
@@ -369069,6 +372710,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ServiceOrderUpsertWithoutPartsInput = {
@@ -369274,6 +372916,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRmasInput = {
@@ -369430,6 +373073,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRmasInput = {
@@ -369602,6 +373246,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRmasInput = {
@@ -369758,6 +373403,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutGlAccountsInput = {
@@ -369914,6 +373560,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutGlAccountsInput = {
@@ -370070,6 +373717,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutGlAccountsInput = {
@@ -370272,6 +373920,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutGlAccountsInput = {
@@ -370428,6 +374077,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type GlJournalLineUpsertWithWhereUniqueWithoutAccountInput = {
@@ -370600,6 +374250,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutGlJournalEntriesInput = {
@@ -370756,6 +374407,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutGlJournalEntriesInput = {
@@ -370958,6 +374610,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutGlJournalEntriesInput = {
@@ -371114,6 +374767,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type GlJournalLineUpsertWithWhereUniqueWithoutEntryInput = {
@@ -371286,6 +374940,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutGlJournalLinesInput = {
@@ -371442,6 +375097,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutGlJournalLinesInput = {
@@ -371684,6 +375340,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutGlJournalLinesInput = {
@@ -371840,6 +375497,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type GlJournalEntryUpsertWithoutLinesInput = {
@@ -372078,6 +375736,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutGlSystemAccountsInput = {
@@ -372234,6 +375893,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutGlSystemAccountsInput = {
@@ -372406,6 +376066,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutGlSystemAccountsInput = {
@@ -372562,6 +376223,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutGlOpeningBalanceDatesInput = {
@@ -372718,6 +376380,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutGlOpeningBalanceDatesInput = {
@@ -372874,6 +376537,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutGlOpeningBalanceDatesInput = {
@@ -373046,6 +376710,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutGlOpeningBalanceDatesInput = {
@@ -373202,6 +376867,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutGlPeriodLocksInput = {
@@ -373358,6 +377024,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutGlPeriodLocksInput = {
@@ -373514,6 +377181,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutGlPeriodLocksInput = {
@@ -373686,6 +377354,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutGlPeriodLocksInput = {
@@ -373842,6 +377511,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutBankStatementsInput = {
@@ -373998,6 +377668,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBankStatementsInput = {
@@ -374154,6 +377825,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBankStatementsInput = {
@@ -374366,6 +378038,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBankStatementsInput = {
@@ -374522,6 +378195,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BankStatementLineUpsertWithWhereUniqueWithoutStatementInput = {
@@ -374694,6 +378368,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutBankStatementLinesInput = {
@@ -374850,6 +378525,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutBankStatementLinesInput = {
@@ -375099,6 +378775,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutBankStatementLinesInput = {
@@ -375255,6 +378932,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BankStatementUpsertWithoutLinesInput = {
@@ -375478,6 +379156,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPaymentAllocationsInput = {
@@ -375634,6 +379313,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPaymentAllocationsInput = {
@@ -375890,6 +379570,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPaymentAllocationsInput = {
@@ -376046,6 +379727,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BankStatementLineUpsertWithoutAllocationsInput = {
@@ -376298,6 +379980,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCompensationsInput = {
@@ -376454,6 +380137,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCompensationsInput = {
@@ -376654,6 +380338,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCompensationsInput = {
@@ -376810,6 +380495,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type CompensationLineUpsertWithWhereUniqueWithoutCompensationInput = {
@@ -376982,6 +380668,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutCompensationLinesInput = {
@@ -377138,6 +380825,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutCompensationLinesInput = {
@@ -377406,6 +381094,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutCompensationLinesInput = {
@@ -377562,6 +381251,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type CompensationUpsertWithoutLinesInput = {
@@ -377826,6 +381516,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutVatRatesInput = {
@@ -377982,6 +381673,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutVatRatesInput = {
@@ -378154,6 +381846,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutVatRatesInput = {
@@ -378310,6 +382003,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutVatBookEntriesInput = {
@@ -378466,6 +382160,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutVatBookEntriesInput = {
@@ -378622,6 +382317,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutVatBookEntriesInput = {
@@ -378794,6 +382490,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutVatBookEntriesInput = {
@@ -378950,6 +382647,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutVatPeriodsInput = {
@@ -379106,6 +382804,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutVatPeriodsInput = {
@@ -379262,6 +382961,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutVatPeriodsInput = {
@@ -379434,6 +383134,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutVatPeriodsInput = {
@@ -379590,6 +383291,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutAttendanceDaysInput = {
@@ -379746,6 +383448,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAttendanceDaysInput = {
@@ -379902,6 +383605,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAttendanceDaysInput = {
@@ -380074,6 +383778,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAttendanceDaysInput = {
@@ -380230,6 +383935,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutAttendancePeriodsInput = {
@@ -380386,6 +384092,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutAttendancePeriodsInput = {
@@ -380542,6 +384249,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutAttendancePeriodsInput = {
@@ -380714,6 +384422,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutAttendancePeriodsInput = {
@@ -380870,6 +384579,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutEmployeeSalariesInput = {
@@ -381026,6 +384736,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutEmployeeSalariesInput = {
@@ -381182,6 +384893,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutEmployeeSalariesInput = {
@@ -381354,6 +385066,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutEmployeeSalariesInput = {
@@ -381510,6 +385223,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutPayrollRunsInput = {
@@ -381666,6 +385380,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPayrollRunsInput = {
@@ -381822,6 +385537,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPayrollRunsInput = {
@@ -382038,6 +385754,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPayrollRunsInput = {
@@ -382194,6 +385911,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PayrollLineUpsertWithWhereUniqueWithoutRunInput = {
@@ -382366,6 +386084,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPayrollLinesInput = {
@@ -382522,6 +386241,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPayrollLinesInput = {
@@ -382729,6 +386449,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPayrollLinesInput = {
@@ -382885,6 +386606,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type PayrollRunUpsertWithoutLinesInput = {
@@ -383082,6 +386804,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutPayrollAdjustmentsInput = {
@@ -383238,6 +386961,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutPayrollAdjustmentsInput = {
@@ -383410,6 +387134,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutPayrollAdjustmentsInput = {
@@ -383566,6 +387291,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutEmploymentContractsInput = {
@@ -383722,6 +387448,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutEmploymentContractsInput = {
@@ -383878,6 +387605,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutEmploymentContractsInput = {
@@ -384050,6 +387778,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutEmploymentContractsInput = {
@@ -384206,6 +387935,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutTrainingPlanTemplatesInput = {
@@ -384362,6 +388092,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTrainingPlanTemplatesInput = {
@@ -384518,6 +388249,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTrainingPlanTemplatesInput = {
@@ -384690,6 +388422,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTrainingPlanTemplatesInput = {
@@ -384846,6 +388579,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutTrainingPlansInput = {
@@ -385002,6 +388736,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTrainingPlansInput = {
@@ -385158,6 +388893,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTrainingPlansInput = {
@@ -385364,6 +389100,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTrainingPlansInput = {
@@ -385520,6 +389257,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TrainingPlanItemUpsertWithWhereUniqueWithoutPlanInput = {
@@ -385692,6 +389430,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTrainingPlanItemsInput = {
@@ -385848,6 +389587,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTrainingPlanItemsInput = {
@@ -386059,6 +389799,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTrainingPlanItemsInput = {
@@ -386215,6 +389956,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TrainingPlanUpsertWithoutItemsInput = {
@@ -386416,6 +390158,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTrainingRecordsInput = {
@@ -386572,6 +390315,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTrainingRecordsInput = {
@@ -386744,6 +390488,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTrainingRecordsInput = {
@@ -386900,6 +390645,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutEquipmentCustodiesInput = {
@@ -387056,6 +390802,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutEquipmentCustodiesInput = {
@@ -387212,6 +390959,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutEquipmentCustodiesInput = {
@@ -387418,6 +391166,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutEquipmentCustodiesInput = {
@@ -387574,6 +391323,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type EquipmentCustodyLineUpsertWithWhereUniqueWithoutCustodyInput = {
@@ -387746,6 +391496,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutEquipmentCustodyLinesInput = {
@@ -387902,6 +391653,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutEquipmentCustodyLinesInput = {
@@ -388109,6 +391861,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutEquipmentCustodyLinesInput = {
@@ -388265,6 +392018,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type EquipmentCustodyUpsertWithoutLinesInput = {
@@ -388462,6 +392216,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSerialPositionsInput = {
@@ -388618,6 +392373,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSerialPositionsInput = {
@@ -388790,6 +392546,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSerialPositionsInput = {
@@ -388946,6 +392703,7 @@ export namespace Prisma {
     serialMovements?: SerialMovementUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutSerialMovementsInput = {
@@ -389102,6 +392860,7 @@ export namespace Prisma {
     serialPositions?: SerialPositionCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutSerialMovementsInput = {
@@ -389258,6 +393017,7 @@ export namespace Prisma {
     serialPositions?: SerialPositionUncheckedCreateNestedManyWithoutTenantInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedCreateNestedManyWithoutTenantInput
     quarantineDispositions?: QuarantineDispositionUncheckedCreateNestedManyWithoutTenantInput
+    assetStructureChanges?: AssetStructureChangeUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutSerialMovementsInput = {
@@ -389430,6 +393190,7 @@ export namespace Prisma {
     serialPositions?: SerialPositionUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutSerialMovementsInput = {
@@ -389586,6 +393347,7 @@ export namespace Prisma {
     serialPositions?: SerialPositionUncheckedUpdateManyWithoutTenantNestedInput
     mdmDuplicateDismissals?: MdmDuplicateDismissalUncheckedUpdateManyWithoutTenantNestedInput
     quarantineDispositions?: QuarantineDispositionUncheckedUpdateManyWithoutTenantNestedInput
+    assetStructureChanges?: AssetStructureChangeUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantConfigurationVersionCreateManyTenantInput = {
@@ -390684,6 +394446,7 @@ export namespace Prisma {
     qrToken?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    parentAssetId?: string | null
   }
 
   export type QuarantineHoldCreateManyTenantInput = {
@@ -390697,7 +394460,7 @@ export namespace Prisma {
     decidedBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    remainingQuantity?: Decimal | DecimalJsLike | number | string
+    remainingQuantity: Decimal | DecimalJsLike | number | string
     lotNumber?: string | null
     ncrId?: string | null
     parentHoldId?: string | null
@@ -391352,6 +395115,16 @@ export namespace Prisma {
     decidedBy?: string | null
     createdAt?: Date | string
     postedAt?: Date | string | null
+  }
+
+  export type AssetStructureChangeCreateManyTenantInput = {
+    id?: string
+    assetId: string
+    fromParentId?: string | null
+    toParentId?: string | null
+    reason: string
+    changedBy?: string | null
+    effectiveAt?: Date | string
   }
 
   export type TenantConfigurationVersionUpdateWithoutTenantInput = {
@@ -394712,6 +398485,8 @@ export namespace Prisma {
     qrToken?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    parentAsset?: AssetUpdateOneWithoutChildrenNestedInput
+    children?: AssetUpdateManyWithoutParentAssetNestedInput
   }
 
   export type AssetUncheckedUpdateWithoutTenantInput = {
@@ -394728,6 +398503,8 @@ export namespace Prisma {
     qrToken?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    parentAssetId?: NullableStringFieldUpdateOperationsInput | string | null
+    children?: AssetUncheckedUpdateManyWithoutParentAssetNestedInput
   }
 
   export type AssetUncheckedUpdateManyWithoutTenantInput = {
@@ -394744,6 +398521,7 @@ export namespace Prisma {
     qrToken?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    parentAssetId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type QuarantineHoldUpdateWithoutTenantInput = {
@@ -394760,8 +398538,10 @@ export namespace Prisma {
     remainingQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     lotNumber?: NullableStringFieldUpdateOperationsInput | string | null
     ncrId?: NullableStringFieldUpdateOperationsInput | string | null
-    parentHoldId?: NullableStringFieldUpdateOperationsInput | string | null
     dispositions?: QuarantineDispositionUpdateManyWithoutHoldNestedInput
+    parentHold?: QuarantineHoldUpdateOneWithoutReworkHoldsNestedInput
+    reworkHolds?: QuarantineHoldUpdateManyWithoutParentHoldNestedInput
+    reworkLines?: QuarantineDispositionLineUpdateManyWithoutReworkHoldNestedInput
   }
 
   export type QuarantineHoldUncheckedUpdateWithoutTenantInput = {
@@ -394780,6 +398560,8 @@ export namespace Prisma {
     ncrId?: NullableStringFieldUpdateOperationsInput | string | null
     parentHoldId?: NullableStringFieldUpdateOperationsInput | string | null
     dispositions?: QuarantineDispositionUncheckedUpdateManyWithoutHoldNestedInput
+    reworkHolds?: QuarantineHoldUncheckedUpdateManyWithoutParentHoldNestedInput
+    reworkLines?: QuarantineDispositionLineUncheckedUpdateManyWithoutReworkHoldNestedInput
   }
 
   export type QuarantineHoldUncheckedUpdateManyWithoutTenantInput = {
@@ -396788,6 +400570,36 @@ export namespace Prisma {
     decidedBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     postedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type AssetStructureChangeUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    assetId?: StringFieldUpdateOperationsInput | string
+    fromParentId?: NullableStringFieldUpdateOperationsInput | string | null
+    toParentId?: NullableStringFieldUpdateOperationsInput | string | null
+    reason?: StringFieldUpdateOperationsInput | string
+    changedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    effectiveAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AssetStructureChangeUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    assetId?: StringFieldUpdateOperationsInput | string
+    fromParentId?: NullableStringFieldUpdateOperationsInput | string | null
+    toParentId?: NullableStringFieldUpdateOperationsInput | string | null
+    reason?: StringFieldUpdateOperationsInput | string
+    changedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    effectiveAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AssetStructureChangeUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    assetId?: StringFieldUpdateOperationsInput | string
+    fromParentId?: NullableStringFieldUpdateOperationsInput | string | null
+    toParentId?: NullableStringFieldUpdateOperationsInput | string | null
+    reason?: StringFieldUpdateOperationsInput | string
+    changedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    effectiveAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type BusinessUnitCreateManyLegalEntityInput = {
@@ -399046,6 +402858,76 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type AssetCreateManyParentAssetInput = {
+    id?: string
+    tenantId: string
+    assetNumber: string
+    name: string
+    category: string
+    serialNumber?: string | null
+    workCenterId?: string | null
+    status?: $Enums.AssetStatus
+    value?: Decimal | DecimalJsLike | number | string | null
+    purchasedAt?: Date | string | null
+    location?: string | null
+    qrToken?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AssetUpdateWithoutParentAssetInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    assetNumber?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    serialNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    workCenterId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumAssetStatusFieldUpdateOperationsInput | $Enums.AssetStatus
+    value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    purchasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    qrToken?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutAssetsNestedInput
+    children?: AssetUpdateManyWithoutParentAssetNestedInput
+  }
+
+  export type AssetUncheckedUpdateWithoutParentAssetInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    assetNumber?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    serialNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    workCenterId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumAssetStatusFieldUpdateOperationsInput | $Enums.AssetStatus
+    value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    purchasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    qrToken?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    children?: AssetUncheckedUpdateManyWithoutParentAssetNestedInput
+  }
+
+  export type AssetUncheckedUpdateManyWithoutParentAssetInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    assetNumber?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    serialNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    workCenterId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumAssetStatusFieldUpdateOperationsInput | $Enums.AssetStatus
+    value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    purchasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    qrToken?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type QuarantineDispositionCreateManyHoldInput = {
     id?: string
     tenantId: string
@@ -399056,6 +402938,38 @@ export namespace Prisma {
     decidedBy?: string | null
     createdAt?: Date | string
     postedAt?: Date | string | null
+  }
+
+  export type QuarantineHoldCreateManyParentHoldInput = {
+    id?: string
+    tenantId: string
+    warehouseId: string
+    skuId: string
+    quantity: Decimal | DecimalJsLike | number | string
+    reason: string
+    status?: $Enums.QuarantineStatus
+    createdBy?: string | null
+    decidedBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    remainingQuantity: Decimal | DecimalJsLike | number | string
+    lotNumber?: string | null
+    ncrId?: string | null
+  }
+
+  export type QuarantineDispositionLineCreateManyReworkHoldInput = {
+    id?: string
+    tenantId: string
+    dispositionId: string
+    lineNo: number
+    type: $Enums.DispositionType
+    quantity: Decimal | DecimalJsLike | number | string
+    targetSkuId?: string | null
+    targetQuantity?: Decimal | DecimalJsLike | number | string | null
+    supplierRef?: string | null
+    movementId?: string | null
+    targetMovementId?: string | null
+    serials?: QuarantineDispositionLineCreateserialsInput | string[]
   }
 
   export type QuarantineDispositionUpdateWithoutHoldInput = {
@@ -399096,6 +403010,108 @@ export namespace Prisma {
     postedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
+  export type QuarantineHoldUpdateWithoutParentHoldInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    warehouseId?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    reason?: StringFieldUpdateOperationsInput | string
+    status?: EnumQuarantineStatusFieldUpdateOperationsInput | $Enums.QuarantineStatus
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    decidedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    remainingQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    lotNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    ncrId?: NullableStringFieldUpdateOperationsInput | string | null
+    tenant?: TenantUpdateOneRequiredWithoutQuarantineHoldsNestedInput
+    dispositions?: QuarantineDispositionUpdateManyWithoutHoldNestedInput
+    reworkHolds?: QuarantineHoldUpdateManyWithoutParentHoldNestedInput
+    reworkLines?: QuarantineDispositionLineUpdateManyWithoutReworkHoldNestedInput
+  }
+
+  export type QuarantineHoldUncheckedUpdateWithoutParentHoldInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    warehouseId?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    reason?: StringFieldUpdateOperationsInput | string
+    status?: EnumQuarantineStatusFieldUpdateOperationsInput | $Enums.QuarantineStatus
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    decidedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    remainingQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    lotNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    ncrId?: NullableStringFieldUpdateOperationsInput | string | null
+    dispositions?: QuarantineDispositionUncheckedUpdateManyWithoutHoldNestedInput
+    reworkHolds?: QuarantineHoldUncheckedUpdateManyWithoutParentHoldNestedInput
+    reworkLines?: QuarantineDispositionLineUncheckedUpdateManyWithoutReworkHoldNestedInput
+  }
+
+  export type QuarantineHoldUncheckedUpdateManyWithoutParentHoldInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    warehouseId?: StringFieldUpdateOperationsInput | string
+    skuId?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    reason?: StringFieldUpdateOperationsInput | string
+    status?: EnumQuarantineStatusFieldUpdateOperationsInput | $Enums.QuarantineStatus
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    decidedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    remainingQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    lotNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    ncrId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type QuarantineDispositionLineUpdateWithoutReworkHoldInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    lineNo?: IntFieldUpdateOperationsInput | number
+    type?: EnumDispositionTypeFieldUpdateOperationsInput | $Enums.DispositionType
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    targetSkuId?: NullableStringFieldUpdateOperationsInput | string | null
+    targetQuantity?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    supplierRef?: NullableStringFieldUpdateOperationsInput | string | null
+    movementId?: NullableStringFieldUpdateOperationsInput | string | null
+    targetMovementId?: NullableStringFieldUpdateOperationsInput | string | null
+    serials?: QuarantineDispositionLineUpdateserialsInput | string[]
+    disposition?: QuarantineDispositionUpdateOneRequiredWithoutLinesNestedInput
+  }
+
+  export type QuarantineDispositionLineUncheckedUpdateWithoutReworkHoldInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    dispositionId?: StringFieldUpdateOperationsInput | string
+    lineNo?: IntFieldUpdateOperationsInput | number
+    type?: EnumDispositionTypeFieldUpdateOperationsInput | $Enums.DispositionType
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    targetSkuId?: NullableStringFieldUpdateOperationsInput | string | null
+    targetQuantity?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    supplierRef?: NullableStringFieldUpdateOperationsInput | string | null
+    movementId?: NullableStringFieldUpdateOperationsInput | string | null
+    targetMovementId?: NullableStringFieldUpdateOperationsInput | string | null
+    serials?: QuarantineDispositionLineUpdateserialsInput | string[]
+  }
+
+  export type QuarantineDispositionLineUncheckedUpdateManyWithoutReworkHoldInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    dispositionId?: StringFieldUpdateOperationsInput | string
+    lineNo?: IntFieldUpdateOperationsInput | number
+    type?: EnumDispositionTypeFieldUpdateOperationsInput | $Enums.DispositionType
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    targetSkuId?: NullableStringFieldUpdateOperationsInput | string | null
+    targetQuantity?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    supplierRef?: NullableStringFieldUpdateOperationsInput | string | null
+    movementId?: NullableStringFieldUpdateOperationsInput | string | null
+    targetMovementId?: NullableStringFieldUpdateOperationsInput | string | null
+    serials?: QuarantineDispositionLineUpdateserialsInput | string[]
+  }
+
   export type QuarantineDispositionLineCreateManyDispositionInput = {
     id?: string
     tenantId: string
@@ -399108,6 +403124,7 @@ export namespace Prisma {
     reworkHoldId?: string | null
     movementId?: string | null
     targetMovementId?: string | null
+    serials?: QuarantineDispositionLineCreateserialsInput | string[]
   }
 
   export type QuarantineDispositionLineUpdateWithoutDispositionInput = {
@@ -399119,9 +403136,10 @@ export namespace Prisma {
     targetSkuId?: NullableStringFieldUpdateOperationsInput | string | null
     targetQuantity?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     supplierRef?: NullableStringFieldUpdateOperationsInput | string | null
-    reworkHoldId?: NullableStringFieldUpdateOperationsInput | string | null
     movementId?: NullableStringFieldUpdateOperationsInput | string | null
     targetMovementId?: NullableStringFieldUpdateOperationsInput | string | null
+    serials?: QuarantineDispositionLineUpdateserialsInput | string[]
+    reworkHold?: QuarantineHoldUpdateOneWithoutReworkLinesNestedInput
   }
 
   export type QuarantineDispositionLineUncheckedUpdateWithoutDispositionInput = {
@@ -399136,6 +403154,7 @@ export namespace Prisma {
     reworkHoldId?: NullableStringFieldUpdateOperationsInput | string | null
     movementId?: NullableStringFieldUpdateOperationsInput | string | null
     targetMovementId?: NullableStringFieldUpdateOperationsInput | string | null
+    serials?: QuarantineDispositionLineUpdateserialsInput | string[]
   }
 
   export type QuarantineDispositionLineUncheckedUpdateManyWithoutDispositionInput = {
@@ -399150,6 +403169,7 @@ export namespace Prisma {
     reworkHoldId?: NullableStringFieldUpdateOperationsInput | string | null
     movementId?: NullableStringFieldUpdateOperationsInput | string | null
     targetMovementId?: NullableStringFieldUpdateOperationsInput | string | null
+    serials?: QuarantineDispositionLineUpdateserialsInput | string[]
   }
 
   export type RfqQuoteCreateManyRfqInput = {

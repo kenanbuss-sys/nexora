@@ -187,6 +187,7 @@ model Tenant {
   serialMovements         SerialMovement[]
   mdmDuplicateDismissals  MdmDuplicateDismissal[]
   quarantineDispositions  QuarantineDisposition[]
+  assetStructureChanges   AssetStructureChange[]
 
   @@map("tenant")
 }
@@ -2900,29 +2901,54 @@ enum AssetStatus {
 /// with category, optional serial and work-center linkage, value and
 /// an explicit service lifecycle.
 model Asset {
-  id           String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  tenantId     String      @map("tenant_id") @db.Uuid
-  assetNumber  String      @map("asset_number")
-  name         String
-  category     String
-  serialNumber String?     @map("serial_number")
-  workCenterId String?     @map("work_center_id") @db.Uuid
-  status       AssetStatus @default(IN_SERVICE)
-  value        Decimal?    @db.Decimal(18, 2)
-  purchasedAt  DateTime?   @map("purchased_at")
+  id            String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId      String      @map("tenant_id") @db.Uuid
+  assetNumber   String      @map("asset_number")
+  name          String
+  category      String
+  serialNumber  String?     @map("serial_number")
+  workCenterId  String?     @map("work_center_id") @db.Uuid
+  status        AssetStatus @default(IN_SERVICE)
+  value         Decimal?    @db.Decimal(18, 2)
+  purchasedAt   DateTime?   @map("purchased_at")
   /// Sprint 238 (EAM-015/016): where the asset is (free text, e.g. hall/line/store).
-  location     String?
+  location      String?
   /// Unguessable token for the limited public QR lookup (revocable).
-  qrToken      String?     @map("qr_token")
-  createdAt    DateTime    @default(now()) @map("created_at")
-  updatedAt    DateTime    @updatedAt @map("updated_at")
+  qrToken       String?     @map("qr_token")
+  createdAt     DateTime    @default(now()) @map("created_at")
+  updatedAt     DateTime    @updatedAt @map("updated_at")
+  /// Sprint 243 (EAM-002): installed-in parent (line > machine > assembly > part).
+  parentAssetId String?     @map("parent_asset_id") @db.Uuid
 
-  tenant Tenant @relation(fields: [tenantId], references: [id])
+  tenant      Tenant  @relation(fields: [tenantId], references: [id])
+  parentAsset Asset?  @relation("AssetHierarchy", fields: [parentAssetId], references: [id])
+  children    Asset[] @relation("AssetHierarchy")
 
   @@unique([qrToken])
   @@unique([tenantId, assetNumber])
   @@index([tenantId, status])
+  @@index([tenantId, parentAssetId])
   @@map("asset")
+}
+
+/// Sprint 243 (EAM-002): effective-dated structure history — every
+/// install/removal of an asset into/out of a parent (append-only).
+model AssetStructureChange {
+  id           String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId     String   @map("tenant_id") @db.Uuid
+  assetId      String   @map("asset_id") @db.Uuid
+  fromParentId String?  @map("from_parent_id") @db.Uuid
+  toParentId   String?  @map("to_parent_id") @db.Uuid
+  reason       String
+  changedBy    String?  @map("changed_by")
+  effectiveAt  DateTime @default(now()) @map("effective_at")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@index([tenantId, assetId, effectiveAt])
+  @@index([tenantId, toParentId])
+  @@index([tenantId, fromParentId])
+  @@map("asset_structure_change")
 }
 
 enum QuarantineStatus {
@@ -2965,15 +2991,18 @@ model QuarantineHold {
   createdAt         DateTime         @default(now()) @map("created_at")
   updatedAt         DateTime         @updatedAt @map("updated_at")
   /// Sprint 242 (QMS-005): still undecided quantity (blocks availability).
-  remainingQuantity Decimal          @default(0) @map("remaining_quantity") @db.Decimal(18, 6)
+  remainingQuantity Decimal          @map("remaining_quantity") @db.Decimal(18, 6)
   lotNumber         String?          @map("lot_number")
   /// QC-owned NCR this hold belongs to (validated through the QC gate).
   ncrId             String?          @map("ncr_id") @db.Uuid
   /// REWORK disposition: the hold this one was split from.
   parentHoldId      String?          @map("parent_hold_id") @db.Uuid
 
-  tenant       Tenant                  @relation(fields: [tenantId], references: [id])
+  tenant       Tenant                      @relation(fields: [tenantId], references: [id])
   dispositions QuarantineDisposition[]
+  parentHold   QuarantineHold?             @relation("QuarantineRework", fields: [parentHoldId], references: [id])
+  reworkHolds  QuarantineHold[]            @relation("QuarantineRework")
+  reworkLines  QuarantineDispositionLine[] @relation("QuarantineReworkLine")
 
   @@index([tenantId, status])
   @@index([tenantId, warehouseId, skuId, status])
@@ -3017,8 +3046,11 @@ model QuarantineDispositionLine {
   reworkHoldId     String?         @map("rework_hold_id") @db.Uuid
   movementId       String?         @map("movement_id") @db.Uuid
   targetMovementId String?         @map("target_movement_id") @db.Uuid
+  /// Serial numbers moved by this line (kept for retries).
+  serials          String[]        @default([])
 
   disposition QuarantineDisposition @relation(fields: [dispositionId], references: [id])
+  reworkHold  QuarantineHold?       @relation("QuarantineReworkLine", fields: [reworkHoldId], references: [id])
 
   @@unique([dispositionId, lineNo])
   @@map("quarantine_disposition_line")

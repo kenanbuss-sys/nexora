@@ -12,6 +12,7 @@ import {
   useSerialPolicies,
 } from '../../../components/serial-input';
 import { useApp } from '../app-shell';
+import { QuarantinePanel } from './quarantine-panel';
 
 interface WarehouseView {
   id: string;
@@ -141,12 +142,6 @@ const COUNT_STATUS_LABELS: Record<CountView['status'], string> = {
   CANCELLED: 'Otkazan',
 };
 
-const HOLD_STATUS_LABELS: Record<string, string> = {
-  ACTIVE: 'Aktivan',
-  RELEASED: 'Otpušten',
-  SCRAPPED: 'Otpisan',
-};
-
 function typeLabel(code: string, map: Record<string, string>): string {
   const label = map[code];
   return label ? `${code} · ${label}` : code;
@@ -203,19 +198,6 @@ export default function InventoryPage() {
   const [putawayQty, setPutawayQty] = useState('1');
   const [skuId, setSkuId] = useState('');
   const [position, setPosition] = useState<Position | null>(null);
-  const [holds, setHolds] = useState<
-    Array<{
-      id: string;
-      skuCode: string;
-      quantity: string;
-      reason: string;
-      status: string;
-    }>
-  >([]);
-  const [holdSku, setHoldSku] = useState('');
-  const [holdWarehouse, setHoldWarehouse] = useState('');
-  const [holdQty, setHoldQty] = useState('1');
-  const [holdReason, setHoldReason] = useState('');
   const [channel, setChannel] = useState<Array<{
     skuId: string;
     code: string;
@@ -1102,150 +1084,7 @@ export default function InventoryPage() {
         </div>
       ) : null}
       {can('inventory.read') ? (
-        <div className="card" style={{ marginTop: 16 }}>
-          <div className="spread">
-            <h2>Karantin</h2>
-            <button
-              className="btn btn-sm"
-              type="button"
-              onClick={() => {
-                api<{ holds: typeof holds }>('GET', '/api/v1/quarantine')
-                  .then((r) => setHolds(r.holds))
-                  .catch(() => setHolds([]));
-              }}
-            >
-              Učitaj zadržavanja
-            </button>
-          </div>
-          <p className="muted" style={{ marginTop: 0 }}>
-            Zadržane količine ne mogu se rezervisati dok ih kontrola kvaliteta ne otpusti ili
-            otpiše.
-          </p>
-          {holds.map((h) => (
-            <div key={h.id} className="row spread" style={{ marginBottom: 6 }}>
-              <span>
-                <strong className="mono">{h.skuCode}</strong> × {h.quantity}{' '}
-                <span className="muted" style={{ fontSize: 12 }}>
-                  {h.reason}
-                </span>
-              </span>
-              <span>
-                <span
-                  className={`badge ${
-                    h.status === 'ACTIVE' ? 'badge-warn' : h.status === 'RELEASED' ? 'badge-ok' : ''
-                  }`}
-                >
-                  {typeLabel(h.status, HOLD_STATUS_LABELS)}
-                </span>{' '}
-                {h.status === 'ACTIVE' && can('qc.approve') ? (
-                  <>
-                    <button
-                      className="btn btn-sm"
-                      disabled={busy}
-                      type="button"
-                      onClick={() =>
-                        run(async () => {
-                          await api('POST', `/api/v1/quarantine/${h.id}/decide`, {
-                            decision: 'RELEASE',
-                          });
-                          const r = await api<{ holds: typeof holds }>('GET', '/api/v1/quarantine');
-                          setHolds(r.holds);
-                        }, 'Zadržavanje otpušteno.')
-                      }
-                    >
-                      Otpusti
-                    </button>{' '}
-                    <button
-                      className="btn btn-sm btn-danger"
-                      disabled={busy}
-                      type="button"
-                      onClick={() =>
-                        run(async () => {
-                          await api('POST', `/api/v1/quarantine/${h.id}/decide`, {
-                            decision: 'SCRAP',
-                          });
-                          const r = await api<{ holds: typeof holds }>('GET', '/api/v1/quarantine');
-                          setHolds(r.holds);
-                        }, 'Zadržavanje otpisano — zalihe korigovane.')
-                      }
-                    >
-                      Otpiši
-                    </button>
-                  </>
-                ) : null}
-              </span>
-            </div>
-          ))}
-          {can('inventory.adjust') ? (
-            <form
-              className="row"
-              style={{ marginTop: 10, flexWrap: 'wrap' }}
-              onSubmit={(e) => {
-                e.preventDefault();
-                void run(async () => {
-                  await api('POST', '/api/v1/quarantine', {
-                    warehouseId: holdWarehouse,
-                    skuId: holdSku,
-                    quantity: Number(holdQty),
-                    reason: holdReason,
-                  });
-                  setHoldReason('');
-                  const r = await api<{ holds: typeof holds }>('GET', '/api/v1/quarantine');
-                  setHolds(r.holds);
-                }, 'Karantinsko zadržavanje postavljeno.');
-              }}
-            >
-              <select
-                className="select"
-                style={{ maxWidth: 150 }}
-                value={holdWarehouse}
-                onChange={(e) => setHoldWarehouse(e.target.value)}
-                required
-              >
-                <option value="">Skladište…</option>
-                {(warehouses ?? []).map((w) => (
-                  <option key={w.id} value={w.id}>
-                    {w.code}
-                  </option>
-                ))}
-              </select>
-              <select
-                className="select"
-                style={{ maxWidth: 150 }}
-                value={holdSku}
-                onChange={(e) => setHoldSku(e.target.value)}
-                required
-              >
-                <option value="">SKU…</option>
-                {skus.map((s) => (
-                  <option key={s.id} value={s.id}>
-                    {s.code}
-                  </option>
-                ))}
-              </select>
-              <input
-                className="input"
-                style={{ maxWidth: 80 }}
-                type="number"
-                min="0.000001"
-                step="any"
-                value={holdQty}
-                onChange={(e) => setHoldQty(e.target.value)}
-              />
-              <input
-                className="input"
-                style={{ maxWidth: 200 }}
-                placeholder="Razlog"
-                value={holdReason}
-                onChange={(e) => setHoldReason(e.target.value)}
-                required
-              />
-              <button className="btn btn-sm btn-primary" disabled={busy} type="submit">
-                Postavi zadržavanje
-              </button>
-            </form>
-          ) : null}
-        </div>
+        <QuarantinePanel warehouses={warehouses ?? []} skus={skus} onStockChanged={refresh} />
       ) : null}
 
       {can('inventory.read') ? (

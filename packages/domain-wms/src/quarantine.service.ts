@@ -95,13 +95,13 @@ export interface LedgerGate {
     ctx: RequestContext,
   ): Promise<{ movementId: string; duplicate: boolean }>;
   totalOnHand(tenantId: string, warehouseId: string, skuId: string): Promise<number>;
-  /** Lot on-hand (WMS-017); only needed for lot-scoped holds. */
-  lotOnHand?(
+  /** Lot on-hand and expiry (WMS-017); only needed for lot-scoped holds. */
+  lotInfo?(
     tenantId: string,
     warehouseId: string,
     skuId: string,
     lotNumber: string,
-  ): Promise<number>;
+  ): Promise<{ onHand: number; expired: boolean }>;
   skuState?(
     tenantId: string,
     skuId: string,
@@ -116,6 +116,8 @@ export interface NcrGate {
   ): Promise<{ id: string; skuId: string; status: string } | null>;
 }
 
+/** Lines that take stock out of the ledger. */
+const OUTBOUND_TYPES = new Set<DispositionType>(['SCRAP', 'RETURN_TO_SUPPLIER', 'REGRADE']);
 const TYPES: DispositionType[] = ['USE_AS_IS', 'SCRAP', 'RETURN_TO_SUPPLIER', 'REGRADE', 'REWORK'];
 const round6 = (n: number) => Math.round(n * 1e6) / 1e6;
 
@@ -211,24 +213,32 @@ export class QuarantineService {
         throw new DomainError('VALIDATION_FAILED', 'The NCR concerns a different SKU');
       }
     }
-    const onHand = lotNumber
-      ? this.ledger.lotOnHand
-        ? await this.ledger.lotOnHand(ctx.tenantId, input.warehouseId, input.skuId, lotNumber)
-        : 0
-      : await this.ledger.totalOnHand(ctx.tenantId, input.warehouseId, input.skuId);
-
     const created = await this.prisma.$transaction(async (tx) => {
-      // Serialise holds on the same stock so two holds cannot both pass
-      // the "un-held on-hand" check.
-      await lockHoldScope(tx, ctx.tenantId, input.warehouseId, input.skuId);
-      const held = await this.heldIn(tx, ctx.tenantId, input.warehouseId, input.skuId, lotNumber);
-      if (input.quantity > round6(onHand - held)) {
-        throw new DomainError(
-          'INVALID_STATE',
-          lotNumber
-            ? 'Cannot quarantine more than the un-held stock of this lot'
-            : 'Cannot quarantine more than un-held on-hand stock',
+      // The SAME lock as the stock ledger: no movement and no other hold on
+      // this stock can commit while the un-held quantity is checked.
+      await lockStockScope(tx, ctx.tenantId, input.warehouseId, input.skuId);
+      const total = await this.ledger.totalOnHand(ctx.tenantId, input.warehouseId, input.skuId);
+      const heldAll = await this.heldIn(tx, ctx.tenantId, input.warehouseId, input.skuId, null);
+      if (input.quantity > round6(total - heldAll)) {
+        throw new DomainError('INVALID_STATE', 'Cannot quarantine more than un-held on-hand stock');
+      }
+      if (lotNumber) {
+        const lot = this.ledger.lotInfo
+          ? await this.ledger.lotInfo(ctx.tenantId, input.warehouseId, input.skuId, lotNumber)
+          : { onHand: 0, expired: false };
+        const heldLot = await this.heldIn(
+          tx,
+          ctx.tenantId,
+          input.warehouseId,
+          input.skuId,
+          lotNumber,
         );
+        if (input.quantity > round6(lot.onHand - heldLot)) {
+          throw new DomainError(
+            'INVALID_STATE',
+            'Cannot quarantine more than the un-held stock of this lot',
+          );
+        }
       }
       const hold = await tx.quarantineHold.create({
         data: {
@@ -277,13 +287,18 @@ export class QuarantineService {
       where: { id: holdId, tenantId: ctx.tenantId },
     });
     if (!hold) throw notFound('QuarantineHold', holdId);
-    if (hold.status !== 'ACTIVE') {
+    const requestKey = `legacy:${hold.id}:${decision}`;
+    const earlier = await this.prisma.quarantineDisposition.findUnique({
+      where: { tenantId_requestKey: { tenantId: ctx.tenantId, requestKey } },
+    });
+    // A repeated legacy call finishes (or replays) its own disposition.
+    if (hold.status !== 'ACTIVE' && !earlier) {
       throw new DomainError('INVALID_STATE', 'This hold is already decided');
     }
     await this.dispose(
       holdId,
       {
-        requestKey: `legacy:${hold.id}:${decision}`,
+        requestKey,
         note: decision === 'RELEASE' ? 'Released by quality' : undefined,
         lines: [
           {
@@ -332,6 +347,36 @@ export class QuarantineService {
       where: { id: holdId, tenantId: ctx.tenantId },
     });
     if (!hold) throw notFound('QuarantineHold', holdId);
+    // Everything the ledger would refuse is refused BEFORE the claim, so a
+    // claimed disposition only fails for reasons a retry can fix.
+    const source = this.ledger.skuState
+      ? await this.ledger.skuState(ctx.tenantId, hold.skuId)
+      : { exists: true, active: true };
+    const lotState =
+      hold.lotNumber && this.ledger.lotInfo
+        ? await this.ledger.lotInfo(ctx.tenantId, hold.warehouseId, hold.skuId, hold.lotNumber)
+        : null;
+    for (const line of lines) {
+      const outbound = OUTBOUND_TYPES.has(line.type);
+      const serials = line.serials ?? [];
+      if (!outbound && serials.length > 0) {
+        throw new DomainError('VALIDATION_FAILED', `${line.type} moves no stock — no serials`);
+      }
+      if (outbound && source.serialPolicy === 'REQUIRED') {
+        if (!Number.isInteger(line.quantity) || serials.length !== line.quantity) {
+          throw new DomainError(
+            'VALIDATION_FAILED',
+            'Serial-tracked SKU: one serial number per unit on every stock-moving line',
+          );
+        }
+      }
+      if (line.type === 'RETURN_TO_SUPPLIER' && lotState?.expired) {
+        throw new DomainError(
+          'VALIDATION_FAILED',
+          'An expired lot can only be scrapped or regraded, not issued',
+        );
+      }
+    }
     for (const line of lines) {
       if (line.type !== 'REGRADE') continue;
       if (line.targetSkuId === hold.skuId) {
@@ -436,6 +481,7 @@ export class QuarantineService {
               targetQuantity: line.type === 'REGRADE' ? (line.targetQuantity ?? null) : null,
               supplierRef: line.supplierRef ?? null,
               reworkHoldId,
+              serials: line.serials ?? [],
             },
           });
         }
@@ -473,8 +519,7 @@ export class QuarantineService {
       }
       throw error;
     }
-    // Serials are not persisted on the line; keep them for this call only.
-    return this.postLines(dispositionId, ctx, lines);
+    return this.postLines(dispositionId, ctx);
   }
 
   /** Permission: quality release. Finishes a FAILED disposition idempotently. */
@@ -542,11 +587,7 @@ export class QuarantineService {
    * deterministic per (disposition, line), so repeated calls never post
    * twice; a failure marks the disposition FAILED with the error kept.
    */
-  private async postLines(
-    dispositionId: string,
-    ctx: RequestContext,
-    fresh?: DispositionLineInput[],
-  ): Promise<DispositionView> {
+  private async postLines(dispositionId: string, ctx: RequestContext): Promise<DispositionView> {
     const disposition = await this.prisma.quarantineDisposition.findFirst({
       where: { id: dispositionId, tenantId: ctx.tenantId },
       include: { hold: true, lines: { orderBy: { lineNo: 'asc' } } },
@@ -557,7 +598,7 @@ export class QuarantineService {
     try {
       for (const line of disposition.lines) {
         const qty = Number(line.quantity);
-        const serials = fresh?.[line.lineNo - 1]?.serials;
+        const serials = line.serials ?? [];
         const key = `qdisp:${disposition.id}:${line.lineNo}`;
         const base = {
           warehouseId: hold.warehouseId,
@@ -690,6 +731,11 @@ export class QuarantineService {
     };
   }
 
+  /**
+   * Blocked quantity: undecided remainder of ACTIVE holds PLUS stock that a
+   * disposition has claimed but not yet taken out of the ledger (POSTING /
+   * FAILED stock-moving lines) — so a claim never frees stock for promising.
+   */
   private async heldIn(
     db: Prisma.TransactionClient | PrismaClient,
     tenantId: string,
@@ -697,42 +743,69 @@ export class QuarantineService {
     skuId: string,
     lotNumber: string | null,
   ): Promise<number> {
-    const agg = await db.quarantineHold.aggregate({
-      where: {
-        tenantId,
-        warehouseId,
-        skuId,
-        status: 'ACTIVE',
-        ...(lotNumber ? { lotNumber } : {}),
-      },
-      _sum: { remainingQuantity: true },
-    });
-    return agg._sum.remainingQuantity ? Number(agg._sum.remainingQuantity) : 0;
+    const rows = lotNumber
+      ? await db.$queryRaw<Array<{ held: string | null }>>`
+          SELECT (
+            (SELECT coalesce(sum(remaining_quantity), 0) FROM quarantine_hold
+              WHERE tenant_id = ${tenantId}::uuid AND warehouse_id = ${warehouseId}::uuid
+                AND sku_id = ${skuId}::uuid AND status = 'ACTIVE' AND lot_number = ${lotNumber})
+            +
+            (SELECT coalesce(sum(l.quantity), 0) FROM quarantine_disposition_line l
+               JOIN quarantine_disposition d ON d.id = l.disposition_id
+               JOIN quarantine_hold h ON h.id = d.hold_id
+              WHERE d.tenant_id = ${tenantId}::uuid AND d.status <> 'POSTED'
+                AND l.type IN ('SCRAP', 'RETURN_TO_SUPPLIER', 'REGRADE') AND l.movement_id IS NULL
+                AND h.warehouse_id = ${warehouseId}::uuid AND h.sku_id = ${skuId}::uuid
+                AND h.lot_number = ${lotNumber})
+          )::text AS held`
+      : await db.$queryRaw<Array<{ held: string | null }>>`
+          SELECT (
+            (SELECT coalesce(sum(remaining_quantity), 0) FROM quarantine_hold
+              WHERE tenant_id = ${tenantId}::uuid AND warehouse_id = ${warehouseId}::uuid
+                AND sku_id = ${skuId}::uuid AND status = 'ACTIVE')
+            +
+            (SELECT coalesce(sum(l.quantity), 0) FROM quarantine_disposition_line l
+               JOIN quarantine_disposition d ON d.id = l.disposition_id
+               JOIN quarantine_hold h ON h.id = d.hold_id
+              WHERE d.tenant_id = ${tenantId}::uuid AND d.status <> 'POSTED'
+                AND l.type IN ('SCRAP', 'RETURN_TO_SUPPLIER', 'REGRADE') AND l.movement_id IS NULL
+                AND h.warehouse_id = ${warehouseId}::uuid AND h.sku_id = ${skuId}::uuid)
+          )::text AS held`;
+    return Number(rows[0]?.held ?? 0);
   }
 
-  /** Total ACTIVE undecided quantity for one warehouse+SKU. */
+  /** Blocked quantity for one warehouse+SKU (see heldIn). */
   async activeHeld(tenantId: string, warehouseId: string, skuId: string): Promise<number> {
     return this.heldIn(this.prisma, tenantId, warehouseId, skuId, null);
   }
 
-  /** Total ACTIVE undecided per SKU across warehouses (for tenant-wide views). */
+  /** Blocked quantity per SKU across warehouses (for tenant-wide views). */
   async activeHeldBySku(tenantId: string, skuIds: string[]): Promise<Map<string, number>> {
     if (skuIds.length === 0) return new Map();
-    const rows = await this.prisma.quarantineHold.groupBy({
-      by: ['skuId'],
-      where: { tenantId, skuId: { in: skuIds }, status: 'ACTIVE' },
-      _sum: { remainingQuantity: true },
-    });
-    return new Map(rows.map((r) => [r.skuId, Number(r._sum.remainingQuantity ?? 0)]));
+    const rows = await this.prisma.$queryRaw<Array<{ sku_id: string; held: string }>>`
+      SELECT sku_id::text AS sku_id, sum(q)::text AS held FROM (
+        SELECT sku_id, remaining_quantity AS q FROM quarantine_hold
+         WHERE tenant_id = ${tenantId}::uuid AND status = 'ACTIVE'
+           AND sku_id = ANY(${skuIds}::uuid[])
+        UNION ALL
+        SELECT h.sku_id, l.quantity FROM quarantine_disposition_line l
+          JOIN quarantine_disposition d ON d.id = l.disposition_id
+          JOIN quarantine_hold h ON h.id = d.hold_id
+         WHERE d.tenant_id = ${tenantId}::uuid AND d.status <> 'POSTED'
+           AND l.type IN ('SCRAP', 'RETURN_TO_SUPPLIER', 'REGRADE') AND l.movement_id IS NULL
+           AND h.sku_id = ANY(${skuIds}::uuid[])
+      ) x GROUP BY sku_id`;
+    return new Map(rows.map((r) => [r.sku_id, Number(r.held)]));
   }
 }
 
-async function lockHoldScope(
+/** Same key as InventoryService.lockStock — serialises with ledger movements. */
+async function lockStockScope(
   tx: Prisma.TransactionClient,
   tenantId: string,
   warehouseId: string,
   skuId: string,
 ): Promise<void> {
-  const key = `wms.quarantine:${tenantId}:${warehouseId}:${skuId}`;
+  const key = `${tenantId}:${warehouseId}:${skuId}`;
   await tx.$executeRaw`SELECT pg_advisory_xact_lock(hashtextextended(${key}, 0))`;
 }

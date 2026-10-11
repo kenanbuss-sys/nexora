@@ -37,6 +37,8 @@ integration('Sprint 242 — quarantine dispositions (QMS-005)', () => {
   let a = '';
   let b = '';
   let lotSku = '';
+  let ser = '';
+  let lot2 = '';
 
   async function api(
     method: 'GET' | 'POST' | 'PUT',
@@ -113,6 +115,9 @@ integration('Sprint 242 — quarantine dispositions (QMS-005)', () => {
     b = await makeSku('LIM-B', 'NONE');
     lotSku = await makeSku('BOJA', 'NONE');
     await api('POST', `/api/v1/skus/${lotSku}/lot-policy`, tokenA, { lotTracked: true });
+    ser = await makeSku('PRESA', 'REQUIRED');
+    lot2 = await makeSku('LJEPILO', 'NONE');
+    await api('POST', `/api/v1/skus/${lot2}/lot-policy`, tokenA, { lotTracked: true });
   }, 120_000);
 
   afterAll(async () => {
@@ -343,6 +348,13 @@ integration('Sprint 242 — quarantine dispositions (QMS-005)', () => {
     expect((await dispose(holdId, { lines: [{ type: 'SCRAP', quantity: 1 }] })).status).toBe(409);
 
     await move({ warehouseId: wh1, skuId: b, movementType: 'RECEIPT', quantity: 5 });
+    // The claimed-but-unposted scrap still blocks the stock from promising.
+    const reserve = await api('POST', '/api/v1/stock/reservations', tokenA, {
+      warehouseId: wh1,
+      skuId: b,
+      quantity: 5,
+    });
+    expect(reserve.status).toBe(409);
     const retried = await api('POST', `/api/v1/quarantine/dispositions/${row!.id}/retry`, tokenA);
     expect(retried.body.status).toBe('POSTED');
     const again = await api('POST', `/api/v1/quarantine/dispositions/${row!.id}/retry`, tokenA);
@@ -362,5 +374,57 @@ integration('Sprint 242 — quarantine dispositions (QMS-005)', () => {
     expect((await hold({ skuId: a, quantity: 1 }, tokenB)).status).toBe(404);
     const list = await api('GET', '/api/v1/quarantine', tokenB);
     expect((list.body.holds as unknown[]).length).toBe(0);
+  });
+
+  it('REVIEW FIXES: lot and whole-SKU holds share one limit; serial and expiry rules refused before the claim', async () => {
+    // lotSku: L-01 40 (held 40 by a lot hold) + L-02 60 = 100 on hand.
+    const whole = await hold({ skuId: lotSku, quantity: 60 });
+    expect(whole.status).toBe(201);
+    const overLot = await hold({ skuId: lotSku, quantity: 1, lotNumber: 'L-02' });
+    expect(overLot.status).toBe(409);
+
+    // Serial-required SKU: stock-moving lines need one serial per unit.
+    await move({
+      warehouseId: wh1,
+      skuId: ser,
+      movementType: 'RECEIPT',
+      quantity: 2,
+      serials: ['P-1', 'P-2'],
+    });
+    const serHold = await hold({ skuId: ser, quantity: 2 });
+    const serHoldId = serHold.body.id as string;
+    const noSerials = await dispose(serHoldId, { lines: [{ type: 'SCRAP', quantity: 2 }] });
+    expect(noSerials.status).toBe(400);
+    expect(
+      (
+        await prisma.quarantineHold.findUnique({ where: { id: serHoldId } })
+      )?.remainingQuantity.toString(),
+    ).toBe('2');
+    const withSerials = await dispose(serHoldId, {
+      lines: [{ type: 'SCRAP', quantity: 2, serials: ['P-1', 'P-2'] }],
+    });
+    expect(withSerials.body.status).toBe('POSTED');
+    const line = await prisma.quarantineDispositionLine.findFirst({
+      where: { dispositionId: withSerials.body.id as string },
+    });
+    expect(line?.serials).toEqual(['P-1', 'P-2']);
+
+    // Expired lot: a supplier return (ISSUE) is refused up front; scrap works.
+    await move({
+      warehouseId: wh1,
+      skuId: lot2,
+      movementType: 'RECEIPT',
+      quantity: 5,
+      lotNumber: 'E-01',
+      expiresAt: new Date(Date.now() - 86_400_000).toISOString(),
+    });
+    const expHold = await hold({ skuId: lot2, quantity: 5, lotNumber: 'E-01' });
+    const expHoldId = expHold.body.id as string;
+    const rts = await dispose(expHoldId, {
+      lines: [{ type: 'RETURN_TO_SUPPLIER', quantity: 5, supplierRef: 'Dobavljač Hemija' }],
+    });
+    expect(rts.status).toBe(400);
+    const scrap = await dispose(expHoldId, { lines: [{ type: 'SCRAP', quantity: 5 }] });
+    expect(scrap.body.status).toBe('POSTED');
   });
 });

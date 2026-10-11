@@ -709,7 +709,7 @@ export const REDIS = 'REDIS';
             });
             return Number(position.onHand);
           },
-          lotOnHand: async (tenantId, warehouseId, skuId, lotNumber) => {
+          lotInfo: async (tenantId, warehouseId, skuId, lotNumber) => {
             const lots = await inventory.lotBalances(warehouseId, skuId, {
               tenantId,
               tenantSlug: '',
@@ -720,7 +720,9 @@ export const REDIS = 'REDIS';
               platformAdmin: false,
             });
             const lot = lots.find((l) => l.lotNumber === lotNumber);
-            return lot ? Number(lot.onHand) : 0;
+            return lot
+              ? { onHand: Number(lot.onHand), expired: lot.expired }
+              : { onHand: 0, expired: false };
           },
           skuState: (tenantId, skuId) => catalog.getSkuState(tenantId, skuId),
         });

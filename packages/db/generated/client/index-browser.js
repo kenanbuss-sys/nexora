@@ -1477,7 +1477,19 @@ exports.Prisma.AssetScalarFieldEnum = {
   location: 'location',
   qrToken: 'qrToken',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  parentAssetId: 'parentAssetId'
+};
+
+exports.Prisma.AssetStructureChangeScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  assetId: 'assetId',
+  fromParentId: 'fromParentId',
+  toParentId: 'toParentId',
+  reason: 'reason',
+  changedBy: 'changedBy',
+  effectiveAt: 'effectiveAt'
 };
 
 exports.Prisma.QuarantineHoldScalarFieldEnum = {
@@ -1523,7 +1535,8 @@ exports.Prisma.QuarantineDispositionLineScalarFieldEnum = {
   supplierRef: 'supplierRef',
   reworkHoldId: 'reworkHoldId',
   movementId: 'movementId',
-  targetMovementId: 'targetMovementId'
+  targetMovementId: 'targetMovementId',
+  serials: 'serials'
 };
 
 exports.Prisma.RfqScalarFieldEnum = {
@@ -2817,6 +2830,7 @@ exports.Prisma.ModelName = {
   Contract: 'Contract',
   Employee: 'Employee',
   Asset: 'Asset',
+  AssetStructureChange: 'AssetStructureChange',
   QuarantineHold: 'QuarantineHold',
   QuarantineDisposition: 'QuarantineDisposition',
   QuarantineDispositionLine: 'QuarantineDispositionLine',

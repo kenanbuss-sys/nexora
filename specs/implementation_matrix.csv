@@ -246,7 +246,7 @@ QMS-001,QMS,Inspection plans,P2,DONE,R2,,,Sprint 076/201: inspection plans per S
 QMS-002,QMS,Incoming inspection,P2,DONE,R2,,,Sprint 076: incoming inspection queue — PO receipts of QC-planned SKUs surface live for inspectors.
 QMS-003,QMS,In-process inspection,P2,DONE,R2,,,Sprint 076: in-process inspections recorded against work orders via /api/v1/qc/inspections.
 QMS-004,QMS,Final inspection,P2,DONE,R2,,,Sprint 076: final inspection results with pass/fail and quantities before shipment.
-QMS-005,QMS,Disposition,P2,Partially implemented (Sprint 082),R2,,,Disposition = release/scrap decisions on quarantine holds; richer dispositions pending.
+QMS-005,QMS,Disposition,P2,DONE,R2,,,"Sprint 082 + Sprint 242: odluka komisije dijeli blokadu na stavke USE_AS_IS (obrazlozenje odstupanja), SCRAP, RETURN_TO_SUPPLIER (referenca dobavljaca), REGRADE (u drugi aktivan SKU), REWORK (nova blokada do ponovnog pregleda); djelimicne odluke; blokada po lotu i uz NCR (QC gate); atomsko preuzimanje pa knjizenje s deterministickim kljucevima, FAILED + ponovni pokusaj bez duplog efekta, idempotentno po requestKey; preuzeta neproknjizena kolicina i dalje blokira; serijski brojevi cuvani na stavci; pravila knjige (serijski, istekao lot) provjerena prije preuzimanja; zakljucavanje istim kljucem kao knjiga zaliha. Nije: dokument povrata dobavljacu u PROC (RTV), radni nalog dorade u MES."
 QMS-006,QMS,Quarantine,P2,DONE,R2,,,"Sprint 082: quarantine holds — block reservation, quality releases or scraps (compensating ledger adjustment), audited."
 QMS-007,QMS,NCR,P2,DONE,R2,,,"Sprint 076/201: NCRs with severity, defect codes and lifecycle to resolution."
 QMS-008,QMS,CAPA,P2,DONE,R2,,,Sprint 201: CRITICAL NCR resolution spawns a CAPA task automatically.
