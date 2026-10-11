@@ -157,8 +157,19 @@ integration('Sprint 246 — multi-assignee + recurring tasks (WF-013)', () => {
 
     const mine1 = await api('GET', '/api/v1/tasks', token1);
     expect((mine1.body.tasks as Array<{ id: string }>).some((t) => t.id === taskId)).toBe(false);
+    const users = await api('GET', '/api/v1/tasks/assignable-users', tokenA);
+    const listed = users.body.users as Array<{ id: string; displayName: string; email?: string }>;
+    expect(listed.map((u) => u.id)).toEqual(expect.arrayContaining([u1, u2]));
+    expect(listed.some((u) => u.id === gone)).toBe(false);
+    expect(listed.every((u) => u.email === undefined)).toBe(true);
     const mine2 = await api('GET', '/api/v1/tasks', token2);
-    expect((mine2.body.tasks as Array<{ id: string }>).some((t) => t.id === taskId)).toBe(true);
+    const t2 = (
+      mine2.body.tasks as Array<{
+        id: string;
+        team?: { myStatus: string; done: number; total: number };
+      }>
+    ).find((t) => t.id === taskId);
+    expect(t2?.team).toMatchObject({ myStatus: 'OPEN', done: 1, total: 2 });
 
     expect((await complete(taskId, tokenA)).status).toBe(404); // not an assignee
     const asAssignee = await api('GET', `/api/v1/tasks/${taskId}/mine`, token2);

@@ -19,6 +19,8 @@ export interface TaskView {
   relatedObjectType: string | null;
   relatedObjectId: string | null;
   createdAt: Date;
+  /** WF-013: present on team tasks — the caller's part and overall progress. */
+  team?: { myStatus: string | null; done: number; total: number; rule: string };
 }
 
 export interface NotificationView {
@@ -189,8 +191,21 @@ export class TaskService {
       },
       orderBy: { createdAt: 'asc' },
       take: 100,
+      include: { assignees: { select: { userId: true, status: true } } },
     });
-    return tasks.map((t) => this.toView(t));
+    return tasks.map((t) => {
+      const view = this.toView(t);
+      if (t.assignees.length === 0) return view;
+      return {
+        ...view,
+        team: {
+          myStatus: t.assignees.find((a) => a.userId === me)?.status ?? null,
+          done: t.assignees.filter((a) => a.status === 'DONE').length,
+          total: t.assignees.length,
+          rule: t.completionRule ?? 'ALL',
+        },
+      };
+    });
   }
 
   /** Transactional notification creation (used by API and automation). */

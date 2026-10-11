@@ -71,6 +71,12 @@ export class TeamTasksController {
     return this.teamTasks.createTeamTask(parseBody(teamTaskSchema, body), ctx);
   }
 
+  @Get('assignable-users')
+  @RequirePermission('task.manage')
+  async assignable(@Ctx() ctx: RequestContext) {
+    return { users: await this.teamTasks.assignableUsers(ctx) };
+  }
+
   @Get('recurring/templates')
   @RequirePermission('task.manage')
   async templates(@Ctx() ctx: RequestContext) {

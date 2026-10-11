@@ -339,6 +339,21 @@ export class TeamTaskService {
     return out;
   }
 
+  /**
+   * Permission: task.manage. Who can be assigned: active users of the
+   * tenant with id and display name only (no e-mail, no roles) — so task
+   * planners do not need user-administration rights.
+   */
+  async assignableUsers(ctx: RequestContext): Promise<Array<{ id: string; displayName: string }>> {
+    const rows = await this.prisma.user.findMany({
+      where: { tenantId: ctx.tenantId, status: 'ACTIVE' },
+      select: { id: true, displayName: true },
+      orderBy: { displayName: 'asc' },
+      take: 1000,
+    });
+    return rows;
+  }
+
   /** Permission: task.manage. Team task with per-person status. */
   async getTask(taskId: string, ctx: RequestContext): Promise<TeamTaskView> {
     return this.view(taskId, ctx.tenantId);
