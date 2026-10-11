@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
-import { api } from '../../../lib/api';
+import { api, ApiRequestError } from '../../../lib/api';
 import { useApp } from '../app-shell';
 import {
   ConfirmDialog,
@@ -14,6 +14,7 @@ import {
 import { AssetEquipment } from './asset-equipment';
 import { EquipmentCustody } from './custody';
 import { eamErrorText } from './equipment-common';
+import { AssetStructure, STATUS_META, structureOrder } from './asset-structure';
 
 /**
  * Oprema i održavanje (Sprint 229, EAM): lista i detalj sredstava,
@@ -22,6 +23,9 @@ import { eamErrorText } from './equipment-common';
  * Sprint 238 (EAM-015/016): tab "Zaduženja" (revers po zaposlenom s
  * razduženjem po stavci) te lokacija, trenutni zadužilac i QR oznaka u
  * detalju sredstva; štampa reversa/naljepnice se auditira.
+ * Sprint 243 (EAM-002): hijerarhija sredstava (linija → mašina → sklop →
+ * dio) — kolona "Ugrađeno u", prikaz strukture u registru, sekcija
+ * Struktura s ugradnjom/premještanjem/demontažom i istorijom strukture.
  */
 
 type Tab = 'registry' | 'custody';
@@ -35,6 +39,8 @@ interface AssetView {
   status: 'IN_SERVICE' | 'UNDER_MAINTENANCE' | 'RETIRED';
   value: string | null;
   purchasedAt: string | null;
+  workCenterId: string | null;
+  parentAssetId: string | null;
 }
 
 interface AssetReport {
@@ -45,12 +51,6 @@ interface AssetReport {
   warrantyUntil: string | null;
   warrantyExpired: boolean | null;
 }
-
-const STATUS_META: Record<AssetView['status'], [string, string]> = {
-  IN_SERVICE: ['U upotrebi', 'badge-ok'],
-  UNDER_MAINTENANCE: ['Na održavanju', 'badge-warn'],
-  RETIRED: ['Rashodovano', 'badge-danger'],
-};
 
 export default function AssetsPage() {
   const { can } = useApp();
@@ -71,6 +71,8 @@ export default function AssetsPage() {
   const [category, setCategory] = useState('');
   const [serial, setSerial] = useState('');
   const [value, setValue] = useState('');
+  const [newParentId, setNewParentId] = useState('');
+  const [showStructure, setShowStructure] = useState(false);
 
   const [breakdownFor, setBreakdownFor] = useState<AssetView | null>(null);
   const [breakdownText, setBreakdownText] = useState('');
@@ -82,6 +84,9 @@ export default function AssetsPage() {
   );
   const [holder, setHolder] = useState('');
   const [retireFor, setRetireFor] = useState<AssetView | null>(null);
+  const [retireError, setRetireError] = useState<{ text: string; components: string[] } | null>(
+    null,
+  );
   const [confirmPreventive, setConfirmPreventive] = useState(false);
 
   const load = useCallback(() => {
@@ -123,6 +128,44 @@ export default function AssetsPage() {
   const filtered = (assets ?? []).filter(
     (a) => statusFilter === 'ALL' || a.status === statusFilter,
   );
+  const numberOf = new Map((assets ?? []).map((a) => [a.id, a.assetNumber]));
+  const depthOf = new Map<string, number>();
+  let rows = filtered;
+  if (showStructure) {
+    const ordered = structureOrder(filtered);
+    rows = ordered.map((o) => o.row);
+    for (const o of ordered) depthOf.set(o.row.id, o.depth);
+  }
+  const parentChoices = (assets ?? [])
+    .filter((a) => a.status !== 'RETIRED')
+    .sort((a, b) => a.assetNumber.localeCompare(b.assetNumber));
+
+  async function retire(target: AssetView) {
+    setBusy(true);
+    setError(null);
+    setNotice(null);
+    setRetireError(null);
+    try {
+      await api('POST', `/api/v1/assets/${target.id}/transition`, { status: 'RETIRED' });
+      setRetireFor(null);
+      setNotice('Sredstvo je rashodovano.');
+      load();
+      if (selectedId) openAsset(selectedId);
+    } catch (e: unknown) {
+      // 409 lists the live installed components in parentheses; shown
+      // as-is, the numbers are only lifted out for the explanation.
+      const listed =
+        e instanceof ApiRequestError && e.status === 409
+          ? /\(([^()]+)\)\s*$/.exec(e.body.message)
+          : null;
+      setRetireError({
+        text: eamErrorText(e),
+        components: listed?.[1] ? listed[1].split(',').map((n) => n.trim()) : [],
+      });
+    } finally {
+      setBusy(false);
+    }
+  }
 
   const tabButton = (t: Tab, label: string) => (
     <button
@@ -143,8 +186,47 @@ export default function AssetsPage() {
       render: (a) => <span className="mono">{a.assetNumber}</span>,
       text: (a) => a.assetNumber,
     },
-    { key: 'name', header: 'Naziv', render: (a) => a.name, text: (a) => a.name },
+    {
+      key: 'name',
+      header: 'Naziv',
+      render: (a) => {
+        const depth = depthOf.get(a.id) ?? 0;
+        return depth > 0 ? (
+          <span style={{ paddingLeft: depth * 16 }}>
+            <span className="muted" aria-hidden="true">
+              └{' '}
+            </span>
+            <span
+              style={{
+                position: 'absolute',
+                width: 1,
+                height: 1,
+                overflow: 'hidden',
+                clip: 'rect(0 0 0 0)',
+              }}
+            >
+              Nivo {depth}:{' '}
+            </span>
+            {a.name}
+          </span>
+        ) : (
+          a.name
+        );
+      },
+      text: (a) => a.name,
+    },
     { key: 'category', header: 'Kategorija', render: (a) => a.category, text: (a) => a.category },
+    {
+      key: 'parent',
+      header: 'Ugrađeno u',
+      render: (a) =>
+        a.parentAssetId ? (
+          <span className="mono">{numberOf.get(a.parentAssetId) ?? '—'}</span>
+        ) : (
+          '—'
+        ),
+      text: (a) => (a.parentAssetId ? (numberOf.get(a.parentAssetId) ?? '') : ''),
+    },
     {
       key: 'serial',
       header: 'Serijski broj',
@@ -215,6 +297,14 @@ export default function AssetsPage() {
                 <option value="UNDER_MAINTENANCE">Na održavanju</option>
                 <option value="RETIRED">Rashodovana</option>
               </select>
+              <label className="row" style={{ gap: 6, fontSize: 13 }}>
+                <input
+                  type="checkbox"
+                  checked={showStructure}
+                  onChange={(e) => setShowStructure(e.target.checked)}
+                />
+                Prikaži strukturu
+              </label>
               {canManage ? (
                 <button
                   type="button"
@@ -231,7 +321,7 @@ export default function AssetsPage() {
             ) : (
               <DataTable
                 columns={columns}
-                rows={filtered}
+                rows={rows}
                 rowKey={(a) => a.id}
                 onRowClick={(a) => openAsset(a.id)}
                 searchPlaceholder="Pretraga sredstava…"
@@ -250,8 +340,10 @@ export default function AssetsPage() {
                       category,
                       ...(serial ? { serialNumber: serial } : {}),
                       ...(value ? { value: Number(value) } : {}),
+                      ...(newParentId ? { parentAssetId: newParentId } : {}),
                     });
                     setName('');
+                    setNewParentId('');
                     setCategory('');
                     setSerial('');
                     setValue('');
@@ -292,6 +384,20 @@ export default function AssetsPage() {
                     value={value}
                     onChange={(e) => setValue(e.target.value)}
                   />
+                  <select
+                    className="select"
+                    style={{ maxWidth: 220 }}
+                    aria-label="Ugrađeno u (opcionalno)"
+                    value={newParentId}
+                    onChange={(e) => setNewParentId(e.target.value)}
+                  >
+                    <option value="">Ugrađeno u — samostalno</option>
+                    {parentChoices.map((a) => (
+                      <option key={a.id} value={a.id}>
+                        {a.assetNumber} — {a.name}
+                      </option>
+                    ))}
+                  </select>
                   <button className="btn btn-sm btn-primary" disabled={busy} type="submit">
                     Dodaj sredstvo
                   </button>
@@ -324,6 +430,14 @@ export default function AssetsPage() {
                     {STATUS_META[selected.status][0]}
                   </span>
                 </div>
+                <AssetStructure
+                  key={selected.id}
+                  asset={selected}
+                  assets={assets ?? []}
+                  canManage={canManage}
+                  onOpenAsset={openAsset}
+                  onChanged={load}
+                />
                 <AssetEquipment
                   key={`${selected.id}-${selected.status}`}
                   assetId={selected.id}
@@ -418,7 +532,10 @@ export default function AssetsPage() {
                         type="button"
                         className="btn btn-sm btn-danger"
                         disabled={busy || selected.status === 'RETIRED'}
-                        onClick={() => setRetireFor(selected)}
+                        onClick={() => {
+                          setRetireError(null);
+                          setRetireFor(selected);
+                        }}
                       >
                         Rashoduj
                       </button>
@@ -577,14 +694,7 @@ export default function AssetsPage() {
           confirmLabel="Rashoduj"
           danger
           busy={busy}
-          onConfirm={() =>
-            void run(async () => {
-              await api('POST', `/api/v1/assets/${retireFor.id}/transition`, {
-                status: 'RETIRED',
-              });
-              setRetireFor(null);
-            }, 'Sredstvo je rashodovano.')
-          }
+          onConfirm={() => void retire(retireFor)}
           onCancel={() => setRetireFor(null)}
         >
           <div className="fact">
@@ -597,6 +707,18 @@ export default function AssetsPage() {
             <span>Trenutni status</span>
             <span>{STATUS_META[retireFor.status][0]}</span>
           </div>
+          {retireError ? (
+            <div style={{ marginTop: 8 }}>
+              {retireError.components.length > 0 ? (
+                <p style={{ margin: '0 0 6px', fontSize: 13.5 }}>
+                  Rashodovanje je odbijeno: u sredstvo su ugrađene komponente koje nisu rashodovane
+                  (<span className="mono">{retireError.components.join(', ')}</span>). Prvo ih
+                  demontirajte ili rashodujte (sekcija Struktura). Odgovor servera:
+                </p>
+              ) : null}
+              <ErrorState text={retireError.text} />
+            </div>
+          ) : null}
         </ConfirmDialog>
       ) : null}
 

@@ -445,4 +445,4 @@ Red 2 potvrđenog redoslijeda. Vlasnik: EAM. Migracija `…245_sprint_243_asset_
 - [x] Broj sredstva serijalizovan (istovremeno kreiranje bez duplih brojeva)
 - [x] Događaj `asset.structure.changed` + audit
 - [x] Testovi: **sprint243 5/5**; EAM regresija (072, 202, 238) zelena
-- [ ] UI: struktura na /assets (stablo, ugradi/premjesti/demontiraj, istorija) — u toku
+- [x] UI: struktura na /assets (stablo u listi, preci/komponente, ugradi/premjesti/demontiraj, istorija strukture, objašnjenje rashodovanja); browser provjera otvorena
