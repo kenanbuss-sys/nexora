@@ -17,6 +17,7 @@ const createEmployeeSchema = z.object({
 });
 const skillsSchema = z.object({ skills: z.array(z.string().min(1).max(60)).max(30) });
 const employeeStatusSchema = z.object({ status: z.enum(['ACTIVE', 'INACTIVE']) });
+const linkUserSchema = z.object({ userId: z.string().uuid().nullable() });
 
 @Controller('api/v1/employees')
 export class EmployeesController {
@@ -46,6 +47,14 @@ export class EmployeesController {
   async setStatus(@Param('id') id: string, @Body() body: unknown, @Ctx() ctx: RequestContext) {
     const input = parseBody(employeeStatusSchema, body);
     return this.employees.setStatus(id, input.status, ctx);
+  }
+
+  /** HCM-018: link the app user that signs in as this employee (null unlinks). */
+  @Post(':id/user')
+  @RequirePermission('hcm.manage')
+  async linkUser(@Param('id') id: string, @Body() body: unknown, @Ctx() ctx: RequestContext) {
+    const input = parseBody(linkUserSchema, body);
+    return this.employees.linkUser(parseBody(z.string().uuid(), id), input.userId, ctx);
   }
 }
 

@@ -576,6 +576,7 @@ const ROLE_PERMS = {
     'production.read',
     'finance.read',
     'task.manage',
+    'hcm.self',
   ],
   Proizvodnja: [
     'production.read',
@@ -587,8 +588,9 @@ const ROLE_PERMS = {
     'product.read',
     'plan.read',
     'bom.read',
+    'hcm.self',
   ],
-  Montaža: ['service.read', 'service.manage', 'order.read', 'crm.read'],
+  Montaža: ['service.read', 'service.manage', 'order.read', 'crm.read', 'hcm.self'],
   Knjigovodstvo: [
     'finance.read',
     'finance.invoice',
@@ -597,6 +599,7 @@ const ROLE_PERMS = {
     'order.read',
     'order.confirm',
     'crm.read',
+    'hcm.self',
   ],
   Uprava: [
     'analytics.read',
@@ -609,6 +612,7 @@ const ROLE_PERMS = {
     'finance.pay',
     'plan.read',
     'hcm.read',
+    'hcm.self',
   ],
 };
 const roleList = (await call('GET', '/api/v1/roles', admin)).body.roles ?? [];
@@ -630,6 +634,7 @@ const ROLE_USERS = [
   ['knjigovodstvo', 'Knjigovodstvo', 'Knjigovođa DEMO'],
   ['uprava', 'Uprava', 'Direktor DEMO'],
 ];
+const userIdByKey = {};
 for (const [key, roleName, displayName] of ROLE_USERS) {
   const email = `${key}@${SLUG}.example`;
   let user = userList.find((u) => u.email === email);
@@ -650,6 +655,7 @@ for (const [key, roleName, displayName] of ROLE_USERS) {
     );
     console.log(`- korisnik ${email} (uloga ${roleName}, lozinka demo-${key})`);
   }
+  userIdByKey[key] = user.id;
   // Every pass: (re)assign; a refusal (e.g. segregation of duties) is loud.
   const assigned = await call(
     'POST',
@@ -722,6 +728,30 @@ for (const [dept, count] of Object.entries(profile.staff?.central ?? {})) {
 }
 if (profile.wholesale) await ensureEmployee(`Prodaja — ${profile.wholesale.name} #1`);
 console.log(`- zaposleni: ${employeeByTitle.size} (DEMO)`);
+// HCM-018: each DEMO role user signs in as one DEMO employee (Moj HR).
+const firstBranch = profile.branches[0]?.name;
+const LINKS = {
+  prodaja: `Prodaja — ${firstBranch} #1`,
+  montaza: `Monter — ${firstBranch} #1`,
+  proizvodnja: 'Proizvodnja — centrala #1',
+  knjigovodstvo: 'Knjigovodstvo — centrala #1',
+  uprava: 'Uprava — centrala #1',
+};
+for (const [key, title] of Object.entries(LINKS)) {
+  const e = employeeByTitle.get(title);
+  const userId = userIdByKey[key];
+  if (!e || !userId || e.userId === userId) continue;
+  const r = await call(
+    'POST',
+    `/api/v1/employees/${e.id}/user`,
+    admin,
+    { userId },
+    {
+      allow: [404],
+    },
+  );
+  if (!r.ok) console.warn(`! ${key}: veza s radnikom nije napravljena — ${r.body.message}`);
+}
 const vehicles = (await call('GET', '/api/v1/logistics/vehicles', admin)).body.vehicles ?? [];
 const vehicleIds = [];
 for (const v of profile.vehicles ?? []) {

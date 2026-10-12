@@ -1,7 +1,7 @@
 /**
  * @nexora/domain-hcm public application interface.
  */
-export { EmployeeService, type EmployeeView } from './employee.service';
+export { EmployeeService, type EmployeeUserGate, type EmployeeView } from './employee.service';
 export {
   WorkforceService,
   type LeaveApprovalGate,
@@ -38,3 +38,4 @@ export {
   TRAINING_ITEM_STATUSES,
   type TrainingItemStatus,
 } from './development.service';
+export { SelfServiceService, type SelfLeaveGate, type SelfLeaveType } from './self-service.service';

@@ -98,6 +98,7 @@ export const TENANT_ADMIN_PERMISSIONS = [
   'analytics.export',
   'hcm.read',
   'hcm.manage',
+  'hcm.self',
   'asset.read',
   'asset.manage',
   'portal.manage',

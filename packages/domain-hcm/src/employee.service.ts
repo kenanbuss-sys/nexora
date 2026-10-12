@@ -18,10 +18,20 @@ export interface EmployeeView {
   status: EmployeeStatus;
   skills: string[];
   hiredAt: string | null;
+  /** Linked app user (HCM-018 self-service identity); null when unlinked. */
+  userId: string | null;
+}
+
+/** Cross-domain contract: users are owned by IAM. */
+export interface EmployeeUserGate {
+  isTenantUser(tenantId: string, userId: string): Promise<boolean>;
 }
 
 export class EmployeeService {
-  constructor(private readonly prisma: PrismaClient) {}
+  constructor(
+    private readonly prisma: PrismaClient,
+    private readonly users?: EmployeeUserGate,
+  ) {}
 
   private toView(e: {
     id: string;
@@ -32,6 +42,7 @@ export class EmployeeService {
     status: EmployeeStatus;
     skills: unknown;
     hiredAt: Date | null;
+    userId?: string | null;
   }): EmployeeView {
     return {
       id: e.id,
@@ -42,6 +53,7 @@ export class EmployeeService {
       status: e.status,
       skills: Array.isArray(e.skills) ? (e.skills as string[]) : [],
       hiredAt: e.hiredAt ? e.hiredAt.toISOString() : null,
+      userId: e.userId ?? null,
     };
   }
 
@@ -152,5 +164,58 @@ export class EmployeeService {
       newValues: { status },
     });
     return this.toView(updated);
+  }
+
+  /**
+   * HCM-018: link (or unlink with null) the app user who signs in as this
+   * employee. One employee per user in a tenant (unique index); the user
+   * must belong to the tenant. Audited.
+   */
+  async linkUser(
+    employeeId: string,
+    userId: string | null,
+    ctx: RequestContext,
+  ): Promise<EmployeeView> {
+    const row = await this.prisma.employee.findFirst({
+      where: { id: employeeId, tenantId: ctx.tenantId },
+    });
+    if (!row) throw notFound('Employee', employeeId);
+    if (userId !== null) {
+      if (!this.users) throw new DomainError('INVALID_STATE', 'User directory is not wired');
+      if (!(await this.users.isTenantUser(ctx.tenantId, userId))) throw notFound('User', userId);
+      const taken = await this.prisma.employee.findFirst({
+        where: { tenantId: ctx.tenantId, userId, id: { not: row.id } },
+        select: { employeeNumber: true },
+      });
+      if (taken) {
+        throw new DomainError('CONFLICT', 'This user is already linked to another employee', {
+          employeeNumber: taken.employeeNumber,
+        });
+      }
+    }
+    if (row.userId === userId) return this.toView(row);
+    try {
+      const updated = await this.prisma.$transaction(async (tx) => {
+        const u = await tx.employee.update({ where: { id: row.id }, data: { userId } });
+        await writeAudit(tx, {
+          tenantId: ctx.tenantId,
+          actorType: ctx.actorType,
+          actorId: ctx.userId,
+          action: 'hcm.employee.user_link',
+          objectType: 'Employee',
+          objectId: row.id,
+          source: 'api',
+          previousValues: { userId: row.userId },
+          newValues: { userId },
+        });
+        return u;
+      });
+      return this.toView(updated);
+    } catch (error) {
+      if ((error as { code?: string }).code === 'P2002') {
+        throw new DomainError('CONFLICT', 'This user is already linked to another employee');
+      }
+      throw error;
+    }
   }
 }

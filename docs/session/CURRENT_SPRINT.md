@@ -506,3 +506,16 @@ Cilj vlasnika: ne novi moduli nego JEDAN tok koji klijent razumije. Opšti scena
 - [x] Seeder: `tenant.timeZone` u profilu → `locale.timeZone`; termini 08:00/13:00/15:00 lokalno kroz cijelu godinu
 - [x] Testovi: **sprint252 4/4**, sprint246 5/5, sprint249 5/5; typecheck ✓, lint 0 errors
 - Nije rađeno: prikaz u web-u koristi zonu preglednika (u zemlji isto); zona po poslovnici
+
+# Sprint 253 — ZAVRŠEN 12.10.2026: samoposluga zaposlenih (HCM-018)
+
+Red 4 potvrđenog redoslijeda. Vlasnik: HCM (odsustva kroz WF odobrenja, dokumenti kroz COLLAB). Migracija `…251_sprint_253_employee_self_service` (parcijalni unique `employee_tenant_user_key` — nije u schema.prisma, čuvati).
+
+- [x] Veza radnik ↔ korisnik: `POST /employees/:id/user` (hcm.manage), korisnik mora biti iz tenanta, jedan radnik po korisniku (409), audit
+- [x] `GET /hcm/me` + šihtarica po mjesecu, odsustva (lista + zahtjev pod advisory lockom — dupli klik/retry ne pravi dva odobrenja; isti ključ kao HR unos), ugovori, privatni dokumenti (tuđi = 404), listići
+- [x] Nijedna ruta ne prima ID radnika; bez veze jasna poruka; permisija `hcm.self` (nova u admin baseline-u za nove tenante)
+- [x] Listići: default ISKLJUČENO (FinTrack „plata zabranjena po dizajnu“); uključuje se `hcm.selfService.payslips: true`; samo potvrđeni obračuni; čitanje dokumenata/listića u auditu
+- [x] Seeder: sve demo uloge imaju `hcm.self`; svaki demo korisnik povezan s jednim DEMO radnikom
+- [x] UI `/me` „Moj HR“ (mobilno), povezivanje na HR ekranu
+- [x] Testovi: **sprint253 6/6**
+- Nije rađeno: rate limiting (samo za javne rute, backlog red 9); postojeći tenanti dobijaju `hcm.self` ručno kroz uloge

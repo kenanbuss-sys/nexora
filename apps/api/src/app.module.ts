@@ -31,6 +31,7 @@ import {
   EmployeeService,
   EmploymentContractService,
   PayrollService,
+  SelfServiceService,
   WorkforceService,
 } from '@nexora/domain-hcm';
 import { PAYROLL_SERVICE, PayrollController } from './hcm/payroll.controller';
@@ -40,6 +41,7 @@ import {
   EmploymentContractController,
 } from './hcm/employment-contract.controller';
 import { ATTENDANCE_SERVICE, AttendanceController } from './hcm/attendance.controller';
+import { SELF_SERVICE, SelfServiceController } from './hcm/self-service.controller';
 import { MaintenanceService, AssetService, CustodyService } from '@nexora/domain-eam';
 import { CUSTODY_SERVICE, CustodyController, PublicQrController } from './eam/custody.controller';
 import {
@@ -462,6 +464,7 @@ export const REDIS = 'REDIS';
     AttendanceController,
     PayrollController,
     EmploymentContractController,
+    SelfServiceController,
     DevelopmentController,
     OpsController,
     OpenApiController,
@@ -1183,7 +1186,11 @@ export const REDIS = 'REDIS';
     },
     {
       provide: EMPLOYEE_SERVICE,
-      useFactory: (prisma: PrismaClient) => new EmployeeService(prisma),
+      useFactory: (prisma: PrismaClient) =>
+        new EmployeeService(prisma, {
+          isTenantUser: async (tenantId, userId) =>
+            (await prisma.user.count({ where: { tenantId, id: userId } })) > 0,
+        }),
       inject: [PRISMA],
     },
     {
@@ -1272,6 +1279,41 @@ export const REDIS = 'REDIS';
         TASK_SERVICE,
         COLLAB_SERVICE,
       ],
+    },
+    {
+      // HCM-018: employee self-service (own data only); approvals via WF,
+      // private documents via COLLAB.
+      provide: SELF_SERVICE,
+      useFactory: (
+        prisma: PrismaClient,
+        tenants: TenantService,
+        approvals: ApprovalService,
+        collab: CollaborationService,
+      ) =>
+        new SelfServiceService(
+          prisma,
+          { getEffectiveConfiguration: (t) => tenants.getEffectiveConfiguration(t) },
+          {
+            listPrivateDocuments: (ownerType, entityId, ctx) =>
+              collab.listPrivateDocuments(ownerType, entityId, ctx),
+            readPrivateDocument: (ownerType, id, ctx) =>
+              collab.readPrivateDocument(ownerType, id, ctx),
+          },
+          {
+            requestApproval: async (input, ctx) => {
+              const view = await approvals.requestApproval(input, ctx);
+              return { id: view.id };
+            },
+            listForSubjectPrefix: (tenantId, subjectObjectType, prefix) =>
+              prisma.approval.findMany({
+                where: { tenantId, subjectObjectType, subjectObjectId: { startsWith: prefix } },
+                orderBy: { createdAt: 'desc' },
+                take: 200,
+                select: { subjectObjectId: true, title: true, status: true, createdAt: true },
+              }),
+          },
+        ),
+      inject: [PRISMA, TENANT_SERVICE, APPROVAL_SERVICE, COLLAB_SERVICE],
     },
     {
       // HCM-013/014: salary policy reads effective permissions (IAM) and
