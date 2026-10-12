@@ -176,12 +176,12 @@ integration('Sprint 253 — employee self-service (HCM-018)', () => {
     expect(locked.status).toBe(403);
     await prisma.employee.update({ where: { id: tid }, data: { salaryLocked: false } });
     // Suspended users cannot be linked.
-    await prisma.user.update({ where: { id: user.unlinked }, data: { status: 'SUSPENDED' } });
+    await prisma.user.update({ where: { id: user.unlinked! }, data: { status: 'SUSPENDED' } });
     expect(
       (await api('POST', `/api/v1/employees/${tid}/user`, hrToken, { userId: user.unlinked }))
         .status,
     ).toBe(409);
-    await prisma.user.update({ where: { id: user.unlinked }, data: { status: 'ACTIVE' } });
+    await prisma.user.update({ where: { id: user.unlinked! }, data: { status: 'ACTIVE' } });
     expect(await prisma.employee.count({ where: { id: tid, userId: { not: null } } })).toBe(0);
   });
 
