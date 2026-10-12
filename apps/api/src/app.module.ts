@@ -1711,8 +1711,9 @@ export const REDIS = 'REDIS';
     },
     {
       provide: ROLE_HOME_SERVICE,
-      useFactory: (prisma: PrismaClient) => new RoleHomeService(prisma),
-      inject: [PRISMA],
+      useFactory: (prisma: PrismaClient, tenants: TenantService) =>
+        new RoleHomeService(prisma, (t) => tenants.getTimeZone(t)),
+      inject: [PRISMA, TENANT_SERVICE],
     },
     {
       provide: QUALITY_SERVICE,

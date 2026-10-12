@@ -1,6 +1,7 @@
 import { writeAudit } from '@nexora/audit';
 import type { Prisma, PrismaClient } from '@nexora/db';
-import { DomainError, notFound } from '@nexora/kernel';
+import { DomainError, localDateOf, notFound, zonedTimeToInstant } from '@nexora/kernel';
+import { tenantTimeZone } from './tenant.service';
 import type { RequestContext } from '@nexora/tenancy';
 
 /**
@@ -551,11 +552,21 @@ export class TeamTaskService {
    * on `date` (UTC date). Idempotent: an existing occurrence is counted,
    * never duplicated (unique index on template + date).
    */
+  /**
+   * `target`: an instant (worker: "now") is mapped to the tenant's local
+   * calendar date; a "YYYY-MM-DD" string is that calendar date as given.
+   * Due times are wall-clock times in the tenant time zone (Sprint 252).
+   */
   async generate(
-    date: Date,
+    target: Date | string,
     ctx: RequestContext,
   ): Promise<{ date: string; created: number; existing: number; skipped: string[] }> {
-    const day = dateOnly(date);
+    const timeZone = await tenantTimeZone(this.prisma, ctx.tenantId);
+    const day =
+      typeof target === 'string' ? new Date(`${target}T00:00:00Z`) : localDateOf(target, timeZone);
+    if (Number.isNaN(day.getTime())) {
+      throw new DomainError('VALIDATION_FAILED', 'Date must be YYYY-MM-DD');
+    }
     const templates = await this.prisma.recurringTaskTemplate.findMany({
       where: { tenantId: ctx.tenantId, active: true },
     });
@@ -570,7 +581,7 @@ export class TeamTaskService {
         continue;
       }
       const [hh, mm] = t.dueTime.split(':').map(Number);
-      const dueAt = new Date(day.getTime() + ((hh ?? 23) * 60 + (mm ?? 59)) * 60_000);
+      const dueAt = zonedTimeToInstant(day, hh ?? 23, mm ?? 59, timeZone);
       try {
         await this.prisma.$transaction(async (tx) => {
           const task = await tx.task.create({

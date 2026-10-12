@@ -122,10 +122,7 @@ export class TeamTasksController {
   @RequirePermission('task.manage')
   async run(@Body() body: unknown, @Ctx() ctx: RequestContext) {
     const input = parseBody(runSchema, body ?? {});
-    return this.teamTasks.generate(
-      input.date ? new Date(`${input.date}T00:00:00Z`) : new Date(),
-      ctx,
-    );
+    return this.teamTasks.generate(input.date ?? new Date(), ctx);
   }
 
   @Get(':id/team')

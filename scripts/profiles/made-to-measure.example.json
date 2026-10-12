@@ -7,6 +7,7 @@
     "taxId": "TEST-4200000000000",
     "address": "Industrijska zona bb, 00000 Demograd",
     "currency": "BAM",
+    "timeZone": "Europe/Sarajevo",
     "brandColor": "#0f766e",
     "adminEmail": "admin@sjenila-demo.example",
     "adminPassword": "demo-admin"

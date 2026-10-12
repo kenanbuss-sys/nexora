@@ -4,6 +4,7 @@
  */
 export {
   TenantService,
+  tenantTimeZone,
   type BrandingView,
   type ConfigurationVersionView,
   type CreateTenantInput,

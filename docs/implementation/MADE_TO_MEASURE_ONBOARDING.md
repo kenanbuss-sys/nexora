@@ -17,7 +17,7 @@ Generički scenarij (roletne, tende, komarnici, zavjese i sl.): **upit → mjere
 
 Stvarni podaci firme i cjenovnik žive u **privatnom folderu** izvan repozitorija. Repo sadrži samo izmišljeni primjer `scripts/profiles/made-to-measure.example.json` (+ CSV).
 
-1. Kopiraj primjer u privatni folder, promijeni `tenant` (slug, naziv, javni podaci firme), `branches`, `staff`, `vehicles`, `surcharges`, `tierDiscounts`, `modules.disable`.
+1. Kopiraj primjer u privatni folder, promijeni `tenant` (slug, naziv, javni podaci firme, `timeZone` — IANA, npr. `Europe/Sarajevo`), `branches`, `staff`, `vehicles`, `surcharges`, `tierDiscounts`, `modules.disable`.
 2. `priceList.file` = putanja do cjenovnika (`.xlsx` ili `.csv`), `columns` = nazivi kolona u fajlu, `headerRow`/`sheet` ako tabela ne počinje u 1. redu.
 3. Provjera mapiranja bez upisa:
    `node scripts/seed-made-to-measure.mjs --profile <privatni>/profil.json --dry-run`
@@ -33,6 +33,5 @@ Prodavač (ponude, narudžbe, mjerenja, uvid u proizvodnju), Proizvodnja (radni 
 
 ## Poznata ograničenja
 
-- Vremena termina se u seederu postavljaju za srednjoevropsko vrijeme; vremenska zona tenanta još nije konfiguracija.
 - Mapiranje kolona stvarnog cjenovnika mora se potvrditi `--dry-run`-om.
 - Korisnici bez `organization.read` dobijaju (bezopasan, obrađen) 403 na izboru pravnog lica u zaglavlju.

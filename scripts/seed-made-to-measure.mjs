@@ -31,7 +31,14 @@ import { execFileSync } from 'node:child_process';
 import { existsSync, readFileSync } from 'node:fs';
 import { dirname, isAbsolute, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { createRequire } from 'node:module';
 import { readCsvRows, readXlsxRows, tableObjects } from './lib/xlsx-lite.mjs';
+
+// Shared calendar helpers (built @nexora/kernel): slot times are wall-clock
+// times in the tenant time zone, DST included.
+const { isValidTimeZone, zonedTimeToInstant } = createRequire(import.meta.url)(
+  '../packages/kernel/dist/index.js',
+);
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const args = process.argv.slice(2);
@@ -53,6 +60,13 @@ const profile = JSON.parse(readFileSync(profilePath, 'utf8'));
 const API = process.env.API_URL ?? 'http://localhost:3001';
 const SECRET = process.env.DEV_AUTH_SECRET ?? 'dev-secret-change-me';
 const T = profile.tenant;
+const TZ = T.timeZone ?? 'Europe/Sarajevo';
+if (!isValidTimeZone(TZ)) {
+  console.error(
+    `Nepoznata vremenska zona u profilu: ${TZ} (očekuje se IANA, npr. Europe/Sarajevo)`,
+  );
+  process.exit(1);
+}
 const SLUG = T.slug;
 const CURRENCY = T.currency ?? 'BAM';
 const DAY = 86_400_000;
@@ -489,6 +503,7 @@ const current = await call('GET', '/api/v1/tenant/configuration', admin, undefin
 const base = current.body.config ?? {};
 const config = {
   ...base,
+  locale: { ...(base.locale ?? {}), timeZone: TZ },
   branding: {
     ...(base.branding ?? {}),
     name: T.name,
@@ -817,9 +832,7 @@ if (existingQuotes.length > 0) {
       let date = new Date(day.getTime() + Math.floor(attempt / 2) * DAY);
       if (date.getUTCDay() === 0) date = new Date(date.getTime() + DAY); // no Sunday work
       const startHour = attempt % 2 === 0 ? 8 : 13;
-      const s = new Date(
-        Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), startHour - 2),
-      );
+      const s = zonedTimeToInstant(date, startHour, 0, TZ);
       const e = new Date(s.getTime() + 4 * 3600_000);
       const r = await call(
         'POST',
@@ -1047,7 +1060,7 @@ if (existingQuotes.length > 0) {
     });
     let day = new Date(REF.getTime() + between(1, 5) * DAY);
     if (day.getUTCDay() === 0) day = new Date(day.getTime() + DAY);
-    const s = new Date(Date.UTC(day.getUTCFullYear(), day.getUTCMonth(), day.getUTCDate(), 15));
+    const s = zonedTimeToInstant(day, 15, 0, TZ);
     await call(
       'POST',
       `/api/v1/service/visits/${m.body.id}/schedule`,

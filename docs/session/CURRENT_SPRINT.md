@@ -492,7 +492,17 @@ Cilj vlasnika: ne novi moduli nego JEDAN tok koji klijent razumije. Opšti scena
 - [x] **247 CPQ po mjeri** (CPQ-007 dopuna): m²/m1/kom, minimalni obračun po komadu, % (RAL) i fiksne doplate, montaža po komadu/m² (bez popusta osim ako je uključeno), popust po nivou kupca; snimak specifikacije na stavci → narudžba. Migracija 249; sprint247 6/6; measured unit 5/5.
 - [x] **248 tok**: avansni račun + konačna umanjena za avans, auto-KIF, RN iz narudžbe s mjerama, mjerenje/montaža s ekipom i vozilom (bez preklapanja), stavke po mjeri se rezervišu/isporučuju u komadima. Migracija 250; sprint248 6/6.
 - [x] **249 moduli + početna po ulozi**: isključeni moduli gube API (service/finance grupe); `GET /home/today` sekcije po pravima. sprint249 5/5 (uklj. 7-dnevni pogled i pravila po mjeri za prodavača).
-- [x] **250 seeder** `scripts/seed-made-to-measure.mjs` + `scripts/lib/xlsx-lite.mjs` (bez zavisnosti; `node --test scripts/lib` 2/2): 3 poslovnice + VP, 40 DEMO kupaca, 6 mjeseci istorije u svim statusima, montaže ove sedmice, DEMO radnici, isključivanje modula; idempotentno, `--dry-run`.
+- [x] **250 seeder** `scripts/seed-made-to-measure.mjs` + `scripts/lib/xlsx-lite.mjs` (bez zavisnosti; `node --test scripts/lib/xlsx-lite.test.mjs` 2/2): 3 poslovnice + VP, 40 DEMO kupaca, 6 mjeseci istorije u svim statusima, montaže ove sedmice, DEMO radnici, isključivanje modula; idempotentno, `--dry-run`.
 - [x] **251 ekrani + browser provjera** (Playwright, 5 uloga, 0 grešaka 5xx/JS): Moj posao danas, Vodič, Ponude (stavka po mjeri), Narudžbe (Tok narudžbe), Montaže (sedmica), Proizvodnja (Mjere). Ispravke iz provjere: prodavač nije mogao dodati stavku po mjeri (novi `GET /quotes/made-to-measure/rules`), SoD blokirao ulogu Knjigovodstvo (uplata → Uprava), RN s rutom se nije mogao završiti u seederu (operacije redom), bs formatiranje brojeva/datuma, nedjelja prikazuje narednu sedmicu.
 - Provjere: turbo typecheck ✓, lint 0 errors, web/api build ✓, prettier ✓.
-- Nije rađeno: vremenska zona tenanta; stvarni Bosfor cjenovnik nije viđen iz clouda (mapiranje kolona → `--dry-run` na Macu); 403 `organization/tree` za korisnike bez organization.read (pre-postojeće, obrađeno).
+- Nije rađeno: stvarni Bosfor cjenovnik nije viđen iz clouda (mapiranje kolona → `--dry-run` na Macu); 403 `organization/tree` za korisnike bez organization.read (pre-postojeće, obrađeno).
+
+# Sprint 252 — ZAVRŠEN 12.10.2026: vremenska zona tenanta (CORE-007 + WF-013 dopuna)
+
+- [x] `locale.timeZone` (IANA) u verzionisanoj konfiguraciji; neispravna zona → 400 pri objavi; bez postavke UTC (kompatibilno)
+- [x] `@nexora/kernel` zoned-time (bez zavisnosti, Intl): lokalni datum, zidno vrijeme → trenutak (DST naprijed/nazad), početak lokalnog dana; unit 4/4
+- [x] Periodični zadaci: rok = lokalno zidno vrijeme; worker „sada“ → lokalni datum tenanta; ručno pokretanje s datumom ostaje kalendarski datum; idempotentno
+- [x] Početna po ulozi: danas/7 dana/sedmica/mjesec od lokalne ponoći tenanta (gate iz CORE)
+- [x] Seeder: `tenant.timeZone` u profilu → `locale.timeZone`; termini 08:00/13:00/15:00 lokalno kroz cijelu godinu
+- [x] Testovi: **sprint252 4/4**, sprint246 5/5, sprint249 5/5; typecheck ✓, lint 0 errors
+- Nije rađeno: prikaz u web-u koristi zonu preglednika (u zemlji isto); zona po poslovnici

@@ -1,4 +1,5 @@
 import type { PrismaClient } from '@nexora/db';
+import { localDateOf, zonedTimeToInstant } from '@nexora/kernel';
 import type { RequestContext } from '@nexora/tenancy';
 
 /**
@@ -52,28 +53,37 @@ export interface RoleHome {
   };
 }
 
-function weekBounds(now: Date): { start: Date } {
-  const day = now.getUTCDay() === 0 ? 7 : now.getUTCDay();
-  const start = new Date(
-    Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() - (day - 1)),
-  );
-  return { start };
+const DAY_MS = 86_400_000;
+
+/** Local calendar boundaries of the tenant (Sprint 252: tenant time zone). */
+function localBounds(now: Date, timeZone: string) {
+  const today = localDateOf(now, timeZone);
+  const at = (date: Date) => zonedTimeToInstant(date, 0, 0, timeZone);
+  const weekday = today.getUTCDay() === 0 ? 7 : today.getUTCDay();
+  const monday = new Date(today.getTime() - (weekday - 1) * DAY_MS);
+  const firstOfMonth = new Date(Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), 1));
+  return {
+    todayStart: at(today),
+    aheadEnd: at(new Date(today.getTime() + 7 * DAY_MS)),
+    weekStart: at(monday),
+    monthStart: at(firstOfMonth),
+  };
 }
 
 export class RoleHomeService {
-  constructor(private readonly prisma: PrismaClient) {}
+  constructor(
+    private readonly prisma: PrismaClient,
+    /** Tenant IANA time zone (CORE owns configuration); UTC when absent. */
+    private readonly timeZoneOf: (tenantId: string) => Promise<string> = async () => 'UTC',
+  ) {}
 
   async home(ctx: RequestContext, permissions: Set<string>): Promise<RoleHome> {
     const t = ctx.tenantId;
     const now = new Date();
-    const { start: weekStart } = weekBounds(now);
-    // Field work looks ahead: today plus the next six days (a Sunday view
-    // shows the coming week, not the one that is ending).
-    const todayStart = new Date(
-      Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()),
+    const { todayStart, aheadEnd, weekStart, monthStart } = localBounds(
+      now,
+      await this.timeZoneOf(t),
     );
-    const aheadEnd = new Date(todayStart.getTime() + 7 * 86_400_000);
-    const monthStart = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1));
     const has = (p: string) => ctx.platformAdmin === true || permissions.has(p);
     const result: RoleHome = { generatedAt: now.toISOString() };
 

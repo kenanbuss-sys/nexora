@@ -42,3 +42,4 @@ export class DomainError extends Error {
 export function notFound(objectType: string, id?: string): DomainError {
   return new DomainError('NOT_FOUND', `${objectType} not found`, id ? { id } : undefined);
 }
+export * from './zoned-time';

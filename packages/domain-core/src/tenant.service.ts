@@ -1,8 +1,26 @@
 import { writeAudit } from '@nexora/audit';
 import type { Prisma, PrismaClient, Tenant } from '@nexora/db';
 import { EVENT_TYPES, publishToOutbox } from '@nexora/events';
-import { DomainError, notFound } from '@nexora/kernel';
+import { DomainError, isValidTimeZone, notFound } from '@nexora/kernel';
 import type { RequestContext } from '@nexora/tenancy';
+
+/**
+ * Tenant time zone (CORE-007, Sprint 252): `locale.timeZone` of the latest
+ * published configuration (IANA name); UTC when absent or invalid, so
+ * tenants without the setting keep the previous behaviour.
+ */
+export async function tenantTimeZone(
+  prisma: Pick<PrismaClient, 'tenantConfigurationVersion'>,
+  tenantId: string,
+): Promise<string> {
+  const latest = await prisma.tenantConfigurationVersion.findFirst({
+    where: { tenantId },
+    orderBy: { version: 'desc' },
+    select: { config: true },
+  });
+  const tz = (latest?.config as { locale?: { timeZone?: unknown } } | null)?.locale?.timeZone;
+  return isValidTimeZone(tz) ? tz : 'UTC';
+}
 
 /**
  * CORE — tenant lifecycle and versioned tenant configuration.
@@ -188,6 +206,12 @@ export class TenantService {
     config: Prisma.InputJsonValue,
     ctx: RequestContext,
   ): Promise<{ version: number }> {
+    const tz = (config as { locale?: { timeZone?: unknown } } | null)?.locale?.timeZone;
+    if (tz !== undefined && !isValidTimeZone(tz)) {
+      throw new DomainError('VALIDATION_FAILED', 'locale.timeZone must be an IANA time zone', {
+        timeZone: String(tz).slice(0, 64),
+      });
+    }
     return this.prisma.$transaction(async (tx) => {
       const last = await tx.tenantConfigurationVersion.findFirst({
         where: { tenantId: ctx.tenantId },
@@ -223,6 +247,11 @@ export class TenantService {
       });
       return { version };
     });
+  }
+
+  /** IANA time zone of the tenant (UTC by default). */
+  async getTimeZone(tenantId: string): Promise<string> {
+    return tenantTimeZone(this.prisma, tenantId);
   }
 
   /** Latest published configuration (brand retrieval); {} when none published. */
