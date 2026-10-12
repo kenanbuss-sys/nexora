@@ -517,5 +517,6 @@ Red 4 potvrđenog redoslijeda. Vlasnik: HCM (odsustva kroz WF odobrenja, dokumen
 - [x] Listići: default ISKLJUČENO (FinTrack „plata zabranjena po dizajnu“); uključuje se `hcm.selfService.payslips: true`; samo potvrđeni obračuni; čitanje dokumenata/listića u auditu
 - [x] Seeder: sve demo uloge imaju `hcm.self`; svaki demo korisnik povezan s jednim DEMO radnikom
 - [x] UI `/me` „Moj HR“ (mobilno), povezivanje na HR ekranu
-- [x] Testovi: **sprint253 6/6**
-- Nije rađeno: rate limiting (samo za javne rute, backlog red 9); postojeći tenanti dobijaju `hcm.self` ručno kroz uloge
+- [x] Sigurnosni review (1 high + 1 high/medium + 2 medium + 6 low) ispravljen: povezivanje traži prava nad podacima koje otvara (`hcm.docs.manage` + `hcm.salary.read`, za zaključane `hcm.salary.management`), zabranjeno povezivanje sebe, eksplicitno odvezivanje prije novog povezivanja, samo aktivni/pozvani korisnici; ugovor s platom skriven dok plata nije otvorena samoposluzi (čitanje u auditu); bivši radnik samo čita; stvarni kalendarski datumi; tuđi dokument se ne čita ni u memoriju; korekcije listića samo do potvrde; HR i samoposluga dijele isti lock za odsustvo; napomena se ne čuva (moguć zdravstveni podatak)
+- [x] Testovi: **sprint253 9/9**; browser provjera `/me` (mobilno, zahtjev za odsustvo kroz UI)
+- Nije rađeno: rate limiting (samo javne rute, backlog red 9); postojeći tenanti dobijaju `hcm.self` ručno; HR bez `iam.user.manage` ne vidi listu korisnika za povezivanje; indeks `payroll_line(tenant_id, employee_id)`; prije migracije 251 provjeriti duplikate `SELECT tenant_id, user_id, count(*) FROM employee WHERE user_id IS NOT NULL GROUP BY 1,2 HAVING count(*) > 1`

@@ -1,0 +1,265 @@
+/* Moj HR — layout only; every color/spacing is a global token. */
+
+.hero {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+}
+
+.heroName {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 750;
+  overflow-wrap: anywhere;
+}
+
+.heroMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+  align-items: center;
+  margin-top: var(--sp-1);
+  color: var(--color-muted-solid);
+}
+
+.tabs {
+  display: flex;
+  gap: var(--sp-2);
+  overflow-x: auto;
+  padding-bottom: var(--sp-1);
+  margin-bottom: var(--sp-4);
+  scrollbar-width: thin;
+}
+
+.tab {
+  min-height: 44px;
+  white-space: nowrap;
+  flex: none;
+}
+
+.touch {
+  min-height: 44px;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--sp-3);
+}
+
+.monthNav {
+  display: flex;
+  gap: var(--sp-2);
+  align-items: center;
+}
+
+.monthLabel {
+  font-weight: 700;
+  min-width: 140px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.calendar {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: var(--sp-1);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.weekday {
+  font-size: 11.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-muted-solid);
+  text-align: center;
+  padding: var(--sp-1) 0;
+}
+
+.cell {
+  min-height: 64px;
+  min-width: 0;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  padding: var(--sp-1) 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.cellBlank {
+  border-style: dashed;
+  background: transparent;
+}
+
+.cellWorked {
+  background: var(--color-ok-soft);
+  border-color: color-mix(in srgb, var(--color-ok) 30%, transparent);
+}
+
+.cellOther {
+  background: var(--color-info-soft);
+  border-color: color-mix(in srgb, var(--color-info) 30%, transparent);
+}
+
+.cellToday {
+  box-shadow: 0 0 0 2px var(--color-accent);
+}
+
+.cellNo {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  font-size: 13px;
+}
+
+.cellLabel {
+  font-size: 11px;
+  line-height: 1.2;
+  color: var(--color-text);
+  overflow-wrap: anywhere;
+}
+
+.summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+  margin-top: var(--sp-3);
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--sp-2);
+}
+
+.item {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: var(--sp-3);
+  background: var(--color-surface);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2) var(--sp-3);
+  align-items: center;
+  justify-content: space-between;
+}
+
+.itemMain {
+  min-width: 0;
+  flex: 1 1 220px;
+}
+
+.itemTitle {
+  font-weight: 650;
+  overflow-wrap: anywhere;
+}
+
+.itemSub {
+  font-size: 12.5px;
+  color: var(--color-muted-solid);
+  overflow-wrap: anywhere;
+}
+
+.content {
+  flex: 1 1 100%;
+  margin: 0;
+  padding: var(--sp-3);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  line-height: 1.55;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: var(--sp-3);
+  align-items: end;
+}
+
+.field {
+  display: grid;
+  gap: var(--sp-1);
+}
+
+.field :global(.input),
+.field :global(.select) {
+  min-height: 44px;
+  width: 100%;
+}
+
+.wide {
+  grid-column: 1 / -1;
+}
+
+.payslip {
+  max-width: 560px;
+}
+
+.payslipTitle {
+  margin: 0 0 var(--sp-1);
+  letter-spacing: 0.04em;
+}
+
+.amount {
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.total {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  margin-top: var(--sp-3);
+  padding: var(--sp-3);
+  border-radius: var(--radius-sm);
+  background: var(--color-accent-soft);
+  color: var(--color-accent);
+  font-weight: 750;
+  font-size: 16px;
+}
+
+@media (max-width: 640px) {
+  .monthLabel {
+    min-width: 0;
+    flex: 1;
+  }
+
+  .monthNav {
+    width: 100%;
+  }
+
+  .cell {
+    min-height: 52px;
+    padding: 3px;
+  }
+
+  .cellLabel {
+    font-size: 10px;
+  }
+
+  .form {
+    grid-template-columns: 1fr;
+  }
+
+  .item :global(.btn) {
+    min-height: 44px;
+  }
+}

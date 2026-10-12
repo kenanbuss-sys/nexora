@@ -83,7 +83,13 @@ integration('Sprint 253 — employee self-service (HCM-018)', () => {
     });
     const hr = await api('POST', '/api/v1/roles', admin, {
       name: 'hr-dokumenti',
-      permissions: ['hcm.docs.read', 'hcm.docs.manage'],
+      permissions: [
+        'hcm.read',
+        'hcm.manage',
+        'hcm.docs.read',
+        'hcm.docs.manage',
+        'hcm.salary.read',
+      ],
     });
     const hrUser = await api('POST', '/api/v1/users/invite', admin, {
       email: 'hr@s253.example',
@@ -112,7 +118,7 @@ integration('Sprint 253 — employee self-service (HCM-018)', () => {
     for (const key of ['ana', 'bob', 'norole']) {
       const e = await api('POST', '/api/v1/employees', admin, { name: `Radnik ${key} DEMO` });
       emp[key] = e.body.id as string;
-      const link = await api('POST', `/api/v1/employees/${emp[key]}/user`, admin, {
+      const link = await api('POST', `/api/v1/employees/${emp[key]}/user`, hrToken, {
         userId: user[key],
       });
       expect(link.status).toBe(201);
@@ -126,13 +132,13 @@ integration('Sprint 253 — employee self-service (HCM-018)', () => {
 
   it('LINK: one employee per user; foreign/unknown user refused; audited', async () => {
     const other = await api('POST', '/api/v1/employees', admin, { name: 'Drugi DEMO' });
-    const dup = await api('POST', `/api/v1/employees/${other.body.id}/user`, admin, {
+    const dup = await api('POST', `/api/v1/employees/${other.body.id}/user`, hrToken, {
       userId: user.ana,
     });
     expect(dup.status).toBe(409);
     const bUser = (await prisma.user.findFirst({ where: { idpSubject: 'idp|s253b-admin' } }))!.id;
     expect(
-      (await api('POST', `/api/v1/employees/${other.body.id}/user`, admin, { userId: bUser }))
+      (await api('POST', `/api/v1/employees/${other.body.id}/user`, hrToken, { userId: bUser }))
         .status,
     ).toBe(404);
     expect(
@@ -140,6 +146,43 @@ integration('Sprint 253 — employee self-service (HCM-018)', () => {
         where: { tenantId, action: 'hcm.employee.user_link', objectId: emp.ana! },
       }),
     ).toBe(1);
+  });
+
+  it('LINK SECURITY: no self-link, rights required, explicit unlink, salary lock, user status', async () => {
+    const target = await api('POST', '/api/v1/employees', admin, { name: 'Direktor DEMO' });
+    const tid = target.body.id as string;
+    const hrId = (await prisma.user.findFirst({ where: { idpSubject: 'idp|s253-hr' } }))!.id;
+    // An HR user may not open another person's data to themselves.
+    const self = await api('POST', `/api/v1/employees/${tid}/user`, hrToken, { userId: hrId });
+    expect(self.status).toBe(403);
+    // hcm.manage alone (tenant admin baseline) is not enough to link.
+    const weak = await api('POST', `/api/v1/employees/${tid}/user`, admin, {
+      userId: user.unlinked,
+    });
+    expect(weak.status).toBe(403);
+    expect((weak.body.details as { missing: string[] }).missing).toEqual(
+      expect.arrayContaining(['hcm.docs.manage', 'hcm.salary.read']),
+    );
+    // Re-linking an already linked employee needs an explicit unlink first.
+    expect(
+      (await api('POST', `/api/v1/employees/${emp.ana}/user`, hrToken, { userId: user.unlinked }))
+        .status,
+    ).toBe(409);
+    // A salary-locked employee needs the management layer.
+    await prisma.employee.update({ where: { id: tid }, data: { salaryLocked: true } });
+    const locked = await api('POST', `/api/v1/employees/${tid}/user`, hrToken, {
+      userId: user.unlinked,
+    });
+    expect(locked.status).toBe(403);
+    await prisma.employee.update({ where: { id: tid }, data: { salaryLocked: false } });
+    // Suspended users cannot be linked.
+    await prisma.user.update({ where: { id: user.unlinked }, data: { status: 'SUSPENDED' } });
+    expect(
+      (await api('POST', `/api/v1/employees/${tid}/user`, hrToken, { userId: user.unlinked }))
+        .status,
+    ).toBe(409);
+    await prisma.user.update({ where: { id: user.unlinked }, data: { status: 'ACTIVE' } });
+    expect(await prisma.employee.count({ where: { id: tid, userId: { not: null } } })).toBe(0);
   });
 
   it('PROFILE: the caller sees only their own record; no link / no permission explained', async () => {
@@ -278,5 +321,63 @@ integration('Sprint 253 — employee self-service (HCM-018)', () => {
     expect(
       await prisma.auditEvent.count({ where: { tenantId, action: 'hcm.self.payslip.view' } }),
     ).toBe(1);
+  });
+
+  it('CONTRACTS: salary text hidden unless salary data is open to self-service', async () => {
+    await prisma.employmentContract.create({
+      data: {
+        tenantId,
+        employeeId: emp.bob!,
+        contractNumber: 'UGO-DEMO-1',
+        contractType: 'INDEFINITE',
+        startDate: new Date('2026-01-01'),
+        templateKey: 'ugovor',
+        templateVersion: 1,
+        containsSalary: true,
+        content: 'Neto plata: 1.700,00 KM (DEMO)',
+        requestKey: 'demo-contract-bob-1',
+        requestHash: 'demo',
+      },
+    });
+    // Payslips (and so salary data) were enabled by the previous test.
+    const open = await api('GET', '/api/v1/hcm/me/contracts', bob);
+    expect((open.body.contracts as Array<{ content: string }>)[0]!.content).toMatch(/1.700/);
+    const config = (await api('GET', '/api/v1/tenant/configuration', admin)).body.config as Record<
+      string,
+      unknown
+    >;
+    await api('POST', '/api/v1/tenant/configuration', admin, {
+      config: { ...config, hcm: { selfService: { payslips: false } } },
+    });
+    const closed = await api('GET', '/api/v1/hcm/me/contracts', bob);
+    expect(
+      (closed.body.contracts as Array<{ restricted: boolean; content: unknown }>)[0],
+    ).toMatchObject({ restricted: true, content: null });
+    expect(
+      await prisma.auditEvent.count({ where: { tenantId, action: 'hcm.self.contract.read' } }),
+    ).toBe(1);
+  });
+
+  it('INACTIVE / DATES: former employee reads but cannot request; impossible dates refused', async () => {
+    expect(
+      (
+        await api('POST', '/api/v1/hcm/me/leave', ana, {
+          from: '2026-02-30',
+          to: '2026-03-02',
+          type: 'GODISNJI',
+        })
+      ).status,
+    ).toBe(400);
+    await prisma.employee.update({ where: { id: emp.ana! }, data: { status: 'INACTIVE' } });
+    expect((await api('GET', '/api/v1/hcm/me/leave', ana)).status).toBe(200);
+    expect(
+      (
+        await api('POST', '/api/v1/hcm/me/leave', ana, {
+          from: '2026-12-01',
+          to: '2026-12-02',
+          type: 'GODISNJI',
+        })
+      ).status,
+    ).toBe(409);
   });
 });

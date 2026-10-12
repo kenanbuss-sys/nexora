@@ -4,7 +4,7 @@ import { DomainError, notFound } from '@nexora/kernel';
 import type { RequestContext } from '@nexora/tenancy';
 import { DEFAULT_ATTENDANCE_STATUSES, type AttendanceStatusDef } from './attendance.service';
 import type { PrivateDocumentGate } from './contract.service';
-import type { WorkforceConfigGate } from './workforce.service';
+import { withLeaveLock, type WorkforceConfigGate } from './workforce.service';
 
 /**
  * HCM-018 (Sprint 253) — employee self-service: the signed-in user sees
@@ -34,6 +34,11 @@ const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 const LEAVE_TYPES = ['GODISNJI', 'BOLOVANJE', 'PLACENO', 'NEPLACENO', 'OSTALO'] as const;
 export type SelfLeaveType = (typeof LEAVE_TYPES)[number];
 const day = (d: Date) => d.toISOString().slice(0, 10);
+const isCalendarDate = (s: string) => {
+  if (!DATE_RE.test(s)) return false;
+  const d = new Date(`${s}T00:00:00Z`);
+  return !Number.isNaN(d.getTime()) && day(d) === s;
+};
 
 export class SelfServiceService {
   constructor(
@@ -146,11 +151,11 @@ export class SelfServiceService {
    * so HR and the employee can never create two approvals for one period.
    */
   async requestLeave(
-    input: { from: string; to: string; type: SelfLeaveType; note?: string | undefined },
+    input: { from: string; to: string; type: SelfLeaveType },
     ctx: RequestContext,
   ) {
-    if (!DATE_RE.test(input.from) || !DATE_RE.test(input.to)) {
-      throw new DomainError('VALIDATION_FAILED', 'Dates must be YYYY-MM-DD');
+    if (!isCalendarDate(input.from) || !isCalendarDate(input.to)) {
+      throw new DomainError('VALIDATION_FAILED', 'Dates must be real YYYY-MM-DD dates');
     }
     if (input.to < input.from) {
       throw new DomainError('VALIDATION_FAILED', 'Leave cannot end before it starts');
@@ -161,66 +166,85 @@ export class SelfServiceService {
     const days = (Date.parse(input.to) - Date.parse(input.from)) / 86_400_000 + 1;
     if (days > 366) throw new DomainError('VALIDATION_FAILED', 'Leave longer than a year');
     const e = await this.me(ctx);
+    // Former employees keep read access to their own records, but cannot
+    // file new requests.
+    if (e.status !== 'ACTIVE') {
+      throw new DomainError('INVALID_STATE', 'Only active employees can request leave');
+    }
     const leaveKey = `${e.id}:leave:${input.from}:${input.to}`;
-    // Serialize per period (double click / retry): the check and the
-    // approval request run under one advisory lock, so only one approval
-    // can exist for the key.
-    const outcome = await this.prisma.$transaction(
-      async (tx) => {
-        await tx.$executeRaw`SELECT pg_advisory_xact_lock(hashtextextended(${`hcm_leave:${ctx.tenantId}:${leaveKey}`}, 0))`;
-        const existing = await this.leave.listForSubjectPrefix(ctx.tenantId, 'hcm_leave', leaveKey);
-        const open = existing.find(
-          (r) => r.subjectObjectId === leaveKey && ['REQUESTED', 'GRANTED'].includes(r.status),
-        );
-        if (open) return { status: open.status, duplicate: true };
-        await this.leave.requestApproval(
-          {
-            title: `Odsustvo (${input.type}): ${e.name} ${input.from} → ${input.to}`,
-            subjectObjectType: 'hcm_leave',
-            subjectObjectId: leaveKey,
-          },
-          ctx,
-        );
-        return { status: 'REQUESTED', duplicate: false };
-      },
-      { timeout: 15_000 },
-    );
-    if (outcome.duplicate) return { from: input.from, to: input.to, ...outcome };
-    await writeAudit(this.prisma, {
-      tenantId: ctx.tenantId,
-      actorType: ctx.actorType,
-      actorId: ctx.userId,
-      action: 'hcm.self.leave.request',
-      objectType: 'Employee',
-      objectId: e.id,
-      source: 'api',
-      newValues: {
-        type: input.type,
-        from: input.from,
-        to: input.to,
-        ...(input.note ? { note: input.note.slice(0, 300) } : {}),
-      },
+    // Serialized per period with the HR path (same lock and key): a double
+    // click, a retry or HR entering the same period never create two
+    // approvals. The note is free text (may hold health details) and is
+    // deliberately not stored anywhere.
+    const outcome = await withLeaveLock(this.prisma, ctx.tenantId, leaveKey, async (tx) => {
+      const existing = await this.leave.listForSubjectPrefix(ctx.tenantId, 'hcm_leave', leaveKey);
+      const open = existing.find(
+        (r) => r.subjectObjectId === leaveKey && ['REQUESTED', 'GRANTED'].includes(r.status),
+      );
+      if (open) return { status: open.status, duplicate: true };
+      await this.leave.requestApproval(
+        {
+          title: `Odsustvo (${input.type}): ${e.name} ${input.from} → ${input.to}`,
+          subjectObjectType: 'hcm_leave',
+          subjectObjectId: leaveKey,
+        },
+        ctx,
+      );
+      await writeAudit(tx, {
+        tenantId: ctx.tenantId,
+        actorType: ctx.actorType,
+        actorId: ctx.userId,
+        action: 'hcm.self.leave.request',
+        objectType: 'Employee',
+        objectId: e.id,
+        source: 'api',
+        newValues: { type: input.type, from: input.from, to: input.to },
+      });
+      return { status: 'REQUESTED', duplicate: false };
     });
-    return { from: input.from, to: input.to, status: 'REQUESTED', duplicate: false };
+    return { from: input.from, to: input.to, ...outcome };
   }
 
+  /**
+   * Own contracts. A contract that states the salary is shown in full only
+   * when the company opened salary data to self-service (same switch as
+   * payslips); such reads are audited.
+   */
   async contracts(ctx: RequestContext) {
     const e = await this.me(ctx);
+    const salaryVisible = await this.payslipsEnabled(ctx.tenantId);
     const rows = await this.prisma.employmentContract.findMany({
       where: { tenantId: ctx.tenantId, employeeId: e.id },
       orderBy: { startDate: 'desc' },
       take: 50,
     });
-    return rows.map((c) => ({
-      id: c.id,
-      contractNumber: c.contractNumber,
-      contractType: c.contractType,
-      startDate: day(c.startDate),
-      endDate: c.endDate ? day(c.endDate) : null,
-      position: c.position,
-      status: c.status,
-      content: c.content,
-    }));
+    const withSalary = rows.filter((c) => c.containsSalary && salaryVisible).map((c) => c.id);
+    if (withSalary.length > 0) {
+      await writeAudit(this.prisma, {
+        tenantId: ctx.tenantId,
+        actorType: ctx.actorType,
+        actorId: ctx.userId,
+        action: 'hcm.self.contract.read',
+        objectType: 'Employee',
+        objectId: e.id,
+        source: 'api',
+        newValues: { contractIds: withSalary },
+      });
+    }
+    return rows.map((c) => {
+      const restricted = c.containsSalary && !salaryVisible;
+      return {
+        id: c.id,
+        contractNumber: c.contractNumber,
+        contractType: c.contractType,
+        startDate: day(c.startDate),
+        endDate: c.endDate ? day(c.endDate) : null,
+        position: c.position,
+        status: c.status,
+        restricted,
+        content: restricted ? null : c.content,
+      };
+    });
   }
 
   async myDocuments(ctx: RequestContext) {
@@ -230,8 +254,11 @@ export class SelfServiceService {
 
   async downloadDocument(attachmentId: string, ctx: RequestContext) {
     const e = await this.me(ctx);
+    // Only ids from the caller's own list are read at all: another
+    // employee's document behaves exactly like a missing one.
+    const own = await this.documents.listPrivateDocuments('hcm_employee', e.id, ctx);
+    if (!own.some((d) => d.id === attachmentId)) throw notFound('Attachment', attachmentId);
     const doc = await this.documents.readPrivateDocument('hcm_employee', attachmentId, ctx);
-    // Another employee's document behaves as non-existent.
     if (doc.entityId !== e.id) throw notFound('Attachment', attachmentId);
     await writeAudit(this.prisma, {
       tenantId: ctx.tenantId,
@@ -258,21 +285,16 @@ export class SelfServiceService {
   async payslips(ctx: RequestContext) {
     await this.assertPayslips(ctx);
     const e = await this.me(ctx);
-    const lines = await this.prisma.payrollLine.findMany({
-      where: { tenantId: ctx.tenantId, employeeId: e.id },
-      select: { runId: true },
-      take: 120,
-    });
-    const runs = await this.prisma.payrollRun.findMany({
+    return this.prisma.payrollRun.findMany({
       where: {
         tenantId: ctx.tenantId,
-        id: { in: lines.map((l) => l.runId) },
         status: 'CONFIRMED',
+        lines: { some: { tenantId: ctx.tenantId, employeeId: e.id } },
       },
       orderBy: [{ year: 'desc' }, { month: 'desc' }],
+      take: 120,
       select: { year: true, month: true, currency: true },
     });
-    return runs;
   }
 
   async payslip(params: { year: number; month: number }, ctx: RequestContext) {
@@ -298,6 +320,8 @@ export class SelfServiceService {
         year: params.year,
         month: params.month,
         employeeId: e.id,
+        // Only what the confirmed snapshot contains.
+        ...(run.confirmedAt ? { createdAt: { lte: run.confirmedAt } } : {}),
       },
       orderBy: { createdAt: 'asc' },
     });

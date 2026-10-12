@@ -14,6 +14,7 @@ import {
 import { AttendanceMatrix } from './attendance-matrix';
 import { EmploymentContracts } from './contracts';
 import { EmployeeDocuments } from './employee-documents';
+import { EmployeeUserLink } from './user-link';
 
 /**
  * HCM (Sprint 223): employee list + profile, existing attendance
@@ -32,6 +33,8 @@ interface EmployeeView {
   title: string | null;
   status: 'ACTIVE' | 'INACTIVE';
   skills: string[];
+  /** HCM-018: app user linked for self-service (Moj HR). */
+  userId?: string | null;
 }
 
 interface AttendanceView {
@@ -447,6 +450,17 @@ export default function HrPage() {
                       </button>
                     </form>
                   ) : null}
+
+                  <EmployeeUserLink
+                    key={selected.id}
+                    employee={{
+                      id: selected.id,
+                      name: selected.name,
+                      userId: selected.userId ?? null,
+                    }}
+                    canManage={canManage}
+                    onChanged={load}
+                  />
 
                   <h3 style={{ marginTop: 16, marginBottom: 6 }}>Prisustvo</h3>
                   {attendanceError ? (

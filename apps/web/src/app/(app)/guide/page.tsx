@@ -314,6 +314,57 @@ const GUIDES: RoleGuide[] = [
   },
 ];
 
+/** Role-independent self-service steps (HCM-018). */
+const SELF_STEPS: Step[] = [
+  {
+    goal: 'Pogledaj svoju šihtaricu',
+    click: 'Klikni Moj HR → Šihtarica; strelicama ← → mijenjaš mjesec.',
+    expect: 'Treba da vidiš kalendar mjeseca sa statusom svakog dana i broj radnih dana.',
+    href: '/me#sihtarica',
+    linkLabel: 'Otvori šihtaricu',
+    permission: 'hcm.self',
+  },
+  {
+    goal: 'Zatraži godišnji odmor',
+    click:
+      'Klikni Moj HR → Odsustva, unesi datume od i do, izaberi vrstu i klikni Pošalji zahtjev.',
+    expect: 'Treba da vidiš zahtjev u listi sa statusom Na odobravanju, a nakon odluke Odobreno.',
+    href: '/me#odsustva',
+    linkLabel: 'Otvori odsustva',
+    permission: 'hcm.self',
+  },
+];
+
+function StepItem({ step, index, allowed }: { step: Step; index: number; allowed: boolean }) {
+  return (
+    <li className="guide-step">
+      <span className="guide-step-no" aria-hidden>
+        {index + 1}
+      </span>
+      <div style={{ minWidth: 0 }}>
+        <div style={{ fontWeight: 700, marginBottom: 4 }}>
+          Korak {index + 1} — {step.goal}.
+        </div>
+        <div>{step.click}</div>
+        <div className="muted" style={{ marginTop: 2 }}>
+          {step.expect}
+        </div>
+        <div className="row" style={{ marginTop: 10 }}>
+          {allowed ? (
+            <Link href={step.href} className="btn btn-sm">
+              {step.linkLabel} →
+            </Link>
+          ) : (
+            <span className="badge badge-warn">
+              Nemate dozvolu za ovaj ekran — obratite se administratoru
+            </span>
+          )}
+        </div>
+      </div>
+    </li>
+  );
+}
+
 export default function GuidePage() {
   const { can } = useApp();
   const [role, setRole] = useState<RoleKey>(
@@ -423,36 +474,29 @@ export default function GuidePage() {
           {guide.intro}
         </p>
         <ol className="guide-steps">
-          {guide.steps.map((step, i) => {
-            const allowed = can(step.permission);
-            return (
-              <li key={`${guide.key}-${i}`} className="guide-step">
-                <span className="guide-step-no" aria-hidden>
-                  {i + 1}
-                </span>
-                <div style={{ minWidth: 0 }}>
-                  <div style={{ fontWeight: 700, marginBottom: 4 }}>
-                    Korak {i + 1} — {step.goal}.
-                  </div>
-                  <div>{step.click}</div>
-                  <div className="muted" style={{ marginTop: 2 }}>
-                    {step.expect}
-                  </div>
-                  <div className="row" style={{ marginTop: 10 }}>
-                    {allowed ? (
-                      <Link href={step.href} className="btn btn-sm">
-                        {step.linkLabel} →
-                      </Link>
-                    ) : (
-                      <span className="badge badge-warn">
-                        Nemate dozvolu za ovaj ekran — obratite se administratoru
-                      </span>
-                    )}
-                  </div>
-                </div>
-              </li>
-            );
-          })}
+          {guide.steps.map((step, i) => (
+            <StepItem
+              key={`${guide.key}-${i}`}
+              step={step}
+              index={i}
+              allowed={can(step.permission)}
+            />
+          ))}
+        </ol>
+      </section>
+
+      <section className="card" aria-labelledby="guide-self">
+        <h2 id="guide-self" style={{ marginTop: 0 }}>
+          Moj HR — za svakog zaposlenog
+        </h2>
+        <p className="muted" style={{ marginTop: 0, maxWidth: 720 }}>
+          Bez obzira na ulogu: vlastita šihtarica, odsustva, ugovori i dokumenti. Vaš nalog prvo
+          mora biti povezan s radnikom (to radi HR).
+        </p>
+        <ol className="guide-steps">
+          {SELF_STEPS.map((step, i) => (
+            <StepItem key={`self-${i}`} step={step} index={i} allowed={can(step.permission)} />
+          ))}
         </ol>
       </section>
     </main>

@@ -198,6 +198,7 @@ const NAV_GROUPS: Array<{ section: string; items: NavItem[] }> = [
     items: [
       { href: '/', label: 'Kontrolna tabla', icon: 'dashboard', permission: null },
       { href: '/tasks', label: 'Zadaci', icon: 'tasks', permission: null },
+      { href: '/me', label: 'Moj HR', icon: 'portal', permission: 'hcm.self' },
       { href: '/guide', label: 'Vodič', icon: 'quotes', permission: null },
     ],
   },

@@ -1186,12 +1186,21 @@ export const REDIS = 'REDIS';
     },
     {
       provide: EMPLOYEE_SERVICE,
-      useFactory: (prisma: PrismaClient) =>
+      useFactory: (prisma: PrismaClient, roles: RoleService) =>
         new EmployeeService(prisma, {
-          isTenantUser: async (tenantId, userId) =>
-            (await prisma.user.count({ where: { tenantId, id: userId } })) > 0,
+          userStatus: async (tenantId, userId) =>
+            (
+              await prisma.user.findFirst({
+                where: { tenantId, id: userId },
+                select: { status: true },
+              })
+            )?.status ?? null,
+          permissionKeys: async (tenantId, userId) =>
+            (await roles.getEffectivePermissions(userId, tenantId))
+              .filter((g) => g.scopeType === 'TENANT')
+              .map((g) => g.permissionKey),
         }),
-      inject: [PRISMA],
+      inject: [PRISMA, ROLE_SERVICE],
     },
     {
       provide: WORKFORCE_SERVICE,

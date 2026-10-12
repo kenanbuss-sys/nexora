@@ -16,6 +16,26 @@ export interface WorkforceConfigGate {
   getEffectiveConfiguration(tenantId: string): Promise<{ config: unknown }>;
 }
 
+/**
+ * One leave period = one approval: HR entry and employee self-service
+ * serialize on the same advisory lock per (tenant, leave key) while they
+ * check for an open approval and request a new one (Sprint 253).
+ */
+export async function withLeaveLock<T>(
+  prisma: PrismaClient,
+  tenantId: string,
+  leaveKey: string,
+  fn: (tx: Prisma.TransactionClient) => Promise<T>,
+): Promise<T> {
+  return prisma.$transaction(
+    async (tx) => {
+      await tx.$executeRaw`SELECT pg_advisory_xact_lock(hashtextextended(${`hcm_leave:${tenantId}:${leaveKey}`}, 0))`;
+      return fn(tx);
+    },
+    { timeout: 15_000 },
+  );
+}
+
 /** Cross-domain contract: approvals (owned by WF). */
 export interface LeaveApprovalGate {
   requestApproval(
@@ -225,18 +245,21 @@ export class WorkforceService {
     }
     const employee = await this.employee(input.employeeId, ctx);
     const leaveKey = `${employee.id}:leave:${input.from}:${input.to}`;
-    const status = await this.approvals.getStatusFor(ctx.tenantId, 'hcm_leave', leaveKey);
-    if (status === 'REQUESTED' || status === 'GRANTED') {
-      throw new DomainError('CONFLICT', 'This leave is already requested or granted');
-    }
-    const approval = await this.approvals.requestApproval(
-      {
-        title: `Odsustvo (${input.type}): ${employee.name} ${input.from} → ${input.to}`,
-        subjectObjectType: 'hcm_leave',
-        subjectObjectId: leaveKey,
-      },
-      ctx,
-    );
+    const approvals = this.approvals;
+    const approval = await withLeaveLock(this.prisma, ctx.tenantId, leaveKey, async () => {
+      const status = await approvals.getStatusFor(ctx.tenantId, 'hcm_leave', leaveKey);
+      if (status === 'REQUESTED' || status === 'GRANTED') {
+        throw new DomainError('CONFLICT', 'This leave is already requested or granted');
+      }
+      return approvals.requestApproval(
+        {
+          title: `Odsustvo (${input.type}): ${employee.name} ${input.from} → ${input.to}`,
+          subjectObjectType: 'hcm_leave',
+          subjectObjectId: leaveKey,
+        },
+        ctx,
+      );
+    });
     await writeAudit(this.prisma, {
       tenantId: ctx.tenantId,
       actorType: ctx.actorType,

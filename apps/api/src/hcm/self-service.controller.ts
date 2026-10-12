@@ -13,7 +13,6 @@ const leaveSchema = z.object({
   from: DATE,
   to: DATE,
   type: z.enum(['GODISNJI', 'BOLOVANJE', 'PLACENO', 'NEPLACENO', 'OSTALO']),
-  note: z.string().max(300).optional(),
 });
 const periodSchema = z.object({
   year: z.coerce.number().int().min(2000).max(2100),

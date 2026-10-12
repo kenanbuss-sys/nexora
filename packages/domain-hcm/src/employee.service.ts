@@ -22,10 +22,21 @@ export interface EmployeeView {
   userId: string | null;
 }
 
-/** Cross-domain contract: users are owned by IAM. */
+/** Cross-domain contract: users and their permissions are owned by IAM. */
 export interface EmployeeUserGate {
-  isTenantUser(tenantId: string, userId: string): Promise<boolean>;
+  /** Status of a user of the tenant, null when it is not a tenant user. */
+  userStatus(tenantId: string, userId: string): Promise<string | null>;
+  /** Tenant-wide permission keys of a user. */
+  permissionKeys(tenantId: string, userId: string): Promise<string[]>;
 }
+
+/**
+ * Linking a user to an employee hands that user the employee's private
+ * documents, contracts and (when enabled) payslips through self-service,
+ * so the linker must already hold those rights (Sprint 253 security review).
+ */
+const LINK_PERMISSIONS = ['hcm.docs.manage', 'hcm.salary.read'] as const;
+const LINKABLE_USER_STATUSES = new Set(['ACTIVE', 'INVITED']);
 
 export class EmployeeService {
   constructor(
@@ -180,9 +191,38 @@ export class EmployeeService {
       where: { id: employeeId, tenantId: ctx.tenantId },
     });
     if (!row) throw notFound('Employee', employeeId);
+    if (!this.users) throw new DomainError('INVALID_STATE', 'User directory is not wired');
+    if (row.userId === userId) return this.toView(row);
+    const keys = new Set(
+      ctx.userId ? await this.users.permissionKeys(ctx.tenantId, ctx.userId) : [],
+    );
+    const missing: string[] = LINK_PERMISSIONS.filter((k) => !keys.has(k));
+    if (row.salaryLocked && !keys.has('hcm.salary.management')) {
+      missing.push('hcm.salary.management');
+    }
+    if (missing.length > 0 && !ctx.platformAdmin) {
+      throw new DomainError('FORBIDDEN', 'Linking a user needs the rights to the data it opens', {
+        missing,
+      });
+    }
     if (userId !== null) {
-      if (!this.users) throw new DomainError('INVALID_STATE', 'User directory is not wired');
-      if (!(await this.users.isTenantUser(ctx.tenantId, userId))) throw notFound('User', userId);
+      if (userId === ctx.userId) {
+        throw new DomainError(
+          'FORBIDDEN',
+          'You cannot link your own user — another HR person must do it (segregation of duties)',
+        );
+      }
+      if (row.userId !== null) {
+        throw new DomainError(
+          'CONFLICT',
+          'This employee is already linked to a user — unlink first, then link the new user',
+        );
+      }
+      const status = await this.users.userStatus(ctx.tenantId, userId);
+      if (status === null) throw notFound('User', userId);
+      if (!LINKABLE_USER_STATUSES.has(status)) {
+        throw new DomainError('INVALID_STATE', `A ${status} user cannot be linked`);
+      }
       const taken = await this.prisma.employee.findFirst({
         where: { tenantId: ctx.tenantId, userId, id: { not: row.id } },
         select: { employeeNumber: true },
